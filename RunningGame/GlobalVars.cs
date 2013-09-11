@@ -33,6 +33,7 @@ namespace RunningGame
 
         //Collection of all in game entities
         public static Dictionary<int, Entity> allEntities = new Dictionary<int, Entity>();
+        public static Dictionary<int, Entity> removedStartingEntities = new Dictionary<int, Entity>();
 
         //Standard Gravity for objects in game
         public static float STANDARD_GRAVITY = 200.0f;
