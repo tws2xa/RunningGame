@@ -114,6 +114,7 @@ namespace RunningGame
 
             //Bluh
 
+            /*
             paused = true;
             
             Dictionary<int, Entity> newEntities = new Dictionary<int, Entity>();
@@ -122,7 +123,6 @@ namespace RunningGame
                 Entity oldEnt = entities[id];
                 Entity newEnt = oldEnt.CopyStartingState();
                 newEntities.Add(id, newEnt);
-                //Console.WriteLine("First Loop - adding " + newEnt);
             }
             removeAllEntities();
             foreach (Entity e in entities.Values)
@@ -132,16 +132,19 @@ namespace RunningGame
             }
 
             paused = false;
-
-            /*
+            */
+            
             paused = true; // Pause the game briefly
             Console.WriteLine("Restarting Level!");
             foreach (Entity e in entities.Values)
             {
-                e.resetInitialState();
+                if (e.wasStartingEntity)
+                    e.revertToStartingState();
+                else
+                    removeEntity(e);
             }
             paused = false; //Restart the game  
-            */
+            
         }
 
         public void removeAllEntities()

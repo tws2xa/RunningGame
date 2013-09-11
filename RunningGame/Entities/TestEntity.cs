@@ -73,14 +73,16 @@ namespace RunningGame.Entities
 
         }
 
+        /*
         public override Entity CopyStartingState()
         {
             TestEntity newEnt = new TestEntity(level, randId, startingX, startingY);
             return newEnt;
         }
+        */
 
-        /*
-        public override void resetInitialState()
+        
+        public override void revertToStartingState()
         {
             PositionComponent posComp = (PositionComponent)this.getComponent(GlobalVars.POSITION_COMPONENT_NAME);
             level.getMovementSystem().changePosition(posComp, startingX, startingY);
@@ -90,6 +92,6 @@ namespace RunningGame.Entities
             velComp.x = 0;
             velComp.y = 0;
         }
-         */
+         
     }
 }

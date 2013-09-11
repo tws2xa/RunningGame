@@ -88,20 +88,21 @@ namespace RunningGame.Entities
 
             }
 
-
+            /*
             public override Entity CopyStartingState()
             {
                 PositionComponent posComp = (PositionComponent)this.getComponent(GlobalVars.POSITION_COMPONENT_NAME);
                 BasicGround newEnt = new BasicGround(level, randId, posComp.x, posComp.y, posComp.width, posComp.height);
                 return newEnt;
-            }  
+            } 
+            */
 
-        /*
-            public override void resetInitialState()
+        
+            public override void revertToStartingState()
             {
                 // Do nothing. Ground does not change in game.
             }
-        */
+        
             public void changeSprite(bool dirt)
             {
                 DrawComponent drawComp = (DrawComponent)this.getComponent(GlobalVars.DRAW_COMPONENT_NAME);

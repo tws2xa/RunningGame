@@ -17,6 +17,7 @@ namespace RunningGame
 
         public int randId { get; set; }
         public Level level { get; set; }
+        public bool wasStartingEntity = false;
 
         Dictionary<string, Component> components = new Dictionary<string, Component>();
 
@@ -32,8 +33,6 @@ namespace RunningGame
         {
             initializeEntity(id, level);
         }
-
-        public abstract Entity CopyStartingState();
 
         //All the setup stuff
         public void initializeEntity(int id, Level level)
@@ -95,5 +94,8 @@ namespace RunningGame
         {
             level.removeEntity(this);
         }
+
+
+        public abstract void revertToStartingState();
     }
 }
