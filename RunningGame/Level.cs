@@ -122,10 +122,12 @@ namespace RunningGame
                 Entity oldEnt = entities[id];
                 Entity newEnt = oldEnt.CopyStartingState();
                 newEntities.Add(id, newEnt);
+                //Console.WriteLine("First Loop - adding " + newEnt);
             }
             removeAllEntities();
             foreach (Entity e in entities.Values)
             {
+                Console.WriteLine("Adding " + e);
                 addEntity(e.randId, e);
             }
 
@@ -186,6 +188,7 @@ namespace RunningGame
         }
         public void removeEntity(Entity e)
         {
+            Console.WriteLine("Removing " + e);
             entities.Remove(e.randId);
         }
 
