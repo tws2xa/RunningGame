@@ -59,6 +59,7 @@ namespace RunningGame
                     if (col == playerCol)
                     {
                         Player player = new Player(level, rand.Next(Int32.MinValue, Int32.MaxValue), levelX*tileWidth, levelY*tileHeight);
+                        player.isStartingEntity = true;
                         level.addEntity(player.randId, player);
                     }
                     else if (col == basicGroundCol)
@@ -69,8 +70,9 @@ namespace RunningGame
 
                         
                         BasicGround ground = new BasicGround(level, rand.Next(Int32.MinValue, Int32.MaxValue), groundX, (levelY)*tileHeight, groundWidth, tileHeight);
+                        ground.isStartingEntity = true;
                         level.addEntity(ground.randId, ground);
-
+                        
                         //If no ground above it, change to a grass sprite
                         ArrayList above = level.getCollisionSystem().findObjectAtPoint((levelX) * tileWidth, (levelY - 1) * tileWidth);
                         if (above.Count <= 0 || !(above[0] is BasicGround))
@@ -86,6 +88,7 @@ namespace RunningGame
                         int id = rand.Next(Int32.MinValue, Int32.MaxValue);
                         //Console.WriteLine("Creating Test Entity: " + id);
                         TestEntity test = new TestEntity(level, id, xLoc, yLoc);
+                        test.isStartingEntity = true;
                         level.addEntity(test.randId, test);
                     }
                 }

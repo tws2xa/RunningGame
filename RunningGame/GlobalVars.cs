@@ -33,6 +33,7 @@ namespace RunningGame
 
         //Collection of all in game entities
         public static Dictionary<int, Entity> allEntities = new Dictionary<int, Entity>();
+        //Collection of entities that are at the start of the level but have been removed.
         public static Dictionary<int, Entity> removedStartingEntities = new Dictionary<int, Entity>();
 
         //Standard Gravity for objects in game

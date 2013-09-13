@@ -17,7 +17,7 @@ namespace RunningGame
 
         public int randId { get; set; }
         public Level level { get; set; }
-        public bool wasStartingEntity = false;
+        public bool isStartingEntity = false;
 
         Dictionary<string, Component> components = new Dictionary<string, Component>();
 

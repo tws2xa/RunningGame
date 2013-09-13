@@ -135,14 +135,22 @@ namespace RunningGame
             */
             
             paused = true; // Pause the game briefly
-            Console.WriteLine("Restarting Level!");
-            foreach (Entity e in entities.Values)
+            Entity[] ents = entities.Values.ToArray();
+            for (int i = 0; i < ents.Length; i++)
             {
-                if (e.wasStartingEntity)
-                    e.revertToStartingState();
+                if (ents[i].isStartingEntity)
+                    ents[i].revertToStartingState();
                 else
-                    removeEntity(e);
+                {
+                    removeEntity(ents[i]);
+                }
             }
+            foreach (Entity e in GlobalVars.removedStartingEntities.Values)
+            {
+                e.revertToStartingState();
+                entities.Add(e.randId, e);
+            }
+            GlobalVars.removedStartingEntities.Clear();
             paused = false; //Restart the game  
             
         }
@@ -191,7 +199,8 @@ namespace RunningGame
         }
         public void removeEntity(Entity e)
         {
-            Console.WriteLine("Removing " + e);
+            if (e.isStartingEntity)
+                GlobalVars.removedStartingEntities.Add(e.randId, e);
             entities.Remove(e.randId);
         }
 
