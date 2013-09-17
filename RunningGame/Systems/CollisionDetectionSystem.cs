@@ -76,6 +76,11 @@ namespace RunningGame.Systems
         {
             locGrid.addEntity(e);
         }
+        public void colliderRemoved(Entity e)
+        {
+            PositionComponent posComp = (PositionComponent)e.getComponent(GlobalVars.POSITION_COMPONENT_NAME);
+            locGrid.removeStationaryEntity(e);
+        }
 
         public ArrayList checkForCollision(Entity e, float newX, float newY)
         {

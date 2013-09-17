@@ -266,9 +266,15 @@ namespace RunningGame.Systems
             }
 
 
+            //Debugging Keys
             if (e.KeyData == Keys.R)
             {
                 level.resetLevel();
+            }
+            if (e.KeyData == Keys.N)
+            {
+                TestEntity testEntity = new TestEntity(level, posComp.x+posComp.width*1.5f, posComp.y);
+                level.addEntity(testEntity.randId, testEntity);
             }
         }
         public void KeyUp(KeyEventArgs e)

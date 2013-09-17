@@ -16,6 +16,8 @@ namespace RunningGame
      * This is useful to speedup collisions detection - you only need
      * to check objects in the cell you're moving into, rather than
      * everything in the game.
+     * 
+     * TODO: handleMovedEntity could probably work more efficiently
      */
 
     class LocationGrid
@@ -73,6 +75,25 @@ namespace RunningGame
                     grid[rect].Remove(e);
                 }
             }
+        }
+
+        public void removeEntityWithDebugText(Entity e, float prevX, float prevY)
+        {
+            foreach (RectangleF rect in getIntersectingRectangles(e, prevX, prevY))
+            {
+                if (grid[rect].Contains(e))
+                {
+                    Console.WriteLine("Removing " + e);
+                    grid[rect].Remove(e);
+                }
+                else Console.WriteLine("Couldn't find " + e);
+            }
+        }
+
+        public void removeStationaryEntity(Entity e)
+        {
+            PositionComponent posComp = (PositionComponent)e.getComponent(GlobalVars.POSITION_COMPONENT_NAME);
+            removeEntity(e, posComp.x, posComp.y);
         }
 
 

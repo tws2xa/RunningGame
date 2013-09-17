@@ -107,33 +107,6 @@ namespace RunningGame
         //Reset the game to it's original startup state
         public void resetLevel()
         {
-
-            //TODO: This needs to bring back SOME entities that were previously destroyed.
-            //Ideally we would just save the state of the level in a different dictionary and reload that
-            //But then we need a way to copy entities.
-
-            //Bluh
-
-            /*
-            paused = true;
-            
-            Dictionary<int, Entity> newEntities = new Dictionary<int, Entity>();
-            foreach (int id in entities.Keys)
-            {
-                Entity oldEnt = entities[id];
-                Entity newEnt = oldEnt.CopyStartingState();
-                newEntities.Add(id, newEnt);
-            }
-            removeAllEntities();
-            foreach (Entity e in entities.Values)
-            {
-                Console.WriteLine("Adding " + e);
-                addEntity(e.randId, e);
-            }
-
-            paused = false;
-            */
-            
             paused = true; // Pause the game briefly
             Entity[] ents = entities.Values.ToArray();
             for (int i = 0; i < ents.Length; i++)
@@ -201,6 +174,7 @@ namespace RunningGame
         {
             if (e.isStartingEntity)
                 GlobalVars.removedStartingEntities.Add(e.randId, e);
+            getCollisionSystem().colliderRemoved(e);
             entities.Remove(e.randId);
         }
 
