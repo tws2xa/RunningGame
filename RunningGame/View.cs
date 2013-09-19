@@ -139,7 +139,6 @@ namespace RunningGame
                 }
             }
 
-
             mainG.DrawImage(drawImg, new Point((int)displayX, (int)displayY)); //Draw the view to the main window
             //Draw Border
             if (this.hasBorder)

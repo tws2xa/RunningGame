@@ -28,8 +28,15 @@ namespace RunningGame
         float rowHeight = 25;
         float colWidth = 25;
 
+        Level level;
+
+        //For drawing the grid
+        Color filledCol = Color.FromArgb(100, Color.Red);
+        Pen borderPen = Pens.Black;
+
         public LocationGrid(Level level)
         {
+            this.level = level;
             grid = new Dictionary<RectangleF, ArrayList>();
             //Create the grid (With extra rows/cols on either side)
             for (float i = -colWidth; i <= level.levelWidth+colWidth; i += colWidth)
@@ -59,41 +66,43 @@ namespace RunningGame
 
 
 
-        public void handleMovedEntity(Entity e, float prevX, float prevY)
+        public void handleMovedEntity(Entity e)
         {
-            removeEntity(e, prevX, prevY);
+            PositionComponent posComp = (PositionComponent)e.getComponent(GlobalVars.POSITION_COMPONENT_NAME);
+            removeEntity(e, posComp.prevX, posComp.prevY, posComp.prevW, posComp.prevH);
             addEntity(e);
         }
 
 
-        public void removeEntity(Entity e, float prevX, float prevY)
+        public void removeEntity(Entity e, float prevX, float prevY, float prevWidth, float prevHeight)
         {
-            foreach (RectangleF rect in getIntersectingRectangles(e, prevX, prevY))
-            {
-                if (grid[rect].Contains(e))
-                {
-                    grid[rect].Remove(e);
-                }
-            }
-        }
+            //foreach (ArrayList list in grid.Values)
+            //    list.Remove(e);
 
-        public void removeEntityWithDebugText(Entity e, float prevX, float prevY)
-        {
-            foreach (RectangleF rect in getIntersectingRectangles(e, prevX, prevY))
+            
+            //foreach (RectangleF rect in getIntersectingRectangles(prevX, prevY, prevWidth, prevHeight))
+            foreach (RectangleF rect in getIntersectingRectangles(prevX, prevY, prevWidth, prevHeight))
             {
-                if (grid[rect].Contains(e))
-                {
-                    Console.WriteLine("Removing " + e);
-                    grid[rect].Remove(e);
+                /*
+                if(!grid[rect].Contains(e)) {
+                    Console.WriteLine("LocGrid Doesn't contain " + e);
+                    String str = "";
+                    foreach (Entity ent in grid[rect])
+                    {
+                        str += (": " + ent + " :");
+                    }
+                    Console.WriteLine("LocGrid. Size:  " + grid[rect].Count + " " + str);
                 }
-                else Console.WriteLine("Couldn't find " + e);
+                 **/
+                grid[rect].Remove(e);
             }
+            
         }
 
         public void removeStationaryEntity(Entity e)
         {
             PositionComponent posComp = (PositionComponent)e.getComponent(GlobalVars.POSITION_COMPONENT_NAME);
-            removeEntity(e, posComp.x, posComp.y);
+            removeEntity(e, posComp.x, posComp.y, posComp.width, posComp.height);
         }
 
 
@@ -103,20 +112,19 @@ namespace RunningGame
         {
             ArrayList retList = new ArrayList();
             PositionComponent posComp = (PositionComponent)e.getComponent(GlobalVars.POSITION_COMPONENT_NAME);
-            return getIntersectingRectangles(e, posComp.x, posComp.y);
+            return getIntersectingRectangles(posComp.x, posComp.y, posComp.width, posComp.height);
         }
         //Returns all rectangles an entity intersected last frame
-        public ArrayList getIntersectingRectangles(Entity e, float x, float y)
+        public ArrayList getIntersectingRectangles(float x, float y, float width, float height)
         {
 
             ArrayList retList = new ArrayList();
 
-            PositionComponent posComp = (PositionComponent)e.getComponent(GlobalVars.POSITION_COMPONENT_NAME);
-            PointF upperLeftPoint = new PointF(x - posComp.width / 2, y - posComp.height / 2); //Easier to calculate stuff using this rather than center
+            PointF upperLeftPoint = new PointF(x - width / 2, y - height / 2); //Easier to calculate stuff using this rather than center
 
 
-            int numHorizontalRect = (int)Math.Ceiling(((upperLeftPoint.X % colWidth) + posComp.width) / colWidth); //number of rectangles it intersects horizontally
-            int numVertRect = (int)Math.Ceiling(((upperLeftPoint.Y % rowHeight) + posComp.height) / rowHeight); //number of rectangles it intersects vertically
+            int numHorizontalRect = (int)Math.Ceiling(((upperLeftPoint.X % colWidth) + width) / colWidth); //number of rectangles it intersects horizontally
+            int numVertRect = (int)Math.Ceiling(((upperLeftPoint.Y % rowHeight) + height) / rowHeight); //number of rectangles it intersects vertically
 
 
             //Go through all rectangles it intersects
@@ -128,10 +136,9 @@ namespace RunningGame
                     if (grid.ContainsKey(rect))
                         retList.Add(rect);
                     else
-                        Console.WriteLine(e + " is Intersecting nonexistant rectangle " + rect);
+                        Console.WriteLine("Looking for nonexistant rectangle " + rect);
                 }
             }
-
             return retList;
         }
 
@@ -196,11 +203,11 @@ namespace RunningGame
 
 
 
-        public ArrayList checkForCollisions(Entity e, float x, float y)
+        public ArrayList checkForCollisions(Entity e, float x, float y, float w, float h)
         {
             ArrayList collisions = new ArrayList();
 
-            foreach (RectangleF rect in getIntersectingRectangles(e, x, y))
+            foreach (RectangleF rect in getIntersectingRectangles(x, y, w, h))
             {
                 foreach (Entity other in grid[rect])
                 {
@@ -245,17 +252,34 @@ namespace RunningGame
         //Draws an APPROXIMATE representation of the grid
         public void Draw(Graphics g)
         {
+
+            PositionComponent posComp = (PositionComponent)level.getPlayer().getComponent(GlobalVars.POSITION_COMPONENT_NAME);
+
+            foreach (RectangleF r in getIntersectingRectangles(posComp.prevX, posComp.prevY, posComp.prevW, posComp.prevH))
+            {
+                g.FillRectangle(new SolidBrush(Color.FromArgb(120, Color.Green)), new Rectangle((int)r.X, (int)r.Y, (int)r.Width, (int)r.Height));
+            }
             foreach (RectangleF r in grid.Keys)
             {
-                if(grid[r].Count > 0) g.FillRectangle(Brushes.Red, new Rectangle((int)r.X, (int)r.Y, (int)r.Width, (int)r.Height));
+                if(grid[r].Count > 0) g.FillRectangle(new SolidBrush(filledCol), new Rectangle((int)r.X, (int)r.Y, (int)r.Width, (int)r.Height));
+                //else g.FillRectangle(new SolidBrush(Color.FromArgb(50, Color.Blue)), new Rectangle((int)r.X, (int)r.Y, (int)r.Width, (int)r.Height));
 
-                g.DrawRectangle(new Pen(Brushes.Black), new Rectangle((int)r.X, (int)r.Y, (int)r.Width, (int)r.Height));
+                g.DrawRectangle(borderPen, new Rectangle((int)r.X, (int)r.Y, (int)r.Width, (int)r.Height));
 
-                g.DrawString(grid[r].Count + "", SystemFonts.DefaultFont, Brushes.Black, new RectangleF(r.X + colWidth/3, r.Y + rowHeight/3, 2*colWidth/3, 2*rowHeight/3));
+                //if(grid[r].Count > 0) g.DrawString(grid[r].Count + "", SystemFonts.DefaultFont, Brushes.Black, new RectangleF(r.X + colWidth/3, r.Y + rowHeight/3, 2*colWidth/3, 2*rowHeight/3));
 
             }
         }
 
-
+        public void MouseClick(float x, float y)
+        {
+            RectangleF rect = getRectangleWithPoint(x, y);
+            String str = "";
+            foreach (Entity ent in grid[rect])
+            {
+                str += (": " + ent + " :");
+            }
+            Console.WriteLine("LocGrid. Size:  " + grid[rect].Count + " " + str);
+        }
     }
 }

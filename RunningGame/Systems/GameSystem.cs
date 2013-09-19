@@ -32,21 +32,28 @@ namespace RunningGame
 
             if (!GetActiveLevel().paused)
             {
-                foreach (Entity e in GetActiveLevel().getEntities().Values)
+                try
                 {
-                    bool addEntity = true;
-                    foreach (String c in getRequiredComponents())
+                    foreach (Entity e in GetActiveLevel().getEntities().Values)
                     {
-                        //If there is a single missing component - don't add.
-                        if (!e.hasComponent(c))
+                        bool addEntity = true;
+                        foreach (String c in getRequiredComponents())
                         {
-                            addEntity = false;
-                            break;
+                            //If there is a single missing component - don't add.
+                            if (!e.hasComponent(c))
+                            {
+                                addEntity = false;
+                                break;
+                            }
                         }
+
+                        if (addEntity) applicableEntities.Add(e);
+
                     }
-
-                    if (addEntity) applicableEntities.Add(e);
-
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine("Exception in get applicable entities: " + e);
                 }
             }
             return applicableEntities;

@@ -133,7 +133,7 @@ namespace RunningGame
             while(entities.Values.Count > 0)
             {
                 Entity e = entities.Values.ToArray()[0];
-                e.Destroy();
+                //e.Destroy();
             }
             entities.Clear();
         }
@@ -150,6 +150,10 @@ namespace RunningGame
         public void KeyPressed(KeyPressEventArgs e)
         {
             sysManager.KeyPressed(e);
+        }
+        public void MouseClick(MouseEventArgs e)
+        {
+            getCollisionSystem().MouseClick(e.X, e.Y);
         }
 
 
@@ -174,7 +178,8 @@ namespace RunningGame
         {
             if (e.isStartingEntity)
                 GlobalVars.removedStartingEntities.Add(e.randId, e);
-            getCollisionSystem().colliderRemoved(e);
+            if(e.hasComponent(GlobalVars.COLLIDER_COMPONENT_NAME))
+                getCollisionSystem().colliderRemoved(e);
             entities.Remove(e.randId);
         }
 

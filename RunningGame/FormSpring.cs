@@ -61,5 +61,11 @@ namespace RunningGame
             lblLoading.Visible = false;
         }
 
+        private void FormSpring_MouseClick(object sender, MouseEventArgs e)
+        {
+            if(game != null)
+                game.MouseClick(e);
+        }
+
     }
 }

@@ -117,7 +117,10 @@ namespace RunningGame
         {
             currentLevel.KeyPressed(e);
         }
-
+        public void MouseClick(MouseEventArgs e)
+        {
+            currentLevel.MouseClick(e);
+        }
 
         //Called when the window is closed
         public void close()

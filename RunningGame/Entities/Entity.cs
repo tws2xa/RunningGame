@@ -90,11 +90,6 @@ namespace RunningGame
             return components.ContainsValue(c);
         }
 
-        public void Destroy()
-        {
-            level.removeEntity(this);
-        }
-
 
         public abstract void revertToStartingState();
     }

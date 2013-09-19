@@ -59,6 +59,9 @@ namespace RunningGame.Systems
                 PositionComponent posComp = (PositionComponent)e.getComponent(GlobalVars.POSITION_COMPONENT_NAME);
                 VelocityComponent velComp = (VelocityComponent)e.getComponent(GlobalVars.VELOCITY_COMPONENT_NAME);
 
+                if (posComp.x != posComp.prevX) posComp.prevX = posComp.x;
+                if (posComp.y != posComp.prevY) posComp.prevY = posComp.y;
+
                 //Add velocity to position
                 incrementPosition(posComp, velComp.x * deltaTime, velComp.y * deltaTime);
 
@@ -275,7 +278,7 @@ namespace RunningGame.Systems
                 VelocityComponent velComp = (VelocityComponent)posComp.myEntity.getComponent(GlobalVars.VELOCITY_COMPONENT_NAME);
 
                 //List of all collisions caused by potential move
-                ArrayList collisions = level.getCollisionSystem().checkForCollision(posComp.myEntity, xVal, yVal);
+                ArrayList collisions = level.getCollisionSystem().checkForCollision(posComp.myEntity, xVal, yVal, posComp.width, posComp.height);
                 //ArrayList collisions = level.getCollisionSystem().findObjectsBetweenPoints(posComp.x, posComp.y, xVal, yVal);
 
                 //If there's a collision
@@ -301,6 +304,8 @@ namespace RunningGame.Systems
                                     posComp.x = (otherPosComp.x - otherPosComp.width / 2 - posComp.width / 2);
                                 else
                                     posComp.x = (otherPosComp.x + otherPosComp.width / 2 + posComp.width / 2);
+
+                                posComp.positionHasChanged = true;
                             }
                             else
                             {
@@ -308,6 +313,8 @@ namespace RunningGame.Systems
                                     posComp.y = (otherPosComp.y - otherPosComp.height / 2 - posComp.height / 2);
                                 else
                                     posComp.y = (otherPosComp.y + otherPosComp.height / 2 + posComp.height / 2);
+
+                                posComp.positionHasChanged = true;
                             }
                         }
                     }
@@ -338,18 +345,21 @@ namespace RunningGame.Systems
         //Size
         public void changeSize(PositionComponent posComp, float newW, float newH)
         {
-            changeWidth(posComp, newW);
-            changeHeight(posComp, newH);
+            posComp.prevW = posComp.width;
+            posComp.width = newW;
+
+            posComp.prevH = posComp.height;
+            posComp.height = newH;
+
+            posComp.positionHasChanged = true;
         }
         public void changeWidth(PositionComponent posComp, float newW)
         {
-            posComp.width = newW;
-            posComp.positionHasChanged = true;
+            changeSize(posComp, newW, posComp.height);
         }
         public void changeHeight(PositionComponent posComp, float newH)
         {
-            posComp.height = newH;
-            posComp.positionHasChanged = true;
+            changeSize(posComp, posComp.width, newH);
         }
         //--------------------------------------------------------------------------------------------------------------------------
 

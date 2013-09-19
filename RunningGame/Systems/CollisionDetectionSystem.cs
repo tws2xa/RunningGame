@@ -56,15 +56,13 @@ namespace RunningGame.Systems
 
         public override void Update(float deltaTime)
         {
-            foreach (Object o in getApplicableEntities())
+            foreach (Entity e in getApplicableEntities())
             {
-                Entity e = (Entity)o;
-
                 //Check each entity for whether or not it's been moved. If so - handle it.
                 PositionComponent posComp = (PositionComponent)e.getComponent(GlobalVars.POSITION_COMPONENT_NAME);
                 if (posComp.positionHasChanged)
                 {
-                    locGrid.handleMovedEntity(e, posComp.prevX, posComp.prevY);
+                    locGrid.handleMovedEntity(e);
                     posComp.positionHasChanged = false;
                 }
 
@@ -79,12 +77,12 @@ namespace RunningGame.Systems
         public void colliderRemoved(Entity e)
         {
             PositionComponent posComp = (PositionComponent)e.getComponent(GlobalVars.POSITION_COMPONENT_NAME);
-            locGrid.removeStationaryEntity(e);
+            locGrid.removeEntity(e, posComp.prevX, posComp.prevY, posComp.prevW, posComp.prevH);
         }
 
-        public ArrayList checkForCollision(Entity e, float newX, float newY)
+        public ArrayList checkForCollision(Entity e, float newX, float newY, float width, float height)
         {
-            return locGrid.checkForCollisions(e, newX, newY);
+            return locGrid.checkForCollisions(e, newX, newY, width, height);
         }
 
         public ArrayList findObjectAtPoint(float x, float y)
@@ -97,6 +95,10 @@ namespace RunningGame.Systems
             return locGrid.findObjectsBetweenPoints(x1, y1, x2, y2);
         }
 
+        public void MouseClick(float x, float y)
+        {
+            locGrid.MouseClick(x, y);
+        }
 
         //Draw the tree
         public void Draw(System.Drawing.Graphics g)
