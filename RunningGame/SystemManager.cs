@@ -74,7 +74,10 @@ namespace RunningGame
         {
             playerSystem.KeyPressed(e);
         }
-
+        public void MouseClick(MouseEventArgs e)
+        {
+            colSystem.MouseClick(e.X, e.Y);
+        }
 
         //Any systems that require drawing
         public void Draw(System.Drawing.Graphics g)

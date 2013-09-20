@@ -80,20 +80,19 @@ namespace RunningGame
             //    list.Remove(e);
 
             
-            //foreach (RectangleF rect in getIntersectingRectangles(prevX, prevY, prevWidth, prevHeight))
             foreach (RectangleF rect in getIntersectingRectangles(prevX, prevY, prevWidth, prevHeight))
             {
-                /*
-                if(!grid[rect].Contains(e)) {
-                    Console.WriteLine("LocGrid Doesn't contain " + e);
-                    String str = "";
-                    foreach (Entity ent in grid[rect])
-                    {
-                        str += (": " + ent + " :");
-                    }
-                    Console.WriteLine("LocGrid. Size:  " + grid[rect].Count + " " + str);
-                }
-                 **/
+                
+                //if(!grid[rect].Contains(e)) {
+                //    Console.WriteLine("LocGrid Doesn't contain " + e);
+                //    String str = "";
+                //    foreach (Entity ent in grid[rect])
+                //    {
+                //        str += (": " + ent + " :");
+                //    }
+                //    Console.WriteLine("LocGrid. Size:  " + grid[rect].Count + " " + str);
+                // }
+                
                 grid[rect].Remove(e);
             }
             
@@ -273,13 +272,21 @@ namespace RunningGame
 
         public void MouseClick(float x, float y)
         {
+            
             RectangleF rect = getRectangleWithPoint(x, y);
+            Array ents = grid[rect].ToArray();
+            foreach (Entity e in ents)
+            {
+                level.removeEntity(e);
+            }
+            /*
             String str = "";
             foreach (Entity ent in grid[rect])
             {
                 str += (": " + ent + " :");
             }
             Console.WriteLine("LocGrid. Size:  " + grid[rect].Count + " " + str);
+            */
         }
     }
 }

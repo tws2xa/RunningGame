@@ -121,7 +121,9 @@ namespace RunningGame
             foreach (Entity e in GlobalVars.removedStartingEntities.Values)
             {
                 e.revertToStartingState();
-                entities.Add(e.randId, e);
+                addEntity(e.randId, e);
+                if (e.hasComponent(GlobalVars.COLLIDER_COMPONENT_NAME))
+                    colliderAdded(e);
             }
             GlobalVars.removedStartingEntities.Clear();
             paused = false; //Restart the game  
@@ -153,7 +155,8 @@ namespace RunningGame
         }
         public void MouseClick(MouseEventArgs e)
         {
-            getCollisionSystem().MouseClick(e.X, e.Y);
+            //getCollisionSystem().MouseClick(e.X, e.Y);
+            sysManager.MouseClick(e);
         }
 
 
