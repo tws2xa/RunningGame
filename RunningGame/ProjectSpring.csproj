@@ -79,6 +79,7 @@
     <Compile Include="Components\PlayerComponent.cs" />
     <Compile Include="Components\VelocityComponent.cs" />
     <Compile Include="Entities\BasicGround.cs" />
+    <Compile Include="Entities\EntityTemplate.cs" />
     <Compile Include="Entities\TestEntity.cs" />
     <Compile Include="LevelImageReader.cs" />
     <Compile Include="LocationGrid.cs" />

@@ -76,7 +76,7 @@ namespace RunningGame
         }
         public void MouseClick(MouseEventArgs e)
         {
-            colSystem.MouseClick(e.X, e.Y);
+            //colSystem.MouseClick(e.X, e.Y);
         }
 
         //Any systems that require drawing

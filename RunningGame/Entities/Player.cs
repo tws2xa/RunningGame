@@ -23,8 +23,8 @@ namespace RunningGame.Entities
         float startingX;
         float startingY;
 
-        Bitmap leftImage;
-        Bitmap rightImage;
+        string rightImageName = "right";
+        string leftImageName = "left";
 
         public Player(Level level, float x, float y)
         {
@@ -63,17 +63,11 @@ namespace RunningGame.Entities
             addComponent(new VelocityComponent(0, 0));
 
             //Draw component
-            //Right image
-            System.Reflection.Assembly myAssembly = System.Reflection.Assembly.GetExecutingAssembly();
-            System.IO.Stream myStream = myAssembly.GetManifestResourceStream("RunningGame.Resources.Player.bmp");
-            rightImage = new Bitmap(myStream);
-            //Left Image
-            leftImage = new Bitmap(myStream);
-            leftImage.RotateFlip(RotateFlipType.RotateNoneFlipX);
-
-            myStream.Close();
-
-            addComponent(new DrawComponent(leftImage, (int)defaultWidth, (int)defaultHeight, false));
+            DrawComponent drawComp = new DrawComponent("RunningGame.Resources.Player.bmp", rightImageName, (int)defaultWidth, (int)defaultHeight, false);
+            drawComp.addImage("RunningGame.Resources.Player.bmp", leftImageName);
+            drawComp.rotateFlipSprite(leftImageName, RotateFlipType.RotateNoneFlipX);
+            addComponent(drawComp);
+            
 
             //Player Component
             addComponent(new PlayerComponent());
@@ -86,15 +80,6 @@ namespace RunningGame.Entities
             addComponent(new GravityComponent(0, GlobalVars.STANDARD_GRAVITY));
 
         }
-
-        /*
-        public override Entity CopyStartingState()
-        {
-            Player newEnt = new Player(level, randId, startingX, startingY);
-            return newEnt;
-        }
-        */
-
         
         public override void revertToStartingState()
         {
@@ -111,18 +96,18 @@ namespace RunningGame.Entities
         public void faceRight()
         {
             DrawComponent drawComp = (DrawComponent)this.getComponent(GlobalVars.DRAW_COMPONENT_NAME);
-            drawComp.sprite = rightImage;
+            drawComp.setSprite(rightImageName);
         }
         public void faceLeft()
         {
             DrawComponent drawComp = (DrawComponent)this.getComponent(GlobalVars.DRAW_COMPONENT_NAME);
-            drawComp.sprite = leftImage;
+            drawComp.setSprite(leftImageName);
         }
 
         public bool isLookingLeft()
         {
             DrawComponent drawComp = (DrawComponent)this.getComponent(GlobalVars.DRAW_COMPONENT_NAME);
-            return (drawComp.sprite == leftImage);
+            return (drawComp.activeSprite == leftImageName);
         }
     }
 }

@@ -301,18 +301,18 @@ namespace RunningGame.Systems
                             if (isX)
                             {
                                 if (posComp.x < (otherPosComp.x))
-                                    posComp.x = (otherPosComp.x - otherPosComp.width / 2 - posComp.width / 2);
+                                    level.getMovementSystem().changePosition(posComp, otherPosComp.x - otherPosComp.width / 2 - posComp.width / 2, posComp.y);
                                 else
-                                    posComp.x = (otherPosComp.x + otherPosComp.width / 2 + posComp.width / 2);
+                                    level.getMovementSystem().changePosition(posComp, otherPosComp.x + otherPosComp.width / 2 + posComp.width / 2, posComp.y);
 
                                 posComp.positionHasChanged = true;
                             }
                             else
                             {
                                 if (posComp.y < (otherPosComp.y))
-                                    posComp.y = (otherPosComp.y - otherPosComp.height / 2 - posComp.height / 2);
+                                    level.getMovementSystem().changePosition(posComp, posComp.x, otherPosComp.y - otherPosComp.height / 2 - posComp.height / 2);
                                 else
-                                    posComp.y = (otherPosComp.y + otherPosComp.height / 2 + posComp.height / 2);
+                                    level.getMovementSystem().changePosition(posComp, posComp.x, otherPosComp.y + otherPosComp.height / 2 + posComp.height / 2);
 
                                 posComp.positionHasChanged = true;
                             }
