@@ -114,12 +114,12 @@ namespace RunningGame
                         {
                             //Size imageSize = new Size((int)Math.Round(drawComp.width * wRatio), (int)Math.Round(drawComp.height * hRatio));
                             //img = new Bitmap(drawComp.sprite, imageSize);
-                            img = drawComp.sprite;
+                            img = drawComp.getSprite();
                         }
                         else
                         {
                             Size imageSize = new Size((int)(posComp.width * wRatio), (int)(posComp.height * hRatio));
-                            img = new Bitmap(drawComp.sprite, imageSize);
+                            img = new Bitmap(drawComp.getSprite(), imageSize);
                         }
 
                         //Get center instead of upper left
@@ -138,7 +138,6 @@ namespace RunningGame
                     }
                 }
             }
-
 
             mainG.DrawImage(drawImg, new Point((int)displayX, (int)displayY)); //Draw the view to the main window
             //Draw Border

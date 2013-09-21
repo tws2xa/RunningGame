@@ -53,10 +53,7 @@ namespace RunningGame.Entities
             addComponent(new PositionComponent(x, y, defaultWidth, defaultHeight, this));
             
             //Draw component
-            System.Reflection.Assembly myAssembly = System.Reflection.Assembly.GetExecutingAssembly();
-            System.IO.Stream myStream = myAssembly.GetManifestResourceStream("RunningGame.Resources.WhiteSquare.bmp");
-            Bitmap sprite = new Bitmap(myStream);
-            addComponent(new DrawComponent(sprite, defaultWidth, defaultHeight, true));
+            addComponent(new DrawComponent("RunningGame.Resources.WhiteSquare.bmp", "Main", defaultWidth, defaultHeight, true));
 
             //Velocity Component
             addComponent(new VelocityComponent(0, 0));
@@ -72,15 +69,6 @@ namespace RunningGame.Entities
             
 
         }
-
-        /*
-        public override Entity CopyStartingState()
-        {
-            TestEntity newEnt = new TestEntity(level, randId, startingX, startingY);
-            return newEnt;
-        }
-        */
-
         
         public override void revertToStartingState()
         {

@@ -16,6 +16,8 @@ namespace RunningGame.Components
     {
         public float prevX { get; set; }
         public float prevY { get; set; }
+        public float prevW { get; set; }
+        public float prevH { get; set; }
         public float x;
         public float y;
         public float width { get; set; }
@@ -36,8 +38,10 @@ namespace RunningGame.Components
             this.prevY = y;
             this.x = x;
             this.y = y;
-            width = w;
-            height = h;
+            this.prevW = w;
+            this.prevH = h;
+            this.width = w;
+            this.height = h;
 
             this.myEntity = myEntity;
 

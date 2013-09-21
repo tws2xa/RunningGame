@@ -176,7 +176,7 @@ namespace RunningGame.Systems
             recoverSize();
 
             //Speed up horizontally
-            //velComp.incVelocity(xAccel * deltaTime, 0);
+            velComp.incVelocity(xAccel * deltaTime, 0);
 
             //Intersect sides of screen check
             if (posComp.x + posComp.width / 2 >= level.levelWidth && velComp.x > 0) intersectRightSideScreen();
@@ -295,7 +295,6 @@ namespace RunningGame.Systems
         public void KeyPressed(KeyPressEventArgs e)
         {
             if (hasNullComponent()) return;
-
         }
         //--------------------------------------------------------------------------------
 
@@ -693,7 +692,6 @@ namespace RunningGame.Systems
 
 
             level.getMovementSystem().changeHeight(posComp, posComp.height - amt);
-            //posComp.height = posComp.height - amt;
             level.getMovementSystem().changePosition(posComp, posComp.x, posComp.y + amt / 2);
 
         }
@@ -708,7 +706,6 @@ namespace RunningGame.Systems
 
 
             level.getMovementSystem().changeHeight(posComp, posComp.height - amt);
-            //posComp.height = posComp.height - amt;
             level.getMovementSystem().changePosition(posComp, posComp.x, posComp.y - amt / 2);
 
         }
@@ -722,7 +719,6 @@ namespace RunningGame.Systems
             }
 
             level.getMovementSystem().changeWidth(posComp, posComp.width - amt);
-            //posComp.width = posComp.width - amt;
             level.getMovementSystem().changePosition(posComp, posComp.x - amt / 2, posComp.y);
         }
 
@@ -735,7 +731,6 @@ namespace RunningGame.Systems
             }
 
             level.getMovementSystem().changeWidth(posComp, posComp.width - amt);
-            //posComp.width = posComp.width - amt;
             level.getMovementSystem().changePosition(posComp, posComp.x + amt / 2, posComp.y);
         }
 
@@ -747,7 +742,6 @@ namespace RunningGame.Systems
             }
 
             level.getMovementSystem().changeWidth(posComp, posComp.width - amt);
-            //posComp.width = posComp.width - amt;
         }
 
         public void squishHeightCenter(float amt)
@@ -758,7 +752,6 @@ namespace RunningGame.Systems
             }
 
             level.getMovementSystem().changeHeight(posComp, posComp.height - amt);
-            //posComp.height = posComp.height - amt;
         }
 
         //----------------------------------------------------------------------------------------
@@ -794,7 +787,7 @@ namespace RunningGame.Systems
             }
             else if (posComp.width > baseWidth)
             {
-                posComp.width -= xEaseRate;
+                level.getMovementSystem().changeWidth(posComp, posComp.width - xEaseRate);
                 if (posComp.width < baseWidth) level.getMovementSystem().changeWidth(posComp, baseWidth);
             }
 
@@ -827,7 +820,7 @@ namespace RunningGame.Systems
             }
             else if (posComp.height > baseHeight)
             {
-                posComp.height -= yEaseRate;
+                level.getMovementSystem().changeHeight(posComp, posComp.height - yEaseRate);
                 if (posComp.height < baseHeight) level.getMovementSystem().changeHeight(posComp, baseHeight);
             }
 
