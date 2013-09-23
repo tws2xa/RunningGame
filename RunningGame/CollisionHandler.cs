@@ -31,7 +31,7 @@ namespace RunningGame
         public CollisionHandler()
         {
 
-
+            //Func<Entity, Entity, bool> [Var Name] = [Name of your method];
             Func<Entity, Entity, bool> simpleStopCollisionFunction = simpleStopCollision;
 
 
