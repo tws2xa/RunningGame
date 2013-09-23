@@ -19,7 +19,6 @@ namespace RunningGame.Components
         public float height { get; set; }
         public bool sizeLocked { get; set; }
         public string activeSprite;
-        //public Color myCol { get; set; }
 
         public DrawComponent(String spriteAddress, String spriteName, float width, float height, bool sizeLocked)
         {
@@ -96,14 +95,6 @@ namespace RunningGame.Components
             else
                 Console.WriteLine("Trying to set sprite to nonexistant image: " + spriteName);
         }
-        /*
-        public DrawComponent(Color col)
-        {
-            this.componentName = GlobalVars.DRAW_COMPONENT_NAME;
-            this.sprite = null;
-            this.myCol = col;
-        }
-        */
 
     }
 }

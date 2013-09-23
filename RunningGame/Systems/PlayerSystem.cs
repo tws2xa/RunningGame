@@ -118,7 +118,8 @@ namespace RunningGame.Systems
             //If there is no player - STAHP
             if (applicableEntities.Count <= 0)
             {
-                Console.WriteLine("No Player");
+                if(level.levelFullyLoaded)
+                    Console.WriteLine("No Player");
             }
             //Otherwise cool beans
             else

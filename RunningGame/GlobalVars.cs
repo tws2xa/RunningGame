@@ -25,6 +25,7 @@ namespace RunningGame
         public static string GRAVITY_COMPONENT_NAME = "gravity";
         public static string PLAYER_COMPONENT_NAME = "playerInput";
         public static string COLLIDER_COMPONENT_NAME = "collider";
+        public static string HEALTH_COMPONENT_NAME = "health";
 
         //Collider Types
         public static string PLAYER_COLLIDER_TYPE = "playerCollider";
