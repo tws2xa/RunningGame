@@ -30,7 +30,6 @@ namespace RunningGame
         public float cameraHeight { get; set; }
         public float levelWidth { get; set; }
         public float levelHeight {get;set;}
-        Dictionary<int, Entity> levelBeginState; //Entity states at the level
         public bool paused = false; //Is the game paused?
 
         public float fps;

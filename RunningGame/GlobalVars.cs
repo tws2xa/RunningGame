@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Drawing;
 
 namespace RunningGame
 {
@@ -36,12 +37,16 @@ namespace RunningGame
         //Collection of entities that are at the start of the level but have been removed.
         public static Dictionary<int, Entity> removedStartingEntities = new Dictionary<int, Entity>();
 
+        //For storing images that have already been read in (image address, image)
+        public static Dictionary<string, Bitmap> imagesInStore = new Dictionary<string, Bitmap>();
+
         //Standard Gravity for objects in game
         public static float STANDARD_GRAVITY = 200.0f;
 
         //Reading in images as levels.
         public static float LEVEL_READER_TILE_WIDTH = 10; //How wide is one pixel?
         public static float LEVEL_READER_TILE_HEIGHT = 10; //How tall is one pixel?
+
 
         //Other Constants
         public static float MIN_TILE_SIZE = 10; //Width & Height, the smallest anything can be.

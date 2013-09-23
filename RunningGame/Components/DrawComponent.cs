@@ -25,18 +25,19 @@ namespace RunningGame.Components
         {
 
 
-            System.Reflection.Assembly myAssembly = System.Reflection.Assembly.GetExecutingAssembly();
-            System.IO.Stream myStream = myAssembly.GetManifestResourceStream(spriteAddress);
-            Bitmap sprite = new Bitmap(myStream);
-
             this.componentName = GlobalVars.DRAW_COMPONENT_NAME;
             this.width = width;
             this.height = height;
             this.sizeLocked = sizeLocked;
+
+            Bitmap sprite = readInImage(spriteAddress);
+
+            /*
             if (sizeLocked)
             {
                 sprite = new Bitmap(sprite, new Size((int)Math.Ceiling(width), (int)Math.Ceiling(height)));
             }
+            */
             activeSprite = spriteName;
             images.Add(spriteName, sprite);
             
@@ -44,17 +45,46 @@ namespace RunningGame.Components
 
         public void addImage(string spriteAddress, string spriteName)
         {
-            System.Reflection.Assembly myAssembly = System.Reflection.Assembly.GetExecutingAssembly();
-            System.IO.Stream myStream = myAssembly.GetManifestResourceStream(spriteAddress);
-            Bitmap sprite = new Bitmap(myStream);
+            Bitmap sprite = readInImage(spriteAddress);
 
+            /*
             if (sizeLocked)
             {
                 sprite = new Bitmap(sprite, new Size((int)Math.Ceiling(width), (int)Math.Ceiling(height)));
             }
+             */
 
             images.Add(spriteName, sprite);
         }
+
+        public Bitmap readInImage(string imageAddress)
+        {
+            if (GlobalVars.imagesInStore.ContainsKey(makeImageKey(imageAddress, width, height)))
+            {
+                return GlobalVars.imagesInStore[makeImageKey(imageAddress, width, height)];
+            }
+            else
+            {
+                System.Reflection.Assembly myAssembly = System.Reflection.Assembly.GetExecutingAssembly();
+                System.IO.Stream myStream = myAssembly.GetManifestResourceStream(imageAddress);
+                Bitmap sprite = new Bitmap(myStream);
+                myStream.Close();
+
+                if (sizeLocked)
+                {
+                    sprite = new Bitmap(sprite, new Size((int)Math.Ceiling(width), (int)Math.Ceiling(height)));
+                }
+
+                GlobalVars.imagesInStore.Add(makeImageKey(imageAddress, width, height), sprite);
+                return sprite;
+            }
+        }
+
+        public string makeImageKey(string address, float width, float height)
+        {
+            return (address + "" + width + "" + height);
+        }
+
         public Image getSprite()
         {
             return images[activeSprite];
@@ -62,8 +92,12 @@ namespace RunningGame.Components
 
         public void rotateFlipSprite(string spriteName, RotateFlipType rotation)
         {
-            if(images.ContainsKey(spriteName))
-                images[spriteName].RotateFlip(rotation);
+            if (images.ContainsKey(spriteName))
+            {
+                Bitmap newSprite = new Bitmap(images[spriteName]);
+                newSprite.RotateFlip(rotation);
+                images[spriteName] = newSprite;
+            }
             else
                 Console.WriteLine("Trying to rotate/flip a nonexistant image: " + spriteName);
         }
