@@ -32,12 +32,6 @@ namespace RunningGame.Components
 
             Bitmap sprite = readInImage(spriteAddress);
 
-            /*
-            if (sizeLocked)
-            {
-                sprite = new Bitmap(sprite, new Size((int)Math.Ceiling(width), (int)Math.Ceiling(height)));
-            }
-            */
             activeSprite = spriteName;
             images.Add(spriteName, sprite);
             
@@ -46,13 +40,6 @@ namespace RunningGame.Components
         public void addImage(string spriteAddress, string spriteName)
         {
             Bitmap sprite = readInImage(spriteAddress);
-
-            /*
-            if (sizeLocked)
-            {
-                sprite = new Bitmap(sprite, new Size((int)Math.Ceiling(width), (int)Math.Ceiling(height)));
-            }
-             */
 
             images.Add(spriteName, sprite);
         }
