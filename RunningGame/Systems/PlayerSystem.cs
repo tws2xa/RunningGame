@@ -277,6 +277,11 @@ namespace RunningGame.Systems
                 TestEntity testEntity = new TestEntity(level, posComp.x+posComp.width*1.5f, posComp.y);
                 level.addEntity(testEntity.randId, testEntity);
             }
+            if (e.KeyData == Keys.H)
+            {
+                HealthComponent healthComp = (HealthComponent)level.getPlayer().getComponent(GlobalVars.HEALTH_COMPONENT_NAME);
+                healthComp.subtractFromHealth(25);
+            }
         }
         public void KeyUp(KeyEventArgs e)
         {

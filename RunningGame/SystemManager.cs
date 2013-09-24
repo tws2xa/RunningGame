@@ -24,6 +24,7 @@ namespace RunningGame
         public MovementSystem moveSystem;
         public PlayerSystem playerSystem;
         public CollisionDetectionSystem colSystem;
+        public HealthSystem healthSystem;
 
         public SystemManager(Level level)
         {
@@ -42,6 +43,7 @@ namespace RunningGame
             playerSystem = new PlayerSystem(level);
             colSystem = new CollisionDetectionSystem(level);
             drawSystem = new DrawSystem(level.g, level);
+            healthSystem = new HealthSystem(level);
         }
 
 
@@ -53,6 +55,8 @@ namespace RunningGame
             colSystem.Update(deltaTime);
             gravSystem.Update(deltaTime);
             drawSystem.Update(deltaTime);
+            healthSystem.Update(deltaTime);
+            
         }
 
         //Notify collider system of a new collider

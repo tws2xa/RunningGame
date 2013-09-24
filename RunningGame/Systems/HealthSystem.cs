@@ -8,7 +8,7 @@ using RunningGame.Components;
 
 namespace RunningGame.Systems
 {
-    class DeathSystem:GameSystem
+    class HealthSystem:GameSystem
     {
 
          //All systems MUST have an ArrayList of requiredComponents (May need to add using System.Collections at start of file)
@@ -16,13 +16,17 @@ namespace RunningGame.Systems
         //All systems MUST have a variable holding the level they're contained in
         Level level;
 
+        DeathHandler deathHandler;
+
         //Constructor - Always read in the level! You can read in other stuff too if need be.
-        public DeathSystem(Level level)
+        public HealthSystem(Level level)
         {
             //Here is where you add the Required components
             requiredComponents.Add(GlobalVars.HEALTH_COMPONENT_NAME); //Health component
 
             this.level = level; //Always have this
+
+            deathHandler = new DeathHandler(level);
 
         }
 
@@ -52,8 +56,24 @@ namespace RunningGame.Systems
                 HealthComponent healthComp = (HealthComponent)e.getComponent(GlobalVars.HEALTH_COMPONENT_NAME);
                 if (healthComp.isDead())
                 {
-                    //Do something
+                    //Tell the death handler
+                    deathHandler.handleDeath(e);
                 }
+
+                if (!healthComp.hasFullHealth())
+                {
+                    if (healthComp.timeSinceRecharge >= healthComp.rechargeTime)
+                    {
+                        healthComp.addToHealth(healthComp.rechargeAmt);
+                        healthComp.timeSinceRecharge = 0;
+                    }
+                    else
+                    {
+                        healthComp.timeSinceRecharge += deltaTime;
+                    }
+                }
+
+                if (healthComp.health > healthComp.maxHealth) healthComp.restoreHealth();
             }
 
         }

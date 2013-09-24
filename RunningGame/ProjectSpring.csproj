@@ -80,6 +80,7 @@
     <Compile Include="Components\HealthComponent.cs" />
     <Compile Include="Components\PlayerComponent.cs" />
     <Compile Include="Components\VelocityComponent.cs" />
+    <Compile Include="DeathHandler.cs" />
     <Compile Include="Entities\BasicGround.cs" />
     <Compile Include="Entities\EntityTemplate.cs" />
     <Compile Include="Entities\TestEntity.cs" />
@@ -88,7 +89,7 @@
     <Compile Include="SystemManager.cs" />
     <Compile Include="CollisionHandler.cs" />
     <Compile Include="Systems\CollisionDetectionSystem.cs" />
-    <Compile Include="Systems\DeathSystem.cs" />
+    <Compile Include="Systems\HealthSystem.cs" />
     <Compile Include="Systems\DrawSystem.cs" />
     <Compile Include="Systems\GameSystem.cs" />
     <Compile Include="Systems\GravitySystem.cs" />

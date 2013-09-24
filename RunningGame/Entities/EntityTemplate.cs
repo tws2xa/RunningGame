@@ -74,27 +74,40 @@ namespace RunningGame.Entities
         //You can just uncomment the ones you want.
         public void addMyComponents(float x, float y)
         {
-            //POSITION COMPONENT - Does it have a position?
+            /*POSITION COMPONENT - Does it have a position?
+             */
             //addComponent(new PositionComponent(x, y, defaultWidth, defaultHeight, this));
             
-            //DRAW COMPONENT - Does it get drawn to the game world?
-            //You'll need to know the address for your image.
-            //It'll probably be something along the lines of "RunningGame.Resources.[      ].png" or maybe .bmp
+            /*DRAW COMPONENT - Does it get drawn to the game world?
+             *You'll need to know the address for your image.
+             *It'll probably be something along the lines of "RunningGame.Resources.[      ].png" or maybe .bmp
+             */
             //addComponent(new DrawComponent("RunningGame.Resources.WhiteSquare.bmp", "Main", defaultWidth, defaultHeight, true));
 
-            //VELOCITY COMPONENT - Does it move?
+            /*VELOCITY COMPONENT - Does it move?
+             */
             //addComponent(new VelocityComponent(0, 0));
 
-            //PLAYER COMPONENT - Is it the player?
+            /*PLAYER COMPONENT - Is it the player?
+             */
             //addComponent(new PlayerInputComponent());
 
-            //COLLIDER - Does it hit things?
-            //The second field is the collider type. Look in GlobalVars for a string with the right name.
+            /*COLLIDER - Does it hit things?
+             *The second field is the collider type. Look in GlobalVars for a string with the right name.
+             */
             //addComponent(new ColliderComponent(this, GlobalVars.BASIC_SOLID_COLLIDER_TYPE));
 
-            //GRAVITY COMPONENT - Does it have Gravity?
-            //There's a standard gravity in GlobalVars
+            /*GRAVITY COMPONENT - Does it have Gravity?
+             *There's a standard gravity in GlobalVars
+             */
             //addComponent(new GravityComponent(0, GlobalVars.STANDARD_GRAVITY));
+
+
+            /*Health Component
+             *Parameters: maxHealth, startingHealth, draw a health bar?, recharge amount, recharge time
+             *Basically, every rechargeTime, the entity regenerates rechargeAmount
+             */
+            //addComponent(new HealthComponent(100, 100, true, 1, 0.5f));
 
         }
         

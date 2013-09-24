@@ -79,6 +79,9 @@ namespace RunningGame.Entities
             //Gravity Component
             addComponent(new GravityComponent(0, GlobalVars.STANDARD_GRAVITY));
 
+            //Health Component
+            addComponent(new HealthComponent(100, true, 1, 0.5f));
+
         }
         
         public override void revertToStartingState()
@@ -90,6 +93,9 @@ namespace RunningGame.Entities
             VelocityComponent velComp = (VelocityComponent)this.getComponent(GlobalVars.VELOCITY_COMPONENT_NAME);
             velComp.x = 0;
             velComp.y = 0;
+
+            HealthComponent healthComp = (HealthComponent)this.getComponent(GlobalVars.HEALTH_COMPONENT_NAME);
+            healthComp.restoreHealth();
         }
         
 

@@ -19,6 +19,10 @@ namespace RunningGame.Components
         //Inside the constructor you probably want to pass in and set all the variables
         public ComponentTemplate()
         {
+            /*
+             * Always always ALWAYS set the component name to whatever you have it as in GlobalVars (add one if need be)
+             */
+            //componentName = GlobalVars.[MY_COMPONENT_NAME];
 
         }
 
