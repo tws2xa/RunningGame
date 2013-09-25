@@ -85,8 +85,8 @@ namespace RunningGame.Entities
             drawComp.activeSprite = blinkRight;
 
             //Animation Component
-            AnimationComponent animComp = (AnimationComponent)addComponent(new AnimationComponent(0.005f));
-            animComp.pauseAfterCycle = 5.0f;
+            AnimationComponent animComp = (AnimationComponent)addComponent(new AnimationComponent(0.0005f));
+            animComp.pauseTimeAfterCycle = 5.0f;
 
             //Player Component
             addComponent(new PlayerComponent());
