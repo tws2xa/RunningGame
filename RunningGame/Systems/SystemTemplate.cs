@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Collections;
+using RunningGame.Components;
 
 namespace RunningGame.Systems
 {
@@ -13,6 +14,7 @@ namespace RunningGame.Systems
     class SystemTemplate:GameSystem //Always extend GameSystem
     {
         //All systems MUST have an ArrayList of requiredComponents (May need to add using System.Collections at start of file)
+        //To access components you may need to also add "using RunningGame.Components"
         ArrayList requiredComponents = new ArrayList();
         //All systems MUST have a variable holding the level they're contained in
         Level level;

@@ -74,7 +74,7 @@ namespace RunningGame
 
         public string getCollisionTypeName(string type1, string type2)
         {
-            if(String.Compare(type1, type2) == 0)
+            if(type1.CompareTo(type2) == 0)
                 return (type1 + "" + type2);
             else
                 return (type2 + "" + type1);

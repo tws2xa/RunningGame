@@ -94,6 +94,8 @@ namespace RunningGame.Entities
             //Collider
             addComponent(new ColliderComponent(this, GlobalVars.PLAYER_COLLIDER_TYPE));
 
+            //Squish Component
+            addComponent(new SquishComponent(defaultWidth, defaultHeight, defaultWidth * 3, defaultHeight * 3, defaultWidth / 3f, defaultHeight / 3f, defaultWidth*defaultHeight*1.5f, defaultWidth*defaultHeight/2f));
 
             //Gravity Component
             addComponent(new GravityComponent(0, GlobalVars.STANDARD_GRAVITY));
