@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using RunningGame.Components;
 using System.Drawing;
+using System.Collections;
 
 namespace RunningGame.Entities
 {
@@ -22,6 +23,8 @@ namespace RunningGame.Entities
 
         float startingX;
         float startingY;
+
+        string testAnimationName = "testAnimation";
 
         public TestEntity(Level level, float x, float y)
         {
@@ -53,7 +56,19 @@ namespace RunningGame.Entities
             addComponent(new PositionComponent(x, y, defaultWidth, defaultHeight, this));
             
             //Draw component
-            addComponent(new DrawComponent("RunningGame.Resources.WhiteSquare.bmp", "Main", defaultWidth, defaultHeight, true));
+            DrawComponent drawComp = (DrawComponent)addComponent(new DrawComponent("RunningGame.Resources.WhiteSquare.bmp", "Main", defaultWidth, defaultHeight, true));
+
+            ArrayList testAnimationList = new ArrayList
+            {
+                "RunningGame.Resources.WhiteSquare.bmp", "RunningGame.Resources.DirtSquare.bmp",
+                "RunningGame.Resources.GrassSquare.bmp", "RunningGame.Resources.Player.bmp"
+            };
+
+            drawComp.addAnimatedSprite(testAnimationList, testAnimationName);
+            //drawComp.activeSprite = testAnimationName;
+            drawComp.activeSprite = "Main";
+
+            AnimationComponent animComp = (AnimationComponent)addComponent(new AnimationComponent(0.5f));
 
             //Velocity Component
             addComponent(new VelocityComponent(0, 0));

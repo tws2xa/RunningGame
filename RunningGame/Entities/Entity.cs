@@ -58,9 +58,10 @@ namespace RunningGame
         }
 
         //add and remove components
-        public void addComponent(Component comp)
+        public Component addComponent(Component comp)
         {
             components.Add(comp.componentName, comp);
+            return comp;
         }
         public void removeComponent(Component comp)
         {

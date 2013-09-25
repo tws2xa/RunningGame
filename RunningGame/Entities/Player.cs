@@ -64,10 +64,9 @@ namespace RunningGame.Entities
 
             //Draw component
             DrawComponent drawComp = new DrawComponent("RunningGame.Resources.Player.bmp", rightImageName, (int)defaultWidth, (int)defaultHeight, false);
-            drawComp.addImage("RunningGame.Resources.Player.bmp", leftImageName);
+            drawComp.addSprite("RunningGame.Resources.Player.bmp", leftImageName);
             drawComp.rotateFlipSprite(leftImageName, RotateFlipType.RotateNoneFlipX);
             addComponent(drawComp);
-            
 
             //Player Component
             addComponent(new PlayerComponent());

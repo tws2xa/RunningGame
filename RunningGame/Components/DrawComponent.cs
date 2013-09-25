@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Drawing;
+using System.Collections;
 
 namespace RunningGame.Components
 {
@@ -14,7 +15,7 @@ namespace RunningGame.Components
 
         //May or may not need graphics depending on how the Drawing System works
         //public Bitmap sprite {get; set;}
-        public Dictionary<string, Bitmap> images = new Dictionary<string, Bitmap>();
+        public Dictionary<string, Sprite> images = new Dictionary<string, Sprite>();
         public float width {get; set;}
         public float height { get; set; }
         public bool sizeLocked { get; set; }
@@ -29,18 +30,38 @@ namespace RunningGame.Components
             this.height = height;
             this.sizeLocked = sizeLocked;
 
-            Bitmap sprite = readInImage(spriteAddress);
+            Bitmap image = readInImage(spriteAddress);
 
             activeSprite = spriteName;
-            images.Add(spriteName, sprite);
+
+            Sprite newSprite = new Sprite(spriteName, image);
+            images.Add(spriteName, newSprite);
             
         }
 
-        public void addImage(string spriteAddress, string spriteName)
+        public void addSprite(string spriteAddress, string spriteName)
         {
-            Bitmap sprite = readInImage(spriteAddress);
+            Bitmap image = readInImage(spriteAddress);
 
-            images.Add(spriteName, sprite);
+            Sprite spr = new Sprite(spriteName, image);
+
+            images.Add(spriteName, spr);
+        }
+
+        public void addAnimatedSprite(ArrayList addresses, string spriteName)
+        {
+            ArrayList newImages = new ArrayList();
+
+            foreach (string str in addresses)
+            {
+                Bitmap img = readInImage(str);
+                newImages.Add(img);
+            }
+
+            Sprite spr = new Sprite(spriteName, newImages);
+
+            images.Add(spriteName, spr);
+
         }
 
         public Bitmap readInImage(string imageAddress)
@@ -71,7 +92,12 @@ namespace RunningGame.Components
             return (address + "" + width + "" + height);
         }
 
-        public Image getSprite()
+        public Image getImage()
+        {
+            return images[activeSprite].getCurrentImage();
+        }
+
+        public Sprite getSprite()
         {
             return images[activeSprite];
         }
@@ -80,9 +106,18 @@ namespace RunningGame.Components
         {
             if (images.ContainsKey(spriteName))
             {
-                Bitmap newSprite = new Bitmap(images[spriteName]);
-                newSprite.RotateFlip(rotation);
-                images[spriteName] = newSprite;
+
+                ArrayList newImages = new ArrayList();
+
+                foreach (Image b in images[spriteName].images)
+                {
+                    //Must create a copy so it doesn't flip ALL things using this image
+                    Bitmap newImage = new Bitmap(b);
+                    newImage.RotateFlip(rotation);
+                    newImages.Add(newImage);
+                }
+
+                images[spriteName].images = newImages;
             }
             else
                 Console.WriteLine("Trying to rotate/flip a nonexistant image: " + spriteName);

@@ -114,12 +114,12 @@ namespace RunningGame
                         {
                             //Size imageSize = new Size((int)Math.Round(drawComp.width * wRatio), (int)Math.Round(drawComp.height * hRatio));
                             //img = new Bitmap(drawComp.sprite, imageSize);
-                            img = drawComp.getSprite();
+                            img = drawComp.getImage();
                         }
                         else
                         {
                             Size imageSize = new Size((int)(posComp.width * wRatio), (int)(posComp.height * hRatio));
-                            img = new Bitmap(drawComp.getSprite(), imageSize);
+                            img = new Bitmap(drawComp.getImage(), imageSize);
                         }
 
                         //Get center instead of upper left

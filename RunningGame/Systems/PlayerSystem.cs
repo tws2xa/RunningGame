@@ -143,8 +143,6 @@ namespace RunningGame.Systems
                 maxSurfaceArea = baseWidth * baseHeight * 1.5f;
                 minSurfaceArea = baseWidth * baseHeight / 2f;
 
-                Console.WriteLine("Max: " + maxSurfaceArea + " -- Min: " + minSurfaceArea);
-
                 prevXVelocity = velComp.x;
                 prevYVelocity = velComp.y;
 

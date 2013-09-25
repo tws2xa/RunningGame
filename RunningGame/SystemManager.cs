@@ -25,6 +25,7 @@ namespace RunningGame
         public PlayerSystem playerSystem;
         public CollisionDetectionSystem colSystem;
         public HealthSystem healthSystem;
+        public AnimationSystem animSystem;
 
         public SystemManager(Level level)
         {
@@ -44,6 +45,7 @@ namespace RunningGame
             colSystem = new CollisionDetectionSystem(level);
             drawSystem = new DrawSystem(level.g, level);
             healthSystem = new HealthSystem(level);
+            animSystem = new AnimationSystem(level);
         }
 
 
@@ -56,6 +58,7 @@ namespace RunningGame
             gravSystem.Update(deltaTime);
             drawSystem.Update(deltaTime);
             healthSystem.Update(deltaTime);
+            animSystem.Update(deltaTime);
             
         }
 

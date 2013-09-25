@@ -71,7 +71,7 @@ namespace RunningGame.Entities
 
                 //Draw component
                 DrawComponent drawComp = new DrawComponent("RunningGame.Resources.DirtSquare.bmp", dirtSpriteName, defaultWidth, defaultHeight, true);
-                drawComp.addImage("RunningGame.Resources.GrassSquare.bmp", grassSpriteName);
+                drawComp.addSprite("RunningGame.Resources.GrassSquare.bmp", grassSpriteName);
                 addComponent(drawComp);
 
                 //Collider

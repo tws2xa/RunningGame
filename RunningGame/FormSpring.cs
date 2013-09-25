@@ -26,7 +26,7 @@ namespace RunningGame
         private void FormRunningGame_Load(object sender, EventArgs e)
         {
             this.DoubleBuffered = true;
-            this.ClientSize = new Size(CLIENT_WIDTH, CLIENT_HEIGHT);
+            //this.ClientSize = new Size(CLIENT_WIDTH, CLIENT_HEIGHT);
             Graphics g = this.CreateGraphics();            
         }
 
