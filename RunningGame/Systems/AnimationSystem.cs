@@ -59,20 +59,16 @@ namespace RunningGame.Systems
 
                     if (animComp.timeUntilNextFrame <= 0)
                     {
-
-                        //drawComp.animationFrame++;
-                        //if (drawComp.animationFrame >= drawComp.images[drawComp.activeSprite].Count)
-                        //{
-                        //    drawComp.animationFrame = 0;
-                        //}
-
                         drawComp.getSprite().currentImageIndex++;
                         if (drawComp.getSprite().currentImageIndex >= drawComp.getSprite().getNumImages())
                         {
                             drawComp.getSprite().currentImageIndex = 0;
+                            animComp.timeUntilNextFrame = animComp.animationFrameTime + animComp.pauseAfterCycle;
                         }
-
-                        animComp.timeUntilNextFrame = animComp.animationFrameTime;
+                        else
+                        {
+                            animComp.timeUntilNextFrame = animComp.animationFrameTime;
+                        }
                     }
                     else
                     {

@@ -10,7 +10,8 @@ namespace RunningGame.Components
     {
 
         public float animationFrameTime { get; set; } //Time in seconds between frames
-        public float timeUntilNextFrame { get; set; }
+        public float timeUntilNextFrame { get; set; } //Time before next frame switch
+        public float pauseAfterCycle { get; set; } //Pause for a certain time after each animation cycle?
         public bool animationOn;
 
         public AnimationComponent(float animationFrameTime)
@@ -23,6 +24,7 @@ namespace RunningGame.Components
             this.animationFrameTime = animationFrameTime;
             timeUntilNextFrame = animationFrameTime;
             animationOn = true;
+            pauseAfterCycle = 0.0f;
 
         }
 

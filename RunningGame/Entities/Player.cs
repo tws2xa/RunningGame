@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using RunningGame.Components;
 using System.Drawing;
+using System.Collections;
 
 namespace RunningGame.Entities
 {
@@ -25,6 +26,9 @@ namespace RunningGame.Entities
 
         string rightImageName = "right";
         string leftImageName = "left";
+
+        string blinkLeft = "binkLeft";
+        string blinkRight = "blinkRight";
 
         public Player(Level level, float x, float y)
         {
@@ -68,6 +72,22 @@ namespace RunningGame.Entities
             drawComp.rotateFlipSprite(leftImageName, RotateFlipType.RotateNoneFlipX);
             addComponent(drawComp);
 
+            ArrayList blinkAnimation = new ArrayList
+            {
+                "RunningGame.Resources.Player.bmp",
+                "RunningGame.Resources.PlayerEyesClosed.bmp"
+            };
+            drawComp.addAnimatedSprite(blinkAnimation, blinkRight);
+            drawComp.addAnimatedSprite(blinkAnimation, blinkLeft);
+
+            drawComp.rotateFlipSprite(blinkLeft, RotateFlipType.RotateNoneFlipX);
+
+            drawComp.activeSprite = blinkRight;
+
+            //Animation Component
+            AnimationComponent animComp = (AnimationComponent)addComponent(new AnimationComponent(0.005f));
+            animComp.pauseAfterCycle = 5.0f;
+
             //Player Component
             addComponent(new PlayerComponent());
 
@@ -101,18 +121,24 @@ namespace RunningGame.Entities
         public void faceRight()
         {
             DrawComponent drawComp = (DrawComponent)this.getComponent(GlobalVars.DRAW_COMPONENT_NAME);
-            drawComp.setSprite(rightImageName);
+            if (drawComp.activeSprite == leftImageName || drawComp.activeSprite == rightImageName)
+                drawComp.setSprite(rightImageName);
+            else
+                drawComp.setSprite(blinkRight);
         }
         public void faceLeft()
         {
             DrawComponent drawComp = (DrawComponent)this.getComponent(GlobalVars.DRAW_COMPONENT_NAME);
-            drawComp.setSprite(leftImageName);
+            if (drawComp.activeSprite == leftImageName || drawComp.activeSprite == rightImageName)
+                drawComp.setSprite(leftImageName);
+            else
+                drawComp.setSprite(blinkLeft);
         }
 
         public bool isLookingLeft()
         {
             DrawComponent drawComp = (DrawComponent)this.getComponent(GlobalVars.DRAW_COMPONENT_NAME);
-            return (drawComp.activeSprite == leftImageName);
+            return (drawComp.activeSprite == leftImageName || drawComp.activeSprite == blinkLeft);
         }
     }
 }
