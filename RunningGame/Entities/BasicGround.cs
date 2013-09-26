@@ -21,8 +21,8 @@ namespace RunningGame.Entities
         float defaultWidth = 11f;
         float defaultHeight = 11f;
 
-        Bitmap grassSprite;
-        Bitmap dirtSprite;
+        string dirtSpriteName = "dirt";
+        string grassSpriteName = "grass";
 
            public BasicGround(Level level)
            {
@@ -70,32 +70,14 @@ namespace RunningGame.Entities
                 addComponent(new PositionComponent(x, y, width, height, this));
 
                 //Draw component
-                
-                //Normal Sprite
-                System.Reflection.Assembly myAssembly = System.Reflection.Assembly.GetExecutingAssembly();
-                System.IO.Stream myStream = myAssembly.GetManifestResourceStream("RunningGame.Resources.GrassSquare.bmp");
-                Bitmap grassSprite = new Bitmap(myStream);
-                
-                myAssembly = System.Reflection.Assembly.GetExecutingAssembly();
-                myStream = myAssembly.GetManifestResourceStream("RunningGame.Resources.DirtSquare.bmp");
-                Bitmap dirtSprite = new Bitmap(myStream);
-                myStream.Close();
-
-                addComponent(new DrawComponent(dirtSprite, defaultWidth, defaultHeight, true));
+                DrawComponent drawComp = new DrawComponent("RunningGame.Resources.DirtSquare.bmp", dirtSpriteName, defaultWidth, defaultHeight, true);
+                drawComp.addSprite("RunningGame.Resources.GrassSquare.bmp", grassSpriteName);
+                addComponent(drawComp);
 
                 //Collider
                 addComponent(new ColliderComponent(this, GlobalVars.BASIC_SOLID_COLLIDER_TYPE));
 
             }
-
-            /*
-            public override Entity CopyStartingState()
-            {
-                PositionComponent posComp = (PositionComponent)this.getComponent(GlobalVars.POSITION_COMPONENT_NAME);
-                BasicGround newEnt = new BasicGround(level, randId, posComp.x, posComp.y, posComp.width, posComp.height);
-                return newEnt;
-            } 
-            */
 
         
             public override void revertToStartingState()
@@ -107,33 +89,13 @@ namespace RunningGame.Entities
             {
                 DrawComponent drawComp = (DrawComponent)this.getComponent(GlobalVars.DRAW_COMPONENT_NAME);
 
-                //If either is null, load it in
-                if (!dirt && grassSprite == null)
-                {
-                    System.Reflection.Assembly myAssembly = System.Reflection.Assembly.GetExecutingAssembly();
-                    System.IO.Stream myStream = myAssembly.GetManifestResourceStream("RunningGame.Resources.GrassSquare.bmp");
-                    Bitmap img = new Bitmap(myStream);
-                    myStream.Close();
-
-                    grassSprite = new Bitmap(img, new Size((int)defaultWidth, (int)defaultHeight));
-                }
-                if (dirt && dirtSprite == null)
-                {
-                    System.Reflection.Assembly myAssembly = System.Reflection.Assembly.GetExecutingAssembly();
-                    System.IO.Stream myStream = myAssembly.GetManifestResourceStream("RunningGame.Resources.DirtSquare.bmp");
-                    Bitmap img = new Bitmap(myStream);
-                    myStream.Close();
-
-                    dirtSprite = new Bitmap(img, new Size((int)defaultWidth, (int)defaultHeight));
-                }
-
                 if (dirt)
                 {
-                    drawComp.sprite = dirtSprite;
+                    drawComp.setSprite(dirtSpriteName);
                 }
                 else
                 {
-                    drawComp.sprite = grassSprite;
+                    drawComp.setSprite(grassSpriteName);
                 }
             }
     }

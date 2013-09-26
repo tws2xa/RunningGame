@@ -31,7 +31,7 @@ namespace RunningGame
         public CollisionHandler()
         {
 
-
+            //Func<Entity, Entity, bool> [Var Name] = [Name of your method];
             Func<Entity, Entity, bool> simpleStopCollisionFunction = simpleStopCollision;
 
 
@@ -74,11 +74,13 @@ namespace RunningGame
 
         public string getCollisionTypeName(string type1, string type2)
         {
-            if(String.Compare(type1, type2) == 0)
-                return (type1 + "" + type2);
-            else
-                return (type2 + "" + type1);
 
+            //This was giving stack overflow exceptions. Not sure why. Working on it. If you're having trouble, let me know.
+
+            //if (type1.CompareTo(type2) == 0)
+                return (type1 + "" + type2);
+            //else
+                //return (type2 + "" + type1);
         }
     }
 }

@@ -14,7 +14,6 @@ namespace RunningGame
      * Game is basically what sets everything up.
      * Holds Start Menu, could ask about any level modifiers etc
      * Eventually it starts the level.
-     * Lolololol
     */
     class Game
     {
@@ -118,7 +117,10 @@ namespace RunningGame
         {
             currentLevel.KeyPressed(e);
         }
-
+        public void MouseClick(MouseEventArgs e)
+        {
+            currentLevel.MouseClick(e);
+        }
 
         //Called when the window is closed
         public void close()

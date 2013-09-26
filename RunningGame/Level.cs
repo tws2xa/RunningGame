@@ -30,7 +30,6 @@ namespace RunningGame
         public float cameraHeight { get; set; }
         public float levelWidth { get; set; }
         public float levelHeight {get;set;}
-        Dictionary<int, Entity> levelBeginState; //Entity states at the level
         public bool paused = false; //Is the game paused?
 
         public float fps;
@@ -121,7 +120,9 @@ namespace RunningGame
             foreach (Entity e in GlobalVars.removedStartingEntities.Values)
             {
                 e.revertToStartingState();
-                entities.Add(e.randId, e);
+                addEntity(e.randId, e);
+                if (e.hasComponent(GlobalVars.COLLIDER_COMPONENT_NAME))
+                    colliderAdded(e);
             }
             GlobalVars.removedStartingEntities.Clear();
             paused = false; //Restart the game  
@@ -133,7 +134,7 @@ namespace RunningGame
             while(entities.Values.Count > 0)
             {
                 Entity e = entities.Values.ToArray()[0];
-                e.Destroy();
+                //e.Destroy();
             }
             entities.Clear();
         }
@@ -150,6 +151,11 @@ namespace RunningGame
         public void KeyPressed(KeyPressEventArgs e)
         {
             sysManager.KeyPressed(e);
+        }
+        public void MouseClick(MouseEventArgs e)
+        {
+            //getCollisionSystem().MouseClick(e.X, e.Y);
+            sysManager.MouseClick(e);
         }
 
 
@@ -174,7 +180,8 @@ namespace RunningGame
         {
             if (e.isStartingEntity)
                 GlobalVars.removedStartingEntities.Add(e.randId, e);
-            getCollisionSystem().colliderRemoved(e);
+            if(e.hasComponent(GlobalVars.COLLIDER_COMPONENT_NAME))
+                getCollisionSystem().colliderRemoved(e);
             entities.Remove(e.randId);
         }
 

@@ -24,6 +24,9 @@ namespace RunningGame
         public MovementSystem moveSystem;
         public PlayerSystem playerSystem;
         public CollisionDetectionSystem colSystem;
+        public HealthSystem healthSystem;
+        public AnimationSystem animSystem;
+        public SquishSystem squishSystem;
 
         public SystemManager(Level level)
         {
@@ -42,6 +45,9 @@ namespace RunningGame
             playerSystem = new PlayerSystem(level);
             colSystem = new CollisionDetectionSystem(level);
             drawSystem = new DrawSystem(level.g, level);
+            healthSystem = new HealthSystem(level);
+            animSystem = new AnimationSystem(level);
+            squishSystem = new SquishSystem(level);
         }
 
 
@@ -53,6 +59,10 @@ namespace RunningGame
             colSystem.Update(deltaTime);
             gravSystem.Update(deltaTime);
             drawSystem.Update(deltaTime);
+            healthSystem.Update(deltaTime);
+            animSystem.Update(deltaTime);
+            squishSystem.Update(deltaTime);
+            
         }
 
         //Notify collider system of a new collider
@@ -74,7 +84,10 @@ namespace RunningGame
         {
             playerSystem.KeyPressed(e);
         }
-
+        public void MouseClick(MouseEventArgs e)
+        {
+            //colSystem.MouseClick(e.X, e.Y);
+        }
 
         //Any systems that require drawing
         public void Draw(System.Drawing.Graphics g)

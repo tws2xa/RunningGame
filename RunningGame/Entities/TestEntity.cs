@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using RunningGame.Components;
 using System.Drawing;
+using System.Collections;
 
 namespace RunningGame.Entities
 {
@@ -22,6 +23,8 @@ namespace RunningGame.Entities
 
         float startingX;
         float startingY;
+
+        string testAnimationName = "testAnimation";
 
         public TestEntity(Level level, float x, float y)
         {
@@ -53,10 +56,19 @@ namespace RunningGame.Entities
             addComponent(new PositionComponent(x, y, defaultWidth, defaultHeight, this));
             
             //Draw component
-            System.Reflection.Assembly myAssembly = System.Reflection.Assembly.GetExecutingAssembly();
-            System.IO.Stream myStream = myAssembly.GetManifestResourceStream("RunningGame.Resources.WhiteSquare.bmp");
-            Bitmap sprite = new Bitmap(myStream);
-            addComponent(new DrawComponent(sprite, defaultWidth, defaultHeight, true));
+            DrawComponent drawComp = (DrawComponent)addComponent(new DrawComponent("RunningGame.Resources.WhiteSquare.bmp", "Main", defaultWidth, defaultHeight, true));
+
+            ArrayList testAnimationList = new ArrayList
+            {
+                "RunningGame.Resources.WhiteSquare.bmp", "RunningGame.Resources.DirtSquare.bmp",
+                "RunningGame.Resources.GrassSquare.bmp", "RunningGame.Resources.Player.bmp"
+            };
+
+            drawComp.addAnimatedSprite(testAnimationList, testAnimationName);
+            //drawComp.activeSprite = testAnimationName;
+            drawComp.activeSprite = "Main";
+
+            AnimationComponent animComp = (AnimationComponent)addComponent(new AnimationComponent(0.5f));
 
             //Velocity Component
             addComponent(new VelocityComponent(0, 0));
@@ -70,17 +82,9 @@ namespace RunningGame.Entities
             //Gravity Component
             addComponent(new GravityComponent(0, GlobalVars.STANDARD_GRAVITY));
             
-
+            //Squish Component
+            //addComponent(new SquishComponent(defaultWidth, defaultHeight, defaultWidth * 3.0f, defaultHeight * 3.0f, defaultWidth / 3.0f, defaultHeight / 3.0f));
         }
-
-        /*
-        public override Entity CopyStartingState()
-        {
-            TestEntity newEnt = new TestEntity(level, randId, startingX, startingY);
-            return newEnt;
-        }
-        */
-
         
         public override void revertToStartingState()
         {

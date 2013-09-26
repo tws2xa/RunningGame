@@ -26,7 +26,7 @@ namespace RunningGame
         private void FormRunningGame_Load(object sender, EventArgs e)
         {
             this.DoubleBuffered = true;
-            this.ClientSize = new Size(CLIENT_WIDTH, CLIENT_HEIGHT);
+            //this.ClientSize = new Size(CLIENT_WIDTH, CLIENT_HEIGHT);
             Graphics g = this.CreateGraphics();            
         }
 
@@ -59,6 +59,12 @@ namespace RunningGame
             //Use this.Width and this.Height instead of ClientSize to reduce streaching at edge
             game = new Game(this.CreateGraphics(), this.ClientSize.Width, this.ClientSize.Height);
             lblLoading.Visible = false;
+        }
+
+        private void FormSpring_MouseClick(object sender, MouseEventArgs e)
+        {
+            if(game != null)
+                game.MouseClick(e);
         }
 
     }

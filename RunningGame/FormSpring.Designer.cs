@@ -66,6 +66,7 @@
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.FormRunningGame_KeyDown);
             this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.FormRunningGame_KeyPress);
             this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.FormRunningGame_KeyUp);
+            this.MouseClick += new System.Windows.Forms.MouseEventHandler(this.FormSpring_MouseClick);
             this.ResumeLayout(false);
             this.PerformLayout();
 
