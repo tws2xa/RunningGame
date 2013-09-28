@@ -66,6 +66,10 @@ namespace RunningGame.Entities
             addComponent(new ColliderComponent(this, GlobalVars.SPEEDY_COLLIDER));
             
         }
+        
+        public override void revertToStartingState()
+        {
+        }
 
 
     }
