@@ -75,23 +75,23 @@ namespace RunningGame.Systems
         {
             if (incX != 0)
             {
-                changeSingleAxisLocation('X', posComp, posComp.x + incX);
+                changeSingleAxisLocation('X', posComp, posComp.x + incX, true);
             }
             if (incY != 0)
             {
-                changeSingleAxisLocation('Y', posComp, posComp.y + incY);
+                changeSingleAxisLocation('Y', posComp, posComp.y + incY, true);
             }
         }
 
-        public void changePosition(PositionComponent posComp, float newX, float newY)
+        public void changePosition(PositionComponent posComp, float newX, float newY, bool moveToContact)
         {
             if (newX != posComp.x)
             {
-                changeSingleAxisLocation('X', posComp, newX);
+                changeSingleAxisLocation('X', posComp, newX, moveToContact);
             }
             if (newY != posComp.y)
             {
-                changeSingleAxisLocation('Y', posComp, newY);
+                changeSingleAxisLocation('Y', posComp, newY, moveToContact);
             }
         }
 
@@ -228,7 +228,7 @@ namespace RunningGame.Systems
         
          //* BACKUP OF CHANGING A SINGLE AXIS LOCATION
          
-        public void changeSingleAxisLocation(Char axis, PositionComponent posComp, float newVal)
+        public void changeSingleAxisLocation(Char axis, PositionComponent posComp, float newVal, bool moveToContact)
         {
             bool movementBlocked = false;
 
@@ -295,27 +295,31 @@ namespace RunningGame.Systems
 
                             movementBlocked = true;
 
-                            //Move to edge of object if already mostly at the edge...
-                            PositionComponent otherPosComp = (PositionComponent)e.getComponent(GlobalVars.POSITION_COMPONENT_NAME);
-
-                            if (isX)
+                            //Move to edge of object if already mostly at the edge... ONLY IF MOVE TO CONTACT IS TRUE
+                            if (moveToContact)
                             {
-                                if (posComp.x < (otherPosComp.x))
-                                    level.getMovementSystem().changePosition(posComp, otherPosComp.x - otherPosComp.width / 2 - posComp.width / 2, posComp.y);
-                                else
-                                    level.getMovementSystem().changePosition(posComp, otherPosComp.x + otherPosComp.width / 2 + posComp.width / 2, posComp.y);
+                                PositionComponent otherPosComp = (PositionComponent)e.getComponent(GlobalVars.POSITION_COMPONENT_NAME);
 
-                                posComp.positionHasChanged = true;
-                            }
-                            else
-                            {
-                                if (posComp.y < (otherPosComp.y))
-                                    level.getMovementSystem().changePosition(posComp, posComp.x, otherPosComp.y - otherPosComp.height / 2 - posComp.height / 2);
-                                else
-                                    level.getMovementSystem().changePosition(posComp, posComp.x, otherPosComp.y + otherPosComp.height / 2 + posComp.height / 2);
+                                if (isX)
+                                {
+                                    if (posComp.x < (otherPosComp.x))
+                                        level.getMovementSystem().changePosition(posComp, otherPosComp.x - otherPosComp.width / 2 - posComp.width / 2, posComp.y, false);
+                                    else
+                                        level.getMovementSystem().changePosition(posComp, otherPosComp.x + otherPosComp.width / 2 + posComp.width / 2, posComp.y, false);
 
-                                posComp.positionHasChanged = true;
+                                    //posComp.positionHasChanged = true;
+                                }
+                                else
+                                {
+                                    if (posComp.y < (otherPosComp.y))
+                                        level.getMovementSystem().changePosition(posComp, posComp.x, otherPosComp.y - otherPosComp.height / 2 - posComp.height / 2, false);
+                                    else
+                                        level.getMovementSystem().changePosition(posComp, posComp.x, otherPosComp.y + otherPosComp.height / 2 + posComp.height / 2, false);
+
+                                    //posComp.positionHasChanged = true;
+                                }
                             }
+
                         }
                     }
                 }

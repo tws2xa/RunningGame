@@ -157,7 +157,7 @@ namespace RunningGame.Systems
         }
         public void offRightSideScreen()
         {
-            level.getMovementSystem().changeSingleAxisLocation('X', posComp, -posComp.width); //Screen Wrap
+            level.getMovementSystem().changeSingleAxisLocation('X', posComp, -posComp.width, true); //Screen Wrap
         }
         public void offTopSizeScreen()
         {
@@ -166,7 +166,7 @@ namespace RunningGame.Systems
         }
         public void offBottomSideScreen()
         {
-            level.getMovementSystem().changeSingleAxisLocation('Y', posComp, -posComp.height); //Screen Wrap
+            level.getMovementSystem().changeSingleAxisLocation('Y', posComp, -posComp.height, true); //Screen Wrap
         }
 
 

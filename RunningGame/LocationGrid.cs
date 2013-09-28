@@ -25,8 +25,8 @@ namespace RunningGame
 
         public Dictionary<RectangleF, ArrayList> grid;
 
-        float rowHeight = 25;
-        float colWidth = 25;
+        float rowHeight = 20;
+        float colWidth = 20;
 
         Level level;
 
@@ -39,9 +39,9 @@ namespace RunningGame
             this.level = level;
             grid = new Dictionary<RectangleF, ArrayList>();
             //Create the grid (With extra rows/cols on either side)
-            for (float i = -colWidth; i <= level.levelWidth+colWidth; i += colWidth)
+            for (float i = -colWidth*2; i <= level.levelWidth+colWidth*4; i += colWidth)
             {
-                for (float j = -rowHeight; j <= level.levelHeight+rowHeight; j += rowHeight)
+                for (float j = -rowHeight*2; j <= level.levelHeight+rowHeight*4; j += rowHeight)
                 {
                     RectangleF rect = new RectangleF(i, j, colWidth, rowHeight);
                     grid.Add(rect, new ArrayList());
@@ -109,7 +109,6 @@ namespace RunningGame
         //Returns all rectangles an entity intersects with.
         public ArrayList getIntersectingRectangles(Entity e)
         {
-            ArrayList retList = new ArrayList();
             PositionComponent posComp = (PositionComponent)e.getComponent(GlobalVars.POSITION_COMPONENT_NAME);
             return getIntersectingRectangles(posComp.x, posComp.y, posComp.width, posComp.height);
         }
@@ -127,16 +126,27 @@ namespace RunningGame
 
 
             //Go through all rectangles it intersects
-            for (float i = (upperLeftPoint.X - upperLeftPoint.X % colWidth); i < (upperLeftPoint.X - upperLeftPoint.X % colWidth + numHorizontalRect * colWidth); i += colWidth)
+            if (colWidth > 0 && rowHeight > 0)
             {
-                for (float j = (upperLeftPoint.Y - upperLeftPoint.Y % rowHeight); j < (upperLeftPoint.Y - upperLeftPoint.Y % rowHeight + numVertRect * rowHeight); j += rowHeight)
+                float iMin = (upperLeftPoint.X - upperLeftPoint.X % colWidth);
+                float iMax = (upperLeftPoint.X - upperLeftPoint.X % colWidth + numHorizontalRect * colWidth);
+                for (float i = iMin; i < iMax; i += colWidth)
                 {
-                    RectangleF rect = new RectangleF(i, j, colWidth, rowHeight);
-                    if (grid.ContainsKey(rect))
-                        retList.Add(rect);
-                    else
-                        Console.WriteLine("Looking for nonexistant rectangle " + rect);
+                    float jMin = (upperLeftPoint.Y - upperLeftPoint.Y % rowHeight);
+                    float jMax = (upperLeftPoint.Y - upperLeftPoint.Y % rowHeight + numVertRect * rowHeight);
+                    for (float j = jMin; j < jMax; j += rowHeight)
+                    {
+                        RectangleF rect = new RectangleF(i, j, colWidth, rowHeight);
+                        if (grid.ContainsKey(rect))
+                            retList.Add(rect);
+                        else
+                            Console.WriteLine("Looking for nonexistant rectangle " + rect);
+                    }
                 }
+            }
+            else
+            {
+                Console.WriteLine("I have no idea why colwidth: " + colWidth + " or RowHeight: " + rowHeight + " would be negative... but it'd explain a lot.");
             }
             return retList;
         }
@@ -204,9 +214,15 @@ namespace RunningGame
 
         public ArrayList checkForCollisions(Entity e, float x, float y, float w, float h)
         {
+
+            
             ArrayList collisions = new ArrayList();
 
-            foreach (RectangleF rect in getIntersectingRectangles(x, y, w, h))
+            if (e == null || w == 0 || h == 0) return collisions;
+
+            Array rectArray = getIntersectingRectangles(x, y, w, h).ToArray();
+
+            foreach (RectangleF rect in rectArray)
             {
                 foreach (Entity other in grid[rect])
                 {
@@ -216,7 +232,7 @@ namespace RunningGame
                     }
                 }
             }
-
+            
             return collisions;
         }
 
