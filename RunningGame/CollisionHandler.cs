@@ -33,13 +33,15 @@ namespace RunningGame
 
             //Func<Entity, Entity, bool> [Var Name] = [Name of your method];
             Func<Entity, Entity, bool> simpleStopCollisionFunction = simpleStopCollision;
-
+            Func<Entity, Entity, bool> speedyPlayerCollisionFunction = speedyPlayerCollision;
 
 
             //Add collisions to dictionary
             collisionDictionary.Add(getCollisionTypeName(GlobalVars.PLAYER_COLLIDER_TYPE, GlobalVars.BASIC_SOLID_COLLIDER_TYPE), simpleStopCollisionFunction);
             collisionDictionary.Add(getCollisionTypeName(GlobalVars.BASIC_SOLID_COLLIDER_TYPE, GlobalVars.BASIC_SOLID_COLLIDER_TYPE),
                 simpleStopCollisionFunction);
+            collisionDictionary.Add(getCollisionTypeName(GlobalVars.PLAYER_COLLIDER_TYPE, GlobalVars.SPEEDY_COLLIDER), speedyPlayerCollisionFunction);
+            collisionDictionary.Add(getCollisionTypeName(GlobalVars.BASIC_SOLID_COLLIDER_TYPE, GlobalVars.SPEEDY_COLLIDER), simpleStopCollisionFunction);
 
         }
     
@@ -71,6 +73,28 @@ namespace RunningGame
             return true; //Don't allow the movement.
         }
 
+        public static bool speedyPlayerCollision(Entity e1, Entity e2)
+        {
+            Entity thePlayer = null;
+            Entity other = null;
+            //Speedy Code
+            if (e1.hasComponent(GlobalVars.PLAYER_COMPONENT_NAME))
+            {
+                other = e2;
+                thePlayer = e1;
+            }
+            else if (e2.hasComponent(GlobalVars.PLAYER_COMPONENT_NAME))
+            {
+                other = e1;
+                thePlayer = e2;
+            }
+
+            if (thePlayer == null || other == null) return false;
+
+            //Do collision code here
+
+            return true;
+        }
 
         public string getCollisionTypeName(string type1, string type2)
         {

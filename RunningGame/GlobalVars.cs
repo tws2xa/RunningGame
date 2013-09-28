@@ -34,6 +34,7 @@ namespace RunningGame
         public static string BASIC_SOLID_COLLIDER_TYPE = "basicSolidCollider";
         public static string INSTANT_DEATH_COLLIDER_TYPE = "instantDeathCollider";
         public static string POWERUP_COLLIDER_TYPE = "powerupCollider";
+        public static string SPEEDY_COLLIDER = "speedyCollider";
 
         //Collection of all in game entities
         public static Dictionary<int, Entity> allEntities = new Dictionary<int, Entity>();
