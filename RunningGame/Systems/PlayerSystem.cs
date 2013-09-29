@@ -178,15 +178,15 @@ namespace RunningGame.Systems
         {
             if (hasNullComponent()) return;
 
-            if (e.KeyData == playerComp.jumpKey)
+            if (e.KeyData == GlobalVars.KEY_JUMP)
             {
                 playerJump();
             }
-            if (e.KeyData == playerComp.leftKey)
+            if (e.KeyData == GlobalVars.KEY_LEFT)
             {
                 beginMoveLeft();
             }
-            if (e.KeyData == playerComp.rightKey)
+            if (e.KeyData == GlobalVars.KEY_RIGHT)
             {
                 beginMoveRight();
             }
@@ -197,11 +197,13 @@ namespace RunningGame.Systems
             {
                 level.resetLevel();
             }
+            /*
             if (e.KeyData == Keys.N)
             {
                 TestEntity testEntity = new TestEntity(level, posComp.x+posComp.width*1.5f, posComp.y);
                 level.addEntity(testEntity.randId, testEntity);
             }
+            */
             if (e.KeyData == Keys.H)
             {
                 HealthComponent healthComp = (HealthComponent)level.getPlayer().getComponent(GlobalVars.HEALTH_COMPONENT_NAME);
@@ -213,11 +215,11 @@ namespace RunningGame.Systems
 
             if (hasNullComponent()) return;
 
-            if (e.KeyData == playerComp.leftKey)
+            if (e.KeyData == GlobalVars.KEY_LEFT)
             {
                 endLeftHorizontalMove();
             }
-            if (e.KeyData == playerComp.rightKey)
+            if (e.KeyData == GlobalVars.KEY_RIGHT)
             {
                 endRightHorizontalMove();
             }

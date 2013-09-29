@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Drawing;
+using System.Windows.Forms;
 
 namespace RunningGame
 {
@@ -50,6 +51,10 @@ namespace RunningGame
         public static float LEVEL_READER_TILE_WIDTH = 10; //How wide is one pixel?
         public static float LEVEL_READER_TILE_HEIGHT = 10; //How tall is one pixel?
 
+        //Key Bindings
+        public static Keys KEY_JUMP = Keys.W;
+        public static Keys KEY_LEFT = Keys.A;
+        public static Keys KEY_RIGHT = Keys.D;
 
         //Other Constants
         public static float MIN_TILE_SIZE = 10; //Width & Height, the smallest anything can be.

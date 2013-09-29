@@ -122,11 +122,29 @@ namespace RunningGame.Components
             else
                 Console.WriteLine("Trying to rotate/flip a nonexistant image: " + spriteName);
         }
-
+        
+        //Auto resets the animation
         public void setSprite(string spriteName)
         {
             if (images.ContainsKey(spriteName))
+            {
                 activeSprite = spriteName;
+                images[activeSprite].currentImageIndex = 0;
+            }
+            else
+                Console.WriteLine("Trying to set sprite to nonexistant image: " + spriteName);
+        }
+        //Can tell it not to reset animation if you'd like.
+        public void setSprite(string spriteName, bool resetAnimation)
+        {
+            if (images.ContainsKey(spriteName))
+            {
+                activeSprite = spriteName;
+                if (resetAnimation)
+                {
+                    images[activeSprite].currentImageIndex = 0;
+                }
+            }
             else
                 Console.WriteLine("Trying to set sprite to nonexistant image: " + spriteName);
         }

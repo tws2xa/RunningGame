@@ -23,7 +23,7 @@ namespace RunningGame.Entities
 
         string dirtSpriteName = "dirt";
         string grassSpriteName = "grass";
-
+           /*
            public BasicGround(Level level)
            {
                 this.level = level;
@@ -32,7 +32,7 @@ namespace RunningGame.Entities
 
                 addMyComponents(0, 0, defaultWidth, defaultHeight);
             }
-
+            
             public BasicGround(Level level, int id)
             {
                 this.level = level;
@@ -43,16 +43,25 @@ namespace RunningGame.Entities
                 addMyComponents(0, 0, defaultWidth, defaultHeight);
 
             }
+            */
+        public BasicGround(Level level, float x, float y)
+        {
+            this.level = level;
 
-            public BasicGround(Level level, float x, float y, float width, float height)
-            {
-                this.level = level;
-
-                initializeEntity(new Random().Next(Int32.MinValue, Int32.MaxValue), level);
+            initializeEntity(new Random().Next(Int32.MinValue, Int32.MaxValue), level);
 
 
-                addMyComponents(x, y, width, height);
-            }
+            addMyComponents(x, y, defaultWidth, defaultHeight);
+        }
+        public BasicGround(Level level, float x, float y, float width, float height)
+        {
+            this.level = level;
+
+            initializeEntity(new Random().Next(Int32.MinValue, Int32.MaxValue), level);
+
+
+            addMyComponents(x, y, width, height);
+        }
             public BasicGround(Level level, int id, float x, float y, float width, float height)
             {
                 this.level = level;

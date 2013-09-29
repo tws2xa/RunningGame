@@ -27,6 +27,8 @@ namespace RunningGame
         public HealthSystem healthSystem;
         public AnimationSystem animSystem;
         public SquishSystem squishSystem;
+        public InputSystem inputSystem;
+        public DebugSystem debugSystem;
 
         public SystemManager(Level level)
         {
@@ -48,6 +50,10 @@ namespace RunningGame
             healthSystem = new HealthSystem(level);
             animSystem = new AnimationSystem(level);
             squishSystem = new SquishSystem(level);
+            inputSystem = new InputSystem(level);
+
+            debugSystem = new DebugSystem(level);
+
         }
 
 
@@ -62,6 +68,9 @@ namespace RunningGame
             healthSystem.Update(deltaTime);
             animSystem.Update(deltaTime);
             squishSystem.Update(deltaTime);
+            inputSystem.Update(deltaTime);
+
+            debugSystem.Update(deltaTime);
             
         }
 
@@ -75,10 +84,12 @@ namespace RunningGame
         public void KeyDown(KeyEventArgs e)
         {
             playerSystem.KeyDown(e);
+            inputSystem.KeyDown(e);
         }
         public void KeyUp(KeyEventArgs e)
         {
             playerSystem.KeyUp(e);
+            inputSystem.KeyUp(e);
         }
         public void KeyPressed(KeyPressEventArgs e)
         {
@@ -87,6 +98,7 @@ namespace RunningGame
         public void MouseClick(MouseEventArgs e)
         {
             //colSystem.MouseClick(e.X, e.Y);
+            inputSystem.MouseClick(e);
         }
 
         //Any systems that require drawing

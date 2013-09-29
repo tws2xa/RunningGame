@@ -198,6 +198,12 @@ namespace RunningGame
         {
             return sysManager.colSystem;
         }
+        public InputSystem getInputSystem()
+        {
+            if (sysManager != null)
+                return sysManager.inputSystem;
+            else return null;
+        }
         public Entity getPlayer()
         {
             foreach (Entity e in entities.Values)

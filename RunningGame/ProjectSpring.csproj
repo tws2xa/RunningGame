@@ -84,6 +84,7 @@
     <Compile Include="Components\VelocityComponent.cs" />
     <Compile Include="DeathHandler.cs" />
     <Compile Include="Entities\BasicGround.cs" />
+    <Compile Include="Systems\DebugSystem.cs" />
     <Compile Include="Entities\EntityTemplate.cs" />
     <Compile Include="Entities\TestEntity.cs" />
     <Compile Include="LevelImageReader.cs" />
@@ -111,6 +112,7 @@
     <Compile Include="Components\PositionComponent.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Systems\InputSystem.cs" />
     <Compile Include="Systems\MovementSystem.cs" />
     <Compile Include="Systems\PlayerSystem.cs" />
     <Compile Include="Systems\SquishSystem.cs" />
