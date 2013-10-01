@@ -103,6 +103,9 @@ namespace RunningGame.Entities
             //Health Component
             addComponent(new HealthComponent(100, true, 1, 0.5f));
 
+            //Screen Wrap
+            addComponent(new ScreenWrapComponent(false, true, false, false));
+
         }
         
         public override void revertToStartingState()

@@ -29,6 +29,7 @@ namespace RunningGame
         public SquishSystem squishSystem;
         public InputSystem inputSystem;
         public DebugSystem debugSystem;
+        public ScreenWrapSystem scrWrapSystem;
 
         public SystemManager(Level level)
         {
@@ -51,6 +52,7 @@ namespace RunningGame
             animSystem = new AnimationSystem(level);
             squishSystem = new SquishSystem(level);
             inputSystem = new InputSystem(level);
+            scrWrapSystem = new ScreenWrapSystem(level);
 
             debugSystem = new DebugSystem(level);
 
@@ -61,6 +63,7 @@ namespace RunningGame
         public void Update(float deltaTime)
         {
             moveSystem.Update(deltaTime);
+            scrWrapSystem.Update(deltaTime);
             playerSystem.Update(deltaTime);
             colSystem.Update(deltaTime);
             gravSystem.Update(deltaTime);

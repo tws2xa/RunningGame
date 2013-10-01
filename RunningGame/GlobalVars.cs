@@ -29,6 +29,7 @@ namespace RunningGame
         public static string HEALTH_COMPONENT_NAME = "healthComp";
         public static string ANIMATION_COMPONENT_NAME = "animationComp";
         public static string SQUISH_COMPONENT_NAME = "squishComp";
+        public static string SCREEN_WRAP_COMPONENT_NAME = "screenWrapComp";
 
         //Collider Types
         public static string PLAYER_COLLIDER_TYPE = "playerCollider";

@@ -16,6 +16,10 @@ namespace RunningGame.Systems
         Level level;
 
         Keys addEntityKey = Keys.N;
+        Keys harmPlayerKey = Keys.H;
+        Keys resetLevelKey = Keys.R;
+
+        bool hasRunOnce = false; //Used to add keys once and only once. Can't in constructor because inputSystem not ready yet
 
         public DebugSystem(Level level)
         {
@@ -38,9 +42,13 @@ namespace RunningGame.Systems
         public override void Update(float deltaTime)
         {
 
-            if(!level.getInputSystem().myKeys.ContainsKey(addEntityKey))
-                level.getInputSystem().addKey(Keys.N);
-
+            if (!hasRunOnce)
+            {
+                level.getInputSystem().addKey(addEntityKey);
+                level.getInputSystem().addKey(harmPlayerKey);
+                level.getInputSystem().addKey(resetLevelKey);
+                hasRunOnce = true;
+            }
 
             checkForInput();
         }
@@ -53,6 +61,17 @@ namespace RunningGame.Systems
             {
                 PositionComponent posComp = (PositionComponent)level.getPlayer().getComponent(GlobalVars.POSITION_COMPONENT_NAME);
                 debugAddEntity(posComp.x + posComp.width * 1.5f, posComp.y);
+            }
+
+            if (level.getInputSystem().myKeys[harmPlayerKey].pressed)
+            {
+                HealthComponent healthComp = (HealthComponent)level.getPlayer().getComponent(GlobalVars.HEALTH_COMPONENT_NAME);
+                healthComp.subtractFromHealth(25);
+            }
+
+            if (level.getInputSystem().myKeys[resetLevelKey].up)
+            {
+                level.resetLevel();
             }
         }
 

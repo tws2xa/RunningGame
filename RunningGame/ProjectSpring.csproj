@@ -80,6 +80,7 @@
     <Compile Include="Components\GravityComponent.cs" />
     <Compile Include="Components\HealthComponent.cs" />
     <Compile Include="Components\PlayerComponent.cs" />
+    <Compile Include="Components\ScreenWrapComponent.cs" />
     <Compile Include="Components\SquishComponent.cs" />
     <Compile Include="Components\VelocityComponent.cs" />
     <Compile Include="DeathHandler.cs" />
@@ -116,6 +117,7 @@
     <Compile Include="Systems\InputSystem.cs" />
     <Compile Include="Systems\MovementSystem.cs" />
     <Compile Include="Systems\PlayerSystem.cs" />
+    <Compile Include="Systems\ScreenWrapSystem.cs" />
     <Compile Include="Systems\SquishSystem.cs" />
     <Compile Include="Systems\SystemTemplate.cs" />
     <Compile Include="View.cs" />

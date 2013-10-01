@@ -21,7 +21,6 @@ namespace RunningGame.Systems
      * 
      * Current Functions:
      *      Listens for user input, and performs accordingly
-     *      Resizes the player based on his acceleration
      *      Handles intersections with the side of the screen
      *      Manages control things, like how many times the player can jump in the air
      * 
@@ -110,11 +109,13 @@ namespace RunningGame.Systems
             if (posComp.y + posComp.height / 2 >= level.levelHeight && velComp.y > 0) intersectBottomSideScreen();
             if (posComp.y - posComp.height / 2 <= 0 && velComp.y < 0) intersectTopSizeScreen();
 
+            /*
             //Off sides of screen check
             if (posComp.x > level.levelWidth + posComp.width && velComp.x > 0) offRightSideScreen();
             if (posComp.x < -posComp.width && velComp.x < 0) offLeftSideScreen();
             if (posComp.y > level.levelHeight + posComp.height && velComp.y > 0) offBottomSideScreen();
             if (posComp.y < -posComp.height && velComp.y < 0) offTopSizeScreen();
+            */
 
             //Reset passedAirJumps if needed
             if (passedAirjumps != 0 && level.getCollisionSystem().findObjectsBetweenPoints(
@@ -191,24 +192,6 @@ namespace RunningGame.Systems
                 beginMoveRight();
             }
 
-
-            //Debugging Keys
-            if (e.KeyData == Keys.R)
-            {
-                level.resetLevel();
-            }
-            /*
-            if (e.KeyData == Keys.N)
-            {
-                TestEntity testEntity = new TestEntity(level, posComp.x+posComp.width*1.5f, posComp.y);
-                level.addEntity(testEntity.randId, testEntity);
-            }
-            */
-            if (e.KeyData == Keys.H)
-            {
-                HealthComponent healthComp = (HealthComponent)level.getPlayer().getComponent(GlobalVars.HEALTH_COMPONENT_NAME);
-                healthComp.subtractFromHealth(25);
-            }
         }
         public void KeyUp(KeyEventArgs e)
         {
