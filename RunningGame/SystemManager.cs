@@ -9,7 +9,8 @@ using System.Windows.Forms;
 namespace RunningGame
 {
 
-    /* This is the class that handles all the different systems.
+    /* 
+     * This is the class that handles all the different systems.
      * It's basically a convinient way to initialize, update, and control
      * them from a central area.
      */
@@ -29,7 +30,7 @@ namespace RunningGame
         public SquishSystem squishSystem;
         public InputSystem inputSystem;
         public DebugSystem debugSystem;
-        public ScreenWrapSystem scrWrapSystem;
+        public ScreenEdgeSystem scrEdgeSystem;
 
         public SystemManager(Level level)
         {
@@ -52,7 +53,7 @@ namespace RunningGame
             animSystem = new AnimationSystem(level);
             squishSystem = new SquishSystem(level);
             inputSystem = new InputSystem(level);
-            scrWrapSystem = new ScreenWrapSystem(level);
+            scrEdgeSystem = new ScreenEdgeSystem(level);
 
             debugSystem = new DebugSystem(level);
 
@@ -63,7 +64,7 @@ namespace RunningGame
         public void Update(float deltaTime)
         {
             moveSystem.Update(deltaTime);
-            scrWrapSystem.Update(deltaTime);
+            scrEdgeSystem.Update(deltaTime);
             playerSystem.Update(deltaTime);
             colSystem.Update(deltaTime);
             gravSystem.Update(deltaTime);

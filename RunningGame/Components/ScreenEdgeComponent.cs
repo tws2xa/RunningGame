@@ -6,15 +6,18 @@ using System.Threading.Tasks;
 
 namespace RunningGame.Components
 {
-    class ScreenWrapComponent:Component
+    class ScreenEdgeComponent:Component
     {
 
-        public bool left, right, up, down;
+        //0 - Nothing
+        //1 - Stop
+        //2 - Wrap
+        public int left, right, up, down;
 
-        public ScreenWrapComponent(bool left, bool right, bool up, bool down)
+        public ScreenEdgeComponent(int left, int right, int up, int down)
         {
 
-            this.componentName = GlobalVars.SCREEN_WRAP_COMPONENT_NAME;
+            this.componentName = GlobalVars.SCREEN_EDGE_COMPONENT_NAME;
 
             this.left = left;
             this.right = right;

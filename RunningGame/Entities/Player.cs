@@ -104,7 +104,7 @@ namespace RunningGame.Entities
             addComponent(new HealthComponent(100, true, 1, 0.5f));
 
             //Screen Wrap
-            addComponent(new ScreenWrapComponent(false, true, false, false));
+            addComponent(new ScreenEdgeComponent(1, 2, 1, 0));
 
         }
         

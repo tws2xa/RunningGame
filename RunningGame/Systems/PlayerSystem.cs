@@ -103,20 +103,6 @@ namespace RunningGame.Systems
                 return;
             }
 
-            //Intersect sides of screen check
-            if (posComp.x + posComp.width / 2 >= level.levelWidth && velComp.x > 0) intersectRightSideScreen();
-            if (posComp.x - posComp.width / 2 <= 0 && velComp.x < 0) intersectLeftSideScreen();
-            if (posComp.y + posComp.height / 2 >= level.levelHeight && velComp.y > 0) intersectBottomSideScreen();
-            if (posComp.y - posComp.height / 2 <= 0 && velComp.y < 0) intersectTopSizeScreen();
-
-            /*
-            //Off sides of screen check
-            if (posComp.x > level.levelWidth + posComp.width && velComp.x > 0) offRightSideScreen();
-            if (posComp.x < -posComp.width && velComp.x < 0) offLeftSideScreen();
-            if (posComp.y > level.levelHeight + posComp.height && velComp.y > 0) offBottomSideScreen();
-            if (posComp.y < -posComp.height && velComp.y < 0) offTopSizeScreen();
-            */
-
             //Reset passedAirJumps if needed
             if (passedAirjumps != 0 && level.getCollisionSystem().findObjectsBetweenPoints(
                 posComp.x - posComp.width / 2, posComp.y + (posComp.height / 2) + 1, posComp.x + posComp.width / 2, posComp.y +
@@ -127,52 +113,6 @@ namespace RunningGame.Systems
 
         }
         //-----------------------------------------------------------------------------
-
-
-        //------------------ Stuff for when player intersects/goes off screen --------------------
-        public void intersectLeftSideScreen()
-        {
-            //level.getMovementSystem().changeSingleAxisLocation('X', posComp, level.levelWidth + posComp.width);
-            endLeftHorizontalMove();
-            posComp.x = posComp.width / 2;
-        }
-        public void intersectRightSideScreen()
-        {
-
-        }
-        public void intersectTopSizeScreen()
-        {
-            endUpperMove();
-            posComp.y = posComp.height / 2;
-        }
-        public void intersectBottomSideScreen()
-        {
-
-        }
-
-
-        public void offLeftSideScreen()
-        {
-            //level.getMovementSystem().changeSingleAxisLocation('X', posComp, level.levelWidth + posComp.width); //Screen Wrap
-            endLeftHorizontalMove();
-        }
-        public void offRightSideScreen()
-        {
-            level.getMovementSystem().changeSingleAxisLocation('X', posComp, -posComp.width, true); //Screen Wrap
-        }
-        public void offTopSizeScreen()
-        {
-            //level.getMovementSystem().changeSingleAxisLocation('Y', posComp, level.levelHeight + posComp.height); //Screen Wrap
-            endUpperMove();
-        }
-        public void offBottomSideScreen()
-        {
-            level.getMovementSystem().changeSingleAxisLocation('Y', posComp, -posComp.height, true); //Screen Wrap
-        }
-
-
-        //-----------------------------------------------------------------------------
-
 
         //----------------------------------- Input ----------------------------------- 
         public void KeyDown(KeyEventArgs e)
