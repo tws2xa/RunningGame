@@ -23,7 +23,7 @@ namespace RunningGame
         public DrawSystem drawSystem;
         public GravitySystem gravSystem;
         public MovementSystem moveSystem;
-        public PlayerSystem playerSystem;
+        public PlayerMovementSystem playerSystem;
         public CollisionDetectionSystem colSystem;
         public HealthSystem healthSystem;
         public AnimationSystem animSystem;
@@ -46,7 +46,7 @@ namespace RunningGame
         {
             gravSystem = new GravitySystem(level);
             moveSystem = new MovementSystem(level);
-            playerSystem = new PlayerSystem(level);
+            playerSystem = new PlayerMovementSystem(level);
             colSystem = new CollisionDetectionSystem(level);
             drawSystem = new DrawSystem(level.g, level);
             healthSystem = new HealthSystem(level);

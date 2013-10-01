@@ -12,21 +12,15 @@ namespace RunningGame.Systems
 {
 
     /*
-     * This system is one big mess.
-     * 
-     * I'm working on getting it so it's a bit neater. I promise.
-     * 
-     * As of now, it serves a few different functions: In the future I will hopefully
-     * be able to split it up into a few different systems.
+     * This system is used to help move the player.
      * 
      * Current Functions:
      *      Listens for user input, and performs accordingly
-     *      Handles intersections with the side of the screen
      *      Manages control things, like how many times the player can jump in the air
      * 
-     * May also want to rework this to allow for multiple players.
+     * May want to rework this to allow for multiple players.
      */
-    class PlayerSystem : GameSystem
+    class PlayerMovementSystem : GameSystem
     {
 
         Level level;
@@ -45,7 +39,7 @@ namespace RunningGame.Systems
         int numAirJumps = 2; //number of jumps possible in the air (numAirJumps = 1 means you can double jump)
         int passedAirjumps = 0;
 
-        public PlayerSystem(Level activeLevel)
+        public PlayerMovementSystem(Level activeLevel)
         {
             //Required Components
             requiredComponents.Add(GlobalVars.PLAYER_COMPONENT_NAME); //PlayerInput Component
@@ -208,11 +202,6 @@ namespace RunningGame.Systems
         public bool hasNullComponent()
         {
             return (playerComp == null || posComp == null || velComp == null || drawComp == null);
-        }
-
-        public bool sameSigns(float num1, float num2)
-        {
-            return ((num1 < 0 && num2 < 0) || (num1 > 0 && num2 > 0));
         }
 
     }
