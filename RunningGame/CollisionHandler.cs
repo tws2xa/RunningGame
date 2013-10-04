@@ -107,8 +107,9 @@ namespace RunningGame
             }
             else if(e2.hasComponent(GlobalVars.SWITCH_COMPONENT_NAME))
             {
-                sc = (SwitchComponent)e2.getComponent(GlobalVars.SWITCH_COMPONENT_NAME)
-            } else
+                sc = (SwitchComponent)e2.getComponent(GlobalVars.SWITCH_COMPONENT_NAME);
+            }
+            else
             {
                 Console.WriteLine("Switch collision with no switch?");
                 return false;
