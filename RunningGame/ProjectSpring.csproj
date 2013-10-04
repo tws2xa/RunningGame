@@ -83,9 +83,12 @@
     <Compile Include="Components\PlayerComponent.cs" />
     <Compile Include="Components\ScreenEdgeComponent.cs" />
     <Compile Include="Components\SquishComponent.cs" />
+    <Compile Include="Components\SwitchComponent.cs" />
+    <Compile Include="Components\SwitchListenerComponent.cs" />
     <Compile Include="Components\VelocityComponent.cs" />
     <Compile Include="DeathHandler.cs" />
     <Compile Include="Entities\BasicGround.cs" />
+    <Compile Include="Entities\SwitchEntity.cs" />
     <Compile Include="Systems\DebugSystem.cs" />
     <Compile Include="Entities\Speedy.cs" />
     <Compile Include="Entities\EntityTemplate.cs" />
@@ -120,6 +123,7 @@
     <Compile Include="Systems\PlayerMovementSystem.cs" />
     <Compile Include="Systems\ScreenEdgeSystem.cs" />
     <Compile Include="Systems\SquishSystem.cs" />
+    <Compile Include="Systems\SwitchListenerSystem.cs" />
     <Compile Include="Systems\SystemTemplate.cs" />
     <Compile Include="View.cs" />
     <EmbeddedResource Include="FormSpring.resx">
@@ -196,6 +200,10 @@
   <ItemGroup>
     <EmbeddedResource Include="Resources\PlayerEyesClosed.bmp" />
     <EmbeddedResource Include="Resources\PlayerEyesHalf.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\SwitchOff.png" />
+    <EmbeddedResource Include="Resources\SwitchOn.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

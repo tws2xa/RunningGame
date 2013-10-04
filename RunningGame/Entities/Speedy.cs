@@ -63,7 +63,7 @@ namespace RunningGame.Entities
             //position and velocity
             addComponent(new PositionComponent(x, y, defaultWidth, defaultHeight, this));
             addComponent(new GravityComponent(0, GlobalVars.STANDARD_GRAVITY));
-            addComponent(new ColliderComponent(this, GlobalVars.SPEEDY_COLLIDER));
+            addComponent(new ColliderComponent(this, GlobalVars.SPEEDY_COLLIDER_TYPE));
             
         }
         

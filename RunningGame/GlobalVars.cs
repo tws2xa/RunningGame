@@ -31,13 +31,16 @@ namespace RunningGame
         public static string SQUISH_COMPONENT_NAME = "squishComp";
         public static string SCREEN_EDGE_COMPONENT_NAME = "screenEdgeComp";
         public static string PLAYER_INPUT_COMPONENT_NAME = "playerInputComp";
+        public static string SWITCH_COMPONENT_NAME = "switchComp";
+        public static string SWITCH_LISTENER_COMPONENT_NAME = "switchListenerComp";
 
         //Collider Types
         public static string PLAYER_COLLIDER_TYPE = "playerCollider";
         public static string BASIC_SOLID_COLLIDER_TYPE = "basicSolidCollider";
         public static string INSTANT_DEATH_COLLIDER_TYPE = "instantDeathCollider";
         public static string POWERUP_COLLIDER_TYPE = "powerupCollider";
-        public static string SPEEDY_COLLIDER = "speedyCollider";
+        public static string SPEEDY_COLLIDER_TYPE = "speedyCollider";
+        public static string SWITCH_COLLIDER_TYPE = "switchCollider";
 
         //Collection of all in game entities
         public static Dictionary<int, Entity> allEntities = new Dictionary<int, Entity>();
@@ -59,8 +62,15 @@ namespace RunningGame
         public static Keys KEY_LEFT = Keys.A;
         public static Keys KEY_RIGHT = Keys.D;
 
+        //Switch Events
+        public static string DOOR_EVENT_TYPE = "doorEvent";
+
         //Other Constants
         public static float MIN_TILE_SIZE = 10; //Width & Height, the smallest anything can be.
+        public static string DOOR_OPEN_SPRITE_NAME = "openDoorSprite";
+        public static string DOOR_CLOSED_SPRITE_NAME = "closedDoorSprite";
+        public static string SWITCH_INACTIVE_SPRITE_NAME = "inactiveSwitch";
+        public static string SWITCH_ACTIVE_SPRITE_NAME = "activeSwitch";
 
     }
 }

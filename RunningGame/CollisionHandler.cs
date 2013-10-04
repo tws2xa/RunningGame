@@ -34,14 +34,16 @@ namespace RunningGame
             //Func<Entity, Entity, bool> [Var Name] = [Name of your method];
             Func<Entity, Entity, bool> simpleStopCollisionFunction = simpleStopCollision;
             Func<Entity, Entity, bool> speedyPlayerCollisionFunction = speedyPlayerCollision;
+            Func<Entity, Entity, bool> playerSwitchCollisonFunction = switchPlayerCollision;
 
 
             //Add collisions to dictionary
             collisionDictionary.Add(getCollisionTypeName(GlobalVars.PLAYER_COLLIDER_TYPE, GlobalVars.BASIC_SOLID_COLLIDER_TYPE), simpleStopCollisionFunction);
             collisionDictionary.Add(getCollisionTypeName(GlobalVars.BASIC_SOLID_COLLIDER_TYPE, GlobalVars.BASIC_SOLID_COLLIDER_TYPE),
                 simpleStopCollisionFunction);
-            collisionDictionary.Add(getCollisionTypeName(GlobalVars.PLAYER_COLLIDER_TYPE, GlobalVars.SPEEDY_COLLIDER), speedyPlayerCollisionFunction);
-            collisionDictionary.Add(getCollisionTypeName(GlobalVars.BASIC_SOLID_COLLIDER_TYPE, GlobalVars.SPEEDY_COLLIDER), simpleStopCollisionFunction);
+            collisionDictionary.Add(getCollisionTypeName(GlobalVars.PLAYER_COLLIDER_TYPE, GlobalVars.SPEEDY_COLLIDER_TYPE), speedyPlayerCollisionFunction);
+            collisionDictionary.Add(getCollisionTypeName(GlobalVars.BASIC_SOLID_COLLIDER_TYPE, GlobalVars.SPEEDY_COLLIDER_TYPE), simpleStopCollisionFunction);
+            collisionDictionary.Add(getCollisionTypeName(GlobalVars.PLAYER_COLLIDER_TYPE, GlobalVars.SWITCH_COLLIDER_TYPE), playerSwitchCollisonFunction);
 
         }
     
@@ -94,6 +96,28 @@ namespace RunningGame
             //Do collision code here
 
             return true;
+        }
+
+        public static bool switchPlayerCollision(Entity e1, Entity e2)
+        {
+            SwitchComponent sc;
+            if (e1.hasComponent(GlobalVars.SWITCH_COMPONENT_NAME))
+            {
+                sc = (SwitchComponent)e1.getComponent(GlobalVars.SWITCH_COMPONENT_NAME);
+            }
+            else if(e2.hasComponent(GlobalVars.SWITCH_COMPONENT_NAME))
+            {
+                sc = (SwitchComponent)e2.getComponent(GlobalVars.SWITCH_COMPONENT_NAME)
+            } else
+            {
+                Console.WriteLine("Switch collision with no switch?");
+                return false;
+            }
+
+            if(!sc.active)
+                sc.setActive(true);
+            return true;
+
         }
 
         public string getCollisionTypeName(string type1, string type2)
