@@ -15,7 +15,7 @@ namespace RunningGame.Components
         public float baseHeight;
 
         //Multipliers for how severely a difference from center value affects the width/height
-        public float xIncSpeedStretchMultiplier = 0.06f;
+        public float xIncSpeedStretchMultiplier = 0.02f;
         public float yIncSpeedStretchMultiplier = 0.12f;
         public float xDecSpeedStretchMultiplier = 0.03f;
         public float yDecSpeedStretchMultiplier = 0.07f;

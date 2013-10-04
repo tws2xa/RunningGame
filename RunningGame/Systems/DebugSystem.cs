@@ -57,13 +57,13 @@ namespace RunningGame.Systems
 
         public void checkForInput()
         {
-            if (level.getInputSystem().myKeys[addEntityKey].pressed)
+            if (level.getInputSystem().myKeys[addEntityKey].down)
             {
                 PositionComponent posComp = (PositionComponent)level.getPlayer().getComponent(GlobalVars.POSITION_COMPONENT_NAME);
                 debugAddEntity(posComp.x + posComp.width * 1.5f, posComp.y);
             }
 
-            if (level.getInputSystem().myKeys[harmPlayerKey].pressed)
+            if (level.getInputSystem().myKeys[harmPlayerKey].down)
             {
                 HealthComponent healthComp = (HealthComponent)level.getPlayer().getComponent(GlobalVars.HEALTH_COMPONENT_NAME);
                 healthComp.subtractFromHealth(25);

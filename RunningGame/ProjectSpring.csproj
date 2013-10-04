@@ -79,6 +79,7 @@
     <Compile Include="Components\DrawComponent.cs" />
     <Compile Include="Components\GravityComponent.cs" />
     <Compile Include="Components\HealthComponent.cs" />
+    <Compile Include="Components\PlayeInputComponent.cs" />
     <Compile Include="Components\PlayerComponent.cs" />
     <Compile Include="Components\ScreenEdgeComponent.cs" />
     <Compile Include="Components\SquishComponent.cs" />

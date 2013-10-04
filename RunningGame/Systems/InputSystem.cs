@@ -62,13 +62,13 @@ namespace RunningGame.Systems
         {
             foreach (KeyBools b in myKeys.Values)
             {
-                if (b.pressed)
+                if (b.down)
                 {
-                    b.pressedTimer += 1;
-                    if (b.pressedTimer > 1)
+                    b.downTimer += 1;
+                    if (b.downTimer > 1)
                     {
-                        b.pressedTimer = 0;
-                        b.pressed = false;
+                        b.downTimer = 0;
+                        b.down = false;
                     }
                 }
                 if (b.up)
@@ -130,7 +130,7 @@ namespace RunningGame.Systems
         public bool down = false;
         public bool up = false;
 
-        public int pressedTimer = 0;
+        public int downTimer = 0;
         public int upTimer = 0;
     }
 }

@@ -87,17 +87,17 @@ namespace RunningGame
         //Input
         public void KeyDown(KeyEventArgs e)
         {
-            playerSystem.KeyDown(e);
+            //playerSystem.KeyDown(e);
             inputSystem.KeyDown(e);
         }
         public void KeyUp(KeyEventArgs e)
         {
-            playerSystem.KeyUp(e);
+            //playerSystem.KeyUp(e);
             inputSystem.KeyUp(e);
         }
         public void KeyPressed(KeyPressEventArgs e)
         {
-            playerSystem.KeyPressed(e);
+            //playerSystem.KeyPressed(e);
         }
         public void MouseClick(MouseEventArgs e)
         {

@@ -12,13 +12,13 @@ namespace RunningGame.Systems
 {
 
     /*
-     * This system is used to help move the player.
+     * This system is used to handle player specific movement.
      * 
-     * Current Functions:
-     *      Listens for user input, and performs accordingly
-     *      Manages control things, like how many times the player can jump in the air
      * 
-     * May want to rework this to allow for multiple players.
+     * NEED A PLAYERINPUT COMP WITH
+     *  Player
+     *  Num Passed Jumps
+     *  Num Max Jumps
      */
     class PlayerMovementSystem : GameSystem
     {
@@ -26,58 +26,18 @@ namespace RunningGame.Systems
         Level level;
         ArrayList requiredComponents = new ArrayList();
 
-        Player player;
-
-        //Components needed
-        PlayerComponent playerComp;
-        PositionComponent posComp;
-        VelocityComponent velComp;
-        DrawComponent drawComp;
-
-        float jumpStrength = -150f;
-        float platformerMoveSpeed = 150f;
-        int numAirJumps = 2; //number of jumps possible in the air (numAirJumps = 1 means you can double jump)
-        int passedAirjumps = 0;
-
         public PlayerMovementSystem(Level activeLevel)
         {
             //Required Components
-            requiredComponents.Add(GlobalVars.PLAYER_COMPONENT_NAME); //PlayerInput Component
+            requiredComponents.Add(GlobalVars.PLAYER_COMPONENT_NAME); //Player Component
+            requiredComponents.Add(GlobalVars.PLAYER_INPUT_COMPONENT_NAME); //Player Input Component
             requiredComponents.Add(GlobalVars.POSITION_COMPONENT_NAME); //Position
             requiredComponents.Add(GlobalVars.VELOCITY_COMPONENT_NAME); //Velocity
-            requiredComponents.Add(GlobalVars.DRAW_COMPONENT_NAME); //Drawable
 
             //Set the level
             level = activeLevel;
-
-            //Get the player
-            findPlayerAndAssignComponents();
+            
         }
-
-        //Find the object labled player - then grab all the components from it
-        public void findPlayerAndAssignComponents()
-        {
-            ArrayList applicableEntities = getApplicableEntities();
-
-            //If there is no player - STAHP
-            if (applicableEntities.Count <= 0)
-            {
-                if(level.levelFullyLoaded)
-                    Console.WriteLine("No Player");
-            }
-            //Otherwise cool beans
-            else
-            {
-                player = (Player)applicableEntities[0];
-
-                playerComp = (PlayerComponent)player.getComponent(GlobalVars.PLAYER_COMPONENT_NAME);
-                posComp = (PositionComponent)player.getComponent(GlobalVars.POSITION_COMPONENT_NAME);
-                velComp = (VelocityComponent)player.getComponent(GlobalVars.VELOCITY_COMPONENT_NAME);
-                drawComp = (DrawComponent)player.getComponent(GlobalVars.DRAW_COMPONENT_NAME);
-
-            }
-        }
-
 
         //-------------------------------- Overrides ----------------------------------
         public override Level GetActiveLevel()
@@ -91,118 +51,103 @@ namespace RunningGame.Systems
         public override void Update(float deltaTime)
         {
 
-            if (hasNullComponent())
-            {
-                findPlayerAndAssignComponents();
-                return;
-            }
 
-            //Reset passedAirJumps if needed
-            if (passedAirjumps != 0 && level.getCollisionSystem().findObjectsBetweenPoints(
-                posComp.x - posComp.width / 2, posComp.y + (posComp.height / 2) + 1, posComp.x + posComp.width / 2, posComp.y +
-                (posComp.height / 2) + 1).Count > 0)
+            foreach (Entity e in getApplicableEntities())
             {
-                passedAirjumps = 0;
+                PositionComponent posComp = (PositionComponent)e.getComponent(GlobalVars.POSITION_COMPONENT_NAME);
+                VelocityComponent velComp = (VelocityComponent)e.getComponent(GlobalVars.VELOCITY_COMPONENT_NAME);
+                PlayerInputComponent pelInComp = (PlayerInputComponent)e.getComponent(GlobalVars.PLAYER_INPUT_COMPONENT_NAME);
+                checkForInput(posComp, velComp, pelInComp);
+
+                //Reset passedAirJumps if needed
+                if (pelInComp.passedAirjumps != 0 && level.getCollisionSystem().findObjectsBetweenPoints(
+                    posComp.x - posComp.width / 2, posComp.y + (posComp.height / 2) + 1, posComp.x + posComp.width / 2, posComp.y +
+                    (posComp.height / 2) + 1).Count > 0)
+                {
+                    pelInComp.passedAirjumps = 0;
+                }
+
             }
 
         }
         //-----------------------------------------------------------------------------
 
         //----------------------------------- Input ----------------------------------- 
-        public void KeyDown(KeyEventArgs e)
+
+
+        public void checkForInput(PositionComponent posComp, VelocityComponent velComp, PlayerInputComponent pelInComp)
         {
-            if (hasNullComponent()) return;
-
-            if (e.KeyData == GlobalVars.KEY_JUMP)
+            if (level.getInputSystem().myKeys[GlobalVars.KEY_JUMP].down)
             {
-                playerJump();
+                playerJump(posComp, velComp, pelInComp);
             }
-            if (e.KeyData == GlobalVars.KEY_LEFT)
+            if (level.getInputSystem().myKeys[GlobalVars.KEY_LEFT].down)
             {
-                beginMoveLeft();
+                beginMoveLeft(posComp, velComp, pelInComp);
             }
-            if (e.KeyData == GlobalVars.KEY_RIGHT)
+            if (level.getInputSystem().myKeys[GlobalVars.KEY_RIGHT].down)
             {
-                beginMoveRight();
+                beginMoveRight(posComp, velComp, pelInComp);
             }
-
-        }
-        public void KeyUp(KeyEventArgs e)
-        {
-
-            if (hasNullComponent()) return;
-
-            if (e.KeyData == GlobalVars.KEY_LEFT)
+            if (level.getInputSystem().myKeys[GlobalVars.KEY_RIGHT].up)
             {
-                endLeftHorizontalMove();
+                endRightHorizontalMove(posComp, velComp);
             }
-            if (e.KeyData == GlobalVars.KEY_RIGHT)
+            if (level.getInputSystem().myKeys[GlobalVars.KEY_LEFT].up)
             {
-                endRightHorizontalMove();
+                endLeftHorizontalMove(posComp, velComp);
             }
-
-        }
-        public void KeyPressed(KeyPressEventArgs e)
-        {
-            if (hasNullComponent()) return;
         }
         //--------------------------------------------------------------------------------
 
 
 
         //------------------------------------- Actions ----------------------------------
-        public void playerJump()
+        public void playerJump(PositionComponent posComp, VelocityComponent velComp, PlayerInputComponent pelInComp)
         {
             //If it's landed on something, jump
             float checkY = posComp.y + (posComp.height / 2) + 1;
             if (level.getCollisionSystem().findObjectsBetweenPoints(posComp.x - posComp.width / 2, checkY, posComp.x + posComp.width / 2, checkY).Count > 0)
             {
-                velComp.setVelocity(velComp.x, jumpStrength);
-                passedAirjumps = 0;
+                velComp.setVelocity(velComp.x, pelInComp.jumpStrength);
+                pelInComp.passedAirjumps = 0;
             }
             else
             {
-                if (passedAirjumps < numAirJumps)
+                if (pelInComp.passedAirjumps < pelInComp.numAirJumps)
                 {
-                    velComp.setVelocity(velComp.x, jumpStrength);
-                    passedAirjumps++;
+                    velComp.setVelocity(velComp.x, pelInComp.jumpStrength);
+                    pelInComp.passedAirjumps++;
                 }
             }
         }
-        public void beginMoveLeft()
+        public void beginMoveLeft(PositionComponent posComp, VelocityComponent velComp, PlayerInputComponent pelInComp)
         {
-            velComp.setVelocity(-platformerMoveSpeed, velComp.y);
-            player.faceLeft();
+            velComp.setVelocity(-pelInComp.platformerMoveSpeed, velComp.y);
+            pelInComp.player.faceLeft();
         }
-        public void beginMoveRight()
+        public void beginMoveRight(PositionComponent posComp, VelocityComponent velComp, PlayerInputComponent pelInComp)
         {
-            velComp.setVelocity(platformerMoveSpeed, velComp.y);
-            player.faceRight();
+            velComp.setVelocity(pelInComp.platformerMoveSpeed, velComp.y);
+            pelInComp.player.faceRight();
         }
-        public void endLeftHorizontalMove()
+        public void endLeftHorizontalMove(PositionComponent posComp, VelocityComponent velComp)
         {
             if (velComp.x < 0) velComp.setVelocity(0, velComp.y);
         }
-        public void endRightHorizontalMove()
+        public void endRightHorizontalMove(PositionComponent posComp, VelocityComponent velComp)
         {
             if (velComp.x > 0) velComp.setVelocity(0, velComp.y);
         }
-        public void endUpperMove()
+        public void endUpperMove(PositionComponent posComp, VelocityComponent velComp)
         {
             if (velComp.y < 0) velComp.setVelocity(velComp.x, 0);
         }
-        public void endLowerMove()
+        public void endLowerMove(PositionComponent posComp, VelocityComponent velComp)
         {
             if (velComp.y > 0) velComp.setVelocity(velComp.x, 0);
         }
 
         //--------------------------------------------------------------------------------
-
-        //---------------------------------------- Other ---------------------------------
-        public bool hasNullComponent()
-        {
-            return (playerComp == null || posComp == null || velComp == null || drawComp == null);
-        }
-
     }
 }

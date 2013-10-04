@@ -24,12 +24,13 @@ namespace RunningGame
         public static string DRAW_COMPONENT_NAME = "drawComp";
         public static string VELOCITY_COMPONENT_NAME = "velocityComp";
         public static string GRAVITY_COMPONENT_NAME = "gravityComp";
-        public static string PLAYER_COMPONENT_NAME = "playerInputComp";
+        public static string PLAYER_COMPONENT_NAME = "playerComp";
         public static string COLLIDER_COMPONENT_NAME = "colliderComp";
         public static string HEALTH_COMPONENT_NAME = "healthComp";
         public static string ANIMATION_COMPONENT_NAME = "animationComp";
         public static string SQUISH_COMPONENT_NAME = "squishComp";
         public static string SCREEN_EDGE_COMPONENT_NAME = "screenEdgeComp";
+        public static string PLAYER_INPUT_COMPONENT_NAME = "playerInputComp";
 
         //Collider Types
         public static string PLAYER_COLLIDER_TYPE = "playerCollider";

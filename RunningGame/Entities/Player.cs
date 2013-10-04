@@ -91,6 +91,9 @@ namespace RunningGame.Entities
             //Player Component
             addComponent(new PlayerComponent());
 
+            //Player Input Component
+            addComponent(new PlayerInputComponent(this));
+
             //Collider
             addComponent(new ColliderComponent(this, GlobalVars.PLAYER_COLLIDER_TYPE));
 
