@@ -24,7 +24,7 @@ namespace RunningGame
     {
 
         Random rand; //for creating entitiy ids
-        Dictionary<int, Entity> entities; //all entities in the level
+        //Dictionary<int, Entity> entities; //all entities in the level
         public Graphics g { get; set; }
         public float cameraWidth { get; set; }
         public float cameraHeight { get; set; }
@@ -60,7 +60,7 @@ namespace RunningGame
             this.levelHeight = lvlImg.Height * GlobalVars.LEVEL_READER_TILE_HEIGHT;
 
             //Entities
-            entities = new Dictionary<int, Entity>();
+            //entities = new Dictionary<int, Entity>();
               
             if(!sysManagerInit) sysManager = new SystemManager(this);
 
@@ -107,7 +107,7 @@ namespace RunningGame
         public void resetLevel()
         {
             paused = true; // Pause the game briefly
-            Entity[] ents = entities.Values.ToArray();
+            Entity[] ents = GlobalVars.allEntities.Values.ToArray();
             for (int i = 0; i < ents.Length; i++)
             {
                 if (ents[i].isStartingEntity)
@@ -131,12 +131,12 @@ namespace RunningGame
 
         public void removeAllEntities()
         {
-            while(entities.Values.Count > 0)
+            while(GlobalVars.allEntities.Values.Count > 0)
             {
-                Entity e = entities.Values.ToArray()[0];
+                Entity e = GlobalVars.allEntities.Values.ToArray()[0];
                 //e.Destroy();
             }
-            entities.Clear();
+            GlobalVars.allEntities.Clear();
         }
 
         //Input
@@ -174,7 +174,7 @@ namespace RunningGame
                 sysManager = new SystemManager(this);
                 sysManagerInit = true;
             }
-            entities.Add(id, e);
+            GlobalVars.allEntities.Add(id, e);
         }
         public void removeEntity(Entity e)
         {
@@ -182,13 +182,13 @@ namespace RunningGame
                 GlobalVars.removedStartingEntities.Add(e.randId, e);
             if(e.hasComponent(GlobalVars.COLLIDER_COMPONENT_NAME))
                 getCollisionSystem().colliderRemoved(e);
-            entities.Remove(e.randId);
+            GlobalVars.allEntities.Remove(e.randId);
         }
 
 
         //Getters
         public Dictionary<int, Entity> getEntities() {
-            return entities;
+            return GlobalVars.allEntities;
         }
         public MovementSystem getMovementSystem()
         {
@@ -206,7 +206,7 @@ namespace RunningGame
         }
         public Entity getPlayer()
         {
-            foreach (Entity e in entities.Values)
+            foreach (Entity e in GlobalVars.allEntities.Values)
             {
                 if (e.hasComponent(GlobalVars.PLAYER_COMPONENT_NAME)) return e;
             }

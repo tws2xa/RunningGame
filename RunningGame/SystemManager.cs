@@ -31,6 +31,7 @@ namespace RunningGame
         public InputSystem inputSystem;
         public DebugSystem debugSystem;
         public ScreenEdgeSystem scrEdgeSystem;
+        public SwitchListenerSystem slSystem;
 
         public SystemManager(Level level)
         {
@@ -54,6 +55,7 @@ namespace RunningGame
             squishSystem = new SquishSystem(level);
             inputSystem = new InputSystem(level);
             scrEdgeSystem = new ScreenEdgeSystem(level);
+            slSystem = new SwitchListenerSystem(level);
 
             debugSystem = new DebugSystem(level);
 
@@ -73,7 +75,7 @@ namespace RunningGame
             animSystem.Update(deltaTime);
             squishSystem.Update(deltaTime);
             inputSystem.Update(deltaTime);
-
+            slSystem.Update(deltaTime);
             debugSystem.Update(deltaTime);
             
         }
@@ -87,21 +89,19 @@ namespace RunningGame
         //Input
         public void KeyDown(KeyEventArgs e)
         {
-            //playerSystem.KeyDown(e);
             inputSystem.KeyDown(e);
         }
         public void KeyUp(KeyEventArgs e)
         {
-            //playerSystem.KeyUp(e);
             inputSystem.KeyUp(e);
         }
         public void KeyPressed(KeyPressEventArgs e)
         {
-            //playerSystem.KeyPressed(e);
+            //Derp
         }
         public void MouseClick(MouseEventArgs e)
         {
-            //colSystem.MouseClick(e.X, e.Y);
+            //colSystem.MouseClick(e.X, e.Y); //This'll allow you to click and see which entities are in a cell
             inputSystem.MouseClick(e);
         }
 

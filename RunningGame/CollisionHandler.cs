@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using RunningGame.Components;
+using RunningGame.Entities;
 
 namespace RunningGame
 {
@@ -101,12 +102,15 @@ namespace RunningGame
         public static bool switchPlayerCollision(Entity e1, Entity e2)
         {
             SwitchComponent sc;
+            Entity s;
             if (e1.hasComponent(GlobalVars.SWITCH_COMPONENT_NAME))
             {
+                s = e1;
                 sc = (SwitchComponent)e1.getComponent(GlobalVars.SWITCH_COMPONENT_NAME);
             }
             else if(e2.hasComponent(GlobalVars.SWITCH_COMPONENT_NAME))
             {
+                s = e2;
                 sc = (SwitchComponent)e2.getComponent(GlobalVars.SWITCH_COMPONENT_NAME);
             }
             else
@@ -115,9 +119,16 @@ namespace RunningGame
                 return false;
             }
 
-            if(!sc.active)
+            if (!sc.active)
+            {
                 sc.setActive(true);
-            return true;
+                DrawComponent drawComp = (DrawComponent)s.getComponent(GlobalVars.DRAW_COMPONENT_NAME);
+                drawComp.setSprite(GlobalVars.SWITCH_ACTIVE_SPRITE_NAME);
+                Console.WriteLine("You collided with the switch! Active: " + sc.active + "ID: " + s.randId);
+            }
+
+
+            return false;
 
         }
 
