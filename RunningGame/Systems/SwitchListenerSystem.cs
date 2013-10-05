@@ -53,6 +53,7 @@ namespace RunningGame.Systems
                 if (slComp.getChanged())
                 {
                     events[slComp.eventType].Invoke(e, slComp.getSwitchActive());
+                    slComp.setChanged(false);
                 }
             }
         }
@@ -63,8 +64,11 @@ namespace RunningGame.Systems
             //Opened
             if (active)
             {
-                if(e.hasComponent(GlobalVars.COLLIDER_COMPONENT_NAME))
+                if (e.hasComponent(GlobalVars.COLLIDER_COMPONENT_NAME))
+                {
                     e.removeComponent(GlobalVars.COLLIDER_COMPONENT_NAME);
+                    level.getCollisionSystem().colliderRemoved(e);
+                }
                 DrawComponent drawComp = (DrawComponent)e.getComponent(GlobalVars.DRAW_COMPONENT_NAME);
                 drawComp.setSprite(GlobalVars.DOOR_OPEN_SPRITE_NAME);
             }

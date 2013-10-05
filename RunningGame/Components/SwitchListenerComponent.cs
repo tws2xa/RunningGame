@@ -30,7 +30,7 @@ namespace RunningGame.Components
             //If not assigned to a switch - first get the switch
             if (mySwitch == null)
             {
-                findSwitch();
+                subscribe();
                 changed = true;
             }
             if (mySwitch != null)
@@ -47,7 +47,7 @@ namespace RunningGame.Components
             //Get switch if need be
             if (mySwitch == null)
             {
-                findSwitch();
+                subscribe();
             }
             if (mySwitch != null)
                 return mySwitch.active;
@@ -58,12 +58,15 @@ namespace RunningGame.Components
             }
         }
 
-        public void findSwitch()
+        public void subscribe()
         {
-            foreach (Entity e in GlobalVars.allEntities.Values)
+            foreach (int id in GlobalVars.allEntities.Keys)
             {
-                if (e.randId == this.switchId)
-                    this.mySwitch = (SwitchComponent)e.getComponent(GlobalVars.SWITCH_COMPONENT_NAME);
+                if (id == this.switchId)
+                {
+                    this.mySwitch = (SwitchComponent)GlobalVars.allEntities[id].getComponent(GlobalVars.SWITCH_COMPONENT_NAME);
+                    this.mySwitch.listeners.Add(this);   
+                }
             }
         }
 

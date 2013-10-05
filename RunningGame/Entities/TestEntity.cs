@@ -68,7 +68,7 @@ namespace RunningGame.Entities
             //drawComp.activeSprite = testAnimationName;
             drawComp.activeSprite = "Main";
 
-            AnimationComponent animComp = (AnimationComponent)addComponent(new AnimationComponent(0.5f));
+            //AnimationComponent animComp = (AnimationComponent)addComponent(new AnimationComponent(0.5f));
 
             //Velocity Component
             addComponent(new VelocityComponent(0, 0));
