@@ -33,6 +33,7 @@ namespace RunningGame
         public static string PLAYER_INPUT_COMPONENT_NAME = "playerInputComp";
         public static string SWITCH_COMPONENT_NAME = "switchComp";
         public static string SWITCH_LISTENER_COMPONENT_NAME = "switchListenerComp";
+        public static string SOUND_COMPONENT_NAME = "soundComp";
 
         //Collider Types
         public static string PLAYER_COLLIDER_TYPE = "playerCollider";
