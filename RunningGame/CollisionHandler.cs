@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using RunningGame.Components;
+using RunningGame.Entities;
 
 namespace RunningGame
 {
@@ -31,15 +32,19 @@ namespace RunningGame
         public CollisionHandler()
         {
 
-
+            //Func<Entity, Entity, bool> [Var Name] = [Name of your method];
             Func<Entity, Entity, bool> simpleStopCollisionFunction = simpleStopCollision;
-
+            Func<Entity, Entity, bool> speedyPlayerCollisionFunction = speedyPlayerCollision;
+            Func<Entity, Entity, bool> playerSwitchCollisonFunction = switchPlayerCollision;
 
 
             //Add collisions to dictionary
             collisionDictionary.Add(getCollisionTypeName(GlobalVars.PLAYER_COLLIDER_TYPE, GlobalVars.BASIC_SOLID_COLLIDER_TYPE), simpleStopCollisionFunction);
             collisionDictionary.Add(getCollisionTypeName(GlobalVars.BASIC_SOLID_COLLIDER_TYPE, GlobalVars.BASIC_SOLID_COLLIDER_TYPE),
                 simpleStopCollisionFunction);
+            collisionDictionary.Add(getCollisionTypeName(GlobalVars.PLAYER_COLLIDER_TYPE, GlobalVars.SPEEDY_COLLIDER_TYPE), speedyPlayerCollisionFunction);
+            collisionDictionary.Add(getCollisionTypeName(GlobalVars.BASIC_SOLID_COLLIDER_TYPE, GlobalVars.SPEEDY_COLLIDER_TYPE), simpleStopCollisionFunction);
+            collisionDictionary.Add(getCollisionTypeName(GlobalVars.PLAYER_COLLIDER_TYPE, GlobalVars.SWITCH_COLLIDER_TYPE), playerSwitchCollisonFunction);
 
         }
     
@@ -71,14 +76,72 @@ namespace RunningGame
             return true; //Don't allow the movement.
         }
 
+        public static bool speedyPlayerCollision(Entity e1, Entity e2)
+        {
+            Entity thePlayer = null;
+            Entity other = null;
+            //Speedy Code
+            if (e1.hasComponent(GlobalVars.PLAYER_COMPONENT_NAME))
+            {
+                other = e2;
+                thePlayer = e1;
+            }
+            else if (e2.hasComponent(GlobalVars.PLAYER_COMPONENT_NAME))
+            {
+                other = e1;
+                thePlayer = e2;
+            }
+
+            if (thePlayer == null || other == null) return false;
+
+            //Do collision code here
+
+            return true;
+        }
+
+        public static bool switchPlayerCollision(Entity e1, Entity e2)
+        {
+            SwitchComponent sc;
+            Entity s;
+            if (e1.hasComponent(GlobalVars.SWITCH_COMPONENT_NAME))
+            {
+                s = e1;
+                sc = (SwitchComponent)e1.getComponent(GlobalVars.SWITCH_COMPONENT_NAME);
+            }
+            else if(e2.hasComponent(GlobalVars.SWITCH_COMPONENT_NAME))
+            {
+                s = e2;
+                sc = (SwitchComponent)e2.getComponent(GlobalVars.SWITCH_COMPONENT_NAME);
+            }
+            else
+            {
+                Console.WriteLine("Switch collision with no switch?");
+                return false;
+            }
+
+            if (!sc.active)
+            {
+                sc.setActive(true);
+                DrawComponent drawComp = (DrawComponent)s.getComponent(GlobalVars.DRAW_COMPONENT_NAME);
+                drawComp.setSprite(GlobalVars.SWITCH_ACTIVE_SPRITE_NAME);
+                Console.WriteLine("You collided with the switch! Active: " + sc.active + "ID: " + s.randId);
+            }
+
+
+            return false;
+
+        }
 
         public string getCollisionTypeName(string type1, string type2)
         {
-            if(String.Compare(type1, type2) == 0)
+
+            //This was giving stack overflow exceptions. Not sure why. Working on it. If you're having trouble, let me know.
+
+            int num = String.CompareOrdinal(type1, type2); //?
+            if (num < 0)
                 return (type1 + "" + type2);
             else
                 return (type2 + "" + type1);
-
         }
     }
 }

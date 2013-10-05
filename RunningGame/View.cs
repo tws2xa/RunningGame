@@ -114,12 +114,12 @@ namespace RunningGame
                         {
                             //Size imageSize = new Size((int)Math.Round(drawComp.width * wRatio), (int)Math.Round(drawComp.height * hRatio));
                             //img = new Bitmap(drawComp.sprite, imageSize);
-                            img = drawComp.getSprite();
+                            img = drawComp.getImage();
                         }
                         else
                         {
                             Size imageSize = new Size((int)(posComp.width * wRatio), (int)(posComp.height * hRatio));
-                            img = new Bitmap(drawComp.getSprite(), imageSize);
+                            img = new Bitmap(drawComp.getImage(), imageSize);
                         }
 
                         //Get center instead of upper left
@@ -135,6 +135,30 @@ namespace RunningGame
 
 
                         g.DrawImage(img, drawPoint); //Draw the image to the view
+
+                        //Health bar if need be
+                        if (e.hasComponent(GlobalVars.HEALTH_COMPONENT_NAME))
+                        {
+                            HealthComponent healthComp = (HealthComponent)e.getComponent(GlobalVars.HEALTH_COMPONENT_NAME);
+                            if (healthComp.healthBar && (healthComp.showBarOnFull || !healthComp.hasFullHealth()))
+                            {
+                                int barHeight = 4;
+                                int ySpace = 3;
+                                int xSpace = 0;
+
+                                int xLoc = ((int)Math.Round(posComp.x-posComp.width/2) + xSpace);
+                                int yLoc = ((int)Math.Round(posComp.y-posComp.height/2) - barHeight - ySpace);
+                                int fullWidth = ((int)Math.Round(posComp.width) - 2 * xSpace);
+
+                                Rectangle backRect = new Rectangle(xLoc, yLoc, fullWidth, barHeight);
+                                Rectangle foreRect = new Rectangle(xLoc, yLoc, (int)Math.Round(fullWidth * healthComp.getHealthPercentage()), barHeight);
+
+                                g.FillRectangle(healthComp.backHealthBarBrush, backRect);
+                                g.FillRectangle(healthComp.foreHealthBarBrush, foreRect);
+                                g.DrawRectangle(Pens.Black, backRect);// Border
+
+                            }
+                        }
                     }
                 }
             }

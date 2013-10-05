@@ -8,26 +8,25 @@ using RunningGame.Components;
 
 namespace RunningGame.Systems
 {
-    /*
-     * A Template for the system class
-     */
-    class SystemTemplate:GameSystem //Always extend GameSystem
+    class HealthSystem:GameSystem
     {
-        //All systems MUST have an ArrayList of requiredComponents (May need to add using System.Collections at start of file)
-        //To access components you may need to also add "using RunningGame.Components"
+
+         //All systems MUST have an ArrayList of requiredComponents (May need to add using System.Collections at start of file)
         ArrayList requiredComponents = new ArrayList();
         //All systems MUST have a variable holding the level they're contained in
         Level level;
 
+        DeathHandler deathHandler;
+
         //Constructor - Always read in the level! You can read in other stuff too if need be.
-        public SystemTemplate(Level level)
+        public HealthSystem(Level level)
         {
             //Here is where you add the Required components
-            requiredComponents.Add(GlobalVars.POSITION_COMPONENT_NAME); //Position
-            requiredComponents.Add(GlobalVars.COLLIDER_COMPONENT_NAME); //Collider
-
+            requiredComponents.Add(GlobalVars.HEALTH_COMPONENT_NAME); //Health component
 
             this.level = level; //Always have this
+
+            deathHandler = new DeathHandler(level);
 
         }
 
@@ -51,11 +50,34 @@ namespace RunningGame.Systems
         //There is a chance that your system won't need to do anything in update. Still have it.
         public override void Update(float deltaTime)
         {
-            //Your brilliant coding Skillz go here. Or below in other methods.
+
+            foreach (Entity e in getApplicableEntities())
+            {
+                HealthComponent healthComp = (HealthComponent)e.getComponent(GlobalVars.HEALTH_COMPONENT_NAME);
+                if (healthComp.isDead())
+                {
+                    //Tell the death handler
+                    deathHandler.handleDeath(e);
+                }
+
+                if (!healthComp.hasFullHealth())
+                {
+                    if (healthComp.timeSinceRecharge >= healthComp.rechargeTime)
+                    {
+                        healthComp.addToHealth(healthComp.rechargeAmt);
+                        healthComp.timeSinceRecharge = 0;
+                    }
+                    else
+                    {
+                        healthComp.timeSinceRecharge += deltaTime;
+                    }
+                }
+
+                if (healthComp.health > healthComp.maxHealth) healthComp.restoreHealth();
+            }
+
         }
         //----------------------------------------------------------------------------------------------
 
-        //Here put any helper methods or really anything else you may want.
-        //You may find it handy to have methods here that other systems can access.
     }
 }

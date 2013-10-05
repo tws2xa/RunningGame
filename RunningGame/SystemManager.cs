@@ -9,7 +9,8 @@ using System.Windows.Forms;
 namespace RunningGame
 {
 
-    /* This is the class that handles all the different systems.
+    /* 
+     * This is the class that handles all the different systems.
      * It's basically a convinient way to initialize, update, and control
      * them from a central area.
      */
@@ -22,8 +23,15 @@ namespace RunningGame
         public DrawSystem drawSystem;
         public GravitySystem gravSystem;
         public MovementSystem moveSystem;
-        public PlayerSystem playerSystem;
+        public PlayerMovementSystem playerSystem;
         public CollisionDetectionSystem colSystem;
+        public HealthSystem healthSystem;
+        public AnimationSystem animSystem;
+        public SquishSystem squishSystem;
+        public InputSystem inputSystem;
+        public DebugSystem debugSystem;
+        public ScreenEdgeSystem scrEdgeSystem;
+        public SwitchListenerSystem slSystem;
 
         public SystemManager(Level level)
         {
@@ -39,9 +47,18 @@ namespace RunningGame
         {
             gravSystem = new GravitySystem(level);
             moveSystem = new MovementSystem(level);
-            playerSystem = new PlayerSystem(level);
+            playerSystem = new PlayerMovementSystem(level);
             colSystem = new CollisionDetectionSystem(level);
             drawSystem = new DrawSystem(level.g, level);
+            healthSystem = new HealthSystem(level);
+            animSystem = new AnimationSystem(level);
+            squishSystem = new SquishSystem(level);
+            inputSystem = new InputSystem(level);
+            scrEdgeSystem = new ScreenEdgeSystem(level);
+            slSystem = new SwitchListenerSystem(level);
+
+            debugSystem = new DebugSystem(level);
+
         }
 
 
@@ -49,10 +66,18 @@ namespace RunningGame
         public void Update(float deltaTime)
         {
             moveSystem.Update(deltaTime);
+            scrEdgeSystem.Update(deltaTime);
             playerSystem.Update(deltaTime);
             colSystem.Update(deltaTime);
             gravSystem.Update(deltaTime);
             drawSystem.Update(deltaTime);
+            healthSystem.Update(deltaTime);
+            animSystem.Update(deltaTime);
+            squishSystem.Update(deltaTime);
+            inputSystem.Update(deltaTime);
+            slSystem.Update(deltaTime);
+            debugSystem.Update(deltaTime);
+            
         }
 
         //Notify collider system of a new collider
@@ -64,19 +89,20 @@ namespace RunningGame
         //Input
         public void KeyDown(KeyEventArgs e)
         {
-            playerSystem.KeyDown(e);
+            inputSystem.KeyDown(e);
         }
         public void KeyUp(KeyEventArgs e)
         {
-            playerSystem.KeyUp(e);
+            inputSystem.KeyUp(e);
         }
         public void KeyPressed(KeyPressEventArgs e)
         {
-            playerSystem.KeyPressed(e);
+            //Derp
         }
         public void MouseClick(MouseEventArgs e)
         {
-            //colSystem.MouseClick(e.X, e.Y);
+            //colSystem.MouseClick(e.X, e.Y); //This'll allow you to click and see which entities are in a cell
+            inputSystem.MouseClick(e);
         }
 
         //Any systems that require drawing

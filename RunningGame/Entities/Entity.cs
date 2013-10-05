@@ -21,14 +21,15 @@ namespace RunningGame
 
         Dictionary<string, Component> components = new Dictionary<string, Component>();
 
-        public Entity() {}
-
+        public Entity() { }
         
+        /*
         public Entity(Level level)
         {
             Random rand = new Random();
             initializeEntity(rand.Next(Int32.MinValue, Int32.MaxValue), level);
         }
+        */
         public Entity(int id, Level level)
         {
             initializeEntity(id, level);
@@ -58,9 +59,10 @@ namespace RunningGame
         }
 
         //add and remove components
-        public void addComponent(Component comp)
+        public Component addComponent(Component comp)
         {
             components.Add(comp.componentName, comp);
+            return comp;
         }
         public void removeComponent(Component comp)
         {

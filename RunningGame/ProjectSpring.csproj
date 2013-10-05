@@ -48,16 +48,16 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>885449F629BC70458C9D0A040A530E2D8F351208</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>D089A4E4ECB59B2BEE8D9A311AE9902F72C304F9</ManifestCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestKeyFile>ProjectSpring_TemporaryKey.pfx</ManifestKeyFile>
+    <ManifestKeyFile>ProjectSpring_1_TemporaryKey.pfx</ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
     <GenerateManifests>true</GenerateManifests>
   </PropertyGroup>
   <PropertyGroup>
-    <SignManifests>true</SignManifests>
+    <SignManifests>false</SignManifests>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -72,21 +72,36 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Components\AnimationComponent.cs" />
     <Compile Include="Components\ColliderComponent.cs" />
     <Compile Include="Components\Component.cs" />
     <Compile Include="Components\ComponentTemplate.cs" />
     <Compile Include="Components\DrawComponent.cs" />
     <Compile Include="Components\GravityComponent.cs" />
+    <Compile Include="Components\HealthComponent.cs" />
+    <Compile Include="Components\PlayeInputComponent.cs" />
     <Compile Include="Components\PlayerComponent.cs" />
+    <Compile Include="Components\ScreenEdgeComponent.cs" />
+    <Compile Include="Components\SquishComponent.cs" />
+    <Compile Include="Components\SwitchComponent.cs" />
+    <Compile Include="Components\SwitchListenerComponent.cs" />
     <Compile Include="Components\VelocityComponent.cs" />
+    <Compile Include="DeathHandler.cs" />
     <Compile Include="Entities\BasicGround.cs" />
+    <Compile Include="Entities\DoorEntity.cs" />
+    <Compile Include="Entities\SwitchEntity.cs" />
+    <Compile Include="Systems\DebugSystem.cs" />
+    <Compile Include="Entities\Speedy.cs" />
     <Compile Include="Entities\EntityTemplate.cs" />
     <Compile Include="Entities\TestEntity.cs" />
     <Compile Include="LevelImageReader.cs" />
     <Compile Include="LocationGrid.cs" />
+    <Compile Include="Sprite.cs" />
     <Compile Include="SystemManager.cs" />
     <Compile Include="CollisionHandler.cs" />
+    <Compile Include="Systems\AnimationSystem.cs" />
     <Compile Include="Systems\CollisionDetectionSystem.cs" />
+    <Compile Include="Systems\HealthSystem.cs" />
     <Compile Include="Systems\DrawSystem.cs" />
     <Compile Include="Systems\GameSystem.cs" />
     <Compile Include="Systems\GravitySystem.cs" />
@@ -104,8 +119,12 @@
     <Compile Include="Components\PositionComponent.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Systems\InputSystem.cs" />
     <Compile Include="Systems\MovementSystem.cs" />
-    <Compile Include="Systems\PlayerSystem.cs" />
+    <Compile Include="Systems\PlayerMovementSystem.cs" />
+    <Compile Include="Systems\ScreenEdgeSystem.cs" />
+    <Compile Include="Systems\SquishSystem.cs" />
+    <Compile Include="Systems\SwitchListenerSystem.cs" />
     <Compile Include="Systems\SystemTemplate.cs" />
     <Compile Include="View.cs" />
     <EmbeddedResource Include="FormSpring.resx">
@@ -120,6 +139,7 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <None Include="ProjectSpring_1_TemporaryKey.pfx" />
     <None Include="ProjectSpring_TemporaryKey.pfx" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -177,6 +197,18 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\PlayerEyesClosed.bmp" />
+    <EmbeddedResource Include="Resources\PlayerEyesHalf.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\SwitchOff.png" />
+    <EmbeddedResource Include="Resources\SwitchOn.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\DoorClosed.png" />
+    <EmbeddedResource Include="Resources\DoorOpen.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -14,23 +14,10 @@ namespace RunningGame.Components
     class PlayerComponent:Component
     {
 
-        //Key bindings
-        public Keys jumpKey {get; set;}
-        public Keys leftKey { get; set; }
-        public Keys rightKey { get; set; }
 
         public PlayerComponent()
         {
             this.componentName = GlobalVars.PLAYER_COMPONENT_NAME;
-
-            //Default Key bindings
-            //JumpKey = Keys.Space;
-
-            //Platformer Controls
-            jumpKey = Keys.W;
-            leftKey = Keys.A;
-            rightKey = Keys.D;
-
         }
         
 
