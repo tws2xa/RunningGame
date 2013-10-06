@@ -73,6 +73,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Components\AnimationComponent.cs" />
+    <Compile Include="Components\GlideComponent.cs" />
     <Compile Include="Components\ColliderComponent.cs" />
     <Compile Include="Components\Component.cs" />
     <Compile Include="Components\ComponentTemplate.cs" />
@@ -92,6 +93,7 @@
     <Compile Include="Entities\Glide.cs" />
     <Compile Include="Entities\DoorEntity.cs" />
     <Compile Include="Entities\SwitchEntity.cs" />
+    <Compile Include="Systems\GlideSystem.cs" />
     <Compile Include="Systems\DebugSystem.cs" />
     <Compile Include="Entities\Speedy.cs" />
     <Compile Include="Entities\EntityTemplate.cs" />

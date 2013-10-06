@@ -32,6 +32,7 @@ namespace RunningGame
         public DebugSystem debugSystem;
         public ScreenEdgeSystem scrEdgeSystem;
         public SwitchListenerSystem slSystem;
+        public GlideSystem glideSystem;
 
         public SystemManager(Level level)
         {
@@ -56,6 +57,7 @@ namespace RunningGame
             inputSystem = new InputSystem(level);
             scrEdgeSystem = new ScreenEdgeSystem(level);
             slSystem = new SwitchListenerSystem(level);
+            glideSystem = new GlideSystem(level);
 
             debugSystem = new DebugSystem(level);
 
@@ -77,6 +79,7 @@ namespace RunningGame
             inputSystem.Update(deltaTime);
             slSystem.Update(deltaTime);
             debugSystem.Update(deltaTime);
+            glideSystem.Update(deltaTime);
             
         }
 

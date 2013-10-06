@@ -34,11 +34,13 @@ namespace RunningGame
         public static string SWITCH_COMPONENT_NAME = "switchComp";
         public static string SWITCH_LISTENER_COMPONENT_NAME = "switchListenerComp";
         public static string SOUND_COMPONENT_NAME = "soundComp";
+        public static string GLIDE_COMPONENT_NAME = "glideComp";
 
         //Collider Types
         public static string PLAYER_COLLIDER_TYPE = "playerCollider";
         public static string BASIC_SOLID_COLLIDER_TYPE = "basicSolidCollider";
         public static string INSTANT_DEATH_COLLIDER_TYPE = "instantDeathCollider";
+        public static string GLIDE_COLLIDER_TYPE = "glideCollider";
         public static string POWERUP_COLLIDER_TYPE = "powerupCollider";
         public static string SPEEDY_COLLIDER_TYPE = "speedyCollider";
         public static string SWITCH_COLLIDER_TYPE = "switchCollider";
