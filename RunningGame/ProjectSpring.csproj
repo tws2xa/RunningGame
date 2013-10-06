@@ -89,6 +89,7 @@
     <Compile Include="Components\VelocityComponent.cs" />
     <Compile Include="DeathHandler.cs" />
     <Compile Include="Entities\BasicGround.cs" />
+    <Compile Include="Entities\Glide.cs" />
     <Compile Include="Entities\DoorEntity.cs" />
     <Compile Include="Entities\SwitchEntity.cs" />
     <Compile Include="Systems\DebugSystem.cs" />
