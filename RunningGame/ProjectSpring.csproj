@@ -82,6 +82,7 @@
     <Compile Include="Components\PlayeInputComponent.cs" />
     <Compile Include="Components\PlayerComponent.cs" />
     <Compile Include="Components\ScreenEdgeComponent.cs" />
+    <Compile Include="Components\SoundComponent.cs" />
     <Compile Include="Components\SquishComponent.cs" />
     <Compile Include="Components\SwitchComponent.cs" />
     <Compile Include="Components\SwitchListenerComponent.cs" />
@@ -123,6 +124,7 @@
     <Compile Include="Systems\MovementSystem.cs" />
     <Compile Include="Systems\PlayerMovementSystem.cs" />
     <Compile Include="Systems\ScreenEdgeSystem.cs" />
+    <Compile Include="Systems\SoundSystem.cs" />
     <Compile Include="Systems\SquishSystem.cs" />
     <Compile Include="Systems\SwitchListenerSystem.cs" />
     <Compile Include="Systems\SystemTemplate.cs" />
