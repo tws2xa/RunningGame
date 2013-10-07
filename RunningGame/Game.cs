@@ -8,6 +8,8 @@ using System.Threading;
 using System.Windows.Forms;
 using System.Collections;
 
+//Lina was here!
+
 namespace RunningGame
 {
     /*
