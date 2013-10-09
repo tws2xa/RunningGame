@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Drawing;
 using RunningGame.Components;
 using System.Collections;
+using RunningGame.Level_Editor;
 
 namespace RunningGame.Systems
 {
@@ -20,7 +21,7 @@ namespace RunningGame.Systems
 
         Graphics g;
         Level level;
-        View mainView;
+        public View mainView;
         ArrayList requiredComponents = new ArrayList();
 
 
@@ -30,7 +31,6 @@ namespace RunningGame.Systems
 
         public DrawSystem(Graphics g, Level level)
         {
-
             //Required Components
             requiredComponents.Add(GlobalVars.DRAW_COMPONENT_NAME); //Draw Component
             requiredComponents.Add(GlobalVars.POSITION_COMPONENT_NAME); //Position Component
@@ -44,7 +44,21 @@ namespace RunningGame.Systems
             miniMap.hasBorder = true;
 
         }
+        public DrawSystem(Graphics g, CreationLevel level)
+        {
+            //Required Components
+            requiredComponents.Add(GlobalVars.DRAW_COMPONENT_NAME); //Draw Component
+            requiredComponents.Add(GlobalVars.POSITION_COMPONENT_NAME); //Position Component
 
+            this.g = g;
+            this.level = level;
+            mainView = new View(0, 0, level.levelWidth, level.levelHeight, 0, 0, level.levelWidth, level.levelHeight, level);
+
+
+            miniMap = new View(0, 0, level.levelWidth, level.levelHeight, level.cameraWidth - 100, 10, 200, 100, level);
+            miniMap.bkgBrush = Brushes.DarkTurquoise;
+            miniMap.hasBorder = true;
+        }
         public override ArrayList getRequiredComponents()
         {
             return requiredComponents;

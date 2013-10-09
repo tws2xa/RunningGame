@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Collections;
 using RunningGame.Components;
+using RunningGame.Level_Editor;
 
 namespace RunningGame.Systems
 {
@@ -28,7 +29,7 @@ namespace RunningGame.Systems
 
         ArrayList requiredComponents = new ArrayList();
         Level level;
-        LocationGrid locGrid;
+        public LocationGrid locGrid;
 
         public CollisionDetectionSystem(Level level)
         {

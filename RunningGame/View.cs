@@ -26,7 +26,7 @@ namespace RunningGame
     class View
     {
 
-        float x, y, width, height, displayX, displayY, displayWidth, displayHeight, wRatio, hRatio;
+        public float x, y, width, height, displayX, displayY, displayWidth, displayHeight, wRatio, hRatio;
         Bitmap drawImg;
         Graphics g;
         public Brush bkgBrush { get; set; }
@@ -133,8 +133,8 @@ namespace RunningGame
                         drawPoint.X *= wRatio;
                         drawPoint.Y *= hRatio;
 
-
-                        g.DrawImage(img, drawPoint); //Draw the image to the view
+                        lock (img)
+                            g.DrawImage(img, drawPoint); //Draw the image to the view
 
                         //Health bar if need be
                         if (e.hasComponent(GlobalVars.HEALTH_COMPONENT_NAME))
@@ -175,7 +175,8 @@ namespace RunningGame
         public void Update()
         {
             if (followEntity == null) return;
-
+            moveCamera(followPosComp.x, followPosComp.y);
+            /*
             if ((followPosComp.x - x) < xBor)
             {
                 this.x = followPosComp.x - xBor;
@@ -198,7 +199,34 @@ namespace RunningGame
             if (this.y < 0) this.y = 0;
             if (this.x + this.width > level.levelWidth) this.x = (level.levelWidth - this.width);
             if (this.y + this.height > level.levelHeight) this.y = (level.levelHeight - this.height);
+            */
+        }
 
+        public void moveCamera(float newX, float newY)
+        {
+
+            if ((newX - x) < xBor)
+            {
+                this.x = newX - xBor;
+            }
+            if ((newY - y) < yBor)
+            {
+                this.y = newY - yBor;
+            }
+            if ((newX- this.x) > (this.width - xBor))
+            {
+                this.x = (newX - this.width + xBor);
+            }
+            if ((newY- this.y) > (this.height - yBor))
+            {
+                this.y = (newY - this.height + yBor);
+            }
+
+            //Don't view off of level
+            if (this.x < 0) this.x = 0;
+            if (this.y < 0) this.y = 0;
+            if (this.x + this.width > level.levelWidth) this.x = (level.levelWidth - this.width);
+            if (this.y + this.height > level.levelHeight) this.y = (level.levelHeight - this.height);
         }
 
         public bool isInView(PositionComponent posComp)

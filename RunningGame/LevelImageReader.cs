@@ -7,6 +7,7 @@ using System.Drawing;
 using RunningGame.Entities;
 using RunningGame.Components;
 using System.Collections;
+using RunningGame.Level_Editor;
 
 namespace RunningGame
 {
@@ -19,7 +20,7 @@ namespace RunningGame
     class LevelImageReader
     {
 
-        Level level;
+        
         Bitmap img;
 
         Color playerCol = Color.FromArgb(0, 0, 255); //Player is blue
@@ -34,23 +35,18 @@ namespace RunningGame
         public LevelImageReader(Level level, Bitmap img)
         {
 
-            this.level = level;
             this.img = img;
-
 
             level.levelWidth = (img.Width)*tileWidth;
             level.levelHeight = (img.Height)*tileHeight;
         }
-
-
-        public void readImage()
+        public void readImage(Level level)
         {
             //Console.WriteLine(img.Width + ", " + img.Height);
             for (int y = 0; y < img.Height; y++)
             {
                 for (int x = 0; x < img.Width; x++)
                 {
-
                     Color col = img.GetPixel(x, y);
 
                     float levelX = x+0.5f;

@@ -93,6 +93,16 @@
     <Compile Include="Entities\Glide.cs" />
     <Compile Include="Entities\DoorEntity.cs" />
     <Compile Include="Entities\SwitchEntity.cs" />
+    <Compile Include="FormEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormEditor.Designer.cs">
+      <DependentUpon>FormEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Level Editor\CreationGame.cs" />
+    <Compile Include="Level Editor\CreationLevel.cs" />
+    <Compile Include="Level Editor\CreationSystemManager.cs" />
+    <Compile Include="Level Editor\EntityListItem.cs" />
     <Compile Include="Systems\GlideSystem.cs" />
     <Compile Include="Systems\DebugSystem.cs" />
     <Compile Include="Entities\Speedy.cs" />
@@ -132,6 +142,9 @@
     <Compile Include="Systems\SwitchListenerSystem.cs" />
     <Compile Include="Systems\SystemTemplate.cs" />
     <Compile Include="View.cs" />
+    <EmbeddedResource Include="FormEditor.resx">
+      <DependentUpon>FormEditor.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FormSpring.resx">
       <DependentUpon>FormSpring.cs</DependentUpon>
     </EmbeddedResource>

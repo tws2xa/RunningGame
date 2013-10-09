@@ -3,68 +3,74 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Drawing;
-using System.Collections;
 using System.Windows.Forms;
+using System.Collections;
+using System.Drawing;
 using RunningGame.Components;
-using RunningGame.Entities;
 using RunningGame.Systems;
-using RunningGame.Properties;
-using System.Diagnostics;
+using RunningGame.Entities;
 
-namespace RunningGame
+namespace RunningGame.Level_Editor
 {
-    /*
-     * A level is basically what it souds like.
-     * It keeps track of all the entities within a stage
-     * in the game, and updates them. It also holds
-     * the SystemManager which is what controls the game systems.
-     */
-    class Level
+    class CreationLevel:Level
     {
 
-        Random rand; //for creating entitiy ids
-        //Dictionary<int, Entity> entities; //all entities in the level
-        public Graphics g { get; set; }
-        public float cameraWidth { get; set; }
-        public float cameraHeight { get; set; }
-        public float levelWidth { get; set; }
-        public float levelHeight {get;set;}
-        public bool paused = false; //Is the game paused?
+        /*
+        new public Graphics g { get; set; }
+        new public float cameraWidth { get; set; }
+        new public float cameraHeight { get; set; }
+        new public float levelWidth { get; set; }
+        new public float levelHeight {get;set;}
+        new public bool paused = false; //Is the game paused?
 
-        public float fps;
+        new public float fps;
+
+
+        new public bool levelFullyLoaded = false;
+        */
+
+        Random rand; //for creating entitiy ids
+        public CreationSystemManager sysManager; //Controls all systems
+        bool sysManagerInit = false;
 
         long prevTicks = DateTime.Now.Ticks;
         long currentTicks;
         long pastTicks;
 
-        public SystemManager sysManager; //Controls all systems
-        bool sysManagerInit = false;
-
-        public bool levelFullyLoaded = false;
-
-        public Level() {}
-
-        public Level(float windowWidth, float windowHeight, string levelFile, Graphics g)
+        public CreationLevel(float levelWidth, float levelHeight, float panelWidth, float panelHeight, Graphics g)
         {
 
             rand = new Random();
             this.g = g;
 
+            this.cameraWidth = panelWidth;
+            this.cameraHeight = panelHeight;
+            this.levelWidth = levelWidth;
+            this.levelHeight = levelHeight;
 
-            System.Reflection.Assembly myAssembly = System.Reflection.Assembly.GetExecutingAssembly();
-            System.IO.Stream myStream = myAssembly.GetManifestResourceStream(levelFile);
-            Bitmap lvlImg = new Bitmap(myStream);
+            if(!sysManagerInit) sysManager = new CreationSystemManager(this);
 
-            cameraWidth = windowWidth;
-            cameraHeight = windowHeight;
+            sysManagerInit = true;
+
+            prevTicks = DateTime.Now.Ticks;
+
+            levelFullyLoaded = true;
+        }
+
+         public CreationLevel(float panelWidth, float panelHeight, string levelFile, Graphics g)
+        {
+
+            rand = new Random();
+            this.g = g;
+
+            Bitmap lvlImg = (Bitmap)Bitmap.FromFile(levelFile);
+
+            cameraWidth = panelWidth;
+            cameraHeight = panelHeight;
             this.levelWidth = lvlImg.Width*GlobalVars.LEVEL_READER_TILE_WIDTH;
             this.levelHeight = lvlImg.Height * GlobalVars.LEVEL_READER_TILE_HEIGHT;
 
-            //Entities
-            //entities = new Dictionary<int, Entity>();
-              
-            if(!sysManagerInit) sysManager = new SystemManager(this);
+            if(!sysManagerInit) sysManager = new CreationSystemManager(this);
 
             sysManagerInit = true;
 
@@ -78,9 +84,28 @@ namespace RunningGame
             levelFullyLoaded = true;
         }
 
+        public void loadFromPaint(string fileName, Graphics newG)
+        {
+
+            sysManagerInit = false;
+
+            this.g = newG;
+
+            Bitmap lvlImg = (Bitmap)Bitmap.FromFile(fileName);
+
+            this.levelWidth = lvlImg.Width*GlobalVars.LEVEL_READER_TILE_WIDTH;
+            this.levelHeight = lvlImg.Height*GlobalVars.LEVEL_READER_TILE_HEIGHT;
+
+            sysManager = new CreationSystemManager(this);
+
+            sysManagerInit = true;
+
+            LevelImageReader lvlImgReader = new LevelImageReader(this, lvlImg);
+            lvlImgReader.readImage(this);
+        }
 
         //Game logic
-        public virtual void Update()
+        public override void Update()
         {
 
             //Time in seconds between frames
@@ -99,14 +124,14 @@ namespace RunningGame
         }
 
         //When an entity is given a collider - notify collider system
-        public virtual void colliderAdded(Entity e)
+        public override void colliderAdded(Entity e)
         {
             sysManager.colliderAdded(e);
         }
 
 
         //Reset the game to it's original startup state
-        public virtual void resetLevel()
+        public override void resetLevel()
         {
             paused = true; // Pause the game briefly
             Entity[] ents = GlobalVars.allEntities.Values.ToArray();
@@ -131,7 +156,7 @@ namespace RunningGame
             
         }
 
-        public virtual void removeAllEntities()
+        public override void removeAllEntities()
         {
             while(GlobalVars.allEntities.Values.Count > 0)
             {
@@ -142,19 +167,19 @@ namespace RunningGame
         }
 
         //Input
-        public virtual void KeyDown(KeyEventArgs e)
+        public override void KeyDown(KeyEventArgs e)
         {
             sysManager.KeyDown(e);
         }
-        public virtual void KeyUp(KeyEventArgs e)
+        public override void KeyUp(KeyEventArgs e)
         {
             sysManager.KeyUp(e);
         }
-        public virtual void KeyPressed(KeyPressEventArgs e)
+        public override void KeyPressed(KeyPressEventArgs e)
         {
             sysManager.KeyPressed(e);
         }
-        public virtual void MouseClick(MouseEventArgs e)
+        public override void MouseClick(MouseEventArgs e)
         {
             //getCollisionSystem().MouseClick(e.X, e.Y);
             sysManager.MouseClick(e);
@@ -162,23 +187,22 @@ namespace RunningGame
 
 
         //Draw everything!
-        public virtual void Draw(Graphics g)
+        public override void Draw(Graphics g)
         {
             sysManager.Draw(g);
-            g.DrawString(fps.ToString("F") + "", SystemFonts.DefaultFont, Brushes.Black, new RectangleF(10, 10, cameraWidth-20, cameraHeight-20));
         }
 
         //Add an entity to the list of entities
-        public virtual void addEntity(int id, Entity e)
+        public override void addEntity(int id, Entity e)
         {
             if (!sysManagerInit)
             {
-                sysManager = new SystemManager(this);
+                sysManager = new CreationSystemManager(this);
                 sysManagerInit = true;
             }
             GlobalVars.allEntities.Add(id, e);
         }
-        public virtual void removeEntity(Entity e)
+        public override void removeEntity(Entity e)
         {
             if (e.isStartingEntity)
                 GlobalVars.removedStartingEntities.Add(e.randId, e);
@@ -189,30 +213,26 @@ namespace RunningGame
 
 
         //Getters
-        public virtual Dictionary<int, Entity> getEntities() {
+        public override Dictionary<int, Entity> getEntities()
+        {
             return GlobalVars.allEntities;
         }
-        public virtual MovementSystem getMovementSystem()
+        public override MovementSystem getMovementSystem()
         {
             return sysManager.moveSystem;
         }
-        public virtual CollisionDetectionSystem getCollisionSystem()
+        public override CollisionDetectionSystem getCollisionSystem()
         {
             return sysManager.colSystem;
         }
-        public virtual InputSystem getInputSystem()
+        public override InputSystem getInputSystem()
         {
             if (sysManager != null)
                 return sysManager.inputSystem;
             else return null;
         }
-        public virtual Entity getPlayer()
+        public override Entity getPlayer()
         {
-            foreach (Entity e in GlobalVars.allEntities.Values)
-            {
-                if (e.hasComponent(GlobalVars.PLAYER_COMPONENT_NAME)) return e;
-            }
-
             return null;
         }
 

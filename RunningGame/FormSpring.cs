@@ -54,6 +54,8 @@ namespace RunningGame
         {
             btnBegin.Enabled = false;
             btnBegin.Visible = false;
+            btnEdit.Enabled = false;
+            btnEdit.Visible = false;
             lblLoading.Text = "Loading...";
             this.Refresh();
             //Use this.Width and this.Height instead of ClientSize to reduce streaching at edge
@@ -65,6 +67,12 @@ namespace RunningGame
         {
             if(game != null)
                 game.MouseClick(e);
+        }
+
+        private void btnEdit_Click(object sender, EventArgs e)
+        {
+            FormEditor frmEdit = new FormEditor();
+            frmEdit.Show();
         }
 
     }

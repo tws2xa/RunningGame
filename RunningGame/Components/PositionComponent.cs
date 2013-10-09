@@ -45,7 +45,14 @@ namespace RunningGame.Components
 
             this.myEntity = myEntity;
 
-            colSys = this.myEntity.level.sysManager.colSystem;
+            if (this.myEntity.level.sysManager != null && this.myEntity.level.sysManager.colSystem != null)
+            {
+                colSys = this.myEntity.level.sysManager.colSystem;
+            }
+            else
+            {
+                colSys = null;
+            }
 
             collidedWith = new ArrayList();
             positionHasChanged = false;
