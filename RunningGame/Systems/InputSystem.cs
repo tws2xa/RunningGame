@@ -30,6 +30,7 @@ namespace RunningGame.Systems
         public bool mouseClick = false;
         public float mouseX = 0;
         public float mouseY = 0;
+        public int mouseClickCounter = 0;
 
         ArrayList requiredComponents = new ArrayList();
         Level level;
@@ -80,7 +81,15 @@ namespace RunningGame.Systems
                         b.up = false;
                     }
                 }
-                if (mouseClick) mouseClick = false;
+                if (mouseClick)
+                {
+                    mouseClickCounter++;
+                    if (mouseClickCounter > 1)
+                    {
+                        mouseClickCounter = 0;
+                        mouseClick = false;
+                    }
+                }
             }
         }
         //----------------------------------------------------------------------------------------------
@@ -88,8 +97,10 @@ namespace RunningGame.Systems
         //Input
         public void KeyDown(KeyEventArgs e)
         {
+            //Console.WriteLine(e.KeyData + " pressed.");
             if (myKeys.ContainsKey(e.KeyData))
             {
+                //Console.WriteLine("Contained.");
                 if (!myKeys[e.KeyData].down) //If it's just been pressed, set pressed to true
                     myKeys[e.KeyData].pressed = true;
                 myKeys[e.KeyData].down = true;
@@ -107,9 +118,9 @@ namespace RunningGame.Systems
         }
         public void MouseClick(MouseEventArgs e)
         {
-            mouseClick = true;
             mouseX = e.X;
             mouseY = e.Y;
+            mouseClick = true;
         }
 
         public void addKey(Keys key)

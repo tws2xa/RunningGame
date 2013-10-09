@@ -100,6 +100,8 @@
       <DependentUpon>FormEditor.cs</DependentUpon>
     </Compile>
     <Compile Include="Level Editor\CreationGame.cs" />
+    <Compile Include="Level Editor\CreationGlobalVars.cs" />
+    <Compile Include="Level Editor\CreationInputManagerSystem.cs" />
     <Compile Include="Level Editor\CreationLevel.cs" />
     <Compile Include="Level Editor\CreationSystemManager.cs" />
     <Compile Include="Level Editor\EntityListItem.cs" />

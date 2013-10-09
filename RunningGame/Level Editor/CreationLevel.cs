@@ -37,8 +37,12 @@ namespace RunningGame.Level_Editor
         long currentTicks;
         long pastTicks;
 
+        public CreationGlobalVars vars;
+
         public CreationLevel(float levelWidth, float levelHeight, float panelWidth, float panelHeight, Graphics g)
         {
+
+            vars = new CreationGlobalVars();
 
             rand = new Random();
             this.g = g;
@@ -59,6 +63,8 @@ namespace RunningGame.Level_Editor
 
          public CreationLevel(float panelWidth, float panelHeight, string levelFile, Graphics g)
         {
+
+            vars = new CreationGlobalVars();
 
             rand = new Random();
             this.g = g;

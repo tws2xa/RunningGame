@@ -24,8 +24,6 @@ namespace RunningGame.Level_Editor
         private Bitmap bufferImage;
         private Graphics dbGraphics;
 
-        private ArrayList downKeys = new ArrayList(); //Used to prevent repeated calls when a key is held in keyDown
-
         public CreationGame(Graphics winGraphics, int w, int h)
         {
             mainPnlGraphics = winGraphics;
@@ -126,18 +124,11 @@ namespace RunningGame.Level_Editor
 
         public void KeyUp(KeyEventArgs e)
         {
-
-            if (downKeys.Contains(e.KeyData)) downKeys.Remove(e.KeyData); //Remove key if it is in the downKeys list
-
             currentLevel.KeyUp(e);
         }
         public void KeyDown(KeyEventArgs e)
         {
-
-            if (downKeys.Contains(e.KeyData)) return; //If it was down before and hasn't been released (it's held down) don't call again.
-
-            //Otherwise add it to the list of down keys
-            downKeys.Add(e.KeyData);
+            Console.WriteLine("Key Down");
 
             currentLevel.KeyDown(e);
         }

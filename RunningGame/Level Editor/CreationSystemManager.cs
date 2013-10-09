@@ -17,6 +17,7 @@ namespace RunningGame.Level_Editor
         public MovementSystem moveSystem;
         public CollisionDetectionSystem colSystem;
         public InputSystem inputSystem;
+        public CreationInputManagerSystem inputManSystem;
 
         public CreationSystemManager(CreationLevel level)
         {
@@ -33,6 +34,7 @@ namespace RunningGame.Level_Editor
             colSystem = new CollisionDetectionSystem(level);
             drawSystem = new DrawSystem(level.g, level);
             inputSystem = new InputSystem(level);
+            inputManSystem = new CreationInputManagerSystem(level);
         }
 
 
@@ -42,8 +44,8 @@ namespace RunningGame.Level_Editor
             moveSystem.Update(deltaTime);
             colSystem.Update(deltaTime);
             drawSystem.Update(deltaTime);
+            inputManSystem.Update(deltaTime);
             inputSystem.Update(deltaTime);
-            
         }
 
         //Notify collider system of a new collider

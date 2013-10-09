@@ -100,5 +100,30 @@ namespace RunningGame
         private void pnlMainContainer_Scroll(object sender, ScrollEventArgs e)
         {
         }
+
+        private void pnlMain_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void pnlMain_MouseClick(object sender, MouseEventArgs e)
+        {
+            creationGame.getCurrentLevel().sysManager.MouseClick(e);
+        }
+
+        private void FormEditor_KeyDown(object sender, KeyEventArgs e)
+        {
+            creationGame.KeyDown(e);
+        }
+
+        private void FormEditor_KeyUp(object sender, KeyEventArgs e)
+        {
+            creationGame.KeyUp(e);
+        }
+
+        private void FormEditor_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            creationGame.KeyPressed(e);
+        }
     }
 }

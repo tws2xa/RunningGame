@@ -21,9 +21,12 @@ namespace RunningGame.Systems
 
         Graphics g;
         Level level;
+        CreationLevel creatLev = null;
         public View mainView;
         ArrayList requiredComponents = new ArrayList();
 
+        Pen selectedEntBorderColor = Pens.Red;
+        Brush selectedEntFillColor = new SolidBrush(Color.FromArgb(100, Color.CornflowerBlue));
 
         View miniMap;
 
@@ -37,6 +40,12 @@ namespace RunningGame.Systems
 
             this.g = g;
             this.level = level;
+
+            if (level is CreationLevel)
+            {
+                creatLev = (CreationLevel)level;
+            }
+
             mainView = new View(50, 0, level.cameraWidth, level.cameraHeight, 0, 0, level.cameraWidth, level.cameraHeight, level, level.getPlayer());
             
             miniMap = new View(0, 0, level.levelWidth, level.levelHeight, level.cameraWidth-210, 10, 200, 100, level);
@@ -52,6 +61,12 @@ namespace RunningGame.Systems
 
             this.g = g;
             this.level = level;
+
+            if (level is CreationLevel)
+            {
+                creatLev = (CreationLevel)level;
+            }
+
             mainView = new View(0, 0, level.levelWidth, level.levelHeight, 0, 0, level.levelWidth, level.levelHeight, level);
 
 
@@ -84,7 +99,14 @@ namespace RunningGame.Systems
         {
             ArrayList entityList = getApplicableEntities();
             mainView.Draw(g, entityList);
-            
+
+            if (creatLev != null && creatLev.vars.selectedEntity != null)
+            {
+                PositionComponent posComp = (PositionComponent)creatLev.vars.selectedEntity.getComponent(GlobalVars.POSITION_COMPONENT_NAME);
+                g.DrawRectangle(selectedEntBorderColor, posComp.x-posComp.width/2, posComp.y-posComp.height/2, posComp.width, posComp.height);
+                g.FillRectangle(selectedEntFillColor, posComp.x - posComp.width / 2, posComp.y - posComp.height / 2, posComp.width, posComp.height);
+            }
+
             if(miniMapOn)
                 miniMap.Draw(g, entityList);
 

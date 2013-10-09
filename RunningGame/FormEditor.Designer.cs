@@ -56,7 +56,8 @@
             this.pnlMain.Size = new System.Drawing.Size(685, 526);
             this.pnlMain.TabIndex = 2;
             this.pnlMain.Scroll += new System.Windows.Forms.ScrollEventHandler(this.pnlMain_Scroll);
-            this.pnlMain.Paint += new System.Windows.Forms.PaintEventHandler(this.panel2_Paint);
+            this.pnlMain.Click += new System.EventHandler(this.pnlMain_Click);
+            this.pnlMain.MouseClick += new System.Windows.Forms.MouseEventHandler(this.pnlMain_MouseClick);
             // 
             // lstSelectedEntProperties
             // 
@@ -135,6 +136,9 @@
             this.Name = "FormEditor";
             this.Text = "FormEditor";
             this.Load += new System.EventHandler(this.FormEditor_Load);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.FormEditor_KeyDown);
+            this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.FormEditor_KeyPress);
+            this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.FormEditor_KeyUp);
             this.pnlMainContainer.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
