@@ -25,7 +25,7 @@ namespace RunningGame.Components
             jumpStrength = -150f;
             platformerMoveSpeed = 150f;
             numAirJumps = 2; //number of jumps possible in the air (numAirJumps = 1 means you can double jump)
-            passedAirjumps = 0;
+            passedAirjumps = 2;
         }
 
     }

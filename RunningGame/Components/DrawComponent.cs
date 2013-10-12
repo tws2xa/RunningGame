@@ -17,7 +17,7 @@ namespace RunningGame.Components
         //May or may not need graphics depending on how the Drawing System works
         //public Bitmap sprite {get; set;}
         //public Dictionary<string, Sprite> images = new Dictionary<string, Sprite>();
-        [NonSerialized] public Dictionary<string, Sprite> images = new Dictionary<string, Sprite>();
+        public Dictionary<string, Sprite> images = new Dictionary<string, Sprite>();
 
         public float width {get; set;}
         public float height { get; set; }

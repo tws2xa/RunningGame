@@ -74,14 +74,19 @@ namespace RunningGame
 
             prevTicks = DateTime.Now.Ticks;
 
+            levelFullyLoaded = true;
+
             for (int i = 2; i < ents.Count; i++)
             {
                 Entity e = (Entity)ents[i];
                 e.level = this;
                 addEntity(e.randId, e);
+                if (e.hasComponent(GlobalVars.COLLIDER_COMPONENT_NAME))
+                {
+                    getCollisionSystem().colliderAdded(e);
+                }
             }
 
-            levelFullyLoaded = true;
         }
 
         public void initializePaint(float windowWidth, float windowHeight, string levelFile, Graphics g)

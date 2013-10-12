@@ -255,6 +255,7 @@ namespace RunningGame
                 return;
             }
 
+            creationGame.getCurrentLevel().paused = true; //STAHP THE GAEM!
 
             String fileName = txtFileName.Text + ".bin";
 

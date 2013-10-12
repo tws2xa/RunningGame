@@ -176,15 +176,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\GrassSquare.bmp" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Resources\Player.bmp" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Resources\DirtSquare.bmp" />
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="Resources\TestLevelNoBorder.png" />
   </ItemGroup>
   <ItemGroup>
@@ -198,9 +189,6 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\TestEntityLevel.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Resources\WhiteSquare.bmp" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5">
@@ -220,10 +208,6 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\PlayerEyesClosed.bmp" />
-    <EmbeddedResource Include="Resources\PlayerEyesHalf.bmp" />
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="Resources\SwitchOff.png" />
     <EmbeddedResource Include="Resources\SwitchOn.png" />
   </ItemGroup>
@@ -231,7 +215,23 @@
     <EmbeddedResource Include="Resources\DoorOpen.png" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\DoorClosed.bmp" />
+    <EmbeddedResource Include="Resources\DirtSquare.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\DoorClosed.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\GrassSquare.png" />
+    <EmbeddedResource Include="Resources\Player.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\PlayerEyesClosed.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\PlayerEyesHalf.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\WhiteSquare.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

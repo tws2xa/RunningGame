@@ -57,6 +57,12 @@ namespace RunningGame
             ColliderComponent col1 = (ColliderComponent)e1.getComponent(GlobalVars.COLLIDER_COMPONENT_NAME);
             ColliderComponent col2 = (ColliderComponent)e2.getComponent(GlobalVars.COLLIDER_COMPONENT_NAME);
 
+            if (col1 == null || col2 == null)
+            {
+                Console.WriteLine("Handling a null collision");
+                return false;
+            }
+
             string collisionTypeName = getCollisionTypeName(col1.colliderType, col2.colliderType);
 
             //If it's not a listed collision type

@@ -61,15 +61,15 @@ namespace RunningGame.Entities
             addComponent(new VelocityComponent(0, 0));
 
             //Draw component
-            DrawComponent drawComp = new DrawComponent("RunningGame.Resources.Player.bmp", rightImageName, (int)defaultWidth, (int)defaultHeight, false);
-            drawComp.addSprite("RunningGame.Resources.Player.bmp", leftImageName);
+            DrawComponent drawComp = new DrawComponent("RunningGame.Resources.Player.png", rightImageName, (int)defaultWidth, (int)defaultHeight, false);
+            drawComp.addSprite("RunningGame.Resources.Player.png", leftImageName);
             drawComp.rotateFlipSprite(leftImageName, RotateFlipType.RotateNoneFlipX);
             addComponent(drawComp);
 
             ArrayList blinkAnimation = new ArrayList
             {
-                "RunningGame.Resources.Player.bmp",
-                "RunningGame.Resources.PlayerEyesClosed.bmp"
+                "RunningGame.Resources.Player.png",
+                "RunningGame.Resources.PlayerEyesClosed.png"
             };
             drawComp.addAnimatedSprite(blinkAnimation, blinkRight);
             drawComp.addAnimatedSprite(blinkAnimation, blinkLeft);
