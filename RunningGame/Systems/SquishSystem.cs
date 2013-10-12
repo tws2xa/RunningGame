@@ -8,7 +8,7 @@ using RunningGame.Components;
 
 namespace RunningGame.Systems
 {
-    class SquishSystem : GameSystem
+    public class SquishSystem : GameSystem
     {
 
         //All systems MUST have an ArrayList of requiredComponents (May need to add using System.Collections at start of file)

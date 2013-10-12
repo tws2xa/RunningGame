@@ -15,14 +15,11 @@ namespace RunningGame.Entities
      * are the faceLeft, and faceRight methods.
      * These change which way the player sprite is looking.
      */
-    class Player : Entity
+    public class Player : Entity
     {
 
         float defaultWidth = 20;
         float defaultHeight = 20;
-
-        float startingX;
-        float startingY;
 
         string rightImageName = "right";
         string leftImageName = "left";
@@ -36,9 +33,6 @@ namespace RunningGame.Entities
 
             initializeEntity(new Random().Next(Int32.MinValue, Int32.MaxValue), level);
 
-            startingX = x;
-            startingY = y;
-
             addMyComponents(x, y);
 
         }
@@ -48,9 +42,6 @@ namespace RunningGame.Entities
             this.level = level;
 
             initializeEntity(id, level);
-
-            startingX = x;
-            startingY = y;
 
             addMyComponents(x, y);
         }
@@ -114,8 +105,8 @@ namespace RunningGame.Entities
         public override void revertToStartingState()
         {
             PositionComponent posComp = (PositionComponent)this.getComponent(GlobalVars.POSITION_COMPONENT_NAME);
-            level.getMovementSystem().changePosition(posComp, startingX, startingY, true);
-            level.getMovementSystem().changeSize(posComp, defaultWidth, defaultHeight);
+            level.getMovementSystem().changePosition(posComp, posComp.startingX, posComp.startingY, true);
+            level.getMovementSystem().changeSize(posComp, posComp.startingWidth, posComp.startingHeight);
 
             VelocityComponent velComp = (VelocityComponent)this.getComponent(GlobalVars.VELOCITY_COMPONENT_NAME);
             velComp.x = 0;

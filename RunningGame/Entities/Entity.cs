@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Collections;
 
 namespace RunningGame
 {
@@ -11,8 +12,8 @@ namespace RunningGame
      * This is the entity class from which all game entities are born.
      * It's got some nice things like Testing Equality, and adding and removing componenets.
      */
-
-    abstract class Entity
+    [Serializable]
+    public abstract class Entity
     {
 
         public int randId { get; set; }
@@ -22,14 +23,13 @@ namespace RunningGame
         Dictionary<string, Component> components = new Dictionary<string, Component>();
 
         public Entity() { }
-        
-        /*
+
         public Entity(Level level)
         {
             Random rand = new Random();
             initializeEntity(rand.Next(Int32.MinValue, Int32.MaxValue), level);
         }
-        */
+        
         public Entity(int id, Level level)
         {
             initializeEntity(id, level);
@@ -55,7 +55,7 @@ namespace RunningGame
 
         public override String ToString()
         {
-            return ("Entity - ID: " + randId);
+            return ("Entity - " + this.GetType() + " - ID: " + randId);
         }
 
         //add and remove components
@@ -73,6 +73,10 @@ namespace RunningGame
         {
             if (components.ContainsKey(componentName))
                 components.Remove(componentName);
+        }
+        public Array getComponents()
+        {
+            return components.Values.ToArray();
         }
 
         //Get a particular component

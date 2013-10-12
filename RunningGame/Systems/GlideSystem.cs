@@ -8,7 +8,7 @@ using RunningGame.Components;
 
 namespace RunningGame.Systems
 {
-    class GlideSystem: GameSystem
+    public class GlideSystem : GameSystem
     {
         //All systems MUST have an ArrayList of requiredComponents (May need to add using System.Collections at start of file)
         ArrayList requiredComponents = new ArrayList();

@@ -9,7 +9,7 @@ namespace RunningGame.Components
 
     //The entity has a velocity
 
-    class VelocityComponent:Component
+    public class VelocityComponent : Component
     {
 
         public float x { get; set; }

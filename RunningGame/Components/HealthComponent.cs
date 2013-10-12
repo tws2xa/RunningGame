@@ -7,7 +7,7 @@ using System.Drawing;
 
 namespace RunningGame.Components
 {
-    class HealthComponent:Component
+    public class HealthComponent : Component
     {
 
         public int health { get; set; }

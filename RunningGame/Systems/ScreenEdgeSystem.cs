@@ -9,7 +9,7 @@ using RunningGame.Systems;
 
 namespace RunningGame.Systems
 {
-    class ScreenEdgeSystem:GameSystem
+    public class ScreenEdgeSystem : GameSystem
     {
 
         ArrayList requiredComponents = new ArrayList();

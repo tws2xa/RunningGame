@@ -9,7 +9,7 @@ namespace RunningGame.Components
 
     //Adding this means the entity will collide with stuffs
 
-    class ColliderComponent:Component
+    public class ColliderComponent : Component
     {
 
         public Entity myEntity { get; set; }

@@ -5,10 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using RunningGame.Systems;
+using RunningGame.Components;
 
 namespace RunningGame.Level_Editor
 {
-    class CreationSystemManager
+    public class CreationSystemManager
     {
         
         CreationLevel level;
@@ -18,6 +19,7 @@ namespace RunningGame.Level_Editor
         public CollisionDetectionSystem colSystem;
         public InputSystem inputSystem;
         public CreationInputManagerSystem inputManSystem;
+        public ProtoEntitySystem protEntSystem;
 
         public CreationSystemManager(CreationLevel level)
         {
@@ -35,6 +37,7 @@ namespace RunningGame.Level_Editor
             drawSystem = new DrawSystem(level.g, level);
             inputSystem = new InputSystem(level);
             inputManSystem = new CreationInputManagerSystem(level);
+            protEntSystem = new ProtoEntitySystem(level);
         }
 
 
@@ -46,6 +49,7 @@ namespace RunningGame.Level_Editor
             drawSystem.Update(deltaTime);
             inputManSystem.Update(deltaTime);
             inputSystem.Update(deltaTime);
+            protEntSystem.Update(deltaTime);
         }
 
         //Notify collider system of a new collider
@@ -71,6 +75,10 @@ namespace RunningGame.Level_Editor
         {
             //colSystem.MouseClick(e.X, e.Y); //This'll allow you to click and see which entities are in a cell
             inputSystem.MouseClick(e);
+        }
+        public void MouseMoved(MouseEventArgs e)
+        {
+            inputSystem.MouseMoved(e);
         }
 
         //Any systems that require drawing

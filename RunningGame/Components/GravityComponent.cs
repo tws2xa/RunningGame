@@ -9,7 +9,7 @@ namespace RunningGame.Components
 
     //The entity is affected by gravity
 
-    class GravityComponent:Component
+    public class GravityComponent : Component
     {
 
         //x and y gravity

@@ -15,7 +15,7 @@ namespace RunningGame
      * To form an animation.
      */
 
-    class Sprite
+    public class Sprite
     {
 
         public ArrayList images { get; set; }

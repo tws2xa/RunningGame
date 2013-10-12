@@ -128,8 +128,6 @@ namespace RunningGame.Level_Editor
         }
         public void KeyDown(KeyEventArgs e)
         {
-            Console.WriteLine("Key Down");
-
             currentLevel.KeyDown(e);
         }
         public void KeyPressed(KeyPressEventArgs e)
@@ -139,6 +137,14 @@ namespace RunningGame.Level_Editor
         public void MouseClick(MouseEventArgs e)
         {
             currentLevel.MouseClick(e);
+        }
+        public void MouseMoved(MouseEventArgs e)
+        {
+            currentLevel.MouseMoved(e);
+        }
+        public void MouseLeave(EventArgs e)
+        {
+            currentLevel.MouseLeave(e);
         }
 
         //Called when the window is closed

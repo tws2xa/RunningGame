@@ -15,7 +15,7 @@ namespace RunningGame.Entities
      * It's color code in the level editor is pure black: RGB(0, 0, 0)
      */
 
-    class BasicGround:Entity
+    public class BasicGround : Entity
     {
 
         float defaultWidth = 11f;
@@ -23,27 +23,7 @@ namespace RunningGame.Entities
 
         string dirtSpriteName = "dirt";
         string grassSpriteName = "grass";
-           /*
-           public BasicGround(Level level)
-           {
-                this.level = level;
 
-                initializeEntity(new Random().Next(Int32.MinValue, Int32.MaxValue), level);
-
-                addMyComponents(0, 0, defaultWidth, defaultHeight);
-            }
-            
-            public BasicGround(Level level, int id)
-            {
-                this.level = level;
-
-                initializeEntity(id, level);
-
-
-                addMyComponents(0, 0, defaultWidth, defaultHeight);
-
-            }
-            */
         public BasicGround(Level level, float x, float y)
         {
             this.level = level;

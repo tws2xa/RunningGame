@@ -7,7 +7,7 @@ using System.Collections;
 
 namespace RunningGame.Components
 {
-    class SwitchComponent:Component
+    public class SwitchComponent : Component
     {
         
         //Is it active?

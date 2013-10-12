@@ -8,7 +8,7 @@ using System.Collections;
 
 namespace RunningGame.Systems
 {
-    class InputSystem:GameSystem
+    public class InputSystem:GameSystem
     {
 
         /*
@@ -27,9 +27,9 @@ namespace RunningGame.Systems
 
         public Dictionary<Keys, KeyBools> myKeys = new Dictionary<Keys, KeyBools>();
 
-        public bool mouseClick = false;
         public float mouseX = 0;
         public float mouseY = 0;
+        public bool mouseClick = false;
         public int mouseClickCounter = 0;
 
         ArrayList requiredComponents = new ArrayList();
@@ -97,10 +97,8 @@ namespace RunningGame.Systems
         //Input
         public void KeyDown(KeyEventArgs e)
         {
-            //Console.WriteLine(e.KeyData + " pressed.");
             if (myKeys.ContainsKey(e.KeyData))
             {
-                //Console.WriteLine("Contained.");
                 if (!myKeys[e.KeyData].down) //If it's just been pressed, set pressed to true
                     myKeys[e.KeyData].pressed = true;
                 myKeys[e.KeyData].down = true;
@@ -122,6 +120,11 @@ namespace RunningGame.Systems
             mouseY = e.Y;
             mouseClick = true;
         }
+        public void MouseMoved(MouseEventArgs e)
+        {
+            mouseX = e.X;
+            mouseY = e.Y;
+        }
 
         public void addKey(Keys key)
         {
@@ -135,7 +138,7 @@ namespace RunningGame.Systems
     //Pressed = just pressed
     //Down = Held down
     //Up = Just released
-    class KeyBools
+    public class KeyBools
     {
         public bool pressed = false;
         public bool down = false;

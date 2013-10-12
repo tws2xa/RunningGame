@@ -13,9 +13,6 @@ namespace RunningGame.Entities
         float defaultWidth = 20;
         float defaultHeight = 20;
 
-        //These are used for resetting the entity. They're set in the constructor.
-        float startingX;
-        float startingY;
         bool startingState; //Active or non-active at level start?
 
         //-------------------------------------------Constructors--------------------------------------------
@@ -29,11 +26,6 @@ namespace RunningGame.Entities
             //Leave this for all entities.
             initializeEntity(new Random().Next(Int32.MinValue, Int32.MaxValue), level);
             
-            //Sets the starting x and y.
-            //Leave this for all entities with a position
-            startingX = x;
-            startingY = y;
-
             startingState = false;
 
             //Add the components.
@@ -50,11 +42,6 @@ namespace RunningGame.Entities
             //Leave this for all entities.
             initializeEntity(id, level);
 
-            //Sets the starting x and y.
-            //Leave this for all entities with a position
-            startingX = x;
-            startingY = y;
-
             startingState = false;
 
             //Add the components.
@@ -70,11 +57,6 @@ namespace RunningGame.Entities
             //Refers back to a class in the super Entity.
             //Leave this for all entities.
             initializeEntity(id, level);
-
-            //Sets the starting x and y.
-            //Leave this for all entities with a position
-            startingX = x;
-            startingY = y;
 
             startingState = active;
 

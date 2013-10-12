@@ -15,7 +15,7 @@ namespace RunningGame
      * them from a central area.
      */
 
-    class SystemManager
+    public class SystemManager
     {
 
         Level level;
@@ -106,6 +106,10 @@ namespace RunningGame
         {
             //colSystem.MouseClick(e.X, e.Y); //This'll allow you to click and see which entities are in a cell
             inputSystem.MouseClick(e);
+        }
+        public void MouseMoved(MouseEventArgs e)
+        {
+            inputSystem.MouseMoved(e);
         }
 
         //Any systems that require drawing

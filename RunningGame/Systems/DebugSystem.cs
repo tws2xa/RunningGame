@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace RunningGame.Systems
 {
-    class DebugSystem:GameSystem
+    public class DebugSystem : GameSystem
     {
         ArrayList requiredComponents = new ArrayList();
         Level level;

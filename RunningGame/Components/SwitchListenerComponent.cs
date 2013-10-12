@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace RunningGame.Components
 {
-    class SwitchListenerComponent:Component
+    public class SwitchListenerComponent : Component
     {
         //Has the switch changed state?
         private bool changed; //Private to protect from accessing before switch has been set. Use getChanged instead.
         public SwitchComponent mySwitch { get; set; }
-        public int switchId { get; set; }
+        public int switchId;
         public string eventType { get; set; } //What does the switch do? Is it a door? Maybe a moving platform? See Global Vars.
 
         //Instantiate with a switch id

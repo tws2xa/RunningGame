@@ -12,16 +12,17 @@ namespace RunningGame.Components
 
     //The entity has an x, y, width, and height.
 
-    class PositionComponent : Component
+    public class PositionComponent : Component
     {
         public float prevX { get; set; }
         public float prevY { get; set; }
         public float prevW { get; set; }
         public float prevH { get; set; }
-        public float x;
-        public float y;
-        public float width { get; set; }
-        public float height { get; set; }
+        public float x, y;
+        public float startingX, startingY;
+        public float width;
+        public float height;
+        public float startingWidth, startingHeight;
 
         public bool positionHasChanged {get; set;}
 
@@ -38,10 +39,14 @@ namespace RunningGame.Components
             this.prevY = y;
             this.x = x;
             this.y = y;
+            startingX = x;
+            startingY = y;
             this.prevW = w;
             this.prevH = h;
             this.width = w;
             this.height = h;
+            this.startingWidth = w;
+            this.startingHeight = h;
 
             this.myEntity = myEntity;
 

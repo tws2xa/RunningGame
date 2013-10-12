@@ -15,14 +15,11 @@ namespace RunningGame.Entities
      * It can be whatever you want it to be.
      */
 
-    class TestEntity:Entity
+    public class TestEntity : Entity
     {
 
         float defaultWidth = 10;
         float defaultHeight = 10;
-
-        float startingX;
-        float startingY;
 
         string testAnimationName = "testAnimation";
 
@@ -32,9 +29,6 @@ namespace RunningGame.Entities
 
             initializeEntity(new Random().Next(Int32.MinValue, Int32.MaxValue), level);
             
-            startingX = x;
-            startingY = y;
-
             addMyComponents(x, y);
         }
 
@@ -43,9 +37,6 @@ namespace RunningGame.Entities
             this.level = level;
 
             initializeEntity(id, level);
-
-            startingX = x;
-            startingY = y;
 
             addMyComponents(x, y);
         }
@@ -89,8 +80,8 @@ namespace RunningGame.Entities
         public override void revertToStartingState()
         {
             PositionComponent posComp = (PositionComponent)this.getComponent(GlobalVars.POSITION_COMPONENT_NAME);
-            level.getMovementSystem().changePosition(posComp, startingX, startingY, true);
-            level.getMovementSystem().changeSize(posComp, defaultWidth, defaultHeight);
+            level.getMovementSystem().changePosition(posComp, posComp.startingX, posComp.startingY, true);
+            level.getMovementSystem().changeSize(posComp, posComp.startingWidth, posComp.startingHeight);
 
             VelocityComponent velComp = (VelocityComponent)this.getComponent(GlobalVars.VELOCITY_COMPONENT_NAME);
             velComp.x = 0;

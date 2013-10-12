@@ -7,7 +7,7 @@ using System.Media;
 
 namespace RunningGame.Components
 {
-    class SoundComponent : Component //Always extend Component
+    public class SoundComponent : Component //Always extend Component
     {
         public string soundLocation { get; set; }
         public bool playSound { get; set; }

@@ -20,7 +20,7 @@ namespace RunningGame
      * in the game, and updates them. It also holds
      * the SystemManager which is what controls the game systems.
      */
-    class Level
+    public class Level
     {
 
         Random rand; //for creating entitiy ids
@@ -159,6 +159,11 @@ namespace RunningGame
             //getCollisionSystem().MouseClick(e.X, e.Y);
             sysManager.MouseClick(e);
         }
+        public virtual void MouseMoved(MouseEventArgs e)
+        {
+            sysManager.MouseMoved(e);
+        }
+
 
 
         //Draw everything!

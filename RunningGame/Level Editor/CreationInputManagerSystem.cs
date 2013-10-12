@@ -11,7 +11,7 @@ using System.Windows.Forms;
 
 namespace RunningGame.Level_Editor
 {
-    class CreationInputManagerSystem:GameSystem
+    public class CreationInputManagerSystem : GameSystem
     {
         
         //All systems MUST have an ArrayList of requiredComponents (May need to add using System.Collections at start of file)
@@ -22,6 +22,8 @@ namespace RunningGame.Level_Editor
 
         public bool hasAddedKeys = false;
         public Keys escKey = Keys.Escape;
+        public Keys delKey = Keys.Delete;
+        public Keys shiftKey = Keys.ShiftKey;
         
         public CreationInputManagerSystem(CreationLevel level)
         {
@@ -53,7 +55,9 @@ namespace RunningGame.Level_Editor
 
             if (!hasAddedKeys)
             {
-                level.getInputSystem().addKey(Keys.Escape);
+                level.getInputSystem().addKey(escKey);
+                level.getInputSystem().addKey(delKey);
+                level.getInputSystem().addKey(shiftKey);
                 hasAddedKeys = true;
             }
 
@@ -61,16 +65,47 @@ namespace RunningGame.Level_Editor
             //Check for mouse click. Select/Deselect Entity
             if (level.getInputSystem().mouseClick)
             {
-                selectEntityAt(level.getInputSystem().mouseX, level.getInputSystem().mouseY);
+                if (level.vars.protoEntity == null)
+                {
+                    //Select an entity
+                    selectEntityAt(level.getInputSystem().mouseX, level.getInputSystem().mouseY);
+                }
+                else
+                {
+                    //Create entity from proto entity
+                    createEntityFromProto();
+                }
             }
             
             if (level.getInputSystem().myKeys[escKey].down)
             {
                 deselectEntity();
+                removeProtoEntity();
+            }
+
+            if (level.getInputSystem().myKeys[delKey].down)
+            {
+                if (level.vars.selectedEntity != null)
+                {
+                    level.removeEntity(level.vars.selectedEntity);
+                    deselectEntity();
+                }
+            }
+
+            if (level.getInputSystem().myKeys[shiftKey].down)
+            {
+
             }
             
         }
-        
+        //---------------------------------- Helpers -----------------------------------------------
+
+        public bool shiftPressed()
+        {
+            return (level.getInputSystem().myKeys[shiftKey].pressed);
+        }
+
+
         //---------------------------------- Entity Selection --------------------------------------
 
         public void selectEntityAt(float x, float y)
@@ -80,7 +115,7 @@ namespace RunningGame.Level_Editor
             {
                 selectEntity((Entity)ents[0]);
             }
-            else
+            else if (!shiftPressed())
             {
                 deselectEntity();
             }
@@ -89,14 +124,47 @@ namespace RunningGame.Level_Editor
         public void selectEntity(Entity e)
         {
             level.vars.selectedEntity = e;
+            level.vars.editForm.refreshEntityPropertiesList();
+            if (!shiftPressed())
+                level.vars.allSelectedEntities.Clear();
+            level.vars.allSelectedEntities.Insert(0, e);
         }
 
         public void deselectEntity()
         {
             level.vars.selectedEntity = null;
+            level.vars.editForm.refreshEntityPropertiesList();
         }
 
-        //--------------------------------------------------------------------------------------------
+        //---------------------------------------- Proto Entity Stuff --------------------------------
+
+        public void removeProtoEntity()
+        {
+            if (level.vars.protoEntity != null)
+                level.removeEntity(level.vars.protoEntity);
+            level.vars.protoEntity = null;
+        }
+        public void createEntityFromProto()
+        {
+
+            if (level.vars.protoEntity.myEntType == typeof(Player) && level.getPlayer() != null)
+            {
+                Console.WriteLine("Trying to add a second player. That's a bad idea.");
+                return;
+            }
+
+            Entity e = (Entity)Activator.CreateInstance(level.vars.protoEntity.myEntType, level, 0, 0);
+            if (e.getComponent(GlobalVars.POSITION_COMPONENT_NAME) != null)
+            {
+                PositionComponent newPosComp = (PositionComponent)e.getComponent(GlobalVars.POSITION_COMPONENT_NAME);
+                PositionComponent protoPosComp = (PositionComponent)level.vars.protoEntity.getComponent(GlobalVars.POSITION_COMPONENT_NAME);
+                e.isStartingEntity = true;
+                level.getMovementSystem().changePosition(newPosComp, protoPosComp.x, protoPosComp.y, false);
+            }
+            level.addEntity(e.randId, e);
+            removeProtoEntity();
+            selectEntity(e);
+        }
 
     }
 }

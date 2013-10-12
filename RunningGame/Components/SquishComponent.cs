@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace RunningGame.Components
 {
-    class SquishComponent:Component
+    public class SquishComponent : Component
     {
 
 

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace RunningGame.Components
 {
-    class GlideComponent: Component
+    public class GlideComponent : Component
     {
     }
 }

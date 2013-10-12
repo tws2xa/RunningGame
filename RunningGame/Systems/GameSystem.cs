@@ -14,7 +14,7 @@ namespace RunningGame
      * any entities that have the required components for the system to act.
      */
 
-    abstract class GameSystem
+    public abstract class GameSystem
     {
 
         public abstract Level GetActiveLevel();

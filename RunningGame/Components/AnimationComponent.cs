@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace RunningGame.Components
 {
-    class AnimationComponent:Component
+    public class AnimationComponent : Component
     {
 
         public float animationFrameTime { get; set; } //Time in seconds between frames

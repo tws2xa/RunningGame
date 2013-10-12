@@ -10,13 +10,13 @@ namespace RunningGame.Entities
 {
 
 
-    class Speedy:Entity
+    public class Speedy : Entity
     {
         float defaultWidth = 10;
         float defaultHeight = 10;
 
-        float startingX;
-        float startingY;
+        //float startingX;
+        //float startingY;
 
         public Speedy(Level level, float x, float y)
         {
@@ -27,11 +27,6 @@ namespace RunningGame.Entities
             //Refers back to a class in the super Entity.
             //Leave this for all entities.
             initializeEntity(new Random().Next(Int32.MinValue, Int32.MaxValue), level);
-            
-            //Sets the starting x and y.
-            //Leave this for all entities with a position
-            startingX = x;
-            startingY = y;
 
             //Add the components.
             //Leave this for all entities.
@@ -47,11 +42,6 @@ namespace RunningGame.Entities
             //Refers back to a class in the super Entity.
             //Leave this for all entities.
             initializeEntity(id, level);
-
-            //Sets the starting x and y.
-            //Leave this for all entities with a position
-            startingX = x;
-            startingY = y;
 
             //Add the components.
             //Leave this for all entities.

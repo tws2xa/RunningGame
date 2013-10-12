@@ -11,7 +11,7 @@ namespace RunningGame.Components
 
     //The entity is the player.
 
-    class PlayerComponent:Component
+    public class PlayerComponent : Component
     {
 
 

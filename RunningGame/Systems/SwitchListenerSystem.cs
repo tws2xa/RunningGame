@@ -9,7 +9,7 @@ using RunningGame.Components;
 
 namespace RunningGame.Systems
 {
-    class SwitchListenerSystem:GameSystem
+    public class SwitchListenerSystem : GameSystem
     {
 
         ArrayList requiredComponents = new ArrayList();

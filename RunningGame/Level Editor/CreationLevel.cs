@@ -12,7 +12,7 @@ using RunningGame.Entities;
 
 namespace RunningGame.Level_Editor
 {
-    class CreationLevel:Level
+    public class CreationLevel : Level
     {
 
         /*
@@ -190,7 +190,18 @@ namespace RunningGame.Level_Editor
             //getCollisionSystem().MouseClick(e.X, e.Y);
             sysManager.MouseClick(e);
         }
-
+        public override void MouseMoved(MouseEventArgs e)
+        {
+            sysManager.MouseMoved(e);
+        }
+        public void MouseLeave(EventArgs e)
+        {
+            if (vars.protoEntity != null)
+            {
+                PositionComponent posComp = (PositionComponent)vars.protoEntity.getComponent(GlobalVars.POSITION_COMPONENT_NAME);
+                getMovementSystem().changePosition(posComp, -100, -100, false);
+            }
+        }
 
         //Draw everything!
         public override void Draw(Graphics g)
@@ -210,6 +221,11 @@ namespace RunningGame.Level_Editor
         }
         public override void removeEntity(Entity e)
         {
+            if (e == null)
+            {
+                Console.WriteLine("Trying to remove null entity");
+                return;
+            }
             if (e.isStartingEntity)
                 GlobalVars.removedStartingEntities.Add(e.randId, e);
             if(e.hasComponent(GlobalVars.COLLIDER_COMPONENT_NAME))
@@ -239,6 +255,11 @@ namespace RunningGame.Level_Editor
         }
         public override Entity getPlayer()
         {
+            foreach (Entity e in GlobalVars.allEntities.Values)
+            {
+                if (e is Player)
+                    return e;
+            }
             return null;
         }
 

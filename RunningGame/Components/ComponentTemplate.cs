@@ -9,7 +9,7 @@ namespace RunningGame.Components
     /*
      * A Template for Creating Components
      */
-    class ComponentTemplate:Component //Always extend Component
+    public class ComponentTemplate : Component //Always extend Component
     {
         //Basically the component just holds variables.
         //Some may even be empty

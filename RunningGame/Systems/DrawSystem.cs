@@ -16,7 +16,7 @@ namespace RunningGame.Systems
      * Basically it goes through all entities with these components and draws them.
      */
 
-    class DrawSystem:GameSystem
+    public class DrawSystem : GameSystem
     {
 
         Graphics g;
@@ -100,11 +100,15 @@ namespace RunningGame.Systems
             ArrayList entityList = getApplicableEntities();
             mainView.Draw(g, entityList);
 
+            //If in level editor. Box the selected entities
             if (creatLev != null && creatLev.vars.selectedEntity != null)
             {
-                PositionComponent posComp = (PositionComponent)creatLev.vars.selectedEntity.getComponent(GlobalVars.POSITION_COMPONENT_NAME);
-                g.DrawRectangle(selectedEntBorderColor, posComp.x-posComp.width/2, posComp.y-posComp.height/2, posComp.width, posComp.height);
-                g.FillRectangle(selectedEntFillColor, posComp.x - posComp.width / 2, posComp.y - posComp.height / 2, posComp.width, posComp.height);
+                foreach (Entity e in creatLev.vars.allSelectedEntities)
+                {
+                    PositionComponent posComp = (PositionComponent)creatLev.vars.selectedEntity.getComponent(GlobalVars.POSITION_COMPONENT_NAME);
+                    g.FillRectangle(selectedEntFillColor, posComp.x - posComp.width / 2, posComp.y - posComp.height / 2, posComp.width, posComp.height);
+                    g.DrawRectangle(selectedEntBorderColor, posComp.x - posComp.width / 2, posComp.y - posComp.height / 2, posComp.width, posComp.height);
+                }
             }
 
             if(miniMapOn)

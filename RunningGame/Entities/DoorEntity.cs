@@ -7,7 +7,7 @@ using RunningGame.Components;
 
 namespace RunningGame.Entities
 {
-    class DoorEntity:Entity
+    public class DoorEntity : Entity
     {
 
         
@@ -15,11 +15,6 @@ namespace RunningGame.Entities
         //These are the dimensions your entitiy will start out with.
         float defaultWidth = 20;
         float defaultHeight = 40;
-
-        //These are used for resetting the entity. They're set in the constructor.
-        float startingX;
-        float startingY;
-
 
         //-------------------------------------------Constructors--------------------------------------------
         public DoorEntity(Level level, float x, float y)
@@ -32,11 +27,6 @@ namespace RunningGame.Entities
             //Leave this for all entities.
             initializeEntity(new Random().Next(Int32.MinValue, Int32.MaxValue), level);
             
-            //Sets the starting x and y.
-            //Leave this for all entities with a position
-            startingX = x;
-            startingY = y;
-
             //Add the components.
             //Leave this for all entities.
             addMyComponents(x, y, Int32.MinValue);
@@ -51,11 +41,7 @@ namespace RunningGame.Entities
             //Leave this for all entities.
             initializeEntity(id, level);
 
-            //Sets the starting x and y.
-            //Leave this for all entities with a position
-            startingX = x;
-            startingY = y;
-
+           
             //Add the components.
             //Leave this for all entities.
             addMyComponents(x, y, Int32.MinValue);
@@ -70,11 +56,6 @@ namespace RunningGame.Entities
             //Leave this for all entities.
             initializeEntity(new Random().Next(Int32.MinValue, Int32.MaxValue), level);
 
-            //Sets the starting x and y.
-            //Leave this for all entities with a position
-            startingX = x;
-            startingY = y;
-
             //Add the components.
             //Leave this for all entities.
             addMyComponents(x, y, switchId);
@@ -88,11 +69,6 @@ namespace RunningGame.Entities
             //Refers back to a class in the super Entity.
             //Leave this for all entities.
             initializeEntity(id, level);
-
-            //Sets the starting x and y.
-            //Leave this for all entities with a position
-            startingX = x;
-            startingY = y;
 
             //Add the components.
             //Leave this for all entities.

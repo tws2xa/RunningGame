@@ -20,7 +20,7 @@ namespace RunningGame.Systems
      *  Num Passed Jumps
      *  Num Max Jumps
      */
-    class PlayerMovementSystem : GameSystem
+    public class PlayerMovementSystem : GameSystem
     {
 
         Level level;

@@ -24,7 +24,7 @@ namespace RunningGame.Systems
      * 
      */
 
-    class CollisionDetectionSystem : GameSystem
+    public class CollisionDetectionSystem : GameSystem
     {
 
         ArrayList requiredComponents = new ArrayList();

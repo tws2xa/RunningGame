@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Collections;
 using RunningGame.Components;
+using RunningGame.Level_Editor;
 
 namespace RunningGame.Systems
 {
@@ -18,7 +19,7 @@ namespace RunningGame.Systems
      * It also handles moving objects that have a certain velocity.
      */
 
-    class MovementSystem : GameSystem
+    public class MovementSystem : GameSystem
     {
 
         ArrayList requiredComponents = new ArrayList();
@@ -282,7 +283,7 @@ namespace RunningGame.Systems
                 //ArrayList collisions = level.getCollisionSystem().findObjectsBetweenPoints(posComp.x, posComp.y, xVal, yVal);
 
                 //If there's a collision
-                if (collisions.Count > 0)
+                if (collisions.Count > 0 && !(level is CreationLevel))
                 {
                     foreach (Entity e in collisions)
                     {

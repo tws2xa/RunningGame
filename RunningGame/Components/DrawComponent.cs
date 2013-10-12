@@ -10,7 +10,7 @@ namespace RunningGame.Components
 {
     //The entity has a sprite and will be drawn
 
-    class DrawComponent:Component
+    public class DrawComponent : Component
     {
 
         //May or may not need graphics depending on how the Drawing System works
@@ -20,6 +20,20 @@ namespace RunningGame.Components
         public float height { get; set; }
         public bool sizeLocked { get; set; }
         public string activeSprite;
+
+        //Try not to use this constructor
+        public DrawComponent(Bitmap img, String spriteName, float width, float height, bool sizeLocked)
+        {
+            this.componentName = GlobalVars.DRAW_COMPONENT_NAME;
+            this.width = width;
+            this.height = height;
+            this.sizeLocked = sizeLocked;
+
+            activeSprite = spriteName;
+
+            Sprite newSprite = new Sprite(spriteName, img);
+            images.Add(spriteName, newSprite);
+        }
 
         public DrawComponent(String spriteAddress, String spriteName, float width, float height, bool sizeLocked)
         {
@@ -112,9 +126,17 @@ namespace RunningGame.Components
                 foreach (Image b in images[spriteName].images)
                 {
                     //Must create a copy so it doesn't flip ALL things using this image
-                    Bitmap newImage = new Bitmap(b);
-                    newImage.RotateFlip(rotation);
-                    newImages.Add(newImage);
+                    try
+                    {
+                        Bitmap newImage = new Bitmap(b);
+                        newImage.RotateFlip(rotation);
+                        newImages.Add(newImage);
+                    }
+                    catch (InvalidOperationException e)
+                    {
+                        Console.WriteLine("Couldn't flip an image! Exception: " + e);
+                    }
+                    
                 }
 
                 images[spriteName].images = newImages;

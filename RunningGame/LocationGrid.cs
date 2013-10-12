@@ -21,7 +21,7 @@ namespace RunningGame
      * TODO: handleMovedEntity could probably work more efficiently
      */
 
-    class LocationGrid
+    public class LocationGrid
     {
 
         public Dictionary<RectangleF, ArrayList> grid;

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace RunningGame.Components
 {
-    class ScreenEdgeComponent:Component
+    public class ScreenEdgeComponent : Component
     {
 
         //0 - Nothing

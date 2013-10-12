@@ -7,7 +7,7 @@ using RunningGame.Entities;
 
 namespace RunningGame.Components
 {
-    class PlayerInputComponent:Component
+    public class PlayerInputComponent : Component
     {
         public float jumpStrength { get; set; }
         public float platformerMoveSpeed { get; set; }

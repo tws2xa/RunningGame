@@ -13,17 +13,9 @@ namespace RunningGame.Entities
      * This is a template to help people create entities
      */
 
-    class EntityTemplate:Entity //Always extent the Entity Class
+    public class EntityTemplate : Entity //Always extent the Entity Class
     {
-        //If you're object has width/height Probably good to have a defaults for both.
-        //These are the dimensions your entitiy will start out with.
-        float defaultWidth = 10;
-        float defaultHeight = 10;
-
-        //These are used for resetting the entity. They're set in the constructor.
-        float startingX;
-        float startingY;
-
+    
         //-------------------------------------------Constructors--------------------------------------------
         //One takes in an ID, the other generats it.
         //Both take in the starting x and y of the entity.
@@ -38,11 +30,6 @@ namespace RunningGame.Entities
             //Refers back to a class in the super Entity.
             //Leave this for all entities.
             initializeEntity(new Random().Next(Int32.MinValue, Int32.MaxValue), level);
-            
-            //Sets the starting x and y.
-            //Leave this for all entities with a position
-            startingX = x;
-            startingY = y;
 
             //Add the components.
             //Leave this for all entities.
@@ -57,11 +44,6 @@ namespace RunningGame.Entities
             //Refers back to a class in the super Entity.
             //Leave this for all entities.
             initializeEntity(id, level);
-
-            //Sets the starting x and y.
-            //Leave this for all entities with a position
-            startingX = x;
-            startingY = y;
 
             //Add the components.
             //Leave this for all entities.
