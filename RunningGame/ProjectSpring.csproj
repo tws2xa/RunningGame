@@ -84,7 +84,6 @@
     <Compile Include="Components\ScreenEdgeComponent.cs" />
     <Compile Include="Components\SoundComponent.cs" />
     <Compile Include="Components\SquishComponent.cs" />
-    <Compile Include="StringObjPair.cs" />
     <Compile Include="Components\SwitchComponent.cs" />
     <Compile Include="Components\SwitchListenerComponent.cs" />
     <Compile Include="Components\VelocityComponent.cs" />
@@ -107,7 +106,6 @@
     <Compile Include="Level Editor\FieldInfoListItem.cs" />
     <Compile Include="Level Editor\ProtoEntity.cs" />
     <Compile Include="Level Editor\ProtoEntitySystem.cs" />
-    <Compile Include="StringObjPairList.cs" />
     <Compile Include="Systems\SimplePowerUpSystem.cs" />
     <Compile Include="Systems\DebugSystem.cs" />
     <Compile Include="Entities\Speedy.cs" />

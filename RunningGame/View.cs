@@ -80,8 +80,8 @@ namespace RunningGame
             {
                 followPosComp = (PositionComponent)followEntity.getComponent(GlobalVars.POSITION_COMPONENT_NAME);
             }
-            xBor = width / 10;
-            yBor = height / 10;
+            xBor = width / 5;
+            yBor = height / 5;
 
 
             wRatio = displayWidth / width;
