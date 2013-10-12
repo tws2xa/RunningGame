@@ -19,6 +19,7 @@ namespace RunningGame.Systems
         Keys harmPlayerKey = Keys.H;
         Keys resetLevelKey = Keys.R;
 
+
         bool hasRunOnce = false; //Used to add keys once and only once. Can't in constructor because inputSystem not ready yet
         bool addingDoor = false; //False = adding Switch
 
@@ -50,6 +51,7 @@ namespace RunningGame.Systems
                 level.getInputSystem().addKey(addEntityKey);
                 level.getInputSystem().addKey(harmPlayerKey);
                 level.getInputSystem().addKey(resetLevelKey);
+           
                 hasRunOnce = true;
             }
 
@@ -77,6 +79,7 @@ namespace RunningGame.Systems
             {
                 level.resetLevel();
             }
+         
         }
 
         /*

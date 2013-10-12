@@ -73,6 +73,7 @@ namespace RunningGame.Entities
             //Gravity Component
             addComponent(new GravityComponent(0, GlobalVars.STANDARD_GRAVITY));
             
+           
             //Squish Component
             //addComponent(new SquishComponent(defaultWidth, defaultHeight, defaultWidth * 3.0f, defaultHeight * 3.0f, defaultWidth / 3.0f, defaultHeight / 3.0f));
         }

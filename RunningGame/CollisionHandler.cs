@@ -38,15 +38,17 @@ namespace RunningGame
             Func<Entity, Entity, bool> playerSwitchCollisonFunction = switchPlayerCollision;
 
 
+
             //Add collisions to dictionary
             collisionDictionary.Add(getCollisionTypeName(GlobalVars.PLAYER_COLLIDER_TYPE, GlobalVars.BASIC_SOLID_COLLIDER_TYPE), simpleStopCollisionFunction);
             collisionDictionary.Add(getCollisionTypeName(GlobalVars.BASIC_SOLID_COLLIDER_TYPE, GlobalVars.BASIC_SOLID_COLLIDER_TYPE),
                 simpleStopCollisionFunction);
             collisionDictionary.Add(getCollisionTypeName(GlobalVars.PLAYER_COLLIDER_TYPE, GlobalVars.SPEEDY_COLLIDER_TYPE), speedyPlayerCollisionFunction);
             collisionDictionary.Add(getCollisionTypeName(GlobalVars.BASIC_SOLID_COLLIDER_TYPE, GlobalVars.SPEEDY_COLLIDER_TYPE), simpleStopCollisionFunction);
-            collisionDictionary.Add(getCollisionTypeName(GlobalVars.PLAYER_COLLIDER_TYPE, GlobalVars.SWITCH_COLLIDER_TYPE), playerSwitchCollisonFunction);
 
+            collisionDictionary.Add(getCollisionTypeName(GlobalVars.PLAYER_COLLIDER_TYPE, GlobalVars.SWITCH_COLLIDER_TYPE), playerSwitchCollisonFunction);
         }
+          
     
         //Return true = stop movement. False = do not stop movement.
         public bool handleCollision(Entity e1, Entity e2)
@@ -98,7 +100,28 @@ namespace RunningGame
 
             return true;
         }
+        public static bool glidePlayerCollision(Entity e1, Entity e2)
+        {
+            Entity thePlayer = null;
+            Entity other = null;
+            //Speedy Code
+            if (e1.hasComponent(GlobalVars.PLAYER_COMPONENT_NAME))
+            {
+                other = e2;
+                thePlayer = e1;
+            }
+            else if (e2.hasComponent(GlobalVars.PLAYER_COMPONENT_NAME))
+            {
+                other = e1;
+                thePlayer = e2;
+            }
 
+            if (thePlayer == null || other == null) return false;
+
+            //Do collision code here
+
+            return true;
+        }
         public static bool switchPlayerCollision(Entity e1, Entity e2)
         {
             SwitchComponent sc;

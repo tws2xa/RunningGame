@@ -40,6 +40,5 @@ namespace RunningGame.Components
             this.x += x;
             this.y += y;
         }
-
     }
 }

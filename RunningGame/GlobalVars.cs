@@ -56,6 +56,9 @@ namespace RunningGame
         //Standard Gravity for objects in game
         public static float STANDARD_GRAVITY = 200.0f;
 
+        //Standard Glide (lower gravity)for object in game
+        public static float STANDARD_GLIDE = 150.0f;
+
         //Reading in images as levels.
         public static float LEVEL_READER_TILE_WIDTH = 10; //How wide is one pixel?
         public static float LEVEL_READER_TILE_HEIGHT = 10; //How tall is one pixel?
