@@ -66,7 +66,14 @@ namespace RunningGame.Systems
             if (level.getInputSystem().myKeys[addEntityKey].down)
             {
                 PositionComponent posComp = (PositionComponent)level.getPlayer().getComponent(GlobalVars.POSITION_COMPONENT_NAME);
-                debugAddEntity(posComp.x + posComp.width * 1.5f, posComp.y);
+                Player player = (Player)level.getPlayer();
+               if (player.isLookingRight() )
+                {
+  
+                    debugAddEntity(posComp.x + posComp.width * 1.5f, posComp.y);
+                    
+                }
+               else debugAddEntity(posComp.x - posComp.width * 1.5f, posComp.y);
                 //addDoorOrSwitch(posComp.x + posComp.width * 1.5f, posComp.y);
             }
 
