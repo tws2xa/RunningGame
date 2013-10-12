@@ -9,7 +9,7 @@ using RunningGame.Components;
 namespace RunningGame.Entities
 {
 
-
+    [Serializable()]
     public class Speedy : Entity
     {
         float defaultWidth = 10;

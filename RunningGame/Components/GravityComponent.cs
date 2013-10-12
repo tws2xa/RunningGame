@@ -9,6 +9,7 @@ namespace RunningGame.Components
 
     //The entity is affected by gravity
 
+    [Serializable()]
     public class GravityComponent : Component
     {
 

@@ -7,6 +7,7 @@ using System.Collections;
 
 namespace RunningGame.Components
 {
+    [Serializable()]
     public class SwitchComponent : Component
     {
         

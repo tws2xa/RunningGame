@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Collections;
 using RunningGame.Components;
 using System.Xml.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
 
 namespace RunningGame
 {
@@ -14,18 +15,17 @@ namespace RunningGame
      * This is the entity class from which all game entities are born.
      * It's got some nice things like Testing Equality, and adding and removing componenets.
      */
-    [Serializable]
+    [Serializable()]
     public abstract class Entity
     {
 
         public int randId { get; set; }
-        [XmlIgnore]
-        public Level level { get; set; }
+        [NonSerialized] public Level level;
         public bool isStartingEntity = false;
 
         //Dictionary<string, Component> components = new Dictionary<string, Component>();
         //public ArrayList components = new ArrayList();
-        StringObjPairList components = new StringObjPairList();
+        Dictionary<string, Component> components = new Dictionary<string, Component>();
 
         public Entity() { }
 
@@ -71,9 +71,18 @@ namespace RunningGame
         }
         public void removeComponent(Component comp)
         {
-
-            components.Remove(comp);
-
+            if (components.ContainsValue(comp))
+            {
+                foreach (string key in components.Keys)
+                {
+                    if (components[key] == comp)
+                    {
+                        components.Remove(key);
+                        return;
+                    }
+                }
+            }
+                
         }
         public void removeComponent(string componentName)
         {
@@ -85,15 +94,14 @@ namespace RunningGame
         }
         public Array getComponents()
         {
-            return components.getValues().ToArray();
+            return components.Values.ToArray();
         }
 
         //Get a particular component
         public Component getComponent(string compName)
         {
-            Object o = components.getValFromKey(compName);
-            if (o != null)
-                return (Component)o;
+            if (components.ContainsKey(compName))
+                return components[compName];
             return null;
         }
 

@@ -7,6 +7,7 @@ using System.Drawing;
 
 namespace RunningGame.Components
 {
+    [Serializable()]
     public class HealthComponent : Component
     {
 
@@ -17,8 +18,8 @@ namespace RunningGame.Components
         public float timeSinceRecharge { get; set; }
         public float rechargeTime { get; set; } //How often it recharges
 
-        public Brush backHealthBarBrush { get; set; }
-        public Brush foreHealthBarBrush { get; set; }
+        [NonSerialized] public Brush backHealthBarBrush;
+        [NonSerialized] public Brush foreHealthBarBrush;
         public bool showBarOnFull { get; set; }
 
         //Create component, give full health to start.

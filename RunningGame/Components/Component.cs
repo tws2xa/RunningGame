@@ -20,7 +20,7 @@ namespace RunningGame
      * 
      */
 
-
+    [Serializable()]
     public abstract class Component
     {
         public string componentName = GlobalVars.NULL_COMPONENT_NAME;

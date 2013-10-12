@@ -12,6 +12,7 @@ namespace RunningGame.Systems
     /*
      * A Template for the system class
      */
+    [Serializable()]
     public class SoundSystem : GameSystem //Always extend GameSystem
     {
         //All systems MUST have an ArrayList of requiredComponents (May need to add using System.Collections at start of file)

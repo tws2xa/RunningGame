@@ -9,6 +9,7 @@ using System.Drawing;
 
 namespace RunningGame.Level_Editor
 {
+    [Serializable()]
     public class ProtoEntitySystem : GameSystem
     {
 

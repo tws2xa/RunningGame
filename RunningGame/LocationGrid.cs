@@ -21,6 +21,7 @@ namespace RunningGame
      * TODO: handleMovedEntity could probably work more efficiently
      */
 
+    [Serializable()]
     public class LocationGrid
     {
 

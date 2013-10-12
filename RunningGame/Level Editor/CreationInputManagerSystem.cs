@@ -11,6 +11,8 @@ using System.Windows.Forms;
 
 namespace RunningGame.Level_Editor
 {
+
+    [Serializable()]
     public class CreationInputManagerSystem : GameSystem
     {
         

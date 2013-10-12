@@ -13,6 +13,8 @@ namespace RunningGame.Entities
      * This is a template to help people create entities
      */
 
+
+    [Serializable()]
     public class EntityTemplate : Entity //Always extent the Entity Class
     {
     

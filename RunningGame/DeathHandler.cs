@@ -14,6 +14,7 @@ namespace RunningGame
      * Cheery Stuff
      */
 
+    [Serializable()]
     class DeathHandler
     {
 

@@ -11,6 +11,8 @@ using RunningGame.Entities;
 using RunningGame.Systems;
 using RunningGame.Properties;
 using System.Diagnostics;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.IO;
 
 namespace RunningGame
 {
@@ -20,6 +22,7 @@ namespace RunningGame
      * in the game, and updates them. It also holds
      * the SystemManager which is what controls the game systems.
      */
+    [Serializable()]
     public class Level
     {
 
@@ -45,7 +48,43 @@ namespace RunningGame
 
         public Level() {}
 
-        public Level(float windowWidth, float windowHeight, string levelFile, Graphics g)
+        public Level(float windowWidth, float windowHeight, string levelFile, bool isPaintFile, Graphics g)
+        {
+            if(isPaintFile)
+                initializePaint(windowWidth, windowHeight, levelFile, g);
+            else
+                initializeNotPaint(windowWidth, windowHeight, levelFile, g);
+        }
+
+        public void initializeNotPaint(float windowWidth, float windowHeight, string levelFile, Graphics g)
+        {
+            BinaryFormatter bf = new BinaryFormatter();
+            FileStream f = new FileStream(levelFile, FileMode.Open);
+
+            List<Object> ents = (List<Object>)bf.Deserialize(f);
+
+            cameraWidth = windowWidth;
+            cameraHeight = windowHeight;
+            this.levelWidth = (float)ents[0];
+            this.levelHeight = (float)ents[1];
+
+            if (!sysManagerInit) sysManager = new SystemManager(this);
+
+            sysManagerInit = true;
+
+            prevTicks = DateTime.Now.Ticks;
+
+            for (int i = 2; i < ents.Count; i++)
+            {
+                Entity e = (Entity)ents[i];
+                e.level = this;
+                addEntity(e.randId, e);
+            }
+
+            levelFullyLoaded = true;
+        }
+
+        public void initializePaint(float windowWidth, float windowHeight, string levelFile, Graphics g)
         {
 
             rand = new Random();
@@ -58,13 +97,13 @@ namespace RunningGame
 
             cameraWidth = windowWidth;
             cameraHeight = windowHeight;
-            this.levelWidth = lvlImg.Width*GlobalVars.LEVEL_READER_TILE_WIDTH;
+            this.levelWidth = lvlImg.Width * GlobalVars.LEVEL_READER_TILE_WIDTH;
             this.levelHeight = lvlImg.Height * GlobalVars.LEVEL_READER_TILE_HEIGHT;
 
             //Entities
             //entities = new Dictionary<int, Entity>();
-              
-            if(!sysManagerInit) sysManager = new SystemManager(this);
+
+            if (!sysManagerInit) sysManager = new SystemManager(this);
 
             sysManagerInit = true;
 
@@ -77,7 +116,6 @@ namespace RunningGame
 
             levelFullyLoaded = true;
         }
-
 
         //Game logic
         public virtual void Update()

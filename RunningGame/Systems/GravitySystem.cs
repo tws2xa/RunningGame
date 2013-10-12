@@ -9,6 +9,7 @@ using RunningGame.Components;
 namespace RunningGame
 {
     //Applies gravity to all objects with gravity, position, and velocity components
+    [Serializable()]
     public class GravitySystem : GameSystem
     {
         ArrayList requiredComponents = new ArrayList();

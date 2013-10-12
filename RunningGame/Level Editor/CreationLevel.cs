@@ -12,6 +12,8 @@ using RunningGame.Entities;
 
 namespace RunningGame.Level_Editor
 {
+
+    [Serializable()]
     public class CreationLevel : Level
     {
 

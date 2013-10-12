@@ -22,6 +22,7 @@ namespace RunningGame
      * stop the two solids from moving.
      */
 
+    [Serializable()]
     class CollisionHandler
     {
 

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace RunningGame.Components
 {
-    [Serializable]
+    [Serializable()]
     public class StringObjectPair
     {
         public string name;

@@ -9,6 +9,8 @@ using RunningGame.Components;
 
 namespace RunningGame.Level_Editor
 {
+
+    [Serializable()]
     public class CreationSystemManager
     {
         

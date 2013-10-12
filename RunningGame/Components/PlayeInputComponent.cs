@@ -7,6 +7,7 @@ using RunningGame.Entities;
 
 namespace RunningGame.Components
 {
+    [Serializable()]
     public class PlayerInputComponent : Component
     {
         public float jumpStrength { get; set; }

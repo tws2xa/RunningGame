@@ -14,7 +14,7 @@ namespace RunningGame
      * It's basically a convinient way to initialize, update, and control
      * them from a central area.
      */
-
+    [Serializable()]
     public class SystemManager
     {
 

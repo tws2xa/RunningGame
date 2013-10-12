@@ -15,7 +15,7 @@ namespace RunningGame
      * They can be accessed by saying something like:
      * GlobalVars.NULL_COMPONENT_NAME;
      */
-
+    [Serializable()]
     static class GlobalVars
     {
         //Component names
