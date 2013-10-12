@@ -11,11 +11,16 @@ namespace RunningGame.Systems
 {
     public class SimplePowerUpSystem: GameSystem
     {
+        
         ArrayList requiredComponents = new ArrayList();
         Level level;
 
         float Glide_Gravity_Decrease = 100.0f;
         Keys glideKey = Keys.G;
+        float glideDuration = 2.0f;
+        float glideTimer;
+        bool glideActive = false;
+
 
         bool hasRunOnce = false; //Used to add keys once and only once. Can't in constructor because inputSystem not ready yet
         bool addingDoor = false; //False = adding Switch
@@ -25,6 +30,7 @@ namespace RunningGame.Systems
         public SimplePowerUpSystem(Level level)
         {
             this.level = level; //Always have this
+            glideTimer = glideDuration;
         }
 
         //-------------------------------------- Overrides -------------------------------------------
@@ -48,6 +54,20 @@ namespace RunningGame.Systems
                 level.getInputSystem().addKey(glideKey);
                 hasRunOnce = true;
             }
+            if (glideActive) 
+            {
+               
+                glideTimer = glideTimer - deltaTime;
+                if (glideTimer < 0.0f)
+                {
+                    GravityComponent gravComp = (GravityComponent)this.level.getPlayer().getComponent(GlobalVars.GRAVITY_COMPONENT_NAME);
+                    gravComp.setGravity(gravComp.x, GlobalVars.STANDARD_GRAVITY);
+                    glideActive = false;
+                    glideTimer = glideDuration;
+
+                }
+
+            }
 
             checkForInput();
         }
@@ -69,7 +89,8 @@ namespace RunningGame.Systems
         public void glide()
         {
             GravityComponent gravComp = (GravityComponent)this.level.getPlayer().getComponent(GlobalVars.GRAVITY_COMPONENT_NAME);
-            gravComp.setGravity(gravComp.x, (gravComp.y-Glide_Gravity_Decrease));
+            gravComp.setGravity(gravComp.x, (Glide_Gravity_Decrease));
+            glideActive = true;
         }
     }
     
