@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Collections;
 
 namespace RunningGame
 {
@@ -17,6 +18,8 @@ namespace RunningGame
 
         const int CLIENT_WIDTH = 640;
         const int CLIENT_HEIGHT = 480;
+
+        public ArrayList downKeys = new ArrayList();
 
         public FormSpring()
         {
@@ -38,6 +41,8 @@ namespace RunningGame
         private void FormRunningGame_KeyUp(object sender, KeyEventArgs e)
         {
             game.KeyUp(e);
+            if (downKeys.Contains(e.KeyData))
+                downKeys.Remove(e.KeyData);
         }
 
         private void FormRunningGame_KeyPress(object sender, KeyPressEventArgs e)
@@ -47,7 +52,11 @@ namespace RunningGame
 
         private void FormRunningGame_KeyDown(object sender, KeyEventArgs e)
         {
-            game.KeyDown(e);
+            if (!downKeys.Contains(e.KeyData))
+            {
+                game.KeyDown(e);
+                downKeys.Add(e.KeyData);
+            }
         }
 
         private void btnBegin_Click(object sender, EventArgs e)

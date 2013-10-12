@@ -99,9 +99,9 @@ namespace RunningGame.Systems
         {
             if (myKeys.ContainsKey(e.KeyData))
             {
-                if (!myKeys[e.KeyData].down) //If it's just been pressed, set pressed to true
-                    myKeys[e.KeyData].pressed = true;
-                myKeys[e.KeyData].down = true;
+                if (!myKeys[e.KeyData].down) //If it's just been pressed, set down to true
+                    myKeys[e.KeyData].down = true;
+                myKeys[e.KeyData].pressed = true;
             }
         }
         public void KeyUp(KeyEventArgs e)
@@ -109,7 +109,7 @@ namespace RunningGame.Systems
             if (myKeys.ContainsKey(e.KeyData))
             {
 
-                myKeys[e.KeyData].down = false;
+                myKeys[e.KeyData].pressed = false;
                 myKeys[e.KeyData].up = true;
 
             }

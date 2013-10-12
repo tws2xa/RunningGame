@@ -15,7 +15,9 @@ namespace RunningGame.Components
 
         //May or may not need graphics depending on how the Drawing System works
         //public Bitmap sprite {get; set;}
-        public Dictionary<string, Sprite> images = new Dictionary<string, Sprite>();
+        //public Dictionary<string, Sprite> images = new Dictionary<string, Sprite>();
+        public StringObjPairList images = new StringObjPairList();
+
         public float width {get; set;}
         public float height { get; set; }
         public bool sizeLocked { get; set; }
@@ -108,12 +110,12 @@ namespace RunningGame.Components
 
         public Image getImage()
         {
-            return images[activeSprite].getCurrentImage();
+            return getSprite().getCurrentImage();
         }
 
         public Sprite getSprite()
         {
-            return images[activeSprite];
+            return (Sprite)images.getValFromKey(activeSprite);
         }
 
         public void rotateFlipSprite(string spriteName, RotateFlipType rotation)
@@ -123,7 +125,9 @@ namespace RunningGame.Components
 
                 ArrayList newImages = new ArrayList();
 
-                foreach (Image b in images[spriteName].images)
+                Sprite s = (Sprite)images.getValFromKey(spriteName);
+
+                foreach (Image b in s.images)
                 {
                     //Must create a copy so it doesn't flip ALL things using this image
                     try
@@ -139,7 +143,7 @@ namespace RunningGame.Components
                     
                 }
 
-                images[spriteName].images = newImages;
+                s.images = newImages;
             }
             else
                 Console.WriteLine("Trying to rotate/flip a nonexistant image: " + spriteName);
@@ -151,7 +155,7 @@ namespace RunningGame.Components
             if (images.ContainsKey(spriteName))
             {
                 activeSprite = spriteName;
-                images[activeSprite].currentImageIndex = 0;
+                getSprite().currentImageIndex = 0;
             }
             else
                 Console.WriteLine("Trying to set sprite to nonexistant image: " + spriteName);
@@ -164,7 +168,7 @@ namespace RunningGame.Components
                 activeSprite = spriteName;
                 if (resetAnimation)
                 {
-                    images[activeSprite].currentImageIndex = 0;
+                    getSprite().currentImageIndex = 0;
                 }
             }
             else

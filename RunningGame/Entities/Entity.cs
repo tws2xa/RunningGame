@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Collections;
+using RunningGame.Components;
+using System.Xml.Serialization;
 
 namespace RunningGame
 {
@@ -17,10 +19,13 @@ namespace RunningGame
     {
 
         public int randId { get; set; }
+        [XmlIgnore]
         public Level level { get; set; }
         public bool isStartingEntity = false;
 
-        Dictionary<string, Component> components = new Dictionary<string, Component>();
+        //Dictionary<string, Component> components = new Dictionary<string, Component>();
+        //public ArrayList components = new ArrayList();
+        StringObjPairList components = new StringObjPairList();
 
         public Entity() { }
 
@@ -66,36 +71,50 @@ namespace RunningGame
         }
         public void removeComponent(Component comp)
         {
-            if(components.ContainsValue(comp))
-                components.Remove(comp.componentName);
+
+            components.Remove(comp);
+
         }
         public void removeComponent(string componentName)
         {
+            components.Remove(componentName);
+            /*
             if (components.ContainsKey(componentName))
                 components.Remove(componentName);
+            */
         }
         public Array getComponents()
         {
-            return components.Values.ToArray();
+            return components.getValues().ToArray();
         }
 
         //Get a particular component
         public Component getComponent(string compName)
         {
-            if (components.ContainsKey(compName)) return components[compName];
-            else return null;
+            Object o = components.getValFromKey(compName);
+            if (o != null)
+                return (Component)o;
+            return null;
         }
 
         //Whether or not the entity contains the given component
         public bool hasComponent(string compName)
         {
-            return components.ContainsKey(compName);
+            return componentsContainsKey(compName);
         }
         public bool hasComponent(Component c)
         {
-            return components.ContainsValue(c);
+            return componentsContainsValue(c);
         }
 
+        public bool componentsContainsKey(string name)
+        {
+            return components.ContainsKey(name);
+        }
+        public bool componentsContainsValue(Component comp)
+        {
+            return components.ContainsValue(comp);
+        }
 
         public abstract void revertToStartingState();
     }

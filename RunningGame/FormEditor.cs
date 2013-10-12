@@ -253,7 +253,7 @@ namespace RunningGame
                 return;
             }
 
-            /*
+            
             XmlSerializer serializer = new XmlSerializer(typeof(List<Entity>));
             System.IO.StreamWriter writer = new System.IO.StreamWriter(txtFileName.Text + ".xml");
 
@@ -261,7 +261,7 @@ namespace RunningGame
 
             serializer.Serialize(writer, ents);
             writer.Close();
-            */
+            
 
             
         }

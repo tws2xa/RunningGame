@@ -27,6 +27,8 @@ namespace RunningGame.Entities
         string blinkLeft = "binkLeft";
         string blinkRight = "blinkRight";
 
+        public Player() { }
+
         public Player(Level level, float x, float y)
         {
             this.level = level;
