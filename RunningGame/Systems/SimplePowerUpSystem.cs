@@ -15,7 +15,7 @@ namespace RunningGame.Systems
         ArrayList requiredComponents = new ArrayList();
         Level level;
 
-        float Glide_Gravity_Decrease = 100.0f;
+        float Glide_Gravity_Decrease = 130.0f;
         Keys glideKey = Keys.G;
         float glideDuration = 2.0f;
         float glideTimer;
