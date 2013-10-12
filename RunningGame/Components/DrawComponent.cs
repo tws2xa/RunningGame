@@ -10,13 +10,14 @@ namespace RunningGame.Components
 {
     //The entity has a sprite and will be drawn
 
+    [Serializable()]
     public class DrawComponent : Component
     {
 
         //May or may not need graphics depending on how the Drawing System works
         //public Bitmap sprite {get; set;}
         //public Dictionary<string, Sprite> images = new Dictionary<string, Sprite>();
-        public StringObjPairList images = new StringObjPairList();
+        public Dictionary<string, Sprite> images = new Dictionary<string, Sprite>();
 
         public float width {get; set;}
         public float height { get; set; }
@@ -115,7 +116,7 @@ namespace RunningGame.Components
 
         public Sprite getSprite()
         {
-            return (Sprite)images.getValFromKey(activeSprite);
+            return (Sprite)images[activeSprite];
         }
 
         public void rotateFlipSprite(string spriteName, RotateFlipType rotation)
@@ -125,7 +126,7 @@ namespace RunningGame.Components
 
                 ArrayList newImages = new ArrayList();
 
-                Sprite s = (Sprite)images.getValFromKey(spriteName);
+                Sprite s = (Sprite)images[spriteName];
 
                 foreach (Image b in s.images)
                 {

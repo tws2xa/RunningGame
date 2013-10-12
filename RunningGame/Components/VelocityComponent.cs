@@ -8,7 +8,7 @@ namespace RunningGame.Components
 {
 
     //The entity has a velocity
-
+    [Serializable()]
     public class VelocityComponent : Component
     {
 

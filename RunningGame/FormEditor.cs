@@ -13,6 +13,8 @@ using System.Reflection;
 using System.Collections;
 using RunningGame.Components;
 using System.Xml.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.IO;
 
 namespace RunningGame
 {
@@ -253,16 +255,32 @@ namespace RunningGame
                 return;
             }
 
+
+            String fileName = txtFileName.Text + ".bin";
+
+            //XmlSerializer serializer = new XmlSerializer(typeof(List<Entity>));
+            //StreamWriter stream = new StreamWriter(fileName);
+
+            BinaryFormatter serializer = new BinaryFormatter();
+            FileStream stream = new FileStream(fileName, FileMode.Create);
+
+            List<Object> ents = new List<Object>();
+
+            ents.Add(creationGame.getCurrentLevel().levelWidth);
+            ents.Add(creationGame.getCurrentLevel().levelHeight);
+
+            foreach (Entity ent in GlobalVars.allEntities.Values)
+            {
+                ents.Add(ent);
+            }
             
-            XmlSerializer serializer = new XmlSerializer(typeof(List<Entity>));
-            System.IO.StreamWriter writer = new System.IO.StreamWriter(txtFileName.Text + ".xml");
+            serializer.Serialize(stream, ents);
 
-            List<Entity> ents = new List<Entity>(GlobalVars.allEntities.Values);
+            Console.WriteLine("Level File Location: " + stream.Name);
 
-            serializer.Serialize(writer, ents);
-            writer.Close();
+            stream.Close();
             
-
+            txtFileName.BackColor = Color.Green;
             
         }
 

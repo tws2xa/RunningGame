@@ -20,6 +20,7 @@ namespace RunningGame.Systems
      *  Num Passed Jumps
      *  Num Max Jumps
      */
+    [Serializable()]
     public class PlayerMovementSystem : GameSystem
     {
 

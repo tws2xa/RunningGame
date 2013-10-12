@@ -15,6 +15,7 @@ namespace RunningGame.Entities
      * are the faceLeft, and faceRight methods.
      * These change which way the player sprite is looking.
      */
+    [Serializable()]
     public class Player : Entity
     {
 

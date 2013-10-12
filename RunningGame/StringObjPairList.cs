@@ -8,7 +8,7 @@ using RunningGame.Components;
 
 namespace RunningGame
 {
-    [Serializable]
+    [Serializable()]
     public class StringObjPairList
     {
         ArrayList pairs;

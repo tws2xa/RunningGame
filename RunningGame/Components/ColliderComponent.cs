@@ -9,6 +9,7 @@ namespace RunningGame.Components
 
     //Adding this means the entity will collide with stuffs
 
+    [Serializable()]
     public class ColliderComponent : Component
     {
 

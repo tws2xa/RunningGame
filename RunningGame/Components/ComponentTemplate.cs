@@ -9,6 +9,7 @@ namespace RunningGame.Components
     /*
      * A Template for Creating Components
      */
+    [Serializable()]
     public class ComponentTemplate : Component //Always extend Component
     {
         //Basically the component just holds variables.

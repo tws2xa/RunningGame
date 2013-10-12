@@ -16,6 +16,7 @@ namespace RunningGame.Systems
      * Basically it goes through all entities with these components and draws them.
      */
 
+    [Serializable()]
     public class DrawSystem : GameSystem
     {
 
@@ -25,8 +26,8 @@ namespace RunningGame.Systems
         public View mainView;
         ArrayList requiredComponents = new ArrayList();
 
-        Pen selectedEntBorderColor = Pens.Red;
-        Brush selectedEntFillColor = new SolidBrush(Color.FromArgb(100, Color.CornflowerBlue));
+        [NonSerialized] Pen selectedEntBorderColor = Pens.Red;
+        [NonSerialized] Brush selectedEntFillColor = new SolidBrush(Color.FromArgb(100, Color.CornflowerBlue));
 
         View miniMap;
 

@@ -11,6 +11,7 @@ namespace RunningGame.Components
 
     //The entity is the player.
 
+    [Serializable()]
     public class PlayerComponent : Component
     {
 

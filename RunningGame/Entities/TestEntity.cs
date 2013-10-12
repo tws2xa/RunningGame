@@ -14,7 +14,7 @@ namespace RunningGame.Entities
      * Meet the ever so handy test entity!
      * It can be whatever you want it to be.
      */
-
+    [Serializable()]
     public class TestEntity : Entity
     {
 

@@ -9,6 +9,7 @@ using RunningGame.Systems;
 
 namespace RunningGame.Systems
 {
+    [Serializable()]
     public class ScreenEdgeSystem : GameSystem
     {
 

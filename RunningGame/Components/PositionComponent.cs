@@ -12,6 +12,7 @@ namespace RunningGame.Components
 
     //The entity has an x, y, width, and height.
 
+    [Serializable()]
     public class PositionComponent : Component
     {
         public float prevX { get; set; }

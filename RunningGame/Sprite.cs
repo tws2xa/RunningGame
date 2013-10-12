@@ -15,6 +15,7 @@ namespace RunningGame
      * To form an animation.
      */
 
+    [Serializable()]
     public class Sprite
     {
 

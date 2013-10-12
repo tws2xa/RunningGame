@@ -7,6 +7,7 @@ using System.Media;
 
 namespace RunningGame.Components
 {
+    [Serializable()]
     public class SoundComponent : Component //Always extend Component
     {
         public string soundLocation { get; set; }

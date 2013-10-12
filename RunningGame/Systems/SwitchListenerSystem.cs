@@ -9,6 +9,7 @@ using RunningGame.Components;
 
 namespace RunningGame.Systems
 {
+    [Serializable()]
     public class SwitchListenerSystem : GameSystem
     {
 

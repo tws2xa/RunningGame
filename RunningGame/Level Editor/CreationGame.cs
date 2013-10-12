@@ -10,6 +10,7 @@ using System.Collections;
 
 namespace RunningGame.Level_Editor
 {
+    [Serializable()]
     class CreationGame
     {
         private int pnlWidth;

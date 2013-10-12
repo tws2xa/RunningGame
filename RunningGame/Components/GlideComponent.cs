@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace RunningGame.Components
 {
+    [Serializable()]
     public class GlideComponent : Component
     {
     }

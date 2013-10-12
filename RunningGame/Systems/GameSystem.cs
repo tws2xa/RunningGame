@@ -14,6 +14,7 @@ namespace RunningGame
      * any entities that have the required components for the system to act.
      */
 
+    [Serializable()]
     public abstract class GameSystem
     {
 

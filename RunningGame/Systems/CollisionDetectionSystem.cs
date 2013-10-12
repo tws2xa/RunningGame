@@ -24,6 +24,7 @@ namespace RunningGame.Systems
      * 
      */
 
+    [Serializable()]
     public class CollisionDetectionSystem : GameSystem
     {
 

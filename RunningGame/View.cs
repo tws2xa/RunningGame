@@ -23,6 +23,7 @@ namespace RunningGame
      * In the update method, if it has an entity that it is set to follow, it will check if it needs to move
      * xBor and yBor are the distance the following entity can get to the edge until the view is pushed
      */
+    [Serializable()]
     public class View
     {
 

@@ -17,6 +17,7 @@ namespace RunningGame
      * Holds Start Menu, could ask about any level modifiers etc
      * Eventually it starts the level.
     */
+    [Serializable()]
     class Game
     {
         private int winWidth;
@@ -25,11 +26,11 @@ namespace RunningGame
         private Level currentLevel;
         private bool gameRunning;
         
-        private Graphics mainWinGraphics;
-        private Brush backBrush = Brushes.Wheat; //Backcolor for the game
+        [NonSerialized] private Graphics mainWinGraphics;
+        [NonSerialized] private Brush backBrush = Brushes.Wheat; //Backcolor for the game
         
-        private Bitmap bufferImage;
-        private Graphics dbGraphics;
+        [NonSerialized] private Bitmap bufferImage;
+        [NonSerialized] private Graphics dbGraphics;
 
         public Game(Graphics winGraphics, int w, int h)
         {
@@ -55,7 +56,9 @@ namespace RunningGame
 
         public void startLevel()
         {
-            currentLevel = new Level(winWidth, winHeight, "RunningGame.Resources.TestEntityLevel.png", dbGraphics);
+            currentLevel = new Level(winWidth, winHeight, "RunningGame.Resources.TestLevelMidLength.png", true, dbGraphics);
+
+            //currentLevel = new Level(winWidth, winHeight, "TestLevel1.bin", false, dbGraphics);
         }
 
 

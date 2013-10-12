@@ -8,7 +8,8 @@ using System.Collections;
 
 namespace RunningGame.Systems
 {
-    public class InputSystem:GameSystem
+    [Serializable()]
+    public class InputSystem : GameSystem
     {
 
         /*

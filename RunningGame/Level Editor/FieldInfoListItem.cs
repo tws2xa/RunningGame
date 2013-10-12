@@ -7,6 +7,8 @@ using System.Reflection;
 
 namespace RunningGame.Level_Editor
 {
+
+    [Serializable()]
     class FieldInfoListItem
     {
 

@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 
 namespace RunningGame.Level_Editor
 {
+
+    [Serializable()]
     class EntityListItem
     {
 

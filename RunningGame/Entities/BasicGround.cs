@@ -15,6 +15,8 @@ namespace RunningGame.Entities
      * It's color code in the level editor is pure black: RGB(0, 0, 0)
      */
 
+
+    [Serializable()]
     public class BasicGround : Entity
     {
 

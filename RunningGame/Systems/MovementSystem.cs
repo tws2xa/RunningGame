@@ -19,6 +19,7 @@ namespace RunningGame.Systems
      * It also handles moving objects that have a certain velocity.
      */
 
+    [Serializable()]
     public class MovementSystem : GameSystem
     {
 

@@ -10,6 +10,7 @@ using System.Windows.Forms;
 
 namespace RunningGame.Systems
 {
+    [Serializable()]
     public class DebugSystem : GameSystem
     {
         ArrayList requiredComponents = new ArrayList();

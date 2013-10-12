@@ -16,7 +16,7 @@ namespace RunningGame
      * This class reads in a level image, and adds the
      * appropriate entities into the game world.
      */
-
+    [Serializable()]
     class LevelImageReader
     {
 

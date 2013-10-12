@@ -7,7 +7,9 @@ using RunningGame.Components;
 
 namespace RunningGame.Entities
 {
-    class SwitchEntity:Entity
+
+    [Serializable()]
+    class SwitchEntity : Entity
     {
 
         float defaultWidth = 20;

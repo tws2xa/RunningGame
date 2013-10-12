@@ -8,6 +8,8 @@ using RunningGame.Components;
 
 namespace RunningGame.Entities
 {
+
+    [Serializable()]
     public class Glide : Entity
     {
         float defaultWidth = 10;
