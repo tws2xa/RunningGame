@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Collections;
 using System.Windows.Forms;
 using RunningGame.Components;
+using RunningGame.Entities;
 
 namespace RunningGame.Systems
 {
@@ -21,6 +22,8 @@ namespace RunningGame.Systems
         float glideTimer;
         bool glideActive = false;
 
+        Keys addBlockKey = Keys.K;
+       
 
         bool hasRunOnce = false; //Used to add keys once and only once. Can't in constructor because inputSystem not ready yet
         bool addingDoor = false; //False = adding Switch
@@ -52,6 +55,7 @@ namespace RunningGame.Systems
             if (!hasRunOnce)
             {
                 level.getInputSystem().addKey(glideKey);
+                level.getInputSystem().addKey(addBlockKey);
                 hasRunOnce = true;
             }
             if (glideActive) 
@@ -84,6 +88,10 @@ namespace RunningGame.Systems
             {
                 glide();
             }
+            if (level.getInputSystem().myKeys[addBlockKey].down)
+            {
+                addBlock();
+            }
         }
 
         public void glide()
@@ -92,6 +100,29 @@ namespace RunningGame.Systems
             gravComp.setGravity(gravComp.x, (Glide_Gravity_Decrease));
             glideActive = true;
         }
+
+        public void addBlock()
+        {
+            PositionComponent posComp = (PositionComponent)level.getPlayer().getComponent(GlobalVars.POSITION_COMPONENT_NAME);
+                Player player = (Player)level.getPlayer();
+                if (player.isLookingRight())
+                {
+
+                    debugAddEntity(posComp.x + posComp.width * 1.5f, posComp.y);
+
+                }
+                else debugAddEntity(posComp.x - posComp.width * 1.5f, posComp.y);
+                
+            }
+        public void debugAddEntity(float x, float y)
+        {   
+            
+            //Entity newEntity = new [YOUR ENTITY HERE](level, x, y);
+            Entity newEntity = new TestEntity(level, x, y);
+
+            level.addEntity(newEntity.randId, newEntity); //This should just stay the same
+        }
+        }
     }
     
-}
+
