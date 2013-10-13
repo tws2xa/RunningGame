@@ -288,40 +288,42 @@ namespace RunningGame.Systems
                 {
                     foreach (Entity e in collisions)
                     {
+                        //If e also has a collider
+                        if(e.hasComponent(GlobalVars.COLLIDER_COMPONENT_NAME)) {
                         //Handle the collision
-                        if (colHandler.handleCollision(posComp.myEntity, e))
-                        {
-
-                            if (isX) velComp.x = 0;
-                            else velComp.y = 0;
-
-                            movementBlocked = true;
-
-                            //Move to edge of object if already mostly at the edge... ONLY IF MOVE TO CONTACT IS TRUE
-                            if (moveToContact)
+                            if (colHandler.handleCollision(posComp.myEntity, e))
                             {
-                                PositionComponent otherPosComp = (PositionComponent)e.getComponent(GlobalVars.POSITION_COMPONENT_NAME);
 
-                                if (isX)
+                                if (isX) velComp.x = 0;
+                                else velComp.y = 0;
+
+                                movementBlocked = true;
+
+                                //Move to edge of object if already mostly at the edge... ONLY IF MOVE TO CONTACT IS TRUE
+                                if (moveToContact)
                                 {
-                                    if (posComp.x < (otherPosComp.x))
-                                        level.getMovementSystem().changePosition(posComp, otherPosComp.x - otherPosComp.width / 2 - posComp.width / 2, posComp.y, false);
-                                    else
-                                        level.getMovementSystem().changePosition(posComp, otherPosComp.x + otherPosComp.width / 2 + posComp.width / 2, posComp.y, false);
+                                    PositionComponent otherPosComp = (PositionComponent)e.getComponent(GlobalVars.POSITION_COMPONENT_NAME);
 
-                                    //posComp.positionHasChanged = true;
-                                }
-                                else
-                                {
-                                    if (posComp.y < (otherPosComp.y))
-                                        level.getMovementSystem().changePosition(posComp, posComp.x, otherPosComp.y - otherPosComp.height / 2 - posComp.height / 2, false);
-                                    else
-                                        level.getMovementSystem().changePosition(posComp, posComp.x, otherPosComp.y + otherPosComp.height / 2 + posComp.height / 2, false);
+                                    if (isX)
+                                    {
+                                        if (posComp.x < (otherPosComp.x))
+                                            level.getMovementSystem().changePosition(posComp, otherPosComp.x - otherPosComp.width / 2 - posComp.width / 2, posComp.y, false);
+                                        else
+                                            level.getMovementSystem().changePosition(posComp, otherPosComp.x + otherPosComp.width / 2 + posComp.width / 2, posComp.y, false);
 
-                                    //posComp.positionHasChanged = true;
+                                        //posComp.positionHasChanged = true;
+                                    }
+                                    else
+                                    {
+                                        if (posComp.y < (otherPosComp.y))
+                                            level.getMovementSystem().changePosition(posComp, posComp.x, otherPosComp.y - otherPosComp.height / 2 - posComp.height / 2, false);
+                                        else
+                                            level.getMovementSystem().changePosition(posComp, posComp.x, otherPosComp.y + otherPosComp.height / 2 + posComp.height / 2, false);
+
+                                        //posComp.positionHasChanged = true;
+                                    }
                                 }
                             }
-
                         }
                     }
                 }

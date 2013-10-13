@@ -57,12 +57,14 @@ namespace RunningGame
             ColliderComponent col1 = (ColliderComponent)e1.getComponent(GlobalVars.COLLIDER_COMPONENT_NAME);
             ColliderComponent col2 = (ColliderComponent)e2.getComponent(GlobalVars.COLLIDER_COMPONENT_NAME);
 
+            /* This shouldn't be needed. It shouldn't happen...
             if (col1 == null || col2 == null)
             {
                 Console.WriteLine("Handling a null collision");
                 return false;
             }
-
+            */
+ 
             string collisionTypeName = getCollisionTypeName(col1.colliderType, col2.colliderType);
 
             //If it's not a listed collision type
@@ -154,7 +156,6 @@ namespace RunningGame
                 sc.setActive(true);
                 DrawComponent drawComp = (DrawComponent)s.getComponent(GlobalVars.DRAW_COMPONENT_NAME);
                 drawComp.setSprite(GlobalVars.SWITCH_ACTIVE_SPRITE_NAME);
-                Console.WriteLine("You collided with the switch! Active: " + sc.active + "ID: " + s.randId);
             }
 
 
