@@ -89,6 +89,7 @@
     <Compile Include="Components\VelocityComponent.cs" />
     <Compile Include="DeathHandler.cs" />
     <Compile Include="Entities\BasicGround.cs" />
+    <Compile Include="Entities\BlockEntity.cs" />
     <Compile Include="Entities\DoorEntity.cs" />
     <Compile Include="Entities\SwitchEntity.cs" />
     <Compile Include="FormEditor.cs">
@@ -176,6 +177,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Resources\DirtSquare.png" />
     <EmbeddedResource Include="Resources\TestLevelNoBorder.png" />
   </ItemGroup>
   <ItemGroup>
@@ -215,9 +217,6 @@
     <EmbeddedResource Include="Resources\DoorOpen.png" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\DirtSquare.png" />
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="Resources\DoorClosed.png" />
   </ItemGroup>
   <ItemGroup>
@@ -232,6 +231,9 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\WhiteSquare.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\BlockSquare.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
