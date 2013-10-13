@@ -13,6 +13,7 @@ using RunningGame.Properties;
 using System.Diagnostics;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
+using System.Reflection;
 
 namespace RunningGame
 {
@@ -59,7 +60,7 @@ namespace RunningGame
         public void initializeNotPaint(float windowWidth, float windowHeight, string levelFile, Graphics g)
         {
             BinaryFormatter bf = new BinaryFormatter();
-            FileStream f = new FileStream(levelFile, FileMode.Open);
+            Stream f = Assembly.GetExecutingAssembly().GetManifestResourceStream(levelFile);
 
             List<Object> ents = (List<Object>)bf.Deserialize(f);
 
