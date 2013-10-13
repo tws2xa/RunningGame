@@ -171,11 +171,31 @@ namespace RunningGame
                 {
                     creationGame.getCurrentLevel().getMovementSystem().changeWidth(posComp, float.Parse(txtVar.Text));
                     posComp.startingWidth = float.Parse(txtVar.Text);
+
+                    Entity e = posComp.myEntity;
+                    if (e.hasComponent(GlobalVars.DRAW_COMPONENT_NAME))
+                    {
+                        DrawComponent drawComp = (DrawComponent)e.getComponent(GlobalVars.DRAW_COMPONENT_NAME);
+                        if (drawComp.sizeLocked)
+                        {
+                            drawComp.resizeImages(int.Parse(txtVar.Text), (int)drawComp.height);
+                        }
+                    }
                 }
                 else if (item.fieldInfo.Name == "height")
                 {
                     creationGame.getCurrentLevel().getMovementSystem().changeHeight(posComp, float.Parse(txtVar.Text));
                     posComp.startingHeight = float.Parse(txtVar.Text);
+
+                    Entity e = posComp.myEntity;
+                    if (e.hasComponent(GlobalVars.DRAW_COMPONENT_NAME))
+                    {
+                        DrawComponent drawComp = (DrawComponent)e.getComponent(GlobalVars.DRAW_COMPONENT_NAME);
+                        if (drawComp.sizeLocked)
+                        {
+                            drawComp.resizeImages((int)drawComp.width, int.Parse(txtVar.Text));
+                        }
+                    }
                 }
             }
             else if(item.fieldInfo.FieldType == typeof(float))

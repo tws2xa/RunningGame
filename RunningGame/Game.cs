@@ -58,7 +58,7 @@ namespace RunningGame
         {
             currentLevel = new Level(winWidth, winHeight, "RunningGame.Resources.TestLevelMidLength.png", true, dbGraphics);
 
-            //currentLevel = new Level(winWidth, winHeight, "DoorSwitchTest3.bin", false, dbGraphics);
+            //currentLevel = new Level(winWidth, winHeight, "TestResizes.bin", false, dbGraphics);
         }
 
 
