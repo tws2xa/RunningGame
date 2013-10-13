@@ -14,7 +14,7 @@ namespace RunningGame.Entities
         float defaultWidth = 18;
         float defaultHeight = 18;
 
-        string testAnimationName = "testAnimation";
+        string blockAnimationName = "blockAnimation";
 
         public BlockEntity(Level level, float x, float y)
         {
@@ -38,7 +38,7 @@ namespace RunningGame.Entities
                 "RunningGame.Resources.GrassSquare.png", "RunningGame.Resources.Player.png"
             };
 
-            drawComp.addAnimatedSprite(testAnimationList, testAnimationName);
+            drawComp.addAnimatedSprite(testAnimationList, blockAnimationName);
             //drawComp.activeSprite = testAnimationName;
             drawComp.activeSprite = "Main";
 
