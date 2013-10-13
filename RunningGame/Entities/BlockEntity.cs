@@ -11,8 +11,8 @@ namespace RunningGame.Entities
 {
     class BlockEntity: Entity
     {
-        float defaultWidth = 15;
-        float defaultHeight = 15;
+        float defaultWidth = 18;
+        float defaultHeight = 18;
 
         string testAnimationName = "testAnimation";
 
