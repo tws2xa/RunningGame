@@ -16,19 +16,18 @@ namespace RunningGame.Systems
         ArrayList requiredComponents = new ArrayList();
         Level level;
 
+        //Glide powerup informations
         float Glide_Gravity_Decrease = 130.0f;
         Keys glideKey = Keys.G;
         float glideDuration = 2.0f;
         float glideTimer;
         bool glideActive = false;
 
-        Keys addBlockKey = Keys.K;
+        //addBlock information
+        Keys blockSpawnKey = Keys.K;
        
-
         bool hasRunOnce = false; //Used to add keys once and only once. Can't in constructor because inputSystem not ready yet
-        bool addingDoor = false; //False = adding Switch
-
-        int switchId;
+       
 
         public SimplePowerUpSystem(Level level)
         {
@@ -55,7 +54,7 @@ namespace RunningGame.Systems
             if (!hasRunOnce)
             {
                 level.getInputSystem().addKey(glideKey);
-                level.getInputSystem().addKey(addBlockKey);
+                level.getInputSystem().addKey(blockSpawnKey);
                 hasRunOnce = true;
             }
             if (glideActive) 
@@ -88,9 +87,9 @@ namespace RunningGame.Systems
             {
                 glide();
             }
-            if (level.getInputSystem().myKeys[addBlockKey].down)
+            if (level.getInputSystem().myKeys[blockSpawnKey].down)
             {
-                addBlock();
+                blockSpawn();
             }
         }
 
@@ -101,20 +100,21 @@ namespace RunningGame.Systems
             glideActive = true;
         }
 
-        public void addBlock()
+        public void blockSpawn()
         {
             PositionComponent posComp = (PositionComponent)level.getPlayer().getComponent(GlobalVars.POSITION_COMPONENT_NAME);
                 Player player = (Player)level.getPlayer();
+
                 if (player.isLookingRight())
                 {
 
-                    debugAddEntity(posComp.x + posComp.width * 1.5f, posComp.y);
+                    blockEntity(posComp.x + posComp.width * 1.5f, posComp.y);
 
                 }
-                else debugAddEntity(posComp.x - posComp.width * 1.5f, posComp.y);
+                else blockEntity(posComp.x - posComp.width * 1.5f, posComp.y);
                 
             }
-        public void debugAddEntity(float x, float y)
+        public void blockEntity(float x, float y)
         {   
             
             //Entity newEntity = new [YOUR ENTITY HERE](level, x, y);
