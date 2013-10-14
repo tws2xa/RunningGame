@@ -82,6 +82,7 @@
     <Compile Include="Components\PlayeInputComponent.cs" />
     <Compile Include="Components\PlayerComponent.cs" />
     <Compile Include="Components\ScreenEdgeComponent.cs" />
+    <Compile Include="Components\SimpleEnemyComponent.cs" />
     <Compile Include="Components\SoundComponent.cs" />
     <Compile Include="Components\SquishComponent.cs" />
     <Compile Include="Components\SwitchComponent.cs" />
@@ -90,6 +91,7 @@
     <Compile Include="DeathHandler.cs" />
     <Compile Include="Entities\BasicGround.cs" />
     <Compile Include="Entities\DoorEntity.cs" />
+    <Compile Include="Entities\SimpleEnemyEntity.cs" />
     <Compile Include="Entities\SwitchEntity.cs" />
     <Compile Include="FormEditor.cs">
       <SubType>Form</SubType>
@@ -106,6 +108,7 @@
     <Compile Include="Level Editor\FieldInfoListItem.cs" />
     <Compile Include="Level Editor\ProtoEntity.cs" />
     <Compile Include="Level Editor\ProtoEntitySystem.cs" />
+    <Compile Include="Systems\SimpleEnemyAISystem.cs" />
     <Compile Include="Systems\SimplePowerUpSystem.cs" />
     <Compile Include="Systems\DebugSystem.cs" />
     <Compile Include="Entities\Speedy.cs" />
@@ -173,6 +176,7 @@
     </Compile>
     <EmbeddedResource Include="Resources\Levels\TestResizes.bin" />
     <EmbeddedResource Include="Resources\Levels\SwitchTest.bin" />
+    <EmbeddedResource Include="Resources\Levels\EnemyTest2.bin" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -234,6 +238,9 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\WhiteSquare.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Enemy1.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

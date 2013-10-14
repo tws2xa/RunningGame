@@ -15,7 +15,7 @@ namespace RunningGame.Entities
 
 
     [Serializable()]
-    public class EntityTemplate : Entity //Always extent the Entity Class
+    public class EntityTemplate : Entity //Always extent the Entity Class. Always have [Serializable()]. Always make public!
     {
     
         //-------------------------------------------Constructors--------------------------------------------
@@ -64,9 +64,9 @@ namespace RunningGame.Entities
             
             /*DRAW COMPONENT - Does it get drawn to the game world?
              *You'll need to know the address for your image.
-             *It'll probably be something along the lines of "RunningGame.Resources.[      ].png" or maybe .bmp
+             *It'll probably be something along the lines of "RunningGame.Resources.[      ].png" ONLY png!!
              */
-            //addComponent(new DrawComponent("RunningGame.Resources.WhiteSquare.bmp", "Main", defaultWidth, defaultHeight, true));
+            //addComponent(new DrawComponent("RunningGame.Resources.WhiteSquare.png", "Main", defaultWidth, defaultHeight, true));
 
 
             /* ANIMATION COMPONENT - Does it need animating?

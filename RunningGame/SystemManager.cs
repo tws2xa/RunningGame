@@ -33,6 +33,7 @@ namespace RunningGame
         public ScreenEdgeSystem scrEdgeSystem;
         public SwitchListenerSystem slSystem;
         public SimplePowerUpSystem spSystem;
+        public SimpleEnemyAISystem simpEnemySystem;
 
         public SystemManager(Level level)
         {
@@ -58,7 +59,7 @@ namespace RunningGame
             scrEdgeSystem = new ScreenEdgeSystem(level);
             slSystem = new SwitchListenerSystem(level);
             spSystem = new SimplePowerUpSystem(level);
-
+            simpEnemySystem = new SimpleEnemyAISystem(level);
             debugSystem = new DebugSystem(level);
 
         }
@@ -78,8 +79,9 @@ namespace RunningGame
             squishSystem.Update(deltaTime);
             inputSystem.Update(deltaTime);
             slSystem.Update(deltaTime);
-            debugSystem.Update(deltaTime);
             spSystem.Update(deltaTime);
+            simpEnemySystem.Update(deltaTime);
+            debugSystem.Update(deltaTime);
             
         }
 

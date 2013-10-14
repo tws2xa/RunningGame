@@ -53,20 +53,22 @@ namespace RunningGame.Systems
         //Apply any velocities
         public override void Update(float deltaTime)
         {
-
-            foreach (Entity e in getApplicableEntities())
+            if(!(level is CreationLevel))
             {
+                foreach (Entity e in getApplicableEntities())
+                {
 
-                //Pull out needed components
-                PositionComponent posComp = (PositionComponent)e.getComponent(GlobalVars.POSITION_COMPONENT_NAME);
-                VelocityComponent velComp = (VelocityComponent)e.getComponent(GlobalVars.VELOCITY_COMPONENT_NAME);
+                    //Pull out needed components
+                    PositionComponent posComp = (PositionComponent)e.getComponent(GlobalVars.POSITION_COMPONENT_NAME);
+                    VelocityComponent velComp = (VelocityComponent)e.getComponent(GlobalVars.VELOCITY_COMPONENT_NAME);
 
-                if (posComp.x != posComp.prevX) posComp.prevX = posComp.x;
-                if (posComp.y != posComp.prevY) posComp.prevY = posComp.y;
+                    if (posComp.x != posComp.prevX) posComp.prevX = posComp.x;
+                    if (posComp.y != posComp.prevY) posComp.prevY = posComp.y;
 
-                //Add velocity to position
-                incrementPosition(posComp, velComp.x * deltaTime, velComp.y * deltaTime);
+                    //Add velocity to position
+                    incrementPosition(posComp, velComp.x * deltaTime, velComp.y * deltaTime);
 
+                }
             }
         }
 

@@ -37,7 +37,8 @@ namespace RunningGame
             Func<Entity, Entity, bool> simpleStopCollisionFunction = simpleStopCollision;
             Func<Entity, Entity, bool> speedyPlayerCollisionFunction = speedyPlayerCollision;
             Func<Entity, Entity, bool> playerSwitchCollisonFunction = switchPlayerCollision;
-
+            Func<Entity, Entity, bool> playerEnemyCollisionFunction = enemyPlayerCollision;
+            Func<Entity, Entity, bool> enemySolidCollisionFunction = enemySolidCollision;
 
 
             //Add collisions to dictionary
@@ -46,8 +47,11 @@ namespace RunningGame
                 simpleStopCollisionFunction);
             collisionDictionary.Add(getCollisionTypeName(GlobalVars.PLAYER_COLLIDER_TYPE, GlobalVars.SPEEDY_COLLIDER_TYPE), speedyPlayerCollisionFunction);
             collisionDictionary.Add(getCollisionTypeName(GlobalVars.BASIC_SOLID_COLLIDER_TYPE, GlobalVars.SPEEDY_COLLIDER_TYPE), simpleStopCollisionFunction);
-
             collisionDictionary.Add(getCollisionTypeName(GlobalVars.PLAYER_COLLIDER_TYPE, GlobalVars.SWITCH_COLLIDER_TYPE), playerSwitchCollisonFunction);
+            //collisionDictionary.Add(getCollisionTypeName(GlobalVars.SIMPLE_ENEMY_COLLIDER_TYPE, GlobalVars.PLAYER_COLLIDER_TYPE), playerEnemyCollisionFunction);
+            //collisionDictionary.Add(getCollisionTypeName(GlobalVars.SIMPLE_ENEMY_COLLIDER_TYPE, GlobalVars.BASIC_SOLID_COLLIDER_TYPE), enemySolidCollision);
+            collisionDictionary.Add(getCollisionTypeName(GlobalVars.SIMPLE_ENEMY_COLLIDER_TYPE, GlobalVars.BASIC_SOLID_COLLIDER_TYPE), simpleStopCollisionFunction);
+            collisionDictionary.Add(getCollisionTypeName(GlobalVars.SIMPLE_ENEMY_COLLIDER_TYPE, GlobalVars.PLAYER_COLLIDER_TYPE), simpleStopCollisionFunction);
         }
           
     
@@ -159,6 +163,69 @@ namespace RunningGame
             }
 
 
+            return false;
+
+        }
+
+        public static bool enemySolidCollision(Entity e1, Entity e2) {
+            
+            SimpleEnemyEntity enemy;
+            Entity other;
+            if (e1 is SimpleEnemyEntity)
+            {
+                enemy = (SimpleEnemyEntity)e1;
+                other = e2;
+            }
+            else if (e2 is SimpleEnemyEntity)
+            {
+                enemy = (SimpleEnemyEntity)e2;
+                other = e1;
+            }
+            else
+            {
+                Console.WriteLine("Enemy Solid Collision with no enemy...");
+                return false;
+            }
+
+            PositionComponent otherPosComp = (PositionComponent)other.getComponent(GlobalVars.POSITION_COMPONENT_NAME);
+            PositionComponent enemyPosComp = (PositionComponent)enemy.getComponent(GlobalVars.POSITION_COMPONENT_NAME);
+            VelocityComponent velComp = (VelocityComponent)enemy.getComponent(GlobalVars.VELOCITY_COMPONENT_NAME);
+
+            //If it's below the enemy, simply stop.
+            if (enemyPosComp.y + enemyPosComp.height / 2 > otherPosComp.y + otherPosComp.height / 2)
+            {
+                velComp.y = 0;
+                otherPosComp.myEntity.level.getMovementSystem().changePosition(enemyPosComp, enemyPosComp.x, otherPosComp.y - otherPosComp.height / 2, true);
+            }
+            //Otherwise turn
+            else
+            {
+                velComp.x = -velComp.x;
+            }
+
+            return false;
+
+        }
+
+        public static bool enemyPlayerCollision(Entity e1, Entity e2)
+        {
+
+            Player player;
+            if (e1 is Player)
+            {
+                player = (Player)e1;
+            }
+            else if (e2 is Player)
+            {
+                player = (Player)e2;
+            }
+            else
+            {
+                Console.WriteLine("Enemy Player Collision with no player...");
+                return false;
+            }
+            HealthComponent playerHealthComp = (HealthComponent)player.getComponent(GlobalVars.HEALTH_COMPONENT_NAME);
+            playerHealthComp.subtractFromHealth(playerHealthComp.health + 1); //Kill the player O:
             return false;
 
         }
