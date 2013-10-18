@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Collections;
 using RunningGame.Components;
+using RunningGame.Entities;
 
 namespace RunningGame.Systems
 {
@@ -83,6 +84,17 @@ namespace RunningGame.Systems
                     {
                         velComp.x = -velComp.x;
                     }
+                }
+                
+                //Face the right way
+                SimpleEnemyEntity enemy = (SimpleEnemyEntity)e;
+                if (velComp.x > 0 && !enemy.isLookingRight())
+                {
+                    enemy.faceRight();
+                }
+                if (velComp.x < 0 && !enemy.isLookingLeft())
+                {
+                    enemy.faceLeft();
                 }
 
                 simpEnemyComp.hasRunOnce = true;

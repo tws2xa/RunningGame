@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using RunningGame.Components;
+using System.Collections;
 
 namespace RunningGame.Entities
 {
@@ -14,6 +15,8 @@ namespace RunningGame.Entities
 
         public float defaultWidth = 40;
         public float defaultHeight = 30;
+        public string leftImageName = "EnemyWalkLeft";
+        public string rightImageName = "EnemyRightLeft";
 
         //-------------------------------------------Constructors--------------------------------------------
 
@@ -46,12 +49,26 @@ namespace RunningGame.Entities
             
             /*DRAW COMPONENT - Does it get drawn to the game world?
              */
-            addComponent(new DrawComponent("RunningGame.Resources.Enemy1.png", "Main", defaultWidth, defaultHeight, true));
+            DrawComponent drawComp = (DrawComponent)addComponent(new DrawComponent("RunningGame.Resources.Enemy1.png", "Main", defaultWidth, defaultHeight, true));
 
+            ArrayList enemyAnimation = new ArrayList()
+            {
+                "RunningGame.Resources.Enemy1.png",
+                "RunningGame.Resources.Enemy2.png",
+                "RunningGame.Resources.Enemy1.png",
+                "RunningGame.Resources.Enemy3.png",
+            };
+
+
+            drawComp.addAnimatedSprite(enemyAnimation, leftImageName);
+            drawComp.setSprite(leftImageName);
+            
+            drawComp.addAnimatedSprite(enemyAnimation, rightImageName);
+            drawComp.rotateFlipSprite(rightImageName, System.Drawing.RotateFlipType.RotateNoneFlipX);
 
             /* ANIMATION COMPONENT - Does it need animating?
              */
-            //addComponent(new AnimationComponent(0.0005f));
+            addComponent(new AnimationComponent(0.08f));
 
             /*VELOCITY COMPONENT - Does it move?
              */
@@ -77,19 +94,9 @@ namespace RunningGame.Entities
 
             addComponent(new ScreenEdgeComponent(1, 1, 1, 1));
 
-            /*
-             * SQIUSH COMPONENT - Is it squishy?
-             */
-            //addComponent(new SquishComponent(defaultWidth, defaultHeight, defaultWidth*3.0f, defaultHeight*3.0f, defaultWidth/3.0f, defaultHeight/3.0f));
         }
         
-        //You must have this, but it may be empty.
-        //What should the entity do in order to revert to its starting state?
-        //Common things are:
-            //Set position back to startingX and startingY
-            //Set velocity to 0 in both directions
-        //Note: Some things, like ground, dont move, and really don't need anything here.
-        //Note: Some things, like a bullet, won't ever exist at the start of a level, so you could probably leave this empty.
+        //Revert!
         public override void revertToStartingState()
         {
             PositionComponent posComp = (PositionComponent)getComponent(GlobalVars.POSITION_COMPONENT_NAME);
@@ -106,6 +113,31 @@ namespace RunningGame.Entities
             HealthComponent healthComp = (HealthComponent)getComponent(GlobalVars.HEALTH_COMPONENT_NAME);
             healthComp.restoreHealth();
         }
-         
+        
+        
+
+
+        public void faceRight()
+        {
+            DrawComponent drawComp = (DrawComponent)this.getComponent(GlobalVars.DRAW_COMPONENT_NAME);
+            drawComp.setSprite(rightImageName);
+        }
+        public void faceLeft()
+        {
+            DrawComponent drawComp = (DrawComponent)this.getComponent(GlobalVars.DRAW_COMPONENT_NAME);
+            drawComp.setSprite(leftImageName);
+        }
+
+        public bool isLookingLeft()
+        {
+            DrawComponent drawComp = (DrawComponent)this.getComponent(GlobalVars.DRAW_COMPONENT_NAME);
+            return (drawComp.activeSprite == leftImageName);
+        }
+
+        public bool isLookingRight()
+        {
+            DrawComponent drawComp = (DrawComponent)this.getComponent(GlobalVars.DRAW_COMPONENT_NAME);
+            return (drawComp.activeSprite == rightImageName);
+        }
     }
 }

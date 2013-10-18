@@ -241,10 +241,14 @@
     <EmbeddedResource Include="Resources\WhiteSquare.png" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Resources\EnemyLevel.png" />
+  </ItemGroup>
+  <ItemGroup>
     <EmbeddedResource Include="Resources\Enemy1.png" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\EnemyLevel.png" />
+    <EmbeddedResource Include="Resources\Enemy2.png" />
+    <EmbeddedResource Include="Resources\Enemy3.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
