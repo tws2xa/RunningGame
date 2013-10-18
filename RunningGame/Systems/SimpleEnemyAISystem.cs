@@ -46,23 +46,29 @@ namespace RunningGame.Systems
         {
             foreach (Entity e in getApplicableEntities())
             {
-                SimpleEnemyComponent simpEntComp = (SimpleEnemyComponent)e.getComponent(GlobalVars.SIMPLE_ENEMY_COMPONENT_NAME);
+                //Grab needed components
+                SimpleEnemyComponent simpEnemyComp = (SimpleEnemyComponent)e.getComponent(GlobalVars.SIMPLE_ENEMY_COMPONENT_NAME);
                 VelocityComponent velComp = (VelocityComponent)e.getComponent(GlobalVars.VELOCITY_COMPONENT_NAME);
+                
+                //If it's been stopped for more than one frame, try changing the direction and see if it can move that way instead.
                 if (velComp.x == 0)
                 {
-                    SimpleEnemyComponent simpEnemyComp = (SimpleEnemyComponent)e.getComponent(GlobalVars.SIMPLE_ENEMY_COMPONENT_NAME);
+                    //SimpleEnemyComponent simpEnemyComp = (SimpleEnemyComponent)e.getComponent(GlobalVars.SIMPLE_ENEMY_COMPONENT_NAME);
 
-                    if (!simpEntComp.wasStoppedLastFrame)
+                    if (!simpEnemyComp.wasStoppedLastFrame)
                         velComp.x = simpEnemyComp.mySpeed;
                     else
                         velComp.x = -simpEnemyComp.mySpeed;
 
-                    simpEntComp.wasStoppedLastFrame = true;
+                    simpEnemyComp.wasStoppedLastFrame = true;
                 }
-                else if(simpEntComp.wasStoppedLastFrame)
+                else if(simpEnemyComp.wasStoppedLastFrame)
                 {
-                    simpEntComp.wasStoppedLastFrame = false;
+                    simpEnemyComp.wasStoppedLastFrame = false;
                 }
+
+                //Change position if it's about to fall off a cliff, and checkCliff is true.
+                
             }
         }
     }

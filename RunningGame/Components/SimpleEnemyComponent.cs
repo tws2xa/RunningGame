@@ -12,12 +12,14 @@ namespace RunningGame.Components
         public float mySpeed;
         public bool wasStoppedLastFrame { get; set; }
         public bool hasTouchedGround { get; set; }
+        public bool checkCliff;
 
         public SimpleEnemyComponent(float mySpeed)
         {
             this.componentName = GlobalVars.SIMPLE_ENEMY_COMPONENT_NAME;
             this.mySpeed = mySpeed;
             wasStoppedLastFrame = false;
+            checkCliff = true;
         }
 
     }
