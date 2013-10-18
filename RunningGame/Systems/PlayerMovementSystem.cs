@@ -148,7 +148,6 @@ namespace RunningGame.Systems
         {
             if (velComp.y > 0) velComp.setVelocity(velComp.x, 0);
         }
-
         //--------------------------------------------------------------------------------
     }
 }

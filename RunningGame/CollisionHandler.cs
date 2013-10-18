@@ -28,16 +28,20 @@ namespace RunningGame
 
 
         public Dictionary<string, Func<Entity, Entity, bool>> collisionDictionary = new Dictionary<string, Func<Entity, Entity, bool>>();
+        public Level level;
 
-
-        public CollisionHandler()
+        public CollisionHandler(Level level)
         {
+
+            this.level = level;
 
             //Func<Entity, Entity, bool> [Var Name] = [Name of your method];
             Func<Entity, Entity, bool> simpleStopCollisionFunction = simpleStopCollision;
             Func<Entity, Entity, bool> speedyPlayerCollisionFunction = speedyPlayerCollision;
             Func<Entity, Entity, bool> playerSwitchCollisonFunction = switchPlayerCollision;
             Func<Entity, Entity, bool> playerEnemyCollisionFunction = enemyPlayerCollision;
+            Func<Entity, Entity, bool> bulletNonEnemyCollisionFunction = bulletNonEnemyCollision;
+            Func<Entity, Entity, bool> bulletEnemyCollisionFunction = bulletEnemyCollision;
            
 
             //Add collisions to dictionary
@@ -49,6 +53,8 @@ namespace RunningGame
             collisionDictionary.Add(getCollisionTypeName(GlobalVars.PLAYER_COLLIDER_TYPE, GlobalVars.SWITCH_COLLIDER_TYPE), playerSwitchCollisonFunction);
             collisionDictionary.Add(getCollisionTypeName(GlobalVars.SIMPLE_ENEMY_COLLIDER_TYPE, GlobalVars.PLAYER_COLLIDER_TYPE), playerEnemyCollisionFunction);
             collisionDictionary.Add(getCollisionTypeName(GlobalVars.SIMPLE_ENEMY_COLLIDER_TYPE, GlobalVars.BASIC_SOLID_COLLIDER_TYPE), simpleStopCollisionFunction);
+            collisionDictionary.Add(getCollisionTypeName(GlobalVars.BULLET_COLLIDER_TYPE, GlobalVars.BASIC_SOLID_COLLIDER_TYPE), bulletNonEnemyCollisionFunction);
+            collisionDictionary.Add(getCollisionTypeName(GlobalVars.BULLET_COLLIDER_TYPE, GlobalVars.SIMPLE_ENEMY_COLLIDER_TYPE), bulletEnemyCollisionFunction);
          }
           
     
@@ -186,6 +192,53 @@ namespace RunningGame
             return false;
 
         }
+        
+        public bool bulletNonEnemyCollision(Entity e1, Entity e2)
+        {
+            BulletEntity bullet;
+            if (e1 is BulletEntity)
+            {
+                bullet = (BulletEntity)e1;
+            }
+            else if (e2 is BulletEntity)
+            {
+                bullet = (BulletEntity)e2;
+            }
+            else
+            {
+                Console.WriteLine("Bullet Collision with no bullet...");
+                return false;
+            }
+
+            level.removeEntity(bullet);
+
+            return false;
+        }
+        public bool bulletEnemyCollision(Entity e1, Entity e2)
+        {
+            BulletEntity bullet;
+            SimpleEnemyEntity enemy;
+            if (e1 is BulletEntity)
+            {
+                bullet = (BulletEntity)e1;
+                enemy = (SimpleEnemyEntity)e2;
+            }
+            else if (e2 is BulletEntity)
+            {
+                bullet = (BulletEntity)e2;
+                enemy = (SimpleEnemyEntity)e1;
+            }
+            else
+            {
+                Console.WriteLine("Bullet Enemy Collision with no bullet/enemy...");
+                return false;
+            }
+
+            level.removeEntity(enemy);
+            level.removeEntity(bullet);
+
+            return false;
+        }
 
         public string getCollisionTypeName(string type1, string type2)
         {
@@ -198,5 +251,6 @@ namespace RunningGame
             else
                 return (type2 + "" + type1);
         }
+
     }
 }

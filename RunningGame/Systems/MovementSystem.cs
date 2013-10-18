@@ -37,7 +37,7 @@ namespace RunningGame.Systems
 
             this.level = level;
 
-            colHandler = new CollisionHandler();
+            colHandler = new CollisionHandler(level);
 
         }
 

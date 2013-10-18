@@ -77,13 +77,55 @@ namespace RunningGame
 
             levelFullyLoaded = true;
 
+
+            for (int i = 2; i < ents.Count; i++)
+            {
+                Entity oldEnt = (Entity)ents[i];
+                Entity newEnt = (Entity)Activator.CreateInstance(oldEnt.GetType(), this, 0, 0);
+
+                newEnt.randId = oldEnt.randId;
+
+                //Copy all the fields! Ugh
+                CopyFields(oldEnt, newEnt);
+                foreach (Component oldC in oldEnt.getComponents())
+                {
+                    if (newEnt.hasComponent(oldC.componentName))
+                    {
+                        Component newC = newEnt.getComponent(oldC.componentName);
+                        CopyFields(oldC, newC);
+                    }
+                }
+
+                newEnt.level = this;
+                addEntity(newEnt.randId, newEnt);
+            }
+
+
+
+            /*
             for (int i = 2; i < ents.Count; i++)
             {
                 Entity e = (Entity)ents[i];
                 e.level = this;
                 addEntity(e.randId, e);
             }
+            */
 
+
+        }
+
+        public void CopyFields(object oldObj, object newObj)
+        {
+            foreach (FieldInfo oldInfo in oldObj.GetType().GetFields(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance))
+            {
+                foreach (FieldInfo newInfo in newObj.GetType().GetFields(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance))
+                {
+                    if (oldInfo.Name == newInfo.Name)
+                    {
+                        newInfo.SetValue(newObj, oldInfo.GetValue(oldObj));
+                    }
+                }
+            }
         }
 
         public void initializePaint(float windowWidth, float windowHeight, string levelFile, Graphics g)
@@ -221,13 +263,20 @@ namespace RunningGame
                 sysManager = new SystemManager(this);
                 sysManagerInit = true;
             }
-            GlobalVars.allEntities.Add(id, e);
-            if (e.hasComponent(GlobalVars.COLLIDER_COMPONENT_NAME))
-                colliderAdded(e);
+            if (!GlobalVars.allEntities.ContainsKey(id))
+            {
+                GlobalVars.allEntities.Add(id, e);
+                if (e.hasComponent(GlobalVars.COLLIDER_COMPONENT_NAME))
+                    colliderAdded(e);
+            }
+            else
+            {
+                Console.WriteLine("Trying to add duplicate entity : " + e);
+            }
         }
         public virtual void removeEntity(Entity e)
         {
-            if (e.isStartingEntity)
+            if (e.isStartingEntity && !GlobalVars.removedStartingEntities.ContainsKey(e.randId))
                 GlobalVars.removedStartingEntities.Add(e.randId, e);
             if(e.hasComponent(GlobalVars.COLLIDER_COMPONENT_NAME))
                 getCollisionSystem().colliderRemoved(e);
