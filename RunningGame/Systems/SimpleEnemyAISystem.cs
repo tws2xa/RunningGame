@@ -49,9 +49,14 @@ namespace RunningGame.Systems
                 //Grab needed components
                 SimpleEnemyComponent simpEnemyComp = (SimpleEnemyComponent)e.getComponent(GlobalVars.SIMPLE_ENEMY_COMPONENT_NAME);
                 VelocityComponent velComp = (VelocityComponent)e.getComponent(GlobalVars.VELOCITY_COMPONENT_NAME);
-                
+
+                if (simpEnemyComp.hasRunOnce && !simpEnemyComp.hasLandedOnce && velComp.y  <= 0)
+                {
+                    simpEnemyComp.hasLandedOnce = true;
+                }
+
                 //If it's been stopped for more than one frame, try changing the direction and see if it can move that way instead.
-                if (velComp.x == 0)
+                if (velComp.x == 0 && simpEnemyComp.hasLandedOnce)
                 {
                     //SimpleEnemyComponent simpEnemyComp = (SimpleEnemyComponent)e.getComponent(GlobalVars.SIMPLE_ENEMY_COMPONENT_NAME);
 
@@ -68,8 +73,26 @@ namespace RunningGame.Systems
                 }
 
                 //Change position if it's about to fall off a cliff, and checkCliff is true.
-                
+                if (simpEnemyComp.hasLandedOnce && simpEnemyComp.checkCliff)
+                {
+                    PositionComponent posComp = (PositionComponent)e.getComponent(GlobalVars.POSITION_COMPONENT_NAME);
+
+                    ArrayList collisionsAheadAndBelow = level.getCollisionSystem().findObjectAtPoint(posComp.x + getSign(velComp.x) * (posComp.width / 2 + 1), posComp.y + posComp.height / 2+1);
+
+                    if (collisionsAheadAndBelow.Count <= 0)
+                    {
+                        velComp.x = -velComp.x;
+                    }
+                }
+
+                simpEnemyComp.hasRunOnce = true;
             }
+        }
+
+        //----------------------------------------------------------------------------------------
+        public float getSign(float num)
+        {
+            return (num / Math.Abs(num));
         }
     }
 }

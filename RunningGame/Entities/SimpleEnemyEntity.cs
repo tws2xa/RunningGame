@@ -55,7 +55,7 @@ namespace RunningGame.Entities
 
             /*VELOCITY COMPONENT - Does it move?
              */
-            addComponent(new VelocityComponent(GlobalVars.SIMPLE_ENEMY_H_SPEED + new Random().Next(-50, 50), 0));
+            addComponent(new VelocityComponent(0, 0));
 
             /*COLLIDER - Does it hit things?
              *The second field is the collider type. Look in GlobalVars for a string with the right name.
@@ -73,7 +73,7 @@ namespace RunningGame.Entities
 
             /*SIMPLE ENEMY COMPONENT
              */
-            addComponent(new SimpleEnemyComponent(GlobalVars.SIMPLE_ENEMY_H_SPEED));
+            addComponent(new SimpleEnemyComponent(GlobalVars.SIMPLE_ENEMY_H_SPEED + new Random().Next(-50, 50)));
 
             addComponent(new ScreenEdgeComponent(1, 1, 1, 1));
 
@@ -94,10 +94,15 @@ namespace RunningGame.Entities
         {
             PositionComponent posComp = (PositionComponent)getComponent(GlobalVars.POSITION_COMPONENT_NAME);
             level.getMovementSystem().teleportToNoCollisionCheck(posComp, posComp.startingX, posComp.startingY);
+
             VelocityComponent velComp = (VelocityComponent)getComponent(GlobalVars.VELOCITY_COMPONENT_NAME);
-            SimpleEnemyComponent simpEnemyComp = (SimpleEnemyComponent)getComponent(GlobalVars.SIMPLE_ENEMY_COMPONENT_NAME);
-            velComp.x = simpEnemyComp.mySpeed;
+            velComp.x = 0;
             velComp.y = 0;
+
+            SimpleEnemyComponent simpEnemyComp = (SimpleEnemyComponent)getComponent(GlobalVars.SIMPLE_ENEMY_COMPONENT_NAME);
+            simpEnemyComp.hasLandedOnce = false;
+            simpEnemyComp.hasRunOnce = false;
+
             HealthComponent healthComp = (HealthComponent)getComponent(GlobalVars.HEALTH_COMPONENT_NAME);
             healthComp.restoreHealth();
         }
