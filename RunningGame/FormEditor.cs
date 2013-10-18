@@ -74,6 +74,7 @@ namespace RunningGame
         {
 
             //Deselect any selected entities
+            txtVar.Text = "";
             if (creationGame.getCurrentLevel().vars.selectedEntity != null)
             {
                 creationGame.getCurrentLevel().sysManager.inputManSystem.deselectEntity();
@@ -225,7 +226,8 @@ namespace RunningGame
             {
                 item.fieldInfo.SetValue(item.obj, txtVar.Text);
             }
-
+            txtVar.SelectionStart = 0;
+            txtVar.SelectionLength = 0;
             pnlMain.Focus();
         }
 
@@ -234,6 +236,11 @@ namespace RunningGame
             if (e.KeyData == Keys.Enter)
             {
                 updateFieldInfoFromText();
+                txtVar.BackColor = Color.White;
+            }
+            else
+            {
+                txtVar.BackColor = Color.PaleVioletRed;
             }
         }
 
@@ -256,6 +263,35 @@ namespace RunningGame
             creationGame = new CreationGame(pnlMain.CreateGraphics(), (int)(s.Width * GlobalVars.LEVEL_READER_TILE_WIDTH), (int)(s.Height * GlobalVars.LEVEL_READER_TILE_HEIGHT), openFileDialog1.FileName);
             creationGame.getCurrentLevel().vars.editForm = this;
             btnLoadFromPaint.Enabled = false;
+        }
+
+
+        private void openFileDialog2_FileOk(object sender, CancelEventArgs e)
+        {
+            creationGame.close();
+
+            BinaryFormatter bf = new BinaryFormatter();
+            FileStream f = new FileStream(openFileDialog2.FileName, FileMode.Open);
+
+            List<Object> ents = (List<Object>)bf.Deserialize(f);
+            
+            float levelWidth = (float)ents[0];
+            float levelHeight = (float)ents[1];
+
+            changeMainPanelSize((int)levelWidth, (int)levelHeight);
+
+            creationGame = new CreationGame(pnlMain.CreateGraphics(), (int)levelWidth, (int)levelHeight);
+            creationGame.getCurrentLevel().vars.editForm = this;
+
+            //if (!sysManagerInit) sysManager = new SystemManager(this);
+            //sysManagerInit = true;
+
+            for (int i = 2; i < ents.Count; i++)
+            {
+                Entity ent = (Entity)ents[i];
+                ent.level = creationGame.getCurrentLevel();
+                creationGame.getCurrentLevel().addEntity(ent.randId, ent);
+            }
         }
 
         private void FormEditor_FormClosing(object sender, FormClosingEventArgs e)
@@ -336,12 +372,19 @@ namespace RunningGame
         }
         public void panelKeyDownEventHandler(Object sender, KeyEventArgs e)
         {
-            Console.WriteLine(e.KeyData + " is down");
+            //Console.WriteLine(e.KeyData + " is down");
             creationGame.KeyDown(e);
         }
 
+        private void btnLoadFromBinary_Click(object sender, EventArgs e)
+        {
+            openFileDialog2.ShowDialog();
+        }
 
-
+        private void txtVar_TextChanged(object sender, EventArgs e)
+        {
+            
+        }
 
     }
 }

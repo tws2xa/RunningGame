@@ -23,9 +23,10 @@ namespace RunningGame
         
         Bitmap img;
 
-        Color playerCol = Color.FromArgb(0, 0, 255); //Player is blue
-        Color basicGroundCol = Color.FromArgb(0, 0, 0); //Basic Ground is black
-        Color testEntityColor = Color.FromArgb(42, 42, 42);
+        Color playerCol = Color.FromArgb(0, 0, 255); //Player is blue.
+        Color basicGroundCol = Color.FromArgb(0, 0, 0); //Basic Ground is black.
+        Color testEntityColor = Color.FromArgb(42, 42, 42); //Test entity is 42, 42, 42.
+        Color simpleEnemyColor = Color.FromArgb(255, 0, 0); //Enemies are red.
 
         Random rand = new Random();
 
@@ -82,10 +83,18 @@ namespace RunningGame
                         float xLoc = (levelX) * tileWidth;
                         float yLoc = (levelY) * tileHeight;
                         int id = rand.Next(Int32.MinValue, Int32.MaxValue);
-                        //Console.WriteLine("Creating Test Entity: " + id);
                         TestEntity test = new TestEntity(level, id, xLoc, yLoc);
                         test.isStartingEntity = true;
                         level.addEntity(test.randId, test);
+                    }
+                    else if (col == simpleEnemyColor)
+                    {
+                        float xLoc = (levelX) * tileWidth;
+                        float yLoc = (levelY) * tileHeight;
+                        int id = rand.Next(Int32.MinValue, Int32.MaxValue);
+                        SimpleEnemyEntity enemy = new SimpleEnemyEntity(level, id, xLoc, yLoc);
+                        enemy.isStartingEntity = true;
+                        level.addEntity(enemy.randId, enemy);
                     }
                 }
             }

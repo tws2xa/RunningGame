@@ -177,6 +177,7 @@
     <EmbeddedResource Include="Resources\Levels\TestResizes.bin" />
     <EmbeddedResource Include="Resources\Levels\SwitchTest.bin" />
     <EmbeddedResource Include="Resources\Levels\EnemyTest2.bin" />
+    <EmbeddedResource Include="Resources\Levels\TestEnemy6.bin" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -241,6 +242,9 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\Enemy1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\EnemyLevel.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

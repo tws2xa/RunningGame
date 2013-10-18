@@ -91,12 +91,22 @@ namespace RunningGame.Systems
         {
             if (newX != posComp.x)
             {
+                //Console.WriteLine("Changing x from " + posComp.x + " to " + newX);
                 changeSingleAxisLocation('X', posComp, newX, moveToContact);
             }
             if (newY != posComp.y)
             {
+                //Console.WriteLine("Changing y from " + posComp.y + " to " + newY);
                 changeSingleAxisLocation('Y', posComp, newY, moveToContact);
             }
+        }
+        public void teleportToNoCollisionCheck(PositionComponent posComp, float newX, float newY)
+        {
+            posComp.prevX = posComp.x;
+            posComp.x = newX;
+            posComp.prevY = posComp.y;
+            posComp.y = newY;
+            posComp.positionHasChanged = true;
         }
 
         /*
@@ -283,8 +293,7 @@ namespace RunningGame.Systems
 
                 //List of all collisions caused by potential move
                 ArrayList collisions = level.getCollisionSystem().checkForCollision(posComp.myEntity, xVal, yVal, posComp.width, posComp.height);
-                //ArrayList collisions = level.getCollisionSystem().findObjectsBetweenPoints(posComp.x, posComp.y, xVal, yVal);
-
+                
                 //If there's a collision
                 if (collisions.Count > 0 && !(level is CreationLevel))
                 {
@@ -349,8 +358,6 @@ namespace RunningGame.Systems
             }
         }
         
-
-
 
         //Size
         public void changeSize(PositionComponent posComp, float newW, float newH)

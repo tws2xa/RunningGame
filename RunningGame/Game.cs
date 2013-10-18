@@ -56,9 +56,9 @@ namespace RunningGame
 
         public void startLevel()
         {
-            currentLevel = new Level(winWidth, winHeight, "RunningGame.Resources.TestLevelMidLength.png", true, dbGraphics);
+            currentLevel = new Level(winWidth, winHeight, "RunningGame.Resources.EnemyLevel.png", true, dbGraphics);
 
-            //currentLevel = new Level(winWidth, winHeight, "RunningGame.Resources.Levels.EnemyTest2.bin", false, dbGraphics);
+            //currentLevel = new Level(winWidth, winHeight, "RunningGame.Resources.Levels.TestEnemy6.bin", false, dbGraphics);
         }
 
 

@@ -119,6 +119,8 @@ namespace RunningGame.Entities
         //What should the entity do in order to revert to its starting state?
         //Common things are:
             //Set position back to startingX and startingY
+                //NOTE: If doing this, you probably want to use the MovementSystem's teleportToNoCollisionCheck() method
+                //rather than the usual changePosition()
             //Set velocity to 0 in both directions
         //Note: Some things, like ground, dont move, and really don't need anything here.
         //Note: Some things, like a bullet, won't ever exist at the start of a level, so you could probably leave this empty.

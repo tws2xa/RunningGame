@@ -79,7 +79,7 @@ namespace RunningGame
         public static string DOOR_CLOSED_SPRITE_NAME = "closedDoorSprite";
         public static string SWITCH_INACTIVE_SPRITE_NAME = "inactiveSwitch";
         public static string SWITCH_ACTIVE_SPRITE_NAME = "activeSwitch";
-        public static float SIMPLE_ENEMY_H_SPEED = 200.0f;
+        public static float SIMPLE_ENEMY_H_SPEED = 100.0f;
 
     }
 }

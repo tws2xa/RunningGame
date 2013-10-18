@@ -46,12 +46,22 @@ namespace RunningGame.Systems
         {
             foreach (Entity e in getApplicableEntities())
             {
+                SimpleEnemyComponent simpEntComp = (SimpleEnemyComponent)e.getComponent(GlobalVars.SIMPLE_ENEMY_COMPONENT_NAME);
                 VelocityComponent velComp = (VelocityComponent)e.getComponent(GlobalVars.VELOCITY_COMPONENT_NAME);
-                Console.WriteLine(e);
                 if (velComp.x == 0)
                 {
                     SimpleEnemyComponent simpEnemyComp = (SimpleEnemyComponent)e.getComponent(GlobalVars.SIMPLE_ENEMY_COMPONENT_NAME);
-                    velComp.x = simpEnemyComp.mySpeed;
+
+                    if (!simpEntComp.wasStoppedLastFrame)
+                        velComp.x = simpEnemyComp.mySpeed;
+                    else
+                        velComp.x = -simpEnemyComp.mySpeed;
+
+                    simpEntComp.wasStoppedLastFrame = true;
+                }
+                else if(simpEntComp.wasStoppedLastFrame)
+                {
+                    simpEntComp.wasStoppedLastFrame = false;
                 }
             }
         }

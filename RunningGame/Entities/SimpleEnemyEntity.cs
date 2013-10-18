@@ -75,7 +75,7 @@ namespace RunningGame.Entities
              */
             addComponent(new SimpleEnemyComponent(GlobalVars.SIMPLE_ENEMY_H_SPEED));
 
-            Console.WriteLine("Created enemy: " + this + " - has simple enemy component: " + this.hasComponent(GlobalVars.SIMPLE_ENEMY_COMPONENT_NAME));
+            addComponent(new ScreenEdgeComponent(1, 1, 1, 1));
 
             /*
              * SQIUSH COMPONENT - Is it squishy?
@@ -93,7 +93,13 @@ namespace RunningGame.Entities
         public override void revertToStartingState()
         {
             PositionComponent posComp = (PositionComponent)getComponent(GlobalVars.POSITION_COMPONENT_NAME);
-            level.getMovementSystem().changePosition(posComp, posComp.startingX, posComp.startingY, false);
+            level.getMovementSystem().teleportToNoCollisionCheck(posComp, posComp.startingX, posComp.startingY);
+            VelocityComponent velComp = (VelocityComponent)getComponent(GlobalVars.VELOCITY_COMPONENT_NAME);
+            SimpleEnemyComponent simpEnemyComp = (SimpleEnemyComponent)getComponent(GlobalVars.SIMPLE_ENEMY_COMPONENT_NAME);
+            velComp.x = simpEnemyComp.mySpeed;
+            velComp.y = 0;
+            HealthComponent healthComp = (HealthComponent)getComponent(GlobalVars.HEALTH_COMPONENT_NAME);
+            healthComp.restoreHealth();
         }
          
     }

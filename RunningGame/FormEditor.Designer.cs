@@ -41,6 +41,8 @@
             this.lblId = new System.Windows.Forms.Label();
             this.txtId = new System.Windows.Forms.TextBox();
             this.txtFileName = new System.Windows.Forms.TextBox();
+            this.btnLoadFromBinary = new System.Windows.Forms.Button();
+            this.openFileDialog2 = new System.Windows.Forms.OpenFileDialog();
             this.pnlMainContainer.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -49,7 +51,7 @@
             this.lstEntities.FormattingEnabled = true;
             this.lstEntities.Location = new System.Drawing.Point(12, 12);
             this.lstEntities.Name = "lstEntities";
-            this.lstEntities.Size = new System.Drawing.Size(155, 238);
+            this.lstEntities.Size = new System.Drawing.Size(186, 238);
             this.lstEntities.TabIndex = 0;
             this.lstEntities.SelectedIndexChanged += new System.EventHandler(this.listBox1_SelectedIndexChanged);
             // 
@@ -57,7 +59,7 @@
             // 
             this.pnlMain.Location = new System.Drawing.Point(1, 1);
             this.pnlMain.Name = "pnlMain";
-            this.pnlMain.Size = new System.Drawing.Size(632, 497);
+            this.pnlMain.Size = new System.Drawing.Size(594, 497);
             this.pnlMain.TabIndex = 2;
             this.pnlMain.MouseClick += new System.Windows.Forms.MouseEventHandler(this.pnlMain_MouseClick);
             // 
@@ -66,16 +68,17 @@
             this.lstSelectedEntProperties.FormattingEnabled = true;
             this.lstSelectedEntProperties.Location = new System.Drawing.Point(12, 256);
             this.lstSelectedEntProperties.Name = "lstSelectedEntProperties";
-            this.lstSelectedEntProperties.Size = new System.Drawing.Size(155, 173);
+            this.lstSelectedEntProperties.Size = new System.Drawing.Size(186, 173);
             this.lstSelectedEntProperties.TabIndex = 3;
             this.lstSelectedEntProperties.SelectedIndexChanged += new System.EventHandler(this.lstSelectedEntProperties_SelectedIndexChanged);
             // 
             // txtVar
             // 
-            this.txtVar.Location = new System.Drawing.Point(127, 435);
+            this.txtVar.Location = new System.Drawing.Point(133, 434);
             this.txtVar.Name = "txtVar";
-            this.txtVar.Size = new System.Drawing.Size(40, 20);
+            this.txtVar.Size = new System.Drawing.Size(65, 20);
             this.txtVar.TabIndex = 4;
+            this.txtVar.TextChanged += new System.EventHandler(this.txtVar_TextChanged);
             this.txtVar.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtChangeAccept);
             // 
             // lblVar
@@ -83,7 +86,7 @@
             this.lblVar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
             this.lblVar.AutoSize = true;
-            this.lblVar.Location = new System.Drawing.Point(12, 438);
+            this.lblVar.Location = new System.Drawing.Point(12, 437);
             this.lblVar.Name = "lblVar";
             this.lblVar.Size = new System.Drawing.Size(26, 13);
             this.lblVar.TabIndex = 5;
@@ -97,16 +100,16 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.pnlMainContainer.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.pnlMainContainer.Controls.Add(this.pnlMain);
-            this.pnlMainContainer.Location = new System.Drawing.Point(173, 12);
+            this.pnlMainContainer.Location = new System.Drawing.Point(204, 12);
             this.pnlMainContainer.Name = "pnlMainContainer";
-            this.pnlMainContainer.Size = new System.Drawing.Size(684, 575);
+            this.pnlMainContainer.Size = new System.Drawing.Size(713, 575);
             this.pnlMainContainer.TabIndex = 6;
             // 
             // btnLoadFromPaint
             // 
-            this.btnLoadFromPaint.Location = new System.Drawing.Point(12, 511);
+            this.btnLoadFromPaint.Location = new System.Drawing.Point(15, 534);
             this.btnLoadFromPaint.Name = "btnLoadFromPaint";
-            this.btnLoadFromPaint.Size = new System.Drawing.Size(155, 22);
+            this.btnLoadFromPaint.Size = new System.Drawing.Size(183, 22);
             this.btnLoadFromPaint.TabIndex = 7;
             this.btnLoadFromPaint.Text = "Load From Paint";
             this.btnLoadFromPaint.UseVisualStyleBackColor = true;
@@ -114,7 +117,7 @@
             // 
             // btnCreate
             // 
-            this.btnCreate.Location = new System.Drawing.Point(102, 539);
+            this.btnCreate.Location = new System.Drawing.Point(133, 563);
             this.btnCreate.Name = "btnCreate";
             this.btnCreate.Size = new System.Drawing.Size(65, 21);
             this.btnCreate.TabIndex = 8;
@@ -132,7 +135,7 @@
             this.chkLockToGrid.AutoSize = true;
             this.chkLockToGrid.Checked = true;
             this.chkLockToGrid.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkLockToGrid.Location = new System.Drawing.Point(12, 482);
+            this.chkLockToGrid.Location = new System.Drawing.Point(12, 479);
             this.chkLockToGrid.Name = "chkLockToGrid";
             this.chkLockToGrid.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.chkLockToGrid.Size = new System.Drawing.Size(84, 17);
@@ -145,7 +148,7 @@
             // lblId
             // 
             this.lblId.AutoSize = true;
-            this.lblId.Location = new System.Drawing.Point(12, 460);
+            this.lblId.Location = new System.Drawing.Point(12, 458);
             this.lblId.Name = "lblId";
             this.lblId.Size = new System.Drawing.Size(53, 13);
             this.lblId.TabIndex = 11;
@@ -154,25 +157,41 @@
             // txtId
             // 
             this.txtId.BackColor = System.Drawing.SystemColors.Window;
-            this.txtId.Location = new System.Drawing.Point(67, 457);
+            this.txtId.Location = new System.Drawing.Point(71, 455);
             this.txtId.Name = "txtId";
             this.txtId.ReadOnly = true;
-            this.txtId.Size = new System.Drawing.Size(100, 20);
+            this.txtId.Size = new System.Drawing.Size(131, 20);
             this.txtId.TabIndex = 12;
             // 
             // txtFileName
             // 
-            this.txtFileName.Location = new System.Drawing.Point(15, 540);
+            this.txtFileName.Location = new System.Drawing.Point(15, 564);
             this.txtFileName.Name = "txtFileName";
-            this.txtFileName.Size = new System.Drawing.Size(84, 20);
+            this.txtFileName.Size = new System.Drawing.Size(112, 20);
             this.txtFileName.TabIndex = 13;
             this.txtFileName.TextChanged += new System.EventHandler(this.txtFileName_TextChanged);
+            // 
+            // btnLoadFromBinary
+            // 
+            this.btnLoadFromBinary.Location = new System.Drawing.Point(15, 504);
+            this.btnLoadFromBinary.Name = "btnLoadFromBinary";
+            this.btnLoadFromBinary.Size = new System.Drawing.Size(183, 22);
+            this.btnLoadFromBinary.TabIndex = 14;
+            this.btnLoadFromBinary.Text = "Load From Binary";
+            this.btnLoadFromBinary.UseVisualStyleBackColor = true;
+            this.btnLoadFromBinary.Click += new System.EventHandler(this.btnLoadFromBinary_Click);
+            // 
+            // openFileDialog2
+            // 
+            this.openFileDialog2.FileName = "openFileDialogBin";
+            this.openFileDialog2.FileOk += new System.ComponentModel.CancelEventHandler(this.openFileDialog2_FileOk);
             // 
             // FormEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(869, 599);
+            this.ClientSize = new System.Drawing.Size(929, 599);
+            this.Controls.Add(this.btnLoadFromBinary);
             this.Controls.Add(this.txtFileName);
             this.Controls.Add(this.txtId);
             this.Controls.Add(this.lblId);
@@ -211,5 +230,7 @@
         private System.Windows.Forms.Label lblId;
         private System.Windows.Forms.TextBox txtId;
         private System.Windows.Forms.TextBox txtFileName;
+        private System.Windows.Forms.Button btnLoadFromBinary;
+        private System.Windows.Forms.OpenFileDialog openFileDialog2;
     }
 }

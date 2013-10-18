@@ -82,10 +82,6 @@ namespace RunningGame
                 Entity e = (Entity)ents[i];
                 e.level = this;
                 addEntity(e.randId, e);
-                if (e.hasComponent(GlobalVars.COLLIDER_COMPONENT_NAME))
-                {
-                    getCollisionSystem().colliderAdded(e);
-                }
             }
 
         }
@@ -153,6 +149,7 @@ namespace RunningGame
         public virtual void resetLevel()
         {
             paused = true; // Pause the game briefly
+
             Entity[] ents = GlobalVars.allEntities.Values.ToArray();
             for (int i = 0; i < ents.Length; i++)
             {
@@ -167,10 +164,9 @@ namespace RunningGame
             {
                 e.revertToStartingState();
                 addEntity(e.randId, e);
-                if (e.hasComponent(GlobalVars.COLLIDER_COMPONENT_NAME))
-                    colliderAdded(e);
             }
             GlobalVars.removedStartingEntities.Clear();
+
             paused = false; //Restart the game  
             
         }
@@ -226,6 +222,8 @@ namespace RunningGame
                 sysManagerInit = true;
             }
             GlobalVars.allEntities.Add(id, e);
+            if (e.hasComponent(GlobalVars.COLLIDER_COMPONENT_NAME))
+                colliderAdded(e);
         }
         public virtual void removeEntity(Entity e)
         {
