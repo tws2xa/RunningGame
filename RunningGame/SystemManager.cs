@@ -32,6 +32,7 @@ namespace RunningGame
         public DebugSystem debugSystem;
         public ScreenEdgeSystem scrEdgeSystem;
         public SwitchListenerSystem slSystem;
+        public SwitchSystem switchSystem;
         public SimplePowerUpSystem spSystem;
         public SimpleEnemyAISystem simpEnemySystem;
         public PlayerWeaponSystem weapSystem;
@@ -60,6 +61,7 @@ namespace RunningGame
             inputSystem = new InputSystem(level);
             scrEdgeSystem = new ScreenEdgeSystem(level);
             slSystem = new SwitchListenerSystem(level);
+            switchSystem = new SwitchSystem(level);
             spSystem = new SimplePowerUpSystem(level);
             simpEnemySystem = new SimpleEnemyAISystem(level);
             weapSystem = new PlayerWeaponSystem(level);
@@ -84,6 +86,7 @@ namespace RunningGame
             squishSystem.Update(deltaTime);
             inputSystem.Update(deltaTime);
             slSystem.Update(deltaTime);
+            switchSystem.Update(deltaTime);
             spSystem.Update(deltaTime);
             simpEnemySystem.Update(deltaTime);
             sndSystem.Update(deltaTime);
