@@ -87,11 +87,13 @@
     <Compile Include="Components\SquishComponent.cs" />
     <Compile Include="Components\SwitchComponent.cs" />
     <Compile Include="Components\SwitchListenerComponent.cs" />
+    <Compile Include="Components\TimedSwitchComponent.cs" />
     <Compile Include="Components\VelocityComponent.cs" />
     <Compile Include="DeathHandler.cs" />
     <Compile Include="Entities\BackgroundEntity.cs" />
     <Compile Include="Entities\BasicGround.cs" />
     <Compile Include="Entities\BulletEntity.cs" />
+    <Compile Include="Entities\TimedSwitchEntity.cs" />
     <Compile Include="Entities\FlyingEnemyEntity.cs" />
     <Compile Include="Entities\DoorEntity.cs" />
     <Compile Include="Entities\SimpleEnemyEntity.cs" />
@@ -150,6 +152,7 @@
     <Compile Include="Systems\SoundSystem.cs" />
     <Compile Include="Systems\SquishSystem.cs" />
     <Compile Include="Systems\SwitchListenerSystem.cs" />
+    <Compile Include="Systems\SwitchSystem.cs" />
     <Compile Include="Systems\SystemTemplate.cs" />
     <Compile Include="View.cs" />
     <EmbeddedResource Include="FormEditor.resx">
