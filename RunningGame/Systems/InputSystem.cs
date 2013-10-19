@@ -117,9 +117,12 @@ namespace RunningGame.Systems
         }
         public void MouseClick(MouseEventArgs e)
         {
-            mouseX = e.X;
-            mouseY = e.Y;
-            mouseClick = true;
+            if (e.Button == MouseButtons.Left)
+            {
+                mouseX = e.X;
+                mouseY = e.Y;
+                mouseClick = true;
+            }
         }
         public void MouseMoved(MouseEventArgs e)
         {
