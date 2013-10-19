@@ -71,6 +71,8 @@ namespace RunningGame.Systems
             BulletEntity bullet = new BulletEntity(level, posComp.x, posComp.y, (float)xVel, (float)yVel);
             level.addEntity(bullet.randId, bullet);
 
+            //level.sysManager.sndSystem.playSound("RunningGame.Resources.Sounds.boop.wav", false);
+
             //Recoil
             Player player = (Player)level.getPlayer();
             if (recoil && player.hasComponent(GlobalVars.VELOCITY_COMPONENT_NAME))
