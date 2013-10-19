@@ -87,16 +87,30 @@ namespace RunningGame.Systems
                 }
                 
                 //Face the right way
-                SimpleEnemyEntity enemy = (SimpleEnemyEntity)e;
-                if (velComp.x > 0 && !enemy.isLookingRight())
+                if (e is SimpleEnemyEntity)
                 {
-                    enemy.faceRight();
+                    SimpleEnemyEntity enemy = (SimpleEnemyEntity)e;
+                    if (velComp.x > 0 && !enemy.isLookingRight())
+                    {
+                        enemy.faceRight();
+                    }
+                    if (velComp.x < 0 && !enemy.isLookingLeft())
+                    {
+                        enemy.faceLeft();
+                    }
                 }
-                if (velComp.x < 0 && !enemy.isLookingLeft())
+                else if (e is FlyingEnemyEntity)
                 {
-                    enemy.faceLeft();
+                    FlyingEnemyEntity enemy = (FlyingEnemyEntity)e;
+                    if (velComp.x > 0 && !enemy.isLookingRight())
+                    {
+                        enemy.faceRight();
+                    }
+                    if (velComp.x < 0 && !enemy.isLookingLeft())
+                    {
+                        enemy.faceLeft();
+                    }
                 }
-
                 simpEnemyComp.hasRunOnce = true;
             }
         }

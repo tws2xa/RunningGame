@@ -27,6 +27,7 @@ namespace RunningGame
         Color basicGroundCol = Color.FromArgb(0, 0, 0); //Basic Ground is black.
         Color testEntityColor = Color.FromArgb(42, 42, 42); //Test entity is 42, 42, 42.
         Color simpleEnemyColor = Color.FromArgb(255, 0, 0); //Enemies are red.
+        Color flyingEnemyColor = Color.FromArgb(255, 255, 0);
 
         Random rand = new Random();
 
@@ -93,6 +94,16 @@ namespace RunningGame
                         float yLoc = (levelY) * tileHeight;
                         int id = rand.Next(Int32.MinValue, Int32.MaxValue);
                         SimpleEnemyEntity enemy = new SimpleEnemyEntity(level, id, xLoc, yLoc);
+                        enemy.isStartingEntity = true;
+                        level.addEntity(enemy.randId, enemy);
+                    }
+                    else if (col == flyingEnemyColor)
+                    {
+
+                        float xLoc = (levelX) * tileWidth;
+                        float yLoc = (levelY) * tileHeight;
+                        int id = rand.Next(Int32.MinValue, Int32.MaxValue);
+                        FlyingEnemyEntity enemy = new FlyingEnemyEntity(level, id, xLoc, yLoc);
                         enemy.isStartingEntity = true;
                         level.addEntity(enemy.randId, enemy);
                     }

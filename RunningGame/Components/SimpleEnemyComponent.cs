@@ -16,14 +16,14 @@ namespace RunningGame.Components
         public bool hasLandedOnce { get; set; }
         public bool hasRunOnce { get; set; }
 
-        public SimpleEnemyComponent(float mySpeed)
+        public SimpleEnemyComponent(float mySpeed, bool checkCliff)
         {
             this.componentName = GlobalVars.SIMPLE_ENEMY_COMPONENT_NAME;
             this.mySpeed = mySpeed;
             wasStoppedLastFrame = false;
             hasLandedOnce = false;
             hasRunOnce = false;
-            checkCliff = true;
+            this.checkCliff = checkCliff;
         }
 
     }

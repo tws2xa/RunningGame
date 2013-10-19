@@ -92,6 +92,7 @@
     <Compile Include="Entities\BackgroundEntity.cs" />
     <Compile Include="Entities\BasicGround.cs" />
     <Compile Include="Entities\BulletEntity.cs" />
+    <Compile Include="Entities\FlyingEnemyEntity.cs" />
     <Compile Include="Entities\DoorEntity.cs" />
     <Compile Include="Entities\SimpleEnemyEntity.cs" />
     <Compile Include="Entities\SwitchEntity.cs" />
@@ -265,6 +266,14 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\GrassSquarePurple.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\FlyingEnemy1.png" />
+    <EmbeddedResource Include="Resources\FlyingEnemy2.png" />
+    <EmbeddedResource Include="Resources\FlyingEnemy3.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\EnemyLevel2.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
