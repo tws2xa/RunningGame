@@ -61,15 +61,15 @@ namespace RunningGame.Entities
             addComponent(new VelocityComponent(0, 0));
 
             //Draw component
-            DrawComponent drawComp = new DrawComponent("RunningGame.Resources.Player.bmp", rightImageName, (int)defaultWidth, (int)defaultHeight, false);
-            drawComp.addSprite("RunningGame.Resources.Player.bmp", leftImageName);
+            DrawComponent drawComp = new DrawComponent("RunningGame.Resources.Player.png", rightImageName, (int)defaultWidth, (int)defaultHeight, false);
+            drawComp.addSprite("RunningGame.Resources.Player.png", leftImageName);
             drawComp.rotateFlipSprite(leftImageName, RotateFlipType.RotateNoneFlipX);
             addComponent(drawComp);
 
             ArrayList blinkAnimation = new ArrayList
             {
-                "RunningGame.Resources.Player.bmp",
-                "RunningGame.Resources.PlayerEyesClosed.bmp"
+                "RunningGame.Resources.Player.png",
+                "RunningGame.Resources.PlayerEyesClosed.png"
             };
             drawComp.addAnimatedSprite(blinkAnimation, blinkRight);
             drawComp.addAnimatedSprite(blinkAnimation, blinkLeft);
@@ -100,7 +100,7 @@ namespace RunningGame.Entities
             //Health Component
             addComponent(new HealthComponent(100, true, 1, 0.5f));
 
-            //Screen Wrap
+            //Screen Edge Stop/Wrap
             addComponent(new ScreenEdgeComponent(1, 2, 1, 0));
 
         }
@@ -108,7 +108,7 @@ namespace RunningGame.Entities
         public override void revertToStartingState()
         {
             PositionComponent posComp = (PositionComponent)this.getComponent(GlobalVars.POSITION_COMPONENT_NAME);
-            level.getMovementSystem().changePosition(posComp, posComp.startingX, posComp.startingY, true);
+            level.getMovementSystem().teleportToNoCollisionCheck(posComp, posComp.startingX, posComp.startingY);
             level.getMovementSystem().changeSize(posComp, posComp.startingWidth, posComp.startingHeight);
 
             VelocityComponent velComp = (VelocityComponent)this.getComponent(GlobalVars.VELOCITY_COMPONENT_NAME);

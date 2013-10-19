@@ -10,7 +10,7 @@ namespace RunningGame.Components
      * A Template for Creating Components
      */
     [Serializable()]
-    public class ComponentTemplate : Component //Always extend Component
+    public class ComponentTemplate : Component //Always extend Component. Always have [Serializable()]. Always make it public!
     {
         //Basically the component just holds variables.
         //Some may even be empty

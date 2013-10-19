@@ -156,8 +156,6 @@ namespace RunningGame.Level_Editor
             {
                 e.revertToStartingState();
                 addEntity(e.randId, e);
-                if (e.hasComponent(GlobalVars.COLLIDER_COMPONENT_NAME))
-                    colliderAdded(e);
             }
             GlobalVars.removedStartingEntities.Clear();
             paused = false; //Restart the game  
@@ -220,6 +218,10 @@ namespace RunningGame.Level_Editor
                 sysManagerInit = true;
             }
             GlobalVars.allEntities.Add(id, e);
+            if (e.hasComponent(GlobalVars.COLLIDER_COMPONENT_NAME))
+            {
+                getCollisionSystem().colliderAdded(e);
+            }
         }
         public override void removeEntity(Entity e)
         {

@@ -65,7 +65,7 @@ namespace RunningGame.Level_Editor
 
 
             //Check for mouse click. Select/Deselect Entity
-            if (level.getInputSystem().mouseClick)
+            if (level.getInputSystem().mouseLeftClick)
             {
                 if (level.vars.protoEntity == null)
                 {
@@ -162,6 +162,28 @@ namespace RunningGame.Level_Editor
                 PositionComponent protoPosComp = (PositionComponent)level.vars.protoEntity.getComponent(GlobalVars.POSITION_COMPONENT_NAME);
                 e.isStartingEntity = true;
                 level.getMovementSystem().changePosition(newPosComp, protoPosComp.x, protoPosComp.y, false);
+
+                if (e is BasicGround)
+                {
+                    BasicGround ground = (BasicGround)e;
+
+                    //If no ground above it, change to a grass sprite
+                    ArrayList above = level.getCollisionSystem().findObjectAtPoint(newPosComp.x, (newPosComp.y - newPosComp.height/2 - 1));
+                    if (above.Count <= 0 || !(above[0] is BasicGround))
+                    {
+                        ground.changeSprite(false);
+                    }
+
+                    //If ground below it, make dirt
+                    ArrayList below = level.getCollisionSystem().findObjectAtPoint(newPosComp.x, (newPosComp.y + newPosComp.height / 2 + 1));
+                    if (below.Count > 0 && (below[0] is BasicGround))
+                    {
+                        BasicGround ground2 = (BasicGround)below[0];
+                        ground2.changeSprite(true);
+                    }
+
+                }
+
             }
             level.addEntity(e.randId, e);
             removeProtoEntity();

@@ -28,35 +28,57 @@ namespace RunningGame
 
 
         public Dictionary<string, Func<Entity, Entity, bool>> collisionDictionary = new Dictionary<string, Func<Entity, Entity, bool>>();
+        public Level level;
 
-
-        public CollisionHandler()
+        public CollisionHandler(Level level)
         {
+
+            this.level = level;
 
             //Func<Entity, Entity, bool> [Var Name] = [Name of your method];
             Func<Entity, Entity, bool> simpleStopCollisionFunction = simpleStopCollision;
             Func<Entity, Entity, bool> speedyPlayerCollisionFunction = speedyPlayerCollision;
             Func<Entity, Entity, bool> playerSwitchCollisonFunction = switchPlayerCollision;
-
-
+            Func<Entity, Entity, bool> playerEnemyCollisionFunction = enemyPlayerCollision;
+            Func<Entity, Entity, bool> bulletNonEnemyCollisionFunction = bulletNonEnemyCollision;
+            Func<Entity, Entity, bool> bulletEnemyCollisionFunction = bulletEnemyCollision;
+           
 
             //Add collisions to dictionary
-            collisionDictionary.Add(getCollisionTypeName(GlobalVars.PLAYER_COLLIDER_TYPE, GlobalVars.BASIC_SOLID_COLLIDER_TYPE), simpleStopCollisionFunction);
-            collisionDictionary.Add(getCollisionTypeName(GlobalVars.BASIC_SOLID_COLLIDER_TYPE, GlobalVars.BASIC_SOLID_COLLIDER_TYPE),
-                simpleStopCollisionFunction);
-            collisionDictionary.Add(getCollisionTypeName(GlobalVars.PLAYER_COLLIDER_TYPE, GlobalVars.SPEEDY_COLLIDER_TYPE), speedyPlayerCollisionFunction);
-            collisionDictionary.Add(getCollisionTypeName(GlobalVars.BASIC_SOLID_COLLIDER_TYPE, GlobalVars.SPEEDY_COLLIDER_TYPE), simpleStopCollisionFunction);
+            addToDictionary(GlobalVars.PLAYER_COLLIDER_TYPE, GlobalVars.BASIC_SOLID_COLLIDER_TYPE, simpleStopCollisionFunction);
+            addToDictionary(GlobalVars.PLAYER_COLLIDER_TYPE, GlobalVars.SPEEDY_COLLIDER_TYPE, speedyPlayerCollisionFunction);
+            addToDictionary(GlobalVars.PLAYER_COLLIDER_TYPE, GlobalVars.SWITCH_COLLIDER_TYPE, playerSwitchCollisonFunction);
 
-            collisionDictionary.Add(getCollisionTypeName(GlobalVars.PLAYER_COLLIDER_TYPE, GlobalVars.SWITCH_COLLIDER_TYPE), playerSwitchCollisonFunction);
+            addToDictionary(GlobalVars.BASIC_SOLID_COLLIDER_TYPE, GlobalVars.BASIC_SOLID_COLLIDER_TYPE, simpleStopCollisionFunction);
+            addToDictionary(GlobalVars.BASIC_SOLID_COLLIDER_TYPE, GlobalVars.SPEEDY_COLLIDER_TYPE, simpleStopCollisionFunction);
+
+            addToDictionary(GlobalVars.SIMPLE_ENEMY_COLLIDER_TYPE, GlobalVars.PLAYER_COLLIDER_TYPE, playerEnemyCollisionFunction);
+            addToDictionary(GlobalVars.SIMPLE_ENEMY_COLLIDER_TYPE, GlobalVars.BASIC_SOLID_COLLIDER_TYPE, simpleStopCollisionFunction);
+            addToDictionary(GlobalVars.SIMPLE_ENEMY_COLLIDER_TYPE, GlobalVars.SIMPLE_ENEMY_COLLIDER_TYPE, simpleStopCollisionFunction);
+            
+            addToDictionary(GlobalVars.BULLET_COLLIDER_TYPE, GlobalVars.BASIC_SOLID_COLLIDER_TYPE, bulletNonEnemyCollisionFunction);
+            addToDictionary(GlobalVars.BULLET_COLLIDER_TYPE, GlobalVars.SIMPLE_ENEMY_COLLIDER_TYPE, bulletEnemyCollisionFunction);
         }
-          
-    
+
+        public void addToDictionary(string type1, string type2, Func<Entity, Entity, bool> func)
+        {
+            collisionDictionary.Add(getCollisionTypeName(type1, type2), func);
+        }
+        
         //Return true = stop movement. False = do not stop movement.
         public bool handleCollision(Entity e1, Entity e2)
         {
             ColliderComponent col1 = (ColliderComponent)e1.getComponent(GlobalVars.COLLIDER_COMPONENT_NAME);
             ColliderComponent col2 = (ColliderComponent)e2.getComponent(GlobalVars.COLLIDER_COMPONENT_NAME);
 
+            /* This shouldn't be needed. It shouldn't happen...
+            if (col1 == null || col2 == null)
+            {
+                Console.WriteLine("Handling a null collision");
+                return false;
+            }
+            */
+ 
             string collisionTypeName = getCollisionTypeName(col1.colliderType, col2.colliderType);
 
             //If it's not a listed collision type
@@ -148,12 +170,63 @@ namespace RunningGame
                 sc.setActive(true);
                 DrawComponent drawComp = (DrawComponent)s.getComponent(GlobalVars.DRAW_COMPONENT_NAME);
                 drawComp.setSprite(GlobalVars.SWITCH_ACTIVE_SPRITE_NAME);
-                Console.WriteLine("You collided with the switch! Active: " + sc.active + "ID: " + s.randId);
             }
 
 
             return false;
 
+        }
+
+        public static bool enemyPlayerCollision(Entity e1, Entity e2)
+        {
+
+            Player player;
+            if (e1 is Player)
+            {
+                player = (Player)e1;
+            }
+            else if (e2 is Player)
+            {
+                player = (Player)e2;
+            }
+            else
+            {
+                Console.WriteLine("Enemy Player Collision with no player...");
+                return false;
+            }
+            HealthComponent playerHealthComp = (HealthComponent)player.getComponent(GlobalVars.HEALTH_COMPONENT_NAME);
+            playerHealthComp.subtractFromHealth(playerHealthComp.health + 1); //Kill the player O:
+            return false;
+
+        }
+        
+        public bool bulletNonEnemyCollision(Entity e1, Entity e2)
+        {
+            BulletEntity bullet;
+            if (e1 is BulletEntity)
+            {
+                bullet = (BulletEntity)e1;
+            }
+            else if (e2 is BulletEntity)
+            {
+                bullet = (BulletEntity)e2;
+            }
+            else
+            {
+                Console.WriteLine("Bullet Collision with no bullet...");
+                return false;
+            }
+
+            level.removeEntity(bullet);
+
+            return false;
+        }
+        public bool bulletEnemyCollision(Entity e1, Entity e2)
+        {
+            level.removeEntity(e1);
+            level.removeEntity(e2);
+
+            return false;
         }
 
         public string getCollisionTypeName(string type1, string type2)
@@ -167,5 +240,6 @@ namespace RunningGame
             else
                 return (type2 + "" + type1);
         }
+
     }
 }

@@ -30,8 +30,11 @@ namespace RunningGame.Systems
 
         public float mouseX = 0;
         public float mouseY = 0;
-        public bool mouseClick = false;
-        public int mouseClickCounter = 0;
+        public bool mouseLeftClick = false;
+        public int mouseLeftClickCounter = 0;
+        public bool mouseRightClick = false;
+        public int mouseRightClickCounter = 0;
+
 
         ArrayList requiredComponents = new ArrayList();
         Level level;
@@ -82,13 +85,22 @@ namespace RunningGame.Systems
                         b.up = false;
                     }
                 }
-                if (mouseClick)
+                if (mouseLeftClick)
                 {
-                    mouseClickCounter++;
-                    if (mouseClickCounter > 1)
+                    mouseLeftClickCounter++;
+                    if (mouseLeftClickCounter > 1)
                     {
-                        mouseClickCounter = 0;
-                        mouseClick = false;
+                        mouseLeftClickCounter = 0;
+                        mouseLeftClick = false;
+                    }
+                }
+                if (mouseRightClick)
+                {
+                    mouseRightClickCounter++;
+                    if (mouseRightClickCounter > 1)
+                    {
+                        mouseRightClickCounter = 0;
+                        mouseRightClick = false;
                     }
                 }
             }
@@ -117,9 +129,18 @@ namespace RunningGame.Systems
         }
         public void MouseClick(MouseEventArgs e)
         {
-            mouseX = e.X;
-            mouseY = e.Y;
-            mouseClick = true;
+            if (e.Button == MouseButtons.Left)
+            {
+                mouseX = e.X;
+                mouseY = e.Y;
+                mouseLeftClick = true;
+            }
+            else if (e.Button == MouseButtons.Right)
+            {
+                mouseX = e.X;
+                mouseY = e.Y;
+                mouseRightClick = true;
+            }
         }
         public void MouseMoved(MouseEventArgs e)
         {

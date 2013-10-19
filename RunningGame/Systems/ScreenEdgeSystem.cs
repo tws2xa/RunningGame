@@ -62,10 +62,42 @@ namespace RunningGame.Systems
 
 
                 //Off sides of screen check (Wrap)
-                if (scrEdgComp.right == 2 && posComp.x > level.levelWidth + posComp.width && velComp.x > 0) wrapRight(posComp);
-                if (scrEdgComp.left == 2 && posComp.x < -posComp.width && velComp.x < 0) wrapLeft(posComp);
-                if (scrEdgComp.down == 2 && posComp.y > level.levelHeight + posComp.height && velComp.y > 0) wrapDown(posComp);
-                if (scrEdgComp.up == 2 && posComp.y < -posComp.height && velComp.y < 0) wrapUp(posComp);
+                if (posComp.x > level.levelWidth + posComp.width && velComp.x > 0)
+                {
+                    if (scrEdgComp.right == 2)
+                        wrapRight(posComp);
+                    else if (scrEdgComp.right == 3)
+                    {
+                        level.removeEntity(posComp.myEntity);
+                    }
+                }
+                if (posComp.x < -posComp.width && velComp.x < 0)
+                {
+                    if(scrEdgComp.left == 2)
+                        wrapLeft(posComp);
+                    else if (scrEdgComp.left == 3)
+                    {
+                        level.removeEntity(posComp.myEntity);
+                    }
+                }
+                if (posComp.y > level.levelHeight + posComp.height && velComp.y > 0)
+                {
+                    if(scrEdgComp.down == 2)
+                        wrapDown(posComp);
+                    else if (scrEdgComp.up == 3)
+                    {
+                        level.removeEntity(posComp.myEntity);
+                    }
+                }
+                if (posComp.y < -posComp.height && velComp.y < 0)
+                {
+                    if(scrEdgComp.up == 2)
+                        wrapUp(posComp);
+                    else if (scrEdgComp.down == 3)
+                    {
+                        level.removeEntity(posComp.myEntity);
+                    }
+                }
             }
 
         }

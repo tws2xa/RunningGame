@@ -12,7 +12,7 @@ namespace RunningGame.Systems
      * A Template for the system class
      */
     [Serializable()]
-    public class SystemTemplate : GameSystem //Always extend GameSystem
+    public class SystemTemplate : GameSystem //Always extend GameSystem. Always have public. Always have [Serializable()].
     {
         //All systems MUST have an ArrayList of requiredComponents (May need to add using System.Collections at start of file)
         //To access components you may need to also add "using RunningGame.Components"
@@ -56,7 +56,5 @@ namespace RunningGame.Systems
         }
         //----------------------------------------------------------------------------------------------
 
-        //Here put any helper methods or really anything else you may want.
-        //You may find it handy to have methods here that other systems can access.
     }
 }

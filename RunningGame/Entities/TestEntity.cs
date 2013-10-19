@@ -47,12 +47,12 @@ namespace RunningGame.Entities
             addComponent(new PositionComponent(x, y, defaultWidth, defaultHeight, this));
             
             //Draw component
-            DrawComponent drawComp = (DrawComponent)addComponent(new DrawComponent("RunningGame.Resources.WhiteSquare.bmp", "Main", defaultWidth, defaultHeight, true));
+            DrawComponent drawComp = (DrawComponent)addComponent(new DrawComponent("RunningGame.Resources.WhiteSquare.png", "Main", defaultWidth, defaultHeight, true));
 
             ArrayList testAnimationList = new ArrayList
             {
-                "RunningGame.Resources.WhiteSquare.bmp", "RunningGame.Resources.DirtSquare.bmp",
-                "RunningGame.Resources.GrassSquare.bmp", "RunningGame.Resources.Player.bmp"
+                "RunningGame.Resources.WhiteSquare.png", "RunningGame.Resources.DirtSquare.png",
+                "RunningGame.Resources.GrassSquare.png", "RunningGame.Resources.Player.png"
             };
 
             drawComp.addAnimatedSprite(testAnimationList, testAnimationName);
