@@ -25,7 +25,13 @@ namespace RunningGame.Systems
         CreationLevel creatLev = null;
         public View mainView;
         ArrayList requiredComponents = new ArrayList();
-
+        float alpha = 0; // have to figure out the right number/ratio
+        float flashTime = 0;
+        SolidBrush flashBrush = new SolidBrush(Color.White);
+        //alpha is a proportion 
+        //new solid brush color and alpha 
+        //set color, then set that timer.
+        //draw function, if that timer is greater than 0, make alpha proportion, decrease time in update.
         [NonSerialized] Pen selectedEntBorderColor = Pens.Red;
         [NonSerialized] Brush selectedEntFillColor = new SolidBrush(Color.FromArgb(100, Color.CornflowerBlue));
 
@@ -92,8 +98,35 @@ namespace RunningGame.Systems
                 mainView.setFollowEntity(level.getPlayer());
             }
 
+
+            //*this part takes care of flashes on the screen
+            if (flashTime > 0)
+            {
+                g.DrawRectangle();
+                g.FillRectangle();
+
+
+
+            }
+
+            //color decrease by delta time
+            // total time passed and total time for the alpha
+            // might want to do make flash in the draw system
+            //draw a rectangle
+            //total time 
             //Update views
             mainView.Update();
+        }
+
+        public void setFlashColor(Color c)
+        {
+
+            flashBrush.Color = c;
+        }
+
+        public void setFlashTime(float time)
+        {
+            flashTime = time;
         }
 
         public void Draw(Graphics g)
