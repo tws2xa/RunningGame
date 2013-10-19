@@ -85,7 +85,7 @@ namespace RunningGame.Systems
             }
             if (level.getInputSystem().myKeys[flashKey].down)
             {
-                makeFlash(1, Color.Red);
+                makeFlash(10, Color.Purple);
             }
          
         }
@@ -99,8 +99,7 @@ namespace RunningGame.Systems
         public void makeFlash(float time, Color color)
         {
             DrawSystem ds = level.sysManager.drawSystem;
-            ds.setFlashColor(color);
-            ds.setFlashTime(10);
+            ds.setFlash(color, time);
 
 
         }
