@@ -41,7 +41,7 @@ namespace RunningGame.Systems
 
         public override void Update(float deltaTime)
         {
-            if (level.getInputSystem().mouseClick)
+            if (level.getInputSystem().mouseLeftClick)
             {
                 fireWeapon((PositionComponent)level.getPlayer().getComponent(GlobalVars.POSITION_COMPONENT_NAME));
             }

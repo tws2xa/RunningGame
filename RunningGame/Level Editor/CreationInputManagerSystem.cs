@@ -65,7 +65,7 @@ namespace RunningGame.Level_Editor
 
 
             //Check for mouse click. Select/Deselect Entity
-            if (level.getInputSystem().mouseClick)
+            if (level.getInputSystem().mouseLeftClick)
             {
                 if (level.vars.protoEntity == null)
                 {

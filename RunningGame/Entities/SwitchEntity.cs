@@ -90,6 +90,12 @@ namespace RunningGame.Entities
         {
             SwitchComponent sc = (SwitchComponent)getComponent(GlobalVars.SWITCH_COMPONENT_NAME);
             sc.setActive(startingState);
+
+            DrawComponent drawComp = (DrawComponent)getComponent(GlobalVars.DRAW_COMPONENT_NAME);
+            if(startingState)
+                drawComp.activeSprite = GlobalVars.SWITCH_ACTIVE_SPRITE_NAME;
+            else
+                drawComp.activeSprite = GlobalVars.SWITCH_INACTIVE_SPRITE_NAME;
         }
 
     }

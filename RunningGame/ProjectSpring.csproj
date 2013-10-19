@@ -89,6 +89,7 @@
     <Compile Include="Components\SwitchListenerComponent.cs" />
     <Compile Include="Components\VelocityComponent.cs" />
     <Compile Include="DeathHandler.cs" />
+    <Compile Include="Entities\BackgroundEntity.cs" />
     <Compile Include="Entities\BasicGround.cs" />
     <Compile Include="Entities\BulletEntity.cs" />
     <Compile Include="Entities\DoorEntity.cs" />
@@ -254,10 +255,10 @@
     <EmbeddedResource Include="Resources\Enemy3.png" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\PaintBlob.png" />
+    <EmbeddedResource Include="Resources\PaintBlobSimple.png" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\PaintBlobSimple.png" />
+    <EmbeddedResource Include="Resources\LevelBackgrounds\BackgroundWorld13.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

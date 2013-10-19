@@ -47,6 +47,8 @@ namespace RunningGame
 
         public bool levelFullyLoaded = false;
 
+        public BackgroundEntity bkgEnt;
+
         public Level() {}
 
         public Level(float windowWidth, float windowHeight, string levelFile, bool isPaintFile, Graphics g)
@@ -111,6 +113,8 @@ namespace RunningGame
             }
             */
 
+            bkgEnt = getMyBackgroundEntity();
+            addEntity(bkgEnt.randId, bkgEnt);
 
         }
 
@@ -159,6 +163,10 @@ namespace RunningGame
             prevTicks = DateTime.Now.Ticks;
 
             levelFullyLoaded = true;
+
+            bkgEnt = getMyBackgroundEntity();
+            addEntity(bkgEnt.randId, bkgEnt);
+
         }
 
         //Game logic
@@ -251,11 +259,16 @@ namespace RunningGame
         //Draw everything!
         public virtual void Draw(Graphics g)
         {
+            
             sysManager.Draw(g);
             g.DrawString(fps.ToString("F") + "", SystemFonts.DefaultFont, Brushes.Black, new RectangleF(10, 10, cameraWidth-20, cameraHeight-20));
         }
 
         //Add an entity to the list of entities
+        public virtual void addEntity(Entity e)
+        {
+            addEntity(e.randId, e);
+        }
         public virtual void addEntity(int id, Entity e)
         {
             if (!sysManagerInit)
@@ -283,6 +296,43 @@ namespace RunningGame
             GlobalVars.allEntities.Remove(e.randId);
         }
 
+        public BackgroundEntity getMyBackgroundEntity()
+        {
+            BackgroundEntity bkgEnt = new BackgroundEntity(this, levelWidth/2, levelHeight/2);
+            DrawComponent drawComp = (DrawComponent)bkgEnt.getComponent(GlobalVars.DRAW_COMPONENT_NAME);
+            PositionComponent posComp = (PositionComponent)bkgEnt.getComponent(GlobalVars.POSITION_COMPONENT_NAME);
+
+            drawComp.addSprite("RunningGame.Resources.LevelBackgrounds.BackgroundWorld13.png", "MainBkg");
+            drawComp.setSprite("MainBkg");
+
+            float initWidth = drawComp.getImage().Width;
+            float initHeight = drawComp.getImage().Height;
+
+            float xDiff = Math.Abs(initWidth - levelWidth);
+            float yDiff = Math.Abs(initHeight - levelHeight);
+
+            //Make it fit horizontally
+            if (xDiff < yDiff)
+            {
+                float ratio = initWidth / levelWidth;
+                getMovementSystem().changeSize(posComp, levelWidth, initHeight * ratio);
+                drawComp.resizeImages((int)levelWidth, (int)(initHeight * ratio));
+                getMovementSystem().changePosition(posComp, levelWidth/2, levelHeight-initHeight*ratio/2, false);
+            }
+            //Make it fit vertically
+            else
+            {
+                float ratio = initHeight / levelHeight;
+                getMovementSystem().changeSize(posComp, initWidth*ratio , levelHeight);
+                drawComp.resizeImages((int)(initWidth*ratio), (int)(levelHeight));
+                getMovementSystem().changePosition(posComp, initWidth * ratio / 2, levelHeight / 2, false);
+            }
+
+            bkgEnt.isStartingEntity = true;
+
+            return bkgEnt;
+
+        }
 
         //Getters
         public virtual Dictionary<int, Entity> getEntities() {
