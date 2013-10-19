@@ -48,7 +48,8 @@ namespace RunningGame.Systems
         //You may find it handy to have methods here that other systems can access.
         public void playSound(String soundLocation, bool loop)
         {
-            SoundPlayer player = new SoundPlayer(soundLocation);
+            System.IO.Stream stream = System.Reflection.Assembly.GetExecutingAssembly().GetManifestResourceStream(soundLocation);
+            SoundPlayer player = new SoundPlayer(stream);
             if (loop)
                 player.PlayLooping();
             else
