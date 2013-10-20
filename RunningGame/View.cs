@@ -95,8 +95,13 @@ namespace RunningGame
 
         public void Draw(Graphics mainG, ArrayList entities)
         {
-            g.FillRectangle(bkgBrush, new Rectangle(0, 0, (int)width, (int)height)); //Clear
 
+
+            g.FillRectangle(bkgBrush, new Rectangle(0, 0, (int)width, (int)height)); //Clear
+            //draw flash, if there is a flash setting
+
+
+            
             //First, if there's a background entity, draw that!
             foreach (Entity e in entities)
             {
@@ -120,6 +125,19 @@ namespace RunningGame
                 mainG.DrawRectangle(new Pen(borderBrush, borderSize), new Rectangle((int)(displayX), (int)(displayY),
                 (int)(displayWidth), (int)(displayHeight)));
             }
+            //look into double buffers, mainG and G are different!
+            //use mainG
+
+            if (level.sysManager.drawSystem.getFlashTime() > 0)
+            {
+                mainG.FillRectangle(level.sysManager.drawSystem.getFlashBrush(), new Rectangle((int)(displayX), (int)(displayY),
+                (int)(displayWidth), (int)(displayHeight)));
+            }
+            
+
+            
+
+
         }
 
         public void drawEntity(Entity e)
