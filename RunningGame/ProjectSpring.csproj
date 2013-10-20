@@ -186,6 +186,8 @@
     <EmbeddedResource Include="Resources\Levels\EnemyTest2.bin" />
     <EmbeddedResource Include="Resources\Levels\TestEnemy6.bin" />
     <EmbeddedResource Include="Resources\Levels\TestUpdateLevel.bin" />
+    <EmbeddedResource Include="Resources\Levels\EnemyBinaryLevel.bin" />
+    <EmbeddedResource Include="Resources\Levels\OneSecondTimer.bin" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -280,6 +282,9 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\Sounds\boop.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\EnemyLevel3.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

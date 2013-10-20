@@ -79,7 +79,7 @@ namespace RunningGame
 
             levelFullyLoaded = true;
 
-
+            /*
             for (int i = 2; i < ents.Count; i++)
             {
                 Entity oldEnt = (Entity)ents[i];
@@ -101,17 +101,17 @@ namespace RunningGame
                 newEnt.level = this;
                 addEntity(newEnt.randId, newEnt);
             }
+            */
 
 
-
-            /*
+            
             for (int i = 2; i < ents.Count; i++)
             {
                 Entity e = (Entity)ents[i];
                 e.level = this;
                 addEntity(e.randId, e);
             }
-            */
+            
 
             bkgEnt = getMyBackgroundEntity();
             addEntity(bkgEnt.randId, bkgEnt);
