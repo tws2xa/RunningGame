@@ -13,6 +13,7 @@ namespace RunningGame.Components
         //0 - Nothing
         //1 - Stop
         //2 - Wrap
+        //3 - Destroy!
         public int left, right, up, down;
 
         public ScreenEdgeComponent(int left, int right, int up, int down)

@@ -13,6 +13,7 @@ using RunningGame.Properties;
 using System.Diagnostics;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
+using System.Reflection;
 
 namespace RunningGame
 {
@@ -46,6 +47,8 @@ namespace RunningGame
 
         public bool levelFullyLoaded = false;
 
+        public BackgroundEntity bkgEnt;
+
         public Level() {}
 
         public Level(float windowWidth, float windowHeight, string levelFile, bool isPaintFile, Graphics g)
@@ -59,7 +62,7 @@ namespace RunningGame
         public void initializeNotPaint(float windowWidth, float windowHeight, string levelFile, Graphics g)
         {
             BinaryFormatter bf = new BinaryFormatter();
-            FileStream f = new FileStream(levelFile, FileMode.Open);
+            Stream f = Assembly.GetExecutingAssembly().GetManifestResourceStream(levelFile);
 
             List<Object> ents = (List<Object>)bf.Deserialize(f);
 
@@ -76,17 +79,57 @@ namespace RunningGame
 
             levelFullyLoaded = true;
 
+            /*
+            for (int i = 2; i < ents.Count; i++)
+            {
+                Entity oldEnt = (Entity)ents[i];
+                Entity newEnt = (Entity)Activator.CreateInstance(oldEnt.GetType(), this, 0, 0);
+
+                newEnt.randId = oldEnt.randId;
+
+                //Copy all the fields! Ugh
+                CopyFields(oldEnt, newEnt);
+                foreach (Component oldC in oldEnt.getComponents())
+                {
+                    if (newEnt.hasComponent(oldC.componentName))
+                    {
+                        Component newC = newEnt.getComponent(oldC.componentName);
+                        CopyFields(oldC, newC);
+                    }
+                }
+
+                newEnt.level = this;
+                addEntity(newEnt.randId, newEnt);
+            }
+            */
+
+
+            
             for (int i = 2; i < ents.Count; i++)
             {
                 Entity e = (Entity)ents[i];
                 e.level = this;
                 addEntity(e.randId, e);
-                if (e.hasComponent(GlobalVars.COLLIDER_COMPONENT_NAME))
+            }
+            
+
+            bkgEnt = getMyBackgroundEntity();
+            addEntity(bkgEnt.randId, bkgEnt);
+
+        }
+
+        public void CopyFields(object oldObj, object newObj)
+        {
+            foreach (FieldInfo oldInfo in oldObj.GetType().GetFields(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance))
+            {
+                foreach (FieldInfo newInfo in newObj.GetType().GetFields(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance))
                 {
-                    getCollisionSystem().colliderAdded(e);
+                    if (oldInfo.Name == newInfo.Name)
+                    {
+                        newInfo.SetValue(newObj, oldInfo.GetValue(oldObj));
+                    }
                 }
             }
-
         }
 
         public void initializePaint(float windowWidth, float windowHeight, string levelFile, Graphics g)
@@ -120,6 +163,10 @@ namespace RunningGame
             prevTicks = DateTime.Now.Ticks;
 
             levelFullyLoaded = true;
+
+            bkgEnt = getMyBackgroundEntity();
+            addEntity(bkgEnt.randId, bkgEnt);
+
         }
 
         //Game logic
@@ -152,6 +199,7 @@ namespace RunningGame
         public virtual void resetLevel()
         {
             paused = true; // Pause the game briefly
+
             Entity[] ents = GlobalVars.allEntities.Values.ToArray();
             for (int i = 0; i < ents.Length; i++)
             {
@@ -166,10 +214,9 @@ namespace RunningGame
             {
                 e.revertToStartingState();
                 addEntity(e.randId, e);
-                if (e.hasComponent(GlobalVars.COLLIDER_COMPONENT_NAME))
-                    colliderAdded(e);
             }
             GlobalVars.removedStartingEntities.Clear();
+
             paused = false; //Restart the game  
             
         }
@@ -212,11 +259,19 @@ namespace RunningGame
         //Draw everything!
         public virtual void Draw(Graphics g)
         {
+            
             sysManager.Draw(g);
+            //this part is the check for the flash
+            //if flashtime is greater than 0, then it means that flash needs to be done
+            
             g.DrawString(fps.ToString("F") + "", SystemFonts.DefaultFont, Brushes.Black, new RectangleF(10, 10, cameraWidth-20, cameraHeight-20));
         }
 
         //Add an entity to the list of entities
+        public virtual void addEntity(Entity e)
+        {
+            addEntity(e.randId, e);
+        }
         public virtual void addEntity(int id, Entity e)
         {
             if (!sysManagerInit)
@@ -224,17 +279,63 @@ namespace RunningGame
                 sysManager = new SystemManager(this);
                 sysManagerInit = true;
             }
-            GlobalVars.allEntities.Add(id, e);
+            if (!GlobalVars.allEntities.ContainsKey(id))
+            {
+                GlobalVars.allEntities.Add(id, e);
+                if (e.hasComponent(GlobalVars.COLLIDER_COMPONENT_NAME))
+                    colliderAdded(e);
+            }
+            else
+            {
+                Console.WriteLine("Trying to add duplicate entity : " + e);
+            }
         }
         public virtual void removeEntity(Entity e)
         {
-            if (e.isStartingEntity)
+            if (e.isStartingEntity && !GlobalVars.removedStartingEntities.ContainsKey(e.randId))
                 GlobalVars.removedStartingEntities.Add(e.randId, e);
             if(e.hasComponent(GlobalVars.COLLIDER_COMPONENT_NAME))
                 getCollisionSystem().colliderRemoved(e);
             GlobalVars.allEntities.Remove(e.randId);
         }
 
+        public BackgroundEntity getMyBackgroundEntity()
+        {
+            BackgroundEntity bkgEnt = new BackgroundEntity(this, levelWidth/2, levelHeight/2);
+            DrawComponent drawComp = (DrawComponent)bkgEnt.getComponent(GlobalVars.DRAW_COMPONENT_NAME);
+            PositionComponent posComp = (PositionComponent)bkgEnt.getComponent(GlobalVars.POSITION_COMPONENT_NAME);
+
+            drawComp.addSprite("RunningGame.Resources.LevelBackgrounds.BackgroundWorld13.png", "MainBkg");
+            drawComp.setSprite("MainBkg");
+
+            float initWidth = drawComp.getImage().Width;
+            float initHeight = drawComp.getImage().Height;
+
+            float xDiff = Math.Abs(initWidth - levelWidth);
+            float yDiff = Math.Abs(initHeight - levelHeight);
+
+            //Make it fit horizontally
+            if (xDiff < yDiff)
+            {
+                float ratio = initWidth / levelWidth;
+                getMovementSystem().changeSize(posComp, levelWidth, initHeight * ratio);
+                drawComp.resizeImages((int)levelWidth, (int)(initHeight * ratio));
+                getMovementSystem().changePosition(posComp, levelWidth/2, levelHeight-initHeight*ratio/2, false);
+            }
+            //Make it fit vertically
+            else
+            {
+                float ratio = initHeight / levelHeight;
+                getMovementSystem().changeSize(posComp, initWidth*ratio , levelHeight);
+                drawComp.resizeImages((int)(initWidth*ratio), (int)(levelHeight));
+                getMovementSystem().changePosition(posComp, initWidth * ratio / 2, levelHeight / 2, false);
+            }
+
+            bkgEnt.isStartingEntity = true;
+
+            return bkgEnt;
+
+        }
 
         //Getters
         public virtual Dictionary<int, Entity> getEntities() {

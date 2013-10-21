@@ -37,7 +37,7 @@ namespace RunningGame.Systems
 
             this.level = level;
 
-            colHandler = new CollisionHandler();
+            colHandler = new CollisionHandler(level);
 
         }
 
@@ -53,20 +53,22 @@ namespace RunningGame.Systems
         //Apply any velocities
         public override void Update(float deltaTime)
         {
-
-            foreach (Entity e in getApplicableEntities())
+            if(!(level is CreationLevel))
             {
+                foreach (Entity e in getApplicableEntities())
+                {
 
-                //Pull out needed components
-                PositionComponent posComp = (PositionComponent)e.getComponent(GlobalVars.POSITION_COMPONENT_NAME);
-                VelocityComponent velComp = (VelocityComponent)e.getComponent(GlobalVars.VELOCITY_COMPONENT_NAME);
+                    //Pull out needed components
+                    PositionComponent posComp = (PositionComponent)e.getComponent(GlobalVars.POSITION_COMPONENT_NAME);
+                    VelocityComponent velComp = (VelocityComponent)e.getComponent(GlobalVars.VELOCITY_COMPONENT_NAME);
 
-                if (posComp.x != posComp.prevX) posComp.prevX = posComp.x;
-                if (posComp.y != posComp.prevY) posComp.prevY = posComp.y;
+                    if (posComp.x != posComp.prevX) posComp.prevX = posComp.x;
+                    if (posComp.y != posComp.prevY) posComp.prevY = posComp.y;
 
-                //Add velocity to position
-                incrementPosition(posComp, velComp.x * deltaTime, velComp.y * deltaTime);
+                    //Add velocity to position
+                    incrementPosition(posComp, velComp.x * deltaTime, velComp.y * deltaTime);
 
+                }
             }
         }
 
@@ -89,12 +91,22 @@ namespace RunningGame.Systems
         {
             if (newX != posComp.x)
             {
+                //Console.WriteLine("Changing x from " + posComp.x + " to " + newX);
                 changeSingleAxisLocation('X', posComp, newX, moveToContact);
             }
             if (newY != posComp.y)
             {
+                //Console.WriteLine("Changing y from " + posComp.y + " to " + newY);
                 changeSingleAxisLocation('Y', posComp, newY, moveToContact);
             }
+        }
+        public void teleportToNoCollisionCheck(PositionComponent posComp, float newX, float newY)
+        {
+            posComp.prevX = posComp.x;
+            posComp.x = newX;
+            posComp.prevY = posComp.y;
+            posComp.y = newY;
+            posComp.positionHasChanged = true;
         }
 
         /*
@@ -281,47 +293,48 @@ namespace RunningGame.Systems
 
                 //List of all collisions caused by potential move
                 ArrayList collisions = level.getCollisionSystem().checkForCollision(posComp.myEntity, xVal, yVal, posComp.width, posComp.height);
-                //ArrayList collisions = level.getCollisionSystem().findObjectsBetweenPoints(posComp.x, posComp.y, xVal, yVal);
-
+                
                 //If there's a collision
                 if (collisions.Count > 0 && !(level is CreationLevel))
                 {
                     foreach (Entity e in collisions)
                     {
+                        //If e also has a collider
+                        if(e.hasComponent(GlobalVars.COLLIDER_COMPONENT_NAME)) {
                         //Handle the collision
-                        if (colHandler.handleCollision(posComp.myEntity, e))
-                        {
-
-                            if (isX) velComp.x = 0;
-                            else velComp.y = 0;
-
-                            movementBlocked = true;
-
-                            //Move to edge of object if already mostly at the edge... ONLY IF MOVE TO CONTACT IS TRUE
-                            if (moveToContact)
+                            if (colHandler.handleCollision(posComp.myEntity, e))
                             {
-                                PositionComponent otherPosComp = (PositionComponent)e.getComponent(GlobalVars.POSITION_COMPONENT_NAME);
 
-                                if (isX)
+                                if (isX) velComp.x = 0;
+                                else velComp.y = 0;
+
+                                movementBlocked = true;
+
+                                //Move to edge of object if already mostly at the edge... ONLY IF MOVE TO CONTACT IS TRUE
+                                if (moveToContact)
                                 {
-                                    if (posComp.x < (otherPosComp.x))
-                                        level.getMovementSystem().changePosition(posComp, otherPosComp.x - otherPosComp.width / 2 - posComp.width / 2, posComp.y, false);
-                                    else
-                                        level.getMovementSystem().changePosition(posComp, otherPosComp.x + otherPosComp.width / 2 + posComp.width / 2, posComp.y, false);
+                                    PositionComponent otherPosComp = (PositionComponent)e.getComponent(GlobalVars.POSITION_COMPONENT_NAME);
 
-                                    //posComp.positionHasChanged = true;
-                                }
-                                else
-                                {
-                                    if (posComp.y < (otherPosComp.y))
-                                        level.getMovementSystem().changePosition(posComp, posComp.x, otherPosComp.y - otherPosComp.height / 2 - posComp.height / 2, false);
-                                    else
-                                        level.getMovementSystem().changePosition(posComp, posComp.x, otherPosComp.y + otherPosComp.height / 2 + posComp.height / 2, false);
+                                    if (isX)
+                                    {
+                                        if (posComp.x < (otherPosComp.x))
+                                            level.getMovementSystem().changePosition(posComp, otherPosComp.x - otherPosComp.width / 2 - posComp.width / 2, posComp.y, false);
+                                        else
+                                            level.getMovementSystem().changePosition(posComp, otherPosComp.x + otherPosComp.width / 2 + posComp.width / 2, posComp.y, false);
 
-                                    //posComp.positionHasChanged = true;
+                                        //posComp.positionHasChanged = true;
+                                    }
+                                    else
+                                    {
+                                        if (posComp.y < (otherPosComp.y))
+                                            level.getMovementSystem().changePosition(posComp, posComp.x, otherPosComp.y - otherPosComp.height / 2 - posComp.height / 2, false);
+                                        else
+                                            level.getMovementSystem().changePosition(posComp, posComp.x, otherPosComp.y + otherPosComp.height / 2 + posComp.height / 2, false);
+
+                                        //posComp.positionHasChanged = true;
+                                    }
                                 }
                             }
-
                         }
                     }
                 }
@@ -345,8 +358,6 @@ namespace RunningGame.Systems
             }
         }
         
-
-
 
         //Size
         public void changeSize(PositionComponent posComp, float newW, float newH)

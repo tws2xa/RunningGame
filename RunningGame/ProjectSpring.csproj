@@ -82,15 +82,22 @@
     <Compile Include="Components\PlayeInputComponent.cs" />
     <Compile Include="Components\PlayerComponent.cs" />
     <Compile Include="Components\ScreenEdgeComponent.cs" />
+    <Compile Include="Components\SimpleEnemyComponent.cs" />
     <Compile Include="Components\SoundComponent.cs" />
     <Compile Include="Components\SquishComponent.cs" />
     <Compile Include="Components\SwitchComponent.cs" />
     <Compile Include="Components\SwitchListenerComponent.cs" />
+    <Compile Include="Components\TimedSwitchComponent.cs" />
     <Compile Include="Components\VelocityComponent.cs" />
     <Compile Include="DeathHandler.cs" />
+    <Compile Include="Entities\BackgroundEntity.cs" />
     <Compile Include="Entities\BasicGround.cs" />
     <Compile Include="Entities\BlockEntity.cs" />
+    <Compile Include="Entities\BulletEntity.cs" />
+    <Compile Include="Entities\TimedSwitchEntity.cs" />
+    <Compile Include="Entities\FlyingEnemyEntity.cs" />
     <Compile Include="Entities\DoorEntity.cs" />
+    <Compile Include="Entities\SimpleEnemyEntity.cs" />
     <Compile Include="Entities\SwitchEntity.cs" />
     <Compile Include="FormEditor.cs">
       <SubType>Form</SubType>
@@ -107,6 +114,8 @@
     <Compile Include="Level Editor\FieldInfoListItem.cs" />
     <Compile Include="Level Editor\ProtoEntity.cs" />
     <Compile Include="Level Editor\ProtoEntitySystem.cs" />
+    <Compile Include="Systems\PlayerWeaponSystem.cs" />
+    <Compile Include="Systems\SimpleEnemyAISystem.cs" />
     <Compile Include="Systems\SimplePowerUpSystem.cs" />
     <Compile Include="Systems\DebugSystem.cs" />
     <Compile Include="Entities\Speedy.cs" />
@@ -144,6 +153,7 @@
     <Compile Include="Systems\SoundSystem.cs" />
     <Compile Include="Systems\SquishSystem.cs" />
     <Compile Include="Systems\SwitchListenerSystem.cs" />
+    <Compile Include="Systems\SwitchSystem.cs" />
     <Compile Include="Systems\SystemTemplate.cs" />
     <Compile Include="View.cs" />
     <EmbeddedResource Include="FormEditor.resx">
@@ -172,6 +182,13 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <EmbeddedResource Include="Resources\Levels\TestResizes.bin" />
+    <EmbeddedResource Include="Resources\Levels\SwitchTest.bin" />
+    <EmbeddedResource Include="Resources\Levels\EnemyTest2.bin" />
+    <EmbeddedResource Include="Resources\Levels\TestEnemy6.bin" />
+    <EmbeddedResource Include="Resources\Levels\TestUpdateLevel.bin" />
+    <EmbeddedResource Include="Resources\Levels\EnemyBinaryLevel.bin" />
+    <EmbeddedResource Include="Resources\Levels\OneSecondTimer.bin" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -234,6 +251,40 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\BlockSquare.png" />
+    <EmbeddedResource Include="Resources\EnemyLevel.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Enemy1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Enemy2.png" />
+    <EmbeddedResource Include="Resources\Enemy3.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\PaintBlobSimple.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\LevelBackgrounds\BackgroundWorld13.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\DirtSquarePurple.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\GrassSquarePurple.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\FlyingEnemy1.png" />
+    <EmbeddedResource Include="Resources\FlyingEnemy2.png" />
+    <EmbeddedResource Include="Resources\FlyingEnemy3.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\EnemyLevel2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Sounds\boop.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\EnemyLevel3.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -7,6 +7,7 @@ using System.Collections;
 using RunningGame.Entities;
 using RunningGame.Components;
 using System.Windows.Forms;
+using System.Drawing;
 
 namespace RunningGame.Systems
 {
@@ -19,6 +20,7 @@ namespace RunningGame.Systems
         Keys addEntityKey = Keys.N;
         Keys harmPlayerKey = Keys.H;
         Keys resetLevelKey = Keys.R;
+        Keys flashKey = Keys.F;
 
 
         bool hasRunOnce = false; //Used to add keys once and only once. Can't in constructor because inputSystem not ready yet
@@ -52,6 +54,7 @@ namespace RunningGame.Systems
                 level.getInputSystem().addKey(addEntityKey);
                 level.getInputSystem().addKey(harmPlayerKey);
                 level.getInputSystem().addKey(resetLevelKey);
+                level.getInputSystem().addKey(flashKey);
            
                 hasRunOnce = true;
             }
@@ -66,10 +69,8 @@ namespace RunningGame.Systems
             if (level.getInputSystem().myKeys[addEntityKey].down)
             {
                 PositionComponent posComp = (PositionComponent)level.getPlayer().getComponent(GlobalVars.POSITION_COMPONENT_NAME);
-              
-  
-                    debugAddEntity(posComp.x + posComp.width * 1.5f, posComp.y);
-
+                debugAddEntity(posComp.x + posComp.width * 1.5f, posComp.y);
+                //addDoorOrSwitch(posComp.x + posComp.width * 1.5f, posComp.y);
             }
 
             if (level.getInputSystem().myKeys[harmPlayerKey].down)
@@ -82,6 +83,10 @@ namespace RunningGame.Systems
             {
                 level.resetLevel();
             }
+            if (level.getInputSystem().myKeys[flashKey].down)
+            {
+                makeFlash(10, Color.Purple);
+            }
          
         }
 
@@ -90,6 +95,14 @@ namespace RunningGame.Systems
          * All you should really have to do is change where it says
          * TestEntity to whatever you want to create.
          */
+
+        public void makeFlash(float time, Color color)
+        {
+            DrawSystem ds = level.sysManager.drawSystem;
+            ds.setFlash(color, time);
+
+
+        }
         public void debugAddEntity(float x, float y)
         {   
             
@@ -103,13 +116,13 @@ namespace RunningGame.Systems
         {
             if (addingDoor)
             {
-                DoorEntity d = new DoorEntity(level, x, y, switchId);
+                DoorEntity d = new DoorEntity(level, x, y-20, switchId);
                 level.addEntity(d.randId, d);
                 addingDoor = false;
             }
             else
             {
-                SwitchEntity s = new SwitchEntity(level, x, y);
+                TimedSwitchEntity s = new TimedSwitchEntity(level, x, y);
                 switchId = s.randId;
                 level.addEntity(s.randId, s);
                 addingDoor = true;

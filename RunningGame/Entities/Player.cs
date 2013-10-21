@@ -100,7 +100,7 @@ namespace RunningGame.Entities
             //Health Component
             addComponent(new HealthComponent(100, true, 1, 0.5f));
 
-            //Screen Wrap
+            //Screen Edge Stop/Wrap
             addComponent(new ScreenEdgeComponent(1, 2, 1, 0));
 
         }
@@ -108,7 +108,7 @@ namespace RunningGame.Entities
         public override void revertToStartingState()
         {
             PositionComponent posComp = (PositionComponent)this.getComponent(GlobalVars.POSITION_COMPONENT_NAME);
-            level.getMovementSystem().changePosition(posComp, posComp.startingX, posComp.startingY, true);
+            level.getMovementSystem().teleportToNoCollisionCheck(posComp, posComp.startingX, posComp.startingY);
             level.getMovementSystem().changeSize(posComp, posComp.startingWidth, posComp.startingHeight);
 
             VelocityComponent velComp = (VelocityComponent)this.getComponent(GlobalVars.VELOCITY_COMPONENT_NAME);

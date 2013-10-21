@@ -21,7 +21,7 @@ namespace RunningGame.Components
 
         public float width {get; set;}
         public float height { get; set; }
-        public bool sizeLocked { get; set; }
+        public bool sizeLocked;
         public string activeSprite;
 
         //Try not to use this constructor
@@ -174,6 +174,25 @@ namespace RunningGame.Components
             }
             else
                 Console.WriteLine("Trying to set sprite to nonexistant image: " + spriteName);
+        }
+
+        public void resizeImages(int width, int height)
+        {
+
+            if (!sizeLocked)
+            {
+                Console.WriteLine("Probably no need to call resizeImages on something not size locked. The image gets resized every frame.");
+                return;
+            }
+
+            foreach (Sprite sprite in images.Values)
+            {
+                for (int i=0; i<sprite.images.Count; i++)
+                {
+                    Bitmap b = new Bitmap((Image)sprite.images[i], width, height);
+                    sprite.images[i] = b;
+                }
+            }
         }
 
     }

@@ -47,8 +47,7 @@ namespace RunningGame.Components
         {
             foreach (SwitchListenerComponent c in listeners)
             {
-                // Set Changed
-                Console.WriteLine("Telling " + c + " that I've Changed to " + active); 
+                // Set Changed 
                 c.setChanged(true);
             }
         }
