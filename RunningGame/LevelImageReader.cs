@@ -27,7 +27,19 @@ namespace RunningGame
         Color basicGroundCol = Color.FromArgb(0, 0, 0); //Basic Ground is black.
         Color testEntityColor = Color.FromArgb(42, 42, 42); //Test entity is 42, 42, 42.
         Color simpleEnemyColor = Color.FromArgb(255, 0, 0); //Enemies are red.
-        Color flyingEnemyColor = Color.FromArgb(255, 255, 0);
+        Color flyingEnemyColor = Color.FromArgb(255, 255, 0); //Flying enemies are yellow!
+
+        //Link doors with switches by giving them the same B
+        //Permanent Switch - G = 255
+        //Pressure Switch - G = 0
+        //Timed Switch - G = Time in deci-seconds... i.e. 100 -> 10 seconds. 015 = 1.5 seconds.
+        int switchReserveRed = 200; //Any color with R = 200 is a switch
+        int permSwitchG = 255;
+        int presSwitchG = 0;
+        int doorReserveGreen = 200; //Any color with G = 200 is a door
+
+        Dictionary<int, Entity> switches;
+        Dictionary<int, SwitchListenerComponent> unmachedSwitchListeners;
 
         Random rand = new Random();
 
@@ -41,6 +53,10 @@ namespace RunningGame
 
             level.levelWidth = (img.Width)*tileWidth;
             level.levelHeight = (img.Height)*tileHeight;
+
+            switches = new Dictionary<int, Entity>();
+            unmachedSwitchListeners = new Dictionary<int, SwitchListenerComponent>();
+
         }
         public void readImage(Level level)
         {
@@ -54,9 +70,54 @@ namespace RunningGame
                     float levelX = x+0.5f;
                     float levelY = y+0.5f;
 
+                    if (col.R == switchReserveRed)
+                    {
+                        Entity s = null;
+
+                        if (col.G == permSwitchG)
+                        {
+                            s = new SwitchEntity(level, rand.Next(Int32.MinValue, Int32.MaxValue), levelX * tileWidth, levelY * tileHeight);
+                            s.isStartingEntity = true;
+                        }
+                        else if (col.G == presSwitchG)
+                        {
+                            //Pressure Switch
+                            s = new TimedSwitchEntity(level, rand.Next(Int32.MinValue, Int32.MaxValue), levelX * tileWidth, levelY * tileWidth);
+                            TimedSwitchComponent timeComp = (TimedSwitchComponent)s.getComponent(GlobalVars.TIMED_SWITCH_COMPONENT_NAME);
+                            timeComp.baseTime = 0;
+                        }
+                        else
+                        {
+                            s = new TimedSwitchEntity(level, rand.Next(Int32.MinValue, Int32.MaxValue), levelX * tileWidth, levelY * tileWidth);
+                            TimedSwitchComponent timeComp = (TimedSwitchComponent)s.getComponent(GlobalVars.TIMED_SWITCH_COMPONENT_NAME);
+                            timeComp.baseTime = col.G / 10;
+                        }
+
+                        adjustLocation(s, level);
+                        switches.Add(col.B, s);
+                        level.addEntity(s.randId, s);
+                    }
+                    else if (col.G == doorReserveGreen)
+                    {
+                        DoorEntity door = new DoorEntity(level, rand.Next(Int32.MinValue, Int32.MaxValue), levelX * tileWidth, levelY * tileHeight);
+                        adjustLocation(door, level);
+                        SwitchListenerComponent slComp = (SwitchListenerComponent)door.getComponent(GlobalVars.SWITCH_LISTENER_COMPONENT_NAME);
+                        door.isStartingEntity = true;
+                        //check for its switch
+                        if (switches.ContainsKey(col.B))
+                        {
+                            slComp.switchId = switches[col.B].randId;
+                        }
+                        else
+                        {
+                            unmachedSwitchListeners.Add(col.B, slComp);
+                        }
+                        level.addEntity(door);
+                    }
                     if (col == playerCol)
                     {
                         Player player = new Player(level, rand.Next(Int32.MinValue, Int32.MaxValue), levelX*tileWidth, levelY*tileHeight);
+                        adjustLocation(player, level);
                         player.isStartingEntity = true;
                         level.addEntity(player.randId, player);
                     }
@@ -68,6 +129,7 @@ namespace RunningGame
 
                         
                         BasicGround ground = new BasicGround(level, rand.Next(Int32.MinValue, Int32.MaxValue), groundX, (levelY)*tileHeight, groundWidth, tileHeight);
+                        adjustLocation(ground, level);
                         ground.isStartingEntity = true;
                         level.addEntity(ground.randId, ground);
                         
@@ -85,6 +147,7 @@ namespace RunningGame
                         float yLoc = (levelY) * tileHeight;
                         int id = rand.Next(Int32.MinValue, Int32.MaxValue);
                         TestEntity test = new TestEntity(level, id, xLoc, yLoc);
+                        adjustLocation(test, level);
                         test.isStartingEntity = true;
                         level.addEntity(test.randId, test);
                     }
@@ -94,6 +157,7 @@ namespace RunningGame
                         float yLoc = (levelY) * tileHeight;
                         int id = rand.Next(Int32.MinValue, Int32.MaxValue);
                         SimpleEnemyEntity enemy = new SimpleEnemyEntity(level, id, xLoc, yLoc);
+                        adjustLocation(enemy, level);
                         enemy.isStartingEntity = true;
                         level.addEntity(enemy.randId, enemy);
                     }
@@ -104,12 +168,34 @@ namespace RunningGame
                         float yLoc = (levelY) * tileHeight;
                         int id = rand.Next(Int32.MinValue, Int32.MaxValue);
                         FlyingEnemyEntity enemy = new FlyingEnemyEntity(level, id, xLoc, yLoc);
+                        adjustLocation(enemy, level);
                         enemy.isStartingEntity = true;
                         level.addEntity(enemy.randId, enemy);
                     }
                 }
             }
 
+            //Match any unmatched doors
+            foreach (int blueVal in unmachedSwitchListeners.Keys)
+            {
+                if (switches.ContainsKey(blueVal))
+                {
+                    SwitchListenerComponent slComp = unmachedSwitchListeners[blueVal];
+                    slComp.switchId = switches[blueVal].randId;
+                }
+                else
+                {
+                    Console.WriteLine("Unmatched Switch Listener - B: " + blueVal);
+                }
+            }
+
+        }
+
+
+        public void adjustLocation(Entity e, Level level)
+        {
+            PositionComponent posComp = (PositionComponent)e.getComponent(GlobalVars.POSITION_COMPONENT_NAME);
+            level.getMovementSystem().teleportToNoCollisionCheck(posComp, posComp.x + posComp.width / 2, posComp.y + posComp.height / 2);           
         }
 
     }
