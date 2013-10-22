@@ -292,11 +292,14 @@ namespace RunningGame
         }
         public virtual void removeEntity(Entity e)
         {
-            if (e.isStartingEntity && !GlobalVars.removedStartingEntities.ContainsKey(e.randId))
-                GlobalVars.removedStartingEntities.Add(e.randId, e);
-            if(e.hasComponent(GlobalVars.COLLIDER_COMPONENT_NAME))
+            if (e.hasComponent(GlobalVars.COLLIDER_COMPONENT_NAME))
                 getCollisionSystem().colliderRemoved(e);
-            GlobalVars.allEntities.Remove(e.randId);
+            if (GlobalVars.allEntities.ContainsKey(e.randId))
+            {
+                if (e.isStartingEntity)
+                    GlobalVars.removedStartingEntities.Add(e.randId, e);
+                GlobalVars.allEntities.Remove(e.randId);
+            }
         }
 
         public BackgroundEntity getMyBackgroundEntity()

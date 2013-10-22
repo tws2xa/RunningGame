@@ -60,15 +60,14 @@ namespace RunningGame
         }
         public void readImage(Level level)
         {
-            //Console.WriteLine(img.Width + ", " + img.Height);
             for (int y = 0; y < img.Height; y++)
             {
                 for (int x = 0; x < img.Width; x++)
                 {
                     Color col = img.GetPixel(x, y);
 
-                    float levelX = x+0.5f;
-                    float levelY = y+0.5f;
+                    float levelX = x;
+                    float levelY = y;
 
                     if (col.R == switchReserveRed)
                     {
@@ -77,7 +76,6 @@ namespace RunningGame
                         if (col.G == permSwitchG)
                         {
                             s = new SwitchEntity(level, rand.Next(Int32.MinValue, Int32.MaxValue), levelX * tileWidth, levelY * tileHeight);
-                            s.isStartingEntity = true;
                         }
                         else if (col.G == presSwitchG)
                         {
@@ -92,7 +90,7 @@ namespace RunningGame
                             TimedSwitchComponent timeComp = (TimedSwitchComponent)s.getComponent(GlobalVars.TIMED_SWITCH_COMPONENT_NAME);
                             timeComp.baseTime = col.G / 10;
                         }
-
+                        s.isStartingEntity = true;
                         adjustLocation(s, level);
                         switches.Add(col.B, s);
                         level.addEntity(s.randId, s);
