@@ -93,6 +93,7 @@
     <Compile Include="Entities\BackgroundEntity.cs" />
     <Compile Include="Entities\BasicGround.cs" />
     <Compile Include="Entities\BulletEntity.cs" />
+    <Compile Include="Entities\PressureSwitchEntity.cs" />
     <Compile Include="Entities\TimedSwitchEntity.cs" />
     <Compile Include="Entities\FlyingEnemyEntity.cs" />
     <Compile Include="Entities\DoorEntity.cs" />

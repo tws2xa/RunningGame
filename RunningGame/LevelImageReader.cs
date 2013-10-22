@@ -80,7 +80,7 @@ namespace RunningGame
                         else if (col.G == presSwitchG)
                         {
                             //Pressure Switch
-                            s = new TimedSwitchEntity(level, rand.Next(Int32.MinValue, Int32.MaxValue), levelX * tileWidth, levelY * tileWidth);
+                            s = new PressureSwitchEntity(level, rand.Next(Int32.MinValue, Int32.MaxValue), levelX * tileWidth, levelY * tileWidth);
                             TimedSwitchComponent timeComp = (TimedSwitchComponent)s.getComponent(GlobalVars.TIMED_SWITCH_COMPONENT_NAME);
                             timeComp.baseTime = 0;
                         }

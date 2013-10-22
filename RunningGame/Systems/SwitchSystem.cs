@@ -18,6 +18,8 @@ namespace RunningGame.Systems
         //All systems MUST have a variable holding the level they're contained in
         Level level;
 
+        float pressureOffTimer = 0.1f; //Time (in seconds) delay on pressure switch turn off off
+
         //Constructor - Always read in the level! You can read in other stuff too if need be.
         public SwitchSystem(Level level)
         {
@@ -49,9 +51,10 @@ namespace RunningGame.Systems
                 SwitchComponent switchComp = (SwitchComponent)e.getComponent(GlobalVars.SWITCH_COMPONENT_NAME);
                 if (e.hasComponent(GlobalVars.TIMED_SWITCH_COMPONENT_NAME))
                 {
-                    if (switchComp.active)
+                    TimedSwitchComponent timedComp = (TimedSwitchComponent)e.getComponent(GlobalVars.TIMED_SWITCH_COMPONENT_NAME);
+                    //If it's not a pressure switch, and it's active. Count down
+                    if ((timedComp.baseTime > 0) && switchComp.active)
                     {
-                        TimedSwitchComponent timedComp = (TimedSwitchComponent)e.getComponent(GlobalVars.TIMED_SWITCH_COMPONENT_NAME);
                         timedComp.timer+=deltaTime;
                         if (timedComp.timer > timedComp.baseTime)
                         {
@@ -59,7 +62,47 @@ namespace RunningGame.Systems
                             timedComp.timer = 0;
                         }
                     }
+
+                    //If it's a pressure switch
+                    if (timedComp.baseTime <= 0)
+                    {
+                        PositionComponent posComp = (PositionComponent)e.getComponent(GlobalVars.POSITION_COMPONENT_NAME);
+                        ArrayList aboveCollisions = level.getCollisionSystem().findObjectsBetweenPoints(posComp.x - posComp.width / 2, posComp.y - posComp.height / 2 - 1, posComp.x + posComp.width / 2, posComp.y - posComp.height / 2 - 1);
+                        //If there's something above the switch, and it's inactive - make it active!
+                        if (aboveCollisions.Count > 0)
+                        {
+                            if (!switchComp.active)
+                            {
+                                switchComp.setActive(true);
+                                level.getMovementSystem().teleportToNoCollisionCheck(posComp, posComp.x, posComp.y + posComp.height / 2);
+                                float hDiff = posComp.height/2;
+                                level.getMovementSystem().changeHeight(posComp, posComp.height / 2);
+                                
+                                //Move down all objects above the switch
+                                foreach (Entity above in aboveCollisions)
+                                {
+                                    if (above.hasComponent(GlobalVars.POSITION_COMPONENT_NAME))
+                                    {
+                                        PositionComponent pos = (PositionComponent)above.getComponent(GlobalVars.POSITION_COMPONENT_NAME);
+                                        level.getMovementSystem().changePosition(pos, pos.x, pos.y + hDiff, true);
+                                    }
+                                }
+
+                                DrawComponent dComp = (DrawComponent)e.getComponent(GlobalVars.DRAW_COMPONENT_NAME);
+                                dComp.resizeImages((int)posComp.width, (int)posComp.height);
+                            }
+                        }
+                        else if(switchComp.active)
+                        { 
+                            switchComp.setActive(false);
+                            level.getMovementSystem().changeHeight(posComp, posComp.height * 2);
+                            level.getMovementSystem().teleportToNoCollisionCheck(posComp, posComp.x, posComp.y-posComp.height/2);
+                            DrawComponent dComp = (DrawComponent)e.getComponent(GlobalVars.DRAW_COMPONENT_NAME);
+                            dComp.resizeImages((int)posComp.width, (int)posComp.height);
+                        }
+                    }
                 }
+                
 
                 //change sprite if needed
                 DrawComponent drawComp = (DrawComponent)e.getComponent(GlobalVars.DRAW_COMPONENT_NAME);
