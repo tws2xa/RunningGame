@@ -97,6 +97,10 @@ namespace RunningGame.Entities
                 drawComp.setSprite(GlobalVars.SWITCH_ACTIVE_SPRITE_NAME);
             else
                 drawComp.setSprite(GlobalVars.SWITCH_INACTIVE_SPRITE_NAME);
+
+            PositionComponent posComp = (PositionComponent)getComponent(GlobalVars.POSITION_COMPONENT_NAME);
+            level.getMovementSystem().changeHeight(posComp, defaultHeight);
+            drawComp.resizeImages((int)posComp.width, (int)posComp.height);
         }
     }
 }

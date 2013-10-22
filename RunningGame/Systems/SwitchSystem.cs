@@ -18,7 +18,7 @@ namespace RunningGame.Systems
         //All systems MUST have a variable holding the level they're contained in
         Level level;
 
-        float pressureOffTimer = 0.1f; //Time (in seconds) delay on pressure switch turn off off
+        float pressureSwitchSizeMultiplier = 0.8f; //How much a pressure switch shrinks
 
         //Constructor - Always read in the level! You can read in other stuff too if need be.
         public SwitchSystem(Level level)
@@ -75,8 +75,8 @@ namespace RunningGame.Systems
                             {
                                 switchComp.setActive(true);
                                 level.getMovementSystem().teleportToNoCollisionCheck(posComp, posComp.x, posComp.y + posComp.height / 2);
-                                float hDiff = posComp.height/2;
-                                level.getMovementSystem().changeHeight(posComp, posComp.height / 2);
+                                float hDiff = posComp.height*pressureSwitchSizeMultiplier;
+                                level.getMovementSystem().changeHeight(posComp, posComp.height *pressureSwitchSizeMultiplier);
                                 
                                 //Move down all objects above the switch
                                 foreach (Entity above in aboveCollisions)
@@ -95,7 +95,7 @@ namespace RunningGame.Systems
                         else if(switchComp.active)
                         { 
                             switchComp.setActive(false);
-                            level.getMovementSystem().changeHeight(posComp, posComp.height * 2);
+                            level.getMovementSystem().changeHeight(posComp, posComp.height / pressureSwitchSizeMultiplier);
                             level.getMovementSystem().teleportToNoCollisionCheck(posComp, posComp.x, posComp.y-posComp.height/2);
                             DrawComponent dComp = (DrawComponent)e.getComponent(GlobalVars.DRAW_COMPONENT_NAME);
                             dComp.resizeImages((int)posComp.width, (int)posComp.height);
