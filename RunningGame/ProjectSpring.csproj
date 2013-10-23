@@ -182,13 +182,6 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <EmbeddedResource Include="Resources\Levels\TestResizes.bin" />
-    <EmbeddedResource Include="Resources\Levels\SwitchTest.bin" />
-    <EmbeddedResource Include="Resources\Levels\EnemyTest2.bin" />
-    <EmbeddedResource Include="Resources\Levels\TestEnemy6.bin" />
-    <EmbeddedResource Include="Resources\Levels\TestUpdateLevel.bin" />
-    <EmbeddedResource Include="Resources\Levels\EnemyBinaryLevel.bin" />
-    <EmbeddedResource Include="Resources\Levels\OneSecondTimer.bin" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -203,7 +196,7 @@
     <EmbeddedResource Include="Resources\TestLevelMidLength.png" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\PresentationLevel.png" />
+    <EmbeddedResource Include="Resources\Levels\PresentationLevel.png" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\TestEntityLevel.png" />
@@ -288,7 +281,7 @@
     <EmbeddedResource Include="Resources\EnemyLevel3.png" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\EnemyLevel4.png" />
+    <EmbeddedResource Include="Resources\Levels\EnemyLevel4.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

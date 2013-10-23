@@ -39,7 +39,7 @@ namespace RunningGame
         int doorReserveGreen = 200; //Any color with G = 200 is a door
 
         Dictionary<int, Entity> switches;
-        Dictionary<int, SwitchListenerComponent> unmachedSwitchListeners;
+        Dictionary<SwitchListenerComponent, int> unmachedSwitchListeners;
 
         Random rand = new Random();
 
@@ -55,7 +55,7 @@ namespace RunningGame
             level.levelHeight = (img.Height)*tileHeight;
 
             switches = new Dictionary<int, Entity>();
-            unmachedSwitchListeners = new Dictionary<int, SwitchListenerComponent>();
+            unmachedSwitchListeners = new Dictionary<SwitchListenerComponent, int>();
 
         }
         public void readImage(Level level)
@@ -108,7 +108,7 @@ namespace RunningGame
                         }
                         else
                         {
-                            unmachedSwitchListeners.Add(col.B, slComp);
+                            unmachedSwitchListeners.Add(slComp, col.B);
                         }
                         level.addEntity(door);
                     }
@@ -174,16 +174,16 @@ namespace RunningGame
             }
 
             //Match any unmatched doors
-            foreach (int blueVal in unmachedSwitchListeners.Keys)
+            foreach (SwitchListenerComponent sc in unmachedSwitchListeners.Keys)
             {
-                if (switches.ContainsKey(blueVal))
+                if (switches.ContainsKey(unmachedSwitchListeners[sc]))
                 {
-                    SwitchListenerComponent slComp = unmachedSwitchListeners[blueVal];
-                    slComp.switchId = switches[blueVal].randId;
+                    SwitchListenerComponent slComp = sc;
+                    slComp.switchId = switches[unmachedSwitchListeners[sc]].randId;
                 }
                 else
                 {
-                    Console.WriteLine("Unmatched Switch Listener - B: " + blueVal);
+                    Console.WriteLine("Unmatched Switch Listener - B: " + unmachedSwitchListeners[sc]);
                 }
             }
 
