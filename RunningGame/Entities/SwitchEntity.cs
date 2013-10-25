@@ -75,9 +75,10 @@ namespace RunningGame.Entities
             addComponent(new PositionComponent(x, y, defaultWidth, defaultHeight, this));
             
             //DRAW COMPONENT - Does it get drawn to the game world?
-            DrawComponent drawComp = (DrawComponent)addComponent(new DrawComponent("RunningGame.Resources.SwitchOff.png", GlobalVars.SWITCH_INACTIVE_SPRITE_NAME, defaultWidth, defaultHeight, true));
-            drawComp.addSprite("RunningGame.Resources.SwitchOn.png", GlobalVars.SWITCH_ACTIVE_SPRITE_NAME);
-            drawComp.activeSprite = GlobalVars.SWITCH_INACTIVE_SPRITE_NAME;
+            DrawComponent drawComp = (DrawComponent)addComponent(new DrawComponent(defaultWidth, defaultHeight, true));
+            drawComp.addSprite("RunningGame.Resources.switchPurpleUp.png", GlobalVars.SWITCH_INACTIVE_SPRITE_NAME);
+            drawComp.addSprite("RunningGame.Resources.switchPurpleRight.png", GlobalVars.SWITCH_ACTIVE_SPRITE_NAME);
+            drawComp.setSprite(GlobalVars.SWITCH_INACTIVE_SPRITE_NAME);
 
             //COLLIDER - Does it hit things?
             addComponent(new ColliderComponent(this, GlobalVars.SWITCH_COLLIDER_TYPE));

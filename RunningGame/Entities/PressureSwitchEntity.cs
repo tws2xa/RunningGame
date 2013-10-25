@@ -11,7 +11,7 @@ namespace RunningGame.Entities
     public class PressureSwitchEntity:Entity
     {
         float defaultWidth = 20;
-        float defaultHeight = 20;
+        float defaultHeight = 10;
 
         bool startingState; //Active or non-active at level start?
 
@@ -73,9 +73,10 @@ namespace RunningGame.Entities
             addComponent(new PositionComponent(x, y, defaultWidth, defaultHeight, this));
             
             //DRAW COMPONENT - Does it get drawn to the game world?
-            DrawComponent drawComp = (DrawComponent)addComponent(new DrawComponent("RunningGame.Resources.WhiteSquare.png", GlobalVars.SWITCH_INACTIVE_SPRITE_NAME, defaultWidth, defaultHeight, true));
-            drawComp.addSprite("RunningGame.Resources.WhiteSquare.png", GlobalVars.SWITCH_ACTIVE_SPRITE_NAME);
-            drawComp.activeSprite = GlobalVars.SWITCH_INACTIVE_SPRITE_NAME;
+            DrawComponent drawComp = (DrawComponent)addComponent(new DrawComponent(defaultWidth, defaultHeight, false));
+            drawComp.addSprite("RunningGame.Resources.buttonPurpleUp.png", GlobalVars.SWITCH_INACTIVE_SPRITE_NAME);
+            drawComp.addSprite("RunningGame.Resources.buttonPurpleDown.png", GlobalVars.SWITCH_ACTIVE_SPRITE_NAME);
+            drawComp.setSprite(GlobalVars.SWITCH_INACTIVE_SPRITE_NAME);
 
             //COLLIDER - Does it hit things?
             addComponent(new ColliderComponent(this, GlobalVars.BASIC_SOLID_COLLIDER_TYPE));
@@ -90,17 +91,15 @@ namespace RunningGame.Entities
         public override void revertToStartingState()
         {
             SwitchComponent sc = (SwitchComponent)getComponent(GlobalVars.SWITCH_COMPONENT_NAME);
-            sc.setActive(startingState);
-
-            DrawComponent drawComp = (DrawComponent)getComponent(GlobalVars.DRAW_COMPONENT_NAME);
-            if (startingState)
-                drawComp.setSprite(GlobalVars.SWITCH_ACTIVE_SPRITE_NAME);
-            else
-                drawComp.setSprite(GlobalVars.SWITCH_INACTIVE_SPRITE_NAME);
 
             PositionComponent posComp = (PositionComponent)getComponent(GlobalVars.POSITION_COMPONENT_NAME);
+            float hDiff = posComp.height;
             level.getMovementSystem().changeHeight(posComp, defaultHeight);
-            drawComp.resizeImages((int)posComp.width, (int)posComp.height);
+            hDiff = posComp.height - hDiff;
+            level.getMovementSystem().teleportToNoCollisionCheck(posComp, posComp.x, posComp.y - hDiff/2); 
+
+            sc.setActive(false);
+
         }
     }
 }

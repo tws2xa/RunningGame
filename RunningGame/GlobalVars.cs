@@ -37,7 +37,7 @@ namespace RunningGame
         public static string GLIDE_COMPONENT_NAME = "glideComp";
         public static string SIMPLE_ENEMY_COMPONENT_NAME = "simpleEnemyComp";
         public static string TIMED_SWITCH_COMPONENT_NAME = "timedSwitchComp";
-        public static string PRESSURE_SWITCH_COMPONENT_NAME = "pressureSwitchComp";
+        public static string OBJECT_LINK_COMPONENT_NAME = "objLinkedComponent";
 
         //Collider Types
         public static string PLAYER_COLLIDER_TYPE = "playerCollider";

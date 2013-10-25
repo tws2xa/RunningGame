@@ -79,6 +79,7 @@
     <Compile Include="Components\DrawComponent.cs" />
     <Compile Include="Components\GravityComponent.cs" />
     <Compile Include="Components\HealthComponent.cs" />
+    <Compile Include="Components\ObjectLinkComponent.cs" />
     <Compile Include="Components\PlayeInputComponent.cs" />
     <Compile Include="Components\PlayerComponent.cs" />
     <Compile Include="Components\ScreenEdgeComponent.cs" />
@@ -282,6 +283,18 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\Levels\EnemyLevel4.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\ActualDirtSquarePurple.png" />
+    <EmbeddedResource Include="Resources\ActualGrassSquare.png" />
+    <EmbeddedResource Include="Resources\ActualGrassSquarePurple.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\buttonPurpleDown.png" />
+    <EmbeddedResource Include="Resources\buttonPurpleUp.png" />
+    <EmbeddedResource Include="Resources\switchPurpleLeft.png" />
+    <EmbeddedResource Include="Resources\switchPurpleRight.png" />
+    <EmbeddedResource Include="Resources\switchPurpleUp.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

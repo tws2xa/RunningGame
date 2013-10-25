@@ -38,7 +38,7 @@ namespace RunningGame.Components
             images.Add(spriteName, newSprite);
         }
 
-        public DrawComponent(String spriteAddress, String spriteName, float width, float height, bool sizeLocked)
+        public DrawComponent(float width, float height, bool sizeLocked)
         {
 
 
@@ -47,13 +47,14 @@ namespace RunningGame.Components
             this.height = height;
             this.sizeLocked = sizeLocked;
 
+            /*
             Bitmap image = readInImage(spriteAddress);
 
             activeSprite = spriteName;
 
             Sprite newSprite = new Sprite(spriteName, image);
             images.Add(spriteName, newSprite);
-            
+            */
         }
 
         public void addSprite(string spriteAddress, string spriteName)
@@ -116,6 +117,10 @@ namespace RunningGame.Components
 
         public Sprite getSprite()
         {
+            if (activeSprite == null)
+            {
+                return new Sprite("placeholder", new Bitmap((int)width, (int)height));
+            }
             return (Sprite)images[activeSprite];
         }
 

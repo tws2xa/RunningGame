@@ -49,7 +49,7 @@ namespace RunningGame.Entities
             
             /*DRAW COMPONENT - Does it get drawn to the game world?
              */
-            DrawComponent drawComp = (DrawComponent)addComponent(new DrawComponent("RunningGame.Resources.Enemy1.png", "Main", defaultWidth, defaultHeight, true));
+            DrawComponent drawComp = (DrawComponent)addComponent(new DrawComponent( defaultWidth, defaultHeight, true));
 
             ArrayList enemyAnimation = new ArrayList()
             {
