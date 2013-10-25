@@ -48,7 +48,8 @@ namespace RunningGame.Entities
             
             //Draw component
             DrawComponent drawComp = (DrawComponent)addComponent(new DrawComponent(defaultWidth, defaultHeight, true));
-            drawComp.addSprite("RunningGame.Resources.WhiteSquare.png", "Main");
+            //drawComp.addSprite("RunningGame.Resources.WhiteSquare.png", "Main");
+            drawComp.addSprite("RunningGame.Resources.OrangeSquare.png", "Main");
 
             ArrayList testAnimationList = new ArrayList
             {
