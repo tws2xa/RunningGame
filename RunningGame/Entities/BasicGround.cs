@@ -63,7 +63,7 @@ namespace RunningGame.Entities
                 //Draw component
                 DrawComponent drawComp = new DrawComponent(defaultWidth, defaultHeight, true);
                 drawComp.addSprite("RunningGame.Resources.DirtSquare.png", dirtSpriteName);
-                drawComp.addSprite("RunningGame.Resources.ActualGrassSquarePurple.png", grassSpriteName);
+                drawComp.addSprite("RunningGame.Resources.LightGrassSquarePurple.png", grassSpriteName);
                 drawComp.setSprite(dirtSpriteName);
                 addComponent(drawComp);
 

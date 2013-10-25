@@ -92,7 +92,7 @@ namespace RunningGame.Components
             {
                 System.Reflection.Assembly myAssembly = System.Reflection.Assembly.GetExecutingAssembly();
                 System.IO.Stream myStream = myAssembly.GetManifestResourceStream(imageAddress);
-                Bitmap sprite = new Bitmap(myStream);
+                Bitmap sprite = new Bitmap(myStream); //Getting an error here? Did you remember to make your image an embedded resource?
                 myStream.Close();
 
                 if (sizeLocked)

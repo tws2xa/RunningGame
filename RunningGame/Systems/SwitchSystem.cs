@@ -18,7 +18,7 @@ namespace RunningGame.Systems
         //All systems MUST have a variable holding the level they're contained in
         Level level;
 
-        float pressureSwitchActiveHeight = 7.5f; //How much a pressure switch shrinks
+        float pressureSwitchActiveHeight = 8f; //How much a pressure switch shrinks
         float pressureSwitchInactiveHeight = 10;
 
         //Constructor - Always read in the level! You can read in other stuff too if need be.
@@ -74,9 +74,9 @@ namespace RunningGame.Systems
                         {
                             if (!switchComp.active)
                             {
-                                float hDiff = pressureSwitchActiveHeight - pressureSwitchInactiveHeight;
+                                float hDiff = (pressureSwitchActiveHeight - pressureSwitchInactiveHeight)/2;
                                 level.getMovementSystem().changeHeight(posComp, pressureSwitchActiveHeight);
-                                level.getMovementSystem().teleportToNoCollisionCheck(posComp, posComp.x, posComp.y - hDiff/2);
+                                level.getMovementSystem().teleportToNoCollisionCheck(posComp, posComp.x, posComp.y - hDiff);
                                 switchComp.setActive(true);
                                 
                                 //Move down all objects above the switch
@@ -85,16 +85,16 @@ namespace RunningGame.Systems
                                     if (above.hasComponent(GlobalVars.POSITION_COMPONENT_NAME))
                                     {
                                         PositionComponent pos = (PositionComponent)above.getComponent(GlobalVars.POSITION_COMPONENT_NAME);
-                                        level.getMovementSystem().changePosition(pos, pos.x, pos.y - hDiff/2, true);
+                                        level.getMovementSystem().changePosition(pos, pos.x, pos.y - hDiff, true);
                                     }
                                 }
                             }
                         }
                         else if(switchComp.active)
                         {
-                            float hDiff = pressureSwitchActiveHeight - pressureSwitchInactiveHeight;
+                            float hDiff = (pressureSwitchActiveHeight - pressureSwitchInactiveHeight)/2;
                             level.getMovementSystem().changeHeight(posComp, pressureSwitchInactiveHeight);
-                            level.getMovementSystem().teleportToNoCollisionCheck(posComp, posComp.x, posComp.y + hDiff/2);
+                            level.getMovementSystem().teleportToNoCollisionCheck(posComp, posComp.x, posComp.y + hDiff);
                             switchComp.setActive(false);
                         }
                     }
