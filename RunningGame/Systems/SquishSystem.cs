@@ -17,6 +17,11 @@ namespace RunningGame.Systems
         //All systems MUST have a variable holding the level they're contained in
         Level level;
 
+        List<string> squishStoppers = new List<string>()
+        {
+            GlobalVars.BASIC_SOLID_COLLIDER_TYPE
+        };
+
         //Constructor - Always read in the level! You can read in other stuff too if need be.
         public SquishSystem(Level level)
         {
@@ -263,10 +268,38 @@ namespace RunningGame.Systems
             if (posComp.width < squishComp.baseWidth)
             {
                 //Collisions on left or right side?
-                bool leftSide = (level.getCollisionSystem().findObjectsBetweenPoints(posComp.x - posComp.width / 2 - 1,
-                    posComp.y - posComp.height / 2 - 1, posComp.x - posComp.width / 2 - 1, posComp.y + posComp.height / 2 - 1).Count > 0);
-                bool rightSide = (level.getCollisionSystem().findObjectsBetweenPoints(posComp.x + posComp.width / 2 + 1,
-                    posComp.y - posComp.height / 2 - 1, posComp.x + posComp.width / 2 + 1, posComp.y + posComp.height / 2 - 1).Count > 0);
+                ArrayList leftCollisions = level.getCollisionSystem().findObjectsBetweenPoints(posComp.x - posComp.width / 2 - 1,
+                    posComp.y - posComp.height / 2 - 1, posComp.x - posComp.width / 2 - 1, posComp.y + posComp.height / 2 - 1);
+                ArrayList rightCollisions = level.getCollisionSystem().findObjectsBetweenPoints(posComp.x + posComp.width / 2 + 1,
+                    posComp.y - posComp.height / 2 - 1, posComp.x + posComp.width / 2 + 1, posComp.y + posComp.height / 2 - 1);
+                
+                bool leftSide = false;
+                bool rightSide = false;
+
+
+                foreach(Entity ent in leftCollisions) {
+                    if (ent.hasComponent(GlobalVars.COLLIDER_COMPONENT_NAME))
+                    {
+                        ColliderComponent colComp = (ColliderComponent)ent.getComponent(GlobalVars.COLLIDER_COMPONENT_NAME);
+                        if (squishStoppers.Contains(colComp.colliderType))
+                        {
+                            leftSide = true;
+                            break;
+                        }
+                    }
+                }
+
+                foreach(Entity ent in rightCollisions) {
+                    if (ent.hasComponent(GlobalVars.COLLIDER_COMPONENT_NAME))
+                    {
+                        ColliderComponent colComp = (ColliderComponent)ent.getComponent(GlobalVars.COLLIDER_COMPONENT_NAME);
+                        if (squishStoppers.Contains(colComp.colliderType))
+                        {
+                            rightSide = true;
+                            break;
+                        }
+                    }
+                }
 
                 if (!leftSide && !rightSide)
                 {
@@ -296,10 +329,37 @@ namespace RunningGame.Systems
             {
 
                 //Collisions on left or right side?
-                bool upperSide = (level.getCollisionSystem().findObjectsBetweenPoints(posComp.x - posComp.width / 2 + 1,
-                    posComp.y + posComp.height / 2 + 1, posComp.x + posComp.width / 2 - 1, posComp.y + posComp.height / 2 + 1).Count > 0);
-                bool lowerSide = (level.getCollisionSystem().findObjectsBetweenPoints(posComp.x - posComp.width / 2 + 1,
-                    posComp.y - posComp.height / 2 - 1, posComp.x + posComp.width / 2 - 1, posComp.y - posComp.height / 2 - 1).Count > 0);
+                ArrayList upperCollisions = level.getCollisionSystem().findObjectsBetweenPoints(posComp.x - posComp.width / 2 + 1,
+                    posComp.y + posComp.height / 2 + 1, posComp.x + posComp.width / 2 - 1, posComp.y + posComp.height / 2 + 1);
+                ArrayList lowerCollisions = level.getCollisionSystem().findObjectsBetweenPoints(posComp.x - posComp.width / 2 + 1,
+                    posComp.y - posComp.height / 2 - 1, posComp.x + posComp.width / 2 - 1, posComp.y - posComp.height / 2 - 1);
+
+                bool upperSide = false;
+                bool lowerSide = false;
+
+                foreach(Entity ent in upperCollisions) {
+                    if (ent.hasComponent(GlobalVars.COLLIDER_COMPONENT_NAME))
+                    {
+                        ColliderComponent colComp = (ColliderComponent)ent.getComponent(GlobalVars.COLLIDER_COMPONENT_NAME);
+                        if (squishStoppers.Contains(colComp.colliderType))
+                        {
+                            upperSide = true;
+                            break;
+                        }
+                    }
+                }
+                foreach(Entity ent in lowerCollisions) {
+                    if (ent.hasComponent(GlobalVars.COLLIDER_COMPONENT_NAME))
+                    {
+                        ColliderComponent colComp = (ColliderComponent)ent.getComponent(GlobalVars.COLLIDER_COMPONENT_NAME);
+                        if (squishStoppers.Contains(colComp.colliderType))
+                        {
+                            lowerSide = true;
+                            break;
+                        }
+                    }
+                }
+
 
                 if (!upperSide && !lowerSide)
                 {
