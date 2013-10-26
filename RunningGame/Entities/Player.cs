@@ -61,7 +61,8 @@ namespace RunningGame.Entities
             addComponent(new VelocityComponent(0, 0));
 
             //Draw component
-            DrawComponent drawComp = new DrawComponent("RunningGame.Resources.Player.png", rightImageName, (int)defaultWidth, (int)defaultHeight, false);
+            DrawComponent drawComp = new DrawComponent((int)defaultWidth, (int)defaultHeight, false);
+            drawComp.addSprite("RunningGame.Resources.Player.png", rightImageName);
             drawComp.addSprite("RunningGame.Resources.Player.png", leftImageName);
             drawComp.rotateFlipSprite(leftImageName, RotateFlipType.RotateNoneFlipX);
             addComponent(drawComp);
@@ -76,7 +77,7 @@ namespace RunningGame.Entities
 
             drawComp.rotateFlipSprite(blinkLeft, RotateFlipType.RotateNoneFlipX);
 
-            drawComp.activeSprite = blinkRight;
+            drawComp.setSprite(blinkRight);
 
             //Animation Component
             AnimationComponent animComp = (AnimationComponent)addComponent(new AnimationComponent(0.0005f));
@@ -101,7 +102,7 @@ namespace RunningGame.Entities
             addComponent(new HealthComponent(100, true, 1, 0.5f));
 
             //Screen Edge Stop/Wrap
-            addComponent(new ScreenEdgeComponent(1, 2, 1, 0));
+            addComponent(new ScreenEdgeComponent(1, 1, 1, 0));
 
         }
         

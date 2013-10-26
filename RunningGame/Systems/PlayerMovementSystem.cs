@@ -69,6 +69,34 @@ namespace RunningGame.Systems
                     pelInComp.passedAirjumps = 0;
                 }
 
+                //If there's a key down and the player isn't moving horizontally, check to make sure there's a collision
+                if (Math.Abs(velComp.x) < Math.Abs(pelInComp.platformerMoveSpeed))
+                {
+                    if (level.getInputSystem().myKeys[GlobalVars.KEY_RIGHT].pressed)
+                    {
+                        float leftX = (posComp.x - posComp.width / 2-1);
+                        float upperY = (posComp.y - posComp.height / 2);
+                        float lowerY = (posComp.y + posComp.height / 2);
+
+                        if (!(level.getCollisionSystem().findObjectsBetweenPoints(leftX, upperY, leftX, lowerY).Count > 0))
+                        {
+                            beginMoveRight(posComp, velComp, pelInComp);
+                        }
+                    }
+                    if (level.getInputSystem().myKeys[GlobalVars.KEY_LEFT].pressed)
+                    {
+                        float rightX = (posComp.x + posComp.width / 2 + 1);
+                        float upperY = (posComp.y - posComp.height / 2);
+                        float lowerY = (posComp.y + posComp.height / 2);
+
+                        if (!(level.getCollisionSystem().findObjectsBetweenPoints(rightX, upperY, rightX, lowerY).Count > 0))
+                        {
+                            beginMoveLeft(posComp, velComp, pelInComp);
+                        }
+                    }
+                }
+
+
                 //Slow horizontal if no left/rght key down
                 if (velComp.x != 0 && !level.getInputSystem().myKeys[GlobalVars.KEY_LEFT].pressed && !level.getInputSystem().myKeys[GlobalVars.KEY_RIGHT].pressed)
                 {
@@ -149,12 +177,14 @@ namespace RunningGame.Systems
         public void beginMoveLeft(PositionComponent posComp, VelocityComponent velComp, PlayerInputComponent pelInComp)
         {
             velComp.setVelocity(-pelInComp.platformerMoveSpeed, velComp.y);
-            pelInComp.player.faceLeft();
+            if(!pelInComp.player.isLookingLeft())
+                pelInComp.player.faceLeft();
         }
         public void beginMoveRight(PositionComponent posComp, VelocityComponent velComp, PlayerInputComponent pelInComp)
         {
             velComp.setVelocity(pelInComp.platformerMoveSpeed, velComp.y);
-            pelInComp.player.faceRight();
+            if(!pelInComp.player.isLookingRight())
+                pelInComp.player.faceRight();
         }
         public void endLeftHorizontalMove(PositionComponent posComp, VelocityComponent velComp)
         {

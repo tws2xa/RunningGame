@@ -47,7 +47,9 @@ namespace RunningGame.Entities
             addComponent(new PositionComponent(x, y, defaultWidth, defaultHeight, this));
             
             //Draw component
-            DrawComponent drawComp = (DrawComponent)addComponent(new DrawComponent("RunningGame.Resources.WhiteSquare.png", "Main", defaultWidth, defaultHeight, true));
+            DrawComponent drawComp = (DrawComponent)addComponent(new DrawComponent(defaultWidth, defaultHeight, true));
+            //drawComp.addSprite("RunningGame.Resources.WhiteSquare.png", "Main");
+            drawComp.addSprite("RunningGame.Resources.OrangeSquare.png", "Main");
 
             ArrayList testAnimationList = new ArrayList
             {
@@ -57,7 +59,7 @@ namespace RunningGame.Entities
 
             drawComp.addAnimatedSprite(testAnimationList, testAnimationName);
             //drawComp.activeSprite = testAnimationName;
-            drawComp.activeSprite = "Main";
+            drawComp.setSprite("Main");
 
             //AnimationComponent animComp = (AnimationComponent)addComponent(new AnimationComponent(0.5f));
 

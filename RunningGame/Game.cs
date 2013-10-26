@@ -32,7 +32,7 @@ namespace RunningGame
         [NonSerialized] private Bitmap bufferImage;
         [NonSerialized] private Graphics dbGraphics;
 
-        public Game(Graphics winGraphics, int w, int h)
+        public Game(Graphics winGraphics, int w, int h, string str)
         {
             mainWinGraphics = winGraphics;
             winWidth = w;
@@ -45,8 +45,10 @@ namespace RunningGame
             bufferImage = new Bitmap(w, h);
             dbGraphics = Graphics.FromImage(bufferImage);
 
-
-            startLevel();
+            if(str == null || str=="")
+                startLevel();
+            else
+                startLevel(str);
 
 
             Thread gameThread = new Thread(new ThreadStart(Update));
@@ -54,13 +56,17 @@ namespace RunningGame
         }
 
 
+
         public void startLevel()
         {
-            currentLevel = new Level(winWidth, winHeight, "RunningGame.Resources.EnemyLevel2.png", true, dbGraphics);
-
-            //currentLevel = new Level(winWidth, winHeight, "RunningGame.Resources.Levels.TestUpdateLevel.bin", false, dbGraphics);
+            //HERE IS WHERE YOU SAY WHICH LEVEL TO LOAD
+            currentLevel = new Level(winWidth, winHeight, "RunningGame.Resources.Levels.PresentationLevelExtended.png", true, dbGraphics);
         }
-
+        public void startLevel(string str)
+        {
+            //HERE IS WHERE YOU SAY WHICH LEVEL TO LOAD
+            currentLevel = new Level(winWidth, winHeight, str, true, dbGraphics);
+        }
 
         void Update()
         {

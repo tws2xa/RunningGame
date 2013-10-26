@@ -79,6 +79,7 @@
     <Compile Include="Components\DrawComponent.cs" />
     <Compile Include="Components\GravityComponent.cs" />
     <Compile Include="Components\HealthComponent.cs" />
+    <Compile Include="Components\ObjectLinkComponent.cs" />
     <Compile Include="Components\PlayeInputComponent.cs" />
     <Compile Include="Components\PlayerComponent.cs" />
     <Compile Include="Components\ScreenEdgeComponent.cs" />
@@ -93,6 +94,8 @@
     <Compile Include="Entities\BackgroundEntity.cs" />
     <Compile Include="Entities\BasicGround.cs" />
     <Compile Include="Entities\BulletEntity.cs" />
+    <Compile Include="Entities\EndLevelEntity.cs" />
+    <Compile Include="Entities\PressureSwitchEntity.cs" />
     <Compile Include="Entities\TimedSwitchEntity.cs" />
     <Compile Include="Entities\FlyingEnemyEntity.cs" />
     <Compile Include="Entities\DoorEntity.cs" />
@@ -169,6 +172,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <None Include="ProjectSpring_1_TemporaryKey.pfx" />
     <None Include="ProjectSpring_TemporaryKey.pfx" />
@@ -181,11 +185,6 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <EmbeddedResource Include="Resources\Levels\TestResizes.bin" />
-    <EmbeddedResource Include="Resources\Levels\SwitchTest.bin" />
-    <EmbeddedResource Include="Resources\Levels\EnemyTest2.bin" />
-    <EmbeddedResource Include="Resources\Levels\TestEnemy6.bin" />
-    <EmbeddedResource Include="Resources\Levels\TestUpdateLevel.bin" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -200,7 +199,7 @@
     <EmbeddedResource Include="Resources\TestLevelMidLength.png" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\PresentationLevel.png" />
+    <EmbeddedResource Include="Resources\Levels\PresentationLevel.png" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\TestEntityLevel.png" />
@@ -280,6 +279,39 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\Sounds\boop.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\EnemyLevel3.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Levels\EnemyLevel4.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\ActualDirtSquarePurple.png" />
+    <EmbeddedResource Include="Resources\ActualGrassSquare.png" />
+    <EmbeddedResource Include="Resources\ActualGrassSquarePurple.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\buttonPurpleDown.png" />
+    <EmbeddedResource Include="Resources\buttonPurpleUp.png" />
+    <EmbeddedResource Include="Resources\switchPurpleLeft.png" />
+    <EmbeddedResource Include="Resources\switchPurpleRight.png" />
+    <EmbeddedResource Include="Resources\switchPurpleUp.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\LightGrassSquarePurple.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\switchPurpleRight2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\OrangeSquare.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Levels\PresentationLevelExtended.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Concept Art.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
