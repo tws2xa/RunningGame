@@ -77,6 +77,8 @@ namespace RunningGame.Systems
                 if (healthComp.health > healthComp.maxHealth) healthComp.restoreHealth();
             }
 
+            deathHandler.update(deltaTime);
+
         }
         //----------------------------------------------------------------------------------------------
 
