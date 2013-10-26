@@ -29,6 +29,7 @@ namespace RunningGame
 
         public Dictionary<string, Func<Entity, Entity, bool>> collisionDictionary = new Dictionary<string, Func<Entity, Entity, bool>>();
         public Level level;
+        public Dictionary<string, Func<Entity, Entity, bool>> defaultCollisions = new Dictionary<string, Func<Entity, Entity, bool>>();
 
         public CollisionHandler(Level level)
         {
@@ -42,29 +43,33 @@ namespace RunningGame
             Func<Entity, Entity, bool> playerEnemyCollisionFunction = enemyPlayerCollision;
             Func<Entity, Entity, bool> bulletNonEnemyCollisionFunction = bulletNonEnemyCollision;
             Func<Entity, Entity, bool> bulletEnemyCollisionFunction = bulletEnemyCollision;
+            Func<Entity, Entity, bool> doNothingCollisionFunction = doNothingCollision;
            
+            //Set defaults (i.e. If there is no specific collision listed, what does it do?)
+            defaultCollisions.Add(GlobalVars.BASIC_SOLID_COLLIDER_TYPE, simpleStopCollision);
+            defaultCollisions.Add(GlobalVars.BULLET_COLLIDER_TYPE, bulletNonEnemyCollision);
+            defaultCollisions.Add(GlobalVars.SIMPLE_ENEMY_COLLIDER_TYPE, simpleStopCollision);
 
-            //Add collisions to dictionary
-            addToDictionary(GlobalVars.PLAYER_COLLIDER_TYPE, GlobalVars.BASIC_SOLID_COLLIDER_TYPE, simpleStopCollisionFunction);
+            //Add non-default collisions to dictionary
             addToDictionary(GlobalVars.PLAYER_COLLIDER_TYPE, GlobalVars.SPEEDY_COLLIDER_TYPE, speedyPlayerCollisionFunction);
             addToDictionary(GlobalVars.PLAYER_COLLIDER_TYPE, GlobalVars.SWITCH_COLLIDER_TYPE, playerSwitchCollisonFunction);
 
-            addToDictionary(GlobalVars.BASIC_SOLID_COLLIDER_TYPE, GlobalVars.BASIC_SOLID_COLLIDER_TYPE, simpleStopCollisionFunction);
-            addToDictionary(GlobalVars.BASIC_SOLID_COLLIDER_TYPE, GlobalVars.SPEEDY_COLLIDER_TYPE, simpleStopCollisionFunction);
-
             addToDictionary(GlobalVars.SIMPLE_ENEMY_COLLIDER_TYPE, GlobalVars.PLAYER_COLLIDER_TYPE, playerEnemyCollisionFunction);
-            addToDictionary(GlobalVars.SIMPLE_ENEMY_COLLIDER_TYPE, GlobalVars.BASIC_SOLID_COLLIDER_TYPE, simpleStopCollisionFunction);
-            addToDictionary(GlobalVars.SIMPLE_ENEMY_COLLIDER_TYPE, GlobalVars.SIMPLE_ENEMY_COLLIDER_TYPE, simpleStopCollisionFunction);
             
-            addToDictionary(GlobalVars.BULLET_COLLIDER_TYPE, GlobalVars.BASIC_SOLID_COLLIDER_TYPE, bulletNonEnemyCollisionFunction);
+            addToDictionary(GlobalVars.BULLET_COLLIDER_TYPE, GlobalVars.PLAYER_COLLIDER_TYPE, doNothingCollision);
             addToDictionary(GlobalVars.BULLET_COLLIDER_TYPE, GlobalVars.SIMPLE_ENEMY_COLLIDER_TYPE, bulletEnemyCollisionFunction);
+        }
+
+        public void setDefaultCollision(string colliderType, Func<Entity, Entity, bool> func)
+        {
+            defaultCollisions.Add(colliderType, func);
         }
 
         public void addToDictionary(string type1, string type2, Func<Entity, Entity, bool> func)
         {
             collisionDictionary.Add(getCollisionTypeName(type1, type2), func);
         }
-        
+
         //Return true = stop movement. False = do not stop movement.
         public bool handleCollision(Entity e1, Entity e2)
         {
@@ -76,7 +81,21 @@ namespace RunningGame
             //If it's not a listed collision type
             if (!collisionDictionary.ContainsKey(collisionTypeName))
             {
-                //Do nothing
+
+                if (defaultCollisions.ContainsKey(col1.colliderType))
+                {
+                    //If it is listed - call the collision method and return the stopMovement value
+                    bool stopMovement = defaultCollisions[col1.colliderType](e1, e2);
+                    return stopMovement;
+                }
+                else if (defaultCollisions.ContainsKey(col2.colliderType))
+                {
+                    //If it is listed - call the collision method and return the stopMovement value
+                    bool stopMovement = defaultCollisions[col2.colliderType](e1, e2);
+                    return stopMovement;
+                }
+
+                //If no default collision, do nothing
                 return false; //Return false = do not stop the movement
             }
             else
@@ -86,6 +105,26 @@ namespace RunningGame
                 return stopMovement;
             }
 
+        }
+
+        public string getCollisionTypeName(string type1, string type2)
+        {
+
+            //This was giving stack overflow exceptions. Not sure why. Working on it. If you're having trouble, let me know.
+
+            int num = String.CompareOrdinal(type1, type2); //?
+            if (num < 0)
+                return (type1 + "" + type2);
+            else
+                return (type2 + "" + type1);
+        }
+
+
+        //------------------------------ COLLISION METHODS ---------------------------------------
+
+        public bool doNothingCollision(Entity e1, Entity e2)
+        {
+            return false;
         }
 
         public static bool simpleStopCollision(Entity e1, Entity e2)
@@ -213,6 +252,7 @@ namespace RunningGame
 
             return false;
         }
+
         public bool bulletEnemyCollision(Entity e1, Entity e2)
         {
             level.removeEntity(e1);
@@ -221,16 +261,10 @@ namespace RunningGame
             return false;
         }
 
-        public string getCollisionTypeName(string type1, string type2)
+        public bool endLevelCollision(Entity e1, Entity e2)
         {
-
-            //This was giving stack overflow exceptions. Not sure why. Working on it. If you're having trouble, let me know.
-
-            int num = String.CompareOrdinal(type1, type2); //?
-            if (num < 0)
-                return (type1 + "" + type2);
-            else
-                return (type2 + "" + type1);
+            
+            return false;
         }
 
     }

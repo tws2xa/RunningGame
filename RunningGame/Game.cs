@@ -74,6 +74,15 @@ namespace RunningGame
             while (gameRunning)
             {
                 currentLevel.Update();
+
+
+                //If the end of the level has been flagged, end the level!
+                if (currentLevel.shouldEndLevel)
+                {
+                    currentLevel = null;
+                    
+                }
+
                 Draw(); //Draw everything.
             }
 

@@ -13,12 +13,6 @@ namespace RunningGame.Systems
 
     /*
      * This system is used to handle player specific movement.
-     * 
-     * 
-     * NEED A PLAYERINPUT COMP WITH
-     *  Player
-     *  Num Passed Jumps
-     *  Num Max Jumps
      */
     [Serializable()]
     public class PlayerMovementSystem : GameSystem
@@ -126,8 +120,6 @@ namespace RunningGame.Systems
         //-----------------------------------------------------------------------------
 
         //----------------------------------- Input ----------------------------------- 
-
-
         public void checkForInput(PositionComponent posComp, VelocityComponent velComp, PlayerInputComponent pelInComp)
         {
             if (level.getInputSystem().myKeys[GlobalVars.KEY_JUMP].down)

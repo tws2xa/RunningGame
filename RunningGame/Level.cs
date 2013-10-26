@@ -36,6 +36,8 @@ namespace RunningGame
         public float levelHeight {get;set;}
         public bool paused = false; //Is the game paused?
 
+        public bool shouldEndLevel = false; //Should it end the level at the end of the frame?
+
         public float fps;
 
         long prevTicks = DateTime.Now.Ticks;
@@ -185,7 +187,6 @@ namespace RunningGame
             {
                 sysManager.Update(deltaTime); //Update systems
             }
-
         }
 
         //When an entity is given a collider - notify collider system

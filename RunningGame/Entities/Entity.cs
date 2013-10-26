@@ -23,8 +23,6 @@ namespace RunningGame
         [NonSerialized] public Level level;
         public bool isStartingEntity = false;
 
-        //Dictionary<string, Component> components = new Dictionary<string, Component>();
-        //public ArrayList components = new ArrayList();
         Dictionary<string, Component> components = new Dictionary<string, Component>();
 
         public Entity() { }
