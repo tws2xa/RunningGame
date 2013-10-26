@@ -28,6 +28,7 @@ namespace RunningGame
         Color testEntityColor = Color.FromArgb(42, 42, 42); //Test entity is 42, 42, 42.
         Color simpleEnemyColor = Color.FromArgb(255, 0, 0); //Enemies are red.
         Color flyingEnemyColor = Color.FromArgb(255, 255, 0); //Flying enemies are yellow!
+        Color endLevelCol = Color.FromArgb(255, 255, 255); //End level is white
 
         //Link doors with switches by giving them the same B
         //Permanent Switch - G = 255
@@ -169,6 +170,16 @@ namespace RunningGame
                         adjustLocation(enemy, level);
                         enemy.isStartingEntity = true;
                         level.addEntity(enemy.randId, enemy);
+                    }
+                    else if (col == endLevelCol)
+                    {
+                        float xLoc = (levelX) * tileWidth;
+                        float yLoc = (levelY) * tileHeight;
+                        int id = rand.Next(Int32.MinValue, Int32.MaxValue);
+                        EndLevelEntity lvlEnd = new EndLevelEntity(level, id, xLoc, yLoc);
+                        adjustLocation(lvlEnd, level);
+                        lvlEnd.isStartingEntity = true;
+                        level.addEntity(lvlEnd.randId, lvlEnd);
                     }
                 }
             }
