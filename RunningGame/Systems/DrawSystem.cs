@@ -29,7 +29,7 @@ namespace RunningGame.Systems
         /************FLASH STUFF Begins here*/
         float flashTime = 0;
         int alpha = 0; // have to figure out the right number/ratio
-        int deltaAlpha = 0;
+        float deltaAlpha = 0;
         Color flashColor = Color.White;
         SolidBrush flashBrush = new SolidBrush(Color.FromArgb(0, Color.White)); //white is completely arbitrary
         Boolean flashDirection = true; // if truue, then the flash direction is going forwar, (fades into color), if false
@@ -110,22 +110,30 @@ namespace RunningGame.Systems
             //*this part takes care of flashes on the screen
             if (flashTime > 0)
             {
-                flashTime = flashTime - deltaTime;
+                flashTime = flashTime - deltaTime*deltaAlpha;
 
                 if (alpha >= 255)
                 {
                     flashDirection = false;
                 }
                 if (flashDirection)
-                    alpha += deltaAlpha;
-                else //flashDirection is alse
-                    alpha -= deltaAlpha;
+                    alpha += (int)(deltaAlpha * deltaTime);
+                else
+                {
+                    //flashDirection is false
+                    alpha -= (int)(deltaAlpha * deltaTime);
+                }
                 if (alpha >= 255)
                 {
                     alpha = 255;
                     flashDirection = false;
                 }
-                
+
+                    if(alpha <0)
+                    {
+                        flashTime = 0;
+                        alpha = 0;
+                    }
                 flashBrush.Color = Color.FromArgb(alpha, flashColor);
                 
             }
@@ -153,10 +161,10 @@ namespace RunningGame.Systems
         }
         public void setFlash(Color c, float time)
         {
-
+           
             ((SolidBrush)flashBrush).Color = Color.FromArgb(0,  c);
             flashTime = time;
-            deltaAlpha = (int)(255/(time*10)); // the 20 is arbitary for now since I can't figure out how to set the ratio, since I don't know 
+            deltaAlpha = ((255*2)/(time)); // the 20 is arbitary for now since I can't figure out how to set the ratio, since I don't know 
             //how to acces delta time from here
             flashColor = c;
         }

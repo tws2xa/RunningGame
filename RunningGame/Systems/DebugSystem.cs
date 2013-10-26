@@ -100,8 +100,6 @@ namespace RunningGame.Systems
         {
             DrawSystem ds = level.sysManager.drawSystem;
             ds.setFlash(color, time);
-
-
         }
         public void debugAddEntity(float x, float y)
         {   
