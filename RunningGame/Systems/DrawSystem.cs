@@ -110,12 +110,8 @@ namespace RunningGame.Systems
             //*this part takes care of flashes on the screen
             if (flashTime > 0)
             {
-                flashTime = flashTime - deltaTime*deltaAlpha;
+                flashTime = flashTime - deltaTime;
 
-                if (alpha >= 255)
-                {
-                    flashDirection = false;
-                }
                 if (flashDirection)
                     alpha += (int)(deltaAlpha * deltaTime);
                 else
@@ -129,11 +125,11 @@ namespace RunningGame.Systems
                     flashDirection = false;
                 }
 
-                    if(alpha <0)
-                    {
-                        flashTime = 0;
-                        alpha = 0;
-                    }
+                if(alpha <= 0)
+                {
+                    flashTime = 0;
+                    alpha = 0;
+                }
                 flashBrush.Color = Color.FromArgb(alpha, flashColor);
                 
             }
