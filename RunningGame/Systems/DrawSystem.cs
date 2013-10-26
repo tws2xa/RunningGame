@@ -111,7 +111,6 @@ namespace RunningGame.Systems
             if (flashTime > 0)
             {
                 flashTime = flashTime - deltaTime;
-
                 if (flashDirection)
                     alpha += (int)(deltaAlpha * deltaTime);
                 else
@@ -125,13 +124,18 @@ namespace RunningGame.Systems
                     flashDirection = false;
                 }
 
-                if(alpha <= 0)
+                if (alpha <= 0)
                 {
                     flashTime = 0;
                     alpha = 0;
                 }
+
                 flashBrush.Color = Color.FromArgb(alpha, flashColor);
-                
+
+            }
+            else
+            {
+                alpha = 0;
             }
             /*
             if (flashTime < 0)
@@ -162,6 +166,7 @@ namespace RunningGame.Systems
             flashTime = time;
             deltaAlpha = ((255*2)/(time)); // the 20 is arbitary for now since I can't figure out how to set the ratio, since I don't know 
             //how to acces delta time from here
+            flashDirection = true;
             flashColor = c;
         }
         //Explanantion of g
