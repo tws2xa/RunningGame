@@ -31,15 +31,25 @@
             this.btnBegin = new System.Windows.Forms.Button();
             this.lblLoading = new System.Windows.Forms.Label();
             this.btnEdit = new System.Windows.Forms.Button();
+            this.btnWorld1 = new System.Windows.Forms.Button();
+            this.btnWorld2 = new System.Windows.Forms.Button();
+            this.btnWorld3 = new System.Windows.Forms.Button();
+            this.btnWorld4 = new System.Windows.Forms.Button();
+            this.btnWorld5 = new System.Windows.Forms.Button();
+            this.btnLvl1 = new System.Windows.Forms.Button();
+            this.btnLvl2 = new System.Windows.Forms.Button();
+            this.btnLvl3 = new System.Windows.Forms.Button();
+            this.btnLvlReturn = new System.Windows.Forms.Button();
+            this.btnPlay = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // btnBegin
             // 
-            this.btnBegin.Location = new System.Drawing.Point(502, 427);
+            this.btnBegin.Location = new System.Drawing.Point(12, 427);
             this.btnBegin.Name = "btnBegin";
             this.btnBegin.Size = new System.Drawing.Size(126, 41);
             this.btnBegin.TabIndex = 0;
-            this.btnBegin.Text = "Begin!";
+            this.btnBegin.Text = "Debug Begin!";
             this.btnBegin.UseVisualStyleBackColor = true;
             this.btnBegin.Click += new System.EventHandler(this.btnBegin_Click);
             // 
@@ -56,7 +66,7 @@
             // btnEdit
             // 
             this.btnEdit.Enabled = false;
-            this.btnEdit.Location = new System.Drawing.Point(370, 427);
+            this.btnEdit.Location = new System.Drawing.Point(12, 381);
             this.btnEdit.Name = "btnEdit";
             this.btnEdit.Size = new System.Drawing.Size(126, 41);
             this.btnEdit.TabIndex = 2;
@@ -65,11 +75,123 @@
             this.btnEdit.Visible = false;
             this.btnEdit.Click += new System.EventHandler(this.btnEdit_Click);
             // 
+            // btnWorld1
+            // 
+            this.btnWorld1.Location = new System.Drawing.Point(511, 319);
+            this.btnWorld1.Name = "btnWorld1";
+            this.btnWorld1.Size = new System.Drawing.Size(117, 25);
+            this.btnWorld1.TabIndex = 3;
+            this.btnWorld1.Text = "World 1";
+            this.btnWorld1.UseVisualStyleBackColor = true;
+            this.btnWorld1.Click += new System.EventHandler(this.btnWorld1_Click);
+            // 
+            // btnWorld2
+            // 
+            this.btnWorld2.Location = new System.Drawing.Point(511, 350);
+            this.btnWorld2.Name = "btnWorld2";
+            this.btnWorld2.Size = new System.Drawing.Size(117, 25);
+            this.btnWorld2.TabIndex = 4;
+            this.btnWorld2.Text = "World 2";
+            this.btnWorld2.UseVisualStyleBackColor = true;
+            this.btnWorld2.Click += new System.EventHandler(this.btnWorld2_Click);
+            // 
+            // btnWorld3
+            // 
+            this.btnWorld3.Location = new System.Drawing.Point(511, 381);
+            this.btnWorld3.Name = "btnWorld3";
+            this.btnWorld3.Size = new System.Drawing.Size(117, 25);
+            this.btnWorld3.TabIndex = 5;
+            this.btnWorld3.Text = "World 3";
+            this.btnWorld3.UseVisualStyleBackColor = true;
+            this.btnWorld3.Click += new System.EventHandler(this.btnWorld3_Click);
+            // 
+            // btnWorld4
+            // 
+            this.btnWorld4.Location = new System.Drawing.Point(511, 412);
+            this.btnWorld4.Name = "btnWorld4";
+            this.btnWorld4.Size = new System.Drawing.Size(117, 25);
+            this.btnWorld4.TabIndex = 6;
+            this.btnWorld4.Text = "World 4";
+            this.btnWorld4.UseVisualStyleBackColor = true;
+            this.btnWorld4.Click += new System.EventHandler(this.btnWorld4_Click);
+            // 
+            // btnWorld5
+            // 
+            this.btnWorld5.Location = new System.Drawing.Point(511, 443);
+            this.btnWorld5.Name = "btnWorld5";
+            this.btnWorld5.Size = new System.Drawing.Size(117, 25);
+            this.btnWorld5.TabIndex = 7;
+            this.btnWorld5.Text = "World 5";
+            this.btnWorld5.UseVisualStyleBackColor = true;
+            this.btnWorld5.Click += new System.EventHandler(this.btnWorld5_Click);
+            // 
+            // btnLvl1
+            // 
+            this.btnLvl1.Location = new System.Drawing.Point(511, 350);
+            this.btnLvl1.Name = "btnLvl1";
+            this.btnLvl1.Size = new System.Drawing.Size(117, 25);
+            this.btnLvl1.TabIndex = 8;
+            this.btnLvl1.Text = "Level 1";
+            this.btnLvl1.UseVisualStyleBackColor = true;
+            this.btnLvl1.Click += new System.EventHandler(this.btnLevel1_Click);
+            // 
+            // btnLvl2
+            // 
+            this.btnLvl2.Location = new System.Drawing.Point(511, 381);
+            this.btnLvl2.Name = "btnLvl2";
+            this.btnLvl2.Size = new System.Drawing.Size(117, 25);
+            this.btnLvl2.TabIndex = 9;
+            this.btnLvl2.Text = "Level 2";
+            this.btnLvl2.UseVisualStyleBackColor = true;
+            this.btnLvl2.Click += new System.EventHandler(this.btnLvl2_Click);
+            // 
+            // btnLvl3
+            // 
+            this.btnLvl3.Location = new System.Drawing.Point(511, 412);
+            this.btnLvl3.Name = "btnLvl3";
+            this.btnLvl3.Size = new System.Drawing.Size(117, 25);
+            this.btnLvl3.TabIndex = 10;
+            this.btnLvl3.Text = "Level 3";
+            this.btnLvl3.UseVisualStyleBackColor = true;
+            this.btnLvl3.Click += new System.EventHandler(this.btnLvl3_Click);
+            // 
+            // btnLvlReturn
+            // 
+            this.btnLvlReturn.Location = new System.Drawing.Point(511, 443);
+            this.btnLvlReturn.Name = "btnLvlReturn";
+            this.btnLvlReturn.Size = new System.Drawing.Size(117, 25);
+            this.btnLvlReturn.TabIndex = 11;
+            this.btnLvlReturn.Text = "Return";
+            this.btnLvlReturn.UseVisualStyleBackColor = true;
+            this.btnLvlReturn.Click += new System.EventHandler(this.btnLvlReturn_Click);
+            // 
+            // btnPlay
+            // 
+            this.btnPlay.Location = new System.Drawing.Point(511, 427);
+            this.btnPlay.Name = "btnPlay";
+            this.btnPlay.Size = new System.Drawing.Size(117, 41);
+            this.btnPlay.TabIndex = 12;
+            this.btnPlay.Text = "Play";
+            this.btnPlay.UseVisualStyleBackColor = true;
+            this.btnPlay.Click += new System.EventHandler(this.button1_Click);
+            // 
             // FormSpring
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackgroundImage = global::RunningGame.Properties.Resources.Concept_Art;
+            this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(640, 480);
+            this.Controls.Add(this.btnPlay);
+            this.Controls.Add(this.btnLvlReturn);
+            this.Controls.Add(this.btnLvl3);
+            this.Controls.Add(this.btnLvl2);
+            this.Controls.Add(this.btnLvl1);
+            this.Controls.Add(this.btnWorld5);
+            this.Controls.Add(this.btnWorld4);
+            this.Controls.Add(this.btnWorld3);
+            this.Controls.Add(this.btnWorld2);
+            this.Controls.Add(this.btnWorld1);
             this.Controls.Add(this.btnEdit);
             this.Controls.Add(this.lblLoading);
             this.Controls.Add(this.btnBegin);
@@ -91,6 +213,16 @@
         private System.Windows.Forms.Button btnBegin;
         private System.Windows.Forms.Label lblLoading;
         private System.Windows.Forms.Button btnEdit;
+        private System.Windows.Forms.Button btnWorld1;
+        private System.Windows.Forms.Button btnWorld2;
+        private System.Windows.Forms.Button btnWorld3;
+        private System.Windows.Forms.Button btnWorld4;
+        private System.Windows.Forms.Button btnWorld5;
+        private System.Windows.Forms.Button btnLvl1;
+        private System.Windows.Forms.Button btnLvl2;
+        private System.Windows.Forms.Button btnLvl3;
+        private System.Windows.Forms.Button btnLvlReturn;
+        private System.Windows.Forms.Button btnPlay;
     }
 }
 

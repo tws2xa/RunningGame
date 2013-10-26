@@ -18,6 +18,10 @@ namespace RunningGame
     [Serializable()]
     static class GlobalVars
     {
+
+        //Menu
+        public static int worldNum = 0;
+
         //Component names
         public static string NULL_COMPONENT_NAME = "NULL";
         public static string POSITION_COMPONENT_NAME = "positionComp";
