@@ -53,6 +53,7 @@ namespace RunningGame
         public static string SWITCH_COLLIDER_TYPE = "switchCollider";
         public static string SIMPLE_ENEMY_COLLIDER_TYPE = "simpleEnemyCollider";
         public static string BULLET_COLLIDER_TYPE = "bulletCollider";
+        public static string END_LEVEL_COLLIDER_TYPE = "endLevelCollider";
 
         //Collection of all in game entities
         public static Dictionary<int, Entity> allEntities = new Dictionary<int, Entity>();

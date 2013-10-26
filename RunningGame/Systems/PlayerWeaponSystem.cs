@@ -78,7 +78,23 @@ namespace RunningGame.Systems
             if (recoil && player.hasComponent(GlobalVars.VELOCITY_COMPONENT_NAME))
             {
                 VelocityComponent playerVelComp = (VelocityComponent)player.getComponent(GlobalVars.VELOCITY_COMPONENT_NAME);
-                playerVelComp.x -= (float)xVel * recoilMultiplier;
+                //Don't recoil if the player is walking in the direcion of the shot
+                if (!((xVel > 0 && level.getInputSystem().myKeys[GlobalVars.KEY_RIGHT].pressed) || (xVel < 0 && level.getInputSystem().myKeys[GlobalVars.KEY_LEFT].pressed)))
+                {
+                    playerVelComp.x -= (float)xVel * recoilMultiplier;
+                }
+                else
+                {
+                    //If the player is in the air, still recoil
+                    float leftX = (posComp.x - posComp.width / 2);
+                    float rightX = (posComp.x + posComp.width / 2);
+                    float lowerY = (posComp.y + posComp.height / 2 + 1);
+                    if (!(level.getCollisionSystem().findObjectsBetweenPoints(leftX, lowerY, rightX, lowerY).Count > 0))
+                    {
+                        playerVelComp.x -= (float)xVel * recoilMultiplier;
+                    }
+                }
+
                 playerVelComp.y -= (float)yVel * recoilMultiplier;
             }
 
