@@ -60,7 +60,9 @@ namespace RunningGame.Entities
             
             /*DRAW COMPONENT - Does it get drawn to the game world?
              */
-            addComponent(new DrawComponent("RunningGame.Resources.PaintBlobSimple.png", "Main", defaultWidth, defaultHeight, true));
+            DrawComponent drawComp = (DrawComponent)addComponent(new DrawComponent(defaultWidth, defaultHeight, true));
+            drawComp.addSprite("RunningGame.Resources.PaintBlobSimple.png", "Main");
+            drawComp.setSprite("Main");
 
             /* ANIMATION COMPONENT - Does it need animating?
              */

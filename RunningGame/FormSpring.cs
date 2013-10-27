@@ -11,6 +11,7 @@ using System.Collections;
 
 namespace RunningGame
 {
+
     public partial class FormSpring : Form
     {
 
@@ -30,7 +31,15 @@ namespace RunningGame
         {
             this.DoubleBuffered = true;
             //this.ClientSize = new Size(CLIENT_WIDTH, CLIENT_HEIGHT);
-            Graphics g = this.CreateGraphics();            
+            Graphics g = this.CreateGraphics();
+
+            showHideLevelButtons(false);
+            showHideWorldButtons(false);
+
+            //btnBegin.Visible = false;
+            //btnBegin.Enabled = false;
+
+
         }
 
         private void FormRunningGame_FormClosing(object sender, FormClosingEventArgs e)
@@ -61,14 +70,44 @@ namespace RunningGame
 
         private void btnBegin_Click(object sender, EventArgs e)
         {
-            btnBegin.Enabled = false;
-            btnBegin.Visible = false;
-            btnEdit.Enabled = false;
-            btnEdit.Visible = false;
+            loadLevel();
+        }
+
+        private void loadLevel()
+        {
+            //Hide all buttons!
+            foreach (Control c in this.Controls)
+            {
+                if (c is Button)
+                {
+                    c.Enabled = false;
+                    c.Visible = false;
+                }
+            }
+            this.BackgroundImage = null;
             lblLoading.Text = "Loading...";
             this.Refresh();
             //Use this.Width and this.Height instead of ClientSize to reduce streaching at edge
-            game = new Game(this.CreateGraphics(), this.ClientSize.Width, this.ClientSize.Height);
+            game = new Game(this.CreateGraphics(), this.ClientSize.Width, this.ClientSize.Height, "");
+            lblLoading.Visible = false;
+        }
+
+        private void loadLevel(string str)
+        {
+            //Hide all buttons!
+            foreach (Control c in this.Controls)
+            {
+                if (c is Button)
+                {
+                    c.Enabled = false;
+                    c.Visible = false;
+                }
+            }
+            this.BackgroundImage = null;
+            lblLoading.Text = "Loading...";
+            this.Refresh();
+            //Use this.Width and this.Height instead of ClientSize to reduce streaching at edge
+            game = new Game(this.CreateGraphics(), this.ClientSize.Width, this.ClientSize.Height, str);
             lblLoading.Visible = false;
         }
 
@@ -84,5 +123,161 @@ namespace RunningGame
             frmEdit.Show();
         }
 
+        private void btnWorld1_Click(object sender, EventArgs e)
+        {
+            GlobalVars.worldNum = 1;
+            showHideLevelButtons(true);
+            showHideWorldButtons(false);
+        }
+
+        private void btnWorld2_Click(object sender, EventArgs e)
+        {
+            GlobalVars.worldNum = 2;
+            showHideLevelButtons(true);
+            showHideWorldButtons(false);
+        }
+
+        private void btnWorld3_Click(object sender, EventArgs e)
+        {
+            GlobalVars.worldNum = 3;
+            showHideLevelButtons(true);
+            showHideWorldButtons(false);
+        }
+
+        private void btnWorld4_Click(object sender, EventArgs e)
+        {
+            GlobalVars.worldNum = 4;
+            showHideLevelButtons(true);
+            showHideWorldButtons(false);
+        }
+
+        private void btnWorld5_Click(object sender, EventArgs e)
+        {
+            GlobalVars.worldNum = 5;
+            showHideLevelButtons(true);
+            showHideWorldButtons(false);
+        }
+
+        private void showHideLevelButtons(bool show)
+        {
+            btnLvl1.Visible = show;
+            btnLvl1.Enabled = show;
+
+            btnLvl2.Visible = show;
+            btnLvl2.Enabled = show;
+
+            btnLvl3.Visible = show;
+            btnLvl3.Enabled = show;
+
+            btnLvlReturn.Visible = show;
+            btnLvlReturn.Enabled = show;
+        }
+
+        private void showHideWorldButtons(bool show)
+        {
+            btnWorld1.Visible = show;
+            btnWorld1.Enabled = show;
+
+            btnWorld2.Visible = show;
+            btnWorld2.Enabled = show;
+
+            btnWorld3.Visible = show;
+            btnWorld3.Enabled = show;
+
+            btnWorld4.Visible = show;
+            btnWorld4.Enabled = show;
+
+            btnWorld5.Visible = show;
+            btnWorld5.Enabled = show;
+        }
+            
+        private void btnLevel1_Click(object sender, EventArgs e)
+        {
+            switch (GlobalVars.worldNum)
+            {
+                case(0):
+                    Console.WriteLine("Error: Selecting level 1 in world 0");
+                    break;
+                case (1):
+                    loadLevel("RunningGame.Resources.Levels.EnemyLevel4.png"); //World 1 Level 1
+                    break;
+                case (2):
+                    loadLevel("RunningGame.Resources.Levels.PresentationLevel.png"); //World 2 Level 1
+                    break;
+                case (3):
+                    loadLevel("RunningGame.Resources.Levels.PresentationLevelExtended.png"); //World 3 Level 1
+                    break;
+                case (4):
+                    loadLevel("RunningGame.Resources.Levels.PresentationLevelExtended.png"); //World 4 Level 1
+                    break;
+                case (5):
+                    loadLevel("RunningGame.Resources.Levels.PresentationLevelExtended.png"); //World 5 Level 1
+                    break;
+            }
+        }
+
+
+        private void btnLvl2_Click(object sender, EventArgs e)
+        {
+            switch (GlobalVars.worldNum)
+            {
+                case (0):
+                    Console.WriteLine("Error: Selecting level 2 in world 0");
+                    break;
+                case (1):
+                    loadLevel("RunningGame.Resources.Levels.EnemyLevel4.png"); //World 1 Level 2
+                    break;
+                case (2):
+                    loadLevel("RunningGame.Resources.Levels.PresentationLevel.png"); //World 2 Level 2
+                    break;
+                case (3):
+                    loadLevel("RunningGame.Resources.Levels.PresentationLevelExtended.png"); //World 3 Level 2
+                    break;
+                case (4):
+                    loadLevel("RunningGame.Resources.Levels.PresentationLevelExtended.png"); //World 4 Level 2
+                    break;
+                case (5):
+                    loadLevel("RunningGame.Resources.Levels.PresentationLevelExtended.png"); //World 5 Level 2
+                    break;
+            }
+        }
+
+        private void btnLvl3_Click(object sender, EventArgs e)
+        {
+            switch (GlobalVars.worldNum)
+            {
+                case (0):
+                    Console.WriteLine("Error: Selecting level 1 in world 0");
+                    break;
+                case (1):
+                    loadLevel("RunningGame.Resources.Levels.EnemyLevel4.png"); //World 1 Level 3
+                    break;
+                case (2):
+                    loadLevel("RunningGame.Resources.Levels.PresentationLevel.png"); //World 2 Level 3
+                    break;
+                case (3):
+                    loadLevel("RunningGame.Resources.Levels.PresentationLevelExtended.png"); //World 3 Level 3
+                    break;
+                case (4):
+                    loadLevel("RunningGame.Resources.Levels.PresentationLevelExtended.png"); //World 4 Level 3
+                    break;
+                case (5):
+                    loadLevel("RunningGame.Resources.Levels.PresentationLevelExtended.png"); //World 5 Level 3
+                    break;
+            }
+        }
+
+        private void btnLvlReturn_Click(object sender, EventArgs e)
+        {
+            showHideLevelButtons(false);
+            showHideWorldButtons(true);
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            btnPlay.Visible = false;
+            btnPlay.Enabled = false;
+            showHideWorldButtons(true);
+        }
     }
 }

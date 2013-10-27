@@ -18,6 +18,10 @@ namespace RunningGame
     [Serializable()]
     static class GlobalVars
     {
+
+        //Menu
+        public static int worldNum = 0;
+
         //Component names
         public static string NULL_COMPONENT_NAME = "NULL";
         public static string POSITION_COMPONENT_NAME = "positionComp";
@@ -37,6 +41,7 @@ namespace RunningGame
         public static string GLIDE_COMPONENT_NAME = "glideComp";
         public static string SIMPLE_ENEMY_COMPONENT_NAME = "simpleEnemyComp";
         public static string TIMED_SWITCH_COMPONENT_NAME = "timedSwitchComp";
+        public static string OBJECT_LINK_COMPONENT_NAME = "objLinkedComponent";
 
         //Collider Types
         public static string PLAYER_COLLIDER_TYPE = "playerCollider";
@@ -48,6 +53,7 @@ namespace RunningGame
         public static string SWITCH_COLLIDER_TYPE = "switchCollider";
         public static string SIMPLE_ENEMY_COLLIDER_TYPE = "simpleEnemyCollider";
         public static string BULLET_COLLIDER_TYPE = "bulletCollider";
+        public static string END_LEVEL_COLLIDER_TYPE = "endLevelCollider";
 
         //Collection of all in game entities
         public static Dictionary<int, Entity> allEntities = new Dictionary<int, Entity>();

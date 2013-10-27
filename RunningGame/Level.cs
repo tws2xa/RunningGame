@@ -36,6 +36,8 @@ namespace RunningGame
         public float levelHeight {get;set;}
         public bool paused = false; //Is the game paused?
 
+        public bool shouldEndLevel = false; //Should it end the level at the end of the frame?
+
         public float fps;
 
         long prevTicks = DateTime.Now.Ticks;
@@ -185,7 +187,6 @@ namespace RunningGame
             {
                 sysManager.Update(deltaTime); //Update systems
             }
-
         }
 
         //When an entity is given a collider - notify collider system
@@ -292,11 +293,14 @@ namespace RunningGame
         }
         public virtual void removeEntity(Entity e)
         {
-            if (e.isStartingEntity && !GlobalVars.removedStartingEntities.ContainsKey(e.randId))
-                GlobalVars.removedStartingEntities.Add(e.randId, e);
-            if(e.hasComponent(GlobalVars.COLLIDER_COMPONENT_NAME))
+            if (e.hasComponent(GlobalVars.COLLIDER_COMPONENT_NAME))
                 getCollisionSystem().colliderRemoved(e);
-            GlobalVars.allEntities.Remove(e.randId);
+            if (GlobalVars.allEntities.ContainsKey(e.randId))
+            {
+                if (e.isStartingEntity)
+                    GlobalVars.removedStartingEntities.Add(e.randId, e);
+                GlobalVars.allEntities.Remove(e.randId);
+            }
         }
 
         public BackgroundEntity getMyBackgroundEntity()

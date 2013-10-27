@@ -19,10 +19,25 @@ namespace RunningGame
     {
 
         Level level;
+        float levelResetTimer = -1.0f;
+        float resetTime = 1.0f;
 
         public DeathHandler(Level level)
         {
             this.level = level;
+        }
+
+        public void update(float deltaTime)
+        {
+            if (levelResetTimer > 0)
+            {
+                levelResetTimer -= deltaTime;
+                if (levelResetTimer <= 0)
+                {
+                    level.resetLevel();
+                    levelResetTimer = -1;
+                }
+            }
         }
 
         public void handleDeath(Entity e) {
@@ -30,7 +45,14 @@ namespace RunningGame
 
             //Is it the player? If so, reset the level.
             if(e.hasComponent(GlobalVars.PLAYER_COMPONENT_NAME)) {
-                level.resetLevel();
+
+                if (levelResetTimer < 0)
+                {
+                    level.removeEntity(level.getPlayer());
+                    level.sysManager.drawSystem.setFlash(System.Drawing.Color.DarkRed, resetTime);
+                    levelResetTimer = resetTime * 0.6f; ;
+                }
+                //level.resetLevel();
             }
             //------- Not a special case? default to simply destroying the entity
             else {
