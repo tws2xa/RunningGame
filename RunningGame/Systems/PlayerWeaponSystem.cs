@@ -43,7 +43,8 @@ namespace RunningGame.Systems
         {
             if (level.getInputSystem().mouseLeftClick)
             {
-                fireWeapon((PositionComponent)level.getPlayer().getComponent(GlobalVars.POSITION_COMPONENT_NAME));
+                if(level.getPlayer() != null)
+                    fireWeapon((PositionComponent)level.getPlayer().getComponent(GlobalVars.POSITION_COMPONENT_NAME));
             }
         }
         //--------------------------------------------------------------------------------------------

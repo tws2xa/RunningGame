@@ -25,6 +25,8 @@ namespace RunningGame
 
         private Level currentLevel;
         private bool gameRunning;
+
+        private FormSpring frm;
         
         [NonSerialized] private Graphics mainWinGraphics;
         [NonSerialized] private Brush backBrush = Brushes.Wheat; //Backcolor for the game
@@ -32,8 +34,11 @@ namespace RunningGame
         [NonSerialized] private Bitmap bufferImage;
         [NonSerialized] private Graphics dbGraphics;
 
-        public Game(Graphics winGraphics, int w, int h, string str)
+        public Game(Graphics winGraphics, int w, int h, string str, FormSpring frm)
         {
+
+            this.frm = frm;
+
             mainWinGraphics = winGraphics;
             winWidth = w;
             winHeight = h;
@@ -79,8 +84,10 @@ namespace RunningGame
                 //If the end of the level has been flagged, end the level!
                 if (currentLevel.shouldEndLevel)
                 {
+                    currentLevel.Close();
                     currentLevel = null;
-                    
+                    frm.Reset();
+                    break;
                 }
 
                 Draw(); //Draw everything.
