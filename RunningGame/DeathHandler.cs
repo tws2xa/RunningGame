@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using RunningGame.Components;
+using RunningGame.Entities;
 
 namespace RunningGame
 {
@@ -48,11 +50,29 @@ namespace RunningGame
 
                 if (levelResetTimer < 0)
                 {
-                    level.removeEntity(level.getPlayer());
+                    Player pl = (Player)level.getPlayer();
+
+                    PositionComponent posComp = (PositionComponent)pl.getComponent(GlobalVars.POSITION_COMPONENT_NAME);
+                    VelocityComponent velComp = (VelocityComponent)pl.getComponent(GlobalVars.VELOCITY_COMPONENT_NAME);
+
+                    DeadPlayerEntity deadPlayer = new DeadPlayerEntity(level, posComp.x, posComp.y);
+                    VelocityComponent deadVelComp = (VelocityComponent)deadPlayer.getComponent(GlobalVars.VELOCITY_COMPONENT_NAME);
+
+                    deadVelComp.x = velComp.x;
+                    deadVelComp.y = velComp.y;
+
+                    if (pl.isLookingLeft())
+                    {
+                        DrawComponent drawComp = (DrawComponent)deadPlayer.getComponent(GlobalVars.DRAW_COMPONENT_NAME);
+                        drawComp.rotateFlipSprite("Main", System.Drawing.RotateFlipType.RotateNoneFlipX);
+                    }
+
+                    level.addEntity(deadPlayer);
+
+                    level.removeEntity(pl);
                     level.sysManager.drawSystem.setFlash(System.Drawing.Color.DarkRed, resetTime);
                     levelResetTimer = resetTime * 0.6f; ;
                 }
-                //level.resetLevel();
             }
             //------- Not a special case? default to simply destroying the entity
             else {

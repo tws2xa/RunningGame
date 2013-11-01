@@ -224,11 +224,13 @@ namespace RunningGame
 
         public virtual void removeAllEntities()
         {
+            
             while(GlobalVars.allEntities.Values.Count > 0)
             {
                 Entity e = GlobalVars.allEntities.Values.ToArray()[0];
-                //e.Destroy();
+                removeEntity(e);
             }
+            
             GlobalVars.allEntities.Clear();
         }
 
@@ -367,6 +369,15 @@ namespace RunningGame
             }
 
             return null;
+        }
+
+        public void Close()
+        {
+            Console.WriteLine("Removing Entities");
+            removeAllEntities();
+            Console.WriteLine("Removed. Removing Starting Entities");
+            GlobalVars.removedStartingEntities.Clear();
+            Console.WriteLine("Removed.");
         }
 
     }

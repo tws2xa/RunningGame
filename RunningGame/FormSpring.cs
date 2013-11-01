@@ -17,8 +17,12 @@ namespace RunningGame
 
         Game game;
 
+        delegate void resetDelegate();
+
         const int CLIENT_WIDTH = 640;
         const int CLIENT_HEIGHT = 480;
+
+        Image bkgImg;
 
         public ArrayList downKeys = new ArrayList();
 
@@ -29,6 +33,9 @@ namespace RunningGame
 
         private void FormRunningGame_Load(object sender, EventArgs e)
         {
+
+            bkgImg = this.BackgroundImage;
+
             this.DoubleBuffered = true;
             //this.ClientSize = new Size(CLIENT_WIDTH, CLIENT_HEIGHT);
             Graphics g = this.CreateGraphics();
@@ -44,27 +51,35 @@ namespace RunningGame
 
         private void FormRunningGame_FormClosing(object sender, FormClosingEventArgs e)
         {
-            game.close();
+            if(game != null)
+                game.close();
         }
 
         private void FormRunningGame_KeyUp(object sender, KeyEventArgs e)
         {
-            game.KeyUp(e);
-            if (downKeys.Contains(e.KeyData))
-                downKeys.Remove(e.KeyData);
+            if (game != null)
+            {
+                game.KeyUp(e);
+                if (downKeys.Contains(e.KeyData))
+                    downKeys.Remove(e.KeyData);
+            }
         }
 
         private void FormRunningGame_KeyPress(object sender, KeyPressEventArgs e)
         {
-            game.KeyPressed(e);
+            if(game!=null)
+                game.KeyPressed(e);
         }
 
         private void FormRunningGame_KeyDown(object sender, KeyEventArgs e)
         {
-            if (!downKeys.Contains(e.KeyData))
+            if (game != null)
             {
-                game.KeyDown(e);
-                downKeys.Add(e.KeyData);
+                if (!downKeys.Contains(e.KeyData))
+                {
+                    game.KeyDown(e);
+                    downKeys.Add(e.KeyData);
+                }
             }
         }
 
@@ -88,7 +103,7 @@ namespace RunningGame
             lblLoading.Text = "Loading...";
             this.Refresh();
             //Use this.Width and this.Height instead of ClientSize to reduce streaching at edge
-            game = new Game(this.CreateGraphics(), this.ClientSize.Width, this.ClientSize.Height, "");
+            game = new Game(this.CreateGraphics(), this.ClientSize.Width, this.ClientSize.Height, "", this);
             lblLoading.Visible = false;
         }
 
@@ -107,7 +122,7 @@ namespace RunningGame
             lblLoading.Text = "Loading...";
             this.Refresh();
             //Use this.Width and this.Height instead of ClientSize to reduce streaching at edge
-            game = new Game(this.CreateGraphics(), this.ClientSize.Width, this.ClientSize.Height, str);
+            game = new Game(this.CreateGraphics(), this.ClientSize.Width, this.ClientSize.Height, str, this);
             lblLoading.Visible = false;
         }
 
@@ -278,6 +293,28 @@ namespace RunningGame
             btnPlay.Visible = false;
             btnPlay.Enabled = false;
             showHideWorldButtons(true);
+        }
+
+
+
+        public void Reset()
+        {
+            
+            //Get on the proper thread
+            if (InvokeRequired)
+            {
+                Invoke(new resetDelegate(Reset));
+            }
+            else
+            {
+                showHideLevelButtons(false);
+                showHideWorldButtons(false);
+                this.BackgroundImage = bkgImg;
+                this.btnPlay.Enabled = true;
+                this.btnPlay.Visible = true;
+                game.close();
+                game = null;
+            }
         }
     }
 }

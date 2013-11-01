@@ -43,16 +43,19 @@ namespace RunningGame
             Func<Entity, Entity, bool> playerEnemyCollisionFunction = enemyPlayerCollision;
             Func<Entity, Entity, bool> bulletNonEnemyCollisionFunction = bulletNonEnemyCollision;
             Func<Entity, Entity, bool> bulletEnemyCollisionFunction = bulletEnemyCollision;
+            Func<Entity, Entity, bool> endLevelCollisionFunction = endLevelCollision;
             Func<Entity, Entity, bool> doNothingCollisionFunction = doNothingCollision;
            
             //Set defaults (i.e. If there is no specific collision listed, what does it do?)
             defaultCollisions.Add(GlobalVars.BASIC_SOLID_COLLIDER_TYPE, simpleStopCollision);
             defaultCollisions.Add(GlobalVars.BULLET_COLLIDER_TYPE, bulletNonEnemyCollision);
             defaultCollisions.Add(GlobalVars.SIMPLE_ENEMY_COLLIDER_TYPE, simpleStopCollision);
+            defaultCollisions.Add(GlobalVars.END_LEVEL_COLLIDER_TYPE, simpleStopCollision);
 
             //Add non-default collisions to dictionary
             addToDictionary(GlobalVars.PLAYER_COLLIDER_TYPE, GlobalVars.SPEEDY_COLLIDER_TYPE, speedyPlayerCollisionFunction);
             addToDictionary(GlobalVars.PLAYER_COLLIDER_TYPE, GlobalVars.SWITCH_COLLIDER_TYPE, playerSwitchCollisonFunction);
+            addToDictionary(GlobalVars.PLAYER_COLLIDER_TYPE, GlobalVars.END_LEVEL_COLLIDER_TYPE, endLevelCollisionFunction);
 
             addToDictionary(GlobalVars.SIMPLE_ENEMY_COLLIDER_TYPE, GlobalVars.PLAYER_COLLIDER_TYPE, playerEnemyCollisionFunction);
             
@@ -263,7 +266,7 @@ namespace RunningGame
 
         public bool endLevelCollision(Entity e1, Entity e2)
         {
-            
+            level.shouldEndLevel = true;
             return false;
         }
 
