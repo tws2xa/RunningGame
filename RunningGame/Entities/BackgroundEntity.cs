@@ -65,6 +65,10 @@ namespace RunningGame.Entities
             /* ANIMATION COMPONENT
              */
             //addComponent(new AnimationComponent(0.0005f));
+
+            /*BACKGROUND COMPONENT
+             */
+            addComponent(new BackgroundComponent());
         }
         
         public override void revertToStartingState()

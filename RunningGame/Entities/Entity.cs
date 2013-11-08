@@ -22,6 +22,8 @@ namespace RunningGame
         public int randId { get; set; }
         [NonSerialized] public Level level;
         public bool isStartingEntity = false;
+        public bool updateOutOfView = false;
+
 
         Dictionary<string, Component> components = new Dictionary<string, Component>();
 

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Collections;
+using RunningGame.Components;
 
 namespace RunningGame
 {
@@ -37,19 +38,22 @@ namespace RunningGame
                 {
                     foreach (Entity e in GetActiveLevel().getEntities().Values)
                     {
-                        bool addEntity = true;
-                        foreach (String c in getRequiredComponents())
+                        if (e.updateOutOfView || isInView(e))
                         {
-                            //If there is a single missing component - don't add.
-                            if (!e.hasComponent(c))
+
+                            bool addEntity = true;
+                            foreach (String c in getRequiredComponents())
                             {
-                                addEntity = false;
-                                break;
+                                //If there is a single missing component - don't add.
+                                if (!e.hasComponent(c))
+                                {
+                                    addEntity = false;
+                                    break;
+                                }
                             }
+
+                            if (addEntity) applicableEntities.Add(e);
                         }
-
-                        if (addEntity) applicableEntities.Add(e);
-
                     }
                 }
                 catch (Exception e)
@@ -58,6 +62,29 @@ namespace RunningGame
                 }
             }
             return applicableEntities;
+
+        }
+
+
+
+        public bool isInView(Entity e)
+        {
+
+            if (!e.hasComponent(GlobalVars.POSITION_COMPONENT_NAME)) return true; //No position = always in view. Why not?
+
+            PositionComponent posComp = (PositionComponent)e.getComponent(GlobalVars.POSITION_COMPONENT_NAME);
+
+            float x = GetActiveLevel().sysManager.drawSystem.mainView.x;
+            float y = GetActiveLevel().sysManager.drawSystem.mainView.y;
+
+            float width = GetActiveLevel().sysManager.drawSystem.mainView.width;
+            float height = GetActiveLevel().sysManager.drawSystem.mainView.height;
+
+            if ((posComp.x + posComp.width) < x || (posComp.y + posComp.height) < y) return false;
+
+            if ((posComp.x - posComp.width) > (x + width) || (posComp.y - posComp.height) > (y + height)) return false;
+
+            return true;
 
         }
 

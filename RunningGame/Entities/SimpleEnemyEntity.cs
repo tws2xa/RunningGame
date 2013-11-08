@@ -90,7 +90,7 @@ namespace RunningGame.Entities
 
             /*SIMPLE ENEMY COMPONENT
              */
-            addComponent(new SimpleEnemyComponent(GlobalVars.SIMPLE_ENEMY_H_SPEED + new Random().Next(-50, 50), true));
+            addComponent(new SimpleEnemyComponent(GlobalVars.SIMPLE_ENEMY_H_SPEED + new Random().Next(-10, 10), true));
 
             addComponent(new ScreenEdgeComponent(1, 1, 1, 1));
 

@@ -37,6 +37,7 @@ namespace RunningGame
         public SimpleEnemyAISystem simpEnemySystem;
         public PlayerWeaponSystem weapSystem;
         public SoundSystem sndSystem;
+        public BackgroundPositionSystem bkgPosSystem;
 
         public SystemManager(Level level)
         {
@@ -66,6 +67,7 @@ namespace RunningGame
             simpEnemySystem = new SimpleEnemyAISystem(level);
             weapSystem = new PlayerWeaponSystem(level);
             sndSystem = new SoundSystem(level);
+            bkgPosSystem = new BackgroundPositionSystem(level);
             debugSystem = new DebugSystem(level);
 
         }
@@ -79,6 +81,7 @@ namespace RunningGame
             playerSystem.Update(deltaTime);
             weapSystem.Update(deltaTime);
             colSystem.Update(deltaTime);
+            bkgPosSystem.Update(deltaTime);
             gravSystem.Update(deltaTime);
             drawSystem.Update(deltaTime);
             healthSystem.Update(deltaTime);

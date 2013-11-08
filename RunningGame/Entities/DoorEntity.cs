@@ -15,8 +15,8 @@ namespace RunningGame.Entities
         
         //If you're object has width/height Probably good to have a defaults for both.
         //These are the dimensions your entitiy will start out with.
-        float defaultWidth = 20;
-        float defaultHeight = 40;
+        float defaultWidth = 30;
+        float defaultHeight = 60;
 
         //-------------------------------------------Constructors--------------------------------------------
         public DoorEntity(Level level, float x, float y)

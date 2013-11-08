@@ -42,6 +42,7 @@ namespace RunningGame
         public static string SIMPLE_ENEMY_COMPONENT_NAME = "simpleEnemyComp";
         public static string TIMED_SWITCH_COMPONENT_NAME = "timedSwitchComp";
         public static string OBJECT_LINK_COMPONENT_NAME = "objLinkedComponent";
+        public static string BACKGROUND_COMPONENT_NAME = "backgroundComponent";
 
         //Collider Types
         public static string PLAYER_COLLIDER_TYPE = "playerCollider";

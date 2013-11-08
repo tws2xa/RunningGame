@@ -85,7 +85,7 @@ namespace RunningGame.Entities
 
             /*SIMPLE ENEMY COMPONENT
              */
-            SimpleEnemyComponent simpEnemyComp = (SimpleEnemyComponent)addComponent(new SimpleEnemyComponent(GlobalVars.SIMPLE_ENEMY_H_SPEED + new Random().Next(-50, 50), false));
+            SimpleEnemyComponent simpEnemyComp = (SimpleEnemyComponent)addComponent(new SimpleEnemyComponent(GlobalVars.SIMPLE_ENEMY_H_SPEED + new Random().Next(-10, 10), false));
             simpEnemyComp.hasLandedOnce = true;
 
             addComponent(new ScreenEdgeComponent(1, 1, 1, 1));

@@ -307,35 +307,65 @@ namespace RunningGame
 
         public BackgroundEntity getMyBackgroundEntity()
         {
-            BackgroundEntity bkgEnt = new BackgroundEntity(this, levelWidth/2, levelHeight/2);
+            BackgroundEntity bkgEnt = new BackgroundEntity(this, 0, 0);
             DrawComponent drawComp = (DrawComponent)bkgEnt.getComponent(GlobalVars.DRAW_COMPONENT_NAME);
             PositionComponent posComp = (PositionComponent)bkgEnt.getComponent(GlobalVars.POSITION_COMPONENT_NAME);
 
-            drawComp.addSprite("RunningGame.Resources.Artwork.Background.DesaturatedBkg1.png", "MainBkg");
+            string imageAddress = "RunningGame.Resources.Artwork.Background.DesaturatedBkg1.png";
+
+            //Static Background
+            if (sysManager.bkgPosSystem.scrollType == 0)
+            {
+                float initWidth = drawComp.getImage().Width;
+                float initHeight = drawComp.getImage().Height;
+
+                float xDiff = Math.Abs(initWidth - levelWidth);
+                float yDiff = Math.Abs(initHeight - levelHeight);
+
+                //Make it fit horizontally
+                if (xDiff < yDiff)
+                {
+                    float ratio = initWidth / levelWidth;
+                    getMovementSystem().changeSize(posComp, levelWidth, initHeight * ratio);
+                    drawComp.resizeImages((int)levelWidth, (int)(initHeight * ratio));
+                    getMovementSystem().changePosition(posComp, levelWidth/2, levelHeight-initHeight*ratio/2, false);
+                }
+                //Make it fit vertically
+                else
+                {
+                    float ratio = initHeight / levelHeight;
+                    getMovementSystem().changeSize(posComp, initWidth*ratio , levelHeight);
+                    drawComp.resizeImages((int)(initWidth*ratio), (int)(levelHeight));
+                    getMovementSystem().changePosition(posComp, initWidth * ratio / 2, levelHeight / 2, false);
+                }
+            }
+
+            //Proportion Scrolling
+            if (sysManager.bkgPosSystem.scrollType == 1)
+            {
+                System.Reflection.Assembly myAssembly = System.Reflection.Assembly.GetExecutingAssembly();
+                System.IO.Stream myStream = myAssembly.GetManifestResourceStream(imageAddress);
+                Bitmap sprite = new Bitmap(myStream); //Getting an error here? Did you remember to make your image an embedded resource?
+                myStream.Close();
+
+                float w = sprite.Width;
+                float h = sprite.Height;
+
+                float multiplier = 0.5f;
+
+                while (w > levelWidth || h > levelHeight)
+                {
+                    w *= multiplier;
+                    h *= multiplier;
+                }
+
+                getMovementSystem().changeSize(posComp, w, h);
+
+            }
+
+
+            drawComp.addSprite(imageAddress, "MainBkg");
             drawComp.setSprite("MainBkg");
-
-            float initWidth = drawComp.getImage().Width;
-            float initHeight = drawComp.getImage().Height;
-
-            float xDiff = Math.Abs(initWidth - levelWidth);
-            float yDiff = Math.Abs(initHeight - levelHeight);
-
-            //Make it fit horizontally
-            if (xDiff < yDiff)
-            {
-                float ratio = initWidth / levelWidth;
-                getMovementSystem().changeSize(posComp, levelWidth, initHeight * ratio);
-                drawComp.resizeImages((int)levelWidth, (int)(initHeight * ratio));
-                getMovementSystem().changePosition(posComp, levelWidth/2, levelHeight-initHeight*ratio/2, false);
-            }
-            //Make it fit vertically
-            else
-            {
-                float ratio = initHeight / levelHeight;
-                getMovementSystem().changeSize(posComp, initWidth*ratio , levelHeight);
-                drawComp.resizeImages((int)(initWidth*ratio), (int)(levelHeight));
-                getMovementSystem().changePosition(posComp, initWidth * ratio / 2, levelHeight / 2, false);
-            }
 
             bkgEnt.isStartingEntity = true;
 
