@@ -103,7 +103,7 @@ namespace RunningGame.Systems
         public void blockSpawn()
         {
             PositionComponent posComp = (PositionComponent)level.getPlayer().getComponent(GlobalVars.POSITION_COMPONENT_NAME);
-                Player player = (Player)level.getPlayer();
+            Player player = (Player)level.getPlayer();
 
                 if (player.isLookingRight())
                 {
@@ -118,7 +118,7 @@ namespace RunningGame.Systems
         {   
             
             //Entity newEntity = new [YOUR ENTITY HERE](level, x, y);
-            Entity newEntity = new BlockEntity(level, x, y);
+            Entity newEntity = new spawnBlockEntity(level, x, y);
 
             level.addEntity(newEntity.randId, newEntity); //This should just stay the same
         }

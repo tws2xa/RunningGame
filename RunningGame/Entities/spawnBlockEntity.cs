@@ -9,14 +9,14 @@ using System.Collections;
 
 namespace RunningGame.Entities
 {
-    class BlockEntity: Entity
+    class spawnBlockEntity: Entity
     {
         float defaultWidth = 18;
         float defaultHeight = 18;
 
         string blockAnimationName = "blockAnimation";
 
-        public BlockEntity(Level level, float x, float y)
+        public spawnBlockEntity(Level level, float x, float y)
         {
             this.level = level;
 
@@ -24,25 +24,17 @@ namespace RunningGame.Entities
             
             addMyComponents(x, y);
         }
+        
         public void addMyComponents(float x, float y)
         {
             //Position Component
             addComponent(new PositionComponent(x, y, defaultWidth, defaultHeight, this));
 
             //Draw component
-            DrawComponent drawComp = (DrawComponent)addComponent(new DrawComponent("RunningGame.Resources.BlockSquare.png", "Main", defaultWidth, defaultHeight, true));
-
-            ArrayList testAnimationList = new ArrayList
-            {
-                "RunningGame.Resources.BlockSquare.png", "RunningGame.Resources.DirtSquare.png",
-                "RunningGame.Resources.GrassSquare.png", "RunningGame.Resources.Player.png"
-            };
-
-            drawComp.addAnimatedSprite(testAnimationList, blockAnimationName);
-            //drawComp.activeSprite = testAnimationName;
-            drawComp.activeSprite = "Main";
-
-            //AnimationComponent animComp = (AnimationComponent)addComponent(new AnimationComponent(0.5f));
+            DrawComponent drawComp = (DrawComponent)addComponent(new DrawComponent( defaultWidth, defaultHeight, true));
+            drawComp.addSprite("RunningGame.Resources.BlockSquare.png", "Main");
+            drawComp.setSprite("Main");
+           
 
             //Velocity Component
             addComponent(new VelocityComponent(0, 0));

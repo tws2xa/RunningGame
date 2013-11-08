@@ -93,7 +93,7 @@
     <Compile Include="DeathHandler.cs" />
     <Compile Include="Entities\BackgroundEntity.cs" />
     <Compile Include="Entities\BasicGround.cs" />
-    <Compile Include="Entities\BlockEntity.cs" />
+    <Compile Include="Entities\spawnBlockEntity.cs" />
     <Compile Include="Entities\BulletEntity.cs" />
     <Compile Include="Entities\DeadPlayerEntity.cs" />
     <Compile Include="Entities\EndLevelEntity.cs" />
