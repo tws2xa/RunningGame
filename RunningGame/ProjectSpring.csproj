@@ -94,6 +94,7 @@
     <Compile Include="DeathHandler.cs" />
     <Compile Include="Entities\BackgroundEntity.cs" />
     <Compile Include="Entities\BasicGround.cs" />
+    <Compile Include="Entities\spawnBlockEntity.cs" />
     <Compile Include="Entities\BulletEntity.cs" />
     <Compile Include="Entities\DeadPlayerEntity.cs" />
     <Compile Include="Entities\EndLevelEntity.cs" />
@@ -193,6 +194,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Resources\DirtSquare.png" />
     <EmbeddedResource Include="Resources\TestLevelNoBorder.png" />
   </ItemGroup>
   <ItemGroup>
@@ -232,9 +234,6 @@
     <EmbeddedResource Include="Resources\DoorOpen.png" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\DirtSquare.png" />
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="Resources\DoorClosed.png" />
   </ItemGroup>
   <ItemGroup>
@@ -248,6 +247,7 @@
     <EmbeddedResource Include="Resources\WhiteSquare.png" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Resources\BlockSquare.png" />
     <EmbeddedResource Include="Resources\EnemyLevel.png" />
   </ItemGroup>
   <ItemGroup>
