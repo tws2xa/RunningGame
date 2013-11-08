@@ -311,7 +311,7 @@ namespace RunningGame
             DrawComponent drawComp = (DrawComponent)bkgEnt.getComponent(GlobalVars.DRAW_COMPONENT_NAME);
             PositionComponent posComp = (PositionComponent)bkgEnt.getComponent(GlobalVars.POSITION_COMPONENT_NAME);
 
-            drawComp.addSprite("RunningGame.Resources.LevelBackgrounds.BackgroundWorld13.png", "MainBkg");
+            drawComp.addSprite("RunningGame.Resources.Artwork.Background.DesaturatedBkg1.png", "MainBkg");
             drawComp.setSprite("MainBkg");
 
             float initWidth = drawComp.getImage().Width;

@@ -15,79 +15,69 @@ namespace RunningGame
     public partial class FormSpring : Form
     {
 
+        //The game
         Game game;
 
+        //A delegate which is basically used to call the reset method (To do with cross threading issues)
         delegate void resetDelegate();
 
+        //The width of the window
         const int CLIENT_WIDTH = 640;
+        //The height of the window
         const int CLIENT_HEIGHT = 480;
 
+        //The background image (Currently Laurel's Concept Art)
         Image bkgImg;
 
+        //An array list of keys that have been pressed and not released (They're being held down)
+        //This is used to prevent repeated calls of KeyPressed
         public ArrayList downKeys = new ArrayList();
 
+        //When the form starts up, initialize it.
         public FormSpring()
         {
             InitializeComponent();
         }
 
+        //Called when the form loads
         private void FormRunningGame_Load(object sender, EventArgs e)
         {
-
+            //Set the background image
             bkgImg = this.BackgroundImage;
 
+            //Set it to double buffered.
             this.DoubleBuffered = true;
-            //this.ClientSize = new Size(CLIENT_WIDTH, CLIENT_HEIGHT);
+            
+            //Get the graphics
             Graphics g = this.CreateGraphics();
 
+            //Hide the level and world selection buttons
             showHideLevelButtons(false);
             showHideWorldButtons(false);
 
+            //Hide the debug begin buttons
             //btnBegin.Visible = false;
             //btnBegin.Enabled = false;
 
 
         }
 
+        //Called when the form is closed
         private void FormRunningGame_FormClosing(object sender, FormClosingEventArgs e)
         {
+            //If the game is running, stop it.
             if(game != null)
                 game.close();
         }
 
-        private void FormRunningGame_KeyUp(object sender, KeyEventArgs e)
-        {
-            if (game != null)
-            {
-                game.KeyUp(e);
-                if (downKeys.Contains(e.KeyData))
-                    downKeys.Remove(e.KeyData);
-            }
-        }
-
-        private void FormRunningGame_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if(game!=null)
-                game.KeyPressed(e);
-        }
-
-        private void FormRunningGame_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (game != null)
-            {
-                if (!downKeys.Contains(e.KeyData))
-                {
-                    game.KeyDown(e);
-                    downKeys.Add(e.KeyData);
-                }
-            }
-        }
-
+        //Called when the debug begin button is clicked
         private void btnBegin_Click(object sender, EventArgs e)
         {
+            //Load the default level
             loadLevel();
         }
 
+        //Load level (For default level)
         private void loadLevel()
         {
             //Hide all buttons!
@@ -99,45 +89,34 @@ namespace RunningGame
                     c.Visible = false;
                 }
             }
+            
+            //Clear the background image
             this.BackgroundImage = null;
+
+            //Write the loading text
             lblLoading.Text = "Loading...";
+            
+            //Refresh the form (So the loading text appears)
             this.Refresh();
+
+            //Start the game
             //Use this.Width and this.Height instead of ClientSize to reduce streaching at edge
             game = new Game(this.CreateGraphics(), this.ClientSize.Width, this.ClientSize.Height, "", this);
+            
+            //Once the game has been started - hide the loading text
             lblLoading.Visible = false;
         }
 
-        private void loadLevel(string str)
-        {
-            //Hide all buttons!
-            foreach (Control c in this.Controls)
-            {
-                if (c is Button)
-                {
-                    c.Enabled = false;
-                    c.Visible = false;
-                }
-            }
-            this.BackgroundImage = null;
-            lblLoading.Text = "Loading...";
-            this.Refresh();
-            //Use this.Width and this.Height instead of ClientSize to reduce streaching at edge
-            game = new Game(this.CreateGraphics(), this.ClientSize.Width, this.ClientSize.Height, str, this);
-            lblLoading.Visible = false;
-        }
-
-        private void FormSpring_MouseClick(object sender, MouseEventArgs e)
-        {
-            if(game != null)
-                game.MouseClick(e);
-        }
-
+        //Called when the edit button is clicked.
         private void btnEdit_Click(object sender, EventArgs e)
         {
+            //Show the editor form.
             FormEditor frmEdit = new FormEditor();
             frmEdit.Show();
         }
 
+        //-------------------------WORLD BUTTONS-----------------------------
+        //World 1
         private void btnWorld1_Click(object sender, EventArgs e)
         {
             GlobalVars.worldNum = 1;
@@ -145,6 +124,7 @@ namespace RunningGame
             showHideWorldButtons(false);
         }
 
+        //World 2
         private void btnWorld2_Click(object sender, EventArgs e)
         {
             GlobalVars.worldNum = 2;
@@ -152,6 +132,7 @@ namespace RunningGame
             showHideWorldButtons(false);
         }
 
+        //World 3
         private void btnWorld3_Click(object sender, EventArgs e)
         {
             GlobalVars.worldNum = 3;
@@ -159,6 +140,7 @@ namespace RunningGame
             showHideWorldButtons(false);
         }
 
+        //World 4
         private void btnWorld4_Click(object sender, EventArgs e)
         {
             GlobalVars.worldNum = 4;
@@ -166,46 +148,17 @@ namespace RunningGame
             showHideWorldButtons(false);
         }
 
+        //World 5
         private void btnWorld5_Click(object sender, EventArgs e)
         {
             GlobalVars.worldNum = 5;
             showHideLevelButtons(true);
             showHideWorldButtons(false);
         }
+        //----------------------------------------------------------------
 
-        private void showHideLevelButtons(bool show)
-        {
-            btnLvl1.Visible = show;
-            btnLvl1.Enabled = show;
-
-            btnLvl2.Visible = show;
-            btnLvl2.Enabled = show;
-
-            btnLvl3.Visible = show;
-            btnLvl3.Enabled = show;
-
-            btnLvlReturn.Visible = show;
-            btnLvlReturn.Enabled = show;
-        }
-
-        private void showHideWorldButtons(bool show)
-        {
-            btnWorld1.Visible = show;
-            btnWorld1.Enabled = show;
-
-            btnWorld2.Visible = show;
-            btnWorld2.Enabled = show;
-
-            btnWorld3.Visible = show;
-            btnWorld3.Enabled = show;
-
-            btnWorld4.Visible = show;
-            btnWorld4.Enabled = show;
-
-            btnWorld5.Visible = show;
-            btnWorld5.Enabled = show;
-        }
-            
+        //---------------------------LEVEL BUTTONS------------------------
+        //Level one
         private void btnLevel1_Click(object sender, EventArgs e)
         {
             switch (GlobalVars.worldNum)
@@ -231,7 +184,7 @@ namespace RunningGame
             }
         }
 
-
+        //Level 2
         private void btnLvl2_Click(object sender, EventArgs e)
         {
             switch (GlobalVars.worldNum)
@@ -257,6 +210,7 @@ namespace RunningGame
             }
         }
 
+        //Level 3
         private void btnLvl3_Click(object sender, EventArgs e)
         {
             switch (GlobalVars.worldNum)
@@ -282,12 +236,15 @@ namespace RunningGame
             }
         }
 
+        //Return to world select menu
         private void btnLvlReturn_Click(object sender, EventArgs e)
         {
             showHideLevelButtons(false);
             showHideWorldButtons(true);
         }
+        //----------------------------------------------------------------
 
+        //Called when the play button is clicked
         private void button1_Click(object sender, EventArgs e)
         {
             btnPlay.Visible = false;
@@ -297,6 +254,43 @@ namespace RunningGame
 
 
 
+        //Shows/hides the select level buttons
+        private void showHideLevelButtons(bool show)
+        {
+            btnLvl1.Visible = show;
+            btnLvl1.Enabled = show;
+
+            btnLvl2.Visible = show;
+            btnLvl2.Enabled = show;
+
+            btnLvl3.Visible = show;
+            btnLvl3.Enabled = show;
+
+            btnLvlReturn.Visible = show;
+            btnLvlReturn.Enabled = show;
+        }
+
+        //Show/hides the select world buttons
+        private void showHideWorldButtons(bool show)
+        {
+            btnWorld1.Visible = show;
+            btnWorld1.Enabled = show;
+
+            btnWorld2.Visible = show;
+            btnWorld2.Enabled = show;
+
+            btnWorld3.Visible = show;
+            btnWorld3.Enabled = show;
+
+            btnWorld4.Visible = show;
+            btnWorld4.Enabled = show;
+
+            btnWorld5.Visible = show;
+            btnWorld5.Enabled = show;
+        }
+         
+   
+        //Resets the menu
         public void Reset()
         {
             
@@ -316,5 +310,89 @@ namespace RunningGame
                 game = null;
             }
         }
+
+
+        //Load a specific level
+        private void loadLevel(string str)
+        {
+            //Hide all buttons!
+            foreach (Control c in this.Controls)
+            {
+                if (c is Button)
+                {
+                    c.Enabled = false;
+                    c.Visible = false;
+                }
+            }
+
+            //Clear the background image
+            this.BackgroundImage = null;
+
+            //Show the loading text
+            lblLoading.Text = "Loading...";
+
+            //Refresh the form so you can see the loading text
+            this.Refresh();
+
+            //Start the game
+            //Use this.Width and this.Height instead of ClientSize to reduce streaching at edge
+            game = new Game(this.CreateGraphics(), this.ClientSize.Width, this.ClientSize.Height, str, this);
+
+            //Once the game is started, hide the loading text
+            lblLoading.Visible = false;
+        }
+
+
+        //-----------------------------------------INPUT-----------------------------------------------
+
+        //Called when a key is released
+        private void FormRunningGame_KeyUp(object sender, KeyEventArgs e)
+        {
+            //If the game is running...
+            if (game != null)
+            {
+                //Let the game know that the key was released
+                game.KeyUp(e);
+                //If the key is contained in downKeys, remove it. (It is no longer down)
+                if (downKeys.Contains(e.KeyData))
+                    downKeys.Remove(e.KeyData);
+            }
+        }
+
+        //Called when a key is held down
+        private void FormRunningGame_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            //If the game is running, tell it that the key was pressed
+            if (game != null)
+                game.KeyPressed(e);
+        }
+
+        //Called when a key is first pushed
+        private void FormRunningGame_KeyDown(object sender, KeyEventArgs e)
+        {
+            //If the game is running...
+            if (game != null)
+            {
+                //If it hasn;t already been registered as pressed
+                if (!downKeys.Contains(e.KeyData))
+                {
+                    //Tell the game it was pressed
+                    game.KeyDown(e);
+                    //Add it to the list of pressed keys
+                    downKeys.Add(e.KeyData);
+                }
+            }
+        }
+
+        //Called when the mouse is clicked in the form
+        private void FormSpring_MouseClick(object sender, MouseEventArgs e)
+        {
+            //If the game is running, tell the game that the mouse was clicked
+            if (game != null)
+                game.MouseClick(e);
+        }
+
+        //---------------------------------------------------------------------------------------------
+
     }
 }

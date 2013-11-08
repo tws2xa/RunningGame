@@ -13,8 +13,8 @@ namespace RunningGame.Entities
     {
 
 
-        public float defaultWidth = 40;
-        public float defaultHeight = 30;
+        public float defaultWidth = 30;
+        public float defaultHeight = 60;
         public string leftImageName = "EnemyWalkLeft";
         public string rightImageName = "EnemyRightLeft";
 
@@ -53,10 +53,10 @@ namespace RunningGame.Entities
 
             ArrayList enemyAnimation = new ArrayList()
             {
-                "RunningGame.Resources.Enemy1.png",
-                "RunningGame.Resources.Enemy2.png",
-                "RunningGame.Resources.Enemy1.png",
-                "RunningGame.Resources.Enemy3.png",
+                "RunningGame.Resources.Artwork.Foreground.enemy1.png",
+                "RunningGame.Resources.Artwork.Foreground.enemy2.png",
+                //"RunningGame.Resources.Enemy1.png",
+                //"RunningGame.Resources.Enemy3.png",
             };
 
 
@@ -68,7 +68,7 @@ namespace RunningGame.Entities
 
             /* ANIMATION COMPONENT - Does it need animating?
              */
-            addComponent(new AnimationComponent(0.08f));
+            addComponent(new AnimationComponent(0.10f));
 
             /*VELOCITY COMPONENT - Does it move?
              */
