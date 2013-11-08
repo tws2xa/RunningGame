@@ -54,6 +54,7 @@ namespace RunningGame.Systems
                 if (simpEnemyComp.hasRunOnce && !simpEnemyComp.hasLandedOnce && velComp.y  <= 0)
                 {
                     simpEnemyComp.hasLandedOnce = true;
+                    e.updateOutOfView = false;
                 }
 
                 //If it's been stopped for more than one frame, try changing the direction and see if it can move that way instead.

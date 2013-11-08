@@ -43,6 +43,9 @@ namespace RunningGame.Entities
         //You can just uncomment the ones you want.
         public void addMyComponents(float x, float y)
         {
+
+            this.updateOutOfView = true; //Just until it's landed once, then it's switched (in simple enemy system)
+
             /*POSITION COMPONENT - Does it have a position?
              */
             addComponent(new PositionComponent(x, y, defaultWidth, defaultHeight, this));

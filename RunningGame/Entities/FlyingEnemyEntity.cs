@@ -43,6 +43,7 @@ namespace RunningGame.Entities
         //You can just uncomment the ones you want.
         public void addMyComponents(float x, float y)
         {
+
             /*POSITION COMPONENT - Does it have a position?
              */
             addComponent(new PositionComponent(x, y, defaultWidth, defaultHeight, this));
