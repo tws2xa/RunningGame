@@ -35,10 +35,6 @@ namespace RunningGame
         //The level
         public Level level;
 
-        //Timer for the collision that ends the level - how long a break/fade is there before it cuts to next level?
-        float endLvlTime = 0.5f;
-        float endLvlTimer = -1.0f; //Timer. Do not modify.
-
         public CollisionHandler(Level level)
         {
             //Set the level
@@ -54,6 +50,7 @@ namespace RunningGame
             Func<Entity, Entity, bool> bulletEnemyCollisionFunction = bulletEnemyCollision;
             Func<Entity, Entity, bool> endLevelCollisionFunction = endLevelCollision;
             Func<Entity, Entity, bool> doNothingCollisionFunction = doNothingCollision;
+            Func<Entity, Entity, bool> otherPlatformCollisionFunction = platformOtherCollision;
            
             //Set defaults (i.e. If there is no specific collision listed, what does it do?)
             defaultCollisions.Add(GlobalVars.BASIC_SOLID_COLLIDER_TYPE, simpleStopCollision);
@@ -67,11 +64,13 @@ namespace RunningGame
             addToDictionary(GlobalVars.PLAYER_COLLIDER_TYPE, GlobalVars.SWITCH_COLLIDER_TYPE, playerSwitchCollisonFunction);
             addToDictionary(GlobalVars.PLAYER_COLLIDER_TYPE, GlobalVars.END_LEVEL_COLLIDER_TYPE, endLevelCollisionFunction);
 
-            addToDictionary(GlobalVars.SIMPLE_ENEMY_COLLIDER_TYPE, GlobalVars.PLAYER_COLLIDER_TYPE, playerEnemyCollisionFunction);
-            
             addToDictionary(GlobalVars.BULLET_COLLIDER_TYPE, GlobalVars.PLAYER_COLLIDER_TYPE, doNothingCollision);
             addToDictionary(GlobalVars.BULLET_COLLIDER_TYPE, GlobalVars.SIMPLE_ENEMY_COLLIDER_TYPE, bulletEnemyCollisionFunction);
             addToDictionary(GlobalVars.BULLET_COLLIDER_TYPE, GlobalVars.SWITCH_COLLIDER_TYPE, switchFlipCollision);
+
+            addToDictionary(GlobalVars.SIMPLE_ENEMY_COLLIDER_TYPE, GlobalVars.PLAYER_COLLIDER_TYPE, playerEnemyCollisionFunction);
+            
+            addToDictionary(GlobalVars.MOVING_PLATFORM_COLLIDER_TYPE, GlobalVars.PLAYER_COLLIDER_TYPE, otherPlatformCollisionFunction);
         }
 
         //This adds something to the default collison dictionary.
@@ -140,19 +139,7 @@ namespace RunningGame
         //This update is just used if the end level timer has been started.
         public void update(float deltaTime)
         {
-            //If the timer has been started
-            if (endLvlTimer >= 0)
-            {
-                //Decrement it by the time that has passed
-                endLvlTimer -= deltaTime;
-
-                //If it's less than 0, tell the level to end.
-                if (endLvlTimer <= 0)
-                {
-                    endLvlTimer = -1;
-                    level.shouldEndLevel = true;
-                }
-            }
+            
         }
 
 
@@ -305,15 +292,55 @@ namespace RunningGame
         public bool endLevelCollision(Entity e1, Entity e2)
         {
             //If the end level timer isn't already ticking...
-            if (endLvlTimer < 0)
+            level.beginEndLevel();
+            //Don't stop movement
+            return false;
+        }
+
+        public bool platformOtherCollision(Entity e1, Entity e2)
+        {
+            MovingPlatformEntity plat;
+            Entity other;
+            if (e1 is MovingPlatformEntity)
             {
-                //Get the draw system, call the white clash, and start the end level timer.
-                DrawSystem drawSys = level.sysManager.drawSystem;
-                drawSys.setFlash(System.Drawing.Color.WhiteSmoke, endLvlTime * 2);
-                endLvlTimer = endLvlTime;
+                plat = (MovingPlatformEntity)e1;
+                other = e2;
+            }
+            else if (e2 is MovingPlatformEntity)
+            {
+                plat = (MovingPlatformEntity)e2;
+                other = e1;
+            }
+            else
+            {
+                Console.WriteLine("Moving Plaform Collision without Moving Platform!");
+                return false;
             }
 
-            //Don't stop movement
+
+            PositionComponent platPos = (PositionComponent)plat.getComponent(GlobalVars.POSITION_COMPONENT_NAME);
+            PositionComponent otherPos = (PositionComponent)other.getComponent(GlobalVars.POSITION_COMPONENT_NAME);
+
+            float buffer = 2;
+
+            //If other is not above the platform, just do a simple stop for other.
+            float diff = (otherPos.y+otherPos.height/2) - (platPos.y-platPos.height/2);
+            if (Math.Abs(diff) > buffer)
+            {
+                return true;
+            }
+
+            MovingPlatformComponent platComp = (MovingPlatformComponent)plat.getComponent(GlobalVars.MOVING_PLATFORM_COMPONENT_NAME);
+            VelocityComponent platVel = (VelocityComponent)plat.getComponent(GlobalVars.VELOCITY_COMPONENT_NAME);
+            VelocityComponent otherVel = (VelocityComponent)other.getComponent(GlobalVars.VELOCITY_COMPONENT_NAME);
+            
+            //If vertical, move other's y to the moving platform's
+            if (platComp.vertical)
+            {
+                level.getMovementSystem().changePosition(otherPos, otherPos.x, platPos.y - platPos.height / 2 - otherPos.height / 2, false);
+                otherVel.y = platVel.y;
+            }
+
             return false;
         }
 

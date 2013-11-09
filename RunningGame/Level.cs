@@ -47,9 +47,11 @@ namespace RunningGame
         public SystemManager sysManager; //Controls all systems
         bool sysManagerInit = false;
 
-        public bool levelFullyLoaded = false;
+        //Timer for the collision that ends the level - how long a break/fade is there before it cuts to next level?
+        float endLvlTime = 0.5f;
+        float endLvlTimer = -1.0f; //Timer. Do not modify.
 
-        public BackgroundEntity bkgEnt;
+        public bool levelFullyLoaded = false;
 
         public Level() {}
 
@@ -115,7 +117,7 @@ namespace RunningGame
             }
             
 
-            bkgEnt = getMyBackgroundEntity();
+            Entity bkgEnt = getMyBackgroundEntity();
             addEntity(bkgEnt.randId, bkgEnt);
 
         }
@@ -166,7 +168,7 @@ namespace RunningGame
 
             levelFullyLoaded = true;
 
-            bkgEnt = getMyBackgroundEntity();
+            Entity bkgEnt = getMyBackgroundEntity();
             addEntity(bkgEnt.randId, bkgEnt);
 
         }
@@ -185,9 +187,48 @@ namespace RunningGame
 
             if (levelFullyLoaded && !paused)
             {
+
+                //If the timer has been started
+                if (endLvlTimer >= 0)
+                {
+                    //Decrement it by the time that has passed
+                    endLvlTimer -= deltaTime;
+
+                    //If it's less than 0, tell the level to end.
+                    if (endLvlTimer <= 0)
+                    {
+                        endLvlTimer = -1;
+                        shouldEndLevel = true;
+                    }
+                }
+
                 sysManager.Update(deltaTime); //Update systems
             }
         }
+
+        //Begin an end level routine
+        public void beginEndLevel()
+        {
+            Console.WriteLine("Ending the level!");
+            if (endLvlTimer < 0)
+            {
+                //Get the draw system, call the white clash, and start the end level timer.
+                DrawSystem drawSys = sysManager.drawSystem;
+                drawSys.setFlash(System.Drawing.Color.WhiteSmoke, endLvlTime * 2);
+                endLvlTimer = endLvlTime;
+            }
+        }
+        public void beginEndLevel(float time)
+        {
+            if (endLvlTimer < 0)
+            {
+                //Get the draw system, call the white clash, and start the end level timer.
+                DrawSystem drawSys = sysManager.drawSystem;
+                drawSys.setFlash(System.Drawing.Color.WhiteSmoke, time * 2);
+                endLvlTimer = time;
+            }
+        }
+
 
         //When an entity is given a collider - notify collider system
         public virtual void colliderAdded(Entity e)
@@ -341,7 +382,7 @@ namespace RunningGame
             }
 
             //Proportion Scrolling
-            if (sysManager.bkgPosSystem.scrollType == 1)
+            if (sysManager.bkgPosSystem.scrollType == 1 || sysManager.bkgPosSystem.scrollType == 2)
             {
                 System.Reflection.Assembly myAssembly = System.Reflection.Assembly.GetExecutingAssembly();
                 System.IO.Stream myStream = myAssembly.GetManifestResourceStream(imageAddress);
@@ -353,7 +394,7 @@ namespace RunningGame
 
                 float multiplier = 0.5f;
 
-                while (w > levelWidth || h > levelHeight)
+                while (w > levelWidth || (h > levelHeight && sysManager.bkgPosSystem.scrollType == 1))
                 {
                     w *= multiplier;
                     h *= multiplier;
@@ -403,11 +444,8 @@ namespace RunningGame
 
         public void Close()
         {
-            Console.WriteLine("Removing Entities");
             removeAllEntities();
-            Console.WriteLine("Removed. Removing Starting Entities");
             GlobalVars.removedStartingEntities.Clear();
-            Console.WriteLine("Removed.");
         }
 
     }

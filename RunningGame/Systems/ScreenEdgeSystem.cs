@@ -54,24 +54,31 @@ namespace RunningGame.Systems
                 ScreenEdgeComponent scrEdgComp = (ScreenEdgeComponent)e.getComponent(GlobalVars.SCREEN_EDGE_COMPONENT_NAME);
 
 
-                //Intersect sides of screen check (Stop)
+                //Intersect sides of screen check
                 if (scrEdgComp.right == 1 && posComp.x + posComp.width / 2 >= level.levelWidth && velComp.x > 0) stopRight(posComp, velComp);
                 if (scrEdgComp.left == 1 && posComp.x - posComp.width / 2 <= 0 && velComp.x < 0) stopLeft(posComp, velComp);
                 if (scrEdgComp.down == 1 && posComp.y + posComp.height / 2 >= level.levelHeight && velComp.y > 0) stopDown(posComp, velComp);
                 if (scrEdgComp.up == 1 && posComp.y - posComp.height / 2 <= 0 && velComp.y < 0) stopUp(posComp, velComp);
 
 
-                //Off sides of screen check (Wrap)
-                if (posComp.x > level.levelWidth + posComp.width && velComp.x > 0)
+                //Off sides of screen check
+                if (posComp.x > (level.levelWidth + posComp.width/2) && velComp.x > 0)
                 {
                     if (scrEdgComp.right == 2)
+                    {
                         wrapRight(posComp);
+                    }
                     else if (scrEdgComp.right == 3)
                     {
                         level.removeEntity(posComp.myEntity);
                     }
+                    else if (scrEdgComp.right == 4)
+                    {
+                        level.beginEndLevel();
+                        level.removeEntity(posComp.myEntity);
+                    }
                 }
-                if (posComp.x < -posComp.width && velComp.x < 0)
+                if (posComp.x < -posComp.width/2 && velComp.x < 0)
                 {
                     if(scrEdgComp.left == 2)
                         wrapLeft(posComp);
@@ -79,8 +86,13 @@ namespace RunningGame.Systems
                     {
                         level.removeEntity(posComp.myEntity);
                     }
+                    else if (scrEdgComp.left == 4)
+                    {
+                        level.beginEndLevel();
+                        level.removeEntity(posComp.myEntity);
+                    }
                 }
-                if (posComp.y > level.levelHeight + posComp.height && velComp.y > 0)
+                if (posComp.y > (level.levelHeight + posComp.height/2) && velComp.y > 0)
                 {
                     if(scrEdgComp.down == 2)
                         wrapDown(posComp);
@@ -88,13 +100,23 @@ namespace RunningGame.Systems
                     {
                         level.removeEntity(posComp.myEntity);
                     }
+                    else if (scrEdgComp.up == 4)
+                    {
+                        level.beginEndLevel();
+                        level.removeEntity(posComp.myEntity);
+                    }
                 }
-                if (posComp.y < -posComp.height && velComp.y < 0)
+                if (posComp.y < -posComp.height/2 && velComp.y < 0)
                 {
                     if(scrEdgComp.up == 2)
                         wrapUp(posComp);
                     else if (scrEdgComp.down == 3)
                     {
+                        level.removeEntity(posComp.myEntity);
+                    }
+                    else if (scrEdgComp.down == 4)
+                    {
+                        level.beginEndLevel();
                         level.removeEntity(posComp.myEntity);
                     }
                 }

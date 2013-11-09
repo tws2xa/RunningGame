@@ -101,8 +101,8 @@ namespace RunningGame.Entities
             //Health Component
             addComponent(new HealthComponent(100, true, 1, 0.5f));
 
-            //Screen Edge Stop/Wrap
-            addComponent(new ScreenEdgeComponent(1, 1, 1, 0));
+            //Screen Edge Stop/Wrap/End Level
+            addComponent(new ScreenEdgeComponent(1, 4, 1, 0));
 
         }
         

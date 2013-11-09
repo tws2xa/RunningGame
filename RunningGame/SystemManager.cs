@@ -79,11 +79,11 @@ namespace RunningGame
         public void Update(float deltaTime)
         {
             moveSystem.Update(deltaTime);
+            bkgPosSystem.Update(deltaTime);
             scrEdgeSystem.Update(deltaTime);
             playerSystem.Update(deltaTime);
             weapSystem.Update(deltaTime);
             colSystem.Update(deltaTime);
-            bkgPosSystem.Update(deltaTime);
             gravSystem.Update(deltaTime);
             drawSystem.Update(deltaTime);
             healthSystem.Update(deltaTime);

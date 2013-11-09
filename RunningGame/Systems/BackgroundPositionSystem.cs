@@ -21,6 +21,7 @@ namespace RunningGame.Systems
 
         //0 = no scroll, static background
         //1 = proportion method
+        //2 = proportion only horizontal
         public int scrollType = 0;
 
 
@@ -73,6 +74,31 @@ namespace RunningGame.Systems
                     if (posComp.x != bkgX || posComp.y != bkgY)
                     {
                         level.getMovementSystem().changePosition(posComp, bkgX, bkgY, false);
+                    }
+                }
+            }
+
+            //Proportion only horizontal
+            if (scrollType == 2)
+            {
+                foreach (Entity e in getApplicableEntities())
+                {
+                    PositionComponent posComp = (PositionComponent)e.getComponent(GlobalVars.POSITION_COMPONENT_NAME);
+
+                    float viewX = level.sysManager.drawSystem.mainView.x;
+                    float viewY = level.sysManager.drawSystem.mainView.y;
+
+                    float fractionInX = (viewX / level.levelWidth);
+
+                    float bkgX = (viewX - fractionInX * posComp.width);
+                    float bkgY = (viewY);
+
+                    bkgX += posComp.width / 2;
+                    bkgY += posComp.height / 2;
+
+                    if (posComp.x != bkgX || posComp.y != bkgY)
+                    {
+                        level.getMovementSystem().changePosition(posComp, bkgX, viewY+posComp.height/2, false);
                     }
                 }
             }

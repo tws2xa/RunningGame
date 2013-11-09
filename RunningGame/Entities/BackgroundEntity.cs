@@ -73,7 +73,7 @@ namespace RunningGame.Entities
         
         public override void revertToStartingState()
         {
-            //Stuff
+            //Noting
         }
 
     }
