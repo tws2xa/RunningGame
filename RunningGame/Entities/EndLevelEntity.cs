@@ -59,7 +59,7 @@ namespace RunningGame.Entities
              *You'll need to know the address for your image.
              *It'll probably be something along the lines of "RunningGame.Resources.[      ].png" ONLY png!!
              */
-            DrawComponent drawComp = (DrawComponent)addComponent(new DrawComponent(defaultWidth, defaultHeight, true));
+            DrawComponent drawComp = (DrawComponent)addComponent(new DrawComponent(defaultWidth, defaultHeight, level, true));
             drawComp.addSprite("RunningGame.Resources.WhiteSquare.png", "Main");
             drawComp.setSprite("Main");
 

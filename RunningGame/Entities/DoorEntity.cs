@@ -91,7 +91,7 @@ namespace RunningGame.Entities
              *You'll need to know the address for your image.
              *It'll probably be something along the lines of "RunningGame.Resources.[      ].png" or maybe .bmp
              */
-            DrawComponent drawComp = (DrawComponent)addComponent(new DrawComponent(defaultWidth, defaultHeight, true));
+            DrawComponent drawComp = (DrawComponent)addComponent(new DrawComponent(defaultWidth, defaultHeight, level, true));
             drawComp.addSprite("RunningGame.Resources.DoorClosed.png", GlobalVars.DOOR_CLOSED_SPRITE_NAME);
             drawComp.addSprite("RunningGame.Resources.DoorOpen.png", GlobalVars.DOOR_OPEN_SPRITE_NAME);
             drawComp.setSprite(GlobalVars.DOOR_CLOSED_SPRITE_NAME);

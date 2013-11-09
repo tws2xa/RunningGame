@@ -34,7 +34,7 @@ namespace RunningGame
         [NonSerialized] private Bitmap bufferImage;
         [NonSerialized] private Graphics dbGraphics;
 
-        public Game(Graphics winGraphics, int w, int h, string str, FormSpring frm)
+        public Game(Graphics winGraphics, int w, int h, string str, int world, int level, FormSpring frm)
         {
 
             this.frm = frm;
@@ -51,9 +51,9 @@ namespace RunningGame
             dbGraphics = Graphics.FromImage(bufferImage);
 
             if(str == null || str=="")
-                startLevel();
+                startLevel(world, level);
             else
-                startLevel(str);
+                startLevel(str, world, level);
 
 
             Thread gameThread = new Thread(new ThreadStart(Update));
@@ -62,16 +62,15 @@ namespace RunningGame
 
 
 
-        public void startLevel()
+        public void startLevel(int world, int level)
         {
             //HERE IS WHERE YOU SAY WHICH LEVEL TO LOAD
-            currentLevel = new Level(winWidth, winHeight, "RunningGame.Resources.Levels.PresentationLevelExtended.png", true, dbGraphics);
+            currentLevel = new Level(winWidth, winHeight, "RunningGame.Resources.Levels.PresentationLevelExtended.png", world, level , true, dbGraphics);
             //currentLevel = new Level(winWidth, winHeight, "RunningGame.Resources.Levels.Gigantor.png", true, dbGraphics);
         }
-        public void startLevel(string str)
+        public void startLevel(string str, int world, int level)
         {
-            //HERE IS WHERE YOU SAY WHICH LEVEL TO LOAD
-            currentLevel = new Level(winWidth, winHeight, str, true, dbGraphics);
+            currentLevel = new Level(winWidth, winHeight, str, world, level, true, dbGraphics);
         }
 
         void Update()

@@ -61,7 +61,7 @@ namespace RunningGame.Entities
             addComponent(new VelocityComponent(0, 0));
 
             //Draw component
-            DrawComponent drawComp = new DrawComponent((int)defaultWidth, (int)defaultHeight, false);
+            DrawComponent drawComp = new DrawComponent((int)defaultWidth, (int)defaultHeight, level, false);
             drawComp.addSprite("RunningGame.Resources.Player.png", rightImageName);
             drawComp.addSprite("RunningGame.Resources.Player.png", leftImageName);
             drawComp.rotateFlipSprite(leftImageName, RotateFlipType.RotateNoneFlipX);

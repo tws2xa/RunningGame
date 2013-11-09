@@ -36,6 +36,9 @@ namespace RunningGame
         public float levelHeight {get;set;}
         public bool paused = false; //Is the game paused?
 
+        public int worldNum; //Which world is it?
+        public int levelNum; //Which level in that world?
+
         public bool shouldEndLevel = false; //Should it end the level at the end of the frame?
 
         public float fps;
@@ -55,14 +58,19 @@ namespace RunningGame
 
         public Level() {}
 
-        public Level(float windowWidth, float windowHeight, string levelFile, bool isPaintFile, Graphics g)
+        public Level(float windowWidth, float windowHeight, string levelFile, int worldNum, int levelNum, bool isPaintFile, Graphics g)
         {
+
+            this.worldNum = worldNum;
+            this.levelNum = levelNum;
+
             if(isPaintFile)
                 initializePaint(windowWidth, windowHeight, levelFile, g);
-            else
-                initializeNotPaint(windowWidth, windowHeight, levelFile, g);
+            //else
+                //initializeNotPaint(windowWidth, windowHeight, levelFile, g);
         }
 
+        /*
         public void initializeNotPaint(float windowWidth, float windowHeight, string levelFile, Graphics g)
         {
             BinaryFormatter bf = new BinaryFormatter();
@@ -83,7 +91,7 @@ namespace RunningGame
 
             levelFullyLoaded = true;
 
-            /*
+            //
             for (int i = 2; i < ents.Count; i++)
             {
                 Entity oldEnt = (Entity)ents[i];
@@ -105,7 +113,7 @@ namespace RunningGame
                 newEnt.level = this;
                 addEntity(newEnt.randId, newEnt);
             }
-            */
+            //
 
 
             
@@ -121,7 +129,7 @@ namespace RunningGame
             addEntity(bkgEnt.randId, bkgEnt);
 
         }
-
+        */
         public void CopyFields(object oldObj, object newObj)
         {
             foreach (FieldInfo oldInfo in oldObj.GetType().GetFields(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance))

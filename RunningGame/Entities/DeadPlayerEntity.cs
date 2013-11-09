@@ -59,7 +59,7 @@ namespace RunningGame.Entities
             
             /*DRAW COMPONENT - Does it get drawn to the game world?
              */
-            DrawComponent drawComp = (DrawComponent)addComponent(new DrawComponent(defaultWidth, defaultHeight, true));
+            DrawComponent drawComp = (DrawComponent)addComponent(new DrawComponent(defaultWidth, defaultHeight, level, true));
             drawComp.addSprite("RunningGame.Resources.PlayerDead.png", "Main"); //Add image
             drawComp.setSprite("Main"); //Set image to active image
 

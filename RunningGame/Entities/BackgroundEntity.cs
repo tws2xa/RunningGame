@@ -58,7 +58,7 @@ namespace RunningGame.Entities
             
             /*DRAW COMPONENT
              */
-            DrawComponent drawComp = (DrawComponent)addComponent(new DrawComponent(defaultWidth, defaultHeight, true));
+            DrawComponent drawComp = (DrawComponent)addComponent(new DrawComponent(defaultWidth, defaultHeight, level, true));
             drawComp.addSprite("RunningGame.Resources.WhiteSquare.png", "Main");
             drawComp.setSprite("Main");
 

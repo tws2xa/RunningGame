@@ -124,6 +124,7 @@ namespace RunningGame
             return components.ContainsValue(comp);
         }
 
+
         public abstract void revertToStartingState();
     }
 }

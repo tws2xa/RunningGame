@@ -107,7 +107,7 @@ namespace RunningGame.Level_Editor
             
             /*DRAW COMPONENT - Does it get drawn to the game world?
              */
-            addComponent(new DrawComponent(myImg, "Main", myWidth, myHeight, true));
+            addComponent(new DrawComponent(myImg, "Main", myWidth, myHeight, level, true));
 
         }
         

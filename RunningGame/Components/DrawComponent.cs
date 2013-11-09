@@ -24,13 +24,16 @@ namespace RunningGame.Components
         public bool sizeLocked;
         public string activeSprite;
 
+        public Level level;
+
         //Try not to use this constructor
-        public DrawComponent(Bitmap img, String spriteName, float width, float height, bool sizeLocked)
+        public DrawComponent(Bitmap img, String spriteName, float width, float height, Level level, bool sizeLocked)
         {
             this.componentName = GlobalVars.DRAW_COMPONENT_NAME;
             this.width = width;
             this.height = height;
             this.sizeLocked = sizeLocked;
+            this.level = level;
 
             activeSprite = spriteName;
 
@@ -38,7 +41,7 @@ namespace RunningGame.Components
             images.Add(spriteName, newSprite);
         }
 
-        public DrawComponent(float width, float height, bool sizeLocked)
+        public DrawComponent(float width, float height, Level level, bool sizeLocked)
         {
 
 
@@ -46,6 +49,7 @@ namespace RunningGame.Components
             this.width = width;
             this.height = height;
             this.sizeLocked = sizeLocked;
+            this.level = level;
 
             /*
             Bitmap image = readInImage(spriteAddress);
@@ -198,6 +202,16 @@ namespace RunningGame.Components
                     sprite.images[i] = b;
                 }
             }
+        }
+
+        public string getImageFilePathName(string baseName)
+        {
+            string retStr = "RunningGame.Resources.";
+            retStr += baseName;
+            retStr += level.worldNum;
+            retStr += level.levelNum;
+            retStr += ".png";
+            return retStr;
         }
 
     }
