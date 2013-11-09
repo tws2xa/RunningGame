@@ -23,12 +23,13 @@ namespace RunningGame
         
         Bitmap img;
 
-        Color playerCol = Color.FromArgb(0, 0, 255); //Player is blue.
-        Color basicGroundCol = Color.FromArgb(0, 0, 0); //Basic Ground is black.
-        Color testEntityColor = Color.FromArgb(42, 42, 42); //Test entity is 42, 42, 42.
-        Color simpleEnemyColor = Color.FromArgb(255, 0, 0); //Enemies are red.
-        Color flyingEnemyColor = Color.FromArgb(255, 255, 0); //Flying enemies are yellow!
-        Color endLevelCol = Color.FromArgb(255, 255, 255); //End level is white
+        Color basicGroundCol    = Color.FromArgb(0, 0, 0); //Basic Ground is black.
+        Color playerCol         = Color.FromArgb(0, 0, 255); //Player is blue.
+        Color vertMovPlatCol    = Color.FromArgb(0, 255, 0); //Vertical Plafroms are green!
+        Color simpleEnemyColor  = Color.FromArgb(255, 0, 0); //Walking Enemies are red.
+        Color flyingEnemyColor  = Color.FromArgb(255, 255, 0); //Flying enemies are yellow!
+        Color endLevelCol       = Color.FromArgb(255, 255, 255); //End level is white
+        Color testEntityColor   = Color.FromArgb(42, 42, 42); //Test entity is 42, 42, 42.
 
         //Link doors with switches by giving them the same B
         //Permanent Switch - G = 255
@@ -181,6 +182,18 @@ namespace RunningGame
                         lvlEnd.isStartingEntity = true;
                         level.addEntity(lvlEnd.randId, lvlEnd);
                     }
+                    else if (col == vertMovPlatCol)
+                    {
+                        float xLoc = (levelX) * tileWidth;
+                        float yLoc = (levelY) * tileHeight;
+                        int id = rand.Next(Int32.MinValue, Int32.MaxValue);
+
+                        MovingPlatformEntity plat = new MovingPlatformEntity(level, id, xLoc, yLoc);
+                        adjustLocation(plat, level);
+                        
+                        plat.isStartingEntity = true;
+                        level.addEntity(plat);
+                    }
                 }
             }
 
@@ -204,7 +217,8 @@ namespace RunningGame
         public void adjustLocation(Entity e, Level level)
         {
             PositionComponent posComp = (PositionComponent)e.getComponent(GlobalVars.POSITION_COMPONENT_NAME);
-            level.getMovementSystem().teleportToNoCollisionCheck(posComp, posComp.x + posComp.width / 2, posComp.y + posComp.height / 2);           
+            level.getMovementSystem().teleportToNoCollisionCheck(posComp, posComp.x + posComp.width / 2, posComp.y + posComp.height / 2);
+            posComp.setCurrentLocToStartingLoc();
         }
 
     }

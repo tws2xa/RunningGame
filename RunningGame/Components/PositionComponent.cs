@@ -65,6 +65,13 @@ namespace RunningGame.Components
         }
 
 
+        //Sets the current location as the starting location
+        public void setCurrentLocToStartingLoc()
+        {
+            startingX = x;
+            startingY = y;
+        }
+
         //Returns an integer position as a Point
         public System.Drawing.Point getIntegerPoint()
         {

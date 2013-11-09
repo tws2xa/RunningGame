@@ -38,6 +38,7 @@ namespace RunningGame
         public PlayerWeaponSystem weapSystem;
         public SoundSystem sndSystem;
         public BackgroundPositionSystem bkgPosSystem;
+        public MovingPlatformSystem movPlatSystem;
 
         public SystemManager(Level level)
         {
@@ -69,6 +70,7 @@ namespace RunningGame
             sndSystem = new SoundSystem(level);
             bkgPosSystem = new BackgroundPositionSystem(level);
             debugSystem = new DebugSystem(level);
+            movPlatSystem = new MovingPlatformSystem(level);
 
         }
 
@@ -92,6 +94,7 @@ namespace RunningGame
             switchSystem.Update(deltaTime);
             spSystem.Update(deltaTime);
             simpEnemySystem.Update(deltaTime);
+            movPlatSystem.Update(deltaTime);
             sndSystem.Update(deltaTime);
             debugSystem.Update(deltaTime);
             
