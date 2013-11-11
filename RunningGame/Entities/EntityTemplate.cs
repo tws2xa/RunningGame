@@ -70,7 +70,9 @@ namespace RunningGame.Entities
              *Then set the image to the active image
              */
             //DrawComponent drawComp = (DrawComponent)addComponent(new DrawComponent(defaultWidth, defaultHeight, true));
-            //drawComp.addSprite("RunningGame.Resources.WhiteSquare.png", "Main"); //Add image
+            //Add image - Use base name for first parameter (everything in file path after Resources. and before the numbers and .png)
+            //Then second parameter is full filepath to a default image
+            //drawComp.addSprite("Artwork.Foreground.Grass", "RunningGame.Resources.Artwork.Foreground.Grass11.png", "Main");
             //drawComp.setSprite("Main"); //Set image to active image
 
             /* ANIMATION COMPONENT - Does it need animating?

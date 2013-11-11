@@ -360,7 +360,8 @@ namespace RunningGame
             DrawComponent drawComp = (DrawComponent)bkgEnt.getComponent(GlobalVars.DRAW_COMPONENT_NAME);
             PositionComponent posComp = (PositionComponent)bkgEnt.getComponent(GlobalVars.POSITION_COMPONENT_NAME);
 
-            string imageAddress = "RunningGame.Resources.Artwork.Background.DesaturatedBkg1.png";
+            string fullImageAddress = "RunningGame.Resources.Artwork.Background.Bkg11.png";
+            string imageStub = "Artwork.Background.Bkg";
 
             //Static Background
             if (sysManager.bkgPosSystem.scrollType == 0)
@@ -389,11 +390,12 @@ namespace RunningGame
                 }
             }
 
+            /*
             //Proportion Scrolling
             if (sysManager.bkgPosSystem.scrollType == 1 || sysManager.bkgPosSystem.scrollType == 2)
             {
                 System.Reflection.Assembly myAssembly = System.Reflection.Assembly.GetExecutingAssembly();
-                System.IO.Stream myStream = myAssembly.GetManifestResourceStream(imageAddress);
+                // THIS WONT WORK BECAUSE IT"S GETTING THE DEFAULT IMAGE NOT IMAGE STUB System.IO.Stream myStream = myAssembly.GetManifestResourceStream(fullImageAddress);
                 Bitmap sprite = new Bitmap(myStream); //Getting an error here? Did you remember to make your image an embedded resource?
                 myStream.Close();
 
@@ -411,9 +413,9 @@ namespace RunningGame
                 getMovementSystem().changeSize(posComp, w, h);
 
             }
-
-
-            drawComp.addSprite(imageAddress, "MainBkg");
+            */
+            
+            drawComp.addSprite(imageStub, fullImageAddress, "MainBkg");
             drawComp.setSprite("MainBkg");
 
             bkgEnt.isStartingEntity = true;

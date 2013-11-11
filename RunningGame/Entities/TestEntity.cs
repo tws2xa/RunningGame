@@ -48,20 +48,8 @@ namespace RunningGame.Entities
             
             //Draw component
             DrawComponent drawComp = (DrawComponent)addComponent(new DrawComponent(defaultWidth, defaultHeight, level, true));
-            //drawComp.addSprite("RunningGame.Resources.WhiteSquare.png", "Main");
-            drawComp.addSprite("RunningGame.Resources.OrangeSquare.png", "Main");
-
-            ArrayList testAnimationList = new ArrayList
-            {
-                "RunningGame.Resources.WhiteSquare.png", "RunningGame.Resources.DirtSquare.png",
-                "RunningGame.Resources.GrassSquare.png", "RunningGame.Resources.Player.png"
-            };
-
-            drawComp.addAnimatedSprite(testAnimationList, testAnimationName);
-            //drawComp.activeSprite = testAnimationName;
+            drawComp.addSprite("Artwork.Other.WhiteSquare", "RunningGame.Resources.Artwork.Other.WhiteSquare.png", "Main");
             drawComp.setSprite("Main");
-
-            //AnimationComponent animComp = (AnimationComponent)addComponent(new AnimationComponent(0.5f));
 
             //Velocity Component
             addComponent(new VelocityComponent(0, 0));

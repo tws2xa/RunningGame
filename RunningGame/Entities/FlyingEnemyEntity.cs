@@ -15,8 +15,8 @@ namespace RunningGame.Entities
 
         public float defaultWidth = 40;
         public float defaultHeight = 30;
-        public string leftImageName = "EnemyWalkLeft";
-        public string rightImageName = "EnemyRightLeft";
+        public string leftImageName = "EnemyFlyLeft";
+        public string rightImageName = "EnemyFlyRight";
 
         //-------------------------------------------Constructors--------------------------------------------
 
@@ -54,17 +54,24 @@ namespace RunningGame.Entities
 
             ArrayList enemyAnimation = new ArrayList()
             {
-                "RunningGame.Resources.FlyingEnemy1.png",
-                "RunningGame.Resources.FlyingEnemy2.png",
-                "RunningGame.Resources.FlyingEnemy1.png",
-                "RunningGame.Resources.FlyingEnemy3.png",
+                "Artwork.Creatures.FlyingEnemy1",
+                "Artwork.Creatures.FlyingEnemy2",
+                "Artwork.Creatures.FlyingEnemy1",
+                "Artwork.Creatures.FlyingEnemy3",
+            };
+            List<string> enemyAnimDefaults = new List<string>()
+            {
+                "RunningGame.Resources.Artwork.Creatures.FlyingEnemy111.png",
+                "RunningGame.Resources.Artwork.Creatures.FlyingEnemy211.png",
+                "RunningGame.Resources.Artwork.Creatures.FlyingEnemy111.png",
+                "RunningGame.Resources.Artwork.Creatures.FlyingEnemy311.png"
             };
 
 
-            drawComp.addAnimatedSprite(enemyAnimation, leftImageName);
+            drawComp.addAnimatedSprite(enemyAnimation, enemyAnimDefaults, leftImageName);
             drawComp.setSprite(leftImageName);
             
-            drawComp.addAnimatedSprite(enemyAnimation, rightImageName);
+            drawComp.addAnimatedSprite(enemyAnimation, enemyAnimDefaults, rightImageName);
             drawComp.rotateFlipSprite(rightImageName, System.Drawing.RotateFlipType.RotateNoneFlipX);
 
             /* ANIMATION COMPONENT - Does it need animating?

@@ -31,8 +31,8 @@ namespace RunningGame.Entities
             addComponent(new PositionComponent(x, y, defaultWidth, defaultHeight, this));
 
             //Draw component
-            DrawComponent drawComp = (DrawComponent)addComponent(new DrawComponent( defaultWidth, defaultHeight, level, true));
-            drawComp.addSprite("RunningGame.Resources.BlockSquare.png", "Main");
+            DrawComponent drawComp = (DrawComponent)addComponent(new DrawComponent(defaultWidth, defaultHeight, level, true));
+            drawComp.addSprite("Artwork.Foreground.BlockSquare", "RunningGame.Resources.Artwork.Foreground.BlockSquare.png", "Main");
             drawComp.setSprite("Main");
            
 

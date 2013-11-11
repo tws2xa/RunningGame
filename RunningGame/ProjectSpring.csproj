@@ -121,6 +121,11 @@
     <Compile Include="Level Editor\FieldInfoListItem.cs" />
     <Compile Include="Level Editor\ProtoEntity.cs" />
     <Compile Include="Level Editor\ProtoEntitySystem.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Systems\BackgroundPositionSystem.cs" />
     <Compile Include="Systems\MovingPlatformSystem.cs" />
     <Compile Include="Systems\PlayerWeaponSystem.cs" />
@@ -173,14 +178,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
-    </Compile>
     <None Include="ProjectSpring_1_TemporaryKey.pfx" />
     <None Include="ProjectSpring_TemporaryKey.pfx" />
     <None Include="Properties\Settings.settings">
@@ -197,20 +197,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\DirtSquare.png" />
-    <EmbeddedResource Include="Resources\TestLevelNoBorder.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Resources\TestLevelLarge.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Resources\TestLevelMidLength.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\Dirt11.png" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\Levels\PresentationLevel.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Resources\TestEntityLevel.png" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5">
@@ -230,107 +220,80 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\SwitchOff.png" />
-    <EmbeddedResource Include="Resources\SwitchOn.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\DoorOpen11.png" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\DoorOpen.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\DoorClosed11.png" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\DoorClosed.png" />
+    <EmbeddedResource Include="Resources\Artwork\Creatures\Player111.png" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\GrassSquare.png" />
-    <EmbeddedResource Include="Resources\Player.png" />
+    <EmbeddedResource Include="Resources\Artwork\Creatures\Player211.png" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\PlayerEyesClosed.png" />
+    <EmbeddedResource Include="Resources\Artwork\Other\WhiteSquare.png" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\WhiteSquare.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\BlockSquare.png" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\BlockSquare.png" />
-    <EmbeddedResource Include="Resources\EnemyLevel.png" />
+    <EmbeddedResource Include="Resources\Artwork\Creatures\OldEnemy111.png" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\Enemy1.png" />
+    <EmbeddedResource Include="Resources\Artwork\Creatures\OldEnemy211.png" />
+    <EmbeddedResource Include="Resources\Artwork\Creatures\OldEnemy311.png" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\Enemy2.png" />
-    <EmbeddedResource Include="Resources\Enemy3.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\PaintBlob11.png" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\PaintBlobSimple.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Resources\LevelBackgrounds\BackgroundWorld13.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Resources\DirtSquarePurple.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Resources\GrassSquarePurple.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Resources\FlyingEnemy1.png" />
-    <EmbeddedResource Include="Resources\FlyingEnemy2.png" />
-    <EmbeddedResource Include="Resources\FlyingEnemy3.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Resources\EnemyLevel2.png" />
+    <EmbeddedResource Include="Resources\Artwork\Creatures\FlyingEnemy111.png" />
+    <EmbeddedResource Include="Resources\Artwork\Creatures\FlyingEnemy211.png" />
+    <EmbeddedResource Include="Resources\Artwork\Creatures\FlyingEnemy311.png" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\Sounds\boop.wav" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\EnemyLevel3.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\Grass61.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\Grass11.png" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\ActualDirtSquarePurple.png" />
-    <EmbeddedResource Include="Resources\ActualGrassSquare.png" />
-    <EmbeddedResource Include="Resources\ActualGrassSquarePurple.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\buttonDown11.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\buttonUp11.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\switchUp11.png" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\buttonPurpleDown.png" />
-    <EmbeddedResource Include="Resources\buttonPurpleUp.png" />
-    <EmbeddedResource Include="Resources\switchPurpleLeft.png" />
-    <EmbeddedResource Include="Resources\switchPurpleRight.png" />
-    <EmbeddedResource Include="Resources\switchPurpleUp.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Resources\LightGrassSquarePurple.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Resources\switchPurpleRight2.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Resources\OrangeSquare.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\switchRight11.png" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\Levels\PresentationLevelExtended.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\Artwork\Other\Concept Art.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Artwork\Creatures\PlayerDead11.png" />
+  </ItemGroup>
+  <ItemGroup>
     <None Include="Resources\Concept Art.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\PlayerDead.png" />
+    <EmbeddedResource Include="Resources\Artwork\Background\Bkg11.png" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Resources\Artwork\Other\" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Resources\Artwork\Background\DesaturatedBkg1.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Resources\Artwork\Foreground\enemy1.png" />
-    <EmbeddedResource Include="Resources\Artwork\Foreground\enemy2.png" />
+    <EmbeddedResource Include="Resources\Artwork\Creatures\Enemy111.png" />
+    <EmbeddedResource Include="Resources\Artwork\Creatures\Enemy211.png" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\Levels\Gigantor.png" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\Levels\Tutorial.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Artwork\Foreground\Dirt61.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

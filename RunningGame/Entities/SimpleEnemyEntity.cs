@@ -56,17 +56,20 @@ namespace RunningGame.Entities
 
             ArrayList enemyAnimation = new ArrayList()
             {
-                "RunningGame.Resources.Artwork.Foreground.enemy1.png",
-                "RunningGame.Resources.Artwork.Foreground.enemy2.png",
-                //"RunningGame.Resources.Enemy1.png",
-                //"RunningGame.Resources.Enemy3.png",
+                "Artwork.Creatures.Enemy1",
+                "Artwork.Creatures.Enemy2",
             };
 
+            List<string> enemyAnimDefaults = new List<string>()
+            {
+                "RunningGame.Resources.Artwork.Creatures.Enemy111.png",
+                "RunningGame.Resources.Artwork.Creatures.Enemy211.png"
+            };
 
-            drawComp.addAnimatedSprite(enemyAnimation, leftImageName);
+            drawComp.addAnimatedSprite(enemyAnimation, enemyAnimDefaults, leftImageName);
             drawComp.setSprite(leftImageName);
             
-            drawComp.addAnimatedSprite(enemyAnimation, rightImageName);
+            drawComp.addAnimatedSprite(enemyAnimation, enemyAnimDefaults, rightImageName);
             drawComp.rotateFlipSprite(rightImageName, System.Drawing.RotateFlipType.RotateNoneFlipX);
 
             /* ANIMATION COMPONENT - Does it need animating?

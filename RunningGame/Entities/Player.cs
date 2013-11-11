@@ -62,22 +62,30 @@ namespace RunningGame.Entities
 
             //Draw component
             DrawComponent drawComp = new DrawComponent((int)defaultWidth, (int)defaultHeight, level, false);
-            drawComp.addSprite("RunningGame.Resources.Player.png", rightImageName);
-            drawComp.addSprite("RunningGame.Resources.Player.png", leftImageName);
+
+            drawComp.addSprite("Artwork.Creatures.Player1", "RunningGame.Resources.Artwork.Creatures.Player111.png", rightImageName);
+            drawComp.addSprite("Artwork.Creatures.Player1", "RunningGame.Resources.Artwork.Creatures.Player111.png", leftImageName);
             drawComp.rotateFlipSprite(leftImageName, RotateFlipType.RotateNoneFlipX);
             addComponent(drawComp);
-
+            
+            
             ArrayList blinkAnimation = new ArrayList
             {
-                "RunningGame.Resources.Player.png",
-                "RunningGame.Resources.PlayerEyesClosed.png"
+                "Artwork.Creatures.Player1",
+                "Artwork.Creatures.Player2"
             };
-            drawComp.addAnimatedSprite(blinkAnimation, blinkRight);
-            drawComp.addAnimatedSprite(blinkAnimation, blinkLeft);
+            List<string> blinkDefaults = new List<string>()
+            {
+                "RunningGame.Resources.Artwork.Creatures.Player111.png",
+                "RunningGame.Resources.Artwork.Creatures.Player211.png"
+            };
+
+            drawComp.addAnimatedSprite(blinkAnimation, blinkDefaults, blinkRight);
+            drawComp.addAnimatedSprite(blinkAnimation, blinkDefaults, blinkLeft);
 
             drawComp.rotateFlipSprite(blinkLeft, RotateFlipType.RotateNoneFlipX);
 
-            drawComp.setSprite(blinkRight);
+            Console.WriteLine(drawComp.activeSprite);
 
             //Animation Component
             AnimationComponent animComp = (AnimationComponent)addComponent(new AnimationComponent(0.0005f));

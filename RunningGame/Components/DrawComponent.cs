@@ -14,6 +14,8 @@ namespace RunningGame.Components
     public class DrawComponent : Component
     {
 
+        //public string defaultImageName = "defaultImageName";
+
         //May or may not need graphics depending on how the Drawing System works
         //public Bitmap sprite {get; set;}
         //public Dictionary<string, Sprite> images = new Dictionary<string, Sprite>();
@@ -37,10 +39,13 @@ namespace RunningGame.Components
 
             activeSprite = spriteName;
 
+            
             Sprite newSprite = new Sprite(spriteName, img);
             images.Add(spriteName, newSprite);
+            
         }
 
+        //Default image is the address of the image shown if the other images can't be found
         public DrawComponent(float width, float height, Level level, bool sizeLocked)
         {
 
@@ -51,33 +56,41 @@ namespace RunningGame.Components
             this.sizeLocked = sizeLocked;
             this.level = level;
 
+            
+            //Bitmap image = readInImage(defaultImage);
+
             /*
-            Bitmap image = readInImage(spriteAddress);
-
-            activeSprite = spriteName;
-
-            Sprite newSprite = new Sprite(spriteName, image);
-            images.Add(spriteName, newSprite);
-            */
+            Sprite newSprite = new Sprite(defaultImageName, image);
+            images.Add(defaultImageName, newSprite);
+             * */
+            
         }
 
-        public void addSprite(string spriteAddress, string spriteName)
+        public void addSprite(string baseName, string defaultFileName, string spriteName)
         {
-            Bitmap image = readInImage(spriteAddress);
+            Bitmap image = readInImage(getImageFilePathName(baseName));
+
+            if (image == null) image = readInImage(defaultFileName);
+
+            if (image == null) Console.WriteLine("Error: Null image for " + spriteName + " baseName: " + baseName + " defaultFile: " + defaultFileName);
 
             Sprite spr = new Sprite(spriteName, image);
 
             images.Add(spriteName, spr);
         }
 
-        public void addAnimatedSprite(ArrayList addresses, string spriteName)
+        public void addAnimatedSprite(ArrayList baseAddresses, List<string> defaultAddresses, string spriteName)
         {
             ArrayList newImages = new ArrayList();
-
-            foreach (string str in addresses)
+            int i = 0;
+            foreach (string str in baseAddresses)
             {
-                Bitmap img = readInImage(str);
+                Bitmap img = readInImage(getImageFilePathName(str));
+
+                if (img == null) img = readInImage(defaultAddresses[i]);
+
                 newImages.Add(img);
+                i++;
             }
 
             Sprite spr = new Sprite(spriteName, newImages);
@@ -96,6 +109,9 @@ namespace RunningGame.Components
             {
                 System.Reflection.Assembly myAssembly = System.Reflection.Assembly.GetExecutingAssembly();
                 System.IO.Stream myStream = myAssembly.GetManifestResourceStream(imageAddress);
+
+                if (myStream == null) return null;
+
                 Bitmap sprite = new Bitmap(myStream); //Getting an error here? Did you remember to make your image an embedded resource?
                 myStream.Close();
 

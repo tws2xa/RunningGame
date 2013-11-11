@@ -60,7 +60,7 @@ namespace RunningGame.Entities
              *It'll probably be something along the lines of "RunningGame.Resources.[      ].png" ONLY png!!
              */
             DrawComponent drawComp = (DrawComponent)addComponent(new DrawComponent(defaultWidth, defaultHeight, level, true));
-            drawComp.addSprite("RunningGame.Resources.WhiteSquare.png", "Main");
+            drawComp.addSprite("Artwork.Other.WhiteSquare", "RunningGame.Resources.Artwork.Other.WhiteSquare.png", "Main");
             drawComp.setSprite("Main");
 
             /* ANIMATION COMPONENT - Does it need animating?
