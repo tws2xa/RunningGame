@@ -85,7 +85,7 @@ namespace RunningGame.Entities
 
             drawComp.rotateFlipSprite(blinkLeft, RotateFlipType.RotateNoneFlipX);
 
-            Console.WriteLine(drawComp.activeSprite);
+            drawComp.setSprite(blinkRight);
 
             //Animation Component
             AnimationComponent animComp = (AnimationComponent)addComponent(new AnimationComponent(0.0005f));
