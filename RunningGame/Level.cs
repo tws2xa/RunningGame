@@ -345,7 +345,9 @@ namespace RunningGame
         public virtual void removeEntity(Entity e)
         {
             if (e.hasComponent(GlobalVars.COLLIDER_COMPONENT_NAME))
+            {
                 getCollisionSystem().colliderRemoved(e);
+            }
             if (GlobalVars.allEntities.ContainsKey(e.randId))
             {
                 if (e.isStartingEntity)

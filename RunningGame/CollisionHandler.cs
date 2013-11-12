@@ -47,7 +47,7 @@ namespace RunningGame
             Func<Entity, Entity, bool> playerSwitchCollisonFunction = switchFlipCollision;
             Func<Entity, Entity, bool> playerEnemyCollisionFunction = enemyPlayerCollision;
             Func<Entity, Entity, bool> bulletNonEnemyCollisionFunction = bulletNonEnemyCollision;
-            Func<Entity, Entity, bool> bulletEnemyCollisionFunction = bulletEnemyCollision;
+            Func<Entity, Entity, bool> bulletEnemyCollisionFunction = DestroyBothCollision;
             Func<Entity, Entity, bool> endLevelCollisionFunction = endLevelCollision;
             Func<Entity, Entity, bool> doNothingCollisionFunction = doNothingCollision;
             Func<Entity, Entity, bool> otherPlatformCollisionFunction = platformOtherCollision;
@@ -279,12 +279,11 @@ namespace RunningGame
         }
 
         //When an enemy collides with a bullet
-        public bool bulletEnemyCollision(Entity e1, Entity e2)
+        public bool DestroyBothCollision(Entity e1, Entity e2)
         {
             //Remove both the enemy and the bullet
             level.removeEntity(e1);
             level.removeEntity(e2);
-
             return false;
         }
 

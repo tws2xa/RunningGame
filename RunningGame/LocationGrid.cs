@@ -78,10 +78,10 @@ namespace RunningGame
 
         public void removeEntity(Entity e, float prevX, float prevY, float prevWidth, float prevHeight)
         {
-            //foreach (ArrayList list in grid.Values)
-            //    list.Remove(e);
+            foreach (ArrayList list in grid.Values)
+                list.Remove(e);
 
-            
+            /*
             foreach (RectangleF rect in getIntersectingRectangles(prevX, prevY, prevWidth, prevHeight))
             {
                 
@@ -94,10 +94,10 @@ namespace RunningGame
                 //    }
                 //    Console.WriteLine("LocGrid. Size:  " + grid[rect].Count + " " + str);
                 // }
-                
+                if (!grid[rect].Contains(e)) Console.WriteLine("Trying to remove nonexistant " + e);
                 grid[rect].Remove(e);
             }
-            
+            */
         }
 
         public void removeStationaryEntity(Entity e)
