@@ -87,7 +87,7 @@ namespace RunningGame
                 
                 //if(!grid[rect].Contains(e)) {
                 //    Console.WriteLine("LocGrid Doesn't contain " + e);
-                //    String str = "";
+                //    string str = "";
                 //    foreach (Entity ent in grid[rect])
                 //    {
                 //        str += (": " + ent + " :");
@@ -298,7 +298,7 @@ namespace RunningGame
                 level.removeEntity(e);
             }
             /*
-            String str = "";
+            string str = "";
             foreach (Entity ent in grid[rect])
             {
                 str += (": " + ent + " :");

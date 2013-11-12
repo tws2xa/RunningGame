@@ -58,7 +58,7 @@ namespace RunningGame
         }
          
 
-        public override String ToString()
+        public override string ToString()
         {
             return ("Entity - " + this.GetType() + " - ID: " + randId);
         }

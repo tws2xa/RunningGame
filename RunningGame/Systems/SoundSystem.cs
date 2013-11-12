@@ -46,7 +46,7 @@ namespace RunningGame.Systems
 
         //Here put any helper methods or really anything else you may want.
         //You may find it handy to have methods here that other systems can access.
-        public void playSound(String soundLocation, bool loop)
+        public void playSound(string soundLocation, bool loop)
         {
             System.IO.Stream stream = System.Reflection.Assembly.GetExecutingAssembly().GetManifestResourceStream(soundLocation);
             SoundPlayer player = new SoundPlayer(stream);

@@ -29,7 +29,7 @@ namespace RunningGame.Components
         public Level level;
 
         //Try not to use this constructor
-        public DrawComponent(Bitmap img, String spriteName, float width, float height, Level level, bool sizeLocked)
+        public DrawComponent(Bitmap img, string spriteName, float width, float height, Level level, bool sizeLocked)
         {
             this.componentName = GlobalVars.DRAW_COMPONENT_NAME;
             this.width = width;

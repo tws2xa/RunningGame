@@ -129,7 +129,7 @@ namespace RunningGame
         {
 
             //Basically puts the names in alphabetical order (I think) and combines them into one string.
-            int num = String.CompareOrdinal(type1, type2); //?
+            int num = string.CompareOrdinal(type1, type2); //?
             if (num < 0)
                 return (type1 + "" + type2);
             else

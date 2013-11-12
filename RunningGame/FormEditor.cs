@@ -313,7 +313,7 @@ namespace RunningGame
 
             creationGame.getCurrentLevel().paused = true; //STAHP THE GAEM!
 
-            String fileName = txtFileName.Text + ".bin";
+            string fileName = txtFileName.Text + ".bin";
 
             //XmlSerializer serializer = new XmlSerializer(typeof(List<Entity>));
             //StreamWriter stream = new StreamWriter(fileName);

@@ -14,7 +14,7 @@ namespace RunningGame.Components
         public bool playSound { get; set; }
         public SoundPlayer player;
 
-        public SoundComponent(String soundLocation, bool playSound)
+        public SoundComponent(string soundLocation, bool playSound)
         {
             this.componentName = GlobalVars.SOUND_COMPONENT_NAME;
             this.soundLocation = soundLocation;
@@ -23,7 +23,7 @@ namespace RunningGame.Components
 
         }
 
-        public void setSound(String soundLocation)
+        public void setSound(string soundLocation)
         {
             player.SoundLocation = soundLocation;
             player.Load();

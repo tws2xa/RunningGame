@@ -23,7 +23,7 @@ namespace RunningGame
 
         public abstract void Update(float deltaTime);
 
-        public abstract ArrayList getRequiredComponents(); //String names of all required components (Use GlobalVars script to get the names)
+        public abstract ArrayList getRequiredComponents(); //string names of all required components (Use GlobalVars script to get the names)
 
 
         //Returns a list of all entities with required components
@@ -42,7 +42,7 @@ namespace RunningGame
                         {
 
                             bool addEntity = true;
-                            foreach (String c in getRequiredComponents())
+                            foreach (string c in getRequiredComponents())
                             {
                                 //If there is a single missing component - don't add.
                                 if (!e.hasComponent(c))
