@@ -127,6 +127,11 @@ namespace RunningGame.Entities
             HealthComponent healthComp = (HealthComponent)this.getComponent(GlobalVars.HEALTH_COMPONENT_NAME);
             healthComp.restoreHealth();
 
+            if (!hasComponent(GlobalVars.PLAYER_INPUT_COMPONENT_NAME))
+            {
+                addComponent(new PlayerInputComponent(this));
+            }
+
         }
         
 

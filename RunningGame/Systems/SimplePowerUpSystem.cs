@@ -100,8 +100,7 @@ namespace RunningGame.Systems
         public void Grapple()
         {
             PositionComponent playerPos = (PositionComponent)level.getPlayer().getComponent(GlobalVars.POSITION_COMPONENT_NAME);
-            //if (level.sysManager.grapLinkSystem.isGrappling) return; //Don't grapple if there's already a grapple in place
-
+            
             //Get the direction
             double dir = 0;
 
@@ -122,6 +121,9 @@ namespace RunningGame.Systems
             //Add the entity
             GrappleEntity grap = new GrappleEntity(level, new Random().Next(), playerPos.x, playerPos.y, dir);
             level.addEntity(grap);
+            VelocityComponent velComp = (VelocityComponent)level.getPlayer().getComponent(GlobalVars.VELOCITY_COMPONENT_NAME);
+            velComp.x = 0;
+            level.getPlayer().removeComponent(GlobalVars.PLAYER_INPUT_COMPONENT_NAME);
         }
 
         public void glide()

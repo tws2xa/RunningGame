@@ -92,7 +92,7 @@ namespace RunningGame.Systems
                         if (isGrappleableEntity(grapComp.getFirstPoint(), grapComp.getLastPoint()))
                         {
                             //If it DID intersect something, destroy the grapple.
-                            finishGrapple(e);
+                            finishGrapple(e, false);
                             return;
                         }
                     }
@@ -148,7 +148,7 @@ namespace RunningGame.Systems
 
                     if (Math.Abs(playerPos.x - grapComp.getFirstPoint().X) > buff || Math.Abs(playerPos.y - grapComp.getFirstPoint().Y) > buff)
                     {
-                        finishGrapple(e);
+                        finishGrapple(e, true);
                     }
 
                     double distBefore = getDist(playerPos.getPointF(), grapComp.getLastPoint());
@@ -167,7 +167,7 @@ namespace RunningGame.Systems
                     //Check to make sure the player isn't getting further away. If he is, sthap!
                     if (getDist(p, grapComp.getLastPoint()) > distBefore)
                     {
-                        finishGrapple(e);
+                        finishGrapple(e, true);
                         return;
                     }
 
@@ -176,7 +176,7 @@ namespace RunningGame.Systems
                     float buffer = GlobalVars.MIN_TILE_SIZE;
                     if (Math.Abs(newX - grapComp.getLastPoint().X ) <= buffer && Math.Abs(newY - grapComp.getLastPoint().Y) <= buffer)
                     {
-                        finishGrapple(e);
+                        finishGrapple(e, true);
                         return;
                     }
 
@@ -194,6 +194,8 @@ namespace RunningGame.Systems
 
                     float h = retreatSpeed * deltaTime;
 
+                    if (h > distBefore) h = (float)distBefore;
+
                     newX += h * (float)Math.Cos(grapComp.direction+Math.PI);
                     newY += h * (float)Math.Sin(grapComp.direction+Math.PI);
 
@@ -202,7 +204,7 @@ namespace RunningGame.Systems
                     //Make sure it isn't getting longer
                     if (getDist(p, grapComp.getFirstPoint()) > distBefore)
                     {
-                        finishGrapple(e);
+                        finishGrapple(e, false);
                         return;
                     }
 
@@ -210,7 +212,7 @@ namespace RunningGame.Systems
                     float buffer = GlobalVars.MIN_TILE_SIZE;
                     if (Math.Abs(newX - grapComp.getFirstPoint().X) <= buffer && Math.Abs(newY - grapComp.getFirstPoint().Y) <= buffer)
                     {
-                        finishGrapple(e);
+                        finishGrapple(e, false);
                         return;
                     }
 
@@ -248,13 +250,22 @@ namespace RunningGame.Systems
             return false;
         }
 
-        public void finishGrapple(Entity grapple)
+        public void finishGrapple(Entity grapple, bool stopPlayer)
         {
-            VelocityComponent velComp = (VelocityComponent)level.getPlayer().getComponent(GlobalVars.VELOCITY_COMPONENT_NAME);
 
-            velComp.x = 0;
-            velComp.y = 0;
+            if (!level.getPlayer().hasComponent(GlobalVars.PLAYER_INPUT_COMPONENT_NAME))
+            {
+                PlayerInputComponent plInComp= (PlayerInputComponent)level.getPlayer().addComponent(new PlayerInputComponent(level.getPlayer()));
+                plInComp.passedAirjumps = 0;
+            }
 
+            if (stopPlayer)
+            {
+                VelocityComponent velComp = (VelocityComponent)level.getPlayer().getComponent(GlobalVars.VELOCITY_COMPONENT_NAME);
+
+                velComp.x = 0;
+                velComp.y = 0;
+            }
             level.removeEntity(grapple);
             return;
         }
