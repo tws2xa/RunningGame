@@ -189,7 +189,20 @@ namespace RunningGame
             float lowerY = Math.Min(y1, y2);
             float higherY = Math.Max(y1, y2);
 
-            
+
+            double theta = Math.Atan((higherY - lowerY) / (higherX - lowerX));
+
+            float checkX = lowerX;
+            float checkY = lowerY;
+
+            while (checkX <= lowerX && checkY <= lowerY)
+            {
+                retList = mergeArrayLists(retList, findObjectsAtPoint(checkX, checkY));
+                checkX += skipNum * (float)Math.Cos(theta);
+                checkY += skipNum * (float)Math.Sin(theta);
+            }
+
+            /*
             for (float x = lowerX; x <= higherX; x += skipNum)
             {
                 for (float y = lowerY; y <= higherY; y += skipNum)
@@ -197,6 +210,7 @@ namespace RunningGame
                     retList = mergeArrayLists(retList, findObjectsAtPoint(x, y));
                 }
             }
+             * */
             
             return retList;
 
@@ -260,7 +274,10 @@ namespace RunningGame
         {
             foreach (Object o in a2)
             {
-                a1.Add(o);
+                if(!(a1.Contains(o)))
+                {
+                    a1.Add(o);
+                }
             }
 
             return a1;
@@ -292,19 +309,19 @@ namespace RunningGame
         {
             
             RectangleF rect = getRectangleWithPoint(x, y);
-            Array ents = grid[rect].ToArray();
+            /*Array ents = grid[rect].ToArray();
             foreach (Entity e in ents)
             {
                 level.removeEntity(e);
-            }
-            /*
+            }*/
+            
             string str = "";
             foreach (Entity ent in grid[rect])
             {
                 str += (": " + ent + " :");
             }
             Console.WriteLine("LocGrid. Size:  " + grid[rect].Count + " " + str);
-            */
+            
         }
     }
 }

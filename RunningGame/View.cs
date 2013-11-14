@@ -37,6 +37,8 @@ namespace RunningGame
         float xBor { get; set; }
         float yBor { get; set; }
 
+        public Pen GrapplePen = new Pen(Brushes.Red, 3);
+
         public bool hasBorder = false;
         public Brush borderBrush = Brushes.Brown;
         public float borderSize = 2.0f;
@@ -110,6 +112,36 @@ namespace RunningGame
                     drawEntity(e);
                 }
             }
+
+            //If there's a grapple, draw it
+            if (level.sysManager.grapSystem.isGrappling)
+            {
+                foreach (Entity e in GlobalVars.allEntities.Values)
+                {
+                    if (e is GrappleEntity)
+                    {
+                        GrappleComponent grapComp = (GrappleComponent)e.getComponent(GlobalVars.GRAPPLE_COMPONENT_NAME);
+
+                        PointF start = grapComp.getFirstPoint();
+                        PointF end = grapComp.getLastPoint();
+
+                        // Calc the pos relative to the view
+                        start.X -= this.x;
+                        start.Y -= this.y;
+                        end.X -= this.x;
+                        end.Y -= this.y;
+
+                        start.X *= wRatio;
+                        start.Y *= hRatio;
+                        end.X *= wRatio;
+                        end.Y *= hRatio;
+
+                        g.DrawLine(GrapplePen, start, end);
+                        break; //Should only be one - this'll save some time.
+                    }
+                }
+            }
+
 
             //For all applicable entities (Entities with required components)
             foreach (Entity e in entities)

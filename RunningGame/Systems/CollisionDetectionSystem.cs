@@ -93,6 +93,11 @@ namespace RunningGame.Systems
             return locGrid.findObjectsAtPoint(x, y);
         }
 
+        public ArrayList findObjectsBetweenPoints(System.Drawing.PointF point1, System.Drawing.PointF point2)
+        {
+            return findObjectsBetweenPoints(point1.X, point1.Y, point2.X, point2.Y);
+        }
+
         public ArrayList findObjectsBetweenPoints(float x1, float y1, float x2, float y2)
         {
             return locGrid.findObjectsBetweenPoints(x1, y1, x2, y2);

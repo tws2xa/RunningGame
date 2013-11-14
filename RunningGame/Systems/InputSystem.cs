@@ -85,23 +85,24 @@ namespace RunningGame.Systems
                         b.up = false;
                     }
                 }
-                if (mouseLeftClick)
+            }
+
+            if (mouseLeftClick)
+            {
+                mouseLeftClickCounter++;
+                if (mouseLeftClickCounter > 0)
                 {
-                    mouseLeftClickCounter++;
-                    if (mouseLeftClickCounter > 1)
-                    {
-                        mouseLeftClickCounter = 0;
-                        mouseLeftClick = false;
-                    }
+                    mouseLeftClickCounter = 0;
+                    mouseLeftClick = false;
                 }
-                if (mouseRightClick)
+            }
+            if (mouseRightClick)
+            {
+                mouseRightClickCounter++;
+                if (mouseRightClickCounter > 0)
                 {
-                    mouseRightClickCounter++;
-                    if (mouseRightClickCounter > 1)
-                    {
-                        mouseRightClickCounter = 0;
-                        mouseRightClick = false;
-                    }
+                    mouseRightClickCounter = 0;
+                    mouseRightClick = false;
                 }
             }
         }

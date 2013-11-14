@@ -44,6 +44,7 @@ namespace RunningGame
         public static string OBJECT_LINK_COMPONENT_NAME = "objLinkedComponent";
         public static string BACKGROUND_COMPONENT_NAME = "backgroundComponent";
         public static string MOVING_PLATFORM_COMPONENT_NAME = "movPlatComponent";
+        public static string GRAPPLE_COMPONENT_NAME = "grappleComponent";
 
         //Collider Types
         public static string PLAYER_COLLIDER_TYPE = "playerCollider";
@@ -56,7 +57,7 @@ namespace RunningGame
         public static string SIMPLE_ENEMY_COLLIDER_TYPE = "simpleEnemyCollider";
         public static string BULLET_COLLIDER_TYPE = "bulletCollider";
         public static string END_LEVEL_COLLIDER_TYPE = "endLevelCollider";
-        public static string MOVING_PLATFORM_COLLIDER_TYPE = "movPlatCol";
+        public static string MOVING_PLATFORM_COLLIDER_TYPE = "movPlatCollider";
 
         //Collection of all in game entities
         public static Dictionary<int, Entity> allEntities = new Dictionary<int, Entity>();
@@ -93,5 +94,6 @@ namespace RunningGame
         public static float SIMPLE_ENEMY_H_SPEED = 50.0f;
         public static float BULLET_SPEED = 250.0f;
         public static float MOVING_PLATFORM_SPEED = 50.0f;
+        public static float MAX_GRAPPLE_DISTANCE = 300.0f; //Pixels
     }
 }

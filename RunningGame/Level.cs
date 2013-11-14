@@ -334,6 +334,7 @@ namespace RunningGame
             if (!GlobalVars.allEntities.ContainsKey(id))
             {
                 GlobalVars.allEntities.Add(id, e);
+
                 if (e.hasComponent(GlobalVars.COLLIDER_COMPONENT_NAME))
                     colliderAdded(e);
             }

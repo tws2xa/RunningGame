@@ -25,6 +25,8 @@ namespace RunningGame.Systems
 
         //addBlock information
         Keys blockSpawnKey = Keys.K;
+
+        //Grapple
        
         bool hasRunOnce = false; //Used to add keys once and only once. Can't in constructor because inputSystem not ready yet
        
@@ -72,6 +74,7 @@ namespace RunningGame.Systems
 
             }
 
+
             checkForInput();
         }
         //----------------------------------------------------------------------------------------------
@@ -79,10 +82,6 @@ namespace RunningGame.Systems
 
         public void checkForInput()
         {
-            /*if (level.getInputSystem().myKeys[glideKey].down)
-            {
-                glide();
-            }*/
             if (level.getInputSystem().myKeys[glideKey].down)
             {
                 glide();
@@ -91,6 +90,38 @@ namespace RunningGame.Systems
             {
                 blockSpawn();
             }
+            if (level.getInputSystem().mouseRightClick)
+            {
+                Grapple();
+            }
+        }
+
+
+        public void Grapple()
+        {
+            PositionComponent playerPos = (PositionComponent)level.getPlayer().getComponent(GlobalVars.POSITION_COMPONENT_NAME);
+            //if (level.sysManager.grapLinkSystem.isGrappling) return; //Don't grapple if there's already a grapple in place
+
+            //Get the direction
+            double dir = 0;
+
+
+            float mouseX = level.getInputSystem().mouseX + level.sysManager.drawSystem.mainView.x;
+            float mouseY = level.getInputSystem().mouseY + level.sysManager.drawSystem.mainView.y;
+
+            float xDiff = mouseX - playerPos.x;
+            float yDiff = mouseY - playerPos.y;
+
+            dir = Math.Atan(yDiff / xDiff);
+
+            if (mouseX < playerPos.x)
+            {
+                dir += Math.PI;
+            }
+
+            //Add the entity
+            GrappleEntity grap = new GrappleEntity(level, new Random().Next(), playerPos.x, playerPos.y, dir);
+            level.addEntity(grap);
         }
 
         public void glide()
