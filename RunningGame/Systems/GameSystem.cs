@@ -36,6 +36,8 @@ namespace RunningGame
             
             List<Entity> applicableEntities = new List<Entity>();
 
+           
+
             if (!GetActiveLevel().paused)
             {
                 try
@@ -77,12 +79,14 @@ namespace RunningGame
                     Console.WriteLine("Exception in get applicable entities: " + e);
                 }
             }
+
+
+            applicableEntities = applicableEntities.OrderBy(o => o.depth).ToList();
             return applicableEntities;
 
         }
 
-
-
+       
         public bool isInView(Entity e)
         {
 

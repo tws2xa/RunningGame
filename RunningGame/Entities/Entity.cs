@@ -23,7 +23,7 @@ namespace RunningGame
         [NonSerialized] public Level level;
         public bool isStartingEntity = false;
         public bool updateOutOfView = false;
-
+        public float depth = 10; /// lower numeric value means that higher depth priority
 
         Dictionary<string, Component> components = new Dictionary<string, Component>();
 

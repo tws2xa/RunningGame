@@ -40,7 +40,7 @@ namespace RunningGame.Entities
             //Set level.
             //Leave for all entities
             this.level = level;
-
+            this.depth = 2;
             //Refers back to a class in the super Entity.
             //Leave this for all entities.
             initializeEntity(new Random().Next(Int32.MinValue, Int32.MaxValue), level);
