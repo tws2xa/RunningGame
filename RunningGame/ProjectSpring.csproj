@@ -96,6 +96,7 @@
     <Compile Include="DeathHandler.cs" />
     <Compile Include="Entities\BackgroundEntity.cs" />
     <Compile Include="Entities\BasicGround.cs" />
+    <Compile Include="Entities\bounceBlockEntity.cs" />
     <Compile Include="Entities\GrappleEntity.cs" />
     <Compile Include="Entities\MovingPlatformEntity.cs" />
     <Compile Include="Entities\PowerupUIEntity.cs" />

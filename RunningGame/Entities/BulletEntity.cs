@@ -67,6 +67,7 @@ namespace RunningGame.Entities
             drawComp.addSprite("Artwork.Foreground.PaintBlob","RunningGame.Resources.Artwork.Foreground.PaintBlob11.png", "Main");
             drawComp.setSprite("Main");
 
+
             /* ANIMATION COMPONENT - Does it need animating?
              */
             addComponent(new AnimationComponent(0.0005f));

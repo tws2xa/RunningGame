@@ -210,7 +210,7 @@ namespace RunningGame.Systems
                     blockEntity(posComp.x + posComp.width * 1.5f, posComp.y);
 
                 }
-                if (player.isLookingLeft())
+                else
                 {
                     blockEntity(posComp.x - posComp.width * 1.5f, posComp.y);
                 }

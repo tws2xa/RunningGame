@@ -42,6 +42,7 @@ namespace RunningGame
 
             //Create the Func objects for all the collision functions
             //Func<Entity, Entity, bool> [Var Name] = [Name of your method];
+            Func<Entity, Entity, bool> bouncePlayerCollisionFunction = bouncePlayerCollision;
             Func<Entity, Entity, bool> simpleStopCollisionFunction = simpleStopCollision;
             Func<Entity, Entity, bool> speedyPlayerCollisionFunction = speedyPlayerCollision;
             Func<Entity, Entity, bool> playerSwitchCollisonFunction = switchFlipCollision;
@@ -67,6 +68,8 @@ namespace RunningGame
             addToDictionary(GlobalVars.BULLET_COLLIDER_TYPE, GlobalVars.PLAYER_COLLIDER_TYPE, doNothingCollision);
             addToDictionary(GlobalVars.BULLET_COLLIDER_TYPE, GlobalVars.SIMPLE_ENEMY_COLLIDER_TYPE, bulletEnemyCollisionFunction);
             addToDictionary(GlobalVars.BULLET_COLLIDER_TYPE, GlobalVars.SWITCH_COLLIDER_TYPE, switchFlipCollision);
+
+            addToDictionary(GlobalVars.BOUNCE_BLOCK_COLLIDER_TYPE, GlobalVars.PLAYER_COLLIDER_TYPE, bouncePlayerCollisionFunction);
 
             addToDictionary(GlobalVars.SIMPLE_ENEMY_COLLIDER_TYPE, GlobalVars.PLAYER_COLLIDER_TYPE, playerEnemyCollisionFunction);
             
@@ -151,6 +154,28 @@ namespace RunningGame
          * True = Stop Movement
          * False = Do Not Stop Movement
          */
+
+        //Dont do anything for now, increase player.y component up whenever collide with block
+        public bool bouncePlayerCollision(Entity e1, Entity e2)
+        {
+            Player player;
+            if (e1 is Player)
+            {
+                player = (Player)e1;
+            }
+            else if (e2 is Player)
+            {
+                player = (Player)e2;
+            }
+            else
+            {
+                Console.WriteLine("Player Collision with no bounce block...");
+                return false;
+            }
+            return false;
+           
+        }
+
 
         //Don't do anything
         public bool doNothingCollision(Entity e1, Entity e2)
