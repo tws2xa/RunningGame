@@ -91,6 +91,10 @@ namespace RunningGame
         public static string DOOR_CLOSED_SPRITE_NAME = "closedDoorSprite";
         public static string SWITCH_INACTIVE_SPRITE_NAME = "inactiveSwitch";
         public static string SWITCH_ACTIVE_SPRITE_NAME = "activeSwitch";
+        public static string POWERUP_INDICATOR_BOUNCE = "bounceInd";
+        public static string POWERUP_INDICATOR_SPEEDY = "speedyInd";
+        public static string POWERUP_INDICATOR_SPAWN = "spawnInd";
+        public static string POWERUP_INDICATOR_NONE = "noneInd";
         public static float SIMPLE_ENEMY_H_SPEED = 50.0f;
         public static float BULLET_SPEED = 250.0f;
         public static float MOVING_PLATFORM_SPEED = 50.0f;

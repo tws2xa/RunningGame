@@ -21,8 +21,6 @@ namespace RunningGame.Entities
         float defaultWidth = 10;
         float defaultHeight = 10;
 
-        string testAnimationName = "testAnimation";
-
         public TestEntity(Level level, float x, float y)
         {
             this.level = level;

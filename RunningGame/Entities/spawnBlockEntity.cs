@@ -14,7 +14,7 @@ namespace RunningGame.Entities
         float defaultWidth = 18;
         float defaultHeight = 18;
 
-        string blockAnimationName = "blockAnimation";
+        //string blockAnimationName = "blockAnimation";
 
         public spawnBlockEntity(Level level, float x, float y)
         {

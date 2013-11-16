@@ -34,6 +34,11 @@ namespace RunningGame
             return (other.componentName == this.componentName);
         }
 
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
+
         public override string ToString()
         {
             return componentName;

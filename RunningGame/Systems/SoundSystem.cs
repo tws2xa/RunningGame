@@ -12,7 +12,7 @@ namespace RunningGame.Systems
     [Serializable()]
     public class SoundSystem : GameSystem //Always extend GameSystem
     {
-        ArrayList requiredComponents = new ArrayList();
+        List<string> requiredComponents = new List<string>();
         Level level;
 
         public SoundSystem(Level level)
@@ -22,7 +22,7 @@ namespace RunningGame.Systems
 
         //-------------------------------------- Overrides -------------------------------------------
         // Must have this. Same for all Systems.
-        public override ArrayList getRequiredComponents()
+        public override List<string> getRequiredComponents()
         {
             return requiredComponents;
         }

@@ -31,7 +31,7 @@ namespace RunningGame
 
         //An array list of keys that have been pressed and not released (They're being held down)
         //This is used to prevent repeated calls of KeyPressed
-        public ArrayList downKeys = new ArrayList();
+        public List<Keys> downKeys = new List<Keys>();
 
         //When the form starts up, initialize it.
         public FormSpring()

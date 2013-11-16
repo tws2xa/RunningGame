@@ -14,7 +14,7 @@ namespace RunningGame.Level_Editor
     {
 
         public Entity selectedEntity { get; set; }
-        public ArrayList allSelectedEntities { get; set; }
+        public List<Entity> allSelectedEntities { get; set; }
         public ProtoEntity protoEntity { get; set; }
         public float gridSize = GlobalVars.MIN_TILE_SIZE / 2;
         public bool gridLock = true;
@@ -25,7 +25,7 @@ namespace RunningGame.Level_Editor
             editForm = null;
             protoEntity = null;
             selectedEntity = null;
-            allSelectedEntities = new ArrayList();
+            allSelectedEntities = new List<Entity>();
         }
  
     }

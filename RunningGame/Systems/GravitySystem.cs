@@ -12,7 +12,7 @@ namespace RunningGame
     [Serializable()]
     public class GravitySystem : GameSystem
     {
-        ArrayList requiredComponents = new ArrayList();
+        List<string> requiredComponents = new List<string>();
         Level level;
 
         public GravitySystem(Level activeLevel)
@@ -62,7 +62,7 @@ namespace RunningGame
 
         }
 
-        public override ArrayList getRequiredComponents()
+        public override List<string> getRequiredComponents()
         {
             return requiredComponents;
         }

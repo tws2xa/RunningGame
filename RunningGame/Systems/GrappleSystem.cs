@@ -15,8 +15,7 @@ namespace RunningGame.Systems
     public class GrappleSystem:GameSystem
     {
 
-        
-        ArrayList requiredComponents = new ArrayList();
+        List<string> requiredComponents = new List<string>();
         Level level;
         
         float growSpeed = 600; // Pixels per Sec
@@ -49,7 +48,7 @@ namespace RunningGame.Systems
 
         //-------------------------------------- Overrides -------------------------------------------
         // Must have this. Same for all Systems.
-        public override ArrayList getRequiredComponents()
+        public override List<string> getRequiredComponents()
         {
             return requiredComponents;
         }
@@ -270,7 +269,7 @@ namespace RunningGame.Systems
 
         public bool checkForStopsBetweenPoints(PointF p1, PointF p2)
         {
-            ArrayList cols = level.getCollisionSystem().findObjectsBetweenPoints(p1.X, p1.Y, p2.X, p2.Y);
+            List<Entity> cols = level.getCollisionSystem().findObjectsBetweenPoints(p1.X, p1.Y, p2.X, p2.Y);
             if (cols.Count > 0)
             {
                 foreach (Entity e in cols)
@@ -287,7 +286,7 @@ namespace RunningGame.Systems
 
         public bool checkForStopsBetweenPoints(PointF p1, PointF p2, ref Entity ent)
         {
-            ArrayList cols = level.getCollisionSystem().findObjectsBetweenPoints(p1.X, p1.Y, p2.X, p2.Y);
+            List<Entity> cols = level.getCollisionSystem().findObjectsBetweenPoints(p1.X, p1.Y, p2.X, p2.Y);
             if (cols.Count > 0)
             {
                 foreach (Entity e in cols)
@@ -305,7 +304,7 @@ namespace RunningGame.Systems
 
         public bool checkForStopsBetweenPointsExclude(PointF p1, PointF p2, Entity exclude)
         {
-            ArrayList cols = level.getCollisionSystem().findObjectsBetweenPoints(p1.X, p1.Y, p2.X, p2.Y);
+            List<Entity> cols = level.getCollisionSystem().findObjectsBetweenPoints(p1.X, p1.Y, p2.X, p2.Y);
             if (cols.Count > 0)
             {
                 foreach (Entity e in cols)

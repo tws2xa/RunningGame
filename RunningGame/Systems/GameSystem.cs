@@ -23,14 +23,14 @@ namespace RunningGame
 
         public abstract void Update(float deltaTime);
 
-        public abstract ArrayList getRequiredComponents(); //string names of all required components (Use GlobalVars script to get the names)
+        public abstract List<string> getRequiredComponents(); //string names of all required components (Use GlobalVars script to get the names)
 
 
         //Returns a list of all entities with required components
-        public ArrayList getApplicableEntities()
+        public List<Entity> getApplicableEntities()
         {
             
-            ArrayList applicableEntities = new ArrayList();
+            List<Entity> applicableEntities = new List<Entity>();
 
             if (!GetActiveLevel().paused)
             {

@@ -12,9 +12,9 @@ namespace RunningGame.Systems
     public class SwitchSystem:GameSystem
     {
         
-        //All systems MUST have an ArrayList of requiredComponents (May need to add using System.Collections at start of file)
+        //All systems MUST have an List of requiredComponents (May need to add using System.Collections at start of file)
         //To access components you may need to also add "using RunningGame.Components"
-        ArrayList requiredComponents = new ArrayList();
+        List<string> requiredComponents = new List<string>();
         //All systems MUST have a variable holding the level they're contained in
         Level level;
 
@@ -33,7 +33,7 @@ namespace RunningGame.Systems
 
         //-------------------------------------- Overrides -------------------------------------------
         // Must have this. Same for all Systems.
-        public override ArrayList getRequiredComponents()
+        public override List<string> getRequiredComponents()
         {
             return requiredComponents;
         }
@@ -68,7 +68,7 @@ namespace RunningGame.Systems
                     if (timedComp.baseTime <= 0)
                     {
                         PositionComponent posComp = (PositionComponent)e.getComponent(GlobalVars.POSITION_COMPONENT_NAME);
-                        ArrayList aboveCollisions = level.getCollisionSystem().findObjectsBetweenPoints(posComp.x - posComp.width / 2, posComp.y - posComp.height / 2 - 1, posComp.x + posComp.width / 2, posComp.y - posComp.height / 2 - 1);
+                        List<Entity> aboveCollisions = level.getCollisionSystem().findObjectsBetweenPoints(posComp.x - posComp.width / 2, posComp.y - posComp.height / 2 - 1, posComp.x + posComp.width / 2, posComp.y - posComp.height / 2 - 1);
                         //If there's something above the switch, and it's inactive - make it active!
                         if (aboveCollisions.Count > 0)
                         {
