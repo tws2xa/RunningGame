@@ -377,6 +377,9 @@ namespace RunningGame
                 //If the key is contained in downKeys, remove it. (It is no longer down)
                 if (downKeys.Contains(e.KeyData))
                     downKeys.Remove(e.KeyData);
+
+                e.Handled = true;
+                e.SuppressKeyPress = true;
             }
         }
 
@@ -385,7 +388,12 @@ namespace RunningGame
         {
             //If the game is running, tell it that the key was pressed
             if (game != null)
+            {
                 game.KeyPressed(e);
+
+                e.Handled = true;
+                
+            }
         }
 
         //Called when a key is first pushed
@@ -401,6 +409,9 @@ namespace RunningGame
                     game.KeyDown(e);
                     //Add it to the list of pressed keys
                     downKeys.Add(e.KeyData);
+
+                    e.Handled = true;
+                    e.SuppressKeyPress = true;
                 }
             }
         }

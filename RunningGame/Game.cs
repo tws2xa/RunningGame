@@ -66,7 +66,7 @@ namespace RunningGame
         public void startLevel(int world, int level)
         {
             //HERE IS WHERE YOU SAY WHICH LEVEL TO LOAD
-            currentLevel = new Level(winWidth, winHeight, "RunningGame.Resources.Levels.PresentationLevelExtended.png", world, level , true, dbGraphics);
+            currentLevel = new Level(winWidth, winHeight, "RunningGame.Resources.Levels.World2Level2.png", world, level , true, dbGraphics);
         }
         public void startLevel(string str, int world, int level)
         {
