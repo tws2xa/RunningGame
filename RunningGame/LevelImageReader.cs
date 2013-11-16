@@ -134,7 +134,7 @@ namespace RunningGame
                         level.addEntity(ground.randId, ground);
                         
                         //If no ground above it, change to a grass sprite
-                        ArrayList above = level.getCollisionSystem().findObjectAtPoint((levelX) * tileWidth, (levelY - 1) * tileWidth);
+                        List<Entity> above = level.getCollisionSystem().findObjectAtPoint((levelX) * tileWidth, (levelY - 1) * tileWidth);
                         if (above.Count <= 0 || !(above[0] is BasicGround))
                         {
                             ground.changeSprite(false);

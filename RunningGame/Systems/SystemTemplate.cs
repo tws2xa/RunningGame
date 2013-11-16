@@ -14,9 +14,9 @@ namespace RunningGame.Systems
     [Serializable()]
     public class SystemTemplate : GameSystem //Always extend GameSystem. Always have public. Always have [Serializable()].
     {
-        //All systems MUST have an ArrayList of requiredComponents (May need to add using System.Collections at start of file)
+        //All systems MUST have an List of requiredComponents (May need to add using System.Collections at start of file)
         //To access components you may need to also add "using RunningGame.Components"
-        ArrayList requiredComponents = new ArrayList();
+        List<string> requiredComponents = new List<string>();
         //All systems MUST have a variable holding the level they're contained in
         Level level;
 
@@ -34,7 +34,7 @@ namespace RunningGame.Systems
 
         //-------------------------------------- Overrides -------------------------------------------
         // Must have this. Same for all Systems.
-        public override ArrayList getRequiredComponents()
+        public override List<string> getRequiredComponents()
         {
             return requiredComponents;
         }

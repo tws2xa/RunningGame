@@ -32,7 +32,7 @@ namespace RunningGame.Level_Editor
         */
 
         Random rand; //for creating entitiy ids
-        public CreationSystemManager sysManager; //Controls all systems
+        new public CreationSystemManager sysManager; //Controls all systems
         bool sysManagerInit = false;
 
         long prevTicks = DateTime.Now.Ticks;

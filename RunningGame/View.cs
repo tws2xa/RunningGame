@@ -95,7 +95,7 @@ namespace RunningGame
             bkgBrush = Brushes.DeepSkyBlue;
         }
 
-        public void Draw(Graphics mainG, ArrayList entities)
+        public void Draw(Graphics mainG, List<Entity> entities)
         {
 
 

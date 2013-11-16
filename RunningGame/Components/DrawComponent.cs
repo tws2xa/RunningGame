@@ -79,9 +79,9 @@ namespace RunningGame.Components
             images.Add(spriteName, spr);
         }
 
-        public void addAnimatedSprite(ArrayList baseAddresses, List<string> defaultAddresses, string spriteName)
+        public void addAnimatedSprite(List<string> baseAddresses, List<string> defaultAddresses, string spriteName)
         {
-            ArrayList newImages = new ArrayList();
+            List<Bitmap> newImages = new List<Bitmap>();
             int i = 0;
             foreach (string str in baseAddresses)
             {
@@ -149,7 +149,7 @@ namespace RunningGame.Components
             if (images.ContainsKey(spriteName))
             {
 
-                ArrayList newImages = new ArrayList();
+                List<Bitmap> newImages = new List<Bitmap>();
 
                 Sprite s = (Sprite)images[spriteName];
 

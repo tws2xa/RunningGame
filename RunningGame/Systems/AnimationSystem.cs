@@ -12,8 +12,8 @@ namespace RunningGame.Systems
     public class AnimationSystem : GameSystem
     {
 
-        //All systems MUST have an ArrayList of requiredComponents (May need to add using System.Collections at start of file)
-        ArrayList requiredComponents = new ArrayList();
+        //All systems MUST have an List of requiredComponents (May need to add using System.Collections at start of file)
+        List<string> requiredComponents = new List<string>();
         //All systems MUST have a variable holding the level they're contained in
         Level level;
 
@@ -31,7 +31,7 @@ namespace RunningGame.Systems
 
         //-------------------------------------- Overrides -------------------------------------------
         // Must have this. Same for all Systems.
-        public override ArrayList getRequiredComponents()
+        public override List<string> getRequiredComponents()
         {
             return requiredComponents;
         }

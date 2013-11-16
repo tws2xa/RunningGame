@@ -35,8 +35,7 @@ namespace RunningGame.Systems
         public bool mouseRightClick = false;
         public int mouseRightClickCounter = 0;
 
-
-        ArrayList requiredComponents = new ArrayList();
+        List<string> requiredComponents = new List<string>();
         Level level;
 
         public InputSystem(Level level)
@@ -52,7 +51,7 @@ namespace RunningGame.Systems
 
         //-------------------------------------- Overrides -------------------------------------------
         // Must have this. Same for all Systems.
-        public override ArrayList getRequiredComponents()
+        public override List<string> getRequiredComponents()
         {
             return requiredComponents;
         }

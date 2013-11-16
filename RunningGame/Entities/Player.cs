@@ -67,9 +67,9 @@ namespace RunningGame.Entities
             drawComp.addSprite("Artwork.Creatures.Player1", "RunningGame.Resources.Artwork.Creatures.Player111.png", leftImageName);
             drawComp.rotateFlipSprite(leftImageName, RotateFlipType.RotateNoneFlipX);
             addComponent(drawComp);
-            
-            
-            ArrayList blinkAnimation = new ArrayList
+
+
+            List<string> blinkAnimation = new List<string>
             {
                 "Artwork.Creatures.Player1",
                 "Artwork.Creatures.Player2"

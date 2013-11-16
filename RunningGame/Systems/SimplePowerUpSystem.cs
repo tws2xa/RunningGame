@@ -13,7 +13,7 @@ namespace RunningGame.Systems
     public class SimplePowerUpSystem: GameSystem
     {
         
-        ArrayList requiredComponents = new ArrayList();
+        List<string> requiredComponents = new List<string>();
         Level level;
 
         //Glide powerup informations
@@ -39,7 +39,7 @@ namespace RunningGame.Systems
 
         //-------------------------------------- Overrides -------------------------------------------
         // Must have this. Same for all Systems.
-        public override ArrayList getRequiredComponents()
+        public override List<string> getRequiredComponents()
         {
             return requiredComponents;
         }

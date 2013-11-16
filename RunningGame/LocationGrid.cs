@@ -25,7 +25,7 @@ namespace RunningGame
     public class LocationGrid
     {
 
-        public Dictionary<RectangleF, ArrayList> grid;
+        public Dictionary<RectangleF, List<Entity>> grid;
 
         float rowHeight = 20;
         float colWidth = 20;
@@ -39,14 +39,14 @@ namespace RunningGame
         public LocationGrid(Level level)
         {
             this.level = level;
-            grid = new Dictionary<RectangleF, ArrayList>();
+            grid = new Dictionary<RectangleF, List<Entity>>();
             //Create the grid (With extra rows/cols on either side)
             for (float i = -colWidth*2; i <= level.levelWidth+colWidth*4; i += colWidth)
             {
                 for (float j = -rowHeight*2; j <= level.levelHeight+rowHeight*4; j += rowHeight)
                 {
                     RectangleF rect = new RectangleF(i, j, colWidth, rowHeight);
-                    grid.Add(rect, new ArrayList());
+                    grid.Add(rect, new List<Entity>());
                 }
             }
 
@@ -78,7 +78,7 @@ namespace RunningGame
 
         public void removeEntity(Entity e, float prevX, float prevY, float prevWidth, float prevHeight)
         {
-            foreach (ArrayList list in grid.Values)
+            foreach (List<Entity> list in grid.Values)
                 list.Remove(e);
 
             /*
@@ -109,16 +109,16 @@ namespace RunningGame
 
 
         //Returns all rectangles an entity intersects with.
-        public ArrayList getIntersectingRectangles(Entity e)
+        public List<RectangleF> getIntersectingRectangles(Entity e)
         {
             PositionComponent posComp = (PositionComponent)e.getComponent(GlobalVars.POSITION_COMPONENT_NAME);
             return getIntersectingRectangles(posComp.x, posComp.y, posComp.width, posComp.height);
         }
         //Returns all rectangles an entity intersected last frame
-        public ArrayList getIntersectingRectangles(float x, float y, float width, float height)
+        public List<RectangleF> getIntersectingRectangles(float x, float y, float width, float height)
         {
 
-            ArrayList retList = new ArrayList();
+            List<RectangleF> retList = new List<RectangleF>();
 
             PointF upperLeftPoint = new PointF(x - width / 2, y - height / 2); //Easier to calculate stuff using this rather than center
 
@@ -154,16 +154,16 @@ namespace RunningGame
         }
 
 
-        public ArrayList findObjectsAtPoint(float x, float y)
+        public List<Entity> findObjectsAtPoint(float x, float y)
         {
-            ArrayList retList = new ArrayList();
+            List<Entity> retList = new List<Entity>();
 
             RectangleF checkRect = getRectangleWithPoint(x, y);
 
             if (!grid.ContainsKey(checkRect))
             {
                 Console.WriteLine("Grid does not contain " + checkRect);
-                return new ArrayList();
+                return new List<Entity>();
             }
 
             foreach (Entity e in grid[checkRect])
@@ -178,9 +178,9 @@ namespace RunningGame
         }
 
 
-        public ArrayList findObjectsBetweenPoints(float x1, float y1, float x2, float y2)
+        public List<Entity> findObjectsBetweenPoints(float x1, float y1, float x2, float y2)
         {
-            ArrayList retList = new ArrayList();
+            List<Entity> retList = new List<Entity>();
 
             int skipNum = 1;
 
@@ -248,11 +248,11 @@ namespace RunningGame
 
 
 
-        public ArrayList checkForCollisions(Entity e, float x, float y, float w, float h)
+        public List<Entity> checkForCollisions(Entity e, float x, float y, float w, float h)
         {
 
-            
-            ArrayList collisions = new ArrayList();
+
+            List<Entity> collisions = new List<Entity>();
 
             if (e == null || w == 0 || h == 0) return collisions;
 
@@ -288,11 +288,11 @@ namespace RunningGame
             return ( (xDiff - (posComp1.width / 2 + posComp2.width / 2)) <= buffer && (yDiff - (posComp1.height / 2 + posComp2.height / 2)) <= buffer);
 
         }
-        
-        
-        public ArrayList mergeArrayLists(ArrayList a1, ArrayList a2)
+
+
+        public List<Entity> mergeArrayLists(List<Entity> a1, List<Entity> a2)
         {
-            foreach (Object o in a2)
+            foreach (Entity o in a2)
             {
                 if(!(a1.Contains(o)))
                 {
