@@ -19,10 +19,11 @@ namespace RunningGame.Systems
         Level level;
 
 
-        //0 = no scroll, static background
+        //0 = no scroll, stretch static background
         //1 = proportion method
         //2 = proportion only horizontal
-        public int scrollType = 0;
+        //3 = stretch but maintain proportion
+        public int scrollType = 3;
 
 
         //Constructor - Always read in the level! You can read in other stuff too if need be.

@@ -392,13 +392,39 @@ namespace RunningGame
                     getMovementSystem().changePosition(posComp, initWidth * ratio / 2, levelHeight / 2, false);
                 }
             }
+            else if (sysManager.bkgPosSystem.scrollType == 3)
+            {
+                Bitmap tempImg = getBkgImg();
+                float newWidth = tempImg.Width;
+                float newHeight = tempImg.Height;
 
+                float scaleFactor = 1.1f;
+
+                while (newWidth/scaleFactor > levelWidth || newHeight/scaleFactor > levelHeight)
+                {
+                    newWidth /= scaleFactor;
+                    newHeight /= scaleFactor;
+                }
+
+                while (newWidth < levelWidth || newHeight < levelHeight)
+                {
+                    newWidth *= scaleFactor;
+                    newHeight *= scaleFactor;
+                }
+
+                getMovementSystem().changeSize(posComp, newWidth, newHeight);
+                drawComp.width = newWidth;
+                drawComp.height = newHeight;
+                drawComp.resizeImages((int)newWidth, (int)newHeight);
+                getMovementSystem().changePosition(posComp, newWidth / 2, newHeight / 2, false);
+            }
             /*
             //Proportion Scrolling
             if (sysManager.bkgPosSystem.scrollType == 1 || sysManager.bkgPosSystem.scrollType == 2)
             {
                 System.Reflection.Assembly myAssembly = System.Reflection.Assembly.GetExecutingAssembly();
-                // THIS WONT WORK BECAUSE IT"S GETTING THE DEFAULT IMAGE NOT IMAGE STUB System.IO.Stream myStream = myAssembly.GetManifestResourceStream(fullImageAddress);
+                // THIS WONT WORK BECAUSE IT"S GETTING THE DEFAULT IMAGE NOT IMAGE STUB
+                System.IO.Stream myStream = myAssembly.GetManifestResourceStream(fullImageAddress);
                 Bitmap sprite = new Bitmap(myStream); //Getting an error here? Did you remember to make your image an embedded resource?
                 myStream.Close();
 
@@ -425,6 +451,26 @@ namespace RunningGame
 
             return bkgEnt;
 
+        }
+
+
+        public Bitmap getBkgImg()
+        {
+            string defaultAddress = "RunningGame.Resources.Artwork.Background.Bkg11.png";
+
+            System.Reflection.Assembly myAssembly = System.Reflection.Assembly.GetExecutingAssembly();
+            string addr = ("RunningGame.Resources.Artwork.Background.Bkg" + worldNum + "" + levelNum + ".png");
+            System.IO.Stream myStream = myAssembly.GetManifestResourceStream("RunningGame.Resources.Artwork.Background.Bkg11.png");
+
+            if (myStream == null)
+            {
+                myStream = myAssembly.GetManifestResourceStream(defaultAddress);
+            }
+
+            Bitmap sprite = new Bitmap(myStream); //Getting an error here? Did you remember to make your image an embedded resource?
+            myStream.Close();
+
+            return sprite;
         }
 
         //Getters

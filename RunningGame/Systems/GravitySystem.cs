@@ -41,8 +41,10 @@ namespace RunningGame
                 //Don't apply gravity if the object is on top of something
                 PositionComponent posComp = (PositionComponent)e.getComponent(GlobalVars.POSITION_COMPONENT_NAME);
 
-                float leftX = (posComp.x - posComp.width / 2);
-                float rightX = (posComp.x + posComp.width / 2);
+                float sideBuffer = -1;
+
+                float leftX = (posComp.x - posComp.width / 2 - sideBuffer);
+                float rightX = (posComp.x + posComp.width / 2 + sideBuffer);
                 float lowerY = (posComp.y + posComp.height / 2 + floorBuffer);
                 if (!(level.getCollisionSystem().findObjectsBetweenPoints(leftX, lowerY, rightX, lowerY).Count > 0))
                 {
