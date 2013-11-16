@@ -54,7 +54,7 @@ namespace RunningGame.Entities
              */
             DrawComponent drawComp = (DrawComponent)addComponent(new DrawComponent(defaultWidth, defaultHeight, level, true));
 
-            ArrayList enemyAnimation = new ArrayList()
+            List<string> enemyAnimation = new List<string>()
             {
                 "Artwork.Creatures.Enemy1",
                 "Artwork.Creatures.Enemy2",

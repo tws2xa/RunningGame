@@ -31,7 +31,7 @@ namespace RunningGame
 
         //An array list of keys that have been pressed and not released (They're being held down)
         //This is used to prevent repeated calls of KeyPressed
-        public ArrayList downKeys = new ArrayList();
+        public List<Keys> downKeys = new List<Keys>();
 
         //When the form starts up, initialize it.
         public FormSpring()
@@ -155,6 +155,15 @@ namespace RunningGame
             showHideLevelButtons(true);
             showHideWorldButtons(false);
         }
+
+        //World 6
+        private void btnWorld6_Click(object sender, EventArgs e)
+        {
+            GlobalVars.worldNum = 6;
+            showHideLevelButtons(true);
+            showHideWorldButtons(false);
+        }
+
         //----------------------------------------------------------------
 
         //---------------------------LEVEL BUTTONS------------------------
@@ -179,7 +188,10 @@ namespace RunningGame
                     loadLevel("RunningGame.Resources.Levels.PresentationLevelExtended.png", 4, 1); //World 4 Level 1
                     break;
                 case (5):
-                    loadLevel("RunningGame.Resources.Levels.PresentationLevelExtended.png", 5, 1); //World 5 Level 1
+                    loadLevel("RunningGame.Resources.Levels.World5Level1.png", 5, 1); //World 5 Level 1
+                    break;
+                case (6):
+                    loadLevel("RunningGame.Resources.Levels.PresentationLevelExtended.png", 5, 3); //World 6 Level 3
                     break;
             }
         }
@@ -205,7 +217,10 @@ namespace RunningGame
                     loadLevel("RunningGame.Resources.Levels.PresentationLevelExtended.png", 4, 2); //World 4 Level 2
                     break;
                 case (5):
-                    loadLevel("RunningGame.Resources.Levels.PresentationLevelExtended.png", 5, 2); //World 5 Level 2
+                    loadLevel("RunningGame.Resources.Levels.World5Level2.png", 5, 2); //World 5 Level 2
+                    break;
+                case (6):
+                    loadLevel("RunningGame.Resources.Levels.PresentationLevelExtended.png", 5, 3); //World 6 Level 3
                     break;
             }
         }
@@ -232,6 +247,9 @@ namespace RunningGame
                     break;
                 case (5):
                     loadLevel("RunningGame.Resources.Levels.PresentationLevelExtended.png", 5, 3); //World 5 Level 3
+                    break;
+                case (6):
+                    loadLevel("RunningGame.Resources.Levels.PresentationLevelExtended.png", 5, 3); //World 6 Level 3
                     break;
             }
         }
@@ -287,6 +305,9 @@ namespace RunningGame
 
             btnWorld5.Visible = show;
             btnWorld5.Enabled = show;
+
+            btnWorld6.Visible = show;
+            btnWorld6.Enabled = show;
         }
          
    

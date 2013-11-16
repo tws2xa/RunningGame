@@ -12,17 +12,18 @@ namespace RunningGame.Systems
     public class BackgroundPositionSystem:GameSystem
     {
         
-        //All systems MUST have an ArrayList of requiredComponents (May need to add using System.Collections at start of file)
+        //All systems MUST have a List of requiredComponents (May need to add using System.Collections at start of file)
         //To access components you may need to also add "using RunningGame.Components"
-        ArrayList requiredComponents = new ArrayList();
+        List<string> requiredComponents = new List<string>();
         //All systems MUST have a variable holding the level they're contained in
         Level level;
 
 
-        //0 = no scroll, static background
+        //0 = no scroll, stretch static background
         //1 = proportion method
         //2 = proportion only horizontal
-        public int scrollType = 0;
+        //3 = stretch but maintain proportion
+        public int scrollType = 3;
 
 
         //Constructor - Always read in the level! You can read in other stuff too if need be.
@@ -37,7 +38,7 @@ namespace RunningGame.Systems
 
         //-------------------------------------- Overrides -------------------------------------------
         // Must have this. Same for all Systems.
-        public override ArrayList getRequiredComponents()
+        public override List<string> getRequiredComponents()
         {
             return requiredComponents;
         }

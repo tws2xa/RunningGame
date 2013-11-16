@@ -67,9 +67,9 @@ namespace RunningGame.Entities
             drawComp.addSprite("Artwork.Creatures.Player1", "RunningGame.Resources.Artwork.Creatures.Player111.png", leftImageName);
             drawComp.rotateFlipSprite(leftImageName, RotateFlipType.RotateNoneFlipX);
             addComponent(drawComp);
-            
-            
-            ArrayList blinkAnimation = new ArrayList
+
+
+            List<string> blinkAnimation = new List<string>
             {
                 "Artwork.Creatures.Player1",
                 "Artwork.Creatures.Player2"
@@ -127,6 +127,15 @@ namespace RunningGame.Entities
             HealthComponent healthComp = (HealthComponent)this.getComponent(GlobalVars.HEALTH_COMPONENT_NAME);
             healthComp.restoreHealth();
 
+            if (!hasComponent(GlobalVars.PLAYER_INPUT_COMPONENT_NAME))
+            {
+                addComponent(new PlayerInputComponent(this));
+            }
+
+            if (!hasComponent(GlobalVars.GRAVITY_COMPONENT_NAME))
+            {
+                addComponent(new GravityComponent(0, GlobalVars.STANDARD_GRAVITY));
+            }
         }
         
 

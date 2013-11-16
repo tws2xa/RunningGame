@@ -24,7 +24,7 @@ namespace RunningGame
         CreationGame creationGame;
         delegate void refreshPropertiesListDelegate();
 
-        public ArrayList blockedComponentVarNames = new ArrayList()
+        public List<string> blockedComponentVarNames = new List<string>()
         {
             "componentName",
             "myEntity",
@@ -120,7 +120,7 @@ namespace RunningGame
                         lstSelectedEntProperties.Items.Add(new FieldInfoListItem(f, e));
                     }
 
-                    foreach (Component c in e.getComponents())
+                    foreach (Component c in new List<Component>() /*e.getComponents()*/)
                     {
                         foreach (FieldInfo f in c.GetType().GetFields(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance))
                         {
@@ -326,11 +326,15 @@ namespace RunningGame
             ents.Add(creationGame.getCurrentLevel().levelWidth);
             ents.Add(creationGame.getCurrentLevel().levelHeight);
 
-            foreach (Entity ent in GlobalVars.allEntities.Values)
+            foreach (Entity ent in GlobalVars.nonGroundEntities.Values)
             {
                 ents.Add(ent);
             }
-            
+            foreach (Entity ent in GlobalVars.groundEntities.Values)
+            {
+                ents.Add(ent);
+            }
+
             serializer.Serialize(stream, ents);
 
             Console.WriteLine("Level File Location: " + stream.Name);

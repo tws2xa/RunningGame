@@ -27,8 +27,7 @@ namespace RunningGame.Systems
     [Serializable()]
     public class CollisionDetectionSystem : GameSystem
     {
-
-        ArrayList requiredComponents = new ArrayList();
+        List<string> requiredComponents = new List<string>();
         Level level;
         public LocationGrid locGrid;
 
@@ -46,7 +45,7 @@ namespace RunningGame.Systems
         }
 
         //-------------------------------------- Overrides -------------------------------------------
-        public override ArrayList getRequiredComponents()
+        public override List<string> getRequiredComponents()
         {
             return requiredComponents;
         }
@@ -83,17 +82,22 @@ namespace RunningGame.Systems
             locGrid.removeEntity(e, posComp.prevX, posComp.prevY, posComp.prevW, posComp.prevH);
         }
 
-        public ArrayList checkForCollision(Entity e, float newX, float newY, float width, float height)
+        public List<Entity> checkForCollision(Entity e, float newX, float newY, float width, float height)
         {
             return locGrid.checkForCollisions(e, newX, newY, width, height);
         }
 
-        public ArrayList findObjectAtPoint(float x, float y)
+        public List<Entity> findObjectAtPoint(float x, float y)
         {
             return locGrid.findObjectsAtPoint(x, y);
         }
 
-        public ArrayList findObjectsBetweenPoints(float x1, float y1, float x2, float y2)
+        public List<Entity> findObjectsBetweenPoints(System.Drawing.PointF point1, System.Drawing.PointF point2)
+        {
+            return findObjectsBetweenPoints(point1.X, point1.Y, point2.X, point2.Y);
+        }
+
+        public List<Entity> findObjectsBetweenPoints(float x1, float y1, float x2, float y2)
         {
             return locGrid.findObjectsBetweenPoints(x1, y1, x2, y2);
         }

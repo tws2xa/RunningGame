@@ -343,5 +343,31 @@ namespace RunningGame
             return false;
         }
 
+        /*
+        public bool GrappleSolidCollision(Entity e1, Entity e2)
+        {
+
+            GrappleLinkEntity link = null;
+            Entity other = null;
+            if (e1 is GrappleLinkEntity)
+            {
+                link = (GrappleLinkEntity)e1;
+                other = e2;
+
+            } else if (e2 is GrappleLinkEntity)
+            {
+                link = (GrappleLinkEntity)e2;
+                other = e1;
+            } else
+            {
+                Console.WriteLine("Grapple Solid Collision with no grapple?");
+            }
+
+            GrappleLinkComponent grapComp = (GrappleLinkComponent)link.getComponent(GlobalVars.GRAPPLE_LINK_COMPONENT_NAME);
+            grapComp.state = 3;
+
+            return false;
+        }
+        */
     }
 }

@@ -7,6 +7,7 @@ using System.Drawing;
 using RunningGame.Components;
 using System.Collections;
 using RunningGame.Level_Editor;
+using RunningGame.Entities;
 
 namespace RunningGame.Systems
 {
@@ -24,8 +25,8 @@ namespace RunningGame.Systems
         Level level;
         CreationLevel creatLev = null;
         public View mainView;
-        ArrayList requiredComponents = new ArrayList();
-       
+        List<string> requiredComponents = new List<string>();
+
         /************FLASH STUFF Begins here*/
         float flashTime = 0;
         int alpha = 0; // have to figure out the right number/ratio
@@ -89,7 +90,7 @@ namespace RunningGame.Systems
             miniMap.bkgBrush = Brushes.DarkTurquoise;
             miniMap.hasBorder = true;
         }
-        public override ArrayList getRequiredComponents()
+        public override List<string> getRequiredComponents()
         {
             return requiredComponents;
         }
@@ -179,13 +180,10 @@ namespace RunningGame.Systems
         // every image has a graphics object associated with it, latched on it. 
         public void Draw(Graphics g)
         {
-            ArrayList entityList = getApplicableEntities();
+            List<Entity> entityList = getApplicableEntities();
 
             //this is where all the entities are drawn
             mainView.Draw(g, entityList);
-
-
-
 
 
 

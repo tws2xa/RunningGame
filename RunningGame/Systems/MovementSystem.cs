@@ -22,8 +22,7 @@ namespace RunningGame.Systems
     [Serializable()]
     public class MovementSystem : GameSystem
     {
-
-        ArrayList requiredComponents = new ArrayList();
+        List<string> requiredComponents = new List<string>();
         Level level;
 
         CollisionHandler colHandler;
@@ -41,7 +40,7 @@ namespace RunningGame.Systems
 
         }
 
-        public override ArrayList getRequiredComponents()
+        public override List<string> getRequiredComponents()
         {
             return requiredComponents;
         }
@@ -110,137 +109,6 @@ namespace RunningGame.Systems
             posComp.positionHasChanged = true;
         }
 
-        /*
-        public void changeSingleAxisLocation(Char axis, PositionComponent posComp, float newVal)
-        {
-            bool movementBlocked = false;
-
-            bool isX = true;
-            float xVal = 0; //New X
-            float yVal = 0; //New Y
-
-            if (axis == 'X' || axis == 'x')
-            {
-                xVal = newVal;
-                yVal = posComp.y;
-            }
-            else if (axis == 'Y' || axis == 'y')
-            {
-                isX = false;
-                xVal = posComp.x;
-                yVal = newVal;
-            }
-            else
-            {
-                Console.WriteLine("Changing Unrecognized Axis in Movement System: " + axis);
-                return;
-            }
-
-            //Check for collisions
-            if (posComp.myEntity.hasComponent(GlobalVars.COLLIDER_COMPONENT_NAME))
-            {
-
-                //TODO - Check a line rather than just the point. Maybe check every minimum tile size?
-
-                
-                 //* Theory:
-                 //* diff = difference between current position and move position
-                 //* while(diff > minTileSize) {
-                 //*      checkForCollisions(loc+minTileSize)
-                 //*      if none: move
-                 //*      else: handle collision, if stop - moveTo then exit
-                 //*      diff = difference between newLoc and goal;
-                 //* }
-                 //* checkForCollisions(loc+diff);
-                 //* if none: move
-                 //* else: handle collision, if stop - moveTo then stop.
-                 
-                VelocityComponent velComp = (VelocityComponent)posComp.myEntity.getComponent(GlobalVars.VELOCITY_COMPONENT_NAME);
-
-                float diff = 0;
-                if (isX)
-                {
-                    diff = velComp.x;
-                }
-                else
-                {
-                    diff = velComp.y;
-                }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                //List of all collisions caused by potential move
-                ArrayList collisions = level.getCollisionSystem().checkForCollision(posComp.myEntity, xVal, yVal);
-                //ArrayList collisions = level.getCollisionSystem().findObjectsBetweenPoints(posComp.x, posComp.y, xVal, yVal);
-
-                //If there's a collision
-                if (collisions.Count > 0)
-                {
-                    foreach (Entity e in collisions)
-                    {
-                        //Handle the collision
-                        if (colHandler.handleCollision(posComp.myEntity, e))
-                        {
-
-                            if (isX) velComp.x = 0;
-                            else velComp.y = 0;
-
-                            movementBlocked = true;
-
-                            //Move to edge of object if already mostly at the edge...
-                            PositionComponent otherPosComp = (PositionComponent)e.getComponent(GlobalVars.POSITION_COMPONENT_NAME);
-
-                            if (isX)
-                            {
-                                if (posComp.x < (otherPosComp.x))
-                                    posComp.x = (otherPosComp.x - otherPosComp.width / 2 - posComp.width / 2);
-                                else
-                                    posComp.x = (otherPosComp.x + otherPosComp.width / 2 + posComp.width / 2);
-                            }
-                            else
-                            {
-                                if (posComp.y < (otherPosComp.y))
-                                    posComp.y = (otherPosComp.y - otherPosComp.height / 2 - posComp.height / 2);
-                                else
-                                    posComp.y = (otherPosComp.y + otherPosComp.height / 2 + posComp.height / 2);
-                            }
-                        }
-                    }
-                }
-            }
-
-
-            //If movement isn't blocked - move and set position changed to true
-            if (!movementBlocked)
-            {
-                if (isX)
-                {
-                    posComp.prevX = posComp.x;
-                    posComp.x = newVal;
-                }
-                else
-                {
-                    posComp.prevY = posComp.y;
-                    posComp.y = newVal;
-                }
-                posComp.positionHasChanged = true;
-            }
-        }
-        */
-
-        
          //* BACKUP OF CHANGING A SINGLE AXIS LOCATION
          
         public void changeSingleAxisLocation(Char axis, PositionComponent posComp, float newVal, bool moveToContact)
@@ -293,7 +161,7 @@ namespace RunningGame.Systems
                 VelocityComponent velComp = (VelocityComponent)posComp.myEntity.getComponent(GlobalVars.VELOCITY_COMPONENT_NAME);
 
                 //List of all collisions caused by potential move
-                ArrayList collisions = level.getCollisionSystem().checkForCollision(posComp.myEntity, xVal, yVal, posComp.width, posComp.height);
+                List<Entity> collisions = level.getCollisionSystem().checkForCollision(posComp.myEntity, xVal, yVal, posComp.width, posComp.height);
                 
                 //If there's a collision
                 if (collisions.Count > 0 && !(level is CreationLevel))

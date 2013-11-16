@@ -12,8 +12,8 @@ namespace RunningGame.Systems
     public class SquishSystem : GameSystem
     {
 
-        //All systems MUST have an ArrayList of requiredComponents (May need to add using System.Collections at start of file)
-        ArrayList requiredComponents = new ArrayList();
+        //All systems MUST have an List of requiredComponents (May need to add using System.Collections at start of file)
+        List<string> requiredComponents = new List<string>();
         //All systems MUST have a variable holding the level they're contained in
         Level level;
 
@@ -37,7 +37,7 @@ namespace RunningGame.Systems
 
         //-------------------------------------- Overrides -------------------------------------------
         // Must have this. Same for all Systems.
-        public override ArrayList getRequiredComponents()
+        public override List<string> getRequiredComponents()
         {
             return requiredComponents;
         }
@@ -268,9 +268,9 @@ namespace RunningGame.Systems
             if (posComp.width < squishComp.baseWidth)
             {
                 //Collisions on left or right side?
-                ArrayList leftCollisions = level.getCollisionSystem().findObjectsBetweenPoints(posComp.x - posComp.width / 2 - 1,
+                List<Entity> leftCollisions = level.getCollisionSystem().findObjectsBetweenPoints(posComp.x - posComp.width / 2 - 1,
                     posComp.y - posComp.height / 2 - 1, posComp.x - posComp.width / 2 - 1, posComp.y + posComp.height / 2 - 1);
-                ArrayList rightCollisions = level.getCollisionSystem().findObjectsBetweenPoints(posComp.x + posComp.width / 2 + 1,
+                List<Entity> rightCollisions = level.getCollisionSystem().findObjectsBetweenPoints(posComp.x + posComp.width / 2 + 1,
                     posComp.y - posComp.height / 2 - 1, posComp.x + posComp.width / 2 + 1, posComp.y + posComp.height / 2 - 1);
                 
                 bool leftSide = false;
@@ -329,9 +329,9 @@ namespace RunningGame.Systems
             {
 
                 //Collisions on left or right side?
-                ArrayList upperCollisions = level.getCollisionSystem().findObjectsBetweenPoints(posComp.x - posComp.width / 2 + 1,
+                List<Entity> upperCollisions = level.getCollisionSystem().findObjectsBetweenPoints(posComp.x - posComp.width / 2 + 1,
                     posComp.y + posComp.height / 2 + 1, posComp.x + posComp.width / 2 - 1, posComp.y + posComp.height / 2 + 1);
-                ArrayList lowerCollisions = level.getCollisionSystem().findObjectsBetweenPoints(posComp.x - posComp.width / 2 + 1,
+                List<Entity> lowerCollisions = level.getCollisionSystem().findObjectsBetweenPoints(posComp.x - posComp.width / 2 + 1,
                     posComp.y - posComp.height / 2 - 1, posComp.x + posComp.width / 2 - 1, posComp.y - posComp.height / 2 - 1);
 
                 bool upperSide = false;

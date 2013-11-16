@@ -44,6 +44,7 @@ namespace RunningGame
         public static string OBJECT_LINK_COMPONENT_NAME = "objLinkedComponent";
         public static string BACKGROUND_COMPONENT_NAME = "backgroundComponent";
         public static string MOVING_PLATFORM_COMPONENT_NAME = "movPlatComponent";
+        public static string GRAPPLE_COMPONENT_NAME = "grappleComponent";
 
         //Collider Types
         public static string PLAYER_COLLIDER_TYPE = "playerCollider";
@@ -56,10 +57,11 @@ namespace RunningGame
         public static string SIMPLE_ENEMY_COLLIDER_TYPE = "simpleEnemyCollider";
         public static string BULLET_COLLIDER_TYPE = "bulletCollider";
         public static string END_LEVEL_COLLIDER_TYPE = "endLevelCollider";
-        public static string MOVING_PLATFORM_COLLIDER_TYPE = "movPlatCol";
+        public static string MOVING_PLATFORM_COLLIDER_TYPE = "movPlatCollider";
 
         //Collection of all in game entities
-        public static Dictionary<int, Entity> allEntities = new Dictionary<int, Entity>();
+        public static Dictionary<int, Entity> nonGroundEntities = new Dictionary<int, Entity>();
+        public static Dictionary<int, Entity> groundEntities = new Dictionary<int, Entity>();
         //Collection of entities that are at the start of the level but have been removed.
         public static Dictionary<int, Entity> removedStartingEntities = new Dictionary<int, Entity>();
 
@@ -90,8 +92,14 @@ namespace RunningGame
         public static string DOOR_CLOSED_SPRITE_NAME = "closedDoorSprite";
         public static string SWITCH_INACTIVE_SPRITE_NAME = "inactiveSwitch";
         public static string SWITCH_ACTIVE_SPRITE_NAME = "activeSwitch";
+        public static string POWERUP_INDICATOR_BOUNCE = "bounceInd";
+        public static string POWERUP_INDICATOR_SPEEDY = "speedyInd";
+        public static string POWERUP_INDICATOR_SPAWN = "spawnInd";
+        public static string POWERUP_INDICATOR_NONE = "noneInd";
         public static float SIMPLE_ENEMY_H_SPEED = 50.0f;
         public static float BULLET_SPEED = 250.0f;
         public static float MOVING_PLATFORM_SPEED = 50.0f;
+        public static float MAX_GRAPPLE_DISTANCE = 300.0f; //Pixels
+        public static int MAX_NUM_BULLETS = 2;
     }
 }

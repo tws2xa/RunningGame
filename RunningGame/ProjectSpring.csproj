@@ -78,6 +78,7 @@
     <Compile Include="Components\Component.cs" />
     <Compile Include="Components\ComponentTemplate.cs" />
     <Compile Include="Components\DrawComponent.cs" />
+    <Compile Include="Components\GrappleComponent.cs" />
     <Compile Include="Components\GravityComponent.cs" />
     <Compile Include="Components\HealthComponent.cs" />
     <Compile Include="Components\MovingPlatformComponent.cs" />
@@ -95,7 +96,9 @@
     <Compile Include="DeathHandler.cs" />
     <Compile Include="Entities\BackgroundEntity.cs" />
     <Compile Include="Entities\BasicGround.cs" />
+    <Compile Include="Entities\GrappleEntity.cs" />
     <Compile Include="Entities\MovingPlatformEntity.cs" />
+    <Compile Include="Entities\PowerupUIEntity.cs" />
     <Compile Include="Entities\spawnBlockEntity.cs" />
     <Compile Include="Entities\BulletEntity.cs" />
     <Compile Include="Entities\DeadPlayerEntity.cs" />
@@ -127,6 +130,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="Systems\BackgroundPositionSystem.cs" />
+    <Compile Include="Systems\GrappleSystem.cs" />
     <Compile Include="Systems\MovingPlatformSystem.cs" />
     <Compile Include="Systems\PlayerWeaponSystem.cs" />
     <Compile Include="Systems\SimpleEnemyAISystem.cs" />
@@ -294,6 +298,23 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\Artwork\Foreground\Dirt61.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Levels\World5Level1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Levels\World5Level2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Levels\Tall.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Artwork\Other\BlueSpeedy.png" />
+    <EmbeddedResource Include="Resources\Artwork\Other\OrangeSpawn.png" />
+    <EmbeddedResource Include="Resources\Artwork\Other\PurpleBounce.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Artwork\Other\GrayNone.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

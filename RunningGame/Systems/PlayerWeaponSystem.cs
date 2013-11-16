@@ -12,23 +12,26 @@ namespace RunningGame.Systems
     [Serializable()]
     public class PlayerWeaponSystem:GameSystem
     {
-        ArrayList requiredComponents = new ArrayList();
+        List<string> requiredComponents = new List<string>();
         Level level;
 
         public bool recoil = true;
         public float recoilMultiplier = 0.5f;
+        public float recoilCap = 200.0f; //Don't recoil if velocity is over this
+
+        bool bulletFired = false;
+        int numBullets = 0;
 
         //Constructor - Always read in the level! You can read in other stuff too if need be.
         public PlayerWeaponSystem(Level level)
         {
-            //No required components
             this.level = level; //Always have this
 
         }
 
         //-------------------------------------- Overrides -------------------------------------------
         // Must have this. Same for all Systems.
-        public override ArrayList getRequiredComponents()
+        public override List<string> getRequiredComponents()
         {
             return requiredComponents;
         }
@@ -41,10 +44,29 @@ namespace RunningGame.Systems
 
         public override void Update(float deltaTime)
         {
+            //Only count up num bullets if a weapon has been fired.
+            //If it hasn't then don't waste the time.
+            numBullets = 0;
+            if (bulletFired)
+            {
+                foreach (Entity e in GlobalVars.nonGroundEntities.Values)
+                {
+                    if (e is BulletEntity) numBullets++;
+                }
+
+                if (numBullets <= 0) bulletFired = false;
+            }
+
             if (level.getInputSystem().mouseLeftClick)
             {
-                if(level.getPlayer() != null)
-                    fireWeapon((PositionComponent)level.getPlayer().getComponent(GlobalVars.POSITION_COMPONENT_NAME));
+                if (level.getPlayer() != null)
+                {
+                    //Count up number of already existing bullets
+                    if (numBullets < GlobalVars.MAX_NUM_BULLETS)
+                    {
+                        fireWeapon((PositionComponent)level.getPlayer().getComponent(GlobalVars.POSITION_COMPONENT_NAME));
+                    }
+                }
             }
         }
         //--------------------------------------------------------------------------------------------
@@ -71,7 +93,6 @@ namespace RunningGame.Systems
             //Make the bullet
             BulletEntity bullet = new BulletEntity(level, posComp.x, posComp.y, (float)xVel, (float)yVel);
             level.addEntity(bullet.randId, bullet);
-
             //level.sysManager.sndSystem.playSound("RunningGame.Resources.Sounds.boop.wav", false);
 
             //Recoil
@@ -92,11 +113,19 @@ namespace RunningGame.Systems
                     float lowerY = (posComp.y + posComp.height / 2 + 1);
                     if (!(level.getCollisionSystem().findObjectsBetweenPoints(leftX, lowerY, rightX, lowerY).Count > 0))
                     {
-                        playerVelComp.x -= (float)xVel * recoilMultiplier;
+                        //Check it isn't over the cap
+                        if (!((playerVelComp.x < 0 && playerVelComp.x < recoilCap) || (playerVelComp.x > 0 && playerVelComp.x > recoilCap)))
+                        {
+                            playerVelComp.x -= (float)xVel * recoilMultiplier;
+                        }
                     }
                 }
 
-                playerVelComp.y -= (float)yVel * recoilMultiplier;
+                //Check it isn't over the recoil cap
+                if (!((playerVelComp.y < 0 && playerVelComp.y < recoilCap) || (playerVelComp.y > 0 && playerVelComp.y > recoilCap)))
+                {
+                    playerVelComp.y -= (float)yVel * recoilMultiplier;
+                }
             }
 
             //Turn if need be
@@ -108,6 +137,7 @@ namespace RunningGame.Systems
             {
                 player.faceLeft();
             }
+            bulletFired = true;
         }
 
     }
