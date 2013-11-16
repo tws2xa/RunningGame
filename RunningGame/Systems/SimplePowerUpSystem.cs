@@ -19,9 +19,10 @@ namespace RunningGame.Systems
         //Glide powerup informations
         float Glide_Gravity_Decrease = 130.0f;
         Keys glideKey = Keys.G;
-        float glideDuration = 2.0f;
+        float glideDuration = 1.5f;
         float glideTimer;
         bool glideActive = false;
+        float maxVelocity = 105.0f;
 
         //addBlock information
         Keys blockSpawnKey = Keys.K;
@@ -61,7 +62,12 @@ namespace RunningGame.Systems
             }
             if (glideActive) 
             {
-               
+                
+                VelocityComponent velComp = (VelocityComponent)this.level.getPlayer().getComponent(GlobalVars.VELOCITY_COMPONENT_NAME);
+                if (velComp.x> maxVelocity)
+                {
+                    velComp.setVelocity(maxVelocity, 0);
+                }
                 glideTimer = glideTimer - deltaTime;
                 if (glideTimer < 0.0f)
                 {
@@ -153,7 +159,10 @@ namespace RunningGame.Systems
                     blockEntity(posComp.x + posComp.width * 1.5f, posComp.y);
 
                 }
-                else blockEntity(posComp.x - posComp.width * 1.5f, posComp.y);
+                if (player.isLookingLeft())
+                {
+                    blockEntity(posComp.x - posComp.width * 1.5f, posComp.y);
+                }
                 
             }
         public void blockEntity(float x, float y)
