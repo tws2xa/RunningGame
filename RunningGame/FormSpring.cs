@@ -176,10 +176,10 @@ namespace RunningGame
                     Console.WriteLine("Error: Selecting level 1 in world 0");
                     break;
                 case (1):
-                    loadLevel("RunningGame.Resources.Levels.Tutorial.png", 1, 1); //World 1 Level 1
+                    loadLevel("RunningGame.Resources.Levels.World1Level1.png", 1, 1); //World 1 Level 1
                     break;
                 case (2):
-                    loadLevel("RunningGame.Resources.Levels.PresentationLevel.png", 5, 1); //World 2 Level 1
+                    loadLevel("RunningGame.Resources.Levels.World2Level1.png", 5, 1); //World 2 Level 1
                     break;
                 case (3):
                     loadLevel("RunningGame.Resources.Levels.PresentationLevelExtended.png", 3, 1); //World 3 Level 1
@@ -205,10 +205,10 @@ namespace RunningGame
                     Console.WriteLine("Error: Selecting level 2 in world 0");
                     break;
                 case (1):
-                    loadLevel("RunningGame.Resources.Levels.EnemyLevel4.png", 1, 2); //World 1 Level 2
+                    loadLevel("RunningGame.Resources.Levels.World1Level2.png", 1, 2); //World 1 Level 2
                     break;
                 case (2):
-                    loadLevel("RunningGame.Resources.Levels.PresentationLevel.png", 2, 2); //World 2 Level 2
+                    loadLevel("RunningGame.Resources.Levels.World2Level2.png", 2, 2); //World 2 Level 2
                     break;
                 case (3):
                     loadLevel("RunningGame.Resources.Levels.PresentationLevelExtended.png", 3, 2); //World 3 Level 2
