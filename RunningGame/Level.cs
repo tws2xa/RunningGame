@@ -250,7 +250,7 @@ namespace RunningGame
         {
             paused = true; // Pause the game briefly
 
-            Entity[] ents = GlobalVars.allEntities.Values.ToArray();
+            Entity[] ents = GlobalVars.nonGroundEntities.Values.ToArray();
             for (int i = 0; i < ents.Length; i++)
             {
                 if (ents[i].isStartingEntity)
@@ -258,6 +258,16 @@ namespace RunningGame
                 else
                 {
                     removeEntity(ents[i]);
+                }
+            }
+            Entity[] grndents = GlobalVars.groundEntities.Values.ToArray();
+            for (int i = 0; i < grndents.Length; i++)
+            {
+                if (grndents[i].isStartingEntity)
+                    grndents[i].revertToStartingState();
+                else
+                {
+                    removeEntity(grndents[i]);
                 }
             }
             foreach (Entity e in GlobalVars.removedStartingEntities.Values)
@@ -274,13 +284,21 @@ namespace RunningGame
         public virtual void removeAllEntities()
         {
             
-            while(GlobalVars.allEntities.Values.Count > 0)
+            while(GlobalVars.nonGroundEntities.Values.Count > 0)
             {
-                Entity e = GlobalVars.allEntities.Values.ToArray()[0];
+                Entity e = GlobalVars.nonGroundEntities.Values.ToArray()[0];
                 removeEntity(e);
             }
-            
-            GlobalVars.allEntities.Clear();
+
+            GlobalVars.nonGroundEntities.Clear();
+
+            while (GlobalVars.groundEntities.Values.Count > 0)
+            {
+                Entity e = GlobalVars.groundEntities.Values.ToArray()[0];
+                removeEntity(e);
+            }
+
+            GlobalVars.groundEntities.Clear();
         }
 
         //Input
@@ -331,16 +349,17 @@ namespace RunningGame
                 sysManager = new SystemManager(this);
                 sysManagerInit = true;
             }
-            if (!GlobalVars.allEntities.ContainsKey(id))
-            {
-                GlobalVars.allEntities.Add(id, e);
 
-                if (e.hasComponent(GlobalVars.COLLIDER_COMPONENT_NAME))
-                    colliderAdded(e);
+            if (e is BasicGround)
+            {
+                GlobalVars.groundEntities.Add(id, e);
+                colliderAdded(e);
             }
             else
             {
-                Console.WriteLine("Trying to add duplicate entity : " + e);
+                GlobalVars.nonGroundEntities.Add(id, e);
+                if (e.hasComponent(GlobalVars.COLLIDER_COMPONENT_NAME))
+                    colliderAdded(e);
             }
         }
         public virtual void removeEntity(Entity e)
@@ -349,11 +368,24 @@ namespace RunningGame
             {
                 getCollisionSystem().colliderRemoved(e);
             }
-            if (GlobalVars.allEntities.ContainsKey(e.randId))
+
+            if (e is BasicGround)
             {
-                if (e.isStartingEntity)
-                    GlobalVars.removedStartingEntities.Add(e.randId, e);
-                GlobalVars.allEntities.Remove(e.randId);
+                if (GlobalVars.groundEntities.ContainsKey(e.randId))
+                {
+                    if (e.isStartingEntity)
+                        GlobalVars.removedStartingEntities.Add(e.randId, e);
+                    GlobalVars.groundEntities.Remove(e.randId);
+                }
+            }
+            else
+            {
+                if (GlobalVars.nonGroundEntities.ContainsKey(e.randId))
+                {
+                    if (e.isStartingEntity)
+                        GlobalVars.removedStartingEntities.Add(e.randId, e);
+                    GlobalVars.nonGroundEntities.Remove(e.randId);
+                }
             }
         }
 
@@ -474,8 +506,12 @@ namespace RunningGame
         }
 
         //Getters
-        public virtual Dictionary<int, Entity> getEntities() {
-            return GlobalVars.allEntities;
+        public virtual Dictionary<int, Entity> getNonGroundEntities() {
+            return GlobalVars.nonGroundEntities;
+        }
+        public virtual Dictionary<int, Entity> getGroundEntities()
+        {
+            return GlobalVars.groundEntities;
         }
         public virtual MovementSystem getMovementSystem()
         {
@@ -493,7 +529,7 @@ namespace RunningGame
         }
         public virtual Player getPlayer()
         {
-            foreach (Entity e in GlobalVars.allEntities.Values)
+            foreach (Entity e in GlobalVars.nonGroundEntities.Values)
             {
                 if (e.hasComponent(GlobalVars.PLAYER_COMPONENT_NAME)) return (Player)e;
             }

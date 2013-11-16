@@ -49,7 +49,7 @@ namespace RunningGame.Systems
             numBullets = 0;
             if (bulletFired)
             {
-                foreach (Entity e in GlobalVars.allEntities.Values)
+                foreach (Entity e in GlobalVars.nonGroundEntities.Values)
                 {
                     if (e is BulletEntity) numBullets++;
                 }

@@ -326,11 +326,15 @@ namespace RunningGame
             ents.Add(creationGame.getCurrentLevel().levelWidth);
             ents.Add(creationGame.getCurrentLevel().levelHeight);
 
-            foreach (Entity ent in GlobalVars.allEntities.Values)
+            foreach (Entity ent in GlobalVars.nonGroundEntities.Values)
             {
                 ents.Add(ent);
             }
-            
+            foreach (Entity ent in GlobalVars.groundEntities.Values)
+            {
+                ents.Add(ent);
+            }
+
             serializer.Serialize(stream, ents);
 
             Console.WriteLine("Level File Location: " + stream.Name);

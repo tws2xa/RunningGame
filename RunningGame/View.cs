@@ -116,7 +116,7 @@ namespace RunningGame
             //If there's a grapple, draw it
             if (level.sysManager.grapSystem.isGrappling)
             {
-                foreach (Entity e in GlobalVars.allEntities.Values)
+                foreach (Entity e in GlobalVars.nonGroundEntities.Values)
                 {
                     if (e is GrappleEntity)
                     {

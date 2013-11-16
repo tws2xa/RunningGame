@@ -26,7 +26,7 @@ namespace RunningGame.Systems
         CreationLevel creatLev = null;
         public View mainView;
         List<string> requiredComponents = new List<string>();
-       
+
         /************FLASH STUFF Begins here*/
         float flashTime = 0;
         int alpha = 0; // have to figure out the right number/ratio
@@ -184,6 +184,8 @@ namespace RunningGame.Systems
 
             //this is where all the entities are drawn
             mainView.Draw(g, entityList);
+
+
 
             //If you are in the level editor. Box the selected entities
             //Ignore this unless you are playing with level editor
