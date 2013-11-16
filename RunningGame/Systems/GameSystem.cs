@@ -80,7 +80,7 @@ namespace RunningGame
                 }
             }
 
-
+            //simple sorting by depth happens here
             applicableEntities = applicableEntities.OrderBy(o => o.depth).ToList();
             return applicableEntities;
 

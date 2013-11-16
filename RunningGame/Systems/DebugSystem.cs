@@ -21,7 +21,7 @@ namespace RunningGame.Systems
         Keys harmPlayerKey = Keys.H;
         Keys resetLevelKey = Keys.R;
         Keys flashKey = Keys.F;
-        Keys typeKey = Keys.T;
+        Keys typeKey = Keys.T; //prints out the all entity types to console
 
         bool hasRunOnce = false; //Used to add keys once and only once. Can't in constructor because inputSystem not ready yet
         bool addingDoor = false; //False = adding Switch
