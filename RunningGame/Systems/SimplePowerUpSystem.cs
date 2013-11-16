@@ -24,7 +24,7 @@ namespace RunningGame.Systems
         float glideDuration = 1.5f;
         float glideTimer;
         bool glideActive = false;
-        float maxVelocity = 105.0f;
+        float maxVelocity = 70.0f;
 
         //addBlock information
         bool blockSpawnEnabled = true;
@@ -81,9 +81,9 @@ namespace RunningGame.Systems
             {
                 
                 VelocityComponent velComp = (VelocityComponent)this.level.getPlayer().getComponent(GlobalVars.VELOCITY_COMPONENT_NAME);
-                if (velComp.x> maxVelocity)
+                if (velComp.y > maxVelocity)
                 {
-                    velComp.setVelocity(maxVelocity, 0);
+                    velComp.setVelocity(velComp.x, maxVelocity);
                 }
                 glideTimer = glideTimer - deltaTime;
                 if (glideTimer < 0.0f)
