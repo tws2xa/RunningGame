@@ -132,6 +132,10 @@ namespace RunningGame.Entities
                 addComponent(new PlayerInputComponent(this));
             }
 
+            if (!hasComponent(GlobalVars.GRAVITY_COMPONENT_NAME))
+            {
+                addComponent(new GravityComponent(0, GlobalVars.STANDARD_GRAVITY));
+            }
         }
         
 

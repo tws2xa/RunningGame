@@ -116,6 +116,14 @@ namespace RunningGame.Systems
             if (mouseX < playerPos.x)
             {
                 dir += Math.PI;
+                if (!level.getPlayer().isLookingLeft())
+                {
+                    level.getPlayer().faceLeft();
+                }
+            }
+            else if (mouseX > playerPos.x && !level.getPlayer().isLookingRight())
+            {
+                level.getPlayer().faceRight();
             }
 
             //Add the entity
@@ -124,6 +132,7 @@ namespace RunningGame.Systems
             VelocityComponent velComp = (VelocityComponent)level.getPlayer().getComponent(GlobalVars.VELOCITY_COMPONENT_NAME);
             velComp.x = 0;
             level.getPlayer().removeComponent(GlobalVars.PLAYER_INPUT_COMPONENT_NAME);
+            if(level.sysManager.grapSystem.removeGravity == 1) level.getPlayer().removeComponent(GlobalVars.GRAVITY_COMPONENT_NAME);
         }
 
         public void glide()

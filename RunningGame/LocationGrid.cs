@@ -184,22 +184,36 @@ namespace RunningGame
 
             int skipNum = 1;
 
+            /*
             float lowerX = Math.Min(x1, x2);
             float higherX = Math.Max(x1, x2);
             float lowerY = Math.Min(y1, y2);
             float higherY = Math.Max(y1, y2);
+            */
 
+            double theta = Math.Atan((y2 - y1) / (x2 - x1));
 
-            double theta = Math.Atan((higherY - lowerY) / (higherX - lowerX));
+            if (x2 < x1)
+            {
+                theta += Math.PI;
+            }
 
-            float checkX = lowerX;
-            float checkY = lowerY;
+            float checkX = x1;
+            float checkY = y1;
 
-            while (checkX <= lowerX && checkY <= lowerY)
+            bool hasChanged = false;
+
+            double dist = getDist(new PointF(checkX, checkY), new PointF(x2, y2));
+
+            while ( !hasChanged )
             {
                 retList = mergeArrayLists(retList, findObjectsAtPoint(checkX, checkY));
+                //Console.WriteLine("Checking (" + checkX + ", " + checkY + ")");
                 checkX += skipNum * (float)Math.Cos(theta);
                 checkY += skipNum * (float)Math.Sin(theta);
+                double tmp = dist;
+                dist = getDist(new PointF(checkX, checkY), new PointF(x2, y2));
+                if (tmp < dist) hasChanged = true; //If it's gotten longer, not shorter - stop.
             }
 
             /*
@@ -214,6 +228,12 @@ namespace RunningGame
             
             return retList;
 
+        }
+
+
+        public double getDist(PointF p1, PointF p2)
+        {
+            return Math.Sqrt(Math.Pow(p1.X - p2.X, 2) + Math.Pow(p1.Y - p2.Y, 2));
         }
 
 

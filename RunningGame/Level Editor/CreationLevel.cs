@@ -257,12 +257,12 @@ namespace RunningGame.Level_Editor
                 return sysManager.inputSystem;
             else return null;
         }
-        public override Entity getPlayer()
+        public override Player getPlayer()
         {
             foreach (Entity e in GlobalVars.allEntities.Values)
             {
                 if (e is Player)
-                    return e;
+                    return (Player)e;
             }
             return null;
         }

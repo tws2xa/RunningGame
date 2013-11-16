@@ -445,11 +445,11 @@ namespace RunningGame
                 return sysManager.inputSystem;
             else return null;
         }
-        public virtual Entity getPlayer()
+        public virtual Player getPlayer()
         {
             foreach (Entity e in GlobalVars.allEntities.Values)
             {
-                if (e.hasComponent(GlobalVars.PLAYER_COMPONENT_NAME)) return e;
+                if (e.hasComponent(GlobalVars.PLAYER_COMPONENT_NAME)) return (Player)e;
             }
 
             return null;

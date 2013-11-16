@@ -23,6 +23,11 @@ namespace RunningGame.Systems
         float followSpeed = 300;
         float retreatSpeed = 1000;
 
+        //0 = don't remove
+        //1 = remove on shoot
+        //2 = remove on latch
+        public int removeGravity = 2;
+
         public bool isGrappling = false;
 
         public List<string> grappleColliders = new List<string>()
@@ -71,16 +76,6 @@ namespace RunningGame.Systems
                     float newX = grapComp.getLastPoint().X;
                     float newY = grapComp.getLastPoint().Y;
 
-                    PointF p1 = new PointF(newX - 5, newY + 5);
-                    PointF p2 = new PointF(newX + 5, newY - 5);
-
-                    //Check if it's done grappling
-                    if (isGrappleableEntity(p1, p2))
-                    {
-                        grapComp.state = 1;
-                        return;
-                    }
-
                     //Check if the player has moved. If so move the start point of the grapple.
                     PositionComponent playerPos = (PositionComponent)level.getPlayer().getComponent(GlobalVars.POSITION_COMPONENT_NAME);
                     if (playerPos.getPointF() != grapComp.getFirstPoint())
@@ -89,7 +84,7 @@ namespace RunningGame.Systems
                         grapComp.setFirstPoint(playerPos.getPointF());
 
                         //Check to see if it's intersecting anything now
-                        if (isGrappleableEntity(grapComp.getFirstPoint(), grapComp.getLastPoint()))
+                        if (checkForStopsBetweenPoints(grapComp.getFirstPoint(), grapComp.getLastPoint()))
                         {
                             //If it DID intersect something, destroy the grapple.
                             finishGrapple(e, false);
@@ -111,8 +106,6 @@ namespace RunningGame.Systems
 
                     System.Drawing.PointF p = new System.Drawing.PointF(newX, newY);
 
-                    grapComp.setEndPoint(p);
-
                     //Don't allow it to go off the sides of the screen
                     if (newX < 0 || newY < 0 || newX > level.levelWidth || newY > level.levelHeight)
                     {
@@ -124,7 +117,31 @@ namespace RunningGame.Systems
                     if (getDist(grapComp.getFirstPoint(), grapComp.getLastPoint()) > GlobalVars.MAX_GRAPPLE_DISTANCE)
                     {
                         grapComp.state = 2; //Retreat!
+                        return;
                     }
+
+
+
+
+                    PointF p1 = new PointF(newX, newY);
+
+                    //PointF p1 = new PointF(newX, newY);
+
+                    //Check if it's done grappling
+                    Entity colEnt = null;
+                    if (checkForStopsBetweenPoints(grapComp.getLastPoint(), p1, ref colEnt))
+                    {
+                        PositionComponent pos = (PositionComponent)colEnt.getComponent(GlobalVars.POSITION_COMPONENT_NAME);
+                        grapComp.setEndPoint(pos.getPointF());
+                        grapComp.myLink = colEnt;
+                        grapComp.state = 1;
+                        if (removeGravity == 2) level.getPlayer().removeComponent(GlobalVars.GRAVITY_COMPONENT_NAME);
+                        return;
+                    }
+
+
+                    grapComp.setEndPoint(p);
+
 
                 }
                 //Following
@@ -143,6 +160,15 @@ namespace RunningGame.Systems
                     PointF newPlayerPos = grapComp.getFirstPoint();
                     //Move player
                     level.getMovementSystem().changePosition(playerPos, newPlayerPos.X, newPlayerPos.Y, true);
+
+
+                    //Check to see if it's intersecting anything mid-way
+                    if (checkForStopsBetweenPointsExclude(grapComp.getFirstPoint(), grapComp.getLastPoint(), grapComp.myLink))
+                    {
+                        //If it DID intersect something, destroy the grapple.
+                        finishGrapple(e, false);
+                        return;
+                    }
 
                     float buff = 0.5f;
 
@@ -186,6 +212,8 @@ namespace RunningGame.Systems
                 //Retreating
                 else if (grapComp.state == 2)
                 {
+                    PositionComponent playerPos = (PositionComponent)level.getPlayer().getComponent(GlobalVars.POSITION_COMPONENT_NAME);
+                    grapComp.setFirstPoint(playerPos.getPointF());
 
                     double distBefore = getDist(grapComp.getFirstPoint(), grapComp.getLastPoint());
 
@@ -196,18 +224,26 @@ namespace RunningGame.Systems
 
                     if (h > distBefore) h = (float)distBefore;
 
-                    newX += h * (float)Math.Cos(grapComp.direction+Math.PI);
-                    newY += h * (float)Math.Sin(grapComp.direction+Math.PI);
+                    //Calculate the direction
+                    double dir = Math.Atan((grapComp.getFirstPoint().Y-newY) / (grapComp.getFirstPoint().X-newX));
+
+                    if (grapComp.getFirstPoint().X < newX)
+                    {
+                        dir += Math.PI;
+                    }
+
+                    newX += h * (float)Math.Cos(dir);
+                    newY += h * (float)Math.Sin(dir);
 
                     System.Drawing.PointF p = new System.Drawing.PointF(newX, newY);
-
+                    
                     //Make sure it isn't getting longer
                     if (getDist(p, grapComp.getFirstPoint()) > distBefore)
                     {
                         finishGrapple(e, false);
                         return;
                     }
-
+                    
                     //Check if it's fully retreated - if so, delete the grapple!
                     float buffer = GlobalVars.MIN_TILE_SIZE;
                     if (Math.Abs(newX - grapComp.getFirstPoint().X) <= buffer && Math.Abs(newY - grapComp.getFirstPoint().Y) <= buffer)
@@ -232,7 +268,7 @@ namespace RunningGame.Systems
             return Math.Sqrt(Math.Pow(p1.X - p2.X, 2) + Math.Pow(p1.Y - p2.Y, 2));
         }
 
-        public bool isGrappleableEntity(PointF p1, PointF p2)
+        public bool checkForStopsBetweenPoints(PointF p1, PointF p2)
         {
             ArrayList cols = level.getCollisionSystem().findObjectsBetweenPoints(p1.X, p1.Y, p2.X, p2.Y);
             if (cols.Count > 0)
@@ -242,7 +278,41 @@ namespace RunningGame.Systems
                     ColliderComponent col = (ColliderComponent)e.getComponent(GlobalVars.COLLIDER_COMPONENT_NAME);
                     if (grappleColliders.Contains(col.colliderType))
                     {
-                        //level.removeEntity(e);
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
+        public bool checkForStopsBetweenPoints(PointF p1, PointF p2, ref Entity ent)
+        {
+            ArrayList cols = level.getCollisionSystem().findObjectsBetweenPoints(p1.X, p1.Y, p2.X, p2.Y);
+            if (cols.Count > 0)
+            {
+                foreach (Entity e in cols)
+                {
+                    ColliderComponent col = (ColliderComponent)e.getComponent(GlobalVars.COLLIDER_COMPONENT_NAME);
+                    if (grappleColliders.Contains(col.colliderType))
+                    {
+                        ent = e;
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
+        public bool checkForStopsBetweenPointsExclude(PointF p1, PointF p2, Entity exclude)
+        {
+            ArrayList cols = level.getCollisionSystem().findObjectsBetweenPoints(p1.X, p1.Y, p2.X, p2.Y);
+            if (cols.Count > 0)
+            {
+                foreach (Entity e in cols)
+                {
+                    ColliderComponent col = (ColliderComponent)e.getComponent(GlobalVars.COLLIDER_COMPONENT_NAME);
+                    if (e != exclude && grappleColliders.Contains(col.colliderType))
+                    {
                         return true;
                     }
                 }
@@ -258,6 +328,11 @@ namespace RunningGame.Systems
                 PlayerInputComponent plInComp= (PlayerInputComponent)level.getPlayer().addComponent(new PlayerInputComponent(level.getPlayer()));
                 plInComp.passedAirjumps = 0;
             }
+            if (!level.getPlayer().hasComponent(GlobalVars.GRAVITY_COMPONENT_NAME))
+            {
+                level.getPlayer().addComponent(new GravityComponent(0, GlobalVars.STANDARD_GRAVITY));
+            }
+
 
             if (stopPlayer)
             {

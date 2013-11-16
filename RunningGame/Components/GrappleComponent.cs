@@ -17,6 +17,8 @@ namespace RunningGame.Components
 
         public double direction = 0.0f;
 
+        public Entity myLink = null;
+
         //public List<PointF> points = new List<PointF>();
 
         PointF startPoint;
