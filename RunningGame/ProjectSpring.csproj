@@ -98,6 +98,7 @@
     <Compile Include="Entities\BasicGround.cs" />
     <Compile Include="Entities\GrappleEntity.cs" />
     <Compile Include="Entities\MovingPlatformEntity.cs" />
+    <Compile Include="Entities\PowerupUIEntity.cs" />
     <Compile Include="Entities\spawnBlockEntity.cs" />
     <Compile Include="Entities\BulletEntity.cs" />
     <Compile Include="Entities\DeadPlayerEntity.cs" />
@@ -306,6 +307,14 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\Levels\Tall.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Artwork\Other\BlueSpeedy.png" />
+    <EmbeddedResource Include="Resources\Artwork\Other\OrangeSpawn.png" />
+    <EmbeddedResource Include="Resources\Artwork\Other\PurpleBounce.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Artwork\Other\GrayNone.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

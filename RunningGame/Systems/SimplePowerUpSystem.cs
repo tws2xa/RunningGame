@@ -15,8 +15,10 @@ namespace RunningGame.Systems
         
         List<string> requiredComponents = new List<string>();
         Level level;
+        //public PowerupUIEntity indicator;
 
         //Glide powerup informations
+        bool glideEnabled = true;
         float Glide_Gravity_Decrease = 130.0f;
         Keys glideKey = Keys.G;
         float glideDuration = 2.0f;
@@ -24,12 +26,21 @@ namespace RunningGame.Systems
         bool glideActive = false;
 
         //addBlock information
+        bool blockSpawnEnabled = true;
         Keys blockSpawnKey = Keys.K;
 
         //Grapple
-       
+        bool grappleEnabled = true;
         bool hasRunOnce = false; //Used to add keys once and only once. Can't in constructor because inputSystem not ready yet
        
+
+        //Bouncy
+        public bool bouncyEnabledTEMP = false;
+
+        //Speedy
+        public bool speedyEnabledTEMP = false;
+
+
 
         public SimplePowerUpSystem(Level level)
         {
@@ -57,6 +68,12 @@ namespace RunningGame.Systems
             {
                 level.getInputSystem().addKey(glideKey);
                 level.getInputSystem().addKey(blockSpawnKey);
+                //Create and set the powerup ui indicator
+
+                //PowerupUIEntity ind = new PowerupUIEntity(level, 0, 0);
+                //level.addEntity(ind);
+                //this.indicator = ind;
+
                 hasRunOnce = true;
             }
             if (glideActive) 
@@ -82,17 +99,51 @@ namespace RunningGame.Systems
 
         public void checkForInput()
         {
-            if (level.getInputSystem().myKeys[glideKey].down)
+            if (glideEnabled && level.getInputSystem().myKeys[glideKey].down)
             {
                 glide();
             }
-            if (level.getInputSystem().myKeys[blockSpawnKey].down)
+            if (blockSpawnEnabled && level.getInputSystem().myKeys[blockSpawnKey].down)
             {
                 blockSpawn();
             }
-            if (level.getInputSystem().mouseRightClick)
+            if (grappleEnabled && level.getInputSystem().mouseRightClick)
             {
                 Grapple();
+            }
+        }
+
+        //Order (from top to bottom)
+        //Bounce
+        //Speed
+        //Spawn
+        //None - Remove?
+        public void CycleThroughEquips(bool down)
+        {
+            if (bouncyEnabledTEMP)
+            {
+                bouncyEnabledTEMP = false;
+                speedyEnabledTEMP = true;
+                blockSpawnEnabled = false;
+            }
+            else if (speedyEnabledTEMP)
+            {
+                bouncyEnabledTEMP = false;
+                speedyEnabledTEMP = false;
+                blockSpawnEnabled = true;
+            }
+            else if (blockSpawnEnabled)
+            {
+
+                bouncyEnabledTEMP = false;
+                speedyEnabledTEMP = false;
+                blockSpawnEnabled = false;
+            }
+            else
+            {
+                bouncyEnabledTEMP = true;
+                speedyEnabledTEMP = false;
+                blockSpawnEnabled = false;
             }
         }
 
