@@ -107,6 +107,7 @@ namespace RunningGame
             //First, if there's a background entity, draw that!
             foreach (Entity e in entities)
             {
+         
                 if (e is BackgroundEntity)
                 {
                     drawEntity(e);

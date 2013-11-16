@@ -23,7 +23,7 @@ namespace RunningGame.Entities
         public SimpleEnemyEntity(Level level, float x, float y)
         {
             this.level = level;
-
+            this.depth = 3;
             initializeEntity(new Random().Next(Int32.MinValue, Int32.MaxValue), level);
 
             addMyComponents(x, y);
