@@ -30,6 +30,7 @@ namespace RunningGame.Systems
         bool blockSpawnEnabled = true;
         Keys blockSpawnKey = Keys.K;
 
+
         //Grapple
         bool grappleEnabled = true;
         bool hasRunOnce = false; //Used to add keys once and only once. Can't in constructor because inputSystem not ready yet
@@ -210,7 +211,7 @@ namespace RunningGame.Systems
                     blockEntity(posComp.x + posComp.width * 1.5f, posComp.y);
 
                 }
-                if (player.isLookingLeft())
+                else if (player.isLookingLeft())
                 {
                     blockEntity(posComp.x - posComp.width * 1.5f, posComp.y);
                 }

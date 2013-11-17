@@ -45,6 +45,8 @@ namespace RunningGame
 
         public Level level;
 
+        public BackgroundEntity bkgEnt = null;
+
         //Constructor that defaults to a 1:1 ratio for width and height, upper left corner
         public View(float x, float y, float width, float height, Level level)
         {
@@ -99,19 +101,23 @@ namespace RunningGame
         {
 
 
-            g.FillRectangle(bkgBrush, new Rectangle(0, 0, (int)width, (int)height)); //Clear
-            //draw flash, if there is a flash setting
-
-
+            //g.FillRectangle(bkgBrush, new Rectangle(0, 0, (int)width, (int)height)); //Clear
+            
             
             //First, if there's a background entity, draw that!
-            foreach (Entity e in entities)
+            if (bkgEnt == null)
             {
-                if (e is BackgroundEntity)
+                foreach (Entity e in entities)
                 {
-                    drawEntity(e);
+                    if (e is BackgroundEntity)
+                    {
+                        bkgEnt = (BackgroundEntity)e;
+                        break;
+                    }
                 }
             }
+
+            drawEntity(bkgEnt);
 
             //If there's a grapple, draw it
             if (level.sysManager.grapSystem.isGrappling)
@@ -174,13 +180,13 @@ namespace RunningGame
 
         public void drawEntity(Entity e)
         {
+
             //Pull out all required components
             PositionComponent posComp = (PositionComponent)e.getComponent(GlobalVars.POSITION_COMPONENT_NAME);
             DrawComponent drawComp = (DrawComponent)e.getComponent(GlobalVars.DRAW_COMPONENT_NAME);
 
             if (isInView(posComp))
             {
-
                 if (g != null)
                 {
                     Image img = null;
@@ -297,9 +303,16 @@ namespace RunningGame
 
         public bool isInView(PositionComponent posComp)
         {
-            if ((posComp.x + posComp.width) < x || (posComp.y + posComp.height) < y) return false;
 
-            if ((posComp.x - posComp.width) > (x + width) || (posComp.y - posComp.height) > (y + height)) return false;
+            if ((posComp.x + posComp.width) < x || (posComp.y + posComp.height) < y)
+            {
+                return false;
+            }
+
+            if ((posComp.x - posComp.width) > (x + width) || (posComp.y - posComp.height) > (y + height))
+            {
+                return false;
+            }
 
             return true;
 

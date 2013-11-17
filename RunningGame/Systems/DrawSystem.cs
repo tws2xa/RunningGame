@@ -186,7 +186,7 @@ namespace RunningGame.Systems
             mainView.Draw(g, entityList);
 
 
-
+            /*
             //If you are in the level editor. Box the selected entities
             //Ignore this unless you are playing with level editor
             if (creatLev != null && creatLev.vars.selectedEntity != null)
@@ -198,6 +198,7 @@ namespace RunningGame.Systems
                     g.DrawRectangle(selectedEntBorderColor, posComp.x - posComp.width / 2, posComp.y - posComp.height / 2, posComp.width, posComp.height);
                 }
             }
+             * */
 
             if(miniMapOn)
                 miniMap.Draw(g, entityList);
