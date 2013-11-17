@@ -107,9 +107,13 @@ namespace RunningGame
             //First, if there's a background entity, draw that!
             if (bkgEnt == null)
             {
+<<<<<<< HEAD
                 foreach (Entity e in entities)
-                {
+=======
          
+                if (e is BackgroundEntity)
+>>>>>>> f306fd0656861851e20c7ce6c29c11e9f59790c7
+                {
                     if (e is BackgroundEntity)
                     {
                         bkgEnt = (BackgroundEntity)e;

@@ -181,8 +181,8 @@ namespace RunningGame.Systems
         public void Draw(Graphics g)
         {
             List<Entity> entityList = getApplicableEntities();
-
-            //this is where all the entities are drawn
+            
+            //this is where all the entities are drawn, so modify this for depth
             mainView.Draw(g, entityList);
 
 

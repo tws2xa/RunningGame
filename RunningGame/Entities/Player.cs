@@ -21,19 +21,19 @@ namespace RunningGame.Entities
 
         float defaultWidth = 20;
         float defaultHeight = 20;
-
+        
         string rightImageName = "right";
         string leftImageName = "left";
 
         string blinkLeft = "binkLeft";
         string blinkRight = "blinkRight";
-
+        
         public Player() { }
 
         public Player(Level level, float x, float y)
         {
             this.level = level;
-
+            this.depth = 1;
             initializeEntity(new Random().Next(Int32.MinValue, Int32.MaxValue), level);
 
             addMyComponents(x, y);
