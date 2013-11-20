@@ -79,6 +79,7 @@ namespace RunningGame
         //Game Logic Stuff
         public void Update(float deltaTime)
         {
+            
             moveSystem.Update(deltaTime);
             bkgPosSystem.Update(deltaTime);
             scrEdgeSystem.Update(deltaTime);
@@ -96,7 +97,6 @@ namespace RunningGame
             slSystem.Update(deltaTime);
             switchSystem.Update(deltaTime);
             simpEnemySystem.Update(deltaTime);
-            movPlatSystem.Update(deltaTime);
             sndSystem.Update(deltaTime);
             debugSystem.Update(deltaTime);
             

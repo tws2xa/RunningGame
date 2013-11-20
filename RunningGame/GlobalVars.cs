@@ -78,6 +78,15 @@ namespace RunningGame
         public static float LEVEL_READER_TILE_WIDTH = 10; //How wide is one pixel?
         public static float LEVEL_READER_TILE_HEIGHT = 10; //How tall is one pixel?
 
+        //Powerup nums
+        public static int bouncePowerup = 0; //Purple
+        public static int speedPowerup = 1; //Blue
+        public static int dblJmpPowerup = 2; //Green
+        public static int gliderPowerup = 3; //Yellow
+        public static int blockSpwnPowerup = 4; //Orange
+        public static int grapplePowerup = 5; //Red
+
+
         //Key Bindings
         public static Keys KEY_JUMP = Keys.W;
         public static Keys KEY_LEFT = Keys.A;

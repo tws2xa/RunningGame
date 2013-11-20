@@ -156,8 +156,12 @@ namespace RunningGame
                 if(!(e is BackgroundEntity))
                     drawEntity(e);
             }
+            
 
+            
             mainG.DrawImage(drawImg, new Point((int)displayX, (int)displayY)); //Draw the view to the main window
+            
+            
             //Draw Border
             if (this.hasBorder)
             {
@@ -172,10 +176,6 @@ namespace RunningGame
                 mainG.FillRectangle(level.sysManager.drawSystem.getFlashBrush(), new Rectangle((int)(displayX), (int)(displayY),
                 (int)(displayWidth), (int)(displayHeight)));
             }
-            
-
-            
-
 
         }
 
@@ -194,8 +194,6 @@ namespace RunningGame
                     //If size is locked, don't resize the image.
                     if (drawComp.sizeLocked && wRatio == 1 && hRatio == 1)
                     {
-                        //Size imageSize = new Size((int)Math.Round(drawComp.width * wRatio), (int)Math.Round(drawComp.height * hRatio));
-                        //img = new Bitmap(drawComp.sprite, imageSize);
                         img = drawComp.getImage();
                     }
                     else
@@ -217,7 +215,7 @@ namespace RunningGame
 
                     lock (img)
                         g.DrawImage(img, drawPoint); //Draw the image to the view
-
+                    
                     //Health bar if need be
                     if (e.hasComponent(GlobalVars.HEALTH_COMPONENT_NAME))
                     {
