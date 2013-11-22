@@ -88,9 +88,9 @@ namespace RunningGame.Entities
             drawComp.setSprite(blinkRight);
 
             //Animation Component
-            AnimationComponent animComp = (AnimationComponent)addComponent(new AnimationComponent(0.5f));
-            //animComp.pauseTimeAfterCycle = 5.0f;
-
+            AnimationComponent animComp = (AnimationComponent)addComponent(new AnimationComponent(GlobalVars.playerAnimatonSpeed));
+            animComp.animationOn = false;
+            
             //Player Component
             addComponent(new PlayerComponent());
 

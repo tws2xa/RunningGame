@@ -90,6 +90,10 @@ namespace RunningGame.Systems
             if (yDiff > 0 && yVel < 0) yVel = -yVel;
             if (yDiff < 0 && yVel > 0) yVel = -yVel;
 
+            if (level.sysManager.spSystem.speedyActive && xVel > 0) xVel += GlobalVars.SPEEDY_SPEED;
+            else if (level.sysManager.spSystem.speedyActive && xVel < 0) xVel -= GlobalVars.SPEEDY_SPEED;
+
+
             //Make the bullet
             BulletEntity bullet = new BulletEntity(level, posComp.x, posComp.y, (float)xVel, (float)yVel);
             level.addEntity(bullet.randId, bullet);
@@ -103,7 +107,7 @@ namespace RunningGame.Systems
                 //Don't recoil if the player is walking in the direcion of the shot
                 if (!((xVel > 0 && level.getInputSystem().myKeys[GlobalVars.KEY_RIGHT].pressed) || (xVel < 0 && level.getInputSystem().myKeys[GlobalVars.KEY_LEFT].pressed)))
                 {
-                    playerVelComp.x -= (float)xVel * recoilMultiplier;
+                    if(!level.sysManager.spSystem.speedyActive) playerVelComp.x -= (float)xVel * recoilMultiplier;
                 }
                 else
                 {
@@ -116,7 +120,7 @@ namespace RunningGame.Systems
                         //Check it isn't over the cap
                         if (!((playerVelComp.x < 0 && playerVelComp.x < recoilCap) || (playerVelComp.x > 0 && playerVelComp.x > recoilCap)))
                         {
-                            playerVelComp.x -= (float)xVel * recoilMultiplier;
+                            if (!level.sysManager.spSystem.speedyActive) playerVelComp.x -= (float)xVel * recoilMultiplier;
                         }
                     }
                 }
