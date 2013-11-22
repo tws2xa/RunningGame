@@ -53,7 +53,7 @@ namespace RunningGame
         public static string INSTANT_DEATH_COLLIDER_TYPE = "instantDeathCollider";
         public static string GLIDE_COLLIDER_TYPE = "glideCollider";
         public static string POWERUP_COLLIDER_TYPE = "powerupCollider";
-        public static string SPEEDY_COLLIDER_TYPE = "speedyCollider";
+        public static string SPEEDY_PREGROUND_COLLIDER_TYPE = "speedyPreGroundCollider";
         public static string SPEEDY_POSTGROUND_COLLIDER_TYPE = "speedyPostGroundCollider";
         public static string SWITCH_COLLIDER_TYPE = "switchCollider";
         public static string SIMPLE_ENEMY_COLLIDER_TYPE = "simpleEnemyCollider";
