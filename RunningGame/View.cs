@@ -153,8 +153,8 @@ namespace RunningGame
             //For all applicable entities (Entities with required components)
             foreach (Entity e in entities)
             {
-                if(!(e is BackgroundEntity))
-                    drawEntity(e);
+                if (!(e is BackgroundEntity))
+                  drawEntity(e);
             }
             
 
@@ -179,9 +179,46 @@ namespace RunningGame
 
         }
 
-        public void drawEntity(Entity e)
+
+        public void drawBkgEntity()
         {
 
+            //Pull out all required components
+            PositionComponent posComp = (PositionComponent)bkgEnt.getComponent(GlobalVars.POSITION_COMPONENT_NAME);
+            DrawComponent drawComp = (DrawComponent)bkgEnt.getComponent(GlobalVars.DRAW_COMPONENT_NAME);
+
+            if (isInView(posComp))
+            {
+                if (g != null)
+                {
+                    Image img = drawComp.getImage();
+
+                    //Bitmap bigImg = (Bitmap)drawComp.getImage();
+                    //Bitmap img = bigImg.Clone(new Rectangle((int)(displayX), (int)(displayY), (int)Math.Ceiling(displayWidth), (int)Math.Ceiling(displayHeight)), bigImg.PixelFormat);
+
+                    //Get center instead of upper left
+                    PointF drawPoint = new PointF(displayX, displayY);
+                    
+                    //drawPoint.X -= (img.Width / 2.0f);
+                    //drawPoint.Y -= (img.Height / 2.0f);
+
+                    //drawPoint.X -= this.x;
+                    //drawPoint.Y -= this.y;
+
+                    drawPoint.X *= wRatio;
+                    drawPoint.Y *= hRatio;
+
+
+                    lock (img)
+                        g.DrawImage(img, drawPoint); //Draw the image to the view.
+                }
+            }
+            
+        }
+
+        public void drawEntity(Entity e)
+        {
+            
             //Pull out all required components
             PositionComponent posComp = (PositionComponent)e.getComponent(GlobalVars.POSITION_COMPONENT_NAME);
             DrawComponent drawComp = (DrawComponent)e.getComponent(GlobalVars.DRAW_COMPONENT_NAME);
@@ -241,6 +278,7 @@ namespace RunningGame
                     }
                 }
             }
+            
         }
 
         public void Update()

@@ -62,7 +62,7 @@ namespace RunningGame.Systems
                 creatLev = (CreationLevel)level;
             }
 
-            mainView = new View(50, 0, level.cameraWidth, level.cameraHeight, 0, 0, level.cameraWidth, level.cameraHeight, level, level.getPlayer());
+            mainView = new View(0, 0, level.cameraWidth, level.cameraHeight, 0, 0, level.cameraWidth, level.cameraHeight, level, level.getPlayer());
             
             miniMap = new View(0, 0, level.levelWidth, level.levelHeight, level.cameraWidth-210, 10, 200, 100, level);
             miniMap.bkgBrush = Brushes.DarkTurquoise;
