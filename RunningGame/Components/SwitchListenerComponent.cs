@@ -61,11 +61,11 @@ namespace RunningGame.Components
 
         public void subscribe()
         {
-            foreach (int id in GlobalVars.allEntities.Keys)
+            foreach (int id in GlobalVars.nonGroundEntities.Keys)
             {
                 if (id == this.switchId)
                 {
-                    this.mySwitch = (SwitchComponent)GlobalVars.allEntities[id].getComponent(GlobalVars.SWITCH_COMPONENT_NAME);
+                    this.mySwitch = (SwitchComponent)GlobalVars.nonGroundEntities[id].getComponent(GlobalVars.SWITCH_COMPONENT_NAME);
                     this.mySwitch.listeners.Add(this);   
                 }
             }

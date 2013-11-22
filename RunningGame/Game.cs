@@ -16,6 +16,7 @@ namespace RunningGame
      * Game is basically what sets everything up.
      * Holds Start Menu, could ask about any level modifiers etc
      * Eventually it starts the level.
+     * 
     */
     [Serializable()]
     class Game
@@ -65,8 +66,7 @@ namespace RunningGame
         public void startLevel(int world, int level)
         {
             //HERE IS WHERE YOU SAY WHICH LEVEL TO LOAD
-            currentLevel = new Level(winWidth, winHeight, "RunningGame.Resources.Levels.PresentationLevelExtended.png", world, level , true, dbGraphics);
-            //currentLevel = new Level(winWidth, winHeight, "RunningGame.Resources.Levels.Gigantor.png", true, dbGraphics);
+            currentLevel = new Level(winWidth, winHeight, "RunningGame.Resources.Levels.World2Level2.png", world, level , true, dbGraphics);
         }
         public void startLevel(string str, int world, int level)
         {

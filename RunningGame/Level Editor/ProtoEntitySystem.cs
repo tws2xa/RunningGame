@@ -13,7 +13,7 @@ namespace RunningGame.Level_Editor
     public class ProtoEntitySystem : GameSystem
     {
 
-        ArrayList requiredComponents = new ArrayList();
+        List<string> requiredComponents = new List<string>();
         CreationLevel level;
 
         //Constructor - Always read in the level! You can read in other stuff too if need be.
@@ -26,7 +26,7 @@ namespace RunningGame.Level_Editor
 
         //-------------------------------------- Overrides -------------------------------------------
         // Must have this. Same for all Systems.
-        public override ArrayList getRequiredComponents()
+        public override List<string> getRequiredComponents()
         {
             return requiredComponents;
         }

@@ -13,15 +13,18 @@ namespace RunningGame.Systems
     public class SimplePowerUpSystem: GameSystem
     {
         
-        ArrayList requiredComponents = new ArrayList();
+        List<string> requiredComponents = new List<string>();
         Level level;
+        //public PowerupUIEntity indicator;
 
         //Glide powerup informations
+        bool glideEnabled = true;
         float Glide_Gravity_Decrease = 130.0f;
         Keys glideKey = Keys.G;
-        float glideDuration = 2.0f;
+        float glideDuration = 1.5f;
         float glideTimer;
         bool glideActive = false;
+        float maxVelocity = 70.0f;
         
         //speedy powerup infos
         float speedyTime = 1.0f;
@@ -29,10 +32,22 @@ namespace RunningGame.Systems
         bool speedyActive = false;
 
         //addBlock information
+        bool blockSpawnEnabled = true;
         Keys blockSpawnKey = Keys.K;
-       
+
+
+        //Grapple
+        bool grappleEnabled = true;
         bool hasRunOnce = false; //Used to add keys once and only once. Can't in constructor because inputSystem not ready yet
        
+
+        //Bouncy
+        public bool bouncyEnabledTEMP = false;
+
+        //Speedy
+        public bool speedyEnabledTEMP = false;
+
+
 
         public SimplePowerUpSystem(Level level)
         {
@@ -42,7 +57,7 @@ namespace RunningGame.Systems
 
         //-------------------------------------- Overrides -------------------------------------------
         // Must have this. Same for all Systems.
-        public override ArrayList getRequiredComponents()
+        public override List<string> getRequiredComponents()
         {
             return requiredComponents;
         }
@@ -60,11 +75,22 @@ namespace RunningGame.Systems
             {
                 level.getInputSystem().addKey(glideKey);
                 level.getInputSystem().addKey(blockSpawnKey);
+                //Create and set the powerup ui indicator
+
+                //PowerupUIEntity ind = new PowerupUIEntity(level, 0, 0);
+                //level.addEntity(ind);
+                //this.indicator = ind;
+
                 hasRunOnce = true;
             }
             if (glideActive) 
             {
-               
+                
+                VelocityComponent velComp = (VelocityComponent)this.level.getPlayer().getComponent(GlobalVars.VELOCITY_COMPONENT_NAME);
+                if (velComp.y > maxVelocity)
+                {
+                    velComp.setVelocity(velComp.x, maxVelocity);
+                }
                 glideTimer = glideTimer - deltaTime;
                 if (glideTimer < 0.0f)
                 {
@@ -77,7 +103,7 @@ namespace RunningGame.Systems
 
             }
 
-            if (speedyActive)
+
             {
                 if (speedyTimer > 0)
                 {
@@ -98,18 +124,91 @@ namespace RunningGame.Systems
 
         public void checkForInput()
         {
-            /*if (level.getInputSystem().myKeys[glideKey].down)
-            {
-                glide();
-            }*/
-            if (level.getInputSystem().myKeys[glideKey].down)
+            if (glideEnabled && level.getInputSystem().myKeys[glideKey].down)
             {
                 glide();
             }
-            if (level.getInputSystem().myKeys[blockSpawnKey].down)
+            if (blockSpawnEnabled && level.getInputSystem().myKeys[blockSpawnKey].down)
             {
                 blockSpawn();
             }
+            if (grappleEnabled && level.getInputSystem().mouseRightClick)
+            {
+                Grapple();
+            }
+        }
+
+        //Order (from top to bottom)
+        //Bounce
+        //Speed
+        //Spawn
+        //None - Remove?
+        public void CycleThroughEquips(bool down)
+        {
+            if (bouncyEnabledTEMP)
+            {
+                bouncyEnabledTEMP = false;
+                speedyEnabledTEMP = true;
+                blockSpawnEnabled = false;
+            }
+            else if (speedyEnabledTEMP)
+            {
+                bouncyEnabledTEMP = false;
+                speedyEnabledTEMP = false;
+                blockSpawnEnabled = true;
+            }
+            else if (blockSpawnEnabled)
+            {
+
+                bouncyEnabledTEMP = false;
+                speedyEnabledTEMP = false;
+                blockSpawnEnabled = false;
+            }
+            else
+            {
+                bouncyEnabledTEMP = true;
+                speedyEnabledTEMP = false;
+                blockSpawnEnabled = false;
+            }
+        }
+
+
+        public void Grapple()
+        {
+            PositionComponent playerPos = (PositionComponent)level.getPlayer().getComponent(GlobalVars.POSITION_COMPONENT_NAME);
+            
+            //Get the direction
+            double dir = 0;
+
+
+            float mouseX = level.getInputSystem().mouseX + level.sysManager.drawSystem.mainView.x;
+            float mouseY = level.getInputSystem().mouseY + level.sysManager.drawSystem.mainView.y;
+
+            float xDiff = mouseX - playerPos.x;
+            float yDiff = mouseY - playerPos.y;
+
+            dir = Math.Atan(yDiff / xDiff);
+
+            if (mouseX < playerPos.x)
+            {
+                dir += Math.PI;
+                if (!level.getPlayer().isLookingLeft())
+                {
+                    level.getPlayer().faceLeft();
+                }
+            }
+            else if (mouseX > playerPos.x && !level.getPlayer().isLookingRight())
+            {
+                level.getPlayer().faceRight();
+            }
+
+            //Add the entity
+            GrappleEntity grap = new GrappleEntity(level, new Random().Next(), playerPos.x, playerPos.y, dir);
+            level.addEntity(grap);
+            VelocityComponent velComp = (VelocityComponent)level.getPlayer().getComponent(GlobalVars.VELOCITY_COMPONENT_NAME);
+            velComp.x = 0;
+            level.getPlayer().removeComponent(GlobalVars.PLAYER_INPUT_COMPONENT_NAME);
+            if(level.sysManager.grapSystem.removeGravity == 1) level.getPlayer().removeComponent(GlobalVars.GRAVITY_COMPONENT_NAME);
         }
 
         public void glide()
@@ -130,7 +229,10 @@ namespace RunningGame.Systems
                     blockEntity(posComp.x + posComp.width * 1.5f, posComp.y);
 
                 }
-                else blockEntity(posComp.x - posComp.width * 1.5f, posComp.y);
+                else if (player.isLookingLeft())
+                {
+                    blockEntity(posComp.x - posComp.width * 1.5f, posComp.y);
+                }
                 
             }
         public void blockEntity(float x, float y)

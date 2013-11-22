@@ -37,11 +37,15 @@ namespace RunningGame
         float xBor { get; set; }
         float yBor { get; set; }
 
+        public Pen GrapplePen = new Pen(Brushes.Red, 3);
+
         public bool hasBorder = false;
         public Brush borderBrush = Brushes.Brown;
         public float borderSize = 2.0f;
 
         public Level level;
+
+        public BackgroundEntity bkgEnt = null;
 
         //Constructor that defaults to a 1:1 ratio for width and height, upper left corner
         public View(float x, float y, float width, float height, Level level)
@@ -93,23 +97,58 @@ namespace RunningGame
             bkgBrush = Brushes.DeepSkyBlue;
         }
 
-        public void Draw(Graphics mainG, ArrayList entities)
+        public void Draw(Graphics mainG, List<Entity> entities)
         {
 
 
-            g.FillRectangle(bkgBrush, new Rectangle(0, 0, (int)width, (int)height)); //Clear
-            //draw flash, if there is a flash setting
-
-
+            //g.FillRectangle(bkgBrush, new Rectangle(0, 0, (int)width, (int)height)); //Clear
+            
             
             //First, if there's a background entity, draw that!
-            foreach (Entity e in entities)
+            if (bkgEnt == null)
             {
-                if (e is BackgroundEntity)
+                foreach (Entity e in entities)
                 {
-                    drawEntity(e);
+         
+                    if (e is BackgroundEntity)
+                    {
+                        bkgEnt = (BackgroundEntity)e;
+                        break;
+                    }
                 }
             }
+
+            drawEntity(bkgEnt);
+
+            //If there's a grapple, draw it
+            if (level.sysManager.grapSystem.isGrappling)
+            {
+                foreach (Entity e in GlobalVars.nonGroundEntities.Values)
+                {
+                    if (e is GrappleEntity)
+                    {
+                        GrappleComponent grapComp = (GrappleComponent)e.getComponent(GlobalVars.GRAPPLE_COMPONENT_NAME);
+
+                        PointF start = grapComp.getFirstPoint();
+                        PointF end = grapComp.getLastPoint();
+
+                        // Calc the pos relative to the view
+                        start.X -= this.x;
+                        start.Y -= this.y;
+                        end.X -= this.x;
+                        end.Y -= this.y;
+
+                        start.X *= wRatio;
+                        start.Y *= hRatio;
+                        end.X *= wRatio;
+                        end.Y *= hRatio;
+
+                        g.DrawLine(GrapplePen, start, end);
+                        break; //Should only be one - this'll save some time.
+                    }
+                }
+            }
+
 
             //For all applicable entities (Entities with required components)
             foreach (Entity e in entities)
@@ -117,8 +156,12 @@ namespace RunningGame
                 if(!(e is BackgroundEntity))
                     drawEntity(e);
             }
+            
 
+            
             mainG.DrawImage(drawImg, new Point((int)displayX, (int)displayY)); //Draw the view to the main window
+            
+            
             //Draw Border
             if (this.hasBorder)
             {
@@ -133,30 +176,24 @@ namespace RunningGame
                 mainG.FillRectangle(level.sysManager.drawSystem.getFlashBrush(), new Rectangle((int)(displayX), (int)(displayY),
                 (int)(displayWidth), (int)(displayHeight)));
             }
-            
-
-            
-
 
         }
 
         public void drawEntity(Entity e)
         {
+
             //Pull out all required components
             PositionComponent posComp = (PositionComponent)e.getComponent(GlobalVars.POSITION_COMPONENT_NAME);
             DrawComponent drawComp = (DrawComponent)e.getComponent(GlobalVars.DRAW_COMPONENT_NAME);
 
             if (isInView(posComp))
             {
-
                 if (g != null)
                 {
                     Image img = null;
                     //If size is locked, don't resize the image.
                     if (drawComp.sizeLocked && wRatio == 1 && hRatio == 1)
                     {
-                        //Size imageSize = new Size((int)Math.Round(drawComp.width * wRatio), (int)Math.Round(drawComp.height * hRatio));
-                        //img = new Bitmap(drawComp.sprite, imageSize);
                         img = drawComp.getImage();
                     }
                     else
@@ -178,7 +215,7 @@ namespace RunningGame
 
                     lock (img)
                         g.DrawImage(img, drawPoint); //Draw the image to the view
-
+                    
                     //Health bar if need be
                     if (e.hasComponent(GlobalVars.HEALTH_COMPONENT_NAME))
                     {
@@ -265,9 +302,16 @@ namespace RunningGame
 
         public bool isInView(PositionComponent posComp)
         {
-            if ((posComp.x + posComp.width) < x || (posComp.y + posComp.height) < y) return false;
 
-            if ((posComp.x - posComp.width) > (x + width) || (posComp.y - posComp.height) > (y + height)) return false;
+            if ((posComp.x + posComp.width) < x || (posComp.y + posComp.height) < y)
+            {
+                return false;
+            }
+
+            if ((posComp.x - posComp.width) > (x + width) || (posComp.y - posComp.height) > (y + height))
+            {
+                return false;
+            }
 
             return true;
 

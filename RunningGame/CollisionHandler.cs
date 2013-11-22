@@ -47,7 +47,7 @@ namespace RunningGame
             Func<Entity, Entity, bool> playerSwitchCollisonFunction = switchFlipCollision;
             Func<Entity, Entity, bool> playerEnemyCollisionFunction = enemyPlayerCollision;
             Func<Entity, Entity, bool> bulletNonEnemyCollisionFunction = bulletNonEnemyCollision;
-            Func<Entity, Entity, bool> bulletEnemyCollisionFunction = bulletEnemyCollision;
+            Func<Entity, Entity, bool> bulletEnemyCollisionFunction = DestroyBothCollision;
             Func<Entity, Entity, bool> endLevelCollisionFunction = endLevelCollision;
             Func<Entity, Entity, bool> doNothingCollisionFunction = doNothingCollision;
             Func<Entity, Entity, bool> otherPlatformCollisionFunction = platformOtherCollision;
@@ -129,7 +129,7 @@ namespace RunningGame
         {
 
             //Basically puts the names in alphabetical order (I think) and combines them into one string.
-            int num = String.CompareOrdinal(type1, type2); //?
+            int num = string.CompareOrdinal(type1, type2); //?
             if (num < 0)
                 return (type1 + "" + type2);
             else
@@ -289,12 +289,11 @@ namespace RunningGame
         }
 
         //When an enemy collides with a bullet
-        public bool bulletEnemyCollision(Entity e1, Entity e2)
+        public bool DestroyBothCollision(Entity e1, Entity e2)
         {
             //Remove both the enemy and the bullet
             level.removeEntity(e1);
             level.removeEntity(e2);
-
             return false;
         }
 
@@ -356,5 +355,31 @@ namespace RunningGame
 
 
 
+        /*
+        public bool GrappleSolidCollision(Entity e1, Entity e2)
+        {
+
+            GrappleLinkEntity link = null;
+            Entity other = null;
+            if (e1 is GrappleLinkEntity)
+            {
+                link = (GrappleLinkEntity)e1;
+                other = e2;
+
+            } else if (e2 is GrappleLinkEntity)
+            {
+                link = (GrappleLinkEntity)e2;
+                other = e1;
+            } else
+            {
+                Console.WriteLine("Grapple Solid Collision with no grapple?");
+            }
+
+            GrappleLinkComponent grapComp = (GrappleLinkComponent)link.getComponent(GlobalVars.GRAPPLE_LINK_COMPONENT_NAME);
+            grapComp.state = 3;
+
+            return false;
+        }
+        */
     }
 }

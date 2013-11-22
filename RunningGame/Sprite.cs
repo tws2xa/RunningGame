@@ -19,11 +19,11 @@ namespace RunningGame
     public class Sprite
     {
 
-        public ArrayList images { get; set; }
+        public List<Bitmap> images { get; set; }
         public string name { get; set; }
         public int currentImageIndex { get; set; }
 
-        public Sprite(string name, ArrayList images)
+        public Sprite(string name, List<Bitmap> images)
         {
             this.name = name;
             this.images = images;
@@ -32,7 +32,7 @@ namespace RunningGame
         public Sprite(string name, Bitmap image)
         {
             this.name = name;
-            images = new ArrayList();
+            images = new List<Bitmap>();
             images.Add(image);
             currentImageIndex = 0;
         }
@@ -40,7 +40,7 @@ namespace RunningGame
         public Bitmap getCurrentImage()
         {
             if (currentImageIndex < images.Count)
-                return (Bitmap)images[currentImageIndex];
+                return images[currentImageIndex];
             else
             {
                 Console.WriteLine("Trying to access non-existant image in sprite " + name);

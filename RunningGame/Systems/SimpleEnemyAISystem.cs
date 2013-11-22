@@ -11,9 +11,9 @@ namespace RunningGame.Systems
 {
     [Serializable()]
     public class SimpleEnemyAISystem:GameSystem
-    {//All systems MUST have an ArrayList of requiredComponents (May need to add using System.Collections at start of file)
+    {//All systems MUST have an List of requiredComponents (May need to add using System.Collections at start of file)
         //To access components you may need to also add "using RunningGame.Components"
-        ArrayList requiredComponents = new ArrayList();
+        List<string> requiredComponents = new List<string>();
         //All systems MUST have a variable holding the level they're contained in
         Level level;
 
@@ -32,7 +32,7 @@ namespace RunningGame.Systems
 
         //-------------------------------------- Overrides -------------------------------------------
         // Must have this. Same for all Systems.
-        public override ArrayList getRequiredComponents()
+        public override List<string> getRequiredComponents()
         {
             return requiredComponents;
         }
@@ -79,7 +79,7 @@ namespace RunningGame.Systems
                 {
                     PositionComponent posComp = (PositionComponent)e.getComponent(GlobalVars.POSITION_COMPONENT_NAME);
 
-                    ArrayList collisionsAheadAndBelow = level.getCollisionSystem().findObjectAtPoint(posComp.x + getSign(velComp.x) * (posComp.width / 2 + 1), posComp.y + posComp.height / 2+1);
+                    List<Entity> collisionsAheadAndBelow = level.getCollisionSystem().findObjectAtPoint(posComp.x + getSign(velComp.x) * (posComp.width / 2 + 1), posComp.y + posComp.height / 2+1);
 
                     if (collisionsAheadAndBelow.Count <= 0)
                     {

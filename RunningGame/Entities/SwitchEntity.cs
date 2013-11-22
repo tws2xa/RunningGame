@@ -76,8 +76,8 @@ namespace RunningGame.Entities
             
             //DRAW COMPONENT - Does it get drawn to the game world?
             DrawComponent drawComp = (DrawComponent)addComponent(new DrawComponent(defaultWidth, defaultHeight, level, true));
-            drawComp.addSprite("RunningGame.Resources.switchPurpleUp.png", GlobalVars.SWITCH_INACTIVE_SPRITE_NAME);
-            drawComp.addSprite("RunningGame.Resources.switchPurpleRight2.png", GlobalVars.SWITCH_ACTIVE_SPRITE_NAME);
+            drawComp.addSprite("Artwork.Foreground.switchUp", "RunningGame.Resources.Artwork.Foreground.switchUp11.png", GlobalVars.SWITCH_INACTIVE_SPRITE_NAME);
+            drawComp.addSprite("Artwork.Foreground.switchRight", "RunningGame.Resources.Artwork.Foreground.switchRight11.png", GlobalVars.SWITCH_ACTIVE_SPRITE_NAME);
             drawComp.setSprite(GlobalVars.SWITCH_INACTIVE_SPRITE_NAME);
 
             //COLLIDER - Does it hit things?

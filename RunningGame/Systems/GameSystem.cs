@@ -23,26 +23,44 @@ namespace RunningGame
 
         public abstract void Update(float deltaTime);
 
-        public abstract ArrayList getRequiredComponents(); //String names of all required components (Use GlobalVars script to get the names)
+        public abstract List<string> getRequiredComponents(); //string names of all required components (Use GlobalVars script to get the names)
 
+        //0 = haven't checked
+        //1 = no
+        //2 = yes
+        int doActOnGround = 0;
 
         //Returns a list of all entities with required components
-        public ArrayList getApplicableEntities()
+        public List<Entity> getApplicableEntities()
         {
             
-            ArrayList applicableEntities = new ArrayList();
+            List<Entity> applicableEntities = new List<Entity>();
+
+           
 
             if (!GetActiveLevel().paused)
             {
                 try
                 {
-                    foreach (Entity e in GetActiveLevel().getEntities().Values)
+
+                    if (actOnGround())
+                    {
+                        foreach (Entity e in GlobalVars.groundEntities.Values)
+                        {
+                            if (e.updateOutOfView || isInView(e))
+                            {
+                                applicableEntities.Add(e);
+                            }
+                        }
+                    }
+
+                    foreach (Entity e in GlobalVars.nonGroundEntities.Values)
                     {
                         if (e.updateOutOfView || isInView(e))
                         {
 
                             bool addEntity = true;
-                            foreach (String c in getRequiredComponents())
+                            foreach (string c in getRequiredComponents())
                             {
                                 //If there is a single missing component - don't add.
                                 if (!e.hasComponent(c))
@@ -61,12 +79,14 @@ namespace RunningGame
                     Console.WriteLine("Exception in get applicable entities: " + e);
                 }
             }
+
+            //simple sorting by depth happens here
+            applicableEntities = applicableEntities.OrderBy(o => o.depth).ToList();
             return applicableEntities;
 
         }
 
-
-
+       
         public bool isInView(Entity e)
         {
 
@@ -86,6 +106,30 @@ namespace RunningGame
 
             return true;
 
+        }
+
+
+        public bool actOnGround()
+        {
+            if (doActOnGround == 0)
+            {
+                List<string> reqComps = this.getRequiredComponents();
+
+                foreach (string s in reqComps)
+                {
+
+                    if(!(s == GlobalVars.POSITION_COMPONENT_NAME || s == GlobalVars.DRAW_COMPONENT_NAME || s == GlobalVars.COLLIDER_COMPONENT_NAME))
+                    {
+                        doActOnGround = 1;
+                        break;
+                    }
+
+                }
+
+                if (doActOnGround != 1) doActOnGround = 2;
+            }
+            
+            return (doActOnGround == 2);
         }
 
     }

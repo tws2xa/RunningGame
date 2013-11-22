@@ -250,7 +250,7 @@ namespace RunningGame
         {
             paused = true; // Pause the game briefly
 
-            Entity[] ents = GlobalVars.allEntities.Values.ToArray();
+            Entity[] ents = GlobalVars.nonGroundEntities.Values.ToArray();
             for (int i = 0; i < ents.Length; i++)
             {
                 if (ents[i].isStartingEntity)
@@ -258,6 +258,16 @@ namespace RunningGame
                 else
                 {
                     removeEntity(ents[i]);
+                }
+            }
+            Entity[] grndents = GlobalVars.groundEntities.Values.ToArray();
+            for (int i = 0; i < grndents.Length; i++)
+            {
+                if (grndents[i].isStartingEntity)
+                    grndents[i].revertToStartingState();
+                else
+                {
+                    removeEntity(grndents[i]);
                 }
             }
             foreach (Entity e in GlobalVars.removedStartingEntities.Values)
@@ -274,13 +284,21 @@ namespace RunningGame
         public virtual void removeAllEntities()
         {
             
-            while(GlobalVars.allEntities.Values.Count > 0)
+            while(GlobalVars.nonGroundEntities.Values.Count > 0)
             {
-                Entity e = GlobalVars.allEntities.Values.ToArray()[0];
+                Entity e = GlobalVars.nonGroundEntities.Values.ToArray()[0];
                 removeEntity(e);
             }
-            
-            GlobalVars.allEntities.Clear();
+
+            GlobalVars.nonGroundEntities.Clear();
+
+            while (GlobalVars.groundEntities.Values.Count > 0)
+            {
+                Entity e = GlobalVars.groundEntities.Values.ToArray()[0];
+                removeEntity(e);
+            }
+
+            GlobalVars.groundEntities.Clear();
         }
 
         //Input
@@ -331,26 +349,43 @@ namespace RunningGame
                 sysManager = new SystemManager(this);
                 sysManagerInit = true;
             }
-            if (!GlobalVars.allEntities.ContainsKey(id))
+
+            if (e is BasicGround)
             {
-                GlobalVars.allEntities.Add(id, e);
-                if (e.hasComponent(GlobalVars.COLLIDER_COMPONENT_NAME))
-                    colliderAdded(e);
+                GlobalVars.groundEntities.Add(id, e);
+                colliderAdded(e);
             }
             else
             {
-                Console.WriteLine("Trying to add duplicate entity : " + e);
+                GlobalVars.nonGroundEntities.Add(id, e);
+                if (e.hasComponent(GlobalVars.COLLIDER_COMPONENT_NAME))
+                    colliderAdded(e);
             }
         }
         public virtual void removeEntity(Entity e)
         {
             if (e.hasComponent(GlobalVars.COLLIDER_COMPONENT_NAME))
-                getCollisionSystem().colliderRemoved(e);
-            if (GlobalVars.allEntities.ContainsKey(e.randId))
             {
-                if (e.isStartingEntity)
-                    GlobalVars.removedStartingEntities.Add(e.randId, e);
-                GlobalVars.allEntities.Remove(e.randId);
+                getCollisionSystem().colliderRemoved(e);
+            }
+
+            if (e is BasicGround)
+            {
+                if (GlobalVars.groundEntities.ContainsKey(e.randId))
+                {
+                    if (e.isStartingEntity)
+                        GlobalVars.removedStartingEntities.Add(e.randId, e);
+                    GlobalVars.groundEntities.Remove(e.randId);
+                }
+            }
+            else
+            {
+                if (GlobalVars.nonGroundEntities.ContainsKey(e.randId))
+                {
+                    if (e.isStartingEntity)
+                        GlobalVars.removedStartingEntities.Add(e.randId, e);
+                    GlobalVars.nonGroundEntities.Remove(e.randId);
+                }
             }
         }
 
@@ -360,7 +395,8 @@ namespace RunningGame
             DrawComponent drawComp = (DrawComponent)bkgEnt.getComponent(GlobalVars.DRAW_COMPONENT_NAME);
             PositionComponent posComp = (PositionComponent)bkgEnt.getComponent(GlobalVars.POSITION_COMPONENT_NAME);
 
-            string imageAddress = "RunningGame.Resources.Artwork.Background.DesaturatedBkg1.png";
+            string fullImageAddress = "RunningGame.Resources.Artwork.Background.Bkg11.png";
+            string imageStub = "Artwork.Background.Bkg";
 
             //Static Background
             if (sysManager.bkgPosSystem.scrollType == 0)
@@ -388,12 +424,39 @@ namespace RunningGame
                     getMovementSystem().changePosition(posComp, initWidth * ratio / 2, levelHeight / 2, false);
                 }
             }
+            else if (sysManager.bkgPosSystem.scrollType == 3)
+            {
+                Bitmap tempImg = getBkgImg();
+                float newWidth = tempImg.Width;
+                float newHeight = tempImg.Height;
 
+                float scaleFactor = 1.1f;
+
+                while (newWidth/scaleFactor > levelWidth || newHeight/scaleFactor > levelHeight)
+                {
+                    newWidth /= scaleFactor;
+                    newHeight /= scaleFactor;
+                }
+
+                while (newWidth < levelWidth || newHeight < levelHeight)
+                {
+                    newWidth *= scaleFactor;
+                    newHeight *= scaleFactor;
+                }
+
+                getMovementSystem().changeSize(posComp, newWidth, newHeight);
+                drawComp.width = newWidth;
+                drawComp.height = newHeight;
+                drawComp.resizeImages((int)newWidth, (int)newHeight);
+                getMovementSystem().changePosition(posComp, newWidth / 2, newHeight / 2, false);
+            }
+            /*
             //Proportion Scrolling
             if (sysManager.bkgPosSystem.scrollType == 1 || sysManager.bkgPosSystem.scrollType == 2)
             {
                 System.Reflection.Assembly myAssembly = System.Reflection.Assembly.GetExecutingAssembly();
-                System.IO.Stream myStream = myAssembly.GetManifestResourceStream(imageAddress);
+                // THIS WONT WORK BECAUSE IT"S GETTING THE DEFAULT IMAGE NOT IMAGE STUB
+                System.IO.Stream myStream = myAssembly.GetManifestResourceStream(fullImageAddress);
                 Bitmap sprite = new Bitmap(myStream); //Getting an error here? Did you remember to make your image an embedded resource?
                 myStream.Close();
 
@@ -411,9 +474,9 @@ namespace RunningGame
                 getMovementSystem().changeSize(posComp, w, h);
 
             }
-
-
-            drawComp.addSprite(imageAddress, "MainBkg");
+            */
+            
+            drawComp.addSprite(imageStub, fullImageAddress, "MainBkg");
             drawComp.setSprite("MainBkg");
 
             bkgEnt.isStartingEntity = true;
@@ -422,9 +485,33 @@ namespace RunningGame
 
         }
 
+
+        public Bitmap getBkgImg()
+        {
+            string defaultAddress = "RunningGame.Resources.Artwork.Background.Bkg11.png";
+
+            System.Reflection.Assembly myAssembly = System.Reflection.Assembly.GetExecutingAssembly();
+            string addr = ("RunningGame.Resources.Artwork.Background.Bkg" + worldNum + "" + levelNum + ".png");
+            System.IO.Stream myStream = myAssembly.GetManifestResourceStream("RunningGame.Resources.Artwork.Background.Bkg11.png");
+
+            if (myStream == null)
+            {
+                myStream = myAssembly.GetManifestResourceStream(defaultAddress);
+            }
+
+            Bitmap sprite = new Bitmap(myStream); //Getting an error here? Did you remember to make your image an embedded resource?
+            myStream.Close();
+
+            return sprite;
+        }
+
         //Getters
-        public virtual Dictionary<int, Entity> getEntities() {
-            return GlobalVars.allEntities;
+        public virtual Dictionary<int, Entity> getNonGroundEntities() {
+            return GlobalVars.nonGroundEntities;
+        }
+        public virtual Dictionary<int, Entity> getGroundEntities()
+        {
+            return GlobalVars.groundEntities;
         }
         public virtual MovementSystem getMovementSystem()
         {
@@ -440,11 +527,11 @@ namespace RunningGame
                 return sysManager.inputSystem;
             else return null;
         }
-        public virtual Entity getPlayer()
+        public virtual Player getPlayer()
         {
-            foreach (Entity e in GlobalVars.allEntities.Values)
+            foreach (Entity e in GlobalVars.nonGroundEntities.Values)
             {
-                if (e.hasComponent(GlobalVars.PLAYER_COMPONENT_NAME)) return e;
+                if (e.hasComponent(GlobalVars.PLAYER_COMPONENT_NAME)) return (Player)e;
             }
 
             return null;

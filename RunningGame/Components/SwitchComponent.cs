@@ -14,20 +14,20 @@ namespace RunningGame.Components
         //Is it active?
         public bool active { get; set; }
         //Who is listening to this switch?
-        public ArrayList listeners;
+        public List<SwitchListenerComponent> listeners;
 
         //One constructor defaults to inactive, the other allows you to choose.
         public SwitchComponent()
         {
             this.componentName = GlobalVars.SWITCH_COMPONENT_NAME;
             this.active = false;
-            listeners = new ArrayList();
+            listeners = new List<SwitchListenerComponent>();
         }
         public SwitchComponent(bool active)
         {
             this.componentName = GlobalVars.SWITCH_COMPONENT_NAME;
             this.active = active;
-            listeners = new ArrayList();
+            listeners = new List<SwitchListenerComponent>();
         }
 
         public void toggle()

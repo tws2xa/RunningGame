@@ -23,7 +23,7 @@ namespace RunningGame
         [NonSerialized] public Level level;
         public bool isStartingEntity = false;
         public bool updateOutOfView = false;
-
+        public float depth = 10; /// lower numeric value means that higher depth priority, player has 1, enemy has 2, etc
 
         Dictionary<string, Component> components = new Dictionary<string, Component>();
 
@@ -38,6 +38,11 @@ namespace RunningGame
         public Entity(int id, Level level)
         {
             initializeEntity(id, level);
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
         }
 
         //All the setup stuff
@@ -58,7 +63,7 @@ namespace RunningGame
         }
          
 
-        public override String ToString()
+        public override string ToString()
         {
             return ("Entity - " + this.GetType() + " - ID: " + randId);
         }
@@ -87,22 +92,12 @@ namespace RunningGame
         public void removeComponent(string componentName)
         {
             components.Remove(componentName);
-            /*
-            if (components.ContainsKey(componentName))
-                components.Remove(componentName);
-            */
         }
-        public Array getComponents()
-        {
-            return components.Values.ToArray();
-        }
-
+        
         //Get a particular component
         public Component getComponent(string compName)
         {
-            if (components.ContainsKey(compName))
-                return components[compName];
-            return null;
+            return components[compName];
         }
 
         //Whether or not the entity contains the given component

@@ -31,7 +31,7 @@ namespace RunningGame.Components
         public CollisionDetectionSystem colSys;
 
         //When a collision occurs, this becomes whatever it collided with
-        public ArrayList collidedWith { get; set; }
+        //public List<Entity> collidedWith { get; set; }
 
         public PositionComponent(float x, float y, float w, float h, Entity myEntity)
         {
@@ -60,7 +60,7 @@ namespace RunningGame.Components
                 colSys = null;
             }
 
-            collidedWith = new ArrayList();
+            //collidedWith = new List<Entity>();
             positionHasChanged = false;
         }
 

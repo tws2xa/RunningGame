@@ -18,7 +18,6 @@ namespace RunningGame.Entities
         public BulletEntity(Level level, float x, float y)
         {
             this.level = level;
-
             initializeEntity(new Random().Next(Int32.MinValue, Int32.MaxValue), level);
 
             addMyComponents(x, y, 0, 0);
@@ -64,7 +63,7 @@ namespace RunningGame.Entities
             /*DRAW COMPONENT - Does it get drawn to the game world?
              */
             DrawComponent drawComp = (DrawComponent)addComponent(new DrawComponent(defaultWidth, defaultHeight, level, true));
-            drawComp.addSprite("RunningGame.Resources.PaintBlobSimple.png", "Main");
+            drawComp.addSprite("Artwork.Foreground.PaintBlob","RunningGame.Resources.Artwork.Foreground.PaintBlob11.png", "Main");
             drawComp.setSprite("Main");
 
             /* ANIMATION COMPONENT - Does it need animating?

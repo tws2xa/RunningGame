@@ -39,6 +39,7 @@ namespace RunningGame
         public SoundSystem sndSystem;
         public BackgroundPositionSystem bkgPosSystem;
         public MovingPlatformSystem movPlatSystem;
+        public GrappleSystem grapSystem;
 
         public SystemManager(Level level)
         {
@@ -71,17 +72,20 @@ namespace RunningGame
             bkgPosSystem = new BackgroundPositionSystem(level);
             debugSystem = new DebugSystem(level);
             movPlatSystem = new MovingPlatformSystem(level);
-
+            grapSystem = new GrappleSystem(level);
         }
 
 
         //Game Logic Stuff
         public void Update(float deltaTime)
         {
+            
             moveSystem.Update(deltaTime);
             bkgPosSystem.Update(deltaTime);
             scrEdgeSystem.Update(deltaTime);
             playerSystem.Update(deltaTime);
+            grapSystem.Update(deltaTime);
+            spSystem.Update(deltaTime);
             weapSystem.Update(deltaTime);
             colSystem.Update(deltaTime);
             gravSystem.Update(deltaTime);
@@ -92,9 +96,7 @@ namespace RunningGame
             inputSystem.Update(deltaTime);
             slSystem.Update(deltaTime);
             switchSystem.Update(deltaTime);
-            spSystem.Update(deltaTime);
             simpEnemySystem.Update(deltaTime);
-            movPlatSystem.Update(deltaTime);
             sndSystem.Update(deltaTime);
             debugSystem.Update(deltaTime);
             

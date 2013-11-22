@@ -12,7 +12,7 @@ namespace RunningGame.Systems
     [Serializable()]
     public class SoundSystem : GameSystem //Always extend GameSystem
     {
-        ArrayList requiredComponents = new ArrayList();
+        List<string> requiredComponents = new List<string>();
         Level level;
 
         public SoundSystem(Level level)
@@ -22,7 +22,7 @@ namespace RunningGame.Systems
 
         //-------------------------------------- Overrides -------------------------------------------
         // Must have this. Same for all Systems.
-        public override ArrayList getRequiredComponents()
+        public override List<string> getRequiredComponents()
         {
             return requiredComponents;
         }
@@ -46,7 +46,7 @@ namespace RunningGame.Systems
 
         //Here put any helper methods or really anything else you may want.
         //You may find it handy to have methods here that other systems can access.
-        public void playSound(String soundLocation, bool loop)
+        public void playSound(string soundLocation, bool loop)
         {
             System.IO.Stream stream = System.Reflection.Assembly.GetExecutingAssembly().GetManifestResourceStream(soundLocation);
             SoundPlayer player = new SoundPlayer(stream);

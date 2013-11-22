@@ -19,7 +19,7 @@ namespace RunningGame.Systems
     {
 
         Level level;
-        ArrayList requiredComponents = new ArrayList();
+        List<string> requiredComponents = new List<string>();
         public float playerHorizSlowSpeed = 50.0f;
 
         public PlayerMovementSystem(Level activeLevel)
@@ -40,7 +40,7 @@ namespace RunningGame.Systems
         {
             return level;
         }
-        public override ArrayList getRequiredComponents()
+        public override List<string> getRequiredComponents()
         {
             return requiredComponents;
         }

@@ -32,7 +32,7 @@ namespace RunningGame.Level_Editor
         */
 
         Random rand; //for creating entitiy ids
-        public CreationSystemManager sysManager; //Controls all systems
+        new public CreationSystemManager sysManager; //Controls all systems
         bool sysManagerInit = false;
 
         long prevTicks = DateTime.Now.Ticks;
@@ -142,7 +142,7 @@ namespace RunningGame.Level_Editor
         public override void resetLevel()
         {
             paused = true; // Pause the game briefly
-            Entity[] ents = GlobalVars.allEntities.Values.ToArray();
+            Entity[] ents = GlobalVars.nonGroundEntities.Values.ToArray();
             for (int i = 0; i < ents.Length; i++)
             {
                 if (ents[i].isStartingEntity)
@@ -150,6 +150,16 @@ namespace RunningGame.Level_Editor
                 else
                 {
                     removeEntity(ents[i]);
+                }
+            }
+            Entity[] grndents = GlobalVars.groundEntities.Values.ToArray();
+            for (int i = 0; i < grndents.Length; i++)
+            {
+                if (grndents[i].isStartingEntity)
+                    grndents[i].revertToStartingState();
+                else
+                {
+                    removeEntity(grndents[i]);
                 }
             }
             foreach (Entity e in GlobalVars.removedStartingEntities.Values)
@@ -164,12 +174,14 @@ namespace RunningGame.Level_Editor
 
         public override void removeAllEntities()
         {
+            /*
             while(GlobalVars.allEntities.Values.Count > 0)
             {
                 Entity e = GlobalVars.allEntities.Values.ToArray()[0];
                 //e.Destroy();
-            }
-            GlobalVars.allEntities.Clear();
+            }*/
+            GlobalVars.nonGroundEntities.Clear();
+            GlobalVars.groundEntities.Clear();
         }
 
         //Input
@@ -217,7 +229,14 @@ namespace RunningGame.Level_Editor
                 sysManager = new CreationSystemManager(this);
                 sysManagerInit = true;
             }
-            GlobalVars.allEntities.Add(id, e);
+            if (e is BasicGround)
+            {
+                GlobalVars.groundEntities.Add(id, e);
+            }
+            else
+            {
+                GlobalVars.nonGroundEntities.Add(id, e);
+            }
             if (e.hasComponent(GlobalVars.COLLIDER_COMPONENT_NAME))
             {
                 getCollisionSystem().colliderAdded(e);
@@ -234,15 +253,28 @@ namespace RunningGame.Level_Editor
                 GlobalVars.removedStartingEntities.Add(e.randId, e);
             if(e.hasComponent(GlobalVars.COLLIDER_COMPONENT_NAME))
                 getCollisionSystem().colliderRemoved(e);
-            GlobalVars.allEntities.Remove(e.randId);
+
+            if (e is BasicGround)
+            {
+                GlobalVars.groundEntities.Remove(e.randId);
+            }
+            else
+            {
+                GlobalVars.nonGroundEntities.Remove(e.randId);
+            }
         }
 
 
         //Getters
-        public override Dictionary<int, Entity> getEntities()
+        public override Dictionary<int, Entity> getNonGroundEntities()
         {
-            return GlobalVars.allEntities;
+            return GlobalVars.nonGroundEntities;
         }
+        public override Dictionary<int, Entity> getGroundEntities()
+        {
+            return GlobalVars.groundEntities;
+        }
+
         public override MovementSystem getMovementSystem()
         {
             return sysManager.moveSystem;
@@ -257,12 +289,12 @@ namespace RunningGame.Level_Editor
                 return sysManager.inputSystem;
             else return null;
         }
-        public override Entity getPlayer()
+        public override Player getPlayer()
         {
-            foreach (Entity e in GlobalVars.allEntities.Values)
+            foreach (Entity e in GlobalVars.nonGroundEntities.Values)
             {
                 if (e is Player)
-                    return e;
+                    return (Player)e;
             }
             return null;
         }

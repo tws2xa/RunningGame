@@ -23,8 +23,8 @@ namespace RunningGame.Entities
         float defaultWidth = 11f;
         float defaultHeight = 11f;
 
-        string dirtSpriteName = "dirt";
-        string grassSpriteName = "grass";
+        string dirtSpriteName = "Dirt";
+        string grassSpriteName = "Grass";
 
         public BasicGround(Level level, float x, float y)
         {
@@ -62,8 +62,8 @@ namespace RunningGame.Entities
 
                 //Draw component
                 DrawComponent drawComp = new DrawComponent(defaultWidth, defaultHeight, level, true);
-                drawComp.addSprite("RunningGame.Resources.DirtSquare.png", dirtSpriteName);
-                drawComp.addSprite("RunningGame.Resources.LightGrassSquarePurple.png", grassSpriteName);
+                drawComp.addSprite("Artwork.Foreground.Dirt", "RunningGame.Resources.Artwork.Foreground.Dirt61.png", dirtSpriteName);
+                drawComp.addSprite("Artwork.Foreground.Grass", "RunningGame.Resources.Artwork.Foreground.Grass61.png", grassSpriteName);
                 drawComp.setSprite(dirtSpriteName);
                 addComponent(drawComp);
 

@@ -16,9 +16,9 @@ namespace RunningGame.Level_Editor
     public class CreationInputManagerSystem : GameSystem
     {
         
-        //All systems MUST have an ArrayList of requiredComponents (May need to add using System.Collections at start of file)
+        //All systems MUST have an List of requiredComponents (May need to add using System.Collections at start of file)
         //To access components you may need to also add "using RunningGame.Components"
-        ArrayList requiredComponents = new ArrayList();
+        List<string> requiredComponents = new List<string>();
         //All systems MUST have a variable holding the level they're contained in
         CreationLevel level;
 
@@ -40,7 +40,7 @@ namespace RunningGame.Level_Editor
 
         //-------------------------------------- Overrides -------------------------------------------
         // Must have this. Same for all Systems.
-        public override ArrayList getRequiredComponents()
+        public override List<string> getRequiredComponents()
         {
             return requiredComponents;
         }
@@ -112,7 +112,7 @@ namespace RunningGame.Level_Editor
 
         public void selectEntityAt(float x, float y)
         {
-            ArrayList ents = level.getCollisionSystem().findObjectAtPoint(x, y);
+            List<Entity> ents = level.getCollisionSystem().findObjectAtPoint(x, y);
             if (ents.Count > 0)
             {
                 selectEntity((Entity)ents[0]);
@@ -168,14 +168,14 @@ namespace RunningGame.Level_Editor
                     BasicGround ground = (BasicGround)e;
 
                     //If no ground above it, change to a grass sprite
-                    ArrayList above = level.getCollisionSystem().findObjectAtPoint(newPosComp.x, (newPosComp.y - newPosComp.height/2 - 1));
+                    List<Entity> above = level.getCollisionSystem().findObjectAtPoint(newPosComp.x, (newPosComp.y - newPosComp.height/2 - 1));
                     if (above.Count <= 0 || !(above[0] is BasicGround))
                     {
                         ground.changeSprite(false);
                     }
 
                     //If ground below it, make dirt
-                    ArrayList below = level.getCollisionSystem().findObjectAtPoint(newPosComp.x, (newPosComp.y + newPosComp.height / 2 + 1));
+                    List<Entity> below = level.getCollisionSystem().findObjectAtPoint(newPosComp.x, (newPosComp.y + newPosComp.height / 2 + 1));
                     if (below.Count > 0 && (below[0] is BasicGround))
                     {
                         BasicGround ground2 = (BasicGround)below[0];

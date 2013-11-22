@@ -31,7 +31,7 @@ namespace RunningGame
 
         //An array list of keys that have been pressed and not released (They're being held down)
         //This is used to prevent repeated calls of KeyPressed
-        public ArrayList downKeys = new ArrayList();
+        public List<Keys> downKeys = new List<Keys>();
 
         //When the form starts up, initialize it.
         public FormSpring()
@@ -155,6 +155,15 @@ namespace RunningGame
             showHideLevelButtons(true);
             showHideWorldButtons(false);
         }
+
+        //World 6
+        private void btnWorld6_Click(object sender, EventArgs e)
+        {
+            GlobalVars.worldNum = 6;
+            showHideLevelButtons(true);
+            showHideWorldButtons(false);
+        }
+
         //----------------------------------------------------------------
 
         //---------------------------LEVEL BUTTONS------------------------
@@ -167,10 +176,10 @@ namespace RunningGame
                     Console.WriteLine("Error: Selecting level 1 in world 0");
                     break;
                 case (1):
-                    loadLevel("RunningGame.Resources.Levels.Tutorial.png", 1, 1); //World 1 Level 1
+                    loadLevel("RunningGame.Resources.Levels.World1Level1.png", 1, 1); //World 1 Level 1
                     break;
                 case (2):
-                    loadLevel("RunningGame.Resources.Levels.PresentationLevel.png", 5, 1); //World 2 Level 1
+                    loadLevel("RunningGame.Resources.Levels.World2Level1.png", 5, 1); //World 2 Level 1
                     break;
                 case (3):
                     loadLevel("RunningGame.Resources.Levels.PresentationLevelExtended.png", 3, 1); //World 3 Level 1
@@ -179,7 +188,10 @@ namespace RunningGame
                     loadLevel("RunningGame.Resources.Levels.PresentationLevelExtended.png", 4, 1); //World 4 Level 1
                     break;
                 case (5):
-                    loadLevel("RunningGame.Resources.Levels.PresentationLevelExtended.png", 5, 1); //World 5 Level 1
+                    loadLevel("RunningGame.Resources.Levels.World5Level1.png", 5, 1); //World 5 Level 1
+                    break;
+                case (6):
+                    loadLevel("RunningGame.Resources.Levels.PresentationLevelExtended.png", 5, 3); //World 6 Level 3
                     break;
             }
         }
@@ -193,10 +205,10 @@ namespace RunningGame
                     Console.WriteLine("Error: Selecting level 2 in world 0");
                     break;
                 case (1):
-                    loadLevel("RunningGame.Resources.Levels.EnemyLevel4.png", 1, 2); //World 1 Level 2
+                    loadLevel("RunningGame.Resources.Levels.World1Level2.png", 1, 2); //World 1 Level 2
                     break;
                 case (2):
-                    loadLevel("RunningGame.Resources.Levels.PresentationLevel.png", 2, 2); //World 2 Level 2
+                    loadLevel("RunningGame.Resources.Levels.World2Level2.png", 2, 2); //World 2 Level 2
                     break;
                 case (3):
                     loadLevel("RunningGame.Resources.Levels.PresentationLevelExtended.png", 3, 2); //World 3 Level 2
@@ -205,7 +217,10 @@ namespace RunningGame
                     loadLevel("RunningGame.Resources.Levels.PresentationLevelExtended.png", 4, 2); //World 4 Level 2
                     break;
                 case (5):
-                    loadLevel("RunningGame.Resources.Levels.PresentationLevelExtended.png", 5, 2); //World 5 Level 2
+                    loadLevel("RunningGame.Resources.Levels.World5Level2.png", 5, 2); //World 5 Level 2
+                    break;
+                case (6):
+                    loadLevel("RunningGame.Resources.Levels.PresentationLevelExtended.png", 5, 3); //World 6 Level 3
                     break;
             }
         }
@@ -219,7 +234,7 @@ namespace RunningGame
                     Console.WriteLine("Error: Selecting level 1 in world 0");
                     break;
                 case (1):
-                    loadLevel("RunningGame.Resources.Levels.EnemyLevel4.png", 1, 3); //World 1 Level 3
+                    loadLevel("RunningGame.Resources.Levels.PresentationLevelExtended.png", 1, 3); //World 1 Level 3
                     break;
                 case (2):
                     loadLevel("RunningGame.Resources.Levels.PresentationLevel.png", 2, 3); //World 2 Level 3
@@ -232,6 +247,9 @@ namespace RunningGame
                     break;
                 case (5):
                     loadLevel("RunningGame.Resources.Levels.PresentationLevelExtended.png", 5, 3); //World 5 Level 3
+                    break;
+                case (6):
+                    loadLevel("RunningGame.Resources.Levels.PresentationLevelExtended.png", 5, 3); //World 6 Level 3
                     break;
             }
         }
@@ -287,6 +305,9 @@ namespace RunningGame
 
             btnWorld5.Visible = show;
             btnWorld5.Enabled = show;
+
+            btnWorld6.Visible = show;
+            btnWorld6.Enabled = show;
         }
          
    
@@ -356,6 +377,9 @@ namespace RunningGame
                 //If the key is contained in downKeys, remove it. (It is no longer down)
                 if (downKeys.Contains(e.KeyData))
                     downKeys.Remove(e.KeyData);
+
+                e.Handled = true;
+                e.SuppressKeyPress = true;
             }
         }
 
@@ -364,7 +388,12 @@ namespace RunningGame
         {
             //If the game is running, tell it that the key was pressed
             if (game != null)
+            {
                 game.KeyPressed(e);
+
+                e.Handled = true;
+                
+            }
         }
 
         //Called when a key is first pushed
@@ -380,6 +409,9 @@ namespace RunningGame
                     game.KeyDown(e);
                     //Add it to the list of pressed keys
                     downKeys.Add(e.KeyData);
+
+                    e.Handled = true;
+                    e.SuppressKeyPress = true;
                 }
             }
         }

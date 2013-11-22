@@ -23,7 +23,7 @@ namespace RunningGame.Entities
         public SimpleEnemyEntity(Level level, float x, float y)
         {
             this.level = level;
-
+            this.depth = 3;
             initializeEntity(new Random().Next(Int32.MinValue, Int32.MaxValue), level);
 
             addMyComponents(x, y);
@@ -54,19 +54,22 @@ namespace RunningGame.Entities
              */
             DrawComponent drawComp = (DrawComponent)addComponent(new DrawComponent(defaultWidth, defaultHeight, level, true));
 
-            ArrayList enemyAnimation = new ArrayList()
+            List<string> enemyAnimation = new List<string>()
             {
-                "RunningGame.Resources.Artwork.Foreground.enemy1.png",
-                "RunningGame.Resources.Artwork.Foreground.enemy2.png",
-                //"RunningGame.Resources.Enemy1.png",
-                //"RunningGame.Resources.Enemy3.png",
+                "Artwork.Creatures.Enemy1",
+                "Artwork.Creatures.Enemy2",
             };
 
+            List<string> enemyAnimDefaults = new List<string>()
+            {
+                "RunningGame.Resources.Artwork.Creatures.Enemy111.png",
+                "RunningGame.Resources.Artwork.Creatures.Enemy211.png"
+            };
 
-            drawComp.addAnimatedSprite(enemyAnimation, leftImageName);
+            drawComp.addAnimatedSprite(enemyAnimation, enemyAnimDefaults, leftImageName);
             drawComp.setSprite(leftImageName);
             
-            drawComp.addAnimatedSprite(enemyAnimation, rightImageName);
+            drawComp.addAnimatedSprite(enemyAnimation, enemyAnimDefaults, rightImageName);
             drawComp.rotateFlipSprite(rightImageName, System.Drawing.RotateFlipType.RotateNoneFlipX);
 
             /* ANIMATION COMPONENT - Does it need animating?

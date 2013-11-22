@@ -14,14 +14,14 @@ namespace RunningGame.Systems
     [Serializable()]
     public class DebugSystem : GameSystem
     {
-        ArrayList requiredComponents = new ArrayList();
+        List<string> requiredComponents = new List<string>();
         Level level;
 
         Keys addEntityKey = Keys.N;
         Keys harmPlayerKey = Keys.H;
         Keys resetLevelKey = Keys.R;
         Keys flashKey = Keys.F;
-
+        Keys typeKey = Keys.T; //prints out the all entity types to console
 
         bool hasRunOnce = false; //Used to add keys once and only once. Can't in constructor because inputSystem not ready yet
         bool addingDoor = false; //False = adding Switch
@@ -35,7 +35,7 @@ namespace RunningGame.Systems
 
         //-------------------------------------- Overrides -------------------------------------------
         // Must have this. Same for all Systems.
-        public override ArrayList getRequiredComponents()
+        public override List<string> getRequiredComponents()
         {
             return requiredComponents;
         }
@@ -55,7 +55,8 @@ namespace RunningGame.Systems
                 level.getInputSystem().addKey(harmPlayerKey);
                 level.getInputSystem().addKey(resetLevelKey);
                 level.getInputSystem().addKey(flashKey);
-           
+                level.getInputSystem().addKey(typeKey);
+            
                 hasRunOnce = true;
             }
 
@@ -87,6 +88,12 @@ namespace RunningGame.Systems
             {
                 makeFlash(5, Color.Red);
             }
+
+            if (level.getInputSystem().myKeys[typeKey].down)
+            {
+                getTypes();
+            }
+         
          
         }
 
@@ -95,6 +102,18 @@ namespace RunningGame.Systems
          * All you should really have to do is change where it says
          * TestEntity to whatever you want to create.
          */
+        public void getTypes()
+        {
+            List<Entity> entities = getApplicableEntities();
+
+            foreach (Entity e in entities)
+            {
+                if (!(e is BackgroundEntity))
+                    Console.WriteLine(e.GetType());
+            }
+
+        }
+
 
         public void makeFlash(float time, Color color)
         {

@@ -15,15 +15,15 @@ namespace RunningGame.Entities
 
         public float defaultWidth = 40;
         public float defaultHeight = 30;
-        public string leftImageName = "EnemyWalkLeft";
-        public string rightImageName = "EnemyRightLeft";
+        public string leftImageName = "EnemyFlyLeft";
+        public string rightImageName = "EnemyFlyRight";
 
         //-------------------------------------------Constructors--------------------------------------------
 
         public FlyingEnemyEntity(Level level, float x, float y)
         {
             this.level = level;
-
+            this.depth = 3;
             initializeEntity(new Random().Next(Int32.MinValue, Int32.MaxValue), level);
 
             addMyComponents(x, y);
@@ -52,19 +52,26 @@ namespace RunningGame.Entities
              */
             DrawComponent drawComp = (DrawComponent)addComponent(new DrawComponent(defaultWidth, defaultHeight, level, true));
 
-            ArrayList enemyAnimation = new ArrayList()
+            List<string> enemyAnimation = new List<string>()
             {
-                "RunningGame.Resources.FlyingEnemy1.png",
-                "RunningGame.Resources.FlyingEnemy2.png",
-                "RunningGame.Resources.FlyingEnemy1.png",
-                "RunningGame.Resources.FlyingEnemy3.png",
+                "Artwork.Creatures.FlyingEnemy1",
+                "Artwork.Creatures.FlyingEnemy2",
+                //"Artwork.Creatures.FlyingEnemy1",
+                //"Artwork.Creatures.FlyingEnemy3",
+            };
+            List<string> enemyAnimDefaults = new List<string>()
+            {
+                "RunningGame.Resources.Artwork.Creatures.FlyingEnemy111.png",
+                "RunningGame.Resources.Artwork.Creatures.FlyingEnemy211.png",
+                //"RunningGame.Resources.Artwork.Creatures.FlyingEnemy111.png",
+                //"RunningGame.Resources.Artwork.Creatures.FlyingEnemy311.png"
             };
 
 
-            drawComp.addAnimatedSprite(enemyAnimation, leftImageName);
+            drawComp.addAnimatedSprite(enemyAnimation, enemyAnimDefaults, leftImageName);
             drawComp.setSprite(leftImageName);
             
-            drawComp.addAnimatedSprite(enemyAnimation, rightImageName);
+            drawComp.addAnimatedSprite(enemyAnimation, enemyAnimDefaults, rightImageName);
             drawComp.rotateFlipSprite(rightImageName, System.Drawing.RotateFlipType.RotateNoneFlipX);
 
             /* ANIMATION COMPONENT - Does it need animating?
