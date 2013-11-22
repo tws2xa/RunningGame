@@ -56,15 +56,15 @@ namespace RunningGame.Entities
             {
                 "Artwork.Creatures.FlyingEnemy1",
                 "Artwork.Creatures.FlyingEnemy2",
-                "Artwork.Creatures.FlyingEnemy1",
-                "Artwork.Creatures.FlyingEnemy3",
+                //"Artwork.Creatures.FlyingEnemy1",
+                //"Artwork.Creatures.FlyingEnemy3",
             };
             List<string> enemyAnimDefaults = new List<string>()
             {
                 "RunningGame.Resources.Artwork.Creatures.FlyingEnemy111.png",
                 "RunningGame.Resources.Artwork.Creatures.FlyingEnemy211.png",
-                "RunningGame.Resources.Artwork.Creatures.FlyingEnemy111.png",
-                "RunningGame.Resources.Artwork.Creatures.FlyingEnemy311.png"
+                //"RunningGame.Resources.Artwork.Creatures.FlyingEnemy111.png",
+                //"RunningGame.Resources.Artwork.Creatures.FlyingEnemy311.png"
             };
 
 

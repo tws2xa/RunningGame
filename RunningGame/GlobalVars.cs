@@ -45,6 +45,7 @@ namespace RunningGame
         public static string BACKGROUND_COMPONENT_NAME = "backgroundComponent";
         public static string MOVING_PLATFORM_COMPONENT_NAME = "movPlatComponent";
         public static string GRAPPLE_COMPONENT_NAME = "grappleComponent";
+        public static string POWERUP_PICKUP_COMPONENT_NAME = "PwrupPkpComp";
 
         //Collider Types
         public static string PLAYER_COLLIDER_TYPE = "playerCollider";
@@ -58,6 +59,7 @@ namespace RunningGame
         public static string BULLET_COLLIDER_TYPE = "bulletCollider";
         public static string END_LEVEL_COLLIDER_TYPE = "endLevelCollider";
         public static string MOVING_PLATFORM_COLLIDER_TYPE = "movPlatCollider";
+        public static string POWERUP_PICKUP_COLLIDER_TYPE = "pwrupPkpCollider";
 
         //Collection of all in game entities
         public static Dictionary<int, Entity> nonGroundEntities = new Dictionary<int, Entity>();

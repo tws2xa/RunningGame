@@ -19,8 +19,8 @@ namespace RunningGame.Entities
     public class Player : Entity
     {
 
-        float defaultWidth = 20;
-        float defaultHeight = 20;
+        float defaultWidth = 40;
+        float defaultHeight = 50;
         
         string rightImageName = "right";
         string leftImageName = "left";
@@ -63,21 +63,21 @@ namespace RunningGame.Entities
             //Draw component
             DrawComponent drawComp = new DrawComponent((int)defaultWidth, (int)defaultHeight, level, false);
 
-            drawComp.addSprite("Artwork.Creatures.Player1", "RunningGame.Resources.Artwork.Creatures.Player111.png", rightImageName);
-            drawComp.addSprite("Artwork.Creatures.Player1", "RunningGame.Resources.Artwork.Creatures.Player111.png", leftImageName);
+            drawComp.addSprite("Artwork.Creatures.player1", "RunningGame.Resources.Artwork.Creatures.player1.png", rightImageName);
+            drawComp.addSprite("Artwork.Creatures.player1", "RunningGame.Resources.Artwork.Creatures.player2.png", leftImageName);
             drawComp.rotateFlipSprite(leftImageName, RotateFlipType.RotateNoneFlipX);
             addComponent(drawComp);
 
 
             List<string> blinkAnimation = new List<string>
             {
-                "Artwork.Creatures.Player1",
-                "Artwork.Creatures.Player2"
+                "Artwork.Creatures.player1",
+                "Artwork.Creatures.player2"
             };
             List<string> blinkDefaults = new List<string>()
             {
-                "RunningGame.Resources.Artwork.Creatures.Player111.png",
-                "RunningGame.Resources.Artwork.Creatures.Player211.png"
+                "RunningGame.Resources.Artwork.Creatures.player1.png",
+                "RunningGame.Resources.Artwork.Creatures.player2.png"
             };
 
             drawComp.addAnimatedSprite(blinkAnimation, blinkDefaults, blinkRight);
@@ -88,8 +88,8 @@ namespace RunningGame.Entities
             drawComp.setSprite(blinkRight);
 
             //Animation Component
-            AnimationComponent animComp = (AnimationComponent)addComponent(new AnimationComponent(0.0005f));
-            animComp.pauseTimeAfterCycle = 5.0f;
+            AnimationComponent animComp = (AnimationComponent)addComponent(new AnimationComponent(0.5f));
+            //animComp.pauseTimeAfterCycle = 5.0f;
 
             //Player Component
             addComponent(new PlayerComponent());
@@ -101,7 +101,13 @@ namespace RunningGame.Entities
             addComponent(new ColliderComponent(this, GlobalVars.PLAYER_COLLIDER_TYPE));
 
             //Squish Component
-            addComponent(new SquishComponent(defaultWidth, defaultHeight, defaultWidth * 3, defaultHeight * 3, defaultWidth / 3f, defaultHeight / 3f, defaultWidth*defaultHeight*1.5f, defaultWidth*defaultHeight/2f));
+            SquishComponent sqComp = (SquishComponent)addComponent(new SquishComponent(defaultWidth, defaultHeight, defaultWidth * 1.2f, defaultHeight * 1.2f, defaultWidth / 2f, defaultHeight / 2f, defaultWidth*defaultHeight*1.1f, defaultWidth*defaultHeight/1.5f));
+            sqComp.maxHeight = defaultHeight;
+            sqComp.maxWidth = defaultWidth * 1.1f;
+            sqComp.minHeight = defaultHeight / 1.1f;
+            sqComp.minWidth = defaultWidth / 1.1f;
+            sqComp.maxSurfaceArea = defaultHeight * defaultWidth * 1.1f;
+            sqComp.minSurfaceArea = defaultHeight * defaultWidth / 1.1f;
 
             //Gravity Component
             addComponent(new GravityComponent(0, GlobalVars.STANDARD_GRAVITY));

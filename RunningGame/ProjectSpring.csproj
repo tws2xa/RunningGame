@@ -85,6 +85,7 @@
     <Compile Include="Components\ObjectLinkComponent.cs" />
     <Compile Include="Components\PlayeInputComponent.cs" />
     <Compile Include="Components\PlayerComponent.cs" />
+    <Compile Include="Components\PowerupPickupComponent.cs" />
     <Compile Include="Components\ScreenEdgeComponent.cs" />
     <Compile Include="Components\SimpleEnemyComponent.cs" />
     <Compile Include="Components\SoundComponent.cs" />
@@ -98,6 +99,7 @@
     <Compile Include="Entities\BasicGround.cs" />
     <Compile Include="Entities\GrappleEntity.cs" />
     <Compile Include="Entities\MovingPlatformEntity.cs" />
+    <Compile Include="Entities\PowerupPickupEntity.cs" />
     <Compile Include="Entities\PowerupUIEntity.cs" />
     <Compile Include="Entities\spawnBlockEntity.cs" />
     <Compile Include="Entities\BulletEntity.cs" />
@@ -284,9 +286,6 @@
     <None Include="Resources\Concept Art.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\Artwork\Background\Bkg11.png" />
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="Resources\Artwork\Creatures\Enemy111.png" />
     <EmbeddedResource Include="Resources\Artwork\Creatures\Enemy211.png" />
   </ItemGroup>
@@ -321,6 +320,17 @@
     <EmbeddedResource Include="Resources\Levels\World1Level2.png" />
     <EmbeddedResource Include="Resources\Levels\World2Level1.png" />
     <EmbeddedResource Include="Resources\Levels\World2Level2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Artwork\Creatures\player1.png" />
+    <EmbeddedResource Include="Resources\Artwork\Creatures\player2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Artwork\Background\Bkg11.png" />
+    <EmbeddedResource Include="Resources\Artwork\Background\Bkg1Extra1.png" />
+    <EmbeddedResource Include="Resources\Artwork\Background\Bkg12.png" />
+    <EmbeddedResource Include="Resources\Artwork\Background\Bkg1Extra2.png" />
+    <EmbeddedResource Include="Resources\Artwork\Background\Bkg13.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
