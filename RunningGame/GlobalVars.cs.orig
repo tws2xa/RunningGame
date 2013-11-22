@@ -113,7 +113,11 @@ namespace RunningGame
         public static float MOVING_PLATFORM_SPEED = 50.0f;
         public static float MAX_GRAPPLE_DISTANCE = 300.0f; //Pixels
         public static int MAX_NUM_BULLETS = 2;
-        public static float SPEEDY_SPEED = 600.0f;
+<<<<<<< HEAD
+
         public static Bitmap grndImg = null;
+=======
+        public static float SPEEDY_SPEED = 600.0f;
+>>>>>>> a719b02d2b2685051ff0a24796846c8bb26a66a2
     }
 }

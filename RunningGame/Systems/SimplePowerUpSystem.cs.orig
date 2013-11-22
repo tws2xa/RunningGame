@@ -24,12 +24,15 @@ namespace RunningGame.Systems
         float glideDuration = 1.5f;
         float glideTimer;
         bool glideActive = false;
-        float maxVelocity = 70.0f;
+<<<<<<< HEAD
         
         //speedy powerup infos
-        public float speedyTime = 1.0f;
-        public float speedyTimer = -1.0f;
-        public bool speedyActive = false;
+        float speedyTime = 1.0f;
+        float speedyTimer = -1.0f;
+        bool speedyActive = false;
+=======
+        float maxVelocity = 70.0f;
+>>>>>>> 82ff058227648e647560dd2ad022b112dfd472cf
 
         //addBlock information
         bool blockSpawnEnabled = true;
@@ -103,25 +106,24 @@ namespace RunningGame.Systems
 
             }
 
-
-            
+<<<<<<< HEAD
+            if (speedyActive)
+            {
                 if (speedyTimer > 0)
                 {
-                    if (level.getPlayer() == null) return;
-                    speedyTimer -= deltaTime;
-                    if (!level.getPlayer().hasComponent(GlobalVars.VELOCITY_COMPONENT_NAME)) return;
+                    speedyTime -= deltaTime;
                     VelocityComponent velComp = (VelocityComponent)this.level.getPlayer().getComponent(GlobalVars.VELOCITY_COMPONENT_NAME);
-                    if (speedyTimer <= 0 || Math.Abs(velComp.x) < GlobalVars.SPEEDY_SPEED) 
+                    if (speedyTimer <= 0) 
                     {
-                        velComp.setVelocity(0, velComp.y);
-                        speedyTimer = -1;
+                        velComp.setVelocity(500, velComp.y);
+                        speedyTime = -1;
                         speedyActive = false;
-                        if (!level.getPlayer().hasComponent(GlobalVars.PLAYER_INPUT_COMPONENT_NAME))
-                        {
-                            level.getPlayer().addComponent(new PlayerInputComponent(level.getPlayer()));
-                        }
                     }
                 }
+            }
+=======
+
+>>>>>>> 82ff058227648e647560dd2ad022b112dfd472cf
             checkForInput();
         }
         //----------------------------------------------------------------------------------------------
