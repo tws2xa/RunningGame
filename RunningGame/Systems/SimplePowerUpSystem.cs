@@ -30,6 +30,7 @@ namespace RunningGame.Systems
         public float speedyTime = 1.0f;
         public float speedyTimer = -1.0f;
         public bool speedyActive = false;
+        public bool speedyEnabled = true;
         Keys speedyKey = Keys.L;
 
         //addBlock information
@@ -104,47 +105,28 @@ namespace RunningGame.Systems
 
             } 
 
-            
-            
-
-            
-                if (speedyTimer > 0)
-                {
-                    if (level.getPlayer() == null) return;
-                    speedyTimer -= deltaTime;
-                    if (!level.getPlayer().hasComponent(GlobalVars.VELOCITY_COMPONENT_NAME)) return;
-                    VelocityComponent velComp = (VelocityComponent)this.level.getPlayer().getComponent(GlobalVars.VELOCITY_COMPONENT_NAME);
-                    if (speedyTimer <= 0 || Math.Abs(velComp.x) < GlobalVars.SPEEDY_SPEED) 
-                    {
-                        velComp.setVelocity(0, velComp.y);
-                        speedyTimer = -1;
-                        speedyActive = false;
-                        if (!level.getPlayer().hasComponent(GlobalVars.PLAYER_INPUT_COMPONENT_NAME))
-                        {
-                            level.getPlayer().addComponent(new PlayerInputComponent(level.getPlayer()));
-                        }
-                    }
-                }
-            checkForInput();
-        }
-        //----------------------------------------------------------------------------------------------
-        public void createSpeedy()
+            if (speedyTimer > 0)
             {
-                PositionComponent posComp = (PositionComponent)level.getPlayer().getComponent(GlobalVars.POSITION_COMPONENT_NAME);
-                Player player = (Player)level.getPlayer();
-                
-                if (player.isLookingRight())
+                if (level.getPlayer() == null) return;
+                speedyTimer -= deltaTime;
+                if (!level.getPlayer().hasComponent(GlobalVars.VELOCITY_COMPONENT_NAME)) return;
+                VelocityComponent velComp = (VelocityComponent)this.level.getPlayer().getComponent(GlobalVars.VELOCITY_COMPONENT_NAME);
+                if (speedyTimer <= 0 || Math.Abs(velComp.x) < GlobalVars.SPEEDY_SPEED) 
                 {
-
-                    speedyEntity(posComp.x + posComp.width * 1.5f, posComp.y);
-
-                }
-                else if (player.isLookingLeft())
-                {
-                    speedyEntity(posComp.x - posComp.width * 1.5f, posComp.y);
+                    velComp.setVelocity(0, velComp.y);
+                    speedyTimer = -1;
+                    speedyActive = false;
+                    if (!level.getPlayer().hasComponent(GlobalVars.PLAYER_INPUT_COMPONENT_NAME))
+                    {
+                        level.getPlayer().addComponent(new PlayerInputComponent(level.getPlayer()));
+                    }
                 }
             }
 
+            checkForInput();
+        }
+        //----------------------------------------------------------------------------------------------
+    
         public void speedyEntity(float x, float y)
         {
             Entity newEntity = new PreGroundSpeedy(level, x, y);
@@ -165,7 +147,7 @@ namespace RunningGame.Systems
             {
                 Grapple();
             }
-            if (level.getInputSystem().myKeys[speedyKey].down)
+            if (speedyEnabled && level.getInputSystem().myKeys[speedyKey].down)
             {
                 createSpeedy();
             }
@@ -205,6 +187,22 @@ namespace RunningGame.Systems
             }
         }
 
+        public void createSpeedy()
+        {
+            PositionComponent posComp = (PositionComponent)level.getPlayer().getComponent(GlobalVars.POSITION_COMPONENT_NAME);
+            Player player = (Player)level.getPlayer();
+
+            if (player.isLookingRight())
+            {
+
+                speedyEntity(posComp.x + posComp.width * 1.5f, posComp.y);
+
+            }
+            else if (player.isLookingLeft())
+            {
+                speedyEntity(posComp.x - posComp.width * 1.5f, posComp.y);
+            }
+        }
 
         public void Grapple()
         {

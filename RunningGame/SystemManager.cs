@@ -93,12 +93,12 @@ namespace RunningGame
             healthSystem.Update(deltaTime);
             animSystem.Update(deltaTime);
             squishSystem.Update(deltaTime);
-            inputSystem.Update(deltaTime);
             slSystem.Update(deltaTime);
             switchSystem.Update(deltaTime);
             simpEnemySystem.Update(deltaTime);
             sndSystem.Update(deltaTime);
             debugSystem.Update(deltaTime);
+            inputSystem.Update(deltaTime);
             
         }
 

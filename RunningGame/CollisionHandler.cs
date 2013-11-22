@@ -47,6 +47,7 @@ namespace RunningGame
             Func<Entity, Entity, bool> simpleStopCollisionFunction = simpleStopCollision;
             Func<Entity, Entity, bool> speedyPlayerCollisionFunction = speedyPlayerCollision;
             Func<Entity, Entity, bool> speedyGroundCollisionFunction = speedyGroundCollision;
+            Func<Entity, Entity, bool> removeSpeedyCollisionFunction = removeSpeedyCollision;
             Func<Entity, Entity, bool> playerSwitchCollisonFunction = switchFlipCollision;
             Func<Entity, Entity, bool> playerEnemyCollisionFunction = enemyPlayerCollision;
             Func<Entity, Entity, bool> bulletNonEnemyCollisionFunction = bulletNonEnemyCollision;
@@ -56,7 +57,7 @@ namespace RunningGame
             Func<Entity, Entity, bool> otherPlatformCollisionFunction = platformOtherCollision;
            
             //Set defaults (i.e. If there is no specific collision listed, what does it do?)
-            defaultCollisions.Add(GlobalVars.SPEEDY_PREGROUND_COLLIDER_TYPE, doNothingCollision);
+            defaultCollisions.Add(GlobalVars.SPEEDY_PREGROUND_COLLIDER_TYPE, removeSpeedyCollision);
             defaultCollisions.Add(GlobalVars.BASIC_SOLID_COLLIDER_TYPE, simpleStopCollision);
             defaultCollisions.Add(GlobalVars.BULLET_COLLIDER_TYPE, bulletNonEnemyCollision);
             defaultCollisions.Add(GlobalVars.SIMPLE_ENEMY_COLLIDER_TYPE, simpleStopCollision);
@@ -79,7 +80,8 @@ namespace RunningGame
             addToDictionary(GlobalVars.MOVING_PLATFORM_COLLIDER_TYPE, GlobalVars.PLAYER_COLLIDER_TYPE, otherPlatformCollisionFunction);
 
             addToDictionary(GlobalVars.BASIC_SOLID_COLLIDER_TYPE, GlobalVars.SPEEDY_PREGROUND_COLLIDER_TYPE, speedyGroundCollisionFunction);
-            addToDictionary(GlobalVars.SPEEDY_PREGROUND_COLLIDER_TYPE, GlobalVars.SWITCH_COLLIDER_TYPE, doNothingCollision);
+            addToDictionary(GlobalVars.SPEEDY_PREGROUND_COLLIDER_TYPE, GlobalVars.PLAYER_COLLIDER_TYPE, doNothingCollision);
+            addToDictionary(GlobalVars.SPEEDY_PREGROUND_COLLIDER_TYPE, GlobalVars.SIMPLE_ENEMY_COLLIDER_TYPE, doNothingCollision);
         }
 
         //This adds something to the default collison dictionary.
@@ -190,8 +192,8 @@ namespace RunningGame
             }
             else
             {
-                Console.WriteLine("SpeedyGroundCollision with no ground");
-                return false;
+                //Console.WriteLine("SpeedyGroundCollision with no ground");
+                return removeSpeedyCollision(e1, e2);
             }
 
             PositionComponent ground = (PositionComponent)theGround.getComponent(GlobalVars.POSITION_COMPONENT_NAME);
@@ -400,7 +402,21 @@ namespace RunningGame
             return false;
         }
 
+        public bool removeSpeedyCollision(Entity e1, Entity e2)
+        {
+            Entity pre = null;
+            if (e1 is PreGroundSpeedy) pre = e1;
+            else if (e2 is PreGroundSpeedy) pre = e2;
+            else
+            {
+                Console.WriteLine("Remove Speedy with no Speedy");
+                return false;
+            }
 
+            level.removeEntity(pre);
+
+            return false;
+        }
 
         /*
         public bool GrappleSolidCollision(Entity e1, Entity e2)
