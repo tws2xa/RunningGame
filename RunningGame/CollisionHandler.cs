@@ -184,8 +184,18 @@ namespace RunningGame
             if (thePlayer == null || other == null) return false;
 
             //Do collision code here
+            Player p = (Player)thePlayer;
+            VelocityComponent vel = (VelocityComponent)p.getComponent(GlobalVars.VELOCITY_COMPONENT_NAME);
+            if (vel.x > 0)
+            {
+                vel.x = 1000;
+            }
+            if (vel.x < 0)
+            {
+                vel.x = -1000;
+            }
 
-            return true;
+            return false;
         }
 
         //This flip the switch (assuming e1 or e2 is a switch)
@@ -343,6 +353,8 @@ namespace RunningGame
 
             return false;
         }
+
+
 
     }
 }

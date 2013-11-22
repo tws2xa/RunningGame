@@ -22,6 +22,11 @@ namespace RunningGame.Systems
         float glideDuration = 2.0f;
         float glideTimer;
         bool glideActive = false;
+        
+        //speedy powerup infos
+        float speedyTime = 1.0f;
+        float speedyTimer = -1.0f;
+        bool speedyActive = false;
 
         //addBlock information
         Keys blockSpawnKey = Keys.K;
@@ -72,6 +77,20 @@ namespace RunningGame.Systems
 
             }
 
+            if (speedyActive)
+            {
+                if (speedyTimer > 0)
+                {
+                    speedyTime -= deltaTime;
+                    VelocityComponent velComp = (VelocityComponent)this.level.getPlayer().getComponent(GlobalVars.VELOCITY_COMPONENT_NAME);
+                    if (speedyTimer <= 0) 
+                    {
+                        velComp.setVelocity(500, velComp.y);
+                        speedyTime = -1;
+                        speedyActive = false;
+                    }
+                }
+            }
             checkForInput();
         }
         //----------------------------------------------------------------------------------------------

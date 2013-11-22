@@ -37,7 +37,7 @@ namespace RunningGame.Systems
 
             this.level = level;
 
-            colHandler = new CollisionHandler(level);
+            colHandler = new CollisionHandler();
 
         }
 
@@ -69,7 +69,7 @@ namespace RunningGame.Systems
                     incrementPosition(posComp, velComp.x * deltaTime, velComp.y * deltaTime);
 
                 }
-                colHandler.update(deltaTime);
+                
             }
         }
 
