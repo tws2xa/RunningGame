@@ -44,6 +44,7 @@ namespace RunningGame
             //Func<Entity, Entity, bool> [Var Name] = [Name of your method];
             Func<Entity, Entity, bool> simpleStopCollisionFunction = simpleStopCollision;
             Func<Entity, Entity, bool> speedyPlayerCollisionFunction = speedyPlayerCollision;
+            Func<Entity, Entity, bool> speedyGroundCollisionFunction = speedyGroundCollision;
             Func<Entity, Entity, bool> playerSwitchCollisonFunction = switchFlipCollision;
             Func<Entity, Entity, bool> playerEnemyCollisionFunction = enemyPlayerCollision;
             Func<Entity, Entity, bool> bulletNonEnemyCollisionFunction = bulletNonEnemyCollision;
@@ -59,6 +60,7 @@ namespace RunningGame
             defaultCollisions.Add(GlobalVars.END_LEVEL_COLLIDER_TYPE, simpleStopCollision);
             defaultCollisions.Add(GlobalVars.MOVING_PLATFORM_COLLIDER_TYPE, simpleStopCollision);
             defaultCollisions.Add(GlobalVars.SPEEDY_POSTGROUND_COLLIDER_TYPE, simpleStopCollision);
+            defaultCollisions.Add(GlobalVars.SPEEDY_PREGROUND_COLLIDER_TYPE, simpleStopCollision);
 
             //Add non-default collisions to dictionary
             addToDictionary(GlobalVars.PLAYER_COLLIDER_TYPE, GlobalVars.SPEEDY_POSTGROUND_COLLIDER_TYPE, speedyPlayerCollisionFunction);
@@ -72,6 +74,8 @@ namespace RunningGame
             addToDictionary(GlobalVars.SIMPLE_ENEMY_COLLIDER_TYPE, GlobalVars.PLAYER_COLLIDER_TYPE, playerEnemyCollisionFunction);
             
             addToDictionary(GlobalVars.MOVING_PLATFORM_COLLIDER_TYPE, GlobalVars.PLAYER_COLLIDER_TYPE, otherPlatformCollisionFunction);
+
+            addToDictionary(GlobalVars.BASIC_SOLID_COLLIDER_TYPE, GlobalVars.SPEEDY_PREGROUND_COLLIDER_TYPE, speedyGroundCollisionFunction);
         }
 
         //This adds something to the default collison dictionary.
@@ -163,6 +167,39 @@ namespace RunningGame
         public static bool simpleStopCollision(Entity e1, Entity e2)
         {
             return true; //Don't allow the movement.
+        }
+
+        public bool speedyGroundCollision(Entity e1, Entity e2)
+        {
+            Entity speedy = null;
+            Entity theGround = null;
+
+            if (e1 is BasicGround) 
+            {
+                theGround = e1;
+                speedy = e2;
+            }
+            else if (e2 is BasicGround)
+            {
+                theGround = e2;
+                speedy = e1;
+            }
+            else
+            {
+                Console.WriteLine("SpeedyGroundCollision with no ground");
+                return false;
+            }
+
+            PositionComponent ground = (PositionComponent)theGround.getComponent(GlobalVars.POSITION_COMPONENT_NAME);
+            System.Drawing.PointF loc = ground.getPointF();
+
+            level.removeEntity(theGround);
+            level.removeEntity(speedy);
+
+            Entity newSpeedy = new Speedy(level, new Random().Next(Int32.MinValue, Int32.MaxValue) ,loc.X, loc.Y);
+            level.addEntity(newSpeedy);
+
+            return false;
         }
 
         //Speed the player up

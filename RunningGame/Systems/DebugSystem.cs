@@ -124,8 +124,8 @@ namespace RunningGame.Systems
         {   
             
             //Entity newEntity = new [YOUR ENTITY HERE](level, x, y);
-            Entity newEntity = new Speedy(level, x, y);
-
+            Entity newEntity = new PreGroundSpeedy(level, x, y);
+            Console.WriteLine("ID: " + newEntity.randId);
             level.addEntity(newEntity.randId, newEntity); //This should just stay the same
         }
 
