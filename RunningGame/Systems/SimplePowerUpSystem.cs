@@ -27,9 +27,9 @@ namespace RunningGame.Systems
         float maxVelocity = 70.0f;
         
         //speedy powerup infos
-        float speedyTime = 1.0f;
-        float speedyTimer = -1.0f;
-        bool speedyActive = false;
+        public float speedyTime = 1.0f;
+        public float speedyTimer = -1.0f;
+        public bool speedyActive = false;
 
         //addBlock information
         bool blockSpawnEnabled = true;
@@ -104,19 +104,24 @@ namespace RunningGame.Systems
             }
 
 
-            {
+            
                 if (speedyTimer > 0)
                 {
-                    speedyTime -= deltaTime;
+                    if (level.getPlayer() == null) return;
+                    speedyTimer -= deltaTime;
+                    if (!level.getPlayer().hasComponent(GlobalVars.VELOCITY_COMPONENT_NAME)) return;
                     VelocityComponent velComp = (VelocityComponent)this.level.getPlayer().getComponent(GlobalVars.VELOCITY_COMPONENT_NAME);
-                    if (speedyTimer <= 0) 
+                    if (speedyTimer <= 0 || Math.Abs(velComp.x) < GlobalVars.SPEEDY_SPEED) 
                     {
-                        velComp.setVelocity(500, velComp.y);
-                        speedyTime = -1;
+                        velComp.setVelocity(0, velComp.y);
+                        speedyTimer = -1;
                         speedyActive = false;
+                        if (!level.getPlayer().hasComponent(GlobalVars.PLAYER_INPUT_COMPONENT_NAME))
+                        {
+                            level.getPlayer().addComponent(new PlayerInputComponent(level.getPlayer()));
+                        }
                     }
                 }
-            }
             checkForInput();
         }
         //----------------------------------------------------------------------------------------------

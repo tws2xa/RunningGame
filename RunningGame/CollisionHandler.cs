@@ -58,9 +58,10 @@ namespace RunningGame
             defaultCollisions.Add(GlobalVars.SIMPLE_ENEMY_COLLIDER_TYPE, simpleStopCollision);
             defaultCollisions.Add(GlobalVars.END_LEVEL_COLLIDER_TYPE, simpleStopCollision);
             defaultCollisions.Add(GlobalVars.MOVING_PLATFORM_COLLIDER_TYPE, simpleStopCollision);
+            defaultCollisions.Add(GlobalVars.SPEEDY_POSTGROUND_COLLIDER_TYPE, simpleStopCollision);
 
             //Add non-default collisions to dictionary
-            addToDictionary(GlobalVars.PLAYER_COLLIDER_TYPE, GlobalVars.SPEEDY_COLLIDER_TYPE, speedyPlayerCollisionFunction);
+            addToDictionary(GlobalVars.PLAYER_COLLIDER_TYPE, GlobalVars.SPEEDY_POSTGROUND_COLLIDER_TYPE, speedyPlayerCollisionFunction);
             addToDictionary(GlobalVars.PLAYER_COLLIDER_TYPE, GlobalVars.SWITCH_COLLIDER_TYPE, playerSwitchCollisonFunction);
             addToDictionary(GlobalVars.PLAYER_COLLIDER_TYPE, GlobalVars.END_LEVEL_COLLIDER_TYPE, endLevelCollisionFunction);
 
@@ -165,7 +166,7 @@ namespace RunningGame
         }
 
         //Speed the player up
-        public static bool speedyPlayerCollision(Entity e1, Entity e2)
+        public bool speedyPlayerCollision(Entity e1, Entity e2)
         {
             Entity thePlayer = null;
             Entity other = null;
@@ -184,16 +185,20 @@ namespace RunningGame
             if (thePlayer == null || other == null) return false;
 
             //Do collision code here
-            Player p = (Player)thePlayer;
+        
+             Player p = (Player)thePlayer;
             VelocityComponent vel = (VelocityComponent)p.getComponent(GlobalVars.VELOCITY_COMPONENT_NAME);
-            if (vel.x > 0)
+            if (vel.x >= 0)
             {
-                vel.x = 1000;
+                vel.x = GlobalVars.SPEEDY_SPEED;
+            } else {
+                vel.x = -GlobalVars.SPEEDY_SPEED;
             }
-            if (vel.x < 0)
-            {
-                vel.x = -1000;
-            }
+
+            p.removeComponent(GlobalVars.PLAYER_INPUT_COMPONENT_NAME);
+
+            level.sysManager.spSystem.speedyTimer = level.sysManager.spSystem.speedyTime;
+            level.sysManager.spSystem.speedyActive = true;
 
             return false;
         }
@@ -296,6 +301,7 @@ namespace RunningGame
             level.removeEntity(e2);
             return false;
         }
+
 
         //This ends the level
         public bool endLevelCollision(Entity e1, Entity e2)
