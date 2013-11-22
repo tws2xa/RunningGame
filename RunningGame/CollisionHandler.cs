@@ -32,6 +32,8 @@ namespace RunningGame
         //This dictionary holds default collision function
         public Dictionary<string, Func<Entity, Entity, bool>> defaultCollisions = new Dictionary<string, Func<Entity, Entity, bool>>();
 
+        Random rand = new Random();
+
         //The level
         public Level level;
 
@@ -196,7 +198,7 @@ namespace RunningGame
             level.removeEntity(theGround);
             level.removeEntity(speedy);
 
-            Entity newSpeedy = new Speedy(level, new Random().Next(Int32.MinValue, Int32.MaxValue) ,loc.X, loc.Y);
+            Entity newSpeedy = new Speedy(level, rand.Next(Int32.MinValue, Int32.MaxValue), loc.X, loc.Y);
             level.addEntity(newSpeedy);
 
             return false;
