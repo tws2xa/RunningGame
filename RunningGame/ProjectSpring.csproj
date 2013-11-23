@@ -101,7 +101,6 @@
     <Compile Include="Entities\GrappleEntity.cs" />
     <Compile Include="Entities\MovingPlatformEntity.cs" />
     <Compile Include="Entities\PowerupPickupEntity.cs" />
-    <Compile Include="Entities\PowerupUIEntity.cs" />
     <Compile Include="Entities\spawnBlockEntity.cs" />
     <Compile Include="Entities\BulletEntity.cs" />
     <Compile Include="Entities\DeadPlayerEntity.cs" />
