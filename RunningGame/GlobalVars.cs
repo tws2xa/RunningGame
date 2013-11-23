@@ -109,7 +109,7 @@ namespace RunningGame
         public static float SIMPLE_ENEMY_H_SPEED = 50.0f;
         public static float BULLET_SPEED = 250.0f;
         public static float MOVING_PLATFORM_SPEED = 50.0f;
-        public static float MAX_GRAPPLE_DISTANCE = 300.0f; //Pixels
+        public static float MAX_GRAPPLE_DISTANCE = 500.0f; //Pixels
         public static int MAX_NUM_BULLETS = 2;
         public static float SPEEDY_SPEED = 600.0f;
         public static Bitmap grndImg = null;
