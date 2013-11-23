@@ -191,7 +191,7 @@ namespace RunningGame
                     loadLevel("RunningGame.Resources.Levels.World5Level1.png", 5, 1); //World 5 Level 1
                     break;
                 case (6):
-                    loadLevel("RunningGame.Resources.Levels.PresentationLevelExtended.png", 6, 1); //World 6 Level 1
+                    loadLevel("RunningGame.Resources.Levels.World6level1.png", 6, 1); //World 6 Level 1
                     break;
             }
         }
@@ -220,7 +220,7 @@ namespace RunningGame
                     loadLevel("RunningGame.Resources.Levels.World5Level2.png", 5, 2); //World 5 Level 2
                     break;
                 case (6):
-                    loadLevel("RunningGame.Resources.Levels.PresentationLevelExtended.png", 6, 2); //World 6 Level 2
+                    loadLevel("RunningGame.Resources.Levels.World6level2.png", 6, 2); //World 6 Level 2
                     break;
             }
         }
