@@ -12,11 +12,8 @@ namespace RunningGame.Entities
     [Serializable()]
     public class Speedy : Entity
     {
-        float defaultWidth = 10;
-        float defaultHeight = 10;
-
-        //float startingX;
-        //float startingY;
+        float defaultWidth = 11;
+        float defaultHeight = 12;
 
         public Speedy(Level level, float x, float y)
         {
@@ -52,9 +49,12 @@ namespace RunningGame.Entities
         {
             //position and velocity
             addComponent(new PositionComponent(x, y, defaultWidth, defaultHeight, this));
-            addComponent(new GravityComponent(0, GlobalVars.STANDARD_GRAVITY));
-            addComponent(new ColliderComponent(this, GlobalVars.SPEEDY_COLLIDER_TYPE));
-            
+            addComponent(new ColliderComponent(this, GlobalVars.SPEEDY_POSTGROUND_COLLIDER_TYPE));
+            DrawComponent drawComp = (DrawComponent)addComponent(new DrawComponent(defaultWidth, defaultHeight, level, true));
+            //Add image - Use base name for first parameter (everything in file path after Resources. and before the numbers and .png)
+            //Then second parameter is full filepath to a default image
+            drawComp.addSprite("Artwork.Foreground.BlueGrnd", "RunningGame.Resources.Artwork.Foreground.BlueGrnd61.png", "Main");
+            drawComp.setSprite("Main"); //Set image to active image
         }
         
         public override void revertToStartingState()

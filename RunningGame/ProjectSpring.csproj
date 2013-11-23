@@ -85,6 +85,7 @@
     <Compile Include="Components\ObjectLinkComponent.cs" />
     <Compile Include="Components\PlayeInputComponent.cs" />
     <Compile Include="Components\PlayerComponent.cs" />
+    <Compile Include="Components\PowerupPickupComponent.cs" />
     <Compile Include="Components\ScreenEdgeComponent.cs" />
     <Compile Include="Components\SimpleEnemyComponent.cs" />
     <Compile Include="Components\SoundComponent.cs" />
@@ -97,8 +98,10 @@
     <Compile Include="Entities\BackgroundEntity.cs" />
     <Compile Include="Entities\BasicGround.cs" />
     <Compile Include="Entities\bounceBlockEntity.cs" />
+    <Compile Include="Entities\PreGroundSpeedy.cs" />
     <Compile Include="Entities\GrappleEntity.cs" />
     <Compile Include="Entities\MovingPlatformEntity.cs" />
+    <Compile Include="Entities\PowerupPickupEntity.cs" />
     <Compile Include="Entities\PowerupUIEntity.cs" />
     <Compile Include="Entities\spawnBlockEntity.cs" />
     <Compile Include="Entities\BulletEntity.cs" />
@@ -285,9 +288,6 @@
     <None Include="Resources\Concept Art.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\Artwork\Background\Bkg11.png" />
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="Resources\Artwork\Creatures\Enemy111.png" />
     <EmbeddedResource Include="Resources\Artwork\Creatures\Enemy211.png" />
   </ItemGroup>
@@ -322,6 +322,48 @@
     <EmbeddedResource Include="Resources\Levels\World1Level2.png" />
     <EmbeddedResource Include="Resources\Levels\World2Level1.png" />
     <EmbeddedResource Include="Resources\Levels\World2Level2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Artwork\Creatures\player1.png" />
+    <EmbeddedResource Include="Resources\Artwork\Creatures\player2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Artwork\Background\Bkg11.png" />
+    <EmbeddedResource Include="Resources\Artwork\Background\Bkg1Extra1.png" />
+    <EmbeddedResource Include="Resources\Artwork\Background\Bkg12.png" />
+    <EmbeddedResource Include="Resources\Artwork\Background\Bkg1Extra2.png" />
+    <EmbeddedResource Include="Resources\Artwork\Background\Bkg13.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Artwork\Foreground\Blue.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Artwork\Foreground\Grass\Grass061.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\Grass\Grass161.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\Grass\Grass261.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\Grass\Grass361.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\Grass\Grass461.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Artwork\Foreground\Grass\Grass011.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\Grass\Grass111.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\Grass\Grass211.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\Grass\Grass311.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\Grass\Grass411.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Artwork\Foreground\BlueGrnd11.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Artwork\Foreground\BlueGrnd61.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Artwork\Creatures\PlayerBlue1.png" />
+    <EmbeddedResource Include="Resources\Artwork\Creatures\PlayerBlue2.png" />
+    <EmbeddedResource Include="Resources\Artwork\Creatures\PlayerOrange1.png" />
+    <EmbeddedResource Include="Resources\Artwork\Creatures\PlayerOrange2.png" />
+    <EmbeddedResource Include="Resources\Artwork\Creatures\PlayerPurple1.png" />
+    <EmbeddedResource Include="Resources\Artwork\Creatures\PlayerPurple2.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

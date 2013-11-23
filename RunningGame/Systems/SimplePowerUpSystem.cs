@@ -15,33 +15,41 @@ namespace RunningGame.Systems
         
         List<string> requiredComponents = new List<string>();
         Level level;
-        //public PowerupUIEntity indicator;
+
+        //Keys
+        Keys glideKey = Keys.Space;
+        //Keys speedyKey = Keys.L;
+        //Keys blockSpawnKey = Keys.K;
+        Keys equippedPowerupKey = Keys.F;
+        Keys cycleDownPowerupKey = Keys.Q;
+
 
         //Glide powerup informations
-        bool glideEnabled = true;
         float Glide_Gravity_Decrease = 130.0f;
-        Keys glideKey = Keys.G;
         float glideDuration = 1.5f;
         float glideTimer;
         bool glideActive = false;
         float maxVelocity = 70.0f;
 
-        //addBlock information
-        bool blockSpawnEnabled = true;
-        Keys blockSpawnKey = Keys.K;
+        //Powerup Locks
+        bool glideUnlocked = true;
+        bool speedyUnlocked = true;
+        bool spawnUnlocked = true;
+        bool grappleUnlocked = true;
+        bool bouncyUnlocked = true;
+
+        //Equips
+        public bool speedyEquipped = false;
+        bool blockSpawnEquipped = false;
+        bool bouncyEquippedTEMP = false;
+
+        //speedy powerup infos
+        public float speedyTime = 1.0f;
+        public float speedyTimer = -1.0f;
+        public bool speedyActive = false;
 
         //Grapple
-        bool grappleEnabled = true;
         bool hasRunOnce = false; //Used to add keys once and only once. Can't in constructor because inputSystem not ready yet
-       
-
-        //Bouncy
-        public bool bouncyEnabledTEMP = false;
-
-        //Speedy
-        public bool speedyEnabledTEMP = false;
-
-
 
         public SimplePowerUpSystem(Level level)
         {
@@ -68,12 +76,10 @@ namespace RunningGame.Systems
             if (!hasRunOnce)
             {
                 level.getInputSystem().addKey(glideKey);
-                level.getInputSystem().addKey(blockSpawnKey);
-                //Create and set the powerup ui indicator
-
-                //PowerupUIEntity ind = new PowerupUIEntity(level, 0, 0);
-                //level.addEntity(ind);
-                //this.indicator = ind;
+                //level.getInputSystem().addKey(blockSpawnKey);
+                //level.getInputSystem().addKey(speedyKey);
+                level.getInputSystem().addKey(cycleDownPowerupKey);
+                level.getInputSystem().addKey(equippedPowerupKey);
 
                 hasRunOnce = true;
             }
@@ -95,25 +101,64 @@ namespace RunningGame.Systems
 
                 }
 
-            }
+            } 
 
+            if (speedyTimer > 0)
+            {
+                if (level.getPlayer() == null) return;
+                speedyTimer -= deltaTime;
+                if (!level.getPlayer().hasComponent(GlobalVars.VELOCITY_COMPONENT_NAME)) return;
+                VelocityComponent velComp = (VelocityComponent)this.level.getPlayer().getComponent(GlobalVars.VELOCITY_COMPONENT_NAME);
+                if (speedyTimer <= 0 || Math.Abs(velComp.x) < GlobalVars.SPEEDY_SPEED) 
+                {
+                    velComp.setVelocity(0, velComp.y);
+                    speedyTimer = -1;
+                    speedyActive = false;
+                    if (!level.getPlayer().hasComponent(GlobalVars.PLAYER_INPUT_COMPONENT_NAME))
+                    {
+                        level.getPlayer().addComponent(new PlayerInputComponent(level.getPlayer()));
+                    }
+                }
+            }
 
             checkForInput();
         }
         //----------------------------------------------------------------------------------------------
+    
+        public void speedyEntity(float x, float y)
+        {
+            Entity newEntity = new PreGroundSpeedy(level, x, y);
 
-
+            level.addEntity(newEntity.randId, newEntity); 
+        }
         public void checkForInput()
         {
-            if (glideEnabled && level.getInputSystem().myKeys[glideKey].down)
+            if (glideUnlocked && level.getInputSystem().myKeys[glideKey].down)
             {
                 glide();
             }
-            if (blockSpawnEnabled && level.getInputSystem().myKeys[blockSpawnKey].down)
+            /*
+            if (blockSpawnEquipped && level.getInputSystem().myKeys[blockSpawnKey].down)
             {
                 blockSpawn();
             }
-            if (grappleEnabled && level.getInputSystem().mouseRightClick)
+            if (speedyEquipped && level.getInputSystem().myKeys[speedyKey].down)
+            {
+                createSpeedy();
+            }
+             * */
+
+            if (level.getInputSystem().myKeys[cycleDownPowerupKey].down)
+            {
+                CycleThroughEquips(true);
+            }
+
+            if (level.getInputSystem().myKeys[equippedPowerupKey].down)
+            {
+                equppedPowerup();
+            }
+
+            if (grappleUnlocked && level.getInputSystem().mouseRightClick)
             {
                 Grapple();
             }
@@ -123,36 +168,101 @@ namespace RunningGame.Systems
         //Bounce
         //Speed
         //Spawn
-        //None - Remove?
+        //None
         public void CycleThroughEquips(bool down)
         {
-            if (bouncyEnabledTEMP)
+            if (bouncyEquippedTEMP)
             {
-                bouncyEnabledTEMP = false;
-                speedyEnabledTEMP = true;
-                blockSpawnEnabled = false;
+                bouncyEquippedTEMP = false;
+                if (speedyUnlocked)
+                {
+                    speedyEquipped = true;
+                    level.getPlayer().setBlueImage();
+                }
+                else
+                {
+                    level.getPlayer().setNormalImage();
+                    return;
+                }
+                blockSpawnEquipped = false;
             }
-            else if (speedyEnabledTEMP)
+            else if (speedyEquipped)
             {
-                bouncyEnabledTEMP = false;
-                speedyEnabledTEMP = false;
-                blockSpawnEnabled = true;
+                bouncyEquippedTEMP = false;
+                speedyEquipped = false;
+                if (spawnUnlocked)
+                {
+                    level.getPlayer().setOrangeImage();
+                    blockSpawnEquipped = true;
+                }
+                else
+                {
+                    level.getPlayer().setNormalImage();
+                    return;
+                }
             }
-            else if (blockSpawnEnabled)
+            else if (blockSpawnEquipped)
             {
-
-                bouncyEnabledTEMP = false;
-                speedyEnabledTEMP = false;
-                blockSpawnEnabled = false;
+                bouncyEquippedTEMP = false;
+                speedyEquipped = false;
+                blockSpawnEquipped = false;
+                level.getPlayer().setNormalImage();
             }
             else
             {
-                bouncyEnabledTEMP = true;
-                speedyEnabledTEMP = false;
-                blockSpawnEnabled = false;
+                if (bouncyUnlocked)
+                {
+                    level.getPlayer().setPurpleImage();
+                    bouncyEquippedTEMP = true;
+                }
+                else
+                {
+                    level.getPlayer().setNormalImage();
+                    return;
+                }
+                speedyEquipped = false;
+                blockSpawnEquipped = false;
             }
         }
 
+        public void equppedPowerup()
+        {
+
+            if (bouncyEquippedTEMP)
+            {
+                //Bouncy Call Here
+                Console.WriteLine("Bouncy!");
+            }
+            else if (speedyEquipped)
+            {
+                createSpeedy();
+            }
+            else if (blockSpawnEquipped)
+            {
+                blockSpawn();
+            }
+            else
+            {
+                //Derp
+            }
+        }
+
+        public void createSpeedy()
+        {
+            PositionComponent posComp = (PositionComponent)level.getPlayer().getComponent(GlobalVars.POSITION_COMPONENT_NAME);
+            Player player = (Player)level.getPlayer();
+
+            if (player.isLookingRight())
+            {
+
+                speedyEntity(posComp.x + posComp.width * 1.5f, posComp.y);
+
+            }
+            else if (player.isLookingLeft())
+            {
+                speedyEntity(posComp.x - posComp.width * 1.5f, posComp.y);
+            }
+        }
 
         public void Grapple()
         {
@@ -210,12 +320,16 @@ namespace RunningGame.Systems
                     blockEntity(posComp.x + posComp.width * 1.5f, posComp.y);
 
                 }
-                else
+
+                if (player.isLookingLeft())
+
                 {
                     blockEntity(posComp.x - posComp.width * 1.5f, posComp.y);
                 }
                 
+
             }
+
         public void blockEntity(float x, float y)
         {   
             

@@ -69,7 +69,7 @@ namespace RunningGame.Systems
                 if (b.down)
                 {
                     b.downTimer += 1;
-                    if (b.downTimer > 1)
+                    if (b.downTimer > 0)
                     {
                         b.downTimer = 0;
                         b.down = false;
@@ -78,7 +78,7 @@ namespace RunningGame.Systems
                 if (b.up)
                 {
                     b.upTimer += 1;
-                    if (b.upTimer > 1)
+                    if (b.upTimer > 0)
                     {
                         b.upTimer = 0;
                         b.up = false;

@@ -18,7 +18,6 @@ namespace RunningGame.Entities
         public BulletEntity(Level level, float x, float y)
         {
             this.level = level;
-
             initializeEntity(new Random().Next(Int32.MinValue, Int32.MaxValue), level);
 
             addMyComponents(x, y, 0, 0);

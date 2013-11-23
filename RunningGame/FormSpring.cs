@@ -179,7 +179,7 @@ namespace RunningGame
                     loadLevel("RunningGame.Resources.Levels.World1Level1.png", 1, 1); //World 1 Level 1
                     break;
                 case (2):
-                    loadLevel("RunningGame.Resources.Levels.World2Level1.png", 5, 1); //World 2 Level 1
+                    loadLevel("RunningGame.Resources.Levels.World2Level1.png", 2, 1); //World 2 Level 1
                     break;
                 case (3):
                     loadLevel("RunningGame.Resources.Levels.PresentationLevelExtended.png", 3, 1); //World 3 Level 1
@@ -191,7 +191,7 @@ namespace RunningGame
                     loadLevel("RunningGame.Resources.Levels.World5Level1.png", 5, 1); //World 5 Level 1
                     break;
                 case (6):
-                    loadLevel("RunningGame.Resources.Levels.PresentationLevelExtended.png", 5, 3); //World 6 Level 3
+                    loadLevel("RunningGame.Resources.Levels.PresentationLevelExtended.png", 6, 1); //World 6 Level 1
                     break;
             }
         }
@@ -220,7 +220,7 @@ namespace RunningGame
                     loadLevel("RunningGame.Resources.Levels.World5Level2.png", 5, 2); //World 5 Level 2
                     break;
                 case (6):
-                    loadLevel("RunningGame.Resources.Levels.PresentationLevelExtended.png", 5, 3); //World 6 Level 3
+                    loadLevel("RunningGame.Resources.Levels.PresentationLevelExtended.png", 6, 2); //World 6 Level 2
                     break;
             }
         }
@@ -234,7 +234,7 @@ namespace RunningGame
                     Console.WriteLine("Error: Selecting level 1 in world 0");
                     break;
                 case (1):
-                    loadLevel("RunningGame.Resources.Levels.EnemyLevel4.png", 1, 3); //World 1 Level 3
+                    loadLevel("RunningGame.Resources.Levels.PresentationLevelExtended.png", 1, 3); //World 1 Level 3
                     break;
                 case (2):
                     loadLevel("RunningGame.Resources.Levels.PresentationLevel.png", 2, 3); //World 2 Level 3
@@ -249,7 +249,7 @@ namespace RunningGame
                     loadLevel("RunningGame.Resources.Levels.PresentationLevelExtended.png", 5, 3); //World 5 Level 3
                     break;
                 case (6):
-                    loadLevel("RunningGame.Resources.Levels.PresentationLevelExtended.png", 5, 3); //World 6 Level 3
+                    loadLevel("RunningGame.Resources.Levels.PresentationLevelExtended.png", 6, 3); //World 6 Level 3
                     break;
             }
         }
