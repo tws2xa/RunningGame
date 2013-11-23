@@ -15,41 +15,41 @@ namespace RunningGame.Systems
         
         List<string> requiredComponents = new List<string>();
         Level level;
-        //public PowerupUIEntity indicator;
+
+        //Keys
+        Keys glideKey = Keys.Space;
+        //Keys speedyKey = Keys.L;
+        //Keys blockSpawnKey = Keys.K;
+        Keys equippedPowerupKey = Keys.F;
+        Keys cycleDownPowerupKey = Keys.Q;
+
 
         //Glide powerup informations
-        bool glideEnabled = true;
         float Glide_Gravity_Decrease = 130.0f;
-        Keys glideKey = Keys.G;
         float glideDuration = 1.5f;
         float glideTimer;
         bool glideActive = false;
         float maxVelocity = 70.0f;
-        
+
+        //Powerup Locks
+        bool glideUnlocked = true;
+        bool speedyUnlocked = true;
+        bool spawnUnlocked = true;
+        bool grappleUnlocked = true;
+        bool bouncyUnlocked = true;
+
+        //Equips
+        public bool speedyEquipped = false;
+        bool blockSpawnEquipped = false;
+        bool bouncyEquippedTEMP = false;
+
         //speedy powerup infos
         public float speedyTime = 1.0f;
         public float speedyTimer = -1.0f;
         public bool speedyActive = false;
-        public bool speedyEnabled = true;
-        Keys speedyKey = Keys.L;
-
-        //addBlock information
-        bool blockSpawnEnabled = true;
-        Keys blockSpawnKey = Keys.K;
-
 
         //Grapple
-        bool grappleEnabled = true;
         bool hasRunOnce = false; //Used to add keys once and only once. Can't in constructor because inputSystem not ready yet
-       
-
-        //Bouncy
-        public bool bouncyEnabledTEMP = false;
-
-        //Speedy
-        public bool speedyEnabledTEMP = false;
-
-
 
         public SimplePowerUpSystem(Level level)
         {
@@ -76,12 +76,10 @@ namespace RunningGame.Systems
             if (!hasRunOnce)
             {
                 level.getInputSystem().addKey(glideKey);
-                level.getInputSystem().addKey(blockSpawnKey);
-                //Create and set the powerup ui indicator
-                level.getInputSystem().addKey(speedyKey);
-                //PowerupUIEntity ind = new PowerupUIEntity(level, 0, 0);
-                //level.addEntity(ind);
-                //this.indicator = ind;
+                //level.getInputSystem().addKey(blockSpawnKey);
+                //level.getInputSystem().addKey(speedyKey);
+                level.getInputSystem().addKey(cycleDownPowerupKey);
+                level.getInputSystem().addKey(equippedPowerupKey);
 
                 hasRunOnce = true;
             }
@@ -135,21 +133,34 @@ namespace RunningGame.Systems
         }
         public void checkForInput()
         {
-            if (glideEnabled && level.getInputSystem().myKeys[glideKey].down)
+            if (glideUnlocked && level.getInputSystem().myKeys[glideKey].down)
             {
                 glide();
             }
-            if (blockSpawnEnabled && level.getInputSystem().myKeys[blockSpawnKey].down)
+            /*
+            if (blockSpawnEquipped && level.getInputSystem().myKeys[blockSpawnKey].down)
             {
                 blockSpawn();
             }
-            if (grappleEnabled && level.getInputSystem().mouseRightClick)
-            {
-                Grapple();
-            }
-            if (speedyEnabled && level.getInputSystem().myKeys[speedyKey].down)
+            if (speedyEquipped && level.getInputSystem().myKeys[speedyKey].down)
             {
                 createSpeedy();
+            }
+             * */
+
+            if (level.getInputSystem().myKeys[cycleDownPowerupKey].down)
+            {
+                CycleThroughEquips(true);
+            }
+
+            if (level.getInputSystem().myKeys[equippedPowerupKey].down)
+            {
+                equppedPowerup();
+            }
+
+            if (grappleUnlocked && level.getInputSystem().mouseRightClick)
+            {
+                Grapple();
             }
         }
 
@@ -157,33 +168,57 @@ namespace RunningGame.Systems
         //Bounce
         //Speed
         //Spawn
-        //None - Remove?
+        //None
         public void CycleThroughEquips(bool down)
         {
-            if (bouncyEnabledTEMP)
+            if (bouncyEquippedTEMP)
             {
-                bouncyEnabledTEMP = false;
-                speedyEnabledTEMP = true;
-                blockSpawnEnabled = false;
+                bouncyEquippedTEMP = false;
+                if (speedyUnlocked) speedyEquipped = true;
+                else return;
+                blockSpawnEquipped = false;
             }
-            else if (speedyEnabledTEMP)
+            else if (speedyEquipped)
             {
-                bouncyEnabledTEMP = false;
-                speedyEnabledTEMP = false;
-                blockSpawnEnabled = true;
+                bouncyEquippedTEMP = false;
+                speedyEquipped = false;
+                if (spawnUnlocked) blockSpawnEquipped = true;
+                else return;
             }
-            else if (blockSpawnEnabled)
+            else if (blockSpawnEquipped)
             {
-
-                bouncyEnabledTEMP = false;
-                speedyEnabledTEMP = false;
-                blockSpawnEnabled = false;
+                bouncyEquippedTEMP = false;
+                speedyEquipped = false;
+                blockSpawnEquipped = false;
             }
             else
             {
-                bouncyEnabledTEMP = true;
-                speedyEnabledTEMP = false;
-                blockSpawnEnabled = false;
+                if (bouncyUnlocked) bouncyEquippedTEMP = true;
+                else return;
+                speedyEquipped = false;
+                blockSpawnEquipped = false;
+            }
+        }
+
+        public void equppedPowerup()
+        {
+
+            if (bouncyEquippedTEMP)
+            {
+                //Bouncy Call Here
+                Console.WriteLine("Bouncy!");
+            }
+            else if (speedyEquipped)
+            {
+                createSpeedy();
+            }
+            else if (blockSpawnEquipped)
+            {
+                blockSpawn();
+            }
+            else
+            {
+                //Derp
             }
         }
 

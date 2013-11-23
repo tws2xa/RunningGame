@@ -202,7 +202,7 @@ namespace RunningGame
             level.removeEntity(theGround);
             level.removeEntity(speedy);
 
-            Entity newSpeedy = new Speedy(level, rand.Next(Int32.MinValue, Int32.MaxValue), loc.X, loc.Y - 2);
+            Entity newSpeedy = new Speedy(level, rand.Next(Int32.MinValue, Int32.MaxValue), loc.X, loc.Y - 1);
             level.addEntity(newSpeedy);
 
             return false;

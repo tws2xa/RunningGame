@@ -77,7 +77,10 @@ namespace RunningGame.Components
                 image = readInImage(getImageFilePathOther2(baseName));
 
             //Still null? Goto default
-            if (image == null) image = readInImage(defaultFileName);
+            if (image == null)
+            {
+                image = readInImage(defaultFileName);
+            }
 
             if (image == null) Console.WriteLine("Error: Null image for " + spriteName + " baseName: " + baseName + " defaultFile: " + defaultFileName);
 

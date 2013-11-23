@@ -20,7 +20,7 @@ namespace RunningGame.Systems
         Keys addEntityKey = Keys.N;
         Keys harmPlayerKey = Keys.H;
         Keys resetLevelKey = Keys.R;
-        Keys flashKey = Keys.F;
+        //Keys flashKey = Keys.F;
         Keys typeKey = Keys.T; //prints out the all entity types to console
 
         bool hasRunOnce = false; //Used to add keys once and only once. Can't in constructor because inputSystem not ready yet
@@ -54,7 +54,7 @@ namespace RunningGame.Systems
                 level.getInputSystem().addKey(addEntityKey);
                 level.getInputSystem().addKey(harmPlayerKey);
                 level.getInputSystem().addKey(resetLevelKey);
-                level.getInputSystem().addKey(flashKey);
+                //level.getInputSystem().addKey(flashKey);
                 level.getInputSystem().addKey(typeKey);
             
                 hasRunOnce = true;
@@ -84,10 +84,11 @@ namespace RunningGame.Systems
             {
                 level.resetLevel();
             }
+            /*
             if (level.getInputSystem().myKeys[flashKey].down)
             {
                 makeFlash(5, Color.Red);
-            }
+            }*/
 
             if (level.getInputSystem().myKeys[typeKey].down)
             {
