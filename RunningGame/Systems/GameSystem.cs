@@ -25,18 +25,61 @@ namespace RunningGame
 
         public abstract List<string> getRequiredComponents(); //string names of all required components (Use GlobalVars script to get the names)
 
+        public Dictionary<int, Entity> applicableEntities = new Dictionary<int, Entity>();
+
         //0 = haven't checked
         //1 = no
         //2 = yes
         int doActOnGround = 0;
 
+        
         //Returns a list of all entities with required components
         public List<Entity> getApplicableEntities()
         {
-            
-            List<Entity> applicableEntities = new List<Entity>();
+            List<Entity> a = applicableEntities.Values.ToList<Entity>();
+            List<Entity> ret = new List<Entity>();
 
-           
+            foreach (Entity e in a)
+            {
+                if (e.updateOutOfView || isInView(e))
+                {
+                    ret.Add(e);
+                }
+            }
+
+            /*List<Entity> appEnts = getApplicableEntities2();
+
+            if (ret.Count != appEnts.Count)
+            {
+                //return appEnts;
+                bool doIAct = actOnGround();
+                Console.WriteLine(doIAct);
+                Console.WriteLine("Whoa!");
+            }*/
+
+            return ret;
+
+        }
+
+
+        public bool checkIfEntityIsApplicable(Entity e)
+        {
+            foreach (string c in getRequiredComponents())
+            {
+                //If there is a single missing component - don't add.
+                if (!e.hasComponent(c))
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+        
+        public List<Entity> getApplicableEntities2()
+        {
+            List<Entity> appEnts = new List<Entity>();
+
+
 
             if (!GetActiveLevel().paused)
             {
@@ -49,7 +92,7 @@ namespace RunningGame
                         {
                             if (e.updateOutOfView || isInView(e))
                             {
-                                applicableEntities.Add(e);
+                                appEnts.Add(e);
                             }
                         }
                     }
@@ -70,7 +113,7 @@ namespace RunningGame
                                 }
                             }
 
-                            if (addEntity) applicableEntities.Add(e);
+                            if (addEntity) appEnts.Add(e);
                         }
                     }
                 }
@@ -81,12 +124,10 @@ namespace RunningGame
             }
 
             //simple sorting by depth happens here
-            applicableEntities = applicableEntities.OrderBy(o => o.depth).ToList();
-            return applicableEntities;
-
+            //appEnts = appEnts.OrderBy(o => o.depth).ToList();
+            return appEnts;
         }
 
-       
         public bool isInView(Entity e)
         {
 

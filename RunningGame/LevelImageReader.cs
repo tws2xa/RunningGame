@@ -31,6 +31,13 @@ namespace RunningGame
         Color endLevelCol       = Color.FromArgb(255, 255, 255); //End level is white
         Color testEntityColor   = Color.FromArgb(42, 42, 42); //Test entity is 42, 42, 42.
 
+        Color bouncePickup      = Color.FromArgb(100, 100, 0);
+        Color speedyPickup      = Color.FromArgb(100, 100, 1);
+        Color jmpPickup         = Color.FromArgb(100, 100, 2);
+        Color glidePickup       = Color.FromArgb(100, 100, 3);
+        Color spawnPickup       = Color.FromArgb(100, 100, 4);
+        Color grapPickup        = Color.FromArgb(100, 100, 5);
+
         //Link doors with switches by giving them the same B
         //Permanent Switch - G = 255
         //Pressure Switch - G = 0
@@ -193,6 +200,78 @@ namespace RunningGame
                         
                         plat.isStartingEntity = true;
                         level.addEntity(plat);
+                    }
+                    else if (col == bouncePickup)
+                    {
+                        float xLoc = (levelX) * tileWidth;
+                        float yLoc = (levelY) * tileHeight;
+                        int id = rand.Next(Int32.MinValue, Int32.MaxValue);
+
+                        PowerupPickupEntity pickup = new PowerupPickupEntity(level, id, xLoc, yLoc, GlobalVars.BOUNCE_NUM);
+                        adjustLocation(pickup, level);
+
+                        pickup.isStartingEntity = true;
+                        level.addEntity(pickup);
+                    }
+                    else if (col == speedyPickup)
+                    {
+                        float xLoc = (levelX) * tileWidth;
+                        float yLoc = (levelY) * tileHeight;
+                        int id = rand.Next(Int32.MinValue, Int32.MaxValue);
+
+                        PowerupPickupEntity pickup = new PowerupPickupEntity(level, id, xLoc, yLoc, GlobalVars.SPEED_NUM);
+                        adjustLocation(pickup, level);
+
+                        pickup.isStartingEntity = true;
+                        level.addEntity(pickup);
+                    }
+                    else if (col == jmpPickup)
+                    {
+                        float xLoc = (levelX) * tileWidth;
+                        float yLoc = (levelY) * tileHeight;
+                        int id = rand.Next(Int32.MinValue, Int32.MaxValue);
+
+                        PowerupPickupEntity pickup = new PowerupPickupEntity(level, id, xLoc, yLoc, GlobalVars.JMP_NUM);
+                        adjustLocation(pickup, level);
+
+                        pickup.isStartingEntity = true;
+                        level.addEntity(pickup);
+                    }
+                    else if (col == glidePickup)
+                    {
+                        float xLoc = (levelX) * tileWidth;
+                        float yLoc = (levelY) * tileHeight;
+                        int id = rand.Next(Int32.MinValue, Int32.MaxValue);
+
+                        PowerupPickupEntity pickup = new PowerupPickupEntity(level, id, xLoc, yLoc, GlobalVars.GLIDE_NUM);
+                        adjustLocation(pickup, level);
+
+                        pickup.isStartingEntity = true;
+                        level.addEntity(pickup);
+                    }
+                    else if (col == spawnPickup)
+                    {
+                        float xLoc = (levelX) * tileWidth;
+                        float yLoc = (levelY) * tileHeight;
+                        int id = rand.Next(Int32.MinValue, Int32.MaxValue);
+
+                        PowerupPickupEntity pickup = new PowerupPickupEntity(level, id, xLoc, yLoc, GlobalVars.SPAWN_NUM);
+                        adjustLocation(pickup, level);
+
+                        pickup.isStartingEntity = true;
+                        level.addEntity(pickup);
+                    }
+                    else if (col == grapPickup)
+                    {
+                        float xLoc = (levelX) * tileWidth;
+                        float yLoc = (levelY) * tileHeight;
+                        int id = rand.Next(Int32.MinValue, Int32.MaxValue);
+
+                        PowerupPickupEntity pickup = new PowerupPickupEntity(level, id, xLoc, yLoc, GlobalVars.GRAP_NUM);
+                        adjustLocation(pickup, level);
+
+                        pickup.isStartingEntity = true;
+                        level.addEntity(pickup);
                     }
                 }
             }

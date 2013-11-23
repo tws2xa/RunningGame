@@ -53,7 +53,8 @@ namespace RunningGame.Systems
                 PositionComponent posComp = (PositionComponent)e.getComponent(GlobalVars.POSITION_COMPONENT_NAME);
                 VelocityComponent velComp = (VelocityComponent)e.getComponent(GlobalVars.VELOCITY_COMPONENT_NAME);
                 PlayerInputComponent pelInComp = (PlayerInputComponent)e.getComponent(GlobalVars.PLAYER_INPUT_COMPONENT_NAME);
-                checkForInput(posComp, velComp, pelInComp);
+                AnimationComponent animComp = (AnimationComponent)e.getComponent(GlobalVars.ANIMATION_COMPONENT_NAME);
+                checkForInput(posComp, velComp, pelInComp, animComp);
 
                 //Reset passedAirJumps if needed
                 if (pelInComp.passedAirjumps != 0 && level.getCollisionSystem().findObjectsBetweenPoints(
@@ -74,7 +75,7 @@ namespace RunningGame.Systems
 
                         if (!(level.getCollisionSystem().findObjectsBetweenPoints(leftX, upperY, leftX, lowerY).Count > 0))
                         {
-                            beginMoveRight(posComp, velComp, pelInComp);
+                            beginMoveRight(posComp, velComp, pelInComp, animComp);
                         }
                     }
                     if (level.getInputSystem().myKeys[GlobalVars.KEY_LEFT].pressed)
@@ -85,9 +86,18 @@ namespace RunningGame.Systems
 
                         if (!(level.getCollisionSystem().findObjectsBetweenPoints(rightX, upperY, rightX, lowerY).Count > 0))
                         {
-                            beginMoveLeft(posComp, velComp, pelInComp);
+                            beginMoveLeft(posComp, velComp, pelInComp, animComp);
                         }
                     }
+                }
+
+                if (level.getInputSystem().myKeys[GlobalVars.KEY_RIGHT].pressed || level.getInputSystem().myKeys[GlobalVars.KEY_LEFT].pressed)
+                {
+                    animComp.animationOn = true;
+                }
+                else
+                {
+                    animComp.animationOn = false;
                 }
 
 
@@ -120,7 +130,7 @@ namespace RunningGame.Systems
         //-----------------------------------------------------------------------------
 
         //----------------------------------- Input ----------------------------------- 
-        public void checkForInput(PositionComponent posComp, VelocityComponent velComp, PlayerInputComponent pelInComp)
+        public void checkForInput(PositionComponent posComp, VelocityComponent velComp, PlayerInputComponent pelInComp, AnimationComponent animComp)
         {
             if (level.getInputSystem().myKeys[GlobalVars.KEY_JUMP].down)
             {
@@ -128,19 +138,19 @@ namespace RunningGame.Systems
             }
             if (level.getInputSystem().myKeys[GlobalVars.KEY_LEFT].down)
             {
-                beginMoveLeft(posComp, velComp, pelInComp);
+                beginMoveLeft(posComp, velComp, pelInComp, animComp);
             }
             if (level.getInputSystem().myKeys[GlobalVars.KEY_RIGHT].down)
             {
-                beginMoveRight(posComp, velComp, pelInComp);
+                beginMoveRight(posComp, velComp, pelInComp, animComp);
             }
             if (level.getInputSystem().myKeys[GlobalVars.KEY_RIGHT].up)
             {
-                endRightHorizontalMove(posComp, velComp);
+                endRightHorizontalMove(posComp, velComp, animComp);
             }
             if (level.getInputSystem().myKeys[GlobalVars.KEY_LEFT].up)
             {
-                endLeftHorizontalMove(posComp, velComp);
+                endLeftHorizontalMove(posComp, velComp, animComp);
             }
         }
         //--------------------------------------------------------------------------------
@@ -159,32 +169,37 @@ namespace RunningGame.Systems
             }
             else
             {
-                if (pelInComp.passedAirjumps < pelInComp.numAirJumps)
+                if (pelInComp.passedAirjumps < GlobalVars.numAirJumps)
                 {
                     velComp.setVelocity(velComp.x, pelInComp.jumpStrength);
                     pelInComp.passedAirjumps++;
                 }
             }
         }
-        public void beginMoveLeft(PositionComponent posComp, VelocityComponent velComp, PlayerInputComponent pelInComp)
+        public void beginMoveLeft(PositionComponent posComp, VelocityComponent velComp, PlayerInputComponent pelInComp, AnimationComponent animComp)
         {
             velComp.setVelocity(-pelInComp.platformerMoveSpeed, velComp.y);
             if(!pelInComp.player.isLookingLeft())
                 pelInComp.player.faceLeft();
+            animComp.animationOn = true;
+            
         }
-        public void beginMoveRight(PositionComponent posComp, VelocityComponent velComp, PlayerInputComponent pelInComp)
+        public void beginMoveRight(PositionComponent posComp, VelocityComponent velComp, PlayerInputComponent pelInComp, AnimationComponent animComp)
         {
             velComp.setVelocity(pelInComp.platformerMoveSpeed, velComp.y);
             if(!pelInComp.player.isLookingRight())
                 pelInComp.player.faceRight();
+            animComp.animationOn = true;
         }
-        public void endLeftHorizontalMove(PositionComponent posComp, VelocityComponent velComp)
+        public void endLeftHorizontalMove(PositionComponent posComp, VelocityComponent velComp, AnimationComponent animComp)
         {
             if (velComp.x < 0) velComp.setVelocity(0, velComp.y);
+            animComp.animationOn = false;
         }
-        public void endRightHorizontalMove(PositionComponent posComp, VelocityComponent velComp)
+        public void endRightHorizontalMove(PositionComponent posComp, VelocityComponent velComp, AnimationComponent animComp)
         {
             if (velComp.x > 0) velComp.setVelocity(0, velComp.y);
+            animComp.animationOn = false;
         }
         public void endUpperMove(PositionComponent posComp, VelocityComponent velComp)
         {

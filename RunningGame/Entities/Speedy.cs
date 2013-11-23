@@ -12,11 +12,8 @@ namespace RunningGame.Entities
     [Serializable()]
     public class Speedy : Entity
     {
-        float defaultWidth = 10;
+        float defaultWidth = 11;
         float defaultHeight = 12;
-
-        //float startingX;
-        //float startingY;
 
         public Speedy(Level level, float x, float y)
         {
@@ -56,7 +53,7 @@ namespace RunningGame.Entities
             DrawComponent drawComp = (DrawComponent)addComponent(new DrawComponent(defaultWidth, defaultHeight, level, true));
             //Add image - Use base name for first parameter (everything in file path after Resources. and before the numbers and .png)
             //Then second parameter is full filepath to a default image
-            drawComp.addSprite("Artwork.Other.Blue", "RunningGame.Resources.Artwork.Foreground.Blue.png", "Main");
+            drawComp.addSprite("Artwork.Foreground.BlueGrnd", "RunningGame.Resources.Artwork.Foreground.BlueGrnd61.png", "Main");
             drawComp.setSprite("Main"); //Set image to active image
         }
         

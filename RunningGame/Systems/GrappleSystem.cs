@@ -31,7 +31,8 @@ namespace RunningGame.Systems
 
         public List<string> grappleColliders = new List<string>()
         {
-            GlobalVars.BASIC_SOLID_COLLIDER_TYPE
+            GlobalVars.BASIC_SOLID_COLLIDER_TYPE,
+            GlobalVars.SPAWN_BLOCK_COLLIDER_TYPE
         };
 
         //Constructor - Always read in the level! You can read in other stuff too if need be.
@@ -83,10 +84,16 @@ namespace RunningGame.Systems
                         grapComp.setFirstPoint(playerPos.getPointF());
 
                         //Check to see if it's intersecting anything now
-                        if (checkForStopsBetweenPoints(grapComp.getFirstPoint(), grapComp.getLastPoint()))
+                        Entity mrIntersection = null;
+                        if (checkForStopsBetweenPoints(grapComp.getFirstPoint(), grapComp.getLastPoint(), ref mrIntersection))
                         {
                             //If it DID intersect something, destroy the grapple.
-                            finishGrapple(e, false);
+                            //finishGrapple(e, false);
+
+                            //AKSHUALLY reconnect the grapple to the new thing
+                            PositionComponent pos = (PositionComponent)mrIntersection.getComponent(GlobalVars.POSITION_COMPONENT_NAME);
+                            grapComp.setEndPoint(pos.getPointF());
+
                             return;
                         }
                     }
@@ -162,11 +169,14 @@ namespace RunningGame.Systems
 
 
                     //Check to see if it's intersecting anything mid-way
-                    if (checkForStopsBetweenPointsExclude(grapComp.getFirstPoint(), grapComp.getLastPoint(), grapComp.myLink))
+                    Entity mrIntersection = null;
+                    if (checkForStopsBetweenPointsExclude(grapComp.getFirstPoint(), grapComp.getLastPoint(), grapComp.myLink, ref mrIntersection))
                     {
                         //If it DID intersect something, destroy the grapple.
-                        finishGrapple(e, false);
-                        return;
+                        //finishGrapple(e, false);
+                        //return;
+                        PositionComponent pos = (PositionComponent)mrIntersection.getComponent(GlobalVars.POSITION_COMPONENT_NAME);
+                        grapComp.setEndPoint(pos.getPointF());
                     }
 
                     float buff = 0.5f;
@@ -312,6 +322,23 @@ namespace RunningGame.Systems
                     ColliderComponent col = (ColliderComponent)e.getComponent(GlobalVars.COLLIDER_COMPONENT_NAME);
                     if (e != exclude && grappleColliders.Contains(col.colliderType))
                     {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+        public bool checkForStopsBetweenPointsExclude(PointF p1, PointF p2, Entity exclude, ref Entity colEnt)
+        {
+            List<Entity> cols = level.getCollisionSystem().findObjectsBetweenPoints(p1.X, p1.Y, p2.X, p2.Y);
+            if (cols.Count > 0)
+            {
+                foreach (Entity e in cols)
+                {
+                    ColliderComponent col = (ColliderComponent)e.getComponent(GlobalVars.COLLIDER_COMPONENT_NAME);
+                    if (e != exclude && grappleColliders.Contains(col.colliderType))
+                    {
+                        colEnt = e;
                         return true;
                     }
                 }
