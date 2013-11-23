@@ -9,18 +9,31 @@ using System.Collections;
 
 namespace RunningGame.Entities
 {
-    class bounceBlockEntity : Entity
+    class PreGroundBounce : Entity
     {
-        float defaultWidth = 18;
-        float defaultHeight = 18;
+        float defaultWidth = 11;
+        float defaultHeight = 12;
 
         //string blockAnimationName = "blockAnimation";
+        public PreGroundBounce(Level level, float x, float y)
+        {
+            //Set level.
+            //Leave for all entities
+            this.level = level;
 
-        public bounceBlockEntity(Level level, float x, float y)
+            //Refers back to a class in the super Entity.
+            //Leave this for all entities.
+            initializeEntity(new Random().Next(Int32.MinValue, Int32.MaxValue), level);
+
+            //Add the components.
+            //Leave this for all entities.
+            addMyComponents(x, y);
+        }
+        public PreGroundBounce(Level level,int id, float x, float y)
         {
             this.level = level;
 
-            initializeEntity(new Random().Next(Int32.MinValue, Int32.MaxValue), level);
+            initializeEntity(id, level);
 
             addMyComponents(x, y);
         }
@@ -43,7 +56,7 @@ namespace RunningGame.Entities
             //addComponent(new PlayerInputComponent());
 
             //Collider
-            addComponent(new ColliderComponent(this, GlobalVars.BOUNCE_BLOCK_COLLIDER_TYPE));
+            addComponent(new ColliderComponent(this, GlobalVars.BOUNCE_PREGROUND_COLLIDER_TYPE));
 
             //Gravity Component
             addComponent(new GravityComponent(0, GlobalVars.STANDARD_GRAVITY));

@@ -84,12 +84,9 @@ namespace RunningGame.Systems
                 level.getInputSystem().addKey(speedyKey);
                 level.getInputSystem().addKey(cycleDownPowerupKey);
                 level.getInputSystem().addKey(equippedPowerupKey);
-<<<<<<< HEAD
-                level.getInputSystem().addKey(bounceKey);
-=======
-                
 
->>>>>>> 7bddd76113a6c62af5f8a6d5c9d7f304c8fd9084
+                level.getInputSystem().addKey(bounceKey);
+
                 hasRunOnce = true;
             }
             if (glideActive) 
@@ -287,7 +284,7 @@ namespace RunningGame.Systems
 
         public void bounceEntity(float x, float y)
         {
-            Entity newBounceEntity = new bounceBlockEntity(level, x, y);
+            Entity newBounceEntity = new PreGroundBounce(level, x, y);
 
             level.addEntity(newBounceEntity.randId, newBounceEntity);
         }
@@ -299,12 +296,12 @@ namespace RunningGame.Systems
             if (player.isLookingRight())
             {
 
-                bounceEntity(posComp.x + posComp.width * 1.5f, posComp.y);
+                bounceEntity(posComp.x + posComp.width * 1.0f, posComp.y);
 
             }
             else if (player.isLookingLeft())
             {
-                bounceEntity(posComp.x - posComp.width * 1.5f, posComp.y);
+                bounceEntity(posComp.x - posComp.width * 1.0f, posComp.y);
             }
         }
         public void Grapple()
