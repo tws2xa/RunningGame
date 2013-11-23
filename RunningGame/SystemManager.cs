@@ -170,5 +170,24 @@ namespace RunningGame
                 }
             }
         }
+
+        public void componentRemoved(Entity e)
+        {
+            foreach (GameSystem sys in systems)
+            {
+                if (sys.applicableEntities.ContainsKey(e.randId))
+                    if(!sys.checkIfEntityIsApplicable(e)) sys.applicableEntities.Remove(e.randId);
+            }
+        }
+
+
+        public void componentAdded(Entity e)
+        {
+            foreach (GameSystem sys in systems)
+            {
+                if (!sys.applicableEntities.ContainsKey(e.randId))
+                    if (sys.checkIfEntityIsApplicable(e)) sys.applicableEntities.Add(e.randId, e);
+            }
+        }
     }
 }
