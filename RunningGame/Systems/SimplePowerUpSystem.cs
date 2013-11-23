@@ -22,6 +22,7 @@ namespace RunningGame.Systems
         //Keys blockSpawnKey = Keys.K;
         Keys equippedPowerupKey = Keys.F;
         Keys cycleDownPowerupKey = Keys.Q;
+        Keys cycleUpPowerupKey = Keys.E;
 
         //Glide powerup informations
         float Glide_Gravity_Decrease = 130.0f;
@@ -75,9 +76,8 @@ namespace RunningGame.Systems
             if (!hasRunOnce)
             {
                 level.getInputSystem().addKey(glideKey);
-                //level.getInputSystem().addKey(blockSpawnKey);
-                //level.getInputSystem().addKey(speedyKey);
                 level.getInputSystem().addKey(cycleDownPowerupKey);
+                level.getInputSystem().addKey(cycleUpPowerupKey);
                 level.getInputSystem().addKey(equippedPowerupKey);
                 
 
@@ -137,21 +137,16 @@ namespace RunningGame.Systems
             {
                 glide();
             }
-            /*
-            if (blockSpawnEquipped && level.getInputSystem().myKeys[blockSpawnKey].down)
-            {
-                blockSpawn();
-            }
-            if (speedyEquipped && level.getInputSystem().myKeys[speedyKey].down)
-            {
-                createSpeedy();
-            }
-             * */
 
-            if (level.getInputSystem().myKeys[cycleDownPowerupKey].down)
+            if (level.getInputSystem().myKeys[cycleUpPowerupKey].down)
             {
                 CycleThroughEquips(true);
             }
+            if (level.getInputSystem().myKeys[cycleDownPowerupKey].down)
+            {
+                CycleThroughEquips(false);
+            }
+
 
             if (level.getInputSystem().myKeys[equippedPowerupKey].down)
             {
@@ -169,67 +164,169 @@ namespace RunningGame.Systems
         //Speed
         //Spawn
         //None
-        public void CycleThroughEquips(bool down)
+        public void CycleThroughEquips(bool up)
         {
-            if (bouncyEquippedTEMP)
+            if (up)
             {
-                bouncyEquippedTEMP = false;
-                if (speedyUnlocked)
+                if (bouncyEquippedTEMP)
                 {
-                    speedyEquipped = true;
-                    level.getPlayer().setBlueImage();
-                    level.getPlayer().faceDirection(level.getPlayer().isLookingRight());
+                    bouncyEquippedTEMP = false;
+                    if (speedyUnlocked)
+                    {
+                        speedyEquipped = true;
+                        level.getPlayer().setBlueImage();
+                        refacePlayer();
+                    }
+                    else
+                    {
+                        level.getPlayer().setNormalImage();
+                        refacePlayer();
+                        return;
+                    }
+                    blockSpawnEquipped = false;
+                }
+                else if (speedyEquipped)
+                {
+                    bouncyEquippedTEMP = false;
+                    speedyEquipped = false;
+                    if (spawnUnlocked)
+                    {
+                        blockSpawnEquipped = true;
+                        level.getPlayer().setOrangeImage();
+                        refacePlayer();
+                    }
+                    else
+                    {
+                        level.getPlayer().setNormalImage();
+                        refacePlayer();
+                        return;
+                    }
+                }
+                else if (blockSpawnEquipped)
+                {
+                    bouncyEquippedTEMP = false;
+                    speedyEquipped = false;
+                    blockSpawnEquipped = false;
+                    level.getPlayer().setNormalImage();
+                    refacePlayer();
                 }
                 else
                 {
-                    level.getPlayer().setNormalImage();
-                    level.getPlayer().faceDirection(level.getPlayer().isLookingRight());
-                    return;
+                    if (bouncyUnlocked)
+                    {
+                        bouncyEquippedTEMP = true;
+                        level.getPlayer().setPurpleImage();
+                        refacePlayer();
+                    }
+                    else
+                    {
+                        level.getPlayer().setNormalImage();
+                        refacePlayer();
+                        return;
+                    }
+                    speedyEquipped = false;
+                    blockSpawnEquipped = false;
                 }
-                blockSpawnEquipped = false;
-            }
-            else if (speedyEquipped)
-            {
-                bouncyEquippedTEMP = false;
-                speedyEquipped = false;
-                if (spawnUnlocked)
-                {
-                    blockSpawnEquipped = true;
-                    level.getPlayer().setOrangeImage();
-                    level.getPlayer().faceDirection(level.getPlayer().isLookingRight());
-                }
-                else
-                {
-                    level.getPlayer().setNormalImage();
-                    level.getPlayer().faceDirection(level.getPlayer().isLookingRight());
-                    return;
-                }
-            }
-            else if (blockSpawnEquipped)
-            {
-                bouncyEquippedTEMP = false;
-                speedyEquipped = false;
-                blockSpawnEquipped = false;
-                level.getPlayer().setNormalImage();
-                level.getPlayer().faceDirection(level.getPlayer().isLookingRight());
             }
             else
             {
-                if (bouncyUnlocked)
+
+                if (bouncyEquippedTEMP)
                 {
-                    bouncyEquippedTEMP = true;
-                    level.getPlayer().setPurpleImage();
-                    level.getPlayer().faceDirection(level.getPlayer().isLookingRight());
-                }
-                else
-                {
+                    bouncyEquippedTEMP = false;
+                    speedyEquipped = false;
+                    blockSpawnEquipped = false;
                     level.getPlayer().setNormalImage();
-                    level.getPlayer().faceDirection(level.getPlayer().isLookingRight());
-                    return;
+                    refacePlayer();
                 }
-                speedyEquipped = false;
-                blockSpawnEquipped = false;
+                else if (speedyEquipped)
+                {
+                    if (bouncyUnlocked)
+                    {
+                        bouncyEquippedTEMP = true;
+                        level.getPlayer().setPurpleImage();
+                        refacePlayer();
+                    }
+                    else
+                    {
+                        level.getPlayer().setNormalImage();
+                        refacePlayer();
+                        return;
+                    }
+                    speedyEquipped = false;
+                    blockSpawnEquipped = false;
+                }
+                else if (blockSpawnEquipped)
+                {
+                    bouncyEquippedTEMP = false;
+                    if (speedyUnlocked)
+                    {
+                        speedyEquipped = true;
+                        level.getPlayer().setBlueImage();
+                        refacePlayer();
+                    }
+                    else
+                    {
+                        level.getPlayer().setNormalImage();
+                        refacePlayer();
+                        return;
+                    }
+                    blockSpawnEquipped = false;
+                }
+                else //Nothing equiped
+                {
+                    if (spawnUnlocked)
+                    {
+                        blockSpawnEquipped = true;
+                        level.getPlayer().setOrangeImage();
+                        refacePlayer();
+                        bouncyEquippedTEMP = false;
+                        speedyEquipped = false;
+                        return;
+                    }
+                    else if(speedyUnlocked)
+                    {
+                        speedyEquipped = true;
+                        level.getPlayer().setBlueImage();
+                        refacePlayer();
+
+                        bouncyEquippedTEMP = false;
+                        blockSpawnEquipped = false;
+                        return;
+                    }
+                    else if(bouncyUnlocked)
+                    {
+                        bouncyEquippedTEMP = true;
+                        level.getPlayer().setPurpleImage();
+                        refacePlayer();
+                        speedyEquipped = false;
+                        blockSpawnEquipped = false;
+                        return;
+                    }
+                    else
+                    {
+                        bouncyEquippedTEMP = false;
+                        speedyEquipped = false;
+                        blockSpawnEquipped = false;
+                        level.getPlayer().setNormalImage();
+                        refacePlayer();
+                        return;
+                    }
+                    
+                }
             }
+        }
+
+
+        public void refacePlayer()
+        {
+            /*level.getPlayer().faceDirection(level.getPlayer().isLookingRight());
+
+            Console.WriteLine("Left: " + level.getPlayer().isLookingLeft());
+            Console.WriteLine("Right: " + level.getPlayer().isLookingRight());
+
+            if (level.getPlayer().isLookingRight()) level.getPlayer().faceRight();
+            else level.getPlayer().faceLeft();*/
         }
 
         public void equppedPowerup()

@@ -350,6 +350,8 @@ namespace RunningGame
             }
             GlobalVars.removedStartingEntities.Clear();
 
+            setPowerups();
+
             paused = false; //Restart the game  
             
         }

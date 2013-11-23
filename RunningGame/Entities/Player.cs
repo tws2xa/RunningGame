@@ -203,43 +203,47 @@ namespace RunningGame.Entities
 
         public void setNormalImage()
         {
-            DrawComponent drawComp = (DrawComponent)this.getComponent(GlobalVars.DRAW_COMPONENT_NAME);
-            drawComp.setSprite(walkRight);
+            bool lookLeft = isLookingLeft();
 
             activeLeftImage = walkLeft;
             activeRightImage = walkRight;
+
+            refreshImage(lookLeft);
         }
         public void setBlueImage()
         {
-            DrawComponent drawComp = (DrawComponent)this.getComponent(GlobalVars.DRAW_COMPONENT_NAME);
-            drawComp.setSprite(walkBlueRight);
+            bool lookLeft = isLookingLeft();
 
             activeLeftImage = walkBlueLeft;
             activeRightImage = walkBlueRight;
+
+            refreshImage(lookLeft);
         }
         public void setOrangeImage()
         {
-            DrawComponent drawComp = (DrawComponent)this.getComponent(GlobalVars.DRAW_COMPONENT_NAME);
-            drawComp.setSprite(walkOrangeRight);
+            bool lookLeft = isLookingLeft();
 
             activeLeftImage = walkOrangeLeft;
             activeRightImage = walkOrangeRight;
+
+            refreshImage(lookLeft);
         }
         public void setPurpleImage()
         {
-            DrawComponent drawComp = (DrawComponent)this.getComponent(GlobalVars.DRAW_COMPONENT_NAME);
-            drawComp.setSprite(walkRight);
+            bool lookLeft = isLookingLeft();
 
             activeLeftImage = walkPurpleLeft;
             activeRightImage = walkPurpleRight;
+
+            refreshImage(lookLeft);
         }
 
-
-
-        public void faceDirection(bool right)
+        public void refreshImage(bool left)
         {
-            if (right) this.faceRight();
-            else this.faceLeft();
+            DrawComponent drawComp = (DrawComponent)this.getComponent(GlobalVars.DRAW_COMPONENT_NAME);
+            
+            if (left) drawComp.setSprite(activeLeftImage);
+            else drawComp.setSprite(activeRightImage);
         }
     }
 }

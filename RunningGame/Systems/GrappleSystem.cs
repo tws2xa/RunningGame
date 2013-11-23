@@ -31,7 +31,8 @@ namespace RunningGame.Systems
 
         public List<string> grappleColliders = new List<string>()
         {
-            GlobalVars.BASIC_SOLID_COLLIDER_TYPE
+            GlobalVars.BASIC_SOLID_COLLIDER_TYPE,
+            GlobalVars.SPAWN_BLOCK_COLLIDER_TYPE
         };
 
         //Constructor - Always read in the level! You can read in other stuff too if need be.
