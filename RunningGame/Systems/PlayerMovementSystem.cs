@@ -95,6 +95,10 @@ namespace RunningGame.Systems
                 {
                     animComp.animationOn = true;
                 }
+                else
+                {
+                    animComp.animationOn = false;
+                }
 
 
                 //Slow horizontal if no left/rght key down
@@ -165,7 +169,7 @@ namespace RunningGame.Systems
             }
             else
             {
-                if (pelInComp.passedAirjumps < pelInComp.numAirJumps)
+                if (pelInComp.passedAirjumps < GlobalVars.numAirJumps)
                 {
                     velComp.setVelocity(velComp.x, pelInComp.jumpStrength);
                     pelInComp.passedAirjumps++;

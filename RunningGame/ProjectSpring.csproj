@@ -89,6 +89,7 @@
     <Compile Include="Components\ScreenEdgeComponent.cs" />
     <Compile Include="Components\SimpleEnemyComponent.cs" />
     <Compile Include="Components\SoundComponent.cs" />
+    <Compile Include="Components\SpawnBlockComponent.cs" />
     <Compile Include="Components\SquishComponent.cs" />
     <Compile Include="Components\SwitchComponent.cs" />
     <Compile Include="Components\SwitchListenerComponent.cs" />
@@ -101,7 +102,6 @@
     <Compile Include="Entities\GrappleEntity.cs" />
     <Compile Include="Entities\MovingPlatformEntity.cs" />
     <Compile Include="Entities\PowerupPickupEntity.cs" />
-    <Compile Include="Entities\PowerupUIEntity.cs" />
     <Compile Include="Entities\spawnBlockEntity.cs" />
     <Compile Include="Entities\BulletEntity.cs" />
     <Compile Include="Entities\DeadPlayerEntity.cs" />
@@ -355,6 +355,29 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\Levels\World6level2.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\BlueGrnd11.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Artwork\Foreground\BlueGrnd61.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Artwork\Creatures\PlayerBlue1.png" />
+    <EmbeddedResource Include="Resources\Artwork\Creatures\PlayerBlue2.png" />
+    <EmbeddedResource Include="Resources\Artwork\Creatures\PlayerOrange1.png" />
+    <EmbeddedResource Include="Resources\Artwork\Creatures\PlayerOrange2.png" />
+    <EmbeddedResource Include="Resources\Artwork\Creatures\PlayerPurple1.png" />
+    <EmbeddedResource Include="Resources\Artwork\Creatures\PlayerPurple2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Levels\DebugLevel.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Artwork\Foreground\PowerupPickups\BouncePickup.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\PowerupPickups\DoubleJumpPickup.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\PowerupPickups\GlidePickup.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\PowerupPickups\GrapplePickup.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\PowerupPickups\SpawnPickup.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\PowerupPickups\SpeedyPickup.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

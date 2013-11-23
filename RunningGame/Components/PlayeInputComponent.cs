@@ -12,7 +12,7 @@ namespace RunningGame.Components
     {
         public float jumpStrength { get; set; }
         public float platformerMoveSpeed { get; set; }
-        public int numAirJumps { get; set; } //number of jumps possible in the air (numAirJumps = 1 means you can double jump)
+        //public int numAirJumps { get; set; } //number of jumps possible in the air (numAirJumps = 1 means you can double jump)
         public int passedAirjumps { get; set; }
         public Player player { get; set; }
 
@@ -24,7 +24,7 @@ namespace RunningGame.Components
             this.player = (Player)player;
             jumpStrength = -150f;
             platformerMoveSpeed = 150f;
-            numAirJumps = 2; //number of jumps possible in the air (numAirJumps = 1 means you can double jump)
+            //numAirJumps = GlobalVars.normNumAirJumps; //number of jumps possible in the air (numAirJumps = 1 means you can double jump)
             passedAirjumps = 2;
         }
 

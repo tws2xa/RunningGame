@@ -20,8 +20,17 @@ namespace RunningGame.Systems
         Keys addEntityKey = Keys.N;
         Keys harmPlayerKey = Keys.H;
         Keys resetLevelKey = Keys.R;
-        Keys flashKey = Keys.F;
         Keys typeKey = Keys.T; //prints out the all entity types to console
+
+
+        Keys toggleBounce = Keys.D1;
+        Keys toggleSpeedy = Keys.D2;
+        Keys toggleDoubleJump = Keys.D3;
+        Keys toggleGlide = Keys.D4;
+        Keys toggleSpawn = Keys.D5;
+        Keys toggleGrapple = Keys.D6;
+
+
 
         bool hasRunOnce = false; //Used to add keys once and only once. Can't in constructor because inputSystem not ready yet
         bool addingDoor = false; //False = adding Switch
@@ -54,9 +63,16 @@ namespace RunningGame.Systems
                 level.getInputSystem().addKey(addEntityKey);
                 level.getInputSystem().addKey(harmPlayerKey);
                 level.getInputSystem().addKey(resetLevelKey);
-                level.getInputSystem().addKey(flashKey);
                 level.getInputSystem().addKey(typeKey);
-            
+
+
+                level.getInputSystem().addKey(toggleBounce);
+                level.getInputSystem().addKey(toggleDoubleJump);
+                level.getInputSystem().addKey(toggleGlide);
+                level.getInputSystem().addKey(toggleGrapple);
+                level.getInputSystem().addKey(toggleSpeedy);
+                level.getInputSystem().addKey(toggleSpawn);
+
                 hasRunOnce = true;
             }
 
@@ -84,17 +100,36 @@ namespace RunningGame.Systems
             {
                 level.resetLevel();
             }
-            if (level.getInputSystem().myKeys[flashKey].down)
-            {
-                makeFlash(5, Color.Red);
-            }
-
             if (level.getInputSystem().myKeys[typeKey].down)
             {
                 getTypes();
             }
-         
-         
+
+
+            if (level.getInputSystem().myKeys[toggleBounce].down)
+            {
+                togglePowerup(GlobalVars.BOUNCE_NUM);
+            }
+            if (level.getInputSystem().myKeys[toggleSpeedy].down)
+            {
+                togglePowerup(GlobalVars.SPEED_NUM);
+            }
+            if (level.getInputSystem().myKeys[toggleDoubleJump].down)
+            {
+                togglePowerup(GlobalVars.JMP_NUM);
+            }
+            if (level.getInputSystem().myKeys[toggleGlide].down)
+            {
+                togglePowerup(GlobalVars.GLIDE_NUM);
+            }
+            if (level.getInputSystem().myKeys[toggleGrapple].down)
+            {
+                togglePowerup(GlobalVars.GRAP_NUM);
+            }
+            if (level.getInputSystem().myKeys[toggleSpawn].down)
+            {
+                togglePowerup(GlobalVars.SPAWN_NUM);
+            }
         }
 
         /*
@@ -114,6 +149,10 @@ namespace RunningGame.Systems
 
         }
 
+        void togglePowerup(int pupNum)
+        {
+            level.sysManager.spSystem.togglePowerup(pupNum);
+        }
 
         public void makeFlash(float time, Color color)
         {
