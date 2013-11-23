@@ -68,7 +68,7 @@ namespace RunningGame.Systems
                     incrementPosition(posComp, velComp.x * deltaTime, velComp.y * deltaTime);
 
                 }
-                colHandler.update(deltaTime);
+                
             }
         }
 

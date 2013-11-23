@@ -45,6 +45,8 @@ namespace RunningGame
 
         public Level level;
 
+        public BackgroundEntity bkgEnt = null;
+
         //Constructor that defaults to a 1:1 ratio for width and height, upper left corner
         public View(float x, float y, float width, float height, Level level)
         {
@@ -99,20 +101,24 @@ namespace RunningGame
         {
 
 
-            g.FillRectangle(bkgBrush, new Rectangle(0, 0, (int)width, (int)height)); //Clear
-            //draw flash, if there is a flash setting
-
-
+            //g.FillRectangle(bkgBrush, new Rectangle(0, 0, (int)width, (int)height)); //Clear
+            
             
             //First, if there's a background entity, draw that!
-            foreach (Entity e in entities)
+            if (bkgEnt == null)
             {
-         
-                if (e is BackgroundEntity)
+                foreach (Entity e in entities)
                 {
-                    drawEntity(e);
+         
+                    if (e is BackgroundEntity)
+                    {
+                        bkgEnt = (BackgroundEntity)e;
+                        break;
+                    }
                 }
             }
+
+            drawEntity(bkgEnt);
 
             //If there's a grapple, draw it
             if (level.sysManager.grapSystem.isGrappling)
@@ -147,11 +153,15 @@ namespace RunningGame
             //For all applicable entities (Entities with required components)
             foreach (Entity e in entities)
             {
-                if(!(e is BackgroundEntity))
-                    drawEntity(e);
+                if (!(e is BackgroundEntity))
+                  drawEntity(e);
             }
+            
 
+            
             mainG.DrawImage(drawImg, new Point((int)displayX, (int)displayY)); //Draw the view to the main window
+            
+            
             //Draw Border
             if (this.hasBorder)
             {
@@ -166,30 +176,61 @@ namespace RunningGame
                 mainG.FillRectangle(level.sysManager.drawSystem.getFlashBrush(), new Rectangle((int)(displayX), (int)(displayY),
                 (int)(displayWidth), (int)(displayHeight)));
             }
+
+        }
+
+
+        public void drawBkgEntity()
+        {
+
+            //Pull out all required components
+            PositionComponent posComp = (PositionComponent)bkgEnt.getComponent(GlobalVars.POSITION_COMPONENT_NAME);
+            DrawComponent drawComp = (DrawComponent)bkgEnt.getComponent(GlobalVars.DRAW_COMPONENT_NAME);
+
+            if (isInView(posComp))
+            {
+                if (g != null)
+                {
+                    Image img = drawComp.getImage();
+
+                    //Bitmap bigImg = (Bitmap)drawComp.getImage();
+                    //Bitmap img = bigImg.Clone(new Rectangle((int)(displayX), (int)(displayY), (int)Math.Ceiling(displayWidth), (int)Math.Ceiling(displayHeight)), bigImg.PixelFormat);
+
+                    //Get center instead of upper left
+                    PointF drawPoint = new PointF(displayX, displayY);
+                    
+                    //drawPoint.X -= (img.Width / 2.0f);
+                    //drawPoint.Y -= (img.Height / 2.0f);
+
+                    //drawPoint.X -= this.x;
+                    //drawPoint.Y -= this.y;
+
+                    drawPoint.X *= wRatio;
+                    drawPoint.Y *= hRatio;
+
+
+                    lock (img)
+                        g.DrawImage(img, drawPoint); //Draw the image to the view.
+                }
+            }
             
-
-            
-
-
         }
 
         public void drawEntity(Entity e)
         {
+            
             //Pull out all required components
             PositionComponent posComp = (PositionComponent)e.getComponent(GlobalVars.POSITION_COMPONENT_NAME);
             DrawComponent drawComp = (DrawComponent)e.getComponent(GlobalVars.DRAW_COMPONENT_NAME);
 
             if (isInView(posComp))
             {
-
                 if (g != null)
                 {
                     Image img = null;
                     //If size is locked, don't resize the image.
                     if (drawComp.sizeLocked && wRatio == 1 && hRatio == 1)
                     {
-                        //Size imageSize = new Size((int)Math.Round(drawComp.width * wRatio), (int)Math.Round(drawComp.height * hRatio));
-                        //img = new Bitmap(drawComp.sprite, imageSize);
                         img = drawComp.getImage();
                     }
                     else
@@ -211,7 +252,7 @@ namespace RunningGame
 
                     lock (img)
                         g.DrawImage(img, drawPoint); //Draw the image to the view
-
+                    
                     //Health bar if need be
                     if (e.hasComponent(GlobalVars.HEALTH_COMPONENT_NAME))
                     {
@@ -237,6 +278,7 @@ namespace RunningGame
                     }
                 }
             }
+            
         }
 
         public void Update()
@@ -298,9 +340,16 @@ namespace RunningGame
 
         public bool isInView(PositionComponent posComp)
         {
-            if ((posComp.x + posComp.width) < x || (posComp.y + posComp.height) < y) return false;
 
-            if ((posComp.x - posComp.width) > (x + width) || (posComp.y - posComp.height) > (y + height)) return false;
+            if ((posComp.x + posComp.width) < x || (posComp.y + posComp.height) < y)
+            {
+                return false;
+            }
+
+            if ((posComp.x - posComp.width) > (x + width) || (posComp.y - posComp.height) > (y + height))
+            {
+                return false;
+            }
 
             return true;
 

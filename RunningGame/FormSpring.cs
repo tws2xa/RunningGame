@@ -234,7 +234,7 @@ namespace RunningGame
                     Console.WriteLine("Error: Selecting level 1 in world 0");
                     break;
                 case (1):
-                    loadLevel("RunningGame.Resources.Levels.EnemyLevel4.png", 1, 3); //World 1 Level 3
+                    loadLevel("RunningGame.Resources.Levels.PresentationLevelExtended.png", 1, 3); //World 1 Level 3
                     break;
                 case (2):
                     loadLevel("RunningGame.Resources.Levels.PresentationLevel.png", 2, 3); //World 2 Level 3

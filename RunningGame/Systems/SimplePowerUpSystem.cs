@@ -25,10 +25,18 @@ namespace RunningGame.Systems
         float glideTimer;
         bool glideActive = false;
         float maxVelocity = 70.0f;
+        
+        //speedy powerup infos
+        public float speedyTime = 1.0f;
+        public float speedyTimer = -1.0f;
+        public bool speedyActive = false;
+        public bool speedyEnabled = true;
+        Keys speedyKey = Keys.L;
 
         //addBlock information
         bool blockSpawnEnabled = true;
         Keys blockSpawnKey = Keys.K;
+
 
         //Grapple
         bool grappleEnabled = true;
@@ -70,7 +78,7 @@ namespace RunningGame.Systems
                 level.getInputSystem().addKey(glideKey);
                 level.getInputSystem().addKey(blockSpawnKey);
                 //Create and set the powerup ui indicator
-
+                level.getInputSystem().addKey(speedyKey);
                 //PowerupUIEntity ind = new PowerupUIEntity(level, 0, 0);
                 //level.addEntity(ind);
                 //this.indicator = ind;
@@ -95,14 +103,36 @@ namespace RunningGame.Systems
 
                 }
 
-            }
+            } 
 
+            if (speedyTimer > 0)
+            {
+                if (level.getPlayer() == null) return;
+                speedyTimer -= deltaTime;
+                if (!level.getPlayer().hasComponent(GlobalVars.VELOCITY_COMPONENT_NAME)) return;
+                VelocityComponent velComp = (VelocityComponent)this.level.getPlayer().getComponent(GlobalVars.VELOCITY_COMPONENT_NAME);
+                if (speedyTimer <= 0 || Math.Abs(velComp.x) < GlobalVars.SPEEDY_SPEED) 
+                {
+                    velComp.setVelocity(0, velComp.y);
+                    speedyTimer = -1;
+                    speedyActive = false;
+                    if (!level.getPlayer().hasComponent(GlobalVars.PLAYER_INPUT_COMPONENT_NAME))
+                    {
+                        level.getPlayer().addComponent(new PlayerInputComponent(level.getPlayer()));
+                    }
+                }
+            }
 
             checkForInput();
         }
         //----------------------------------------------------------------------------------------------
+    
+        public void speedyEntity(float x, float y)
+        {
+            Entity newEntity = new PreGroundSpeedy(level, x, y);
 
-
+            level.addEntity(newEntity.randId, newEntity); 
+        }
         public void checkForInput()
         {
             if (glideEnabled && level.getInputSystem().myKeys[glideKey].down)
@@ -116,6 +146,10 @@ namespace RunningGame.Systems
             if (grappleEnabled && level.getInputSystem().mouseRightClick)
             {
                 Grapple();
+            }
+            if (speedyEnabled && level.getInputSystem().myKeys[speedyKey].down)
+            {
+                createSpeedy();
             }
         }
 
@@ -153,6 +187,22 @@ namespace RunningGame.Systems
             }
         }
 
+        public void createSpeedy()
+        {
+            PositionComponent posComp = (PositionComponent)level.getPlayer().getComponent(GlobalVars.POSITION_COMPONENT_NAME);
+            Player player = (Player)level.getPlayer();
+
+            if (player.isLookingRight())
+            {
+
+                speedyEntity(posComp.x + posComp.width * 1.5f, posComp.y);
+
+            }
+            else if (player.isLookingLeft())
+            {
+                speedyEntity(posComp.x - posComp.width * 1.5f, posComp.y);
+            }
+        }
 
         public void Grapple()
         {
@@ -210,7 +260,7 @@ namespace RunningGame.Systems
                     blockEntity(posComp.x + posComp.width * 1.5f, posComp.y);
 
                 }
-                if (player.isLookingLeft())
+                else if (player.isLookingLeft())
                 {
                     blockEntity(posComp.x - posComp.width * 1.5f, posComp.y);
                 }

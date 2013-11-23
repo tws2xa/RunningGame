@@ -62,7 +62,7 @@ namespace RunningGame.Systems
                 creatLev = (CreationLevel)level;
             }
 
-            mainView = new View(50, 0, level.cameraWidth, level.cameraHeight, 0, 0, level.cameraWidth, level.cameraHeight, level, level.getPlayer());
+            mainView = new View(0, 0, level.cameraWidth, level.cameraHeight, 0, 0, level.cameraWidth, level.cameraHeight, level, level.getPlayer());
             
             miniMap = new View(0, 0, level.levelWidth, level.levelHeight, level.cameraWidth-210, 10, 200, 100, level);
             miniMap.bkgBrush = Brushes.DarkTurquoise;
@@ -186,7 +186,7 @@ namespace RunningGame.Systems
             mainView.Draw(g, entityList);
 
 
-
+            /*
             //If you are in the level editor. Box the selected entities
             //Ignore this unless you are playing with level editor
             if (creatLev != null && creatLev.vars.selectedEntity != null)
@@ -198,6 +198,7 @@ namespace RunningGame.Systems
                     g.DrawRectangle(selectedEntBorderColor, posComp.x - posComp.width / 2, posComp.y - posComp.height / 2, posComp.width, posComp.height);
                 }
             }
+             * */
 
             if(miniMapOn)
                 miniMap.Draw(g, entityList);
