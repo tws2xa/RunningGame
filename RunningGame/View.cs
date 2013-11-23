@@ -121,6 +121,7 @@ namespace RunningGame
             if(bkgEnt != null)
                 drawEntity(bkgEnt);
 
+            
             //If there's a grapple, draw it
             if (level.sysManager.grapSystem.isGrappling)
             {
