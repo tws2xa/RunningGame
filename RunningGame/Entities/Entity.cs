@@ -72,6 +72,7 @@ namespace RunningGame
         public Component addComponent(Component comp)
         {
             components.Add(comp.componentName, comp);
+            level.sysManager.componentAdded(this);
             return comp;
         }
         public void removeComponent(Component comp)
@@ -83,6 +84,7 @@ namespace RunningGame
                     if (components[key] == comp)
                     {
                         components.Remove(key);
+                        level.sysManager.componentRemoved(this);
                         return;
                     }
                 }
@@ -92,6 +94,7 @@ namespace RunningGame
         public void removeComponent(string componentName)
         {
             components.Remove(componentName);
+            level.sysManager.componentRemoved(this);
         }
         
         //Get a particular component

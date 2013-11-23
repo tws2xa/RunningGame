@@ -182,7 +182,7 @@ namespace RunningGame
                     loadLevel("RunningGame.Resources.Levels.World2Level1.png", 2, 1); //World 2 Level 1
                     break;
                 case (3):
-                    loadLevel("RunningGame.Resources.Levels.PresentationLevelExtended.png", 3, 1); //World 3 Level 1
+                    loadLevel("RunningGame.Resources.Levels.World3Level1.png", 3, 1); //World 3 Level 1
                     break;
                 case (4):
                     loadLevel("RunningGame.Resources.Levels.PresentationLevelExtended.png", 4, 1); //World 4 Level 1
@@ -211,7 +211,7 @@ namespace RunningGame
                     loadLevel("RunningGame.Resources.Levels.World2Level2.png", 2, 2); //World 2 Level 2
                     break;
                 case (3):
-                    loadLevel("RunningGame.Resources.Levels.PresentationLevelExtended.png", 3, 2); //World 3 Level 2
+                    loadLevel("RunningGame.Resources.Levels.World3Level2.png", 3, 2); //World 3 Level 2
                     break;
                 case (4):
                     loadLevel("RunningGame.Resources.Levels.PresentationLevelExtended.png", 4, 2); //World 4 Level 2
@@ -240,7 +240,7 @@ namespace RunningGame
                     loadLevel("RunningGame.Resources.Levels.PresentationLevel.png", 2, 3); //World 2 Level 3
                     break;
                 case (3):
-                    loadLevel("RunningGame.Resources.Levels.PresentationLevelExtended.png", 3, 3); //World 3 Level 3
+                    loadLevel("RunningGame.Resources.Levels.World3Level3.png", 3, 3); //World 3 Level 3
                     break;
                 case (4):
                     loadLevel("RunningGame.Resources.Levels.PresentationLevelExtended.png", 4, 3); //World 4 Level 3

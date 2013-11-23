@@ -337,6 +337,12 @@
     <EmbeddedResource Include="Resources\Artwork\Foreground\Blue.png" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Resources\Levels\World3Level1.png" />
+    <EmbeddedResource Include="Resources\Levels\World3Level2.png" />
+    <EmbeddedResource Include="Resources\Levels\World3Level3.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Systems\World3Level2.png" />
     <EmbeddedResource Include="Resources\Artwork\Foreground\Grass\Grass061.png" />
     <EmbeddedResource Include="Resources\Artwork\Foreground\Grass\Grass161.png" />
     <EmbeddedResource Include="Resources\Artwork\Foreground\Grass\Grass261.png" />
