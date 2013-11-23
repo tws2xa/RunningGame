@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using RunningGame.Systems;
 using System.Windows.Forms;
+using RunningGame.Systems;
+using RunningGame.Entities;
 
 namespace RunningGame
 {
@@ -142,15 +143,18 @@ namespace RunningGame
             //colSystem.Draw(g);
         }
 
-        /*
+        
         public void entityAdded(Entity e)
         {
             foreach (GameSystem sys in systems)
             {
                 if (sys.checkIfEntityIsApplicable(e))
                 {
-                    if (!sys.applicableEntities.ContainsKey(e.randId)) 
+                    if ((sys.actOnGround() || !(e is BasicGround)) && !sys.applicableEntities.ContainsKey(e.randId))
+                    {
                         sys.applicableEntities.Add(e.randId, e);
+                        //sys.applicableEntities = sys.applicableEntities.OrderBy(o => o.depth).ToList();
+                    }
                 }
             }
         }
@@ -159,12 +163,12 @@ namespace RunningGame
         {
             foreach (GameSystem sys in systems)
             {
-                if (sys.checkIfEntityIsApplicable(e))
+                if ((sys.actOnGround() || !(e is BasicGround)) && sys.checkIfEntityIsApplicable(e))
                 {
                     if (sys.applicableEntities.ContainsKey(e.randId))
                         sys.applicableEntities.Remove(e.randId);
                 }
             }
-        }*/
+        }
     }
 }

@@ -159,6 +159,7 @@ namespace RunningGame.Entities
 
             AnimationComponent animComp = (AnimationComponent)this.getComponent(GlobalVars.ANIMATION_COMPONENT_NAME);
             animComp.animationOn = false;
+            setNormalImage();
 
             HealthComponent healthComp = (HealthComponent)this.getComponent(GlobalVars.HEALTH_COMPONENT_NAME);
             healthComp.restoreHealth();

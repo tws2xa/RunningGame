@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Collections;
 using RunningGame.Components;
 using RunningGame.Level_Editor;
+using RunningGame.Entities;
 
 namespace RunningGame.Systems
 {
@@ -39,7 +40,6 @@ namespace RunningGame.Systems
 
             this.level = level;
 
-
             locGrid = new LocationGrid(level);
 
         }
@@ -57,7 +57,8 @@ namespace RunningGame.Systems
 
         public override void Update(float deltaTime)
         {
-            foreach (Entity e in getApplicableEntities())
+            List<Entity> ents = getApplicableEntities();
+            foreach (Entity e in ents)
             {
                 //Check each entity for whether or not it's been moved. If so - handle it.
                 PositionComponent posComp = (PositionComponent)e.getComponent(GlobalVars.POSITION_COMPONENT_NAME);
@@ -66,7 +67,6 @@ namespace RunningGame.Systems
                     locGrid.handleMovedEntity(e);
                     posComp.positionHasChanged = false;
                 }
-
             }
             
         }

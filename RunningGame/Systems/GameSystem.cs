@@ -25,20 +25,41 @@ namespace RunningGame
 
         public abstract List<string> getRequiredComponents(); //string names of all required components (Use GlobalVars script to get the names)
 
-        //public Dictionary<int, Entity> applicableEntities = new Dictionary<int, Entity>();
+        public Dictionary<int, Entity> applicableEntities = new Dictionary<int, Entity>();
 
         //0 = haven't checked
         //1 = no
         //2 = yes
         int doActOnGround = 0;
 
+        
         //Returns a list of all entities with required components
-        /*public List<Entity> getApplicableEntities2()
+        public List<Entity> getApplicableEntities()
         {
+            List<Entity> a = applicableEntities.Values.ToList<Entity>();
+            List<Entity> ret = new List<Entity>();
 
-            return applicableEntities.Values.ToList<Entity>();
+            foreach (Entity e in a)
+            {
+                if (e.updateOutOfView || isInView(e))
+                {
+                    ret.Add(e);
+                }
+            }
 
-        }*/
+            /*List<Entity> appEnts = getApplicableEntities2();
+
+            if (ret.Count != appEnts.Count)
+            {
+                //return appEnts;
+                bool doIAct = actOnGround();
+                Console.WriteLine(doIAct);
+                Console.WriteLine("Whoa!");
+            }*/
+
+            return ret;
+
+        }
 
 
         public bool checkIfEntityIsApplicable(Entity e)
@@ -53,8 +74,8 @@ namespace RunningGame
             }
             return true;
         }
-
-        public List<Entity> getApplicableEntities()
+        
+        public List<Entity> getApplicableEntities2()
         {
             List<Entity> appEnts = new List<Entity>();
 
@@ -103,7 +124,7 @@ namespace RunningGame
             }
 
             //simple sorting by depth happens here
-            appEnts = appEnts.OrderBy(o => o.depth).ToList();
+            //appEnts = appEnts.OrderBy(o => o.depth).ToList();
             return appEnts;
         }
 
