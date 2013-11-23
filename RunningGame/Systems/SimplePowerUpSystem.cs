@@ -174,27 +174,52 @@ namespace RunningGame.Systems
             if (bouncyEquippedTEMP)
             {
                 bouncyEquippedTEMP = false;
-                if (speedyUnlocked) speedyEquipped = true;
-                else return;
+                if (speedyUnlocked)
+                {
+                    speedyEquipped = true;
+                    level.getPlayer().setBlueImage();
+                }
+                else
+                {
+                    level.getPlayer().setNormalImage();
+                    return;
+                }
                 blockSpawnEquipped = false;
             }
             else if (speedyEquipped)
             {
                 bouncyEquippedTEMP = false;
                 speedyEquipped = false;
-                if (spawnUnlocked) blockSpawnEquipped = true;
-                else return;
+                if (spawnUnlocked)
+                {
+                    level.getPlayer().setOrangeImage();
+                    blockSpawnEquipped = true;
+                }
+                else
+                {
+                    level.getPlayer().setNormalImage();
+                    return;
+                }
             }
             else if (blockSpawnEquipped)
             {
                 bouncyEquippedTEMP = false;
                 speedyEquipped = false;
                 blockSpawnEquipped = false;
+                level.getPlayer().setNormalImage();
             }
             else
             {
-                if (bouncyUnlocked) bouncyEquippedTEMP = true;
-                else return;
+                if (bouncyUnlocked)
+                {
+                    level.getPlayer().setPurpleImage();
+                    bouncyEquippedTEMP = true;
+                }
+                else
+                {
+                    level.getPlayer().setNormalImage();
+                    return;
+                }
                 speedyEquipped = false;
                 blockSpawnEquipped = false;
             }

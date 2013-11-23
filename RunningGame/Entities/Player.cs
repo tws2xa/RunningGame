@@ -25,8 +25,20 @@ namespace RunningGame.Entities
         string rightImageName = "right";
         string leftImageName = "left";
 
-        string blinkLeft = "binkLeft";
-        string blinkRight = "blinkRight";
+        string walkLeft = "normLeft";
+        string walkRight = "normRight";
+
+        string walkBlueLeft = "bL";
+        string walkBlueRight = "bR";
+
+        string walkOrangeLeft = "oL";
+        string walkOrangeRight = "oR";
+        
+        string walkPurpleLeft = "pL";
+        string walkPurpleRight = "pE";
+
+        string activeLeftImage;
+        string activeRightImage;
         
         public Player() { }
 
@@ -35,6 +47,9 @@ namespace RunningGame.Entities
             this.level = level;
             this.depth = 1;
             initializeEntity(new Random().Next(Int32.MinValue, Int32.MaxValue), level);
+
+            activeLeftImage = walkLeft;
+            activeRightImage = walkRight;
 
             addMyComponents(x, y);
 
@@ -68,24 +83,13 @@ namespace RunningGame.Entities
             drawComp.rotateFlipSprite(leftImageName, RotateFlipType.RotateNoneFlipX);
             addComponent(drawComp);
 
+            addWalkAnimation("RunningGame.Resources.Artwork.Creatures.player", walkLeft, walkRight, drawComp);
+            addWalkAnimation("RunningGame.Resources.Artwork.Creatures.PlayerBlue", walkBlueLeft, walkBlueRight, drawComp);
+            addWalkAnimation("RunningGame.Resources.Artwork.Creatures.PlayerOrange", walkOrangeLeft, walkOrangeRight, drawComp);
+            addWalkAnimation("RunningGame.Resources.Artwork.Creatures.PlayerPurple", walkPurpleLeft, walkPurpleRight, drawComp);
 
-            List<string> blinkAnimation = new List<string>
-            {
-                "Artwork.Creatures.player1",
-                "Artwork.Creatures.player2"
-            };
-            List<string> blinkDefaults = new List<string>()
-            {
-                "RunningGame.Resources.Artwork.Creatures.player1.png",
-                "RunningGame.Resources.Artwork.Creatures.player2.png"
-            };
+            setNormalImage();
 
-            drawComp.addAnimatedSprite(blinkAnimation, blinkDefaults, blinkRight);
-            drawComp.addAnimatedSprite(blinkAnimation, blinkDefaults, blinkLeft);
-
-            drawComp.rotateFlipSprite(blinkLeft, RotateFlipType.RotateNoneFlipX);
-
-            drawComp.setSprite(blinkRight);
 
             //Animation Component
             AnimationComponent animComp = (AnimationComponent)addComponent(new AnimationComponent(GlobalVars.playerAnimatonSpeed));
@@ -119,7 +123,30 @@ namespace RunningGame.Entities
             addComponent(new ScreenEdgeComponent(1, 4, 1, 0));
 
         }
-        
+
+
+        public void addWalkAnimation(string baseName, string spriteNameLeft, string spriteNameRight, DrawComponent drawComp)
+        {
+            string imgOne = baseName + "1.png";
+            string imgTwo = baseName + "2.png";
+            List<string> walkAnimation = new List<string>
+            {
+                imgOne,
+                imgTwo
+            };
+            List<string> walkDefaults = new List<string>()
+            {
+                imgOne,
+                imgTwo
+            };
+
+            drawComp.addAnimatedSprite(walkAnimation, walkDefaults, spriteNameRight);
+            drawComp.addAnimatedSprite(walkAnimation, walkDefaults, spriteNameLeft);
+
+            drawComp.rotateFlipSprite(spriteNameLeft, RotateFlipType.RotateNoneFlipX);
+
+        }
+
         public override void revertToStartingState()
         {
             PositionComponent posComp = (PositionComponent)this.getComponent(GlobalVars.POSITION_COMPONENT_NAME);
@@ -129,6 +156,9 @@ namespace RunningGame.Entities
             VelocityComponent velComp = (VelocityComponent)this.getComponent(GlobalVars.VELOCITY_COMPONENT_NAME);
             velComp.x = 0;
             velComp.y = 0;
+
+            AnimationComponent animComp = (AnimationComponent)this.getComponent(GlobalVars.ANIMATION_COMPONENT_NAME);
+            animComp.animationOn = false;
 
             HealthComponent healthComp = (HealthComponent)this.getComponent(GlobalVars.HEALTH_COMPONENT_NAME);
             healthComp.restoreHealth();
@@ -147,31 +177,63 @@ namespace RunningGame.Entities
 
         public void faceRight()
         {
+            
             DrawComponent drawComp = (DrawComponent)this.getComponent(GlobalVars.DRAW_COMPONENT_NAME);
-            if (drawComp.activeSprite == leftImageName || drawComp.activeSprite == rightImageName)
-                drawComp.setSprite(rightImageName);
-            else
-                drawComp.setSprite(blinkRight);
+            drawComp.setSprite(activeRightImage);
         }
         public void faceLeft()
         {
             DrawComponent drawComp = (DrawComponent)this.getComponent(GlobalVars.DRAW_COMPONENT_NAME);
-            if (drawComp.activeSprite == leftImageName || drawComp.activeSprite == rightImageName)
-                drawComp.setSprite(leftImageName);
-            else
-                drawComp.setSprite(blinkLeft);
+            drawComp.setSprite(activeLeftImage);
         }
 
         public bool isLookingLeft()
         {
             DrawComponent drawComp = (DrawComponent)this.getComponent(GlobalVars.DRAW_COMPONENT_NAME);
-            return (drawComp.activeSprite == leftImageName || drawComp.activeSprite == blinkLeft);
+            return (drawComp.activeSprite == activeLeftImage);
         }
 
         public bool isLookingRight()
         {
             DrawComponent drawComp = (DrawComponent)this.getComponent(GlobalVars.DRAW_COMPONENT_NAME);
-            return (drawComp.activeSprite == rightImageName || drawComp.activeSprite == blinkRight);
+            return (drawComp.activeSprite == activeRightImage);
         }
+
+
+
+        public void setNormalImage()
+        {
+            DrawComponent drawComp = (DrawComponent)this.getComponent(GlobalVars.DRAW_COMPONENT_NAME);
+            drawComp.setSprite(walkRight);
+
+            activeLeftImage = walkLeft;
+            activeRightImage = walkRight;
+        }
+        public void setBlueImage()
+        {
+            DrawComponent drawComp = (DrawComponent)this.getComponent(GlobalVars.DRAW_COMPONENT_NAME);
+            drawComp.setSprite(walkBlueRight);
+
+            activeLeftImage = walkBlueLeft;
+            activeRightImage = walkBlueRight;
+        }
+        public void setOrangeImage()
+        {
+            DrawComponent drawComp = (DrawComponent)this.getComponent(GlobalVars.DRAW_COMPONENT_NAME);
+            drawComp.setSprite(walkOrangeRight);
+
+            activeLeftImage = walkOrangeLeft;
+            activeRightImage = walkOrangeRight;
+        }
+        public void setPurpleImage()
+        {
+            DrawComponent drawComp = (DrawComponent)this.getComponent(GlobalVars.DRAW_COMPONENT_NAME);
+            drawComp.setSprite(walkRight);
+
+            activeLeftImage = walkPurpleLeft;
+            activeRightImage = walkPurpleRight;
+        }
+
+
     }
 }
