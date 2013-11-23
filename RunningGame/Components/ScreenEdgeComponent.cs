@@ -15,6 +15,7 @@ namespace RunningGame.Components
         //2 - Wrap
         //3 - Destroy!
         //4 - End Da Level
+        //5 - Death.
         public int left, right, up, down;
 
         public ScreenEdgeComponent(int left, int right, int up, int down)

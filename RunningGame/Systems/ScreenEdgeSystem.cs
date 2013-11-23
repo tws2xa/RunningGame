@@ -61,8 +61,10 @@ namespace RunningGame.Systems
                 if (scrEdgComp.up == 1 && posComp.y - posComp.height / 2 <= 0 && velComp.y < 0) stopUp(posComp, velComp);
 
 
+                float buffer = 3.0f;
+
                 //Off sides of screen check
-                if (posComp.x > (level.levelWidth + posComp.width/2) && velComp.x > 0)
+                if (posComp.x > (level.levelWidth + posComp.width/2-buffer) && velComp.x > 0)
                 {
                     if (scrEdgComp.right == 2)
                     {
@@ -77,8 +79,14 @@ namespace RunningGame.Systems
                         level.beginEndLevel();
                         level.removeEntity(posComp.myEntity);
                     }
+                    else if (scrEdgComp.right == 5)
+                    {
+                        if (!e.hasComponent(GlobalVars.HEALTH_COMPONENT_NAME)) return;
+                        HealthComponent healthComp = (HealthComponent)e.getComponent(GlobalVars.HEALTH_COMPONENT_NAME);
+                        healthComp.subtractFromHealth(healthComp.maxHealth+1);
+                    }
                 }
-                if (posComp.x < -posComp.width/2 && velComp.x < 0)
+                if (posComp.x < (-posComp.width/2+buffer) && velComp.x < 0)
                 {
                     if(scrEdgComp.left == 2)
                         wrapLeft(posComp);
@@ -91,25 +99,17 @@ namespace RunningGame.Systems
                         level.beginEndLevel();
                         level.removeEntity(posComp.myEntity);
                     }
+                    else if (scrEdgComp.left == 5)
+                    {
+                        if (!e.hasComponent(GlobalVars.HEALTH_COMPONENT_NAME)) return;
+                        HealthComponent healthComp = (HealthComponent)e.getComponent(GlobalVars.HEALTH_COMPONENT_NAME);
+                        healthComp.subtractFromHealth(healthComp.maxHealth);
+                    }
                 }
-                if (posComp.y > (level.levelHeight + posComp.height/2) && velComp.y > 0)
+                if (posComp.y > (level.levelHeight + posComp.height/2-buffer) && velComp.y > 0)
                 {
                     if(scrEdgComp.down == 2)
                         wrapDown(posComp);
-                    else if (scrEdgComp.up == 3)
-                    {
-                        level.removeEntity(posComp.myEntity);
-                    }
-                    else if (scrEdgComp.up == 4)
-                    {
-                        level.beginEndLevel();
-                        level.removeEntity(posComp.myEntity);
-                    }
-                }
-                if (posComp.y < -posComp.height/2 && velComp.y < 0)
-                {
-                    if(scrEdgComp.up == 2)
-                        wrapUp(posComp);
                     else if (scrEdgComp.down == 3)
                     {
                         level.removeEntity(posComp.myEntity);
@@ -118,6 +118,32 @@ namespace RunningGame.Systems
                     {
                         level.beginEndLevel();
                         level.removeEntity(posComp.myEntity);
+                    }
+                    else if (scrEdgComp.down == 5)
+                    {
+                        if (!e.hasComponent(GlobalVars.HEALTH_COMPONENT_NAME)) return;
+                        HealthComponent healthComp = (HealthComponent)e.getComponent(GlobalVars.HEALTH_COMPONENT_NAME);
+                        healthComp.subtractFromHealth(healthComp.maxHealth);
+                    }
+                }
+                if (posComp.y < (-posComp.height/2+buffer) && velComp.y < 0)
+                {
+                    if(scrEdgComp.up == 2)
+                        wrapUp(posComp);
+                    else if (scrEdgComp.down == 3)
+                    {
+                        level.removeEntity(posComp.myEntity);
+                    }
+                    else if (scrEdgComp.up == 4)
+                    {
+                        level.beginEndLevel();
+                        level.removeEntity(posComp.myEntity);
+                    }
+                    else if (scrEdgComp.up == 5)
+                    {
+                        if (!e.hasComponent(GlobalVars.HEALTH_COMPONENT_NAME)) return;
+                        HealthComponent healthComp = (HealthComponent)e.getComponent(GlobalVars.HEALTH_COMPONENT_NAME); 
+                        healthComp.subtractFromHealth(healthComp.maxHealth);
                     }
                 }
             }
