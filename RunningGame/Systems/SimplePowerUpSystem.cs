@@ -19,8 +19,6 @@ namespace RunningGame.Systems
         //Keys
         Keys glideKey = Keys.Space;
         Keys bounceKey = Keys.B;
-        Keys speedyKey = Keys.L;
-        //Keys blockSpawnKey = Keys.K;
         Keys equippedPowerupKey = Keys.F;
         Keys cycleDownPowerupKey = Keys.Q;
         Keys cycleUpPowerupKey = Keys.E;
@@ -81,7 +79,6 @@ namespace RunningGame.Systems
             if (!hasRunOnce)
             {
                 level.getInputSystem().addKey(glideKey);
-level.getInputSystem().addKey(bounceKey);
 
                 level.getInputSystem().addKey(cycleDownPowerupKey);
                 level.getInputSystem().addKey(cycleUpPowerupKey);
@@ -150,16 +147,12 @@ level.getInputSystem().addKey(bounceKey);
             {
                 CycleThroughEquips(true);
             }
-             * */
-if (level.getInputSystem().myKeys[bounceKey].down)
-            {
-                createBounce();
-            }
-
+             
             if (level.getInputSystem().myKeys[bounceKey].down)
             {
                 createBounce();
             }
+
             if (level.getInputSystem().myKeys[cycleDownPowerupKey].down)
             {
                 CycleThroughEquips(false);

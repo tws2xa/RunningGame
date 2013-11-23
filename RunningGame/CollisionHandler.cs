@@ -199,7 +199,7 @@ namespace RunningGame
         //Dont do anything for now, increase player.y component up whenever collide with block
         public bool bouncePlayerCollision(Entity e1, Entity e2)
         {
-            float increment = 18.0f;
+            float increment = 350f;
             Player player;
             if (e1 is Player)
             {
@@ -216,8 +216,10 @@ namespace RunningGame
             }
 
             
-            PositionComponent pos = (PositionComponent)player.getComponent(GlobalVars.POSITION_COMPONENT_NAME);
-            pos.y= pos.y - increment;
+            //PositionComponent pos = (PositionComponent)player.getComponent(GlobalVars.POSITION_COMPONENT_NAME);
+            //pos.y= pos.y - increment;
+            VelocityComponent vel = (VelocityComponent)player.getComponent(GlobalVars.VELOCITY_COMPONENT_NAME);
+            vel.y = -increment;
             
             return false;
            
