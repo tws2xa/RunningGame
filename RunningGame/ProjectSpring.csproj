@@ -336,6 +336,14 @@
   <ItemGroup>
     <EmbeddedResource Include="Resources\Artwork\Foreground\Blue.png" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Levels\World3Level1.png" />
+    <EmbeddedResource Include="Resources\Levels\World3Level2.png" />
+    <EmbeddedResource Include="Resources\Levels\World3Level3.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Systems\World3Level2.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
