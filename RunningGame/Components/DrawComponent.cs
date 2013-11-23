@@ -70,6 +70,13 @@ namespace RunningGame.Components
         {
             Bitmap image = readInImage(getImageFilePathName(baseName));
 
+            //If image not found, check for ones of the same world, perhaps different level
+            if (image == null)
+                image = readInImage(getImageFilePathOther1(baseName));
+            if (image == null)
+                image = readInImage(getImageFilePathOther2(baseName));
+
+            //Still null? Goto default
             if (image == null) image = readInImage(defaultFileName);
 
             if (image == null) Console.WriteLine("Error: Null image for " + spriteName + " baseName: " + baseName + " defaultFile: " + defaultFileName);
@@ -229,6 +236,33 @@ namespace RunningGame.Components
             retStr += ".png";
             return retStr;
         }
+        public string getImageFilePathOther1(string baseName)
+        {
+            int addNum = level.levelNum;
+            if (addNum == 1) addNum = 2;
+            else if (addNum == 2) addNum = 3;
+            else if(addNum == 3) addNum = 1;
 
+            string retStr = "RunningGame.Resources.";
+            retStr += baseName;
+            retStr += level.worldNum;
+            retStr += addNum;
+            retStr += ".png";
+            return retStr;
+        }
+        public string getImageFilePathOther2(string baseName)
+        {
+            int addNum = level.levelNum;
+            if (addNum == 1) addNum = 3;
+            else if (addNum == 2) addNum = 1;
+            else if (addNum == 3) addNum = 2;
+
+            string retStr = "RunningGame.Resources.";
+            retStr += baseName;
+            retStr += level.worldNum;
+            retStr += addNum;
+            retStr += ".png";
+            return retStr;
+        }
     }
 }

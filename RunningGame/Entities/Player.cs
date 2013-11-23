@@ -19,8 +19,8 @@ namespace RunningGame.Entities
     public class Player : Entity
     {
 
-        float defaultWidth = 40;
-        float defaultHeight = 50;
+        float defaultWidth = 39;
+        float defaultHeight = 49;
         
         string rightImageName = "right";
         string leftImageName = "left";

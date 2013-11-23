@@ -12,11 +12,8 @@ namespace RunningGame.Entities
     [Serializable()]
     public class Speedy : Entity
     {
-        float defaultWidth = 10;
+        float defaultWidth = 11;
         float defaultHeight = 12;
-
-        //float startingX;
-        //float startingY;
 
         public Speedy(Level level, float x, float y)
         {
