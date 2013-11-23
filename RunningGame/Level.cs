@@ -181,6 +181,12 @@ namespace RunningGame
 
 
             //Set the player powerup staring values
+            setPowerups();
+        }
+
+
+        public void setPowerups()
+        {
             if (worldNum > 1 || (worldNum == 1 && levelNum > 1))
             {
                 sysManager.spSystem.unlockPowerup(1);
@@ -246,6 +252,7 @@ namespace RunningGame
             }
 
         }
+
 
         //Game logic
         public virtual void Update()

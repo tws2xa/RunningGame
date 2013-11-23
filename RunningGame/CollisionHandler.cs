@@ -55,6 +55,7 @@ namespace RunningGame
             Func<Entity, Entity, bool> endLevelCollisionFunction = endLevelCollision;
             Func<Entity, Entity, bool> doNothingCollisionFunction = doNothingCollision;
             Func<Entity, Entity, bool> otherPlatformCollisionFunction = platformOtherCollision;
+            Func<Entity, Entity, bool> playerPowerupPickupCollisionFunction = powerupPickupPlayerCollision;
            
             //Set defaults (i.e. If there is no specific collision listed, what does it do?)
             defaultCollisions.Add(GlobalVars.SPEEDY_PREGROUND_COLLIDER_TYPE, removeSpeedyCollision);
@@ -64,12 +65,14 @@ namespace RunningGame
             defaultCollisions.Add(GlobalVars.END_LEVEL_COLLIDER_TYPE, simpleStopCollision);
             defaultCollisions.Add(GlobalVars.MOVING_PLATFORM_COLLIDER_TYPE, simpleStopCollision);
             defaultCollisions.Add(GlobalVars.SPEEDY_POSTGROUND_COLLIDER_TYPE, simpleStopCollision);
+            defaultCollisions.Add(GlobalVars.POWERUP_PICKUP_COLLIDER_TYPE, doNothingCollision);
             
 
             //Add non-default collisions to dictionary
             addToDictionary(GlobalVars.PLAYER_COLLIDER_TYPE, GlobalVars.SPEEDY_POSTGROUND_COLLIDER_TYPE, speedyPlayerCollisionFunction);
             addToDictionary(GlobalVars.PLAYER_COLLIDER_TYPE, GlobalVars.SWITCH_COLLIDER_TYPE, playerSwitchCollisonFunction);
             addToDictionary(GlobalVars.PLAYER_COLLIDER_TYPE, GlobalVars.END_LEVEL_COLLIDER_TYPE, endLevelCollisionFunction);
+            addToDictionary(GlobalVars.PLAYER_COLLIDER_TYPE, GlobalVars.POWERUP_PICKUP_COLLIDER_TYPE, playerPowerupPickupCollisionFunction);
 
             addToDictionary(GlobalVars.BULLET_COLLIDER_TYPE, GlobalVars.PLAYER_COLLIDER_TYPE, doNothingCollision);
             addToDictionary(GlobalVars.BULLET_COLLIDER_TYPE, GlobalVars.SIMPLE_ENEMY_COLLIDER_TYPE, bulletEnemyCollisionFunction);
@@ -414,6 +417,51 @@ namespace RunningGame
             }
 
             level.removeEntity(pre);
+
+            return false;
+        }
+
+        public bool powerupPickupPlayerCollision(Entity e1, Entity e2)
+        {
+            Entity pickup = null;
+            if (e1 is PowerupPickupEntity) pickup = e1;
+            else if (e2 is PowerupPickupEntity) pickup = e2;
+            else
+            {
+                Console.WriteLine("Powerup Pickup Collision with no Powerup Pickup!");
+                return false;
+            }
+
+            PowerupPickupComponent ppComp = (PowerupPickupComponent)pickup.getComponent(GlobalVars.POWERUP_PICKUP_COMPONENT_NAME);
+            level.sysManager.spSystem.unlockPowerup(ppComp.compNum);
+
+            System.Drawing.Color col = System.Drawing.Color.Peru; //Peru is a color.
+
+            switch (ppComp.compNum)
+            {
+                case(GlobalVars.BOUNCE_NUM):
+                    col = System.Drawing.Color.Purple;
+                    break;
+                case(GlobalVars.SPEED_NUM):
+                    col = System.Drawing.Color.LightBlue;
+                    break;
+                case(GlobalVars.JMP_NUM):
+                    col = System.Drawing.Color.LawnGreen;
+                    break;
+                case(GlobalVars.GLIDE_NUM):
+                    col = System.Drawing.Color.Yellow;
+                    break;
+                case(GlobalVars.SPAWN_NUM):
+                    col = System.Drawing.Color.Orange;
+                    break;
+                case(GlobalVars.GRAP_NUM):
+                    col = System.Drawing.Color.Red;
+                    break;
+            }
+
+            level.sysManager.drawSystem.setFlash(col, 0.5f);
+
+            level.removeEntity(pickup);
 
             return false;
         }

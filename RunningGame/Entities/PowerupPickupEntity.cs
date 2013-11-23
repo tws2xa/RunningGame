@@ -70,7 +70,22 @@ namespace RunningGame.Entities
             DrawComponent drawComp = (DrawComponent)addComponent(new DrawComponent(defaultWidth, defaultHeight, level, true));
             //Add image - Use base name for first parameter (everything in file path after Resources. and before the numbers and .png)
             //Then second parameter is full filepath to a default image
-            drawComp.addSprite("Artwork.Other.WhiteSquare", "RunningGame.Resources.Artwork.Other.WhiteSquare.png", "Main");
+            string stem = "RunningGame.Resources.Artwork.Foreground.PowerupPickups.";
+            if(compNum == GlobalVars.BOUNCE_NUM)
+                drawComp.addSprite("", stem + "BouncePickup.png", "Main");
+            else if(compNum == GlobalVars.SPEED_NUM)
+                drawComp.addSprite("", stem + "SpeedyPickup.png", "Main");
+            else if (compNum == GlobalVars.JMP_NUM)
+                drawComp.addSprite("", stem + "DoubleJumpPickup.png",  "Main");
+            else if (compNum == GlobalVars.GLIDE_NUM)
+                drawComp.addSprite("", stem + "GlidePickup.png", "Main");
+            else if (compNum == GlobalVars.SPAWN_NUM)
+                drawComp.addSprite("", stem + "SpawnPickup.png", "Main");
+            else if (compNum == GlobalVars.GRAP_NUM)
+                drawComp.addSprite("", stem + "GrapplePickup.png", "Main");
+            else
+                drawComp.addSprite("Artwork.Other.WhiteSquare", "RunningGame.Resources.Artwork.Other.WhiteSquare.png", "Main");
+
             drawComp.setSprite("Main"); //Set image to active image
 
             /* ANIMATION COMPONENT - Does it need animating?
