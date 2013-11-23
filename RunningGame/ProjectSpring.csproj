@@ -336,6 +336,20 @@
   <ItemGroup>
     <EmbeddedResource Include="Resources\Artwork\Foreground\Blue.png" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Artwork\Foreground\Grass\Grass061.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\Grass\Grass161.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\Grass\Grass261.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\Grass\Grass361.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\Grass\Grass461.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Artwork\Foreground\Grass\Grass011.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\Grass\Grass111.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\Grass\Grass211.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\Grass\Grass311.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\Grass\Grass411.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
