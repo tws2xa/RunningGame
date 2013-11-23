@@ -21,7 +21,7 @@ namespace RunningGame.Entities
         //Both take in the starting x and y of the entity.
         //Both take in the level that it's being applied to.
         //You probably won't have to edit these at all.
-        public PowerupPickupEntity(Level level, float x, float y)
+        public PowerupPickupEntity(Level level, float x, float y, int compNum)
         {
             //Set level.
             //Leave for all entities
@@ -33,9 +33,9 @@ namespace RunningGame.Entities
 
             //Add the components.
             //Leave this for all entities.
-            addMyComponents(x, y);
+            addMyComponents(x, y, compNum);
         }
-        public PowerupPickupEntity(Level level, int id, float x, float y)
+        public PowerupPickupEntity(Level level, int id, float x, float y, int compNum)
         {
             //Set level.
             //Leave for all entities
@@ -47,14 +47,14 @@ namespace RunningGame.Entities
 
             //Add the components.
             //Leave this for all entities.
-            addMyComponents(x, y);
+            addMyComponents(x, y, compNum);
         }
 
         //------------------------------------------------------------------------------------------------------------------
 
         //Here's where you add all the components the entity has.
         //You can just uncomment the ones you want.
-        public void addMyComponents(float x, float y)
+        public void addMyComponents(float x, float y, int compNum)
         {
             /*POSITION COMPONENT - Does it have a position?
              */
@@ -70,7 +70,22 @@ namespace RunningGame.Entities
             DrawComponent drawComp = (DrawComponent)addComponent(new DrawComponent(defaultWidth, defaultHeight, level, true));
             //Add image - Use base name for first parameter (everything in file path after Resources. and before the numbers and .png)
             //Then second parameter is full filepath to a default image
-            drawComp.addSprite("Artwork.Foreground.Grass", "RunningGame.Resources.Artwork.Foreground.Grass11.png", "Main");
+            string stem = "RunningGame.Resources.Artwork.Foreground.PowerupPickups.";
+            if(compNum == GlobalVars.BOUNCE_NUM)
+                drawComp.addSprite("", stem + "BouncePickup.png", "Main");
+            else if(compNum == GlobalVars.SPEED_NUM)
+                drawComp.addSprite("", stem + "SpeedyPickup.png", "Main");
+            else if (compNum == GlobalVars.JMP_NUM)
+                drawComp.addSprite("", stem + "DoubleJumpPickup.png",  "Main");
+            else if (compNum == GlobalVars.GLIDE_NUM)
+                drawComp.addSprite("", stem + "GlidePickup.png", "Main");
+            else if (compNum == GlobalVars.SPAWN_NUM)
+                drawComp.addSprite("", stem + "SpawnPickup.png", "Main");
+            else if (compNum == GlobalVars.GRAP_NUM)
+                drawComp.addSprite("", stem + "GrapplePickup.png", "Main");
+            else
+                drawComp.addSprite("Artwork.Other.WhiteSquare", "RunningGame.Resources.Artwork.Other.WhiteSquare.png", "Main");
+
             drawComp.setSprite("Main"); //Set image to active image
 
             /* ANIMATION COMPONENT - Does it need animating?
@@ -89,10 +104,10 @@ namespace RunningGame.Entities
              */
             addComponent(new ColliderComponent(this, GlobalVars.POWERUP_PICKUP_COLLIDER_TYPE));
 
-            /*GRAVITY COMPONENT - Does it have Gravity?
-             *There's a standard gravity in GlobalVars
+            /*POWERUP PICKUP COMPONENT
              */
-            //addComponent(new GravityComponent(0, GlobalVars.STANDARD_GRAVITY));
+            addComponent(new PowerupPickupComponent(compNum));
+
         }
         
         //What should the entity do in order to revert to its starting state?

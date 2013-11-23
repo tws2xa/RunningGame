@@ -235,5 +235,11 @@ namespace RunningGame.Entities
         }
 
 
+
+        public void faceDirection(bool right)
+        {
+            if (right) this.faceRight();
+            else this.faceLeft();
+        }
     }
 }

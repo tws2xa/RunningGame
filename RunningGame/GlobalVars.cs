@@ -41,11 +41,12 @@ namespace RunningGame
         public static string GLIDE_COMPONENT_NAME = "glideComp";
         public static string SIMPLE_ENEMY_COMPONENT_NAME = "simpleEnemyComp";
         public static string TIMED_SWITCH_COMPONENT_NAME = "timedSwitchComp";
-        public static string OBJECT_LINK_COMPONENT_NAME = "objLinkedComponent";
-        public static string BACKGROUND_COMPONENT_NAME = "backgroundComponent";
-        public static string MOVING_PLATFORM_COMPONENT_NAME = "movPlatComponent";
+        public static string OBJECT_LINK_COMPONENT_NAME = "objLinkedComp";
+        public static string BACKGROUND_COMPONENT_NAME = "backgroundComp";
+        public static string MOVING_PLATFORM_COMPONENT_NAME = "movPlatComp";
         public static string GRAPPLE_COMPONENT_NAME = "grappleComponent";
         public static string POWERUP_PICKUP_COMPONENT_NAME = "PwrupPkpComp";
+        public static string SPAWN_BLOCK_COMPONENT_NAME = "SpawnBlkComp";
 
         //Collider Types
         public static string PLAYER_COLLIDER_TYPE = "playerCollider";
@@ -62,6 +63,7 @@ namespace RunningGame
         public static string END_LEVEL_COLLIDER_TYPE = "endLevelCollider";
         public static string MOVING_PLATFORM_COLLIDER_TYPE = "movPlatCollider";
         public static string POWERUP_PICKUP_COLLIDER_TYPE = "pwrupPkpCollider";
+        public static string SPAWN_BLOCK_COLLIDER_TYPE = "spawnBlock";
 
         //Collection of all in game entities
         public static Dictionary<int, Entity> nonGroundEntities = new Dictionary<int, Entity>();
@@ -83,12 +85,12 @@ namespace RunningGame
         public static float LEVEL_READER_TILE_HEIGHT = 10; //How tall is one pixel?
 
         //Powerup nums
-        public static int bouncePowerup = 0; //Purple
-        public static int speedPowerup = 1; //Blue
-        public static int dblJmpPowerup = 2; //Green
-        public static int gliderPowerup = 3; //Yellow
-        public static int blockSpwnPowerup = 4; //Orange
-        public static int grapplePowerup = 5; //Red
+        public const int BOUNCE_NUM = 1; //Purple
+        public const int SPEED_NUM = 2; //Blue
+        public const int JMP_NUM = 3; //Green
+        public const int GLIDE_NUM = 4; //Yellow
+        public const int SPAWN_NUM = 5; //Orange
+        public const int GRAP_NUM = 6; //Red
 
 
         //Key Bindings
@@ -105,10 +107,6 @@ namespace RunningGame
         public static string DOOR_CLOSED_SPRITE_NAME = "closedDoorSprite";
         public static string SWITCH_INACTIVE_SPRITE_NAME = "inactiveSwitch";
         public static string SWITCH_ACTIVE_SPRITE_NAME = "activeSwitch";
-        public static string POWERUP_INDICATOR_BOUNCE = "bounceInd";
-        public static string POWERUP_INDICATOR_SPEEDY = "speedyInd";
-        public static string POWERUP_INDICATOR_SPAWN = "spawnInd";
-        public static string POWERUP_INDICATOR_NONE = "noneInd";
         public static float SIMPLE_ENEMY_H_SPEED = 50.0f;
         public static float BULLET_SPEED = 250.0f;
         public static float MOVING_PLATFORM_SPEED = 50.0f;
@@ -117,5 +115,8 @@ namespace RunningGame
         public static float SPEEDY_SPEED = 600.0f;
         public static Bitmap grndImg = null;
         public static float playerAnimatonSpeed = 0.1f;
+        public static int doubleJumpNumAirJumps = 1;
+        public static int normNumAirJumps = 0;
+        public static int numAirJumps = 0;
     }
 }

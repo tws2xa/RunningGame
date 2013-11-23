@@ -165,7 +165,7 @@ namespace RunningGame.Systems
             }
             else
             {
-                if (pelInComp.passedAirjumps < pelInComp.numAirJumps)
+                if (pelInComp.passedAirjumps < GlobalVars.numAirJumps)
                 {
                     velComp.setVelocity(velComp.x, pelInComp.jumpStrength);
                     pelInComp.passedAirjumps++;

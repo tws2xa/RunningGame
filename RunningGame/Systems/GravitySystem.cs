@@ -46,9 +46,19 @@ namespace RunningGame
                 float leftX = (posComp.x - posComp.width / 2 - sideBuffer);
                 float rightX = (posComp.x + posComp.width / 2 + sideBuffer);
                 float lowerY = (posComp.y + posComp.height / 2 + floorBuffer);
-                if (!(level.getCollisionSystem().findObjectsBetweenPoints(leftX, lowerY, rightX, lowerY).Count > 0))
+                List<Entity> cols = level.getCollisionSystem().findObjectsBetweenPoints(leftX, lowerY, rightX, lowerY);
+                bool shouldEnter = true;
+                foreach (Entity ent in cols)
                 {
-
+                    ColliderComponent collider = (ColliderComponent)ent.getComponent(GlobalVars.COLLIDER_COMPONENT_NAME);
+                    if (collider.colliderType == GlobalVars.BASIC_SOLID_COLLIDER_TYPE)
+                    {
+                        shouldEnter = false;
+                        break;
+                    }
+                }
+                if (shouldEnter)
+                {
                     //Pull out all required components
                     VelocityComponent velComp = (VelocityComponent)e.getComponent(GlobalVars.VELOCITY_COMPONENT_NAME);
                     GravityComponent gravComp = (GravityComponent)e.getComponent(GlobalVars.GRAVITY_COMPONENT_NAME);

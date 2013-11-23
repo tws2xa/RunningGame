@@ -173,13 +173,86 @@ namespace RunningGame
             //levelBeginState = new Dictionary<int, Entity>(entities); //Copy the beginning game state
 
             prevTicks = DateTime.Now.Ticks;
-
+            resetLevel();
             levelFullyLoaded = true;
 
             Entity bkgEnt = getMyBackgroundEntity();
             addEntity(bkgEnt.randId, bkgEnt);
 
+
+            //Set the player powerup staring values
+            setPowerups();
         }
+
+
+        public void setPowerups()
+        {
+            if (worldNum > 1 || (worldNum == 1 && levelNum > 1))
+            {
+                sysManager.spSystem.unlockPowerup(1);
+                if (worldNum > 2 || (worldNum == 2 && levelNum > 1))
+                {
+                    sysManager.spSystem.unlockPowerup(2);
+                    if (worldNum > 3 || (worldNum == 3 && levelNum > 1))
+                    {
+                        sysManager.spSystem.unlockPowerup(3);
+                        if (worldNum > 4 || (worldNum == 4 && levelNum > 1))
+                        {
+                            sysManager.spSystem.unlockPowerup(4);
+                            if (worldNum > 5 || (worldNum == 5 && levelNum > 1))
+                            {
+                                sysManager.spSystem.unlockPowerup(5);
+                                if (worldNum > 6 || (worldNum == 6 && levelNum > 1))
+                                {
+                                    sysManager.spSystem.unlockPowerup(6);
+                                }
+                                else
+                                {
+                                    sysManager.spSystem.lockPowerup(6);
+                                }
+                            }
+                            else
+                            {
+                                sysManager.spSystem.lockPowerup(5);
+                                sysManager.spSystem.lockPowerup(6);
+                            }
+                        }
+                        else
+                        {
+                            sysManager.spSystem.lockPowerup(4);
+                            sysManager.spSystem.lockPowerup(5);
+                            sysManager.spSystem.lockPowerup(6);
+                        }
+                    }
+                    else
+                    {
+                        sysManager.spSystem.lockPowerup(3);
+                        sysManager.spSystem.lockPowerup(4);
+                        sysManager.spSystem.lockPowerup(5);
+                        sysManager.spSystem.lockPowerup(6);
+                    }
+                }
+                else
+                {
+                    sysManager.spSystem.lockPowerup(2);
+                    sysManager.spSystem.lockPowerup(3);
+                    sysManager.spSystem.lockPowerup(4);
+                    sysManager.spSystem.lockPowerup(5);
+                    sysManager.spSystem.lockPowerup(6);
+                }
+            }
+            else
+            {
+                sysManager.spSystem.lockPowerup(1);
+                sysManager.spSystem.lockPowerup(2);
+                sysManager.spSystem.lockPowerup(3);
+                sysManager.spSystem.lockPowerup(4);
+                sysManager.spSystem.lockPowerup(5);
+                sysManager.spSystem.lockPowerup(6);
+            }
+
+        }
+
 
         //Game logic
         public virtual void Update()
@@ -362,7 +435,7 @@ namespace RunningGame
                     colliderAdded(e);
             }
         }
-        public virtual void removeEntity(Entity e)
+        public virtual bool removeEntity(Entity e)
         {
             if (e.hasComponent(GlobalVars.COLLIDER_COMPONENT_NAME))
             {
@@ -376,6 +449,7 @@ namespace RunningGame
                     if (e.isStartingEntity)
                         GlobalVars.removedStartingEntities.Add(e.randId, e);
                     GlobalVars.groundEntities.Remove(e.randId);
+                    return true;
                 }
             }
             else
@@ -385,8 +459,10 @@ namespace RunningGame
                     if (e.isStartingEntity)
                         GlobalVars.removedStartingEntities.Add(e.randId, e);
                     GlobalVars.nonGroundEntities.Remove(e.randId);
+                    return true;
                 }
             }
+            return false; //Not found
         }
 
         public BackgroundEntity getMyBackgroundEntity()

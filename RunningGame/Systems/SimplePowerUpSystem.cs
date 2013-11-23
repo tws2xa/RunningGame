@@ -24,7 +24,6 @@ namespace RunningGame.Systems
         Keys equippedPowerupKey = Keys.F;
         Keys cycleDownPowerupKey = Keys.Q;
 
-
         //Glide powerup informations
         float Glide_Gravity_Decrease = 130.0f;
         float glideDuration = 1.5f;
@@ -34,11 +33,11 @@ namespace RunningGame.Systems
 
         
         //Powerup Locks
-        bool glideUnlocked = true;
-        bool speedyUnlocked = true;
-        bool spawnUnlocked = true;
-        bool grappleUnlocked = true;
-        bool bouncyUnlocked = true;
+        bool glideUnlocked = false;
+        bool speedyUnlocked = false;
+        bool spawnUnlocked = false;
+        bool grappleUnlocked = false;
+        bool bouncyUnlocked = false;
 
         //Equips
         public bool speedyEquipped = false;
@@ -85,7 +84,12 @@ namespace RunningGame.Systems
                 level.getInputSystem().addKey(speedyKey);
                 level.getInputSystem().addKey(cycleDownPowerupKey);
                 level.getInputSystem().addKey(equippedPowerupKey);
+<<<<<<< HEAD
                 level.getInputSystem().addKey(bounceKey);
+=======
+                
+
+>>>>>>> 7bddd76113a6c62af5f8a6d5c9d7f304c8fd9084
                 hasRunOnce = true;
             }
             if (glideActive) 
@@ -188,10 +192,12 @@ namespace RunningGame.Systems
                 {
                     speedyEquipped = true;
                     level.getPlayer().setBlueImage();
+                    level.getPlayer().faceDirection(level.getPlayer().isLookingRight());
                 }
                 else
                 {
                     level.getPlayer().setNormalImage();
+                    level.getPlayer().faceDirection(level.getPlayer().isLookingRight());
                     return;
                 }
                 blockSpawnEquipped = false;
@@ -202,12 +208,14 @@ namespace RunningGame.Systems
                 speedyEquipped = false;
                 if (spawnUnlocked)
                 {
-                    level.getPlayer().setOrangeImage();
                     blockSpawnEquipped = true;
+                    level.getPlayer().setOrangeImage();
+                    level.getPlayer().faceDirection(level.getPlayer().isLookingRight());
                 }
                 else
                 {
                     level.getPlayer().setNormalImage();
+                    level.getPlayer().faceDirection(level.getPlayer().isLookingRight());
                     return;
                 }
             }
@@ -217,17 +225,20 @@ namespace RunningGame.Systems
                 speedyEquipped = false;
                 blockSpawnEquipped = false;
                 level.getPlayer().setNormalImage();
+                level.getPlayer().faceDirection(level.getPlayer().isLookingRight());
             }
             else
             {
                 if (bouncyUnlocked)
                 {
-                    level.getPlayer().setPurpleImage();
                     bouncyEquippedTEMP = true;
+                    level.getPlayer().setPurpleImage();
+                    level.getPlayer().faceDirection(level.getPlayer().isLookingRight());
                 }
                 else
                 {
                     level.getPlayer().setNormalImage();
+                    level.getPlayer().faceDirection(level.getPlayer().isLookingRight());
                     return;
                 }
                 speedyEquipped = false;
@@ -370,7 +381,75 @@ namespace RunningGame.Systems
 
             level.addEntity(newEntity.randId, newEntity); //This should just stay the same
         }
+
+
+
+
+        public void togglePowerup(int pupNum)
+        {
+            switch (pupNum)
+            {
+                case(GlobalVars.BOUNCE_NUM):
+                    bouncyUnlocked = !getUnlocked(pupNum);
+                    break;
+                case (GlobalVars.SPEED_NUM):
+                    speedyUnlocked = !getUnlocked(pupNum);
+                    break;
+                case (GlobalVars.JMP_NUM):
+                    if (getUnlocked(pupNum))
+                    {
+                        GlobalVars.numAirJumps = GlobalVars.normNumAirJumps;
+                    }
+                    else
+                    {
+                        GlobalVars.numAirJumps = GlobalVars.doubleJumpNumAirJumps;
+                    }
+                    break;
+                case (GlobalVars.SPAWN_NUM):
+                    spawnUnlocked = !getUnlocked(pupNum);
+                    break;
+                case(GlobalVars.GLIDE_NUM):
+                    glideUnlocked = !getUnlocked(pupNum);
+                    break;
+                case (GlobalVars.GRAP_NUM):
+                    grappleUnlocked = !getUnlocked(pupNum);
+                    break;
+
+            }
         }
+
+        public void unlockPowerup(int pupNum)
+        {
+            if (!getUnlocked(pupNum)) togglePowerup(pupNum);
+        }
+
+        public void lockPowerup(int pupNum)
+        {
+            if (getUnlocked(pupNum)) togglePowerup(pupNum);
+        }
+        
+        public bool getUnlocked(int pupNum)
+        {
+            switch (pupNum)
+            {
+                case (GlobalVars.BOUNCE_NUM):
+                    return bouncyUnlocked;
+                case (GlobalVars.SPEED_NUM):
+                    return speedyUnlocked;
+                case (GlobalVars.JMP_NUM):
+                    PlayerInputComponent inpComp = (PlayerInputComponent)level.getPlayer().getComponent(GlobalVars.PLAYER_INPUT_COMPONENT_NAME);
+                    return (GlobalVars.numAirJumps == GlobalVars.doubleJumpNumAirJumps);
+                case (GlobalVars.SPAWN_NUM):
+                    return spawnUnlocked;
+                case(GlobalVars.GLIDE_NUM):
+                    return glideUnlocked;
+                case (GlobalVars.GRAP_NUM):
+                    return grappleUnlocked;
+            }
+            return false;
+        }
+
     }
+}
     
 
