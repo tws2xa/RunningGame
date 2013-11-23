@@ -51,6 +51,10 @@ namespace RunningGame
         //Collider Types
         public static string PLAYER_COLLIDER_TYPE = "playerCollider";
         public static string BASIC_SOLID_COLLIDER_TYPE = "basicSolidCollider";
+
+        public static string BOUNCE_POSTGROUND_COLLIDER_TYPE = "bounceBlockCollider";
+        public static string BOUNCE_PREGROUND_COLLIDER_TYPE = "bounceGroundCollider";
+
         public static string INSTANT_DEATH_COLLIDER_TYPE = "instantDeathCollider";
         public static string GLIDE_COLLIDER_TYPE = "glideCollider";
         public static string POWERUP_COLLIDER_TYPE = "powerupCollider";
@@ -109,7 +113,7 @@ namespace RunningGame
         public static float SIMPLE_ENEMY_H_SPEED = 50.0f;
         public static float BULLET_SPEED = 250.0f;
         public static float MOVING_PLATFORM_SPEED = 50.0f;
-        public static float MAX_GRAPPLE_DISTANCE = 300.0f; //Pixels
+        public static float MAX_GRAPPLE_DISTANCE = 500.0f; //Pixels
         public static int MAX_NUM_BULLETS = 2;
         public static float SPEEDY_SPEED = 600.0f;
         public static Bitmap grndImg = null;

@@ -18,8 +18,7 @@ namespace RunningGame.Systems
 
         //Keys
         Keys glideKey = Keys.Space;
-        //Keys speedyKey = Keys.L;
-        //Keys blockSpawnKey = Keys.K;
+        Keys bounceKey = Keys.B;
         Keys equippedPowerupKey = Keys.F;
         Keys cycleDownPowerupKey = Keys.Q;
         Keys cycleUpPowerupKey = Keys.E;
@@ -31,6 +30,7 @@ namespace RunningGame.Systems
         bool glideActive = false;
         float maxVelocity = 70.0f;
 
+        
         //Powerup Locks
         bool glideUnlocked = false;
         bool speedyUnlocked = false;
@@ -42,6 +42,9 @@ namespace RunningGame.Systems
         public bool speedyEquipped = false;
         bool blockSpawnEquipped = false;
         bool bouncyEquippedTEMP = false;
+
+        //bounce powerup info
+        
 
         //speedy powerup infos
         public float speedyTime = 1.0f;
@@ -76,10 +79,12 @@ namespace RunningGame.Systems
             if (!hasRunOnce)
             {
                 level.getInputSystem().addKey(glideKey);
+
                 level.getInputSystem().addKey(cycleDownPowerupKey);
                 level.getInputSystem().addKey(cycleUpPowerupKey);
                 level.getInputSystem().addKey(equippedPowerupKey);
-                
+
+                level.getInputSystem().addKey(bounceKey);
 
                 hasRunOnce = true;
             }
@@ -142,6 +147,12 @@ namespace RunningGame.Systems
             {
                 CycleThroughEquips(true);
             }
+             
+            if (level.getInputSystem().myKeys[bounceKey].down)
+            {
+                createBounce();
+            }
+
             if (level.getInputSystem().myKeys[cycleDownPowerupKey].down)
             {
                 CycleThroughEquips(false);
@@ -368,6 +379,28 @@ namespace RunningGame.Systems
             }
         }
 
+        public void bounceEntity(float x, float y)
+        {
+            Entity newBounceEntity = new PreGroundBounce(level, x, y);
+
+            level.addEntity(newBounceEntity.randId, newBounceEntity);
+        }
+        public void createBounce()
+        {
+            PositionComponent posComp = (PositionComponent)level.getPlayer().getComponent(GlobalVars.POSITION_COMPONENT_NAME);
+            Player player = (Player)level.getPlayer();
+
+            if (player.isLookingRight())
+            {
+
+                bounceEntity(posComp.x + posComp.width * 1.0f, posComp.y);
+
+            }
+            else if (player.isLookingLeft())
+            {
+                bounceEntity(posComp.x - posComp.width * 1.0f, posComp.y);
+            }
+        }
         public void Grapple()
         {
             PositionComponent playerPos = (PositionComponent)level.getPlayer().getComponent(GlobalVars.POSITION_COMPONENT_NAME);
@@ -424,12 +457,16 @@ namespace RunningGame.Systems
                     blockEntity(posComp.x + posComp.width * 1.5f, posComp.y);
 
                 }
-                else if (player.isLookingLeft())
+
+                if (player.isLookingLeft())
+
                 {
                     blockEntity(posComp.x - posComp.width * 1.5f, posComp.y);
                 }
                 
+
             }
+
         public void blockEntity(float x, float y)
         {   
             
