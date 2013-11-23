@@ -41,6 +41,8 @@ namespace RunningGame
         public MovingPlatformSystem movPlatSystem;
         public GrappleSystem grapSystem;
 
+        List<GameSystem> systems = new List<GameSystem>();
+
         public SystemManager(Level level)
         {
 
@@ -53,33 +55,35 @@ namespace RunningGame
         // Create all systems
         public void initializeSystems()
         {
-            gravSystem = new GravitySystem(level);
-            moveSystem = new MovementSystem(level);
-            playerSystem = new PlayerMovementSystem(level);
-            colSystem = new CollisionDetectionSystem(level);
-            drawSystem = new DrawSystem(level.g, level);
-            healthSystem = new HealthSystem(level);
-            animSystem = new AnimationSystem(level);
-            squishSystem = new SquishSystem(level);
-            inputSystem = new InputSystem(level);
-            scrEdgeSystem = new ScreenEdgeSystem(level);
-            slSystem = new SwitchListenerSystem(level);
-            switchSystem = new SwitchSystem(level);
-            spSystem = new SimplePowerUpSystem(level);
-            simpEnemySystem = new SimpleEnemyAISystem(level);
-            weapSystem = new PlayerWeaponSystem(level);
-            sndSystem = new SoundSystem(level);
-            bkgPosSystem = new BackgroundPositionSystem(level);
-            debugSystem = new DebugSystem(level);
-            movPlatSystem = new MovingPlatformSystem(level);
-            grapSystem = new GrappleSystem(level);
+            gravSystem = new GravitySystem(level);              systems.Add(gravSystem);
+            moveSystem = new MovementSystem(level);             systems.Add(moveSystem);
+            playerSystem = new PlayerMovementSystem(level);     systems.Add(playerSystem);
+            colSystem = new CollisionDetectionSystem(level);    systems.Add(colSystem);
+            drawSystem = new DrawSystem(level.g, level);        systems.Add(drawSystem);
+            healthSystem = new HealthSystem(level);             systems.Add(healthSystem);
+            animSystem = new AnimationSystem(level);            systems.Add(animSystem);
+            squishSystem = new SquishSystem(level);             systems.Add(squishSystem);
+            inputSystem = new InputSystem(level);               systems.Add(inputSystem);
+            scrEdgeSystem = new ScreenEdgeSystem(level);        systems.Add(scrEdgeSystem);
+            slSystem = new SwitchListenerSystem(level);         systems.Add(slSystem);
+            switchSystem = new SwitchSystem(level);             systems.Add(switchSystem);
+            spSystem = new SimplePowerUpSystem(level);          systems.Add(spSystem);
+            simpEnemySystem = new SimpleEnemyAISystem(level);   systems.Add(simpEnemySystem);
+            weapSystem = new PlayerWeaponSystem(level);         systems.Add(weapSystem);
+            sndSystem = new SoundSystem(level);                 systems.Add(sndSystem);
+            bkgPosSystem = new BackgroundPositionSystem(level); systems.Add(bkgPosSystem);
+            debugSystem = new DebugSystem(level);               systems.Add(debugSystem);
+            movPlatSystem = new MovingPlatformSystem(level);    systems.Add(movPlatSystem);
+            grapSystem = new GrappleSystem(level);              systems.Add(grapSystem);
+
+
         }
 
 
         //Game Logic Stuff
         public void Update(float deltaTime)
         {
-            
+
             moveSystem.Update(deltaTime);
             bkgPosSystem.Update(deltaTime);
             scrEdgeSystem.Update(deltaTime);
@@ -138,6 +142,29 @@ namespace RunningGame
             //colSystem.Draw(g);
         }
 
+        /*
+        public void entityAdded(Entity e)
+        {
+            foreach (GameSystem sys in systems)
+            {
+                if (sys.checkIfEntityIsApplicable(e))
+                {
+                    if (!sys.applicableEntities.ContainsKey(e.randId)) 
+                        sys.applicableEntities.Add(e.randId, e);
+                }
+            }
+        }
 
+        public void entityRemoved(Entity e)
+        {
+            foreach (GameSystem sys in systems)
+            {
+                if (sys.checkIfEntityIsApplicable(e))
+                {
+                    if (sys.applicableEntities.ContainsKey(e.randId))
+                        sys.applicableEntities.Remove(e.randId);
+                }
+            }
+        }*/
     }
 }
