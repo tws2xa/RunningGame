@@ -437,7 +437,7 @@ namespace RunningGame
                     colliderAdded(e);
             }
 
-            //sysManager.entityAdded(e);
+            sysManager.entityAdded(e);
             
         }
         public virtual bool removeEntity(Entity e)
@@ -454,7 +454,7 @@ namespace RunningGame
                     if (e.isStartingEntity)
                         GlobalVars.removedStartingEntities.Add(e.randId, e);
                     GlobalVars.groundEntities.Remove(e.randId);
-                    //sysManager.entityRemoved(e);
+                    sysManager.entityRemoved(e);
                     return true;
                 }
             }
@@ -465,7 +465,7 @@ namespace RunningGame
                     if (e.isStartingEntity)
                         GlobalVars.removedStartingEntities.Add(e.randId, e);
                     GlobalVars.nonGroundEntities.Remove(e.randId);
-                    //sysManager.entityRemoved(e);
+                    sysManager.entityRemoved(e);
                     return true;
                 }
             }
