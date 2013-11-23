@@ -95,6 +95,10 @@ namespace RunningGame.Systems
                 {
                     animComp.animationOn = true;
                 }
+                else
+                {
+                    animComp.animationOn = false;
+                }
 
 
                 //Slow horizontal if no left/rght key down
