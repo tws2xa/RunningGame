@@ -32,6 +32,8 @@ namespace RunningGame
         //This dictionary holds default collision function
         public Dictionary<string, Func<Entity, Entity, bool>> defaultCollisions = new Dictionary<string, Func<Entity, Entity, bool>>();
 
+        Random rand = new Random();
+
         //The level
         public Level level;
 
@@ -45,6 +47,8 @@ namespace RunningGame
             Func<Entity, Entity, bool> bouncePlayerCollisionFunction = bouncePlayerCollision;
             Func<Entity, Entity, bool> simpleStopCollisionFunction = simpleStopCollision;
             Func<Entity, Entity, bool> speedyPlayerCollisionFunction = speedyPlayerCollision;
+            Func<Entity, Entity, bool> speedyGroundCollisionFunction = speedyGroundCollision;
+            Func<Entity, Entity, bool> removeSpeedyCollisionFunction = removeSpeedyCollision;
             Func<Entity, Entity, bool> playerSwitchCollisonFunction = switchFlipCollision;
             Func<Entity, Entity, bool> playerEnemyCollisionFunction = enemyPlayerCollision;
             Func<Entity, Entity, bool> bulletNonEnemyCollisionFunction = bulletNonEnemyCollision;
@@ -54,14 +58,17 @@ namespace RunningGame
             Func<Entity, Entity, bool> otherPlatformCollisionFunction = platformOtherCollision;
            
             //Set defaults (i.e. If there is no specific collision listed, what does it do?)
+            defaultCollisions.Add(GlobalVars.SPEEDY_PREGROUND_COLLIDER_TYPE, removeSpeedyCollision);
             defaultCollisions.Add(GlobalVars.BASIC_SOLID_COLLIDER_TYPE, simpleStopCollision);
             defaultCollisions.Add(GlobalVars.BULLET_COLLIDER_TYPE, bulletNonEnemyCollision);
             defaultCollisions.Add(GlobalVars.SIMPLE_ENEMY_COLLIDER_TYPE, simpleStopCollision);
             defaultCollisions.Add(GlobalVars.END_LEVEL_COLLIDER_TYPE, simpleStopCollision);
             defaultCollisions.Add(GlobalVars.MOVING_PLATFORM_COLLIDER_TYPE, simpleStopCollision);
+            defaultCollisions.Add(GlobalVars.SPEEDY_POSTGROUND_COLLIDER_TYPE, simpleStopCollision);
+            
 
             //Add non-default collisions to dictionary
-            addToDictionary(GlobalVars.PLAYER_COLLIDER_TYPE, GlobalVars.SPEEDY_COLLIDER_TYPE, speedyPlayerCollisionFunction);
+            addToDictionary(GlobalVars.PLAYER_COLLIDER_TYPE, GlobalVars.SPEEDY_POSTGROUND_COLLIDER_TYPE, speedyPlayerCollisionFunction);
             addToDictionary(GlobalVars.PLAYER_COLLIDER_TYPE, GlobalVars.SWITCH_COLLIDER_TYPE, playerSwitchCollisonFunction);
             addToDictionary(GlobalVars.PLAYER_COLLIDER_TYPE, GlobalVars.END_LEVEL_COLLIDER_TYPE, endLevelCollisionFunction);
 
@@ -74,6 +81,10 @@ namespace RunningGame
             addToDictionary(GlobalVars.SIMPLE_ENEMY_COLLIDER_TYPE, GlobalVars.PLAYER_COLLIDER_TYPE, playerEnemyCollisionFunction);
             
             addToDictionary(GlobalVars.MOVING_PLATFORM_COLLIDER_TYPE, GlobalVars.PLAYER_COLLIDER_TYPE, otherPlatformCollisionFunction);
+
+            addToDictionary(GlobalVars.BASIC_SOLID_COLLIDER_TYPE, GlobalVars.SPEEDY_PREGROUND_COLLIDER_TYPE, speedyGroundCollisionFunction);
+            addToDictionary(GlobalVars.SPEEDY_PREGROUND_COLLIDER_TYPE, GlobalVars.PLAYER_COLLIDER_TYPE, doNothingCollision);
+            addToDictionary(GlobalVars.SPEEDY_PREGROUND_COLLIDER_TYPE, GlobalVars.SIMPLE_ENEMY_COLLIDER_TYPE, doNothingCollision);
         }
 
         //This adds something to the default collison dictionary.
@@ -158,6 +169,7 @@ namespace RunningGame
         //Dont do anything for now, increase player.y component up whenever collide with block
         public bool bouncePlayerCollision(Entity e1, Entity e2)
         {
+            float increment = 45.0f;
             Player player;
             if (e1 is Player)
             {
@@ -172,6 +184,10 @@ namespace RunningGame
                 Console.WriteLine("Player Collision with no bounce block...");
                 return false;
             }
+            
+            PositionComponent pos = (PositionComponent)player.getComponent(GlobalVars.POSITION_COMPONENT_NAME);
+            pos.y= pos.y - increment;
+            
             return false;
            
         }
@@ -189,8 +205,41 @@ namespace RunningGame
             return true; //Don't allow the movement.
         }
 
+        public bool speedyGroundCollision(Entity e1, Entity e2)
+        {
+            Entity speedy = null;
+            Entity theGround = null;
+
+            if (e1 is BasicGround) 
+            {
+                theGround = e1;
+                speedy = e2;
+            }
+            else if (e2 is BasicGround)
+            {
+                theGround = e2;
+                speedy = e1;
+            }
+            else
+            {
+                //Console.WriteLine("SpeedyGroundCollision with no ground");
+                return removeSpeedyCollision(e1, e2);
+            }
+
+            PositionComponent ground = (PositionComponent)theGround.getComponent(GlobalVars.POSITION_COMPONENT_NAME);
+            System.Drawing.PointF loc = ground.getPointF();
+
+            level.removeEntity(theGround);
+            level.removeEntity(speedy);
+
+            Entity newSpeedy = new Speedy(level, rand.Next(Int32.MinValue, Int32.MaxValue), loc.X, loc.Y - 1);
+            level.addEntity(newSpeedy);
+
+            return false;
+        }
+
         //Speed the player up
-        public static bool speedyPlayerCollision(Entity e1, Entity e2)
+        public bool speedyPlayerCollision(Entity e1, Entity e2)
         {
             Entity thePlayer = null;
             Entity other = null;
@@ -209,8 +258,22 @@ namespace RunningGame
             if (thePlayer == null || other == null) return false;
 
             //Do collision code here
+        
+             Player p = (Player)thePlayer;
+            VelocityComponent vel = (VelocityComponent)p.getComponent(GlobalVars.VELOCITY_COMPONENT_NAME);
+            if (vel.x >= 0)
+            {
+                vel.x = GlobalVars.SPEEDY_SPEED;
+            } else {
+                vel.x = -GlobalVars.SPEEDY_SPEED;
+            }
 
-            return true;
+            p.removeComponent(GlobalVars.PLAYER_INPUT_COMPONENT_NAME);
+
+            level.sysManager.spSystem.speedyTimer = level.sysManager.spSystem.speedyTime;
+            level.sysManager.spSystem.speedyActive = true;
+
+            return false;
         }
 
         //This flip the switch (assuming e1 or e2 is a switch)
@@ -312,6 +375,7 @@ namespace RunningGame
             return false;
         }
 
+
         //This ends the level
         public bool endLevelCollision(Entity e1, Entity e2)
         {
@@ -364,6 +428,22 @@ namespace RunningGame
                 level.getMovementSystem().changePosition(otherPos, otherPos.x, platPos.y - platPos.height / 2 - otherPos.height / 2, false);
                 otherVel.y = platVel.y;
             }
+
+            return false;
+        }
+
+        public bool removeSpeedyCollision(Entity e1, Entity e2)
+        {
+            Entity pre = null;
+            if (e1 is PreGroundSpeedy) pre = e1;
+            else if (e2 is PreGroundSpeedy) pre = e2;
+            else
+            {
+                Console.WriteLine("Remove Speedy with no Speedy");
+                return false;
+            }
+
+            level.removeEntity(pre);
 
             return false;
         }

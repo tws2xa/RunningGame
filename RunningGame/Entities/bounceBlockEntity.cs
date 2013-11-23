@@ -43,7 +43,7 @@ namespace RunningGame.Entities
             //addComponent(new PlayerInputComponent());
 
             //Collider
-            addComponent(new ColliderComponent(this, GlobalVars.BASIC_SOLID_COLLIDER_TYPE));
+            addComponent(new ColliderComponent(this, GlobalVars.BOUNCE_BLOCK_COLLIDER_TYPE));
 
             //Gravity Component
             addComponent(new GravityComponent(0, GlobalVars.STANDARD_GRAVITY));
@@ -54,13 +54,7 @@ namespace RunningGame.Entities
         }
         public override void revertToStartingState()
         {
-            PositionComponent posComp = (PositionComponent)this.getComponent(GlobalVars.POSITION_COMPONENT_NAME);
-            level.getMovementSystem().changePosition(posComp, posComp.startingX, posComp.startingY, true);
-            level.getMovementSystem().changeSize(posComp, posComp.startingWidth, posComp.startingHeight);
-
-            VelocityComponent velComp = (VelocityComponent)this.getComponent(GlobalVars.VELOCITY_COMPONENT_NAME);
-            velComp.x = 0;
-            velComp.y = 0;
+      
         }
     }
 }
