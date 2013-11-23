@@ -48,7 +48,7 @@ namespace RunningGame
             Func<Entity, Entity, bool> bounceGroundCollisionFunction = bounceGroundCollision;
             Func<Entity, Entity, bool> removeBounceCollisionFunction = removeBounceCollision;
             Func<Entity, Entity, bool> simpleStopCollisionFunction = simpleStopCollision;
-            Func<Entity, Entity, bool> speedyPlayerCollisionFunction = speedyPlayerCollision;
+            Func<Entity, Entity, bool> speedyPlayerCollisionFunction = speedyOtherCollision;
             Func<Entity, Entity, bool> speedyGroundCollisionFunction = speedyGroundCollision;
             Func<Entity, Entity, bool> removeSpeedyCollisionFunction = removeSpeedyCollision;
             Func<Entity, Entity, bool> playerSwitchCollisonFunction = switchFlipCollision;
@@ -104,7 +104,7 @@ namespace RunningGame
             addToDictionary(GlobalVars.SPEEDY_PREGROUND_COLLIDER_TYPE, GlobalVars.PLAYER_COLLIDER_TYPE, doNothingCollision);
             addToDictionary(GlobalVars.SPEEDY_PREGROUND_COLLIDER_TYPE, GlobalVars.SIMPLE_ENEMY_COLLIDER_TYPE, doNothingCollision);
 
-            addToDictionary(GlobalVars.SPEEDY_POSTGROUND_COLLIDER_TYPE, GlobalVars.SPAWN_BLOCK_COLLIDER_TYPE, speedyPlayerCollision);
+            addToDictionary(GlobalVars.SPEEDY_POSTGROUND_COLLIDER_TYPE, GlobalVars.SPAWN_BLOCK_COLLIDER_TYPE, speedyOtherCollision);
         }
 
         //This adds something to the default collison dictionary.
@@ -306,7 +306,7 @@ namespace RunningGame
         }
 
         //Speed the player up
-        public bool speedyPlayerCollision(Entity e1, Entity e2)
+        public bool speedyOtherCollision(Entity e1, Entity e2)
         {
             Entity other = null;
             Entity speedyBlock = null;
@@ -327,20 +327,34 @@ namespace RunningGame
             //Do collision code here
             if (!other.hasComponent(GlobalVars.VELOCITY_COMPONENT_NAME)) return false;
 
-            VelocityComponent vel = (VelocityComponent)other.getComponent(GlobalVars.VELOCITY_COMPONENT_NAME);
-            if (vel.x >= 0)
-            {
-                vel.x = GlobalVars.SPEEDY_SPEED;
-            } else {
-                vel.x = -GlobalVars.SPEEDY_SPEED;
-            }
-
             if (other is Player)
             {
+                VelocityComponent vel = (VelocityComponent)other.getComponent(GlobalVars.VELOCITY_COMPONENT_NAME);
+                if (vel.x >= 0)
+                {
+                    vel.x = GlobalVars.SPEEDY_SPEED;
+                } else {
+                    vel.x = -GlobalVars.SPEEDY_SPEED;
+                }
+
                 other.removeComponent(GlobalVars.PLAYER_INPUT_COMPONENT_NAME);
             }
             else if (other is spawnBlockEntity)
             {
+                if (level.getPlayer() == null) return true;
+
+                PositionComponent plPos = (PositionComponent)level.getPlayer().getComponent(GlobalVars.POSITION_COMPONENT_NAME);
+                PositionComponent spPos = (PositionComponent)other.getComponent(GlobalVars.POSITION_COMPONENT_NAME);
+                VelocityComponent vel = (VelocityComponent)other.getComponent(GlobalVars.VELOCITY_COMPONENT_NAME);
+                if (spPos.x >= plPos.x)
+                {
+                    vel.x = GlobalVars.SPEEDY_SPEED;
+                }
+                else
+                {
+                    vel.x = -GlobalVars.SPEEDY_SPEED;
+                }
+
                 SpawnBlockComponent spawnComp = (SpawnBlockComponent)other.getComponent(GlobalVars.SPAWN_BLOCK_COMPONENT_NAME);
                 if (spawnComp.state == 0)
                     spawnComp.state = 1;

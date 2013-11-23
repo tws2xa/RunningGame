@@ -350,6 +350,8 @@ namespace RunningGame
             }
             GlobalVars.removedStartingEntities.Clear();
 
+            setPowerups();
+
             paused = false; //Restart the game  
             
         }
@@ -434,6 +436,9 @@ namespace RunningGame
                 if (e.hasComponent(GlobalVars.COLLIDER_COMPONENT_NAME))
                     colliderAdded(e);
             }
+
+            //sysManager.entityAdded(e);
+            
         }
         public virtual bool removeEntity(Entity e)
         {
@@ -449,6 +454,7 @@ namespace RunningGame
                     if (e.isStartingEntity)
                         GlobalVars.removedStartingEntities.Add(e.randId, e);
                     GlobalVars.groundEntities.Remove(e.randId);
+                    //sysManager.entityRemoved(e);
                     return true;
                 }
             }
@@ -459,6 +465,7 @@ namespace RunningGame
                     if (e.isStartingEntity)
                         GlobalVars.removedStartingEntities.Add(e.randId, e);
                     GlobalVars.nonGroundEntities.Remove(e.randId);
+                    //sysManager.entityRemoved(e);
                     return true;
                 }
             }
@@ -618,6 +625,8 @@ namespace RunningGame
             removeAllEntities();
             GlobalVars.removedStartingEntities.Clear();
         }
+
+
 
     }
 }

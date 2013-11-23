@@ -50,6 +50,9 @@ namespace RunningGame.Entities
 
             //Spawn Block Component
             addComponent(new SpawnBlockComponent());
+
+            //Off side of screen
+            addComponent(new ScreenEdgeComponent(3, 3, 3, 3));
         }
 
         public override void revertToStartingState()
