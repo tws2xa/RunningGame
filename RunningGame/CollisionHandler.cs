@@ -44,6 +44,9 @@ namespace RunningGame
 
             //Create the Func objects for all the collision functions
             //Func<Entity, Entity, bool> [Var Name] = [Name of your method];
+            Func<Entity, Entity, bool> bouncePlayerCollisionFunction = bouncePlayerCollision;
+            Func<Entity, Entity, bool> bounceGroundCollisionFunction = bounceGroundCollision;
+            Func<Entity, Entity, bool> removeBounceCollisionFunction = removeBounceCollision;
             Func<Entity, Entity, bool> simpleStopCollisionFunction = simpleStopCollision;
             Func<Entity, Entity, bool> speedyPlayerCollisionFunction = speedyOtherCollision;
             Func<Entity, Entity, bool> speedyGroundCollisionFunction = speedyGroundCollision;
@@ -68,6 +71,8 @@ namespace RunningGame
             defaultCollisions.Add(GlobalVars.MOVING_PLATFORM_COLLIDER_TYPE, simpleStopCollision);
             defaultCollisions.Add(GlobalVars.SPEEDY_POSTGROUND_COLLIDER_TYPE, simpleStopCollision);
             defaultCollisions.Add(GlobalVars.POWERUP_PICKUP_COLLIDER_TYPE, doNothingCollision);
+
+            defaultCollisions.Add(GlobalVars.BOUNCE_PREGROUND_COLLIDER_TYPE, bounceGroundCollision);
             
 
             //Add non-default collisions to dictionary
@@ -80,6 +85,16 @@ namespace RunningGame
             addToDictionary(GlobalVars.BULLET_COLLIDER_TYPE, GlobalVars.SIMPLE_ENEMY_COLLIDER_TYPE, bulletEnemyCollisionFunction);
             addToDictionary(GlobalVars.BULLET_COLLIDER_TYPE, GlobalVars.SWITCH_COLLIDER_TYPE, switchFlipCollision);
 
+
+            addToDictionary(GlobalVars.BOUNCE_PREGROUND_COLLIDER_TYPE, GlobalVars.BASIC_SOLID_COLLIDER_TYPE, bounceGroundCollisionFunction);
+            addToDictionary(GlobalVars.BOUNCE_PREGROUND_COLLIDER_TYPE, GlobalVars.PLAYER_COLLIDER_TYPE, doNothingCollision);
+            addToDictionary(GlobalVars.BOUNCE_PREGROUND_COLLIDER_TYPE, GlobalVars.SIMPLE_ENEMY_COLLIDER_TYPE, doNothingCollision);
+            addToDictionary(GlobalVars.BOUNCE_PREGROUND_COLLIDER_TYPE, GlobalVars.BOUNCE_PREGROUND_COLLIDER_TYPE, doNothingCollision);
+
+
+            addToDictionary(GlobalVars.BOUNCE_POSTGROUND_COLLIDER_TYPE, GlobalVars.PLAYER_COLLIDER_TYPE, bouncePlayerCollision);
+            addToDictionary(GlobalVars.BOUNCE_PREGROUND_COLLIDER_TYPE, GlobalVars.BOUNCE_POSTGROUND_COLLIDER_TYPE, removeBounceCollisionFunction);
+            
             addToDictionary(GlobalVars.SIMPLE_ENEMY_COLLIDER_TYPE, GlobalVars.PLAYER_COLLIDER_TYPE, playerEnemyCollisionFunction);
             addToDictionary(GlobalVars.SIMPLE_ENEMY_COLLIDER_TYPE, GlobalVars.SPAWN_BLOCK_COLLIDER_TYPE, spawnEnemyCollisionFunction);
 
@@ -181,6 +196,72 @@ namespace RunningGame
          * False = Do Not Stop Movement
          */
 
+        //Dont do anything for now, increase player.y component up whenever collide with block
+        public bool bouncePlayerCollision(Entity e1, Entity e2)
+        {
+            float increment = 350f;
+            Player player;
+            if (e1 is Player)
+            {
+                player = (Player)e1;
+            }
+            else if (e2 is Player)
+            {
+                player = (Player)e2;
+            }
+            else
+            {
+                Console.WriteLine("Player Collision with no bounce block...");
+                return false;
+            }
+
+            
+            //PositionComponent pos = (PositionComponent)player.getComponent(GlobalVars.POSITION_COMPONENT_NAME);
+            //pos.y= pos.y - increment;
+            VelocityComponent vel = (VelocityComponent)player.getComponent(GlobalVars.VELOCITY_COMPONENT_NAME);
+            vel.y = -increment;
+            
+            return false;
+           
+        }
+        public bool removeBounceCollision(Entity e1, Entity e2)
+        {
+            Entity preBounce = null;
+            if (e1 is Bounce)
+            {
+                preBounce = e2;
+            }
+            if (e2 is Bounce)
+            {
+                preBounce = e1;
+            }
+            level.removeEntity(preBounce);
+            return false;
+        }
+        public bool bounceGroundCollision(Entity e1, Entity e2)
+        {
+            Entity bounceB = null;
+            Entity ground = null;
+            if (e1 is BasicGround) 
+            {
+                ground = e1;
+                bounceB = e2;
+            }
+            if (e2 is BasicGround)
+            {
+                ground = e2;
+                bounceB = e1;
+            }
+            PositionComponent theGround = (PositionComponent)ground.getComponent(GlobalVars.POSITION_COMPONENT_NAME);
+            System.Drawing.PointF loc = theGround.getPointF();
+
+            level.removeEntity(ground);
+            level.removeEntity(bounceB);
+
+            Entity newBounceGround = new Bounce(level, rand.Next(Int32.MinValue, Int32.MaxValue), loc.X, loc.Y - 1);
+            level.addEntity(newBounceGround);
+            return false;
+        }
         //Don't do anything
         public bool doNothingCollision(Entity e1, Entity e2)
         {
