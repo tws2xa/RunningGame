@@ -44,7 +44,7 @@ namespace RunningGame.Entities
         public void addMyComponents(float x, float y)
         {
 
-            this.updateOutOfView = true; //Just until it's landed once, then it's switched (in simple enemy system)
+            this.updateOutOfView = true;
 
             /*POSITION COMPONENT - Does it have a position?
              */

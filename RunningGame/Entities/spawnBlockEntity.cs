@@ -27,6 +27,9 @@ namespace RunningGame.Entities
         
         public void addMyComponents(float x, float y)
         {
+
+            this.updateOutOfView = true;
+
             //Position Component
             addComponent(new PositionComponent(x, y, defaultWidth, defaultHeight, this));
 
@@ -39,19 +42,16 @@ namespace RunningGame.Entities
             //Velocity Component
             addComponent(new VelocityComponent(0, 0));
 
-            //Player Component
-            //addComponent(new PlayerInputComponent());
-
             //Collider
-            addComponent(new ColliderComponent(this, GlobalVars.BASIC_SOLID_COLLIDER_TYPE));
+            addComponent(new ColliderComponent(this, GlobalVars.SPAWN_BLOCK_COLLIDER_TYPE));
 
             //Gravity Component
             addComponent(new GravityComponent(0, GlobalVars.STANDARD_GRAVITY));
 
-
-            //Squish Component
-            //addComponent(new SquishComponent(defaultWidth, defaultHeight, defaultWidth * 3.0f, defaultHeight * 3.0f, defaultWidth / 3.0f, defaultHeight / 3.0f));
+            //Spawn Block Component
+            addComponent(new SpawnBlockComponent());
         }
+
         public override void revertToStartingState()
         {
             PositionComponent posComp = (PositionComponent)this.getComponent(GlobalVars.POSITION_COMPONENT_NAME);

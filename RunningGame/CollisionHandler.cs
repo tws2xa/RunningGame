@@ -56,10 +56,12 @@ namespace RunningGame
             Func<Entity, Entity, bool> doNothingCollisionFunction = doNothingCollision;
             Func<Entity, Entity, bool> otherPlatformCollisionFunction = platformOtherCollision;
             Func<Entity, Entity, bool> playerPowerupPickupCollisionFunction = powerupPickupPlayerCollision;
+            Func<Entity, Entity, bool> spawnEnemyCollisionFunction = spawnEnemyCollision;
            
             //Set defaults (i.e. If there is no specific collision listed, what does it do?)
             defaultCollisions.Add(GlobalVars.SPEEDY_PREGROUND_COLLIDER_TYPE, removeSpeedyCollision);
             defaultCollisions.Add(GlobalVars.BASIC_SOLID_COLLIDER_TYPE, simpleStopCollision);
+            defaultCollisions.Add(GlobalVars.SPAWN_BLOCK_COLLIDER_TYPE, simpleStopCollision);
             defaultCollisions.Add(GlobalVars.BULLET_COLLIDER_TYPE, bulletNonEnemyCollision);
             defaultCollisions.Add(GlobalVars.SIMPLE_ENEMY_COLLIDER_TYPE, simpleStopCollision);
             defaultCollisions.Add(GlobalVars.END_LEVEL_COLLIDER_TYPE, simpleStopCollision);
@@ -79,12 +81,15 @@ namespace RunningGame
             addToDictionary(GlobalVars.BULLET_COLLIDER_TYPE, GlobalVars.SWITCH_COLLIDER_TYPE, switchFlipCollision);
 
             addToDictionary(GlobalVars.SIMPLE_ENEMY_COLLIDER_TYPE, GlobalVars.PLAYER_COLLIDER_TYPE, playerEnemyCollisionFunction);
-            
+            addToDictionary(GlobalVars.SIMPLE_ENEMY_COLLIDER_TYPE, GlobalVars.SPAWN_BLOCK_COLLIDER_TYPE, spawnEnemyCollisionFunction);
+
             addToDictionary(GlobalVars.MOVING_PLATFORM_COLLIDER_TYPE, GlobalVars.PLAYER_COLLIDER_TYPE, otherPlatformCollisionFunction);
 
-            addToDictionary(GlobalVars.BASIC_SOLID_COLLIDER_TYPE, GlobalVars.SPEEDY_PREGROUND_COLLIDER_TYPE, speedyGroundCollisionFunction);
+            addToDictionary(GlobalVars.SPEEDY_PREGROUND_COLLIDER_TYPE, GlobalVars.BASIC_SOLID_COLLIDER_TYPE, speedyGroundCollisionFunction);
             addToDictionary(GlobalVars.SPEEDY_PREGROUND_COLLIDER_TYPE, GlobalVars.PLAYER_COLLIDER_TYPE, doNothingCollision);
             addToDictionary(GlobalVars.SPEEDY_PREGROUND_COLLIDER_TYPE, GlobalVars.SIMPLE_ENEMY_COLLIDER_TYPE, doNothingCollision);
+
+            addToDictionary(GlobalVars.SPEEDY_POSTGROUND_COLLIDER_TYPE, GlobalVars.SPAWN_BLOCK_COLLIDER_TYPE, speedyPlayerCollision);
         }
 
         //This adds something to the default collison dictionary.
@@ -112,22 +117,32 @@ namespace RunningGame
             //If it's not listed as a special case collision type - get the default collision
             if (!collisionDictionary.ContainsKey(collisionTypeName))
             {
-                //Checks col1 first, then col2. This is arbitrary.
+                //Checks if there's a doNothingCollision, if so it does nothing. Otherwise it pick's e1's default or e2s default.
+                if (defaultCollisions.ContainsKey(col1.colliderType) && defaultCollisions[col1.colliderType] == doNothingCollision)
+                {
+                    return false;
+                }
+                if (defaultCollisions.ContainsKey(col2.colliderType) && defaultCollisions.ContainsKey(col2.colliderType))
+                {
+                    if (defaultCollisions[col2.colliderType] == doNothingCollision)
+                        return false;
+                }
+
+                bool stop1 = false;
+                bool stop2 = false;
                 if (defaultCollisions.ContainsKey(col1.colliderType))
                 {
-                    //Call the collision method and return the stopMovement value
-                    bool stopMovement = defaultCollisions[col1.colliderType](e1, e2);
-                    return stopMovement;
+                    stop1 = defaultCollisions[col1.colliderType](e1, e2);
+
                 }
-                else if (defaultCollisions.ContainsKey(col2.colliderType))
+                if (defaultCollisions.ContainsKey(col2.colliderType))
                 {
                     //If it is listed - call the collision method and return the stopMovement value
-                    bool stopMovement = defaultCollisions[col2.colliderType](e1, e2);
-                    return stopMovement;
+                    stop2 = defaultCollisions[col2.colliderType](e1, e2);
                 }
 
                 //If no default collision is listed, and it's not in the special cases either - do nothing
-                return false; //Return false = do not stop the movement
+                return (stop1 || stop2); //Return false = do not stop the movement
             }
             else //There is a special case
             {
@@ -214,26 +229,26 @@ namespace RunningGame
         //Speed the player up
         public bool speedyPlayerCollision(Entity e1, Entity e2)
         {
-            Entity thePlayer = null;
             Entity other = null;
+            Entity speedyBlock = null;
             //Speedy Code
-            if (e1.hasComponent(GlobalVars.PLAYER_COMPONENT_NAME))
+            if (e2 is Speedy)
             {
-                other = e2;
-                thePlayer = e1;
+                speedyBlock = e2;
+                other = e1;
             }
             else if (e2.hasComponent(GlobalVars.PLAYER_COMPONENT_NAME))
             {
-                other = e1;
-                thePlayer = e2;
+                speedyBlock = e1;
+                other = e2;
             }
 
-            if (thePlayer == null || other == null) return false;
+            if (other == null || speedyBlock == null) return false;
 
             //Do collision code here
-        
-             Player p = (Player)thePlayer;
-            VelocityComponent vel = (VelocityComponent)p.getComponent(GlobalVars.VELOCITY_COMPONENT_NAME);
+            if (!other.hasComponent(GlobalVars.VELOCITY_COMPONENT_NAME)) return false;
+
+            VelocityComponent vel = (VelocityComponent)other.getComponent(GlobalVars.VELOCITY_COMPONENT_NAME);
             if (vel.x >= 0)
             {
                 vel.x = GlobalVars.SPEEDY_SPEED;
@@ -241,7 +256,16 @@ namespace RunningGame
                 vel.x = -GlobalVars.SPEEDY_SPEED;
             }
 
-            p.removeComponent(GlobalVars.PLAYER_INPUT_COMPONENT_NAME);
+            if (other is Player)
+            {
+                other.removeComponent(GlobalVars.PLAYER_INPUT_COMPONENT_NAME);
+            }
+            else if (other is spawnBlockEntity)
+            {
+                SpawnBlockComponent spawnComp = (SpawnBlockComponent)other.getComponent(GlobalVars.SPAWN_BLOCK_COMPONENT_NAME);
+                if (spawnComp.state == 0)
+                    spawnComp.state = 1;
+            }
 
             level.sysManager.spSystem.speedyTimer = level.sysManager.spSystem.speedyTime;
             level.sysManager.spSystem.speedyActive = true;
@@ -466,31 +490,35 @@ namespace RunningGame
             return false;
         }
 
-        /*
-        public bool GrappleSolidCollision(Entity e1, Entity e2)
+        public bool spawnEnemyCollision(Entity e1, Entity e2)
         {
-
-            GrappleLinkEntity link = null;
+            Entity spawnBlock = null;
             Entity other = null;
-            if (e1 is GrappleLinkEntity)
-            {
-                link = (GrappleLinkEntity)e1;
-                other = e2;
 
-            } else if (e2 is GrappleLinkEntity)
+            if (e1 is spawnBlockEntity) { spawnBlock = e1; other = e2; }
+            else if (e2 is spawnBlockEntity) { spawnBlock = e2; other = e1; }
+            else { Console.WriteLine("Spawn Enemy Collision with no Spawn!"); return false; }
+
+            SpawnBlockComponent spComp = (SpawnBlockComponent)spawnBlock.getComponent(GlobalVars.SPAWN_BLOCK_COMPONENT_NAME);
+            
+            if (spComp.state == 2)
             {
-                link = (GrappleLinkEntity)e2;
-                other = e1;
-            } else
-            {
-                Console.WriteLine("Grapple Solid Collision with no grapple?");
+                if(level.removeEntity(other))
+                    level.removeEntity(spawnBlock);
             }
-
-            GrappleLinkComponent grapComp = (GrappleLinkComponent)link.getComponent(GlobalVars.GRAPPLE_LINK_COMPONENT_NAME);
-            grapComp.state = 3;
+            else if (spComp.state == 1)
+            {
+                if(level.removeEntity(other))
+                    spComp.state = 2;
+            }
+            else if (spComp.state == 0)
+            {
+                return simpleStopCollision(e1, e2);
+            } 
 
             return false;
+
         }
-        */
+
     }
 }

@@ -435,7 +435,7 @@ namespace RunningGame
                     colliderAdded(e);
             }
         }
-        public virtual void removeEntity(Entity e)
+        public virtual bool removeEntity(Entity e)
         {
             if (e.hasComponent(GlobalVars.COLLIDER_COMPONENT_NAME))
             {
@@ -449,6 +449,7 @@ namespace RunningGame
                     if (e.isStartingEntity)
                         GlobalVars.removedStartingEntities.Add(e.randId, e);
                     GlobalVars.groundEntities.Remove(e.randId);
+                    return true;
                 }
             }
             else
@@ -458,8 +459,10 @@ namespace RunningGame
                     if (e.isStartingEntity)
                         GlobalVars.removedStartingEntities.Add(e.randId, e);
                     GlobalVars.nonGroundEntities.Remove(e.randId);
+                    return true;
                 }
             }
+            return false; //Not found
         }
 
         public BackgroundEntity getMyBackgroundEntity()

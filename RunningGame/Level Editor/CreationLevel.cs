@@ -242,12 +242,12 @@ namespace RunningGame.Level_Editor
                 getCollisionSystem().colliderAdded(e);
             }
         }
-        public override void removeEntity(Entity e)
+        public override bool removeEntity(Entity e)
         {
             if (e == null)
             {
                 Console.WriteLine("Trying to remove null entity");
-                return;
+                return false;
             }
             if (e.isStartingEntity)
                 GlobalVars.removedStartingEntities.Add(e.randId, e);
@@ -262,6 +262,8 @@ namespace RunningGame.Level_Editor
             {
                 GlobalVars.nonGroundEntities.Remove(e.randId);
             }
+
+            return true;
         }
 
 

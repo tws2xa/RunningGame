@@ -89,6 +89,7 @@
     <Compile Include="Components\ScreenEdgeComponent.cs" />
     <Compile Include="Components\SimpleEnemyComponent.cs" />
     <Compile Include="Components\SoundComponent.cs" />
+    <Compile Include="Components\SpawnBlockComponent.cs" />
     <Compile Include="Components\SquishComponent.cs" />
     <Compile Include="Components\SwitchComponent.cs" />
     <Compile Include="Components\SwitchListenerComponent.cs" />

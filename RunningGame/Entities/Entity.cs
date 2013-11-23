@@ -97,7 +97,13 @@ namespace RunningGame
         //Get a particular component
         public Component getComponent(string compName)
         {
-            return components[compName];
+            try
+            {
+                return components[compName];
+            }
+            catch (Exception e) {
+                return null;
+            }
         }
 
         //Whether or not the entity contains the given component
