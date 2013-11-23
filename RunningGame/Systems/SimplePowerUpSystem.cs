@@ -18,7 +18,7 @@ namespace RunningGame.Systems
 
         //Keys
         Keys glideKey = Keys.Space;
-        Keys bounceKey = Keys.B;
+        //Keys bounceKey = Keys.B;
         Keys equippedPowerupKey = Keys.F;
         Keys cycleDownPowerupKey = Keys.Q;
         Keys cycleUpPowerupKey = Keys.E;
@@ -84,7 +84,7 @@ namespace RunningGame.Systems
                 level.getInputSystem().addKey(cycleUpPowerupKey);
                 level.getInputSystem().addKey(equippedPowerupKey);
 
-                level.getInputSystem().addKey(bounceKey);
+                //level.getInputSystem().addKey(bounceKey);
 
                 hasRunOnce = true;
             }
@@ -148,10 +148,10 @@ namespace RunningGame.Systems
                 CycleThroughEquips(true);
             }
              
-            if (level.getInputSystem().myKeys[bounceKey].down)
+            /*if (level.getInputSystem().myKeys[bounceKey].down)
             {
                 createBounce();
-            }
+            }*/
 
             if (level.getInputSystem().myKeys[cycleDownPowerupKey].down)
             {
@@ -346,7 +346,7 @@ namespace RunningGame.Systems
             if (bouncyEquippedTEMP)
             {
                 //Bouncy Call Here
-                Console.WriteLine("Bouncy!");
+                createBounce();
             }
             else if (speedyEquipped)
             {
