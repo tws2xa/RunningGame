@@ -93,11 +93,11 @@ namespace RunningGame.Systems
 
                 if (level.getInputSystem().myKeys[GlobalVars.KEY_RIGHT].pressed || level.getInputSystem().myKeys[GlobalVars.KEY_LEFT].pressed)
                 {
-                    animComp.animationOn = true;
+                    level.getPlayer().startAnimation();
                 }
                 else
                 {
-                    animComp.animationOn = false;
+                    level.getPlayer().stopAnimation();
                 }
 
 
@@ -181,7 +181,7 @@ namespace RunningGame.Systems
             velComp.setVelocity(-pelInComp.platformerMoveSpeed, velComp.y);
             if(!pelInComp.player.isLookingLeft())
                 pelInComp.player.faceLeft();
-            animComp.animationOn = true;
+            level.getPlayer().startAnimation();
             
         }
         public void beginMoveRight(PositionComponent posComp, VelocityComponent velComp, PlayerInputComponent pelInComp, AnimationComponent animComp)
@@ -189,17 +189,17 @@ namespace RunningGame.Systems
             velComp.setVelocity(pelInComp.platformerMoveSpeed, velComp.y);
             if(!pelInComp.player.isLookingRight())
                 pelInComp.player.faceRight();
-            animComp.animationOn = true;
+            level.getPlayer().startAnimation();
         }
         public void endLeftHorizontalMove(PositionComponent posComp, VelocityComponent velComp, AnimationComponent animComp)
         {
             if (velComp.x < 0) velComp.setVelocity(0, velComp.y);
-            animComp.animationOn = false;
+            level.getPlayer().stopAnimation();
         }
         public void endRightHorizontalMove(PositionComponent posComp, VelocityComponent velComp, AnimationComponent animComp)
         {
             if (velComp.x > 0) velComp.setVelocity(0, velComp.y);
-            animComp.animationOn = false;
+            level.getPlayer().stopAnimation();
         }
         public void endUpperMove(PositionComponent posComp, VelocityComponent velComp)
         {

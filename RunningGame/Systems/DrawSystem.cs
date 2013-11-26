@@ -184,8 +184,7 @@ namespace RunningGame.Systems
             
             //this is where all the entities are drawn, so modify this for depth
             mainView.Draw(g, entityList);
-
-
+            
             /*
             //If you are in the level editor. Box the selected entities
             //Ignore this unless you are playing with level editor

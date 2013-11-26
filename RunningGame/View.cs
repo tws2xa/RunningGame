@@ -159,8 +159,6 @@ namespace RunningGame
                   drawEntity(e);
             }
             
-
-            
             mainG.DrawImage(drawImg, new Point((int)displayX, (int)displayY)); //Draw the view to the main window
             
             
@@ -172,7 +170,6 @@ namespace RunningGame
             }
             //look into double buffers, mainG and G are different!
             //use mainG
-
             if (level.sysManager.drawSystem.getFlashTime() > 0)
             {
                 mainG.FillRectangle(level.sysManager.drawSystem.getFlashBrush(), new Rectangle((int)(displayX), (int)(displayY),

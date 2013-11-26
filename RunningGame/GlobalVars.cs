@@ -117,7 +117,7 @@ namespace RunningGame
         public static int MAX_NUM_BULLETS = 2;
         public static float SPEEDY_SPEED = 600.0f;
         public static Bitmap grndImg = null;
-        public static float playerAnimatonSpeed = 0.1f;
+        public static float playerAnimatonSpeed = 0.07f;
         public static int doubleJumpNumAirJumps = 1;
         public static int normNumAirJumps = 0;
         public static int numAirJumps = 0;

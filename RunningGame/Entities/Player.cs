@@ -129,15 +129,20 @@ namespace RunningGame.Entities
         {
             string imgOne = baseName + "1.png";
             string imgTwo = baseName + "2.png";
+            string imgThree = baseName + "3.png";
             List<string> walkAnimation = new List<string>
             {
+                imgTwo,
                 imgOne,
-                imgTwo
+                imgTwo,
+                imgThree
             };
             List<string> walkDefaults = new List<string>()
             {
+                imgTwo,
                 imgOne,
-                imgTwo
+                imgTwo,
+                imgThree
             };
 
             drawComp.addAnimatedSprite(walkAnimation, walkDefaults, spriteNameRight);
@@ -245,6 +250,29 @@ namespace RunningGame.Entities
             
             if (left) drawComp.setSprite(activeLeftImage);
             else drawComp.setSprite(activeRightImage);
+        }
+
+
+        public void stopAnimation()
+        {
+            AnimationComponent animComp = (AnimationComponent)this.getComponent(GlobalVars.ANIMATION_COMPONENT_NAME);
+            if (animComp.animationOn)
+            {
+                animComp.animationOn = false;
+                DrawComponent drawComp = (DrawComponent)this.getComponent(GlobalVars.DRAW_COMPONENT_NAME);
+                if (drawComp.getSprite().currentImageIndex == 0 || drawComp.getSprite().currentImageIndex == 2)
+                {
+                    drawComp.getSprite().currentImageIndex++;
+                }
+            }
+        }
+        public void startAnimation()
+        {
+            AnimationComponent animComp = (AnimationComponent)this.getComponent(GlobalVars.ANIMATION_COMPONENT_NAME);
+            if (!animComp.animationOn)
+            {
+                animComp.animationOn = true;
+            }
         }
     }
 }
