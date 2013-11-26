@@ -51,9 +51,5 @@ namespace RunningGame
         {
             return (images.Count);
         }
-        public void addImage()
-        {
-
-        }
     }
 }

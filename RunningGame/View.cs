@@ -211,6 +211,17 @@ namespace RunningGame
                 {
                     Image img = drawComp.getImage();
 
+                    /*
+                    if (img.PixelFormat != System.Drawing.Imaging.PixelFormat.Format32bppPArgb)
+                    {
+                        for(int i=0; i< drawComp.getSprite().images.Count; i++)
+                        {
+                            Bitmap orig = (Bitmap)drawComp.getSprite().images[i];
+                            drawComp.getSprite().images[i] = orig.Clone(new RectangleF(0, 0, orig.Width, orig.Height), System.Drawing.Imaging.PixelFormat.Format32bppPArgb);
+                        }
+                    }
+                     */
+
                     //Get center instead of upper left
                     PointF drawPoint = posComp.getPointF();
                     drawPoint.X -= (posComp.width / 2.0f);
@@ -255,6 +266,17 @@ namespace RunningGame
                         Size imageSize = new Size((int)(posComp.width * wRatio), (int)(posComp.height * hRatio));
                         img = new Bitmap(drawComp.getImage(), imageSize);
                     }
+
+                    /*
+                    if (img.PixelFormat != System.Drawing.Imaging.PixelFormat.Format32bppPArgb)
+                    {
+                        for (int i = 0; i < drawComp.getSprite().images.Count; i++)
+                        {
+                            Bitmap orig = (Bitmap)drawComp.getSprite().images[i];
+                            drawComp.getSprite().images[i] = orig.Clone(new RectangleF(0, 0, orig.Width, orig.Height), System.Drawing.Imaging.PixelFormat.Format32bppPArgb);
+                        }
+                    }
+                    */
 
                     //Get center instead of upper left
                     PointF drawPoint = posComp.getPointF();
