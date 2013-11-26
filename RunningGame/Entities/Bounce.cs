@@ -53,6 +53,7 @@ namespace RunningGame.Entities
             //Then second parameter is full filepath to a default image
             drawComp.addSprite("Artwork.Foreground.BlockSquare", "RunningGame.Resources.Artwork.Foreground.BlueGrnd61.png", "Main");
             drawComp.setSprite("Main"); //Set image to active image
+            Console.WriteLine(drawComp.activeSprite);
         }
         
         public override void revertToStartingState()

@@ -84,11 +84,9 @@ namespace RunningGame.Systems
                 level.getInputSystem().addKey(cycleUpPowerupKey);
                 level.getInputSystem().addKey(equippedPowerupKey);
 
-                //level.getInputSystem().addKey(bounceKey);
-
                 hasRunOnce = true;
             }
-            if (glideActive) 
+            if (glideActive && level.getPlayer() != null) 
             {
                 
                 VelocityComponent velComp = (VelocityComponent)this.level.getPlayer().getComponent(GlobalVars.VELOCITY_COMPONENT_NAME);
@@ -108,7 +106,7 @@ namespace RunningGame.Systems
 
             } 
 
-            if (speedyTimer > 0)
+            if (speedyTimer > 0 && level.getPlayer() != null)
             {
                 if (level.getPlayer() == null) return;
                 speedyTimer -= deltaTime;
@@ -147,11 +145,6 @@ namespace RunningGame.Systems
             {
                 CycleThroughEquips(true);
             }
-             
-            /*if (level.getInputSystem().myKeys[bounceKey].down)
-            {
-                createBounce();
-            }*/
 
             if (level.getInputSystem().myKeys[cycleDownPowerupKey].down)
             {

@@ -252,6 +252,7 @@ namespace RunningGame
                 ground = e2;
                 bounceB = e1;
             }
+            if (ground == null || bounceB == null) return false;
             PositionComponent theGround = (PositionComponent)ground.getComponent(GlobalVars.POSITION_COMPONENT_NAME);
             System.Drawing.PointF loc = theGround.getPointF();
 
@@ -260,6 +261,7 @@ namespace RunningGame
 
             Entity newBounceGround = new Bounce(level, rand.Next(Int32.MinValue, Int32.MaxValue), loc.X, loc.Y - 1);
             level.addEntity(newBounceGround);
+            
             return false;
         }
         //Don't do anything
