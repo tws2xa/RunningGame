@@ -59,7 +59,6 @@ namespace RunningGame
             //btnBegin.Visible = false;
             //btnBegin.Enabled = false;
 
-
         }
 
         //Called when the form is closed
@@ -351,6 +350,7 @@ namespace RunningGame
 
             //Show the loading text
             lblLoading.Text = "Loading...";
+            lblLoading.Visible = true; //Loading sign
 
             //Refresh the form so you can see the loading text
             this.Refresh();
