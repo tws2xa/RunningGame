@@ -25,7 +25,7 @@ namespace RunningGame
     public class LocationGrid
     {
 
-        public Dictionary<RectangleF, List<Entity>> grid;
+        public Dictionary<RectangleF, Dictionary<int, Entity>> grid;
 
         float rowHeight = 20;
         float colWidth = 20;
@@ -39,14 +39,14 @@ namespace RunningGame
         public LocationGrid(Level level)
         {
             this.level = level;
-            grid = new Dictionary<RectangleF, List<Entity>>();
+            grid = new Dictionary<RectangleF, Dictionary<int, Entity>>();
             //Create the grid (With extra rows/cols on either side)
             for (float i = -colWidth*2; i <= level.levelWidth+colWidth*4; i += colWidth)
             {
                 for (float j = -rowHeight*2; j <= level.levelHeight+rowHeight*4; j += rowHeight)
                 {
                     RectangleF rect = new RectangleF(i, j, colWidth, rowHeight);
-                    grid.Add(rect, new List<Entity>());
+                    grid.Add(rect, new Dictionary<int, Entity>());
                 }
             }
 
@@ -58,9 +58,9 @@ namespace RunningGame
 
             foreach (RectangleF rect in getIntersectingRectangles(e))
             {
-                if (!grid[rect].Contains(e))
+                if (!grid[rect].ContainsKey(e.randId))
                 {
-                    grid[rect].Add(e);
+                    grid[rect].Add(e.randId, e);
                 }
             }
 
@@ -78,10 +78,10 @@ namespace RunningGame
 
         public void removeEntity(Entity e, float prevX, float prevY, float prevWidth, float prevHeight)
         {
-            foreach (List<Entity> list in grid.Values)
+            foreach (Dictionary<int, Entity> d in grid.Values)
             {
-                if (list.Contains(e))
-                    list.Remove(e);
+                if (d.ContainsKey(e.randId))
+                    d.Remove(e.randId);
             }
 
             /*
@@ -169,7 +169,7 @@ namespace RunningGame
                 return new List<Entity>();
             }
 
-            foreach (Entity e in grid[checkRect])
+            foreach (Entity e in grid[checkRect].Values)
             {
                 PositionComponent posComp = (PositionComponent)e.getComponent(GlobalVars.POSITION_COMPONENT_NAME);
 
@@ -263,7 +263,7 @@ namespace RunningGame
 
             foreach (RectangleF rect in rectArray)
             {
-                foreach (Entity other in grid[rect])
+                foreach (Entity other in grid[rect].Values)
                 {
                     if (other != e)
                     {
@@ -339,7 +339,7 @@ namespace RunningGame
             }*/
             
             string str = "";
-            foreach (Entity ent in grid[rect])
+            foreach (Entity ent in grid[rect].Values)
             {
                 str += (": " + ent + " :");
             }
