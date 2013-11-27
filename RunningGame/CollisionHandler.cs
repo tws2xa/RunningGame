@@ -334,11 +334,25 @@ namespace RunningGame
             if (other is Player)
             {
                 VelocityComponent vel = (VelocityComponent)other.getComponent(GlobalVars.VELOCITY_COMPONENT_NAME);
-                if (vel.x >= 0)
+                if (vel.x > 0)
                 {
                     vel.x = GlobalVars.SPEEDY_SPEED;
-                } else {
+                }
+                else if (vel.x < 0)
+                {
                     vel.x = -GlobalVars.SPEEDY_SPEED;
+                }
+                else //velocity is 0
+                {
+                    //Go whichever way the player is looking
+                    if (level.getPlayer().isLookingLeft())
+                    {
+                        vel.x = -GlobalVars.SPEEDY_SPEED;
+                    }
+                    else
+                    {
+                        vel.x = GlobalVars.SPEEDY_SPEED;
+                    }
                 }
 
                 other.removeComponent(GlobalVars.PLAYER_INPUT_COMPONENT_NAME);

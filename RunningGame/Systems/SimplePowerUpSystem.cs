@@ -30,6 +30,7 @@ namespace RunningGame.Systems
         bool glideActive = false;
         float maxVelocity = 70.0f;
 
+        float spawnDistance; //Defined in hasRunOnce
         
         //Powerup Locks
         bool glideUnlocked = false;
@@ -58,6 +59,7 @@ namespace RunningGame.Systems
         {
             this.level = level; //Always have this
             glideTimer = glideDuration;
+            spawnDistance = 0;
         }
 
         //-------------------------------------- Overrides -------------------------------------------
@@ -83,6 +85,10 @@ namespace RunningGame.Systems
                 level.getInputSystem().addKey(cycleDownPowerupKey);
                 level.getInputSystem().addKey(cycleUpPowerupKey);
                 level.getInputSystem().addKey(equippedPowerupKey);
+
+                PositionComponent posComp = (PositionComponent)level.getPlayer().getComponent(GlobalVars.POSITION_COMPONENT_NAME);
+                spawnDistance = posComp.width / 2 + 10.0f;
+       
 
                 hasRunOnce = true;
             }
@@ -363,12 +369,12 @@ namespace RunningGame.Systems
             if (player.isLookingRight())
             {
 
-                speedyEntity(posComp.x + posComp.width * 1.5f, posComp.y);
+                speedyEntity(posComp.x + spawnDistance, posComp.y);
 
             }
             else if (player.isLookingLeft())
             {
-                speedyEntity(posComp.x - posComp.width * 1.5f, posComp.y);
+                speedyEntity(posComp.x - spawnDistance, posComp.y);
             }
         }
 
@@ -386,12 +392,12 @@ namespace RunningGame.Systems
             if (player.isLookingRight())
             {
 
-                bounceEntity(posComp.x + posComp.width * 1.0f, posComp.y);
+                bounceEntity(posComp.x + spawnDistance, posComp.y);
 
             }
             else if (player.isLookingLeft())
             {
-                bounceEntity(posComp.x - posComp.width * 1.0f, posComp.y);
+                bounceEntity(posComp.x - spawnDistance, posComp.y);
             }
         }
         public void Grapple()
@@ -447,14 +453,14 @@ namespace RunningGame.Systems
                 if (player.isLookingRight())
                 {
 
-                    blockEntity(posComp.x + posComp.width * 1.5f, posComp.y);
+                    blockEntity(posComp.x + spawnDistance, posComp.y);
 
                 }
 
                 if (player.isLookingLeft())
 
                 {
-                    blockEntity(posComp.x - posComp.width * 1.5f, posComp.y);
+                    blockEntity(posComp.x - spawnDistance, posComp.y);
                 }
                 
 

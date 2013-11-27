@@ -88,6 +88,8 @@ namespace RunningGame.Entities
             addWalkAnimation("RunningGame.Resources.Artwork.Creatures.PlayerOrange", walkOrangeLeft, walkOrangeRight, drawComp);
             addWalkAnimation("RunningGame.Resources.Artwork.Creatures.PlayerPurple", walkPurpleLeft, walkPurpleRight, drawComp);
 
+            drawComp.setSprite(rightImageName);
+
             setNormalImage();
 
 
@@ -247,9 +249,13 @@ namespace RunningGame.Entities
         public void refreshImage(bool left)
         {
             DrawComponent drawComp = (DrawComponent)this.getComponent(GlobalVars.DRAW_COMPONENT_NAME);
-            
+
+            int spriteNum = drawComp.getSprite().currentImageIndex;
+
             if (left) drawComp.setSprite(activeLeftImage);
             else drawComp.setSprite(activeRightImage);
+
+            drawComp.getSprite().currentImageIndex = spriteNum;
         }
 
 

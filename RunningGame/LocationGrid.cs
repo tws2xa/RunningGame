@@ -79,7 +79,10 @@ namespace RunningGame
         public void removeEntity(Entity e, float prevX, float prevY, float prevWidth, float prevHeight)
         {
             foreach (List<Entity> list in grid.Values)
-                list.Remove(e);
+            {
+                if (list.Contains(e))
+                    list.Remove(e);
+            }
 
             /*
             foreach (RectangleF rect in getIntersectingRectangles(prevX, prevY, prevWidth, prevHeight))
