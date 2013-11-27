@@ -28,6 +28,8 @@ namespace RunningGame.Components
 
         public Level level;
 
+        public bool needRedraw = true;
+
         //Try not to use this constructor
         public DrawComponent(Bitmap img, string spriteName, float width, float height, Level level, bool sizeLocked)
         {
