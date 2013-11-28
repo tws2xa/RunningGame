@@ -105,6 +105,7 @@ namespace RunningGame
                 return components[compName];
             }
             catch (Exception e) {
+                Console.WriteLine("Exception in getComponent: " + e);
                 return null;
             }
         }

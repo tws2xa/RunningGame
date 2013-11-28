@@ -27,6 +27,8 @@ namespace RunningGame
         private Level currentLevel;
         private bool gameRunning;
 
+        Point zeroPoint = new Point(0, 0);
+
         private FormSpring frm;
         
         [NonSerialized] private Graphics mainWinGraphics;
@@ -97,9 +99,6 @@ namespace RunningGame
 
         public void Draw()
         {
-            //Clear the previous frame
-            dbGraphics.FillRectangle(backBrush, new Rectangle(0, 0, winWidth, winHeight));
-            
             //If there is a level in progress
             if (currentLevel != null)
             {
@@ -112,7 +111,7 @@ namespace RunningGame
 
             try
             {
-                mainWinGraphics.DrawImage(bufferImage, new Point(0, 0));
+                mainWinGraphics.DrawImageUnscaled(bufferImage, zeroPoint);
             }
             catch (Exception e)
             {

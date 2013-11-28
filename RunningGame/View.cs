@@ -37,6 +37,8 @@ namespace RunningGame
         float xBor { get; set; }
         float yBor { get; set; }
 
+        bool hasDecreasedQuality = false;
+
         public Pen GrapplePen = new Pen(Brushes.Red, 3);
 
         public bool hasBorder = false;
@@ -92,7 +94,7 @@ namespace RunningGame
             wRatio = displayWidth / width;
             hRatio = displayHeight / height;
 
-            drawImg = new Bitmap((int)displayWidth, (int)displayHeight);
+            drawImg = new Bitmap((int)level.levelWidth, (int)level.levelHeight);
             g = Graphics.FromImage(drawImg);
             bkgBrush = Brushes.DeepSkyBlue;
         }
@@ -102,8 +104,24 @@ namespace RunningGame
 
 
             //g.FillRectangle(bkgBrush, new Rectangle(0, 0, (int)width, (int)height)); //Clear
-            
-            
+
+            if (!hasDecreasedQuality)
+            {
+                g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor; // or NearestNeighbour
+                g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.None;
+                g.PixelOffsetMode = System.Drawing.Drawing2D.PixelOffsetMode.None;
+                g.CompositingQuality = System.Drawing.Drawing2D.CompositingQuality.HighSpeed;
+                g.TextRenderingHint = System.Drawing.Text.TextRenderingHint.SingleBitPerPixel;
+
+                mainG.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor; // or NearestNeighbour
+                mainG.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.None;
+                mainG.PixelOffsetMode = System.Drawing.Drawing2D.PixelOffsetMode.None;
+                mainG.CompositingQuality = System.Drawing.Drawing2D.CompositingQuality.HighSpeed;
+                mainG.TextRenderingHint = System.Drawing.Text.TextRenderingHint.SingleBitPerPixel;
+                
+                hasDecreasedQuality = true;
+            }
+
             //First, if there's a background entity, draw that!
             if (bkgEnt == null)
             {
@@ -113,13 +131,35 @@ namespace RunningGame
                     if (e is BackgroundEntity)
                     {
                         bkgEnt = (BackgroundEntity)e;
+
+                        
+                        //Draw static entities onto background
+                        foreach(Entity ent in GlobalVars.groundEntities.Values) {
+
+                            DrawComponent grnDraw = (DrawComponent)ent.getComponent(GlobalVars.DRAW_COMPONENT_NAME);
+                            DrawComponent bkgDraw = (DrawComponent)bkgEnt.getComponent(GlobalVars.DRAW_COMPONENT_NAME);
+
+                            PositionComponent posComp = (PositionComponent)ent.getComponent(GlobalVars.POSITION_COMPONENT_NAME);
+                            PointF drawPoint = posComp.getPointF();
+                            drawPoint.X -= (posComp.width / 2.0f);
+                            drawPoint.Y -= (posComp.height / 2.0f);
+
+                            Graphics graph = Graphics.FromImage(bkgDraw.getImage());
+                            lock (grnDraw.getImage())
+                            {
+                                graph.DrawImageUnscaled(grnDraw.getImage(), new Point((int)drawPoint.X, (int)drawPoint.Y)); //Draw the image to the view
+                            }
+                            grnDraw.needRedraw = false;
+                            
+                        }
+
                         break;
                     }
                 }
             }
 
             if(bkgEnt != null)
-                drawEntity(bkgEnt);
+                drawBkgEntity(bkgEnt);
 
             
             //If there's a grapple, draw it
@@ -133,7 +173,7 @@ namespace RunningGame
 
                         PointF start = grapComp.getFirstPoint();
                         PointF end = grapComp.getLastPoint();
-
+                        /*
                         // Calc the pos relative to the view
                         start.X -= this.x;
                         start.Y -= this.y;
@@ -144,7 +184,7 @@ namespace RunningGame
                         start.Y *= hRatio;
                         end.X *= wRatio;
                         end.Y *= hRatio;
-
+                        */
                         g.DrawLine(GrapplePen, start, end);
                         break; //Should only be one - this'll save some time.
                     }
@@ -159,10 +199,10 @@ namespace RunningGame
                   drawEntity(e);
             }
             
-
-            
-            mainG.DrawImage(drawImg, new Point((int)displayX, (int)displayY)); //Draw the view to the main window
-            
+            //mainG.DrawImage(drawImg, new Point((int)displayX, (int)displayY)); //Draw the view to the main window
+            //mainG.DrawImageUnscaled(drawImg, new Point((int)displayX, (int)displayY)); //Draw the view to the main window
+            mainG.DrawImage(drawImg, new RectangleF(displayX, displayY, displayWidth, displayHeight), new RectangleF(x, y, width, height), GraphicsUnit.Pixel);
+                       
             
             //Draw Border
             if (this.hasBorder)
@@ -172,7 +212,6 @@ namespace RunningGame
             }
             //look into double buffers, mainG and G are different!
             //use mainG
-
             if (level.sysManager.drawSystem.getFlashTime() > 0)
             {
                 mainG.FillRectangle(level.sysManager.drawSystem.getFlashBrush(), new Rectangle((int)(displayX), (int)(displayY),
@@ -182,45 +221,8 @@ namespace RunningGame
         }
 
 
-        public void drawBkgEntity()
+        public void drawBkgEntity(Entity e)
         {
-
-            //Pull out all required components
-            PositionComponent posComp = (PositionComponent)bkgEnt.getComponent(GlobalVars.POSITION_COMPONENT_NAME);
-            DrawComponent drawComp = (DrawComponent)bkgEnt.getComponent(GlobalVars.DRAW_COMPONENT_NAME);
-
-            if (isInView(posComp))
-            {
-                if (g != null)
-                {
-                    Image img = drawComp.getImage();
-
-                    //Bitmap bigImg = (Bitmap)drawComp.getImage();
-                    //Bitmap img = bigImg.Clone(new Rectangle((int)(displayX), (int)(displayY), (int)Math.Ceiling(displayWidth), (int)Math.Ceiling(displayHeight)), bigImg.PixelFormat);
-
-                    //Get center instead of upper left
-                    PointF drawPoint = new PointF(displayX, displayY);
-                    
-                    //drawPoint.X -= (img.Width / 2.0f);
-                    //drawPoint.Y -= (img.Height / 2.0f);
-
-                    //drawPoint.X -= this.x;
-                    //drawPoint.Y -= this.y;
-
-                    drawPoint.X *= wRatio;
-                    drawPoint.Y *= hRatio;
-
-
-                    lock (img)
-                        g.DrawImage(img, drawPoint); //Draw the image to the view.
-                }
-            }
-            
-        }
-
-        public void drawEntity(Entity e)
-        {
-            
             //Pull out all required components
             PositionComponent posComp = (PositionComponent)e.getComponent(GlobalVars.POSITION_COMPONENT_NAME);
             DrawComponent drawComp = (DrawComponent)e.getComponent(GlobalVars.DRAW_COMPONENT_NAME);
@@ -229,17 +231,7 @@ namespace RunningGame
             {
                 if (g != null)
                 {
-                    Image img = null;
-                    //If size is locked, don't resize the image.
-                    if (drawComp.sizeLocked && wRatio == 1 && hRatio == 1)
-                    {
-                        img = drawComp.getImage();
-                    }
-                    else
-                    {
-                        Size imageSize = new Size((int)(posComp.width * wRatio), (int)(posComp.height * hRatio));
-                        img = new Bitmap(drawComp.getImage(), imageSize);
-                    }
+                    Image img = drawComp.getImage();
 
                     //Get center instead of upper left
                     PointF drawPoint = posComp.getPointF();
@@ -252,30 +244,97 @@ namespace RunningGame
                     drawPoint.X *= wRatio;
                     drawPoint.Y *= hRatio;
 
+
                     lock (img)
-                        g.DrawImage(img, drawPoint); //Draw the image to the view
-                    
-                    //Health bar if need be
-                    if (e.hasComponent(GlobalVars.HEALTH_COMPONENT_NAME))
                     {
-                        HealthComponent healthComp = (HealthComponent)e.getComponent(GlobalVars.HEALTH_COMPONENT_NAME);
-                        if (healthComp.healthBar && (healthComp.showBarOnFull || !healthComp.hasFullHealth()))
+                        //g.DrawImage(img, new RectangleF(0, 0, width, height), new RectangleF(x, y, width, height), GraphicsUnit.Pixel);
+                       g.DrawImage(img, new RectangleF(x, y, width, height), new RectangleF(x, y, width, height), GraphicsUnit.Pixel);
+                    }
+                }
+            }
+
+        }
+
+        public void drawEntity(Entity e)
+        {
+            
+            //Pull out all required components
+            PositionComponent posComp = (PositionComponent)e.getComponent(GlobalVars.POSITION_COMPONENT_NAME);
+            DrawComponent drawComp = (DrawComponent)e.getComponent(GlobalVars.DRAW_COMPONENT_NAME);
+
+            if (drawComp.needRedraw)
+            {
+
+                if (isInView(posComp))
+                {
+                    if (g != null)
+                    {
+                        Image img = null;
+                        //If size is locked, don't resize the image.
+                        if (drawComp.sizeLocked && wRatio == 1 && hRatio == 1)
                         {
-                            int barHeight = 4;
-                            int ySpace = 3;
-                            int xSpace = 0;
+                            img = drawComp.getImage();
+                        }
+                        else
+                        {
+                            Size imageSize = new Size((int)(posComp.width * wRatio), (int)(posComp.height * hRatio));
+                            img = new Bitmap(drawComp.getImage(), imageSize);
+                        }
 
-                            int xLoc = ((int)Math.Round(posComp.x - posComp.width / 2) + xSpace);
-                            int yLoc = ((int)Math.Round(posComp.y - posComp.height / 2) - barHeight - ySpace);
-                            int fullWidth = ((int)Math.Round(posComp.width) - 2 * xSpace);
+                        /*
+                        //Get center instead of upper left
+                        PointF drawPoint = posComp.getPointF();
+                        drawPoint.X -= (posComp.width / 2.0f);
+                        drawPoint.Y -= (posComp.height / 2.0f);
 
-                            Rectangle backRect = new Rectangle(xLoc, yLoc, fullWidth, barHeight);
-                            Rectangle foreRect = new Rectangle(xLoc, yLoc, (int)Math.Round(fullWidth * healthComp.getHealthPercentage()), barHeight);
+                        drawPoint.X -= this.x;
+                        drawPoint.Y -= this.y;
 
-                            g.FillRectangle(healthComp.backHealthBarBrush, backRect);
-                            g.FillRectangle(healthComp.foreHealthBarBrush, foreRect);
-                            g.DrawRectangle(Pens.Black, backRect);// Border
+                        drawPoint.X *= wRatio;
+                        drawPoint.Y *= hRatio;
+                         */
 
+                        PointF drawPoint = posComp.getPointF();
+                        drawPoint.X -= (posComp.width / 2.0f);
+                        drawPoint.Y -= (posComp.height / 2.0f);
+
+                        lock (img)
+                        {
+                            g.DrawImageUnscaled(img, new Point((int)drawPoint.X, (int)drawPoint.Y)); //Draw the image to the view
+                        }
+                        //Health bar if need be
+                        if (e.hasComponent(GlobalVars.HEALTH_COMPONENT_NAME))
+                        {
+                            HealthComponent healthComp = (HealthComponent)e.getComponent(GlobalVars.HEALTH_COMPONENT_NAME);
+                            if (healthComp.healthBar && (healthComp.showBarOnFull || !healthComp.hasFullHealth()))
+                            {
+                                int barHeight = 4;
+                                int ySpace = 3;
+                                int xSpace = 0;
+
+                                int xLoc = ((int)Math.Round(posComp.x - posComp.width / 2) + xSpace);
+                                int yLoc = ((int)Math.Round(posComp.y - posComp.height / 2) - barHeight - ySpace);
+                                int fullWidth = ((int)Math.Round(posComp.width) - 2 * xSpace);
+
+                                Rectangle backRect = new Rectangle(xLoc, yLoc, fullWidth, barHeight);
+                                Rectangle foreRect = new Rectangle(xLoc, yLoc, (int)Math.Round(fullWidth * healthComp.getHealthPercentage()), barHeight);
+
+                                g.FillRectangle(healthComp.backHealthBarBrush, backRect);
+                                g.FillRectangle(healthComp.foreHealthBarBrush, foreRect);
+                                g.DrawRectangle(Pens.Black, backRect); //Border
+
+                            }
+                        }
+
+                        if (e is BasicGround & bkgEnt != null)
+                        {
+                            DrawComponent bkgDraw = (DrawComponent) bkgEnt.getComponent(GlobalVars.DRAW_COMPONENT_NAME);
+                            Graphics graph = Graphics.FromImage(bkgDraw.getImage());
+                            lock (img)
+                            {
+                                graph.DrawImageUnscaled(img, new Point((int)drawPoint.X, (int)drawPoint.Y)); //Draw the image to the view
+                            }
+                            drawComp.needRedraw = false;
                         }
                     }
                 }

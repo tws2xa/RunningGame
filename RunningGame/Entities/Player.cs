@@ -88,6 +88,8 @@ namespace RunningGame.Entities
             addWalkAnimation("RunningGame.Resources.Artwork.Creatures.PlayerOrange", walkOrangeLeft, walkOrangeRight, drawComp);
             addWalkAnimation("RunningGame.Resources.Artwork.Creatures.PlayerPurple", walkPurpleLeft, walkPurpleRight, drawComp);
 
+            drawComp.setSprite(rightImageName);
+
             setNormalImage();
 
 
@@ -129,15 +131,20 @@ namespace RunningGame.Entities
         {
             string imgOne = baseName + "1.png";
             string imgTwo = baseName + "2.png";
+            string imgThree = baseName + "3.png";
             List<string> walkAnimation = new List<string>
             {
+                imgTwo,
                 imgOne,
-                imgTwo
+                imgTwo,
+                imgThree
             };
             List<string> walkDefaults = new List<string>()
             {
+                imgTwo,
                 imgOne,
-                imgTwo
+                imgTwo,
+                imgThree
             };
 
             drawComp.addAnimatedSprite(walkAnimation, walkDefaults, spriteNameRight);
@@ -242,9 +249,36 @@ namespace RunningGame.Entities
         public void refreshImage(bool left)
         {
             DrawComponent drawComp = (DrawComponent)this.getComponent(GlobalVars.DRAW_COMPONENT_NAME);
-            
+
+            int spriteNum = drawComp.getSprite().currentImageIndex;
+
             if (left) drawComp.setSprite(activeLeftImage);
             else drawComp.setSprite(activeRightImage);
+
+            drawComp.getSprite().currentImageIndex = spriteNum;
+        }
+
+
+        public void stopAnimation()
+        {
+            AnimationComponent animComp = (AnimationComponent)this.getComponent(GlobalVars.ANIMATION_COMPONENT_NAME);
+            if (animComp.animationOn)
+            {
+                animComp.animationOn = false;
+                DrawComponent drawComp = (DrawComponent)this.getComponent(GlobalVars.DRAW_COMPONENT_NAME);
+                if (drawComp.getSprite().currentImageIndex == 0 || drawComp.getSprite().currentImageIndex == 2)
+                {
+                    drawComp.getSprite().currentImageIndex++;
+                }
+            }
+        }
+        public void startAnimation()
+        {
+            AnimationComponent animComp = (AnimationComponent)this.getComponent(GlobalVars.ANIMATION_COMPONENT_NAME);
+            if (!animComp.animationOn)
+            {
+                animComp.animationOn = true;
+            }
         }
     }
 }

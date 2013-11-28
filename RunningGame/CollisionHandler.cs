@@ -252,6 +252,7 @@ namespace RunningGame
                 ground = e2;
                 bounceB = e1;
             }
+            if (ground == null || bounceB == null) return false;
             PositionComponent theGround = (PositionComponent)ground.getComponent(GlobalVars.POSITION_COMPONENT_NAME);
             System.Drawing.PointF loc = theGround.getPointF();
 
@@ -260,6 +261,7 @@ namespace RunningGame
 
             Entity newBounceGround = new Bounce(level, rand.Next(Int32.MinValue, Int32.MaxValue), loc.X, loc.Y - 1);
             level.addEntity(newBounceGround);
+            
             return false;
         }
         //Don't do anything
@@ -332,11 +334,25 @@ namespace RunningGame
             if (other is Player)
             {
                 VelocityComponent vel = (VelocityComponent)other.getComponent(GlobalVars.VELOCITY_COMPONENT_NAME);
-                if (vel.x >= 0)
+                if (vel.x > 0)
                 {
                     vel.x = GlobalVars.SPEEDY_SPEED;
-                } else {
+                }
+                else if (vel.x < 0)
+                {
                     vel.x = -GlobalVars.SPEEDY_SPEED;
+                }
+                else //velocity is 0
+                {
+                    //Go whichever way the player is looking
+                    if (level.getPlayer().isLookingLeft())
+                    {
+                        vel.x = -GlobalVars.SPEEDY_SPEED;
+                    }
+                    else
+                    {
+                        vel.x = GlobalVars.SPEEDY_SPEED;
+                    }
                 }
 
                 other.removeComponent(GlobalVars.PLAYER_INPUT_COMPONENT_NAME);

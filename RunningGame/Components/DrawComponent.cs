@@ -28,6 +28,8 @@ namespace RunningGame.Components
 
         public Level level;
 
+        public bool needRedraw = true;
+
         //Try not to use this constructor
         public DrawComponent(Bitmap img, string spriteName, float width, float height, Level level, bool sizeLocked)
         {
@@ -130,8 +132,10 @@ namespace RunningGame.Components
                     sprite = new Bitmap(sprite, new Size((int)Math.Ceiling(width), (int)Math.Ceiling(height)));
                 }
 
-                GlobalVars.imagesInStore.Add(makeImageKey(imageAddress, width, height), sprite);
-                return sprite;
+                Bitmap newSprite = sprite.Clone(new RectangleF(0, 0, sprite.Width-1, sprite.Height-1), System.Drawing.Imaging.PixelFormat.Format32bppPArgb);
+
+                GlobalVars.imagesInStore.Add(makeImageKey(imageAddress, width, height), newSprite);
+                return newSprite;
             }
         }
 
