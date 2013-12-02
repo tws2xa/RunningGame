@@ -173,7 +173,7 @@ namespace RunningGame
             //levelBeginState = new Dictionary<int, Entity>(entities); //Copy the beginning game state
 
             prevTicks = DateTime.Now.Ticks;
-            resetLevel();
+
             levelFullyLoaded = true;
 
             Entity bkgEnt = getMyBackgroundEntity();
@@ -182,6 +182,8 @@ namespace RunningGame
 
             //Set the player powerup staring values
             setPowerups();
+
+            resetLevel();
         }
 
 

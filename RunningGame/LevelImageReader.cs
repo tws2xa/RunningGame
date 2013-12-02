@@ -125,7 +125,7 @@ namespace RunningGame
                         }
                         level.addEntity(door);
                     }
-                    else if (col.R == spikeRed && col.G == spikeGreen)
+                    else if (col.R == spikeRed && col.G == spikeGreen && (col.B - 4 <= 0))
                     {
 
                         SpikeEntity spike = new SpikeEntity(level, rand.Next(Int32.MinValue, Int32.MaxValue), levelX * tileWidth, levelY * tileHeight, col.B);
