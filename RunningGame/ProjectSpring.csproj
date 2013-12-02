@@ -407,6 +407,18 @@
     <EmbeddedResource Include="Resources\Artwork\Foreground\switchUp51.png" />
     <EmbeddedResource Include="Resources\Artwork\Foreground\switchUp61.png" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Artwork\Foreground\buttonDown21.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\buttonDown31.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\buttonDown41.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\buttonDown51.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\buttonDown61.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\buttonUp21.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\buttonUp31.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\buttonUp41.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\buttonUp51.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\buttonUp61.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
