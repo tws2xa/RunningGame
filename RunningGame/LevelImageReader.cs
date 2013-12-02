@@ -47,6 +47,10 @@ namespace RunningGame
         int presSwitchG = 0;
         int doorReserveGreen = 200; //Any color with G = 200 is a door
 
+        int spikeRed = 255; //R
+        int spikeGreen = 100; //G
+                            // B determins Dir
+
         Dictionary<int, Entity> switches;
         Dictionary<SwitchListenerComponent, int> unmachedSwitchListeners;
 
@@ -121,7 +125,15 @@ namespace RunningGame
                         }
                         level.addEntity(door);
                     }
-                    if (col == playerCol)
+                    else if (col.R == spikeRed && col.G == spikeGreen)
+                    {
+
+                        SpikeEntity spike = new SpikeEntity(level, rand.Next(Int32.MinValue, Int32.MaxValue), levelX * tileWidth, levelY * tileHeight, col.B);
+                        adjustLocation(spike, level);
+                        spike.isStartingEntity = true;
+                        level.addEntity(spike);
+                    }
+                    else if (col == playerCol)
                     {
                         Player player = new Player(level, rand.Next(Int32.MinValue, Int32.MaxValue), levelX*tileWidth, levelY*tileHeight);
                         adjustLocation(player, level);

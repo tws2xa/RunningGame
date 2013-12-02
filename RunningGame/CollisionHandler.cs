@@ -52,7 +52,7 @@ namespace RunningGame
             Func<Entity, Entity, bool> speedyGroundCollisionFunction = speedyGroundCollision;
             Func<Entity, Entity, bool> removeSpeedyCollisionFunction = removeSpeedyCollision;
             Func<Entity, Entity, bool> playerSwitchCollisonFunction = switchFlipCollision;
-            Func<Entity, Entity, bool> playerEnemyCollisionFunction = enemyPlayerCollision;
+            Func<Entity, Entity, bool> killPlayerCollisionFunction = killPlayerCollision;
             Func<Entity, Entity, bool> bulletNonEnemyCollisionFunction = bulletNonEnemyCollision;
             Func<Entity, Entity, bool> bulletEnemyCollisionFunction = DestroyBothCollision;
             Func<Entity, Entity, bool> endLevelCollisionFunction = endLevelCollision;
@@ -60,6 +60,8 @@ namespace RunningGame
             Func<Entity, Entity, bool> otherPlatformCollisionFunction = platformOtherCollision;
             Func<Entity, Entity, bool> playerPowerupPickupCollisionFunction = powerupPickupPlayerCollision;
             Func<Entity, Entity, bool> spawnEnemyCollisionFunction = spawnEnemyCollision;
+            Func<Entity, Entity, bool> spikePlayerCollisionFunction = spikePlayerCollision;
+
            
             //Set defaults (i.e. If there is no specific collision listed, what does it do?)
             defaultCollisions.Add(GlobalVars.SPEEDY_PREGROUND_COLLIDER_TYPE, removeSpeedyCollision);
@@ -71,6 +73,7 @@ namespace RunningGame
             defaultCollisions.Add(GlobalVars.MOVING_PLATFORM_COLLIDER_TYPE, simpleStopCollision);
             defaultCollisions.Add(GlobalVars.SPEEDY_POSTGROUND_COLLIDER_TYPE, simpleStopCollision);
             defaultCollisions.Add(GlobalVars.POWERUP_PICKUP_COLLIDER_TYPE, doNothingCollision);
+            defaultCollisions.Add(GlobalVars.SPIKE_COLLIDER_TYPE, doNothingCollision);
 
             defaultCollisions.Add(GlobalVars.BOUNCE_PREGROUND_COLLIDER_TYPE, bounceGroundCollision);
             
@@ -80,22 +83,21 @@ namespace RunningGame
             addToDictionary(GlobalVars.PLAYER_COLLIDER_TYPE, GlobalVars.SWITCH_COLLIDER_TYPE, playerSwitchCollisonFunction);
             addToDictionary(GlobalVars.PLAYER_COLLIDER_TYPE, GlobalVars.END_LEVEL_COLLIDER_TYPE, endLevelCollisionFunction);
             addToDictionary(GlobalVars.PLAYER_COLLIDER_TYPE, GlobalVars.POWERUP_PICKUP_COLLIDER_TYPE, playerPowerupPickupCollisionFunction);
+            addToDictionary(GlobalVars.PLAYER_COLLIDER_TYPE, GlobalVars.SPIKE_COLLIDER_TYPE, spikePlayerCollisionFunction);
 
             addToDictionary(GlobalVars.BULLET_COLLIDER_TYPE, GlobalVars.PLAYER_COLLIDER_TYPE, doNothingCollision);
             addToDictionary(GlobalVars.BULLET_COLLIDER_TYPE, GlobalVars.SIMPLE_ENEMY_COLLIDER_TYPE, bulletEnemyCollisionFunction);
             addToDictionary(GlobalVars.BULLET_COLLIDER_TYPE, GlobalVars.SWITCH_COLLIDER_TYPE, switchFlipCollision);
-
 
             addToDictionary(GlobalVars.BOUNCE_PREGROUND_COLLIDER_TYPE, GlobalVars.BASIC_SOLID_COLLIDER_TYPE, bounceGroundCollisionFunction);
             addToDictionary(GlobalVars.BOUNCE_PREGROUND_COLLIDER_TYPE, GlobalVars.PLAYER_COLLIDER_TYPE, doNothingCollision);
             addToDictionary(GlobalVars.BOUNCE_PREGROUND_COLLIDER_TYPE, GlobalVars.SIMPLE_ENEMY_COLLIDER_TYPE, doNothingCollision);
             addToDictionary(GlobalVars.BOUNCE_PREGROUND_COLLIDER_TYPE, GlobalVars.BOUNCE_PREGROUND_COLLIDER_TYPE, doNothingCollision);
 
-
             addToDictionary(GlobalVars.BOUNCE_POSTGROUND_COLLIDER_TYPE, GlobalVars.PLAYER_COLLIDER_TYPE, bouncePlayerCollision);
             addToDictionary(GlobalVars.BOUNCE_PREGROUND_COLLIDER_TYPE, GlobalVars.BOUNCE_POSTGROUND_COLLIDER_TYPE, removeBounceCollisionFunction);
             
-            addToDictionary(GlobalVars.SIMPLE_ENEMY_COLLIDER_TYPE, GlobalVars.PLAYER_COLLIDER_TYPE, playerEnemyCollisionFunction);
+            addToDictionary(GlobalVars.SIMPLE_ENEMY_COLLIDER_TYPE, GlobalVars.PLAYER_COLLIDER_TYPE, killPlayerCollisionFunction);
             addToDictionary(GlobalVars.SIMPLE_ENEMY_COLLIDER_TYPE, GlobalVars.SPAWN_BLOCK_COLLIDER_TYPE, spawnEnemyCollisionFunction);
 
             addToDictionary(GlobalVars.MOVING_PLATFORM_COLLIDER_TYPE, GlobalVars.PLAYER_COLLIDER_TYPE, otherPlatformCollisionFunction);
@@ -421,7 +423,7 @@ namespace RunningGame
         }
 
         //This occurs when the player collides with an enemy
-        public static bool enemyPlayerCollision(Entity e1, Entity e2)
+        public static bool killPlayerCollision(Entity e1, Entity e2)
         {
             //Figure out which entity is the player
             Player player;
@@ -435,7 +437,7 @@ namespace RunningGame
             }
             else
             {
-                Console.WriteLine("Enemy Player Collision with no player...");
+                Console.WriteLine("Kill Player Collision with no player...");
                 return false;
             }
 
@@ -626,6 +628,51 @@ namespace RunningGame
             {
                 return simpleStopCollision(e1, e2);
             } 
+
+            return false;
+
+        }
+
+        public bool spikePlayerCollision(Entity e1, Entity e2)
+        {
+            SpikeEntity spike = null;
+            Player player = null;
+
+            if(e1 is Player)
+            {
+                player = (Player)e1;
+                spike = (SpikeEntity)e2;
+            } else if(e2 is Player)
+            {
+                player = (Player)e2;
+                spike = (SpikeEntity)e1;
+            } else
+            {
+                Console.WriteLine("Error: Spike Player Collision with no player!");
+                return false;
+            }
+
+            DirectionalComponent dirComp = (DirectionalComponent)spike.getComponent(GlobalVars.DIRECTION_COMPONENT_NAME);
+            PositionComponent posSpikes = (PositionComponent)spike.getComponent(GlobalVars.POSITION_COMPONENT_NAME);
+            PositionComponent posPlayer = (PositionComponent)player.getComponent(GlobalVars.POSITION_COMPONENT_NAME);
+
+            
+
+            switch (dirComp.dir % 4)
+            {
+                case(0): //Player needs to be above spikes
+                    if ((posSpikes.y-posSpikes.height/2) >= (posPlayer.y+posPlayer.height/2)) return killPlayerCollision(e1, e2);
+                    else return false;
+                case (1)://Player needs to be right of spikes
+                    if ((posSpikes.x+posSpikes.width/2) <= (posPlayer.x-posPlayer.width/2)) return killPlayerCollision(e1, e2);
+                    else return false;
+                case (2):
+                    if ((posSpikes.y+posSpikes.height/2) <= (posPlayer.y-posPlayer.height/2)) return killPlayerCollision(e1, e2);
+                    else return false;
+                case (3)://Player needs to be right of spikes
+                    if ((posSpikes.x - posSpikes.width / 2) <= (posPlayer.x + posPlayer.width / 2)) return killPlayerCollision(e1, e2);
+                    else return false;
+            }
 
             return false;
 
