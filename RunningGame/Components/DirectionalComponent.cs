@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace RunningGame.Components
 {
-    class DirectionalComponent:Component
+    [Serializable()]
+    public class DirectionalComponent:Component
     {
 
         public int dir = 0;
