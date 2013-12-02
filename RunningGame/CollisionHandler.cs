@@ -52,7 +52,7 @@ namespace RunningGame
             Func<Entity, Entity, bool> speedyGroundCollisionFunction = speedyGroundCollision;
             Func<Entity, Entity, bool> removeSpeedyCollisionFunction = removeSpeedyCollision;
             Func<Entity, Entity, bool> playerSwitchCollisonFunction = switchFlipCollision;
-            Func<Entity, Entity, bool> playerEnemyCollisionFunction = enemyPlayerCollision;
+            Func<Entity, Entity, bool> killPlayerCollisionFunction = killPlayerCollision;
             Func<Entity, Entity, bool> bulletNonEnemyCollisionFunction = bulletNonEnemyCollision;
             Func<Entity, Entity, bool> bulletEnemyCollisionFunction = DestroyBothCollision;
             Func<Entity, Entity, bool> endLevelCollisionFunction = endLevelCollision;
@@ -71,6 +71,7 @@ namespace RunningGame
             defaultCollisions.Add(GlobalVars.MOVING_PLATFORM_COLLIDER_TYPE, simpleStopCollision);
             defaultCollisions.Add(GlobalVars.SPEEDY_POSTGROUND_COLLIDER_TYPE, simpleStopCollision);
             defaultCollisions.Add(GlobalVars.POWERUP_PICKUP_COLLIDER_TYPE, doNothingCollision);
+            defaultCollisions.Add(GlobalVars.KILL_PLAYER_COLLIDER_TYPE, doNothingCollision);
 
             defaultCollisions.Add(GlobalVars.BOUNCE_PREGROUND_COLLIDER_TYPE, bounceGroundCollision);
             
@@ -80,6 +81,7 @@ namespace RunningGame
             addToDictionary(GlobalVars.PLAYER_COLLIDER_TYPE, GlobalVars.SWITCH_COLLIDER_TYPE, playerSwitchCollisonFunction);
             addToDictionary(GlobalVars.PLAYER_COLLIDER_TYPE, GlobalVars.END_LEVEL_COLLIDER_TYPE, endLevelCollisionFunction);
             addToDictionary(GlobalVars.PLAYER_COLLIDER_TYPE, GlobalVars.POWERUP_PICKUP_COLLIDER_TYPE, playerPowerupPickupCollisionFunction);
+            addToDictionary(GlobalVars.PLAYER_COLLIDER_TYPE, GlobalVars.KILL_PLAYER_COLLIDER_TYPE, killPlayerCollisionFunction);
 
             addToDictionary(GlobalVars.BULLET_COLLIDER_TYPE, GlobalVars.PLAYER_COLLIDER_TYPE, doNothingCollision);
             addToDictionary(GlobalVars.BULLET_COLLIDER_TYPE, GlobalVars.SIMPLE_ENEMY_COLLIDER_TYPE, bulletEnemyCollisionFunction);
@@ -95,7 +97,7 @@ namespace RunningGame
             addToDictionary(GlobalVars.BOUNCE_POSTGROUND_COLLIDER_TYPE, GlobalVars.PLAYER_COLLIDER_TYPE, bouncePlayerCollision);
             addToDictionary(GlobalVars.BOUNCE_PREGROUND_COLLIDER_TYPE, GlobalVars.BOUNCE_POSTGROUND_COLLIDER_TYPE, removeBounceCollisionFunction);
             
-            addToDictionary(GlobalVars.SIMPLE_ENEMY_COLLIDER_TYPE, GlobalVars.PLAYER_COLLIDER_TYPE, playerEnemyCollisionFunction);
+            addToDictionary(GlobalVars.SIMPLE_ENEMY_COLLIDER_TYPE, GlobalVars.PLAYER_COLLIDER_TYPE, killPlayerCollisionFunction);
             addToDictionary(GlobalVars.SIMPLE_ENEMY_COLLIDER_TYPE, GlobalVars.SPAWN_BLOCK_COLLIDER_TYPE, spawnEnemyCollisionFunction);
 
             addToDictionary(GlobalVars.MOVING_PLATFORM_COLLIDER_TYPE, GlobalVars.PLAYER_COLLIDER_TYPE, otherPlatformCollisionFunction);
@@ -421,7 +423,7 @@ namespace RunningGame
         }
 
         //This occurs when the player collides with an enemy
-        public static bool enemyPlayerCollision(Entity e1, Entity e2)
+        public static bool killPlayerCollision(Entity e1, Entity e2)
         {
             //Figure out which entity is the player
             Player player;
@@ -435,7 +437,7 @@ namespace RunningGame
             }
             else
             {
-                Console.WriteLine("Enemy Player Collision with no player...");
+                Console.WriteLine("Kill Player Collision with no player...");
                 return false;
             }
 

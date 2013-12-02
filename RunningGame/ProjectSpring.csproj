@@ -109,6 +109,7 @@
     <Compile Include="Entities\DeadPlayerEntity.cs" />
     <Compile Include="Entities\EndLevelEntity.cs" />
     <Compile Include="Entities\PressureSwitchEntity.cs" />
+    <Compile Include="Entities\SpikeEntity.cs" />
     <Compile Include="Entities\TimedSwitchEntity.cs" />
     <Compile Include="Entities\FlyingEnemyEntity.cs" />
     <Compile Include="Entities\DoorEntity.cs" />
@@ -389,6 +390,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Resources\Levels\World4Level1.png" />
     <EmbeddedResource Include="Resources\Levels\World4Level2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Artwork\Foreground\Spike.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

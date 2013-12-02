@@ -67,6 +67,7 @@ namespace RunningGame
         public static string MOVING_PLATFORM_COLLIDER_TYPE = "movPlatCollider";
         public static string POWERUP_PICKUP_COLLIDER_TYPE = "pwrupPkpCollider";
         public static string SPAWN_BLOCK_COLLIDER_TYPE = "spawnBlock";
+        public static string KILL_PLAYER_COLLIDER_TYPE = "killPlayerCollider";
 
         //Collection of all in game entities
         public static Dictionary<int, Entity> nonGroundEntities = new Dictionary<int, Entity>();
