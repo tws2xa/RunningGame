@@ -99,10 +99,16 @@ namespace RunningGame.Entities
                 drawComp.rotateFlipSprite(sprName, System.Drawing.RotateFlipType.Rotate90FlipNone);
             }
             
+
+            /*
+             * DIRECTIONAL COMPONENT - it has a direction (used by collision)
+             */
+            addComponent(new DirectionalComponent(dir));
+
             /*COLLIDER - Does it hit things?
              *The second field is the collider type. Look in GlobalVars for a string with the right name.
              */
-            addComponent(new ColliderComponent(this, GlobalVars.KILL_PLAYER_COLLIDER_TYPE));
+            addComponent(new ColliderComponent(this, GlobalVars.SPIKE_COLLIDER_TYPE));
         }
         
         public override void revertToStartingState()
