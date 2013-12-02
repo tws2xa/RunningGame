@@ -395,6 +395,18 @@
   <ItemGroup>
     <EmbeddedResource Include="Resources\Artwork\Foreground\Spike.png" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Artwork\Foreground\switchRight21.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\switchRight31.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\switchRight41.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\switchRight51.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\switchRight61.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\switchUp21.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\switchUp31.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\switchUp41.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\switchUp51.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\switchUp61.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
