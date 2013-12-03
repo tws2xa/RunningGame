@@ -245,10 +245,10 @@ namespace RunningGame
                     loadLevel("RunningGame.Resources.Levels.PresentationLevelExtended.png", 4, 3); //World 4 Level 3
                     break;
                 case (5):
-                    loadLevel("RunningGame.Resources.Levels.PresentationLevelExtended.png", 5, 3); //World 5 Level 3
+                    loadLevel("RunningGame.Resources.Levels.World5level3.png", 5, 3); //World 5 Level 3
                     break;
                 case (6):
-                    loadLevel("RunningGame.Resources.Levels.PresentationLevelExtended.png", 6, 3); //World 6 Level 3
+                    loadLevel("RunningGame.Resources.Levels.World6level3.png", 6, 3); //World 6 Level 3
                     break;
             }
         }
