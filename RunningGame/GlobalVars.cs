@@ -106,7 +106,12 @@ namespace RunningGame
         //Switch Events
         public static string DOOR_EVENT_TYPE = "doorEvent";
 
+        //2d List of level file names ([world][level])
+        public static List<List<string>> levels = new List<List<string>>();
+
         //Other Constants
+        public static int numWorlds = 6;
+        public static int numLevelsPerWorld = 3;
         public static float MIN_TILE_SIZE = 10; //Width & Height, the smallest anything can be.
         public static string DOOR_OPEN_SPRITE_NAME = "openDoorSprite";
         public static string DOOR_CLOSED_SPRITE_NAME = "closedDoorSprite";

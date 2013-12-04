@@ -47,7 +47,9 @@ namespace RunningGame
 
             //Set it to double buffered.
             this.DoubleBuffered = true;
-            
+
+            addLevels();
+
             //Get the graphics
             Graphics g = this.CreateGraphics();
 
@@ -165,6 +167,48 @@ namespace RunningGame
 
         //----------------------------------------------------------------
 
+        //---------------------------ADD LEVELS HERE----------------------
+
+        private void addLevels()
+        {
+            string defaultLevel = "RunningGame.Resources.Levels.PresentationLevelExtended.png";
+            for (int i = 0; i < GlobalVars.numWorlds; i++)
+            {
+                GlobalVars.levels.Add(new List<string>());
+                for (int j = 0; j < GlobalVars.numLevelsPerWorld; j++)
+                {
+                    GlobalVars.levels[i].Add(defaultLevel);
+                }
+            }
+
+            GlobalVars.levels[0][0] = "RunningGame.Resources.Levels.World1Level1.png";
+            GlobalVars.levels[0][1] = "RunningGame.Resources.Levels.World1Level2.png";
+            GlobalVars.levels[0][2] = "RunningGame.Resources.Levels.PresentationLevelExtended.png";
+            
+            GlobalVars.levels[1][0] = "RunningGame.Resources.Levels.World2Level1.png";
+            GlobalVars.levels[1][1] = "RunningGame.Resources.Levels.World2Level2.png";
+            GlobalVars.levels[1][2] = "RunningGame.Resources.Levels.PresentationLevel.png";
+            
+            GlobalVars.levels[2][0] = "RunningGame.Resources.Levels.World3Level1.png";
+            GlobalVars.levels[2][1] = "RunningGame.Resources.Levels.World3Level2.png";
+            GlobalVars.levels[2][2] = "RunningGame.Resources.Levels.World3Level3.png";
+            
+            GlobalVars.levels[3][0] = "RunningGame.Resources.Levels.World4Level1.png";
+            GlobalVars.levels[3][1] = "RunningGame.Resources.Levels.World4Level2.png";
+            GlobalVars.levels[3][2] = "RunningGame.Resources.Levels.PresentationLevelExtended.png";
+            
+            GlobalVars.levels[4][0] = "RunningGame.Resources.Levels.World5Level1.png";
+            GlobalVars.levels[4][1] = "RunningGame.Resources.Levels.World5Level2.png";
+            GlobalVars.levels[4][2] = "RunningGame.Resources.Levels.World5level3.png";
+            
+            GlobalVars.levels[5][0] = "RunningGame.Resources.Levels.World6level1.png";
+            GlobalVars.levels[5][1] = "RunningGame.Resources.Levels.World6level2.png";
+            GlobalVars.levels[5][2] = "RunningGame.Resources.Levels.World6level3.png";
+
+        }
+
+        //----------------------------------------------------------------
+
         //---------------------------LEVEL BUTTONS------------------------
         //Level one
         private void btnLevel1_Click(object sender, EventArgs e)
@@ -175,22 +219,22 @@ namespace RunningGame
                     Console.WriteLine("Error: Selecting level 1 in world 0");
                     break;
                 case (1):
-                    loadLevel("RunningGame.Resources.Levels.World1Level1.png", 1, 1); //World 1 Level 1
+                    loadLevel(1, 1); //World 1 Level 1
                     break;
                 case (2):
-                    loadLevel("RunningGame.Resources.Levels.World2Level1.png", 2, 1); //World 2 Level 1
+                    loadLevel(2, 1); //World 2 Level 1
                     break;
                 case (3):
-                    loadLevel("RunningGame.Resources.Levels.World3Level1.png", 3, 1); //World 3 Level 1
+                    loadLevel(3, 1); //World 3 Level 1
                     break;
                 case (4):
-                    loadLevel("RunningGame.Resources.Levels.World4Level1.png", 4, 1); //World 4 Level 1
+                    loadLevel(4, 1); //World 4 Level 1
                     break;
                 case (5):
-                    loadLevel("RunningGame.Resources.Levels.World5Level1.png", 5, 1); //World 5 Level 1
+                    loadLevel(5, 1); //World 5 Level 1
                     break;
                 case (6):
-                    loadLevel("RunningGame.Resources.Levels.World6level1.png", 6, 1); //World 6 Level 1
+                    loadLevel(6, 1); //World 6 Level 1
                     break;
             }
         }
@@ -204,22 +248,22 @@ namespace RunningGame
                     Console.WriteLine("Error: Selecting level 2 in world 0");
                     break;
                 case (1):
-                    loadLevel("RunningGame.Resources.Levels.World1Level2.png", 1, 2); //World 1 Level 2
+                    loadLevel(1, 2); //World 1 Level 2
                     break;
                 case (2):
-                    loadLevel("RunningGame.Resources.Levels.World2Level2.png", 2, 2); //World 2 Level 2
+                    loadLevel(2, 2); //World 2 Level 2
                     break;
                 case (3):
-                    loadLevel("RunningGame.Resources.Levels.World3Level2.png", 3, 2); //World 3 Level 2
+                    loadLevel(3, 2); //World 3 Level 2
                     break;
                 case (4):
-                    loadLevel("RunningGame.Resources.Levels.World4Level2.png", 4, 2); //World 4 Level 2
+                    loadLevel(4, 2); //World 4 Level 2
                     break;
                 case (5):
-                    loadLevel("RunningGame.Resources.Levels.World5Level2.png", 5, 2); //World 5 Level 2
+                    loadLevel(5, 2); //World 5 Level 2
                     break;
                 case (6):
-                    loadLevel("RunningGame.Resources.Levels.World6level2.png", 6, 2); //World 6 Level 2
+                    loadLevel(6, 2); //World 6 Level 2
                     break;
             }
         }
@@ -233,22 +277,22 @@ namespace RunningGame
                     Console.WriteLine("Error: Selecting level 1 in world 0");
                     break;
                 case (1):
-                    loadLevel("RunningGame.Resources.Levels.PresentationLevelExtended.png", 1, 3); //World 1 Level 3
+                    loadLevel(1, 3); //World 1 Level 3
                     break;
                 case (2):
-                    loadLevel("RunningGame.Resources.Levels.PresentationLevel.png", 2, 3); //World 2 Level 3
+                    loadLevel(2, 3); //World 2 Level 3
                     break;
                 case (3):
-                    loadLevel("RunningGame.Resources.Levels.World3Level3.png", 3, 3); //World 3 Level 3
+                    loadLevel(3, 3); //World 3 Level 3
                     break;
                 case (4):
-                    loadLevel("RunningGame.Resources.Levels.PresentationLevelExtended.png", 4, 3); //World 4 Level 3
+                    loadLevel(4, 3); //World 4 Level 3
                     break;
                 case (5):
-                    loadLevel("RunningGame.Resources.Levels.World5level3.png", 5, 3); //World 5 Level 3
+                    loadLevel(5, 3); //World 5 Level 3
                     break;
                 case (6):
-                    loadLevel("RunningGame.Resources.Levels.World6level3.png", 6, 3); //World 6 Level 3
+                    loadLevel(6, 3); //World 6 Level 3
                     break;
             }
         }
@@ -333,7 +377,7 @@ namespace RunningGame
 
 
         //Load a specific level
-        private void loadLevel(string str, int world, int level)
+        private void loadLevel(int world, int level)
         {
             //Hide all buttons!
             foreach (Control c in this.Controls)
@@ -357,7 +401,7 @@ namespace RunningGame
 
             //Start the game
             //Use this.Width and this.Height instead of ClientSize to reduce streaching at edge
-            game = new Game(this.CreateGraphics(), this.ClientSize.Width, this.ClientSize.Height, str, world, level, this);
+            game = new Game(this.CreateGraphics(), this.ClientSize.Width, this.ClientSize.Height, GlobalVars.levels[world-1][level-1], world, level, this);
 
             //Once the game is started, hide the loading text
             lblLoading.Visible = false;

@@ -445,8 +445,8 @@ namespace RunningGame
             HealthComponent playerHealthComp = (HealthComponent)player.getComponent(GlobalVars.HEALTH_COMPONENT_NAME);
             playerHealthComp.subtractFromHealth(playerHealthComp.health + 1); //Kill the player! D:
             
-            //Don't bother stopping movement
-            return false;
+            //Do bother stopping movement
+            return true;
 
         }
         
