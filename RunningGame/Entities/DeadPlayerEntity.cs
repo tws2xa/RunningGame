@@ -10,8 +10,8 @@ namespace RunningGame.Entities
     class DeadPlayerEntity:Entity
     {
 
-        float defaultWidth = 20;
-        float defaultHeight = 20;
+        float defaultWidth = 39;
+        float defaultHeight = 49;
 
         //-------------------------------------------Constructors--------------------------------------------
         //One takes in an ID, the other generats it.
@@ -60,7 +60,7 @@ namespace RunningGame.Entities
             /*DRAW COMPONENT - Does it get drawn to the game world?
              */
             DrawComponent drawComp = (DrawComponent)addComponent(new DrawComponent(defaultWidth, defaultHeight, level, true));
-            drawComp.addSprite("Artwork.Resources.Creatures.PlayerDead", "RunningGame.Resources.Artwork.Creatures.PlayerDead11.png", "Main"); //Add image
+            drawComp.addSprite("Artwork.Resources.Creatures.player", "RunningGame.Resources.Artwork.Creatures.player1.png", "Main"); //Add image
             drawComp.setSprite("Main"); //Set image to active image
 
             /* ANIMATION COMPONENT - Does it need animating?

@@ -70,7 +70,7 @@ namespace RunningGame.Systems
                 GrappleComponent grapComp = (GrappleComponent)e.getComponent(GlobalVars.GRAPPLE_COMPONENT_NAME);
 
                 //Growing
-                if (grapComp.state == 0)
+                if (grapComp.state == 0 && level.getPlayer() != null)
                 {
                     
                     float newX = grapComp.getLastPoint().X;
@@ -151,7 +151,7 @@ namespace RunningGame.Systems
 
                 }
                 //Following
-                else if (grapComp.state == 1)
+                else if (grapComp.state == 1 && level.getPlayer() != null)
                 {
 
                     if (level.getPlayer() == null)
@@ -219,7 +219,7 @@ namespace RunningGame.Systems
 
                 }
                 //Retreating
-                else if (grapComp.state == 2)
+                else if (grapComp.state == 2 && level.getPlayer() != null)
                 {
                     PositionComponent playerPos = (PositionComponent)level.getPlayer().getComponent(GlobalVars.POSITION_COMPONENT_NAME);
                     grapComp.setFirstPoint(playerPos.getPointF());

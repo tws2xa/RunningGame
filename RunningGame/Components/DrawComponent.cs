@@ -30,6 +30,9 @@ namespace RunningGame.Components
 
         public bool needRedraw = true;
 
+        public bool useAlreadyLoadedImage = true; //Check to see if the image is already loaded, if so - use that.
+                                                    //Turn off if you want it to have a seperate copy of the image.
+
         //Try not to use this constructor
         public DrawComponent(Bitmap img, string spriteName, float width, float height, Level level, bool sizeLocked)
         {
@@ -113,7 +116,7 @@ namespace RunningGame.Components
 
         public Bitmap readInImage(string imageAddress)
         {
-            if (GlobalVars.imagesInStore.ContainsKey(makeImageKey(imageAddress, width, height)))
+            if (this.useAlreadyLoadedImage && GlobalVars.imagesInStore.ContainsKey(makeImageKey(imageAddress, width, height)))
             {
                 return GlobalVars.imagesInStore[makeImageKey(imageAddress, width, height)];
             }
@@ -134,7 +137,7 @@ namespace RunningGame.Components
 
                 Bitmap newSprite = sprite.Clone(new RectangleF(0, 0, sprite.Width-1, sprite.Height-1), System.Drawing.Imaging.PixelFormat.Format32bppPArgb);
 
-                GlobalVars.imagesInStore.Add(makeImageKey(imageAddress, width, height), newSprite);
+                if(this.sizeLocked && this.useAlreadyLoadedImage) GlobalVars.imagesInStore.Add(makeImageKey(imageAddress, width, height), newSprite);
                 return newSprite;
             }
         }
