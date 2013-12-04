@@ -105,6 +105,8 @@ namespace RunningGame.Systems
 
             if (level.getInputSystem().myKeys[endLevelKey].up)
             {
+                level.worldNum = GlobalVars.numWorlds;
+                level.levelNum = GlobalVars.numLevelsPerWorld;
                 level.beginEndLevel(0.0f);
             }
 

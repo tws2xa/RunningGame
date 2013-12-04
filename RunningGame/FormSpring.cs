@@ -20,6 +20,8 @@ namespace RunningGame
 
         //A delegate which is basically used to call the reset method (To do with cross threading issues)
         delegate void resetDelegate();
+        delegate void resetDelegate2(int world, int num);
+
 
         //The width of the window
         const int CLIENT_WIDTH = 640;
@@ -374,7 +376,27 @@ namespace RunningGame
                 game = null;
             }
         }
+        public void Reset(int newWorld, int newNum)
+        {
 
+            //Get on the proper thread
+            if (InvokeRequired)
+            {
+                resetDelegate2 reset = Reset;
+                Invoke(reset, newWorld, newNum);
+            }
+            else
+            {
+                /*showHideLevelButtons(false);
+                showHideWorldButtons(false);
+                this.BackgroundImage = bkgImg;
+                this.btnPlay.Enabled = true;
+                this.btnPlay.Visible = true;*/
+                game.close();
+                game = null;
+                loadLevel(newWorld, newNum);
+            }
+        }
 
         //Load a specific level
         private void loadLevel(int world, int level)

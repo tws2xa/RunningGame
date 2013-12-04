@@ -86,9 +86,25 @@ namespace RunningGame
                 //If the end of the level has been flagged, end the level!
                 if (currentLevel.shouldEndLevel)
                 {
+
+                    int levelNum = currentLevel.levelNum;
+                    int worldNum = currentLevel.worldNum;
+
                     currentLevel.Close();
                     currentLevel = null;
-                    frm.Reset();
+
+                    if (levelNum == GlobalVars.numLevelsPerWorld)
+                    {
+                        if (worldNum == GlobalVars.numWorlds) //Game complete
+                            frm.Reset();
+                        else //Next world, level 1
+                            frm.Reset(worldNum+1, 1);
+                    }
+                    else
+                    {
+                        //Next level in same world
+                        frm.Reset(worldNum, levelNum+1);
+                    }
                     break;
                 }
 

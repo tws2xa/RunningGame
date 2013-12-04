@@ -104,7 +104,10 @@ namespace RunningGame.Systems
                 if (glideTimer < 0.0f)
                 {
                     GravityComponent gravComp = (GravityComponent)this.level.getPlayer().getComponent(GlobalVars.GRAVITY_COMPONENT_NAME);
-                    gravComp.setGravity(gravComp.x, GlobalVars.STANDARD_GRAVITY);
+                    if (gravComp != null)
+                    {
+                        gravComp.setGravity(gravComp.x, GlobalVars.STANDARD_GRAVITY);
+                    }
                     glideActive = false;
                     glideTimer = glideDuration;
 
@@ -402,6 +405,7 @@ namespace RunningGame.Systems
         }
         public void Grapple()
         {
+            if (level.getPlayer() == null) return;
             PositionComponent playerPos = (PositionComponent)level.getPlayer().getComponent(GlobalVars.POSITION_COMPONENT_NAME);
             
             //Get the direction
