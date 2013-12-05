@@ -292,7 +292,6 @@ namespace RunningGame
         //Begin an end level routine
         public void beginEndLevel()
         {
-            Console.WriteLine("Ending the level!");
             if (endLvlTimer < 0)
             {
                 //Get the draw system, call the white clash, and start the end level timer.
@@ -411,7 +410,7 @@ namespace RunningGame
             //this part is the check for the flash
             //if flashtime is greater than 0, then it means that flash needs to be done
             
-            g.DrawString(fps.ToString("F") + "", SystemFonts.DefaultFont, Brushes.Black, new RectangleF(10, 10, cameraWidth-20, cameraHeight-20));
+            //g.DrawString(fps.ToString("F") + "", SystemFonts.DefaultFont, Brushes.Black, new RectangleF(10, 10, cameraWidth-20, cameraHeight-20));
         }
 
         //Add an entity to the list of entities

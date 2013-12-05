@@ -55,10 +55,10 @@ namespace RunningGame.Systems
 
 
                 //Intersect sides of screen check
-                if (scrEdgComp.right == 1 && posComp.x + posComp.width / 2 >= level.levelWidth && velComp.x > 0) stopRight(posComp, velComp);
-                if (scrEdgComp.left == 1 && posComp.x - posComp.width / 2 <= 0 && velComp.x < 0) stopLeft(posComp, velComp);
-                if (scrEdgComp.down == 1 && posComp.y + posComp.height / 2 >= level.levelHeight && velComp.y > 0) stopDown(posComp, velComp);
-                if (scrEdgComp.up == 1 && posComp.y - posComp.height / 2 <= 0 && velComp.y < 0) stopUp(posComp, velComp);
+                if (scrEdgComp.right == 1 && posComp.x + posComp.width / 2 >= level.levelWidth && velComp.x >= 0) stopRight(posComp, velComp);
+                if (scrEdgComp.left == 1 && posComp.x - posComp.width / 2 <= 0 && velComp.x <= 0) stopLeft(posComp, velComp);
+                if (scrEdgComp.down == 1 && posComp.y + posComp.height / 2 >= level.levelHeight && velComp.y >= 0) stopDown(posComp, velComp);
+                if (scrEdgComp.up == 1 && posComp.y - posComp.height / 2 <= 0 && velComp.y <= 0) stopUp(posComp, velComp);
 
 
                 float buffer = 3.0f;

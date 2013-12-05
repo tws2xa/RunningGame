@@ -21,6 +21,7 @@ namespace RunningGame.Systems
         Keys harmPlayerKey = Keys.H;
         Keys resetLevelKey = Keys.R;
         Keys endLevelKey = Keys.Escape;
+        Keys skipLevelKey = Keys.F1;
         Keys typeKey = Keys.T; //prints out the all entity types to console
 
 
@@ -65,6 +66,7 @@ namespace RunningGame.Systems
                 level.getInputSystem().addKey(harmPlayerKey);
                 level.getInputSystem().addKey(resetLevelKey);
                 level.getInputSystem().addKey(endLevelKey);
+                level.getInputSystem().addKey(skipLevelKey);
                 level.getInputSystem().addKey(typeKey);
 
 
@@ -103,7 +105,11 @@ namespace RunningGame.Systems
                 level.resetLevel();
             }
 
-            if (level.getInputSystem().myKeys[endLevelKey].up)
+            if (level.getInputSystem().myKeys[skipLevelKey].up)
+            {
+                level.beginEndLevel(0.0f);
+            }
+            else if (level.getInputSystem().myKeys[endLevelKey].up)
             {
                 level.worldNum = GlobalVars.numWorlds;
                 level.levelNum = GlobalVars.numLevelsPerWorld;
