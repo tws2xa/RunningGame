@@ -37,6 +37,12 @@ namespace RunningGame
         //The level
         public Level level;
 
+
+        public float playerSpikeCollisionLeewaySameDir = 3.0f; //Overlap needed for collision to trigger
+        public float playerSpikeOppDirNecessaryOverlap = 5.0f; //If moving h, how much overlap must there be in v direction and vice versa
+
+        //public float playerEnemyCollisionLeeway = 5.0f; //Overlap needed for collision to trigger
+
         public CollisionHandler(Level level)
         {
             //Set the level
@@ -656,25 +662,104 @@ namespace RunningGame
             PositionComponent posSpikes = (PositionComponent)spike.getComponent(GlobalVars.POSITION_COMPONENT_NAME);
             PositionComponent posPlayer = (PositionComponent)player.getComponent(GlobalVars.POSITION_COMPONENT_NAME);
 
-            
 
-            switch (dirComp.dir % 4)
+
+            if (checkSpikeCollision(posPlayer, posSpikes, dirComp.dir % 4))
             {
-                case(0): //Player needs to be above spikes
-                    if ((posSpikes.y-posSpikes.height/2) >= (posPlayer.y+posPlayer.height/2)) return killPlayerCollision(e1, e2);
-                    else return false;
-                case (1)://Player needs to be right of spikes
-                    if ((posSpikes.x+posSpikes.width/2) <= (posPlayer.x-posPlayer.width/2)) return killPlayerCollision(e1, e2);
-                    else return false;
-                case (2):
-                    if ((posSpikes.y+posSpikes.height/2) <= (posPlayer.y-posPlayer.height/2)) return killPlayerCollision(e1, e2);
-                    else return false;
-                case (3)://Player needs to be right of spikes
-                    if ((posSpikes.x - posSpikes.width / 2) <= (posPlayer.x + posPlayer.width / 2)) return killPlayerCollision(e1, e2);
-                    else return false;
+                switch (dirComp.dir % 4)
+                {
+                    case (0): //Player needs to be above spikes
+                        //Console.WriteLine("Above " + (posSpikes.y - posSpikes.height / 2 + playerSpikeCollisionLeewaySameDir) + ", " + (posPlayer.y + posPlayer.height / 2));
+                        return killPlayerCollision(e1, e2);
+                    case (1)://Player needs to be right of spikes
+                        //Console.WriteLine("Right " + (posSpikes.x + posSpikes.width / 2 - playerSpikeCollisionLeewaySameDir) + ", " + (posPlayer.x - posPlayer.width / 2));
+                        return killPlayerCollision(e1, e2);
+                    case (2):
+                        //Console.WriteLine("Below " + (posSpikes.y + posSpikes.height / 2 - playerSpikeCollisionLeewaySameDir) + ", " + (posPlayer.y - posPlayer.height / 2));
+                        return killPlayerCollision(e1, e2);
+                    case (3)://Player needs to be left of spikes
+                        //Console.WriteLine("Left " + (posSpikes.x - posSpikes.width / 2 + playerSpikeCollisionLeewaySameDir) + ", " + (posPlayer.x + posPlayer.width / 2));
+                        return killPlayerCollision(e1, e2);
+                }
             }
 
             return false;
+
+        }
+
+
+        private bool checkSpikeCollision(PositionComponent posPlayer, PositionComponent posSpikes, int dir)
+        {
+
+            switch (dir)
+            {
+                case (0): //Player Above
+                    if ((posSpikes.y - posSpikes.height / 2 + playerSpikeCollisionLeewaySameDir) <= (posPlayer.y + posPlayer.height / 2))
+                    {
+                        float playerLeft = posPlayer.x - posPlayer.width/2;
+                        float playerRight = posPlayer.x + posPlayer.width/2;
+                        float spikeLeft = posSpikes.x - posSpikes.width/2;
+                        float spikeRight = posSpikes.x + posSpikes.width/2;
+
+                        if (((posSpikes.x < posPlayer.x) & (Math.Abs(playerLeft - spikeRight) > playerSpikeOppDirNecessaryOverlap))
+                            || ((posSpikes.x >= posPlayer.x) & (Math.Abs(playerRight - spikeLeft) > playerSpikeOppDirNecessaryOverlap)))
+                        {
+                            return true;
+                        }
+                        return false;
+                    }
+                    else return false;
+                case (1)://Player right
+                    if ((posSpikes.x + posSpikes.width / 2 - playerSpikeCollisionLeewaySameDir) >= (posPlayer.x - posPlayer.width / 2))
+                    {
+                        float playerUp = posPlayer.y - posPlayer.height / 2;
+                        float playerBottom = posPlayer.y + posPlayer.height / 2;
+                        float spikeUp = posSpikes.y - posSpikes.height / 2;
+                        float spikeBottom = posSpikes.y + posSpikes.height / 2;
+
+                        if (((posSpikes.y < posPlayer.y) & (Math.Abs(playerUp - spikeBottom) > playerSpikeOppDirNecessaryOverlap))
+                            || ((posSpikes.y >= posPlayer.y) & (Math.Abs(playerBottom - spikeUp) > playerSpikeOppDirNecessaryOverlap)))
+                        {
+                            return true;
+                        }
+                        return false;
+                    }
+                    else return false;
+                case (2): //Player Below
+                    if ((posSpikes.y + posSpikes.height / 2 - playerSpikeCollisionLeewaySameDir) >= (posPlayer.y - posPlayer.height / 2))
+                    {
+                        float playerLeft = posPlayer.x - posPlayer.width / 2;
+                        float playerRight = posPlayer.x + posPlayer.width / 2;
+                        float spikeLeft = posSpikes.x - posSpikes.width / 2;
+                        float spikeRight = posSpikes.x + posSpikes.width / 2;
+
+                        if (((posSpikes.x < posPlayer.x) & (Math.Abs(playerLeft - spikeRight) > playerSpikeOppDirNecessaryOverlap))
+                            || ((posSpikes.x >= posPlayer.x) & (Math.Abs(playerRight - spikeLeft) > playerSpikeOppDirNecessaryOverlap)))
+                        {
+                            return true;
+                        }
+                        return false;
+                    }
+                    else return false;
+                case (3)://Player left
+                    if ((posSpikes.x - posSpikes.width / 2 + playerSpikeCollisionLeewaySameDir) <= (posPlayer.x + posPlayer.width / 2))
+                    {
+                        float playerUp = posPlayer.y - posPlayer.height / 2;
+                        float playerBottom = posPlayer.y + posPlayer.height / 2;
+                        float spikeUp = posSpikes.y - posSpikes.height / 2;
+                        float spikeBottom = posSpikes.y + posSpikes.height / 2;
+
+                        if (((posSpikes.y < posPlayer.y) & (Math.Abs(playerUp - spikeBottom) > playerSpikeOppDirNecessaryOverlap))
+                            || ((posSpikes.y >= posPlayer.y) & (Math.Abs(playerBottom - spikeUp) > playerSpikeOppDirNecessaryOverlap)))
+                        {
+                            return true;
+                        }
+                        return false;
+                    }
+                    else return false;
+                default:
+                    return false;
+            }
 
         }
 

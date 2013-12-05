@@ -42,7 +42,7 @@ namespace RunningGame.Systems
         //Equips
         public bool speedyEquipped = false;
         bool blockSpawnEquipped = false;
-        bool bouncyEquippedTEMP = false;
+        bool bouncyEquipped = false;
 
         //bounce powerup info
         
@@ -181,9 +181,9 @@ namespace RunningGame.Systems
         {
             if (up)
             {
-                if (bouncyEquippedTEMP)
+                if (bouncyEquipped)
                 {
-                    bouncyEquippedTEMP = false;
+                    bouncyEquipped = false;
                     if (speedyUnlocked)
                     {
                         speedyEquipped = true;
@@ -200,7 +200,7 @@ namespace RunningGame.Systems
                 }
                 else if (speedyEquipped)
                 {
-                    bouncyEquippedTEMP = false;
+                    bouncyEquipped = false;
                     speedyEquipped = false;
                     if (spawnUnlocked)
                     {
@@ -217,7 +217,7 @@ namespace RunningGame.Systems
                 }
                 else if (blockSpawnEquipped)
                 {
-                    bouncyEquippedTEMP = false;
+                    bouncyEquipped = false;
                     speedyEquipped = false;
                     blockSpawnEquipped = false;
                     level.getPlayer().setNormalImage();
@@ -227,7 +227,7 @@ namespace RunningGame.Systems
                 {
                     if (bouncyUnlocked)
                     {
-                        bouncyEquippedTEMP = true;
+                        bouncyEquipped = true;
                         level.getPlayer().setPurpleImage();
                         refacePlayer();
                     }
@@ -244,9 +244,9 @@ namespace RunningGame.Systems
             else
             {
 
-                if (bouncyEquippedTEMP)
+                if (bouncyEquipped)
                 {
-                    bouncyEquippedTEMP = false;
+                    bouncyEquipped = false;
                     speedyEquipped = false;
                     blockSpawnEquipped = false;
                     level.getPlayer().setNormalImage();
@@ -256,7 +256,7 @@ namespace RunningGame.Systems
                 {
                     if (bouncyUnlocked)
                     {
-                        bouncyEquippedTEMP = true;
+                        bouncyEquipped = true;
                         level.getPlayer().setPurpleImage();
                         refacePlayer();
                     }
@@ -271,7 +271,7 @@ namespace RunningGame.Systems
                 }
                 else if (blockSpawnEquipped)
                 {
-                    bouncyEquippedTEMP = false;
+                    bouncyEquipped = false;
                     if (speedyUnlocked)
                     {
                         speedyEquipped = true;
@@ -293,7 +293,7 @@ namespace RunningGame.Systems
                         blockSpawnEquipped = true;
                         level.getPlayer().setOrangeImage();
                         refacePlayer();
-                        bouncyEquippedTEMP = false;
+                        bouncyEquipped = false;
                         speedyEquipped = false;
                         return;
                     }
@@ -303,13 +303,13 @@ namespace RunningGame.Systems
                         level.getPlayer().setBlueImage();
                         refacePlayer();
 
-                        bouncyEquippedTEMP = false;
+                        bouncyEquipped = false;
                         blockSpawnEquipped = false;
                         return;
                     }
                     else if(bouncyUnlocked)
                     {
-                        bouncyEquippedTEMP = true;
+                        bouncyEquipped = true;
                         level.getPlayer().setPurpleImage();
                         refacePlayer();
                         speedyEquipped = false;
@@ -318,7 +318,7 @@ namespace RunningGame.Systems
                     }
                     else
                     {
-                        bouncyEquippedTEMP = false;
+                        bouncyEquipped = false;
                         speedyEquipped = false;
                         blockSpawnEquipped = false;
                         level.getPlayer().setNormalImage();
@@ -330,6 +330,18 @@ namespace RunningGame.Systems
             }
         }
 
+        public void toNoPowerups()
+        {
+            bouncyEquipped = false;
+            speedyEquipped = false;
+            blockSpawnEquipped = false;
+            if (level.getPlayer() != null)
+            {
+                level.getPlayer().setNormalImage();
+            }
+            refacePlayer();
+            return;
+        }
 
         public void refacePlayer()
         {
@@ -345,7 +357,7 @@ namespace RunningGame.Systems
         public void equppedPowerup()
         {
 
-            if (bouncyEquippedTEMP)
+            if (bouncyEquipped)
             {
                 //Bouncy Call Here
                 createBounce();
