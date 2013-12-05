@@ -429,6 +429,16 @@
   <ItemGroup>
     <EmbeddedResource Include="Resources\Levels\World6level3.png" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Artwork\Foreground\Grass\Grass021.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\Grass\Grass121.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\Grass\Grass221.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\Grass\Grass321.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\Grass\Grass421.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Artwork\Foreground\Grass\Dirt21.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
