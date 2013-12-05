@@ -62,7 +62,7 @@ namespace RunningGame.Entities
 
                 //Draw component
                 DrawComponent drawComp = new DrawComponent(defaultWidth, defaultHeight, level, true);
-                drawComp.addSprite("Artwork.Foreground.Dirt", "RunningGame.Resources.Artwork.Foreground.Dirt61.png", dirtSpriteName);
+                drawComp.addSprite("Artwork.Foreground.Grass.Dirt", "RunningGame.Resources.Artwork.Foreground.Grass.Dirt61.png", dirtSpriteName);
 
                 string grassFile = "Artwork.Foreground.Grass.Grass0";
                 Random rand = new Random(this.randId);

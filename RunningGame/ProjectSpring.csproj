@@ -208,7 +208,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\Artwork\Foreground\Dirt11.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\Grass\Dirt11.png" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\Levels\PresentationLevel.png" />
@@ -301,7 +301,7 @@
     <EmbeddedResource Include="Resources\Levels\Tutorial.png" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\Artwork\Foreground\Dirt61.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\Grass\Dirt61.png" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\Levels\World5Level1.png" />
