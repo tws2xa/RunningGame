@@ -439,6 +439,14 @@
   <ItemGroup>
     <EmbeddedResource Include="Resources\Artwork\Foreground\Grass\Dirt21.png" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Artwork\Foreground\Grass\Dirt31.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\Grass\Grass031.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\Grass\Grass131.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\Grass\Grass231.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\Grass\Grass331.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\Grass\Grass431.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
