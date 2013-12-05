@@ -97,6 +97,7 @@ namespace RunningGame.Systems
                 }
                 else
                 {
+                    if(level.getPlayer() != null)
                     level.getPlayer().stopAnimation();
                 }
 
