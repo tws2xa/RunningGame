@@ -49,10 +49,10 @@ namespace RunningGame.Entities
             addComponent(new PositionComponent(x, y, defaultWidth, defaultHeight, this));
             addComponent(new ColliderComponent(this, GlobalVars.BOUNCE_POSTGROUND_COLLIDER_TYPE));
             DrawComponent drawComp = (DrawComponent)addComponent(new DrawComponent(defaultWidth, defaultHeight, level, true));
-            drawComp.useAlreadyLoadedImage = false;
+
             //Add image - Use base name for first parameter (everything in file path after Resources. and before the numbers and .png)
             //Then second parameter is full filepath to a default image
-            drawComp.addSprite("Artwork.Foreground.BlueGrnd", "RunningGame.Resources.Artwork.Foreground.PurpleSplat.png", "Main");
+            drawComp.addSprite("Artwork.Foreground.PurpleSplat", "RunningGame.Resources.Artwork.Foreground.PurpleSplat.png", "Main");
             drawComp.setSprite("Main"); //Set image to active image
             //Console.WriteLine("Bouncy: " + drawComp.getImage());
         }

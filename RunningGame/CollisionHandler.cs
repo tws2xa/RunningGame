@@ -209,13 +209,16 @@ namespace RunningGame
         {
             float increment = 350f;
             Player player;
+            Bounce bounce;
             if (e1 is Player)
             {
                 player = (Player)e1;
+                bounce = (Bounce)e2;
             }
             else if (e2 is Player)
             {
                 player = (Player)e2;
+                bounce = (Bounce)e1;
             }
             else
             {
@@ -223,15 +226,62 @@ namespace RunningGame
                 return false;
             }
 
-            
             //PositionComponent pos = (PositionComponent)player.getComponent(GlobalVars.POSITION_COMPONENT_NAME);
             //pos.y= pos.y - increment;
             VelocityComponent vel = (VelocityComponent)player.getComponent(GlobalVars.VELOCITY_COMPONENT_NAME);
             vel.y = -increment;
+
+            PositionComponent bouncePos = (PositionComponent)bounce.getComponent(GlobalVars.POSITION_COMPONENT_NAME);
+            float xLoc = bouncePos.x;
+            float yLoc = bouncePos.y;
+            float changingX = xLoc + GlobalVars.MIN_TILE_SIZE;
             
+            //Remove current bouncy
+            removeSplatAddGround(bounce);
+
+            //Remove adjacent bouncies
+            List<Entity> adj = level.getCollisionSystem().findObjectAtPoint(changingX, yLoc);
+            while (adj.Count > 0 && adj[0] is Bounce)
+            {
+                removeSplatAddGround(adj[0]);
+                changingX += GlobalVars.MIN_TILE_SIZE;
+                adj = level.getCollisionSystem().findObjectAtPoint(changingX, yLoc);
+            }
+
+            changingX = xLoc-GlobalVars.MIN_TILE_SIZE;
+            adj = level.getCollisionSystem().findObjectAtPoint(changingX, yLoc);
+            while (adj.Count > 0 && adj[0] is Bounce)
+            {
+                removeSplatAddGround(adj[0]);
+                changingX -= GlobalVars.MIN_TILE_SIZE;
+                adj = level.getCollisionSystem().findObjectAtPoint(changingX, yLoc);
+            }
+
             return false;
            
         }
+
+        public void removeSplatAddGround(Entity splat)
+        {
+
+            PositionComponent splatPos = (PositionComponent)splat.getComponent(GlobalVars.POSITION_COMPONENT_NAME);
+            float xLoc = splatPos.x;
+            float yLoc = splatPos.y + 1;
+
+            level.removeEntity(splat);
+            BasicGround ground = new BasicGround(level, rand.Next(Int32.MinValue, Int32.MaxValue), xLoc, yLoc, GlobalVars.MIN_TILE_SIZE, GlobalVars.MIN_TILE_SIZE);
+
+            //If no ground above it, change to a grass sprite
+            List<Entity> above = level.getCollisionSystem().findObjectAtPoint(xLoc, yLoc - GlobalVars.MIN_TILE_SIZE);
+            if (above.Count <= 0 || !(above[0] is BasicGround))
+            {
+                ground.changeSprite(false);
+            }
+
+            level.addEntity(ground);
+
+        }
+
         public bool removeBounceCollision(Entity e1, Entity e2)
         {
             Entity preBounce = null;
@@ -388,6 +438,35 @@ namespace RunningGame
 
             level.sysManager.spSystem.speedyTimer = level.sysManager.spSystem.speedyTime;
             level.sysManager.spSystem.speedyActive = true;
+
+
+
+            PositionComponent speedyPos = (PositionComponent)speedyBlock.getComponent(GlobalVars.POSITION_COMPONENT_NAME);
+            float xLoc = speedyPos.x;
+            float yLoc = speedyPos.y;
+            float changingX = xLoc + GlobalVars.MIN_TILE_SIZE;
+            
+
+            //Remove current bouncy
+            removeSplatAddGround(speedyBlock);
+
+            //Remove adjacent bouncies
+            List<Entity> adj = level.getCollisionSystem().findObjectAtPoint(changingX, yLoc);
+            while (adj.Count > 0 && adj[0] is Speedy)
+            {
+                removeSplatAddGround(adj[0]);
+                changingX += GlobalVars.MIN_TILE_SIZE;
+                adj = level.getCollisionSystem().findObjectAtPoint(changingX, yLoc);
+            }
+
+            changingX = xLoc - GlobalVars.MIN_TILE_SIZE;
+            adj = level.getCollisionSystem().findObjectAtPoint(changingX, yLoc);
+            while (adj.Count > 0 && adj[0] is Speedy)
+            {
+                removeSplatAddGround(adj[0]);
+                changingX -= GlobalVars.MIN_TILE_SIZE;
+                adj = level.getCollisionSystem().findObjectAtPoint(changingX, yLoc);
+            }
 
             return false;
         }
