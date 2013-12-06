@@ -90,12 +90,12 @@ namespace RunningGame.Entities
         {
             /*POSITION COMPONENT - Does it have a position?
              */
-            PositionComponent posComp = (PositionComponent)addComponent(new PositionComponent(x, y, defaultWidth, defaultHeight, this));
+            PositionComponent posComp = (PositionComponent)addComponent(new PositionComponent(x, y, defaultWidth, defaultHeight, this), true);
             
             /*
              * GRAPPLE COMPONENT
              */
-            addComponent(new GrappleComponent(x, y, dir));
+            addComponent(new GrappleComponent(x, y, dir), true);
 
         }
         

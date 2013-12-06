@@ -73,22 +73,22 @@ namespace RunningGame.Entities
         public void addMyComponents(float x, float y)
         {
             //POSITION COMPONENT - Does it have a position?
-            addComponent(new PositionComponent(x, y, defaultWidth, defaultHeight, this));
+            addComponent(new PositionComponent(x, y, defaultWidth, defaultHeight, this), true);
             
             //DRAW COMPONENT - Does it get drawn to the game world?
-            DrawComponent drawComp = (DrawComponent)addComponent(new DrawComponent(defaultWidth, defaultHeight, level, true));
+            DrawComponent drawComp = (DrawComponent)addComponent(new DrawComponent(defaultWidth, defaultHeight, level, true), true);
             drawComp.addSprite("Artwork.Foreground.switchUp", "RunningGame.Resources.Artwork.Foreground.switchUp11.png", GlobalVars.SWITCH_INACTIVE_SPRITE_NAME);
             drawComp.addSprite("Artwork.Foreground.switchRight", "RunningGame.Resources.Artwork.Foreground.switchRight11.png", GlobalVars.SWITCH_ACTIVE_SPRITE_NAME);
             drawComp.setSprite(GlobalVars.SWITCH_INACTIVE_SPRITE_NAME);
 
             //COLLIDER - Does it hit things?
-            addComponent(new ColliderComponent(this, GlobalVars.SWITCH_COLLIDER_TYPE));
+            addComponent(new ColliderComponent(this, GlobalVars.SWITCH_COLLIDER_TYPE), true);
 
             //Swich Component - Is it a switch? Yes.
-            addComponent(new SwitchComponent(startingState));
+            addComponent(new SwitchComponent(startingState), true);
 
             //Timed Switch Component It's a timed switch!
-            addComponent(new TimedSwitchComponent(defaultTime));
+            addComponent(new TimedSwitchComponent(defaultTime), true);
         }
         
         public override void revertToStartingState()

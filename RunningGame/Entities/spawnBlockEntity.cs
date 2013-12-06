@@ -31,28 +31,28 @@ namespace RunningGame.Entities
             this.updateOutOfView = true;
 
             //Position Component
-            addComponent(new PositionComponent(x, y, defaultWidth, defaultHeight, this));
+            addComponent(new PositionComponent(x, y, defaultWidth, defaultHeight, this), true);
 
             //Draw component
-            DrawComponent drawComp = (DrawComponent)addComponent(new DrawComponent(defaultWidth, defaultHeight, level, true));
+            DrawComponent drawComp = (DrawComponent)addComponent(new DrawComponent(defaultWidth, defaultHeight, level, true), true);
             drawComp.addSprite("Artwork.Foreground.BlockSquare", "RunningGame.Resources.Artwork.Foreground.BlockSquare.png", "Main");
             drawComp.setSprite("Main");
            
 
             //Velocity Component
-            addComponent(new VelocityComponent(0, 0));
+            addComponent(new VelocityComponent(0, 0), true);
 
             //Collider
-            addComponent(new ColliderComponent(this, GlobalVars.SPAWN_BLOCK_COLLIDER_TYPE));
+            addComponent(new ColliderComponent(this, GlobalVars.SPAWN_BLOCK_COLLIDER_TYPE), true);
 
             //Gravity Component
-            addComponent(new GravityComponent(0, GlobalVars.STANDARD_GRAVITY));
+            addComponent(new GravityComponent(0, GlobalVars.STANDARD_GRAVITY), true);
 
             //Spawn Block Component
-            addComponent(new SpawnBlockComponent());
+            addComponent(new SpawnBlockComponent(), true);
 
             //Off side of screen
-            addComponent(new ScreenEdgeComponent(3, 3, 3, 3));
+            addComponent(new ScreenEdgeComponent(3, 3, 3, 3), true);
         }
 
         public override void revertToStartingState()

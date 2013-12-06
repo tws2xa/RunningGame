@@ -269,7 +269,7 @@ namespace RunningGame
             float yLoc = splatPos.y + 1;
 
             level.removeEntity(splat);
-            BasicGround ground = new BasicGround(level, rand.Next(Int32.MinValue, Int32.MaxValue), xLoc, yLoc, GlobalVars.MIN_TILE_SIZE, GlobalVars.MIN_TILE_SIZE);
+            BasicGround ground = new BasicGround(level, GenerateRandId(), xLoc, yLoc, GlobalVars.MIN_TILE_SIZE, GlobalVars.MIN_TILE_SIZE);
 
             //If no ground above it, change to a grass sprite
             List<Entity> above = level.getCollisionSystem().findObjectAtPoint(xLoc, yLoc - GlobalVars.MIN_TILE_SIZE);
@@ -317,7 +317,7 @@ namespace RunningGame
             level.removeEntity(ground);
             level.removeEntity(bounceB);
 
-            Entity newBounceGround = new Bounce(level, rand.Next(Int32.MinValue, Int32.MaxValue), loc.X, loc.Y - 1);
+            Entity newBounceGround = new Bounce(level, GenerateRandId(), loc.X, loc.Y - 1);
             level.addEntity(newBounceGround);
             
             return false;
@@ -361,7 +361,7 @@ namespace RunningGame
             level.removeEntity(theGround);
             level.removeEntity(speedy);
 
-            Entity newSpeedy = new Speedy(level, rand.Next(Int32.MinValue, Int32.MaxValue), loc.X, loc.Y - 1);
+            Entity newSpeedy = new Speedy(level, GenerateRandId(), loc.X, loc.Y - 1);
             level.addEntity(newSpeedy);
 
             return false;
@@ -840,6 +840,17 @@ namespace RunningGame
                     return false;
             }
 
+
+        }
+
+        public int GenerateRandId()
+        {
+            int id = rand.Next(Int32.MinValue, Int32.MaxValue);
+            while (GlobalVars.removedStartingEntities.ContainsKey(id) || GlobalVars.nonGroundEntities.ContainsKey(id) || GlobalVars.groundEntities.ContainsKey(id))
+            {
+                id = rand.Next(Int32.MinValue, Int32.MaxValue);
+            }
+            return id;
         }
 
     }

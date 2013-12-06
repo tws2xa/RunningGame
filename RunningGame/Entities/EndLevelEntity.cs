@@ -53,13 +53,13 @@ namespace RunningGame.Entities
         {
             /*POSITION COMPONENT - Does it have a position?
              */
-            addComponent(new PositionComponent(x, y, defaultWidth, defaultHeight, this));
+            addComponent(new PositionComponent(x, y, defaultWidth, defaultHeight, this), true);
             
             /*DRAW COMPONENT - Does it get drawn to the game world?
              *You'll need to know the address for your image.
              *It'll probably be something along the lines of "RunningGame.Resources.[      ].png" ONLY png!!
              */
-            DrawComponent drawComp = (DrawComponent)addComponent(new DrawComponent(defaultWidth, defaultHeight, level, true));
+            DrawComponent drawComp = (DrawComponent)addComponent(new DrawComponent(defaultWidth, defaultHeight, level, true), true);
             drawComp.addSprite("Artwork.Other.WhiteSquare", "RunningGame.Resources.Artwork.Other.WhiteSquare.png", "Main");
             drawComp.setSprite("Main");
 
@@ -77,7 +77,7 @@ namespace RunningGame.Entities
             /*COLLIDER - Does it hit things?
              *The second field is the collider type. Look in GlobalVars for a string with the right name.
              */
-            addComponent(new ColliderComponent(this, GlobalVars.END_LEVEL_COLLIDER_TYPE));
+            addComponent(new ColliderComponent(this, GlobalVars.END_LEVEL_COLLIDER_TYPE), true);
 
             /*GRAVITY COMPONENT - Does it have Gravity?
              *There's a standard gravity in GlobalVars

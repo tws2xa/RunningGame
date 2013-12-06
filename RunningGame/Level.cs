@@ -167,6 +167,8 @@ namespace RunningGame
 
             sysManagerInit = true;
 
+            sysManager.ClearSystems();
+
             LevelImageReader lvlImgReader = new LevelImageReader(this, lvlImg);
             lvlImgReader.readImage(this);
 
@@ -428,6 +430,10 @@ namespace RunningGame
 
             if (e is BasicGround)
             {
+                if (GlobalVars.groundEntities.ContainsKey(id))
+                {
+                    GlobalVars.groundEntities.Remove(id);
+                }
                 GlobalVars.groundEntities.Add(id, e);
                 colliderAdded(e);
             }

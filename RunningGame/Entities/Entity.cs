@@ -71,8 +71,16 @@ namespace RunningGame
         //add and remove components
         public Component addComponent(Component comp)
         {
+            return addComponent(comp, false);
+            /*
             components.Add(comp.componentName, comp);
             level.sysManager.componentAdded(this);
+            return comp;*/
+        }
+        public Component addComponent(Component comp, bool constructor)
+        {
+            components.Add(comp.componentName, comp);
+            if(!constructor) level.sysManager.componentAdded(this);
             return comp;
         }
         public void removeComponent(Component comp)

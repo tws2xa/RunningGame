@@ -55,7 +55,7 @@ namespace RunningGame.Entities
         {
             /*POSITION COMPONENT - Does it have a position?
              */
-            PositionComponent posComp = (PositionComponent)addComponent(new PositionComponent(x, y, defaultWidth, defaultHeight, this));
+            PositionComponent posComp = (PositionComponent)addComponent(new PositionComponent(x, y, defaultWidth, defaultHeight, this), true);
             
             /*DRAW COMPONENT - Does it get drawn to the game world?
              *You'll need to know the address for your image.
@@ -64,7 +64,7 @@ namespace RunningGame.Entities
              *Then add the image
              *Then set the image to the active image
              */
-            DrawComponent drawComp = (DrawComponent)addComponent(new DrawComponent(defaultWidth, defaultHeight, level, true));
+            DrawComponent drawComp = (DrawComponent)addComponent(new DrawComponent(defaultWidth, defaultHeight, level, true), true);
             //Add image - Use base name for first parameter (everything in file path after Resources. and before the numbers and .png)
             //Then second parameter is full filepath to a default image
             string sprName = "Main";
@@ -72,28 +72,6 @@ namespace RunningGame.Entities
             drawComp.setSprite(sprName); //Set image to active image
             
             //Rotate accordingly
-            
-            /*
-            switch (dir%4)
-            {
-                case (0):
-                    level.getMovementSystem().changePosition(posComp, posComp.x+1, posComp.y + 1, false);
-                    break;
-                case (1):
-                    drawComp.rotateFlipSprite(sprName, System.Drawing.RotateFlipType.Rotate90FlipNone);
-                    level.getMovementSystem().changePosition(posComp, posComp.x-1, posComp.y+1, false);
-                    break;
-                case (2):
-                    drawComp.rotateFlipSprite(sprName, System.Drawing.RotateFlipType.Rotate180FlipNone);
-                    level.getMovementSystem().changePosition(posComp, posComp.x+1, posComp.y - 1, false);
-                    break;
-                case (3):
-                    drawComp.rotateFlipSprite(sprName, System.Drawing.RotateFlipType.Rotate270FlipNone);
-                    level.getMovementSystem().changePosition(posComp, posComp.x+1, posComp.y+1, false);
-                    break;
-            }
-            */
-            
             for(int i=0; i<dir; i++)
             {
                 drawComp.rotateFlipSprite(sprName, System.Drawing.RotateFlipType.Rotate90FlipNone);
@@ -103,12 +81,12 @@ namespace RunningGame.Entities
             /*
              * DIRECTIONAL COMPONENT - it has a direction (used by collision)
              */
-            addComponent(new DirectionalComponent(dir));
+            addComponent(new DirectionalComponent(dir), true);
 
             /*COLLIDER - Does it hit things?
              *The second field is the collider type. Look in GlobalVars for a string with the right name.
              */
-            addComponent(new ColliderComponent(this, GlobalVars.SPIKE_COLLIDER_TYPE));
+            addComponent(new ColliderComponent(this, GlobalVars.SPIKE_COLLIDER_TYPE), true);
         }
         
         public override void revertToStartingState()

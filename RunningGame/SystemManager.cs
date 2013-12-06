@@ -143,7 +143,13 @@ namespace RunningGame
             //colSystem.Draw(g);
         }
 
-        
+        public void ClearSystems()
+        {
+            foreach (GameSystem sys in systems)
+            {
+                sys.applicableEntities.Clear();
+            }
+        }
         public void entityAdded(Entity e)
         {
             foreach (GameSystem sys in systems)

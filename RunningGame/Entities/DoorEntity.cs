@@ -85,13 +85,13 @@ namespace RunningGame.Entities
         {
             /*POSITION COMPONENT - Does it have a position?
              */
-            addComponent(new PositionComponent(x, y, defaultWidth, defaultHeight, this));
+            addComponent(new PositionComponent(x, y, defaultWidth, defaultHeight, this), true);
             
             /*DRAW COMPONENT - Does it get drawn to the game world?
              *You'll need to know the address for your image.
              *It'll probably be something along the lines of "RunningGame.Resources.[      ].png" or maybe .bmp
              */
-            DrawComponent drawComp = (DrawComponent)addComponent(new DrawComponent(defaultWidth, defaultHeight, level, true));
+            DrawComponent drawComp = (DrawComponent)addComponent(new DrawComponent(defaultWidth, defaultHeight, level, true), true);
             drawComp.addSprite("Artwork.Foreground.DoorClosed", "RunningGame.Resources.Artwork.Foreground.DoorClosed11.png", GlobalVars.DOOR_CLOSED_SPRITE_NAME);
             drawComp.addSprite("Artwork.Foreground.DoorOpen", "RunningGame.Resources.Artwork.Foreground.DoorOpen11.png", GlobalVars.DOOR_OPEN_SPRITE_NAME);
             drawComp.setSprite(GlobalVars.DOOR_CLOSED_SPRITE_NAME);
@@ -99,11 +99,11 @@ namespace RunningGame.Entities
             /*COLLIDER - Does it hit things?
              *The second field is the collider type. Look in GlobalVars for a string with the right name.
              */
-            addComponent(new ColliderComponent(this, GlobalVars.BASIC_SOLID_COLLIDER_TYPE));
+            addComponent(new ColliderComponent(this, GlobalVars.BASIC_SOLID_COLLIDER_TYPE), true);
 
             /*SWITCH LISTENER - It listens for a switch
             */
-            addComponent(new SwitchListenerComponent(switchId, GlobalVars.DOOR_EVENT_TYPE));
+            addComponent(new SwitchListenerComponent(switchId, GlobalVars.DOOR_EVENT_TYPE), true);
 
         }
         

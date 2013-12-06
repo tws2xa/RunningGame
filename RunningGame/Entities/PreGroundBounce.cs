@@ -41,29 +41,23 @@ namespace RunningGame.Entities
         public void addMyComponents(float x, float y)
         {
             //Position Component
-            addComponent(new PositionComponent(x, y, defaultWidth, defaultHeight, this));
+            addComponent(new PositionComponent(x, y, defaultWidth, defaultHeight, this), true);
 
             //Draw component
-            DrawComponent drawComp = (DrawComponent)addComponent(new DrawComponent(defaultWidth, defaultHeight, level, true));
+            DrawComponent drawComp = (DrawComponent)addComponent(new DrawComponent(defaultWidth, defaultHeight, level, true), true);
             drawComp.addSprite("Artwork.Foreground.BlockSquare", "RunningGame.Resources.Artwork.Foreground.BlockSquare.png", "Main");
             drawComp.setSprite("Main");
 
 
             //Velocity Component
-            addComponent(new VelocityComponent(0, 0));
-
-            //Player Component
-            //addComponent(new PlayerInputComponent());
+            addComponent(new VelocityComponent(0, 0), true);
 
             //Collider
-            addComponent(new ColliderComponent(this, GlobalVars.BOUNCE_PREGROUND_COLLIDER_TYPE));
+            addComponent(new ColliderComponent(this, GlobalVars.BOUNCE_PREGROUND_COLLIDER_TYPE), true);
 
             //Gravity Component
-            addComponent(new GravityComponent(0, GlobalVars.STANDARD_GRAVITY));
+            addComponent(new GravityComponent(0, GlobalVars.STANDARD_GRAVITY), true);
 
-
-            //Squish Component
-            //addComponent(new SquishComponent(defaultWidth, defaultHeight, defaultWidth * 3.0f, defaultHeight * 3.0f, defaultWidth / 3.0f, defaultHeight / 3.0f));
         }
         public override void revertToStartingState()
         {
