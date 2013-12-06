@@ -66,7 +66,7 @@ namespace RunningGame.Entities
 
                 string grassFile = "Artwork.Foreground.Grass.Grass0";
                 Random rand = new Random(this.randId);
-                switch (rand.Next(0, 5))
+                switch (rand.Next(0, 4))
                 {
                     case(1):
                         grassFile = "Artwork.Foreground.Grass.Grass1";

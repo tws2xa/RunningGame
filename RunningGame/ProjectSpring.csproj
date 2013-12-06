@@ -447,6 +447,22 @@
     <EmbeddedResource Include="Resources\Artwork\Foreground\Grass\Grass331.png" />
     <EmbeddedResource Include="Resources\Artwork\Foreground\Grass\Grass431.png" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Artwork\Foreground\Grass\Dirt41.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\Grass\Grass041.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\Grass\Grass141.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\Grass\Grass241.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\Grass\Grass341.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\Grass\Grass441.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Artwork\Foreground\Grass\Dirt51.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\Grass\Grass051.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\Grass\Grass151.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\Grass\Grass251.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\Grass\Grass351.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\Grass\Grass451.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
