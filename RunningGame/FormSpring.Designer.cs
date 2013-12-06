@@ -208,6 +208,7 @@
             this.Controls.Add(this.btnEdit);
             this.Controls.Add(this.lblLoading);
             this.Controls.Add(this.btnBegin);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.Name = "FormSpring";
             this.Text = "Project: Spring";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormRunningGame_FormClosing);
