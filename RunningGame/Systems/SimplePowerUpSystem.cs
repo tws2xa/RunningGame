@@ -46,6 +46,9 @@ namespace RunningGame.Systems
 
         //bounce powerup info
         
+        //Spawn Bock Info
+        Queue<spawnBlockEntity> spawnBlocks = new Queue<spawnBlockEntity>(); // A queue of the spawn blocks
+        int maxNumSpawnBlocks = 3;
 
         //speedy powerup infos
         public float speedyTime = 1.0f;
@@ -54,6 +57,9 @@ namespace RunningGame.Systems
 
         //Grapple
         bool hasRunOnce = false; //Used to add keys once and only once. Can't in constructor because inputSystem not ready yet
+
+
+        float curDeltaTime = 0.0f;
 
         public SimplePowerUpSystem(Level level)
         {
@@ -77,7 +83,7 @@ namespace RunningGame.Systems
 
         public override void Update(float deltaTime)
         {
-
+            curDeltaTime = deltaTime;
             if (!hasRunOnce)
             {
                 level.getInputSystem().addKey(glideKey);
@@ -87,7 +93,7 @@ namespace RunningGame.Systems
                 level.getInputSystem().addKey(equippedPowerupKey);
 
                 PositionComponent posComp = (PositionComponent)level.getPlayer().getComponent(GlobalVars.POSITION_COMPONENT_NAME);
-                spawnDistance = posComp.width / 2 + 10.0f;
+                spawnDistance = posComp.width / 2 + 15.0f;
        
 
                 hasRunOnce = true;
@@ -381,16 +387,10 @@ namespace RunningGame.Systems
             PositionComponent posComp = (PositionComponent)level.getPlayer().getComponent(GlobalVars.POSITION_COMPONENT_NAME);
             Player player = (Player)level.getPlayer();
 
-            if (player.isLookingRight())
-            {
+            if (player == null) return;
 
-                speedyEntity(posComp.x + spawnDistance, posComp.y);
+            speedyEntity(posComp.x + getSpawnDistance(player), posComp.y);
 
-            }
-            else if (player.isLookingLeft())
-            {
-                speedyEntity(posComp.x - spawnDistance, posComp.y);
-            }
         }
 
         public void bounceEntity(float x, float y)
@@ -404,16 +404,8 @@ namespace RunningGame.Systems
             PositionComponent posComp = (PositionComponent)level.getPlayer().getComponent(GlobalVars.POSITION_COMPONENT_NAME);
             Player player = (Player)level.getPlayer();
 
-            if (player.isLookingRight())
-            {
+            bounceEntity(posComp.x + getSpawnDistance(player), posComp.y);
 
-                bounceEntity(posComp.x + spawnDistance, posComp.y);
-
-            }
-            else if (player.isLookingLeft())
-            {
-                bounceEntity(posComp.x - spawnDistance, posComp.y);
-            }
         }
         public void Grapple()
         {
@@ -466,29 +458,21 @@ namespace RunningGame.Systems
             PositionComponent posComp = (PositionComponent)level.getPlayer().getComponent(GlobalVars.POSITION_COMPONENT_NAME);
             Player player = (Player)level.getPlayer();
 
-                if (player.isLookingRight())
-                {
-
-                    blockEntity(posComp.x + spawnDistance, posComp.y);
-
-                }
-
-                if (player.isLookingLeft())
-
-                {
-                    blockEntity(posComp.x - spawnDistance, posComp.y);
-                }
-                
+            createBlockEntity(posComp.x + getSpawnDistance(player), posComp.y);
 
             }
 
-        public void blockEntity(float x, float y)
-        {   
-            
+        public void createBlockEntity(float x, float y)
+        {
+            if (spawnBlocks.Count >= maxNumSpawnBlocks)
+            {
+                spawnBlockEntity old = spawnBlocks.Dequeue();
+                level.removeEntity(old);
+            }
             //Entity newEntity = new [YOUR ENTITY HERE](level, x, y);
-            Entity newEntity = new spawnBlockEntity(level, x, y);
-
+            spawnBlockEntity newEntity = new spawnBlockEntity(level, x, y);
             level.addEntity(newEntity.randId, newEntity); //This should just stay the same
+            spawnBlocks.Enqueue(newEntity);
         }
 
 
@@ -558,7 +542,32 @@ namespace RunningGame.Systems
             return false;
         }
 
+        public float getSpawnDistance(Player player)
+        {
+            if(player == null) return 0;
+            VelocityComponent velComp = (VelocityComponent)player.getComponent(GlobalVars.VELOCITY_COMPONENT_NAME);
+            return getSpawnDistance(player, velComp);
+        }
+
+        public float getSpawnDistance(Player player, VelocityComponent velComp)
+        {
+            if (velComp == null) return 0;
+
+
+            float dist = spawnDistance + Math.Abs(velComp.x*curDeltaTime);
+            
+            if (player.isLookingLeft())
+            {
+                return (-1*dist);
+            }
+            else
+            {
+                return dist;
+            }
+
+        }
     }
+
 }
     
 
