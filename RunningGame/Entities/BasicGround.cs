@@ -32,7 +32,6 @@ namespace RunningGame.Entities
 
             initializeEntity(new Random().Next(Int32.MinValue, Int32.MaxValue), level);
 
-
             addMyComponents(x, y, defaultWidth, defaultHeight);
         }
         public BasicGround(Level level, float x, float y, float width, float height)

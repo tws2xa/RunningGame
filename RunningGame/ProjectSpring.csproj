@@ -368,10 +368,6 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\Levels\World6level2.png" />
-    <EmbeddedResource Include="Resources\Artwork\Foreground\BlueGrnd11.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Resources\Artwork\Foreground\BlueGrnd61.png" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\Artwork\Creatures\PlayerBlue1.png" />
@@ -462,6 +458,10 @@
     <EmbeddedResource Include="Resources\Artwork\Foreground\Grass\Grass251.png" />
     <EmbeddedResource Include="Resources\Artwork\Foreground\Grass\Grass351.png" />
     <EmbeddedResource Include="Resources\Artwork\Foreground\Grass\Grass451.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Artwork\Foreground\BlueSplat.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\PurpleSplat.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
