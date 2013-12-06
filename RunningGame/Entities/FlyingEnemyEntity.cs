@@ -48,11 +48,11 @@ namespace RunningGame.Entities
 
             /*POSITION COMPONENT - Does it have a position?
              */
-            addComponent(new PositionComponent(x, y, defaultWidth, defaultHeight, this));
+            addComponent(new PositionComponent(x, y, defaultWidth, defaultHeight, this), true);
             
             /*DRAW COMPONENT - Does it get drawn to the game world?
              */
-            DrawComponent drawComp = (DrawComponent)addComponent(new DrawComponent(defaultWidth, defaultHeight, level, true));
+            DrawComponent drawComp = (DrawComponent)addComponent(new DrawComponent(defaultWidth, defaultHeight, level, true), true);
 
             List<string> enemyAnimation = new List<string>()
             {
@@ -78,24 +78,24 @@ namespace RunningGame.Entities
 
             /* ANIMATION COMPONENT - Does it need animating?
              */
-            addComponent(new AnimationComponent(0.05f));
+            addComponent(new AnimationComponent(0.05f), true);
 
             /*VELOCITY COMPONENT - Does it move?
              */
-            addComponent(new VelocityComponent(0, 0));
+            addComponent(new VelocityComponent(0, 0), true);
 
             /*COLLIDER - Does it hit things?
              *The second field is the collider type. Look in GlobalVars for a string with the right name.
              */
-            addComponent(new ColliderComponent(this, GlobalVars.SIMPLE_ENEMY_COLLIDER_TYPE));
+            addComponent(new ColliderComponent(this, GlobalVars.SIMPLE_ENEMY_COLLIDER_TYPE), true);
 
             /*HEALTH COMPONENT - Does it have health, can it die?
              */
-            addComponent(new HealthComponent(100, true, 0, 100.0f));
+            addComponent(new HealthComponent(100, true, 0, 100.0f), true);
 
             /*SIMPLE ENEMY COMPONENT
              */
-            SimpleEnemyComponent simpEnemyComp = (SimpleEnemyComponent)addComponent(new SimpleEnemyComponent(GlobalVars.SIMPLE_ENEMY_H_SPEED + new Random().Next(-10, 10), false));
+            SimpleEnemyComponent simpEnemyComp = (SimpleEnemyComponent)addComponent(new SimpleEnemyComponent(GlobalVars.SIMPLE_ENEMY_H_SPEED + new Random().Next(-10, 10), false), true);
             simpEnemyComp.hasLandedOnce = true;
 
             addComponent(new ScreenEdgeComponent(1, 1, 1, 1));

@@ -70,10 +70,10 @@ namespace RunningGame.Entities
         {
 
             //Position Component
-            addComponent(new PositionComponent(x, y, defaultWidth, defaultHeight, this));
+            addComponent(new PositionComponent(x, y, defaultWidth, defaultHeight, this), true);
 
             //Velocity Component
-            addComponent(new VelocityComponent(0, 0));
+            addComponent(new VelocityComponent(0, 0), true);
 
             //Draw component
             DrawComponent drawComp = new DrawComponent((int)defaultWidth, (int)defaultHeight, level, false);
@@ -88,26 +88,26 @@ namespace RunningGame.Entities
             addWalkAnimation("RunningGame.Resources.Artwork.Creatures.PlayerOrange", walkOrangeLeft, walkOrangeRight, drawComp);
             addWalkAnimation("RunningGame.Resources.Artwork.Creatures.PlayerPurple", walkPurpleLeft, walkPurpleRight, drawComp);
 
-            drawComp.setSprite(rightImageName);
+            drawComp.setSprite(rightImageName, true);
 
             setNormalImage();
 
 
             //Animation Component
-            AnimationComponent animComp = (AnimationComponent)addComponent(new AnimationComponent(GlobalVars.playerAnimatonSpeed));
+            AnimationComponent animComp = (AnimationComponent)addComponent(new AnimationComponent(GlobalVars.playerAnimatonSpeed), true);
             animComp.animationOn = false;
             
             //Player Component
-            addComponent(new PlayerComponent());
+            addComponent(new PlayerComponent(), true);
 
             //Player Input Component
-            addComponent(new PlayerInputComponent(this));
+            addComponent(new PlayerInputComponent(this), true);
 
             //Collider
-            addComponent(new ColliderComponent(this, GlobalVars.PLAYER_COLLIDER_TYPE));
+            addComponent(new ColliderComponent(this, GlobalVars.PLAYER_COLLIDER_TYPE), true);
 
             //Squish Component
-            SquishComponent sqComp = (SquishComponent)addComponent(new SquishComponent(defaultWidth, defaultHeight, defaultWidth * 1.2f, defaultHeight * 1.2f, defaultWidth / 2f, defaultHeight / 2f, defaultWidth*defaultHeight*1.1f, defaultWidth*defaultHeight/1.5f));
+            SquishComponent sqComp = (SquishComponent)addComponent(new SquishComponent(defaultWidth, defaultHeight, defaultWidth * 1.2f, defaultHeight * 1.2f, defaultWidth / 2f, defaultHeight / 2f, defaultWidth * defaultHeight * 1.1f, defaultWidth * defaultHeight / 1.5f), true);
             sqComp.maxHeight = defaultHeight;
             sqComp.maxWidth = defaultWidth * 1.1f;
             sqComp.minHeight = defaultHeight / 1.1f;

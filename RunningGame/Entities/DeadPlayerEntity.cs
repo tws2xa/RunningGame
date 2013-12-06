@@ -55,11 +55,11 @@ namespace RunningGame.Entities
         {
             /*POSITION COMPONENT - Does it have a position?
              */
-            addComponent(new PositionComponent(x, y, defaultWidth, defaultHeight, this));
+            addComponent(new PositionComponent(x, y, defaultWidth, defaultHeight, this), true);
             
             /*DRAW COMPONENT - Does it get drawn to the game world?
              */
-            DrawComponent drawComp = (DrawComponent)addComponent(new DrawComponent(defaultWidth, defaultHeight, level, true));
+            DrawComponent drawComp = (DrawComponent)addComponent(new DrawComponent(defaultWidth, defaultHeight, level, true), true);
             drawComp.addSprite("Artwork.Resources.Creatures.player", "RunningGame.Resources.Artwork.Creatures.player1.png", "Main"); //Add image
             drawComp.setSprite("Main"); //Set image to active image
 
@@ -72,17 +72,17 @@ namespace RunningGame.Entities
 
             /*VELOCITY COMPONENT - Does it move?
              */
-            addComponent(new VelocityComponent(0, 0));
+            addComponent(new VelocityComponent(0, 0), true);
 
             /*COLLIDER - Does it hit things?
              *The second field is the collider type. Look in GlobalVars for a string with the right name.
              */
-            addComponent(new ColliderComponent(this, GlobalVars.BASIC_SOLID_COLLIDER_TYPE));
+            addComponent(new ColliderComponent(this, GlobalVars.BASIC_SOLID_COLLIDER_TYPE), true);
 
             /*GRAVITY COMPONENT - Does it have Gravity?
              *There's a standard gravity in GlobalVars
              */
-            addComponent(new GravityComponent(0, GlobalVars.STANDARD_GRAVITY));
+            addComponent(new GravityComponent(0, GlobalVars.STANDARD_GRAVITY), true);
 
         }
         

@@ -58,7 +58,7 @@ namespace RunningGame.Entities
         {
             /*POSITION COMPONENT - Does it have a position?
              */
-            addComponent(new PositionComponent(x, y, defaultWidth, defaultHeight, this));
+            addComponent(new PositionComponent(x, y, defaultWidth, defaultHeight, this), true);
             
             /*DRAW COMPONENT - Does it get drawn to the game world?
              *You'll need to know the address for your image.
@@ -67,7 +67,7 @@ namespace RunningGame.Entities
              *Then add the image
              *Then set the image to the active image
              */
-            DrawComponent drawComp = (DrawComponent)addComponent(new DrawComponent(defaultWidth, defaultHeight, level, true));
+            DrawComponent drawComp = (DrawComponent)addComponent(new DrawComponent(defaultWidth, defaultHeight, level, true), true);
             //Add image - Use base name for first parameter (everything in file path after Resources. and before the numbers and .png)
             //Then second parameter is full filepath to a default image
             string stem = "RunningGame.Resources.Artwork.Foreground.PowerupPickups.";
@@ -102,11 +102,11 @@ namespace RunningGame.Entities
             /*COLLIDER - Does it hit things?
              *The second field is the collider type. Look in GlobalVars for a string with the right name.
              */
-            addComponent(new ColliderComponent(this, GlobalVars.POWERUP_PICKUP_COLLIDER_TYPE));
+            addComponent(new ColliderComponent(this, GlobalVars.POWERUP_PICKUP_COLLIDER_TYPE), true);
 
             /*POWERUP PICKUP COMPONENT
              */
-            addComponent(new PowerupPickupComponent(compNum));
+            addComponent(new PowerupPickupComponent(compNum), true);
 
         }
         

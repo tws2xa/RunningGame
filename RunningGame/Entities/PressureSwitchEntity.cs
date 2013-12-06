@@ -70,22 +70,22 @@ namespace RunningGame.Entities
         public void addMyComponents(float x, float y)
         {
             //POSITION COMPONENT - Does it have a position?
-            addComponent(new PositionComponent(x, y, defaultWidth, defaultHeight, this));
+            addComponent(new PositionComponent(x, y, defaultWidth, defaultHeight, this), true);
             
             //DRAW COMPONENT - Does it get drawn to the game world?
-            DrawComponent drawComp = (DrawComponent)addComponent(new DrawComponent(defaultWidth, defaultHeight, level, false));
+            DrawComponent drawComp = (DrawComponent)addComponent(new DrawComponent(defaultWidth, defaultHeight, level, false), true);
             drawComp.addSprite("Artwork.Foreground.buttonUp", "RunningGame.Resources.Artwork.Foreground.buttonUp11.png", GlobalVars.SWITCH_INACTIVE_SPRITE_NAME);
             drawComp.addSprite("Artwork.Foreground.buttonDown", "RunningGame.Resources.Artwork.Foreground.buttonDown11.png", GlobalVars.SWITCH_ACTIVE_SPRITE_NAME);
             drawComp.setSprite(GlobalVars.SWITCH_INACTIVE_SPRITE_NAME);
 
             //COLLIDER - Does it hit things?
-            addComponent(new ColliderComponent(this, GlobalVars.BASIC_SOLID_COLLIDER_TYPE));
+            addComponent(new ColliderComponent(this, GlobalVars.BASIC_SOLID_COLLIDER_TYPE), true);
 
             //Swich Component - Is it a switch? Yes.
-            addComponent(new SwitchComponent(startingState));
+            addComponent(new SwitchComponent(startingState), true);
 
             //It's a pressure switch! (Timed Switch, Time = 0)
-            addComponent(new TimedSwitchComponent(0));
+            addComponent(new TimedSwitchComponent(0), true);
         }
         
         public override void revertToStartingState()

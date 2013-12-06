@@ -57,7 +57,7 @@ namespace RunningGame.Entities
             public void addMyComponents(float x, float y, float width, float height)
             {
                 //Position Component
-                addComponent(new PositionComponent(x, y, width, height, this));
+                addComponent(new PositionComponent(x, y, width, height, this), true);
 
                 //Draw component
                 DrawComponent drawComp = new DrawComponent(defaultWidth, defaultHeight, level, true);
@@ -83,7 +83,7 @@ namespace RunningGame.Entities
 
                 drawComp.addSprite(grassFile, "RunningGame.Resources.Artwork.Foreground.Grass61.png", grassSpriteName);
                 drawComp.setSprite(dirtSpriteName);
-                addComponent(drawComp);
+                addComponent(drawComp, true);
 
                 //Collider
                 addComponent(new ColliderComponent(this, GlobalVars.BASIC_SOLID_COLLIDER_TYPE));

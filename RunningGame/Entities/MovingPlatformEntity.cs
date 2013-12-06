@@ -57,26 +57,26 @@ namespace RunningGame.Entities
         {
             /*POSITION COMPONENT - Does it have a position?
              */
-            addComponent(new PositionComponent(x, y, defaultWidth, defaultHeight, this));
+            addComponent(new PositionComponent(x, y, defaultWidth, defaultHeight, this), true);
             
             /*DRAW COMPONENT - Does it get drawn to the game world?
              */
-            DrawComponent drawComp = (DrawComponent)addComponent(new DrawComponent(defaultWidth, defaultHeight, level, true));
+            DrawComponent drawComp = (DrawComponent)addComponent(new DrawComponent(defaultWidth, defaultHeight, level, true), true);
             drawComp.addSprite("Artwork.Other.WhiteSquare", "RunningGame.Resources.Artwork.Other.WhiteSquare.png", "Main"); //Add image
             drawComp.setSprite("Main"); //Set image to active image
 
             /*VELOCITY COMPONENT - Does it move?
              */
-            addComponent(new VelocityComponent(0, GlobalVars.MOVING_PLATFORM_SPEED));
+            addComponent(new VelocityComponent(0, GlobalVars.MOVING_PLATFORM_SPEED), true);
 
             /*COLLIDER - Does it hit things?
              *The second field is the collider type. Look in GlobalVars for a string with the right name.
              */
-            addComponent(new ColliderComponent(this, GlobalVars.MOVING_PLATFORM_COLLIDER_TYPE));
+            addComponent(new ColliderComponent(this, GlobalVars.MOVING_PLATFORM_COLLIDER_TYPE), true);
 
             /*MOVING PLATFORM COMPONENT
              */
-            addComponent(new MovingPlatformComponent(this));
+            addComponent(new MovingPlatformComponent(this), true);
 
         }
         

@@ -58,28 +58,28 @@ namespace RunningGame.Entities
 
             /*POSITION COMPONENT - Does it have a position?
              */
-            addComponent(new PositionComponent(x, y, defaultWidth, defaultHeight, this));
+            addComponent(new PositionComponent(x, y, defaultWidth, defaultHeight, this), true);
             
             /*DRAW COMPONENT - Does it get drawn to the game world?
              */
-            DrawComponent drawComp = (DrawComponent)addComponent(new DrawComponent(defaultWidth, defaultHeight, level, true));
+            DrawComponent drawComp = (DrawComponent)addComponent(new DrawComponent(defaultWidth, defaultHeight, level, true), true);
             drawComp.addSprite("Artwork.Foreground.PaintBlob","RunningGame.Resources.Artwork.Foreground.PaintBlob11.png", "Main");
             drawComp.setSprite("Main");
 
 
             /* ANIMATION COMPONENT - Does it need animating?
              */
-            addComponent(new AnimationComponent(0.0005f));
+            addComponent(new AnimationComponent(0.0005f), true);
 
             /*VELOCITY COMPONENT - Does it move?
              */
-            addComponent(new VelocityComponent(velX, velY));
+            addComponent(new VelocityComponent(velX, velY), true);
 
             /*COLLIDER - Does it hit things?
              */
-            addComponent(new ColliderComponent(this, GlobalVars.BULLET_COLLIDER_TYPE));
+            addComponent(new ColliderComponent(this, GlobalVars.BULLET_COLLIDER_TYPE), true);
 
-            addComponent(new ScreenEdgeComponent(3, 3, 3, 3));
+            addComponent(new ScreenEdgeComponent(3, 3, 3, 3), true);
             }
         
         public override void revertToStartingState()
