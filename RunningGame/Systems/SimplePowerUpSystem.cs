@@ -145,6 +145,9 @@ namespace RunningGame.Systems
     
         public void speedyEntity(float x, float y)
         {
+
+            if (level.getCollisionSystem().findObjectAtPoint(x, y).Count > 0) return;
+
             Entity newEntity = new PreGroundSpeedy(level, x, y);
 
             level.addEntity(newEntity.randId, newEntity); 
@@ -395,6 +398,7 @@ namespace RunningGame.Systems
 
         public void bounceEntity(float x, float y)
         {
+            if (level.getCollisionSystem().findObjectAtPoint(x, y).Count > 0) return;
             Entity newBounceEntity = new PreGroundBounce(level, x, y);
 
             level.addEntity(newBounceEntity.randId, newBounceEntity);
@@ -464,6 +468,9 @@ namespace RunningGame.Systems
 
         public void createBlockEntity(float x, float y)
         {
+
+            if (level.getCollisionSystem().findObjectAtPoint(x, y).Count > 0) return;
+
             if (spawnBlocks.Count >= maxNumSpawnBlocks)
             {
                 spawnBlockEntity old = spawnBlocks.Dequeue();
