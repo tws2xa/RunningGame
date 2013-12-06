@@ -32,6 +32,11 @@ namespace RunningGame.Systems
 
         float spawnDistance; //Defined in hasRunOnce
         
+        //Sizes
+        float bouncySize = 10.0f;
+        float speedySize = 10.0f;
+        float spawnBlockSize = 20.0f;
+
         //Powerup Locks
         bool glideUnlocked = false;
         bool speedyUnlocked = false;
@@ -146,7 +151,8 @@ namespace RunningGame.Systems
         public void speedyEntity(float x, float y)
         {
 
-            if (level.getCollisionSystem().findObjectAtPoint(x, y).Count > 0) return;
+            if (level.getCollisionSystem().findObjectsBetweenPoints(x-speedySize/2, y-speedySize/2, x+speedySize/2, y+speedySize/2).Count > 0) return;
+            if (level.getCollisionSystem().findObjectsBetweenPoints(x - speedySize / 2, y + speedySize / 2, x + speedySize / 2, y - speedySize / 2).Count > 0) return;
 
             Entity newEntity = new PreGroundSpeedy(level, x, y);
 
@@ -398,7 +404,10 @@ namespace RunningGame.Systems
 
         public void bounceEntity(float x, float y)
         {
-            if (level.getCollisionSystem().findObjectAtPoint(x, y).Count > 0) return;
+
+            if (level.getCollisionSystem().findObjectsBetweenPoints(x - bouncySize / 2, y - bouncySize / 2, x + bouncySize / 2, y + bouncySize / 2).Count > 0) return;
+            if (level.getCollisionSystem().findObjectsBetweenPoints(x - bouncySize / 2, y + bouncySize / 2, x + bouncySize / 2, y - bouncySize / 2).Count > 0) return;
+
             Entity newBounceEntity = new PreGroundBounce(level, x, y);
 
             level.addEntity(newBounceEntity.randId, newBounceEntity);
@@ -464,13 +473,15 @@ namespace RunningGame.Systems
 
             createBlockEntity(posComp.x + getSpawnDistance(player), posComp.y);
 
-            }
+        }
 
         public void createBlockEntity(float x, float y)
         {
 
-            if (level.getCollisionSystem().findObjectAtPoint(x, y).Count > 0) return;
 
+            if (level.getCollisionSystem().findObjectsBetweenPoints(x - spawnBlockSize / 2, y - spawnBlockSize / 2, x + spawnBlockSize / 2, y + spawnBlockSize / 2).Count > 0) return;
+            if (level.getCollisionSystem().findObjectsBetweenPoints(x - spawnBlockSize / 2, y + spawnBlockSize / 2, x + spawnBlockSize / 2, y - spawnBlockSize / 2).Count > 0) return;
+            
             if (spawnBlocks.Count >= maxNumSpawnBlocks)
             {
                 spawnBlockEntity old = spawnBlocks.Dequeue();

@@ -450,6 +450,11 @@ namespace RunningGame
         }
         public virtual bool removeEntity(Entity e)
         {
+            if (e == null)
+            {
+                Console.WriteLine("You tryin' ta remove a null entity? Whachu doin' dat fo'?");
+                return false;
+            }
             if (e.hasComponent(GlobalVars.COLLIDER_COMPONENT_NAME))
             {
                 getCollisionSystem().colliderRemoved(e);

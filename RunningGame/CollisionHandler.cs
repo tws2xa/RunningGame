@@ -102,16 +102,19 @@ namespace RunningGame
 
             addToDictionary(GlobalVars.BOUNCE_POSTGROUND_COLLIDER_TYPE, GlobalVars.PLAYER_COLLIDER_TYPE, bouncePlayerCollision);
             addToDictionary(GlobalVars.BOUNCE_PREGROUND_COLLIDER_TYPE, GlobalVars.BOUNCE_POSTGROUND_COLLIDER_TYPE, removeBounceCollisionFunction);
-            
+            addToDictionary(GlobalVars.BOUNCE_PREGROUND_COLLIDER_TYPE, GlobalVars.SPAWN_BLOCK_COLLIDER_TYPE, removeBounceCollisionFunction);
+
             addToDictionary(GlobalVars.SIMPLE_ENEMY_COLLIDER_TYPE, GlobalVars.PLAYER_COLLIDER_TYPE, killPlayerCollisionFunction);
             addToDictionary(GlobalVars.SIMPLE_ENEMY_COLLIDER_TYPE, GlobalVars.SPAWN_BLOCK_COLLIDER_TYPE, spawnEnemyCollisionFunction);
 
             addToDictionary(GlobalVars.MOVING_PLATFORM_COLLIDER_TYPE, GlobalVars.PLAYER_COLLIDER_TYPE, otherPlatformCollisionFunction);
 
             addToDictionary(GlobalVars.SPEEDY_PREGROUND_COLLIDER_TYPE, GlobalVars.BASIC_SOLID_COLLIDER_TYPE, speedyGroundCollisionFunction);
-            addToDictionary(GlobalVars.SPEEDY_PREGROUND_COLLIDER_TYPE, GlobalVars.PLAYER_COLLIDER_TYPE, doNothingCollision);
-            addToDictionary(GlobalVars.SPEEDY_PREGROUND_COLLIDER_TYPE, GlobalVars.SIMPLE_ENEMY_COLLIDER_TYPE, doNothingCollision);
+            addToDictionary(GlobalVars.SPEEDY_PREGROUND_COLLIDER_TYPE, GlobalVars.PLAYER_COLLIDER_TYPE, doNothingCollisionFunction);
+            addToDictionary(GlobalVars.SPEEDY_PREGROUND_COLLIDER_TYPE, GlobalVars.SIMPLE_ENEMY_COLLIDER_TYPE, doNothingCollisionFunction);
+            addToDictionary(GlobalVars.SPEEDY_PREGROUND_COLLIDER_TYPE, GlobalVars.SPAWN_BLOCK_COLLIDER_TYPE, removeSpeedyCollisionFunction);
 
+            
             addToDictionary(GlobalVars.SPEEDY_POSTGROUND_COLLIDER_TYPE, GlobalVars.SPAWN_BLOCK_COLLIDER_TYPE, speedyOtherCollision);
         }
 
@@ -285,13 +288,18 @@ namespace RunningGame
         public bool removeBounceCollision(Entity e1, Entity e2)
         {
             Entity preBounce = null;
-            if (e1 is Bounce)
+            if (e1 is PreGroundBounce)
+            {
+                preBounce = e1;
+            }
+            else if (e2 is PreGroundBounce)
             {
                 preBounce = e2;
             }
-            if (e2 is Bounce)
+            else
             {
-                preBounce = e1;
+                Console.WriteLine("Error: Could not find Bouncy in removeBounceCollision");
+                return false;
             }
             level.removeEntity(preBounce);
             return false;
