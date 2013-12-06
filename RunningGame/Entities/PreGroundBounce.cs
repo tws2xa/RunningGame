@@ -58,6 +58,8 @@ namespace RunningGame.Entities
             //Gravity Component
             addComponent(new GravityComponent(0, GlobalVars.STANDARD_GRAVITY), true);
 
+            //Out of screen removal
+            addComponent(new ScreenEdgeComponent(3, 3, 3, 3));
         }
         public override void revertToStartingState()
         {

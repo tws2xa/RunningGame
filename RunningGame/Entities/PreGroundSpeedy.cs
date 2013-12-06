@@ -61,6 +61,8 @@ namespace RunningGame.Entities
             drawComp.setSprite("Main"); //Set image to active image
             addComponent(new VelocityComponent(0, 0));
 
+            //Out of screen removal
+            addComponent(new ScreenEdgeComponent(3, 3, 3, 3));
         }
         
         public override void revertToStartingState()
