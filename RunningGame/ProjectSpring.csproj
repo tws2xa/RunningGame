@@ -486,6 +486,7 @@
   <ItemGroup>
     <Content Include="DeadPlayer.png" />
     <Content Include="Resources\Artwork\Background\Bkg43.png" />
+    <EmbeddedResource Include="Resources\Levels\World4Level3.png" />
     <EmbeddedResource Include="Resources\Artwork\Background\Bkg61.png" />
     <EmbeddedResource Include="Resources\Artwork\Background\Bkg62.png" />
     <EmbeddedResource Include="Resources\Artwork\Background\Bkg42.png" />
