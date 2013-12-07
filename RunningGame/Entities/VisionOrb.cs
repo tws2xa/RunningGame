@@ -79,6 +79,25 @@ namespace RunningGame.Entities
              */
             addComponent(new AnimationComponent(0.0005f));
 
+
+            List<string> anim = new List<string>()
+            {
+                "Artwork.Foreground.Orb0",
+                "Artwork.Foreground.Orb1",
+                "Artwork.Foreground.Orb2",
+                "Artwork.Foreground.Orb1"
+            };
+
+            List<string> animDefaults = new List<string>()
+            {
+                "RunningGame.Resources.Artwork.Foreground.Orb0.png",
+                "RunningGame.Resources.Artwork.Foreground.Orb1.png",
+                "RunningGame.Resources.Artwork.Foreground.Orb2.png",
+                "RunningGame.Resources.Artwork.Foreground.Orb1.png"
+            };
+
+            drawComp.addAnimatedSprite(anim, animDefaults, "MainAnim");
+            drawComp.setSprite("MainAnim");
             /*VELOCITY COMPONENT - Does it move?
              */
             addComponent(new VelocityComponent(0, 0), true);
