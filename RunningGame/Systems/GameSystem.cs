@@ -135,17 +135,21 @@ namespace RunningGame
 
             PositionComponent posComp = (PositionComponent)e.getComponent(GlobalVars.POSITION_COMPONENT_NAME);
 
-            float x = GetActiveLevel().sysManager.drawSystem.mainView.x;
-            float y = GetActiveLevel().sysManager.drawSystem.mainView.y;
 
-            float width = GetActiveLevel().sysManager.drawSystem.mainView.width;
-            float height = GetActiveLevel().sysManager.drawSystem.mainView.height;
+            foreach (View v in GetActiveLevel().sysManager.drawSystem.views)
+            {
+                float x = v.x;
+                float y = v.y;
 
-            if ((posComp.x + posComp.width) < x || (posComp.y + posComp.height) < y) return false;
+                float width = v.width;
+                float height = v.height;
 
-            if ((posComp.x - posComp.width) > (x + width) || (posComp.y - posComp.height) > (y + height)) return false;
+                if (!((posComp.x + posComp.width) < x || (posComp.y + posComp.height) < y)) return true;
 
-            return true;
+                if (!((posComp.x - posComp.width) > (x + width) || (posComp.y - posComp.height) > (y + height))) return true;
+            }
+
+            return false;
 
         }
 

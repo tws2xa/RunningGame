@@ -24,17 +24,30 @@ namespace RunningGame.Systems
         Keys visionKey = Keys.V;
         float visionOrbSize = 20.0f;
 
+        //Zoom Out
         int zoomOut = 50;
 
+        //Fade
         bool doFade = true;
         float fadeTime = 0.15f;
         float fadeTimer = -1.0f;
-
-        bool doBorder = true;
-        Brush borderBrush = Brushes.White;
-
         Color toOrbCol = Color.LightGray;
         Color toPlayerCol = Color.LightGray;
+
+        //Border
+        bool doBorder = true;
+        Brush borderBrush = Brushes.White;
+        int mainBorderSize = 10;
+
+        //Player Window
+        bool doPlayerWindow = true;
+        float plWinWidth = 200.0f;
+        float plWinHeight = 170.0f;
+        int plBorderSize = 5;
+        Brush plBorderBrush = Brushes.White;
+        float plWinXLoc = 0; //Redefined in creation method
+        float plWinYLoc = 0; //Redefined in creation method
+        View plView = null;
 
         Random rand = new Random();
 
@@ -47,7 +60,7 @@ namespace RunningGame.Systems
 
             //Set the level
             level = activeLevel;
-            
+
         }
 
         //-------------------------------- Overrides ----------------------------------
@@ -118,6 +131,11 @@ namespace RunningGame.Systems
                 VelocityComponent velComp = (VelocityComponent)e.getComponent(GlobalVars.VELOCITY_COMPONENT_NAME);
                 VisionInputComponent visComp = (VisionInputComponent)e.getComponent(GlobalVars.VISION_ORB_INPUT_COMPONENT_NAME);
                 checkForInput(posComp, velComp, visComp);
+
+                if (orbActive && doPlayerWindow)
+                {
+                    checkPlayerWindowLocation();
+                }
 
                 //If there's a key down and the player isn't moving horizontally, check to make sure there's a collision
                 if (Math.Abs(velComp.x) < Math.Abs(visComp.platformerMoveSpeed))
@@ -261,7 +279,7 @@ namespace RunningGame.Systems
 
 
 
-        private void createVisionOrb()
+        public void createVisionOrb()
         {
             PositionComponent posComp = (PositionComponent)level.getPlayer().getComponent(GlobalVars.POSITION_COMPONENT_NAME);
             Player player = (Player)level.getPlayer();
@@ -283,33 +301,72 @@ namespace RunningGame.Systems
             VisionOrb newEntity = new VisionOrb(level, GenerateRandId(), x, y);
             level.addEntity(newEntity.randId, newEntity); //This should just stay the same
 
-            level.sysManager.drawSystem.mainView.setFollowEntity(newEntity);
-            level.sysManager.drawSystem.mainView.width += zoomOut;
-            level.sysManager.drawSystem.mainView.height += zoomOut;
+            level.sysManager.drawSystem.getMainView().setFollowEntity(newEntity);
+            level.sysManager.drawSystem.getMainView().width += zoomOut;
+            level.sysManager.drawSystem.getMainView().height += zoomOut;
             if (doBorder)
             {
-                level.sysManager.drawSystem.mainView.borderBrush = borderBrush;
-                level.sysManager.drawSystem.mainView.borderSize = 10;
-                level.sysManager.drawSystem.mainView.hasBorder = true;
+                level.sysManager.drawSystem.getMainView().borderBrush = borderBrush;
+                level.sysManager.drawSystem.getMainView().borderSize = mainBorderSize;
+                level.sysManager.drawSystem.getMainView().hasBorder = true;
+            }
+            if (doPlayerWindow)
+            {
+                
+                //Find player's quadrant
+                if (posComp.x - level.sysManager.drawSystem.getMainView().x < level.sysManager.drawSystem.getMainView().width / 2)
+                {
+                    plWinXLoc = plBorderSize / 2;
+                }
+                else
+                {
+                    plWinXLoc = level.sysManager.drawSystem.getMainView().displayWidth - plWinWidth - plBorderSize / 2;
+                }
+                if (posComp.y - level.sysManager.drawSystem.getMainView().y < level.sysManager.drawSystem.getMainView().height / 2)
+                {
+                    plWinYLoc = plBorderSize / 2;
+                }
+                else
+                {
+                    plWinYLoc = level.sysManager.drawSystem.getMainView().displayHeight - plWinHeight - plBorderSize / 2;
+                }
+
+                plView = new View(plWinXLoc, plWinYLoc, plWinWidth, plWinHeight, level);
+                plView.displayX = plWinXLoc;
+                plView.displayY = plWinYLoc;
+                plView.setFollowEntity(level.getPlayer());
+                plView.hasBorder = true;
+                plView.borderSize = plBorderSize;
+                plView.borderBrush = plBorderBrush;
+                level.sysManager.drawSystem.addView(plView);
             }
         }
 
-        private void destroyVisionOrb()
+        public void destroyVisionOrb()
         {
             foreach (Entity e in getApplicableEntities())
             {
                 level.removeEntity(e);
             }
 
-            level.sysManager.drawSystem.mainView.setFollowEntity(level.getPlayer());
-            level.sysManager.drawSystem.mainView.width -= zoomOut;
-            level.sysManager.drawSystem.mainView.height -= zoomOut;
+            level.sysManager.drawSystem.getMainView().setFollowEntity(level.getPlayer());
+            level.sysManager.drawSystem.getMainView().width -= zoomOut;
+            level.sysManager.drawSystem.getMainView().height -= zoomOut;
             if (doBorder)
             {
-                level.sysManager.drawSystem.mainView.hasBorder = false;
+                level.sysManager.drawSystem.getMainView().hasBorder = false;
+            }
+            if (doPlayerWindow && plView != null)
+            {
+                if (!level.sysManager.drawSystem.removeView(plView))
+                {
+                    level.sysManager.drawSystem.gotoJustMainView();
+                }
+                plView = null;
             }
 
-            level.getPlayer().addComponent(new PlayerInputComponent(level.getPlayer()));
+            if(level.getPlayer() != null)
+                level.getPlayer().addComponent(new PlayerInputComponent(level.getPlayer()));
         }
 
         public float getSpawnDistance(Player player)
@@ -327,6 +384,39 @@ namespace RunningGame.Systems
             }
             return id;
         }
+
+
+        public void checkPlayerWindowLocation()
+        {
+
+            if (plView == null) return;
+
+            PositionComponent posComp = (PositionComponent)level.getPlayer().getComponent(GlobalVars.POSITION_COMPONENT_NAME);
+            //Find player's quadrant
+            if (posComp.x - level.sysManager.drawSystem.getMainView().x < level.sysManager.drawSystem.getMainView().width / 2)
+            {
+                plWinXLoc = plBorderSize / 2;
+            }
+            else
+            {
+                plWinXLoc = level.sysManager.drawSystem.getMainView().displayWidth - plWinWidth - plBorderSize / 2;
+            }
+            if (posComp.y - level.sysManager.drawSystem.getMainView().y < level.sysManager.drawSystem.getMainView().height / 2)
+            {
+                plWinYLoc = plBorderSize / 2;
+            }
+            else
+            {
+                plWinYLoc = level.sysManager.drawSystem.getMainView().displayHeight - plWinHeight - plBorderSize / 2;
+            }
+
+            if (plWinXLoc != plView.displayX) plView.displayX = plWinXLoc;
+            if (plWinYLoc != plView.displayY) plView.displayY = plWinYLoc;
+
+        }
+
+
+
 
     }
 }

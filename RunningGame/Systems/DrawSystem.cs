@@ -24,7 +24,8 @@ namespace RunningGame.Systems
         Graphics g;
         Level level;
         CreationLevel creatLev = null;
-        public View mainView;
+        //public View mainView;
+        public List<View> views = new List<View>();
         List<string> requiredComponents = new List<string>();
 
         /************FLASH STUFF Begins here*/
@@ -44,7 +45,7 @@ namespace RunningGame.Systems
         [NonSerialized] Pen selectedEntBorderColor = Pens.Red;
         [NonSerialized] Brush selectedEntFillColor = new SolidBrush(Color.FromArgb(100, Color.CornflowerBlue));
 
-        View miniMap;
+        //View miniMap;
 
         bool miniMapOn = false;
 
@@ -62,11 +63,16 @@ namespace RunningGame.Systems
                 creatLev = (CreationLevel)level;
             }
 
-            mainView = new View(0, 0, level.cameraWidth, level.cameraHeight, 0, 0, level.cameraWidth, level.cameraHeight, level, level.getPlayer());
-            
-            miniMap = new View(0, 0, level.levelWidth, level.levelHeight, level.cameraWidth-210, 10, 200, 100, level);
-            miniMap.bkgBrush = Brushes.DarkTurquoise;
-            miniMap.hasBorder = true;
+            View mainView = new View(0, 0, level.cameraWidth, level.cameraHeight, 0, 0, level.cameraWidth, level.cameraHeight, level, level.getPlayer());
+            addView(mainView);
+
+            if (miniMapOn)
+            {
+                View miniMap = new View(0, 0, level.levelWidth, level.levelHeight, level.cameraWidth - 210, 10, 200, 100, level);
+                miniMap.bkgBrush = Brushes.DarkTurquoise;
+                miniMap.hasBorder = true;
+                addView(miniMap);
+            }
 
         }
         public DrawSystem(Graphics g, CreationLevel level)
@@ -83,12 +89,16 @@ namespace RunningGame.Systems
                 creatLev = (CreationLevel)level;
             }
 
-            mainView = new View(0, 0, level.levelWidth, level.levelHeight, 0, 0, level.levelWidth, level.levelHeight, level);
+            View mainView = new View(0, 0, level.levelWidth, level.levelHeight, 0, 0, level.levelWidth, level.levelHeight, level);
+            addView(mainView);
 
-
-            miniMap = new View(0, 0, level.levelWidth, level.levelHeight, level.cameraWidth - 100, 10, 200, 100, level);
-            miniMap.bkgBrush = Brushes.DarkTurquoise;
-            miniMap.hasBorder = true;
+            if (miniMapOn)
+            {
+                View miniMap = new View(0, 0, level.levelWidth, level.levelHeight, level.cameraWidth - 100, 10, 200, 100, level);
+                miniMap.bkgBrush = Brushes.DarkTurquoise;
+                miniMap.hasBorder = true;
+                addView(miniMap);
+            }
         }
         public override List<string> getRequiredComponents()
         {
@@ -102,9 +112,9 @@ namespace RunningGame.Systems
         public override void Update(float deltaTime)
         {
 
-            if (mainView.followEntity == null)
+            if (views[0].followEntity == null)
             {
-                mainView.setFollowEntity(level.getPlayer());
+                views[0].setFollowEntity(level.getPlayer());
             }
 
             
@@ -148,7 +158,10 @@ namespace RunningGame.Systems
             //draw a rectangle
             //total time 
             //Update views
-            mainView.Update();
+            foreach (View v in views)
+            {
+                v.Update();
+            }
         }
 
 
@@ -183,7 +196,10 @@ namespace RunningGame.Systems
             List<Entity> entityList = getApplicableEntities();
             
             //this is where all the entities are drawn, so modify this for depth
-            mainView.Draw(g, entityList);
+            foreach (View v in views)
+            {
+                v.Draw(g, entityList);
+            }
             
             /*
             //If you are in the level editor. Box the selected entities
@@ -199,10 +215,28 @@ namespace RunningGame.Systems
             }
              * */
 
-            if(miniMapOn)
-                miniMap.Draw(g, entityList);
-
         }
 
+        public void addView(View v)
+        {
+            views.Add(v);
+        }
+
+        public View getMainView()
+        {
+            return views[0];
+        }
+
+        public bool removeView(View plView)
+        {
+            return views.Remove(plView);
+        }
+
+        public void gotoJustMainView()
+        {
+            View main = views[0];
+            views.Clear();
+            views.Add(main);
+        }
     }
 }

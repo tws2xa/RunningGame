@@ -401,7 +401,6 @@ namespace RunningGame
 
         public bool isInView(PositionComponent posComp)
         {
-
             if ((posComp.x + posComp.width) < x || (posComp.y + posComp.height) < y)
             {
                 return false;
@@ -411,7 +410,6 @@ namespace RunningGame
             {
                 return false;
             }
-
             return true;
 
         }
@@ -424,6 +422,11 @@ namespace RunningGame
             {
                 followPosComp = (PositionComponent)followEntity.getComponent(GlobalVars.POSITION_COMPONENT_NAME);
             }
+        }
+
+        public void centerOnFollowEntity()
+        {
+            moveCamera(followPosComp.x, followPosComp.y);
         }
     }
 }

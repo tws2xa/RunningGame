@@ -79,6 +79,7 @@ namespace RunningGame
         }
         public Component addComponent(Component comp, bool constructor)
         {
+            if (components.ContainsKey(comp.componentName)) components.Remove(comp.componentName);
             components.Add(comp.componentName, comp);
             if(!constructor) level.sysManager.componentAdded(this);
             return comp;

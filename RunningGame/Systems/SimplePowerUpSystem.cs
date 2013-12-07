@@ -431,8 +431,8 @@ namespace RunningGame.Systems
             double dir = 0;
 
 
-            float mouseX = level.getInputSystem().mouseX + level.sysManager.drawSystem.mainView.x;
-            float mouseY = level.getInputSystem().mouseY + level.sysManager.drawSystem.mainView.y;
+            float mouseX = level.getInputSystem().mouseX + level.sysManager.drawSystem.getMainView().x;
+            float mouseY = level.getInputSystem().mouseY + level.sysManager.drawSystem.getMainView().y;
 
             float xDiff = mouseX - playerPos.x;
             float yDiff = mouseY - playerPos.y;

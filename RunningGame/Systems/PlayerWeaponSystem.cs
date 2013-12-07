@@ -74,8 +74,8 @@ namespace RunningGame.Systems
         public void fireWeapon(PositionComponent posComp)
         {
             //Do maths!
-            float mouseX = level.getInputSystem().mouseX + level.sysManager.drawSystem.mainView.x;
-            float mouseY = level.getInputSystem().mouseY + level.sysManager.drawSystem.mainView.y;
+            float mouseX = level.getInputSystem().mouseX + level.sysManager.drawSystem.getMainView().x;
+            float mouseY = level.getInputSystem().mouseY + level.sysManager.drawSystem.getMainView().y;
 
             float xDiff = mouseX - posComp.x;
             float yDiff = mouseY - posComp.y;

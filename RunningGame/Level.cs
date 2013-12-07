@@ -326,6 +326,13 @@ namespace RunningGame
         {
             paused = true; // Pause the game briefly
 
+            if (sysManager.visSystem.orbActive)
+            {
+                Console.WriteLine("Please exit vision orb mode before resetting");
+                paused = false;
+                return;
+            }
+
             Entity[] ents = GlobalVars.nonGroundEntities.Values.ToArray();
             for (int i = 0; i < ents.Length; i++)
             {

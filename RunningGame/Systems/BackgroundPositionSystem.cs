@@ -60,8 +60,8 @@ namespace RunningGame.Systems
                 {
                     PositionComponent posComp = (PositionComponent)e.getComponent(GlobalVars.POSITION_COMPONENT_NAME);
 
-                    float viewX = level.sysManager.drawSystem.mainView.x;
-                    float viewY = level.sysManager.drawSystem.mainView.y;
+                    float viewX = level.sysManager.drawSystem.getMainView().x;
+                    float viewY = level.sysManager.drawSystem.getMainView().y;
 
                     float fractionInX = (viewX / level.levelWidth);
                     float fractionInY = (viewY / level.levelHeight);
@@ -86,8 +86,8 @@ namespace RunningGame.Systems
                 {
                     PositionComponent posComp = (PositionComponent)e.getComponent(GlobalVars.POSITION_COMPONENT_NAME);
 
-                    float viewX = level.sysManager.drawSystem.mainView.x;
-                    float viewY = level.sysManager.drawSystem.mainView.y;
+                    float viewX = level.sysManager.drawSystem.getMainView().x;
+                    float viewY = level.sysManager.drawSystem.getMainView().y;
 
                     float fractionInX = (viewX / level.levelWidth);
 
