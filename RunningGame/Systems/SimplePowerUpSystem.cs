@@ -18,7 +18,6 @@ namespace RunningGame.Systems
 
         //Keys
         Keys glideKey = Keys.Space;
-        //Keys bounceKey = Keys.B;
         Keys equippedPowerupKey = Keys.F;
         Keys cycleDownPowerupKey = Keys.Q;
         Keys cycleUpPowerupKey = Keys.E;
@@ -144,7 +143,7 @@ namespace RunningGame.Systems
                 }
             }
 
-            checkForInput();
+            if(!level.sysManager.visSystem.orbActive) checkForInput();
         }
         //----------------------------------------------------------------------------------------------
     
@@ -160,6 +159,7 @@ namespace RunningGame.Systems
         }
         public void checkForInput()
         {
+
             if (glideUnlocked && level.getInputSystem().myKeys[glideKey].down)
             {
                 glide();
@@ -185,7 +185,9 @@ namespace RunningGame.Systems
             {
                 Grapple();
             }
+            
         }
+
 
         //Order (from top to bottom)
         //Bounce
@@ -567,6 +569,7 @@ namespace RunningGame.Systems
             return getSpawnDistance(player, velComp);
         }
 
+
         public float getSpawnDistance(Player player, VelocityComponent velComp)
         {
             if (velComp == null) return 0;
@@ -584,6 +587,7 @@ namespace RunningGame.Systems
             }
 
         }
+
     }
 
 }

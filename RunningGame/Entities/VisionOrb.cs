@@ -3,27 +3,24 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using RunningGame.Systems;
 using RunningGame.Components;
+using RunningGame.Entities;
 
 namespace RunningGame.Entities
 {
-
-    /*
-     * This is a template to help people create entities
-     */
-
-
     [Serializable()]
-    public class EntityTemplate : Entity //Always extent the Entity Class. Always have [Serializable()]. Always make public!
+    public class VisionOrb:Entity
     {
-    
+
+        int defaultWidth = 20;
+        int defaultHeight = 20;
+
         //-------------------------------------------Constructors--------------------------------------------
         //One takes in an ID, the other generats it.
         //Both take in the starting x and y of the entity.
         //Both take in the level that it's being applied to.
         //You probably won't have to edit these at all.
-        public EntityTemplate(Level level, float x, float y)
+        public VisionOrb(Level level, float x, float y)
         {
             //Set level.
             //Leave for all entities
@@ -37,7 +34,7 @@ namespace RunningGame.Entities
             //Leave this for all entities.
             addMyComponents(x, y);
         }
-        public EntityTemplate(Level level, int id, float x, float y)
+        public VisionOrb(Level level, int id, float x, float y)
         {
             //Set level.
             //Leave for all entities
@@ -60,7 +57,7 @@ namespace RunningGame.Entities
         {
             /*POSITION COMPONENT - Does it have a position?
              */
-            //addComponent(new PositionComponent(x, y, defaultWidth, defaultHeight, this), true);
+            addComponent(new PositionComponent(x, y, defaultWidth, defaultHeight, this), true);
             
             /*DRAW COMPONENT - Does it get drawn to the game world?
              *You'll need to know the address for your image.
@@ -69,56 +66,40 @@ namespace RunningGame.Entities
              *Then add the image
              *Then set the image to the active image
              */
-            //DrawComponent drawComp = (DrawComponent)addComponent(new DrawComponent(defaultWidth, defaultHeight, level, true), true);
+            DrawComponent drawComp = (DrawComponent)addComponent(new DrawComponent(defaultWidth, defaultHeight, level, true), true);
             //Add image - Use base name for first parameter (everything in file path after Resources. and before the numbers and .png)
             //Then second parameter is full filepath to a default image
-            //drawComp.addSprite("Artwork.Foreground.Grass", "RunningGame.Resources.Artwork.Foreground.Grass11.png", "Main");
-            //drawComp.setSprite("Main"); //Set image to active image
+            drawComp.addSprite("Artwork.Other.WhiteSquare", "RunningGame.Resources.Artwork.Other.WhiteSquare.png", "Main");
+            drawComp.setSprite("Main"); //Set image to active image
 
             /* ANIMATION COMPONENT - Does it need animating?
              * The float that this reads in is the amount of time (in seconds) between frames.
              * So, if it was 5, you would be on one frame for 5 seconds, then switch to the next, then 5 seconds later
              * It'd switch to the next etc, etc...
              */
-            //addComponent(new AnimationComponent(0.0005f), true);
+            addComponent(new AnimationComponent(0.0005f));
 
             /*VELOCITY COMPONENT - Does it move?
              */
-            //addComponent(new VelocityComponent(0, 0));
+            addComponent(new VelocityComponent(0, 0), true);
 
-            /*PLAYER COMPONENT - Is it the player?
+            /*VISION COMPONENT
              */
-            //addComponent(new PlayerInputComponent(this), , true);
+            addComponent(new VisionInputComponent(this), true);
 
             /*COLLIDER - Does it hit things?
              *The second field is the collider type. Look in GlobalVars for a string with the right name.
              */
-            //addComponent(new ColliderComponent(this, GlobalVars.BASIC_SOLID_COLLIDER_TYPE), true);
-
-            /*GRAVITY COMPONENT - Does it have Gravity?
-             *There's a standard gravity in GlobalVars
-             */
-            //addComponent(new GravityComponent(0, GlobalVars.STANDARD_GRAVITY), true);
-
+            addComponent(new ColliderComponent(this, GlobalVars.VISION_COLLIDER_TYPE), true);
 
             /*HEALTH COMPONENT - Does it have health, can it die?
              *Parameters: maxHealth, startingHealth, draw a health bar?, recharge amount, recharge time
              *Basically, every rechargeTime, the entity regenerates rechargeAmount
              */
-            //addComponent(new HealthComponent(100, 100, true, 1, 5), true);
-
-            /*
-             * SQIUSH COMPONENT - Is it squishy?
-             * This has a TON of variables...
-             * the first two read in are the normal width and height
-             * Then you read in the max width and height, then min width and height
-             * You can then optionally give it a max and min surface area.
-             * 
-             * There are other variables which affect the squishy behavior
-             * That you can change after instantiation, but not through the constructor.
-             * They all have default values in the componenent which will probably be enough.
-             */
-            //addComponent(new SquishComponent(defaultWidth, defaultHeight, defaultWidth*3.0f, defaultHeight*3.0f, defaultWidth/3.0f, defaultHeight/3.0f), true);
+            addComponent(new HealthComponent(100, 100, true, 5), true);
+            
+            //Edge of screen component
+            addComponent(new ScreenEdgeComponent(1, 1, 1, 1), true);
         }
         
         //You must have this, but it may be empty.
@@ -134,6 +115,5 @@ namespace RunningGame.Entities
         {
             //Stuff
         }
-         
     }
 }

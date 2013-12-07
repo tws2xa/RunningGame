@@ -46,6 +46,7 @@ namespace RunningGame.Systems
             myKeys.Add(GlobalVars.KEY_JUMP, new KeyBools());
             myKeys.Add(GlobalVars.KEY_LEFT, new KeyBools());
             myKeys.Add(GlobalVars.KEY_RIGHT, new KeyBools());
+            myKeys.Add(GlobalVars.KEY_DOWN, new KeyBools());
 
         }
 

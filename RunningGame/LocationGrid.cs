@@ -194,7 +194,11 @@ namespace RunningGame
             float higherY = Math.Max(y1, y2);
             */
 
-            double theta = Math.Atan((y2 - y1) / (x2 - x1));
+            double theta = 0;
+            if(x2 != x1)
+            {
+                theta = Math.Atan((y2 - y1) / (x2 - x1));
+            }
 
             if (x2 < x1)
             {

@@ -80,7 +80,7 @@ namespace RunningGame
             defaultCollisions.Add(GlobalVars.SPEEDY_POSTGROUND_COLLIDER_TYPE, simpleStopCollision);
             defaultCollisions.Add(GlobalVars.POWERUP_PICKUP_COLLIDER_TYPE, doNothingCollision);
             defaultCollisions.Add(GlobalVars.SPIKE_COLLIDER_TYPE, doNothingCollision);
-
+            defaultCollisions.Add(GlobalVars.VISION_COLLIDER_TYPE, doNothingCollision);
             defaultCollisions.Add(GlobalVars.BOUNCE_PREGROUND_COLLIDER_TYPE, bounceGroundCollision);
             
 
@@ -109,12 +109,12 @@ namespace RunningGame
 
             addToDictionary(GlobalVars.MOVING_PLATFORM_COLLIDER_TYPE, GlobalVars.PLAYER_COLLIDER_TYPE, otherPlatformCollisionFunction);
 
+            addToDictionary(GlobalVars.VISION_COLLIDER_TYPE, GlobalVars.BASIC_SOLID_COLLIDER_TYPE, simpleStopCollisionFunction);
+
             addToDictionary(GlobalVars.SPEEDY_PREGROUND_COLLIDER_TYPE, GlobalVars.BASIC_SOLID_COLLIDER_TYPE, speedyGroundCollisionFunction);
             addToDictionary(GlobalVars.SPEEDY_PREGROUND_COLLIDER_TYPE, GlobalVars.PLAYER_COLLIDER_TYPE, doNothingCollisionFunction);
             addToDictionary(GlobalVars.SPEEDY_PREGROUND_COLLIDER_TYPE, GlobalVars.SIMPLE_ENEMY_COLLIDER_TYPE, doNothingCollisionFunction);
             addToDictionary(GlobalVars.SPEEDY_PREGROUND_COLLIDER_TYPE, GlobalVars.SPAWN_BLOCK_COLLIDER_TYPE, removeSpeedyCollisionFunction);
-
-            
             addToDictionary(GlobalVars.SPEEDY_POSTGROUND_COLLIDER_TYPE, GlobalVars.SPAWN_BLOCK_COLLIDER_TYPE, speedyOtherCollision);
         }
 

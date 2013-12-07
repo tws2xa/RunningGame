@@ -25,6 +25,7 @@ namespace RunningGame
         public GravitySystem gravSystem;
         public MovementSystem moveSystem;
         public PlayerMovementSystem playerSystem;
+        public VisionOrbSystem visSystem;
         public CollisionDetectionSystem colSystem;
         public HealthSystem healthSystem;
         public AnimationSystem animSystem;
@@ -59,6 +60,7 @@ namespace RunningGame
             gravSystem = new GravitySystem(level);              systems.Add(gravSystem);
             moveSystem = new MovementSystem(level);             systems.Add(moveSystem);
             playerSystem = new PlayerMovementSystem(level);     systems.Add(playerSystem);
+            visSystem = new VisionOrbSystem(level);             systems.Add(visSystem);
             colSystem = new CollisionDetectionSystem(level);    systems.Add(colSystem);
             drawSystem = new DrawSystem(level.g, level);        systems.Add(drawSystem);
             healthSystem = new HealthSystem(level);             systems.Add(healthSystem);
@@ -89,6 +91,7 @@ namespace RunningGame
             bkgPosSystem.Update(deltaTime);
             scrEdgeSystem.Update(deltaTime);
             playerSystem.Update(deltaTime);
+            visSystem.Update(deltaTime);
             grapSystem.Update(deltaTime);
             spSystem.Update(deltaTime);
             weapSystem.Update(deltaTime);

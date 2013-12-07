@@ -57,7 +57,7 @@ namespace RunningGame.Systems
                 if (numBullets <= 0) bulletFired = false;
             }
 
-            if (level.getInputSystem().mouseLeftClick)
+            if (!level.sysManager.visSystem.orbActive && level.getInputSystem().mouseLeftClick)
             {
                 if (level.getPlayer() != null)
                 {

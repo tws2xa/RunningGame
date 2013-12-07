@@ -48,6 +48,7 @@ namespace RunningGame
         public static string POWERUP_PICKUP_COMPONENT_NAME = "pwrupPkpComp";
         public static string SPAWN_BLOCK_COMPONENT_NAME = "spawnBlkComp";
         public static string DIRECTION_COMPONENT_NAME = "spikeComp";
+        public static string VISION_ORB_INPUT_COMPONENT_NAME = "visionInput";
 
         //Collider Types
         public static string PLAYER_COLLIDER_TYPE = "playerCollider";
@@ -69,6 +70,8 @@ namespace RunningGame
         public static string POWERUP_PICKUP_COLLIDER_TYPE = "pwrupPkpCollider";
         public static string SPAWN_BLOCK_COLLIDER_TYPE = "spawnBlock";
         public static string SPIKE_COLLIDER_TYPE = "killPlayerCollider";
+        public static string VISION_COLLIDER_TYPE = "visionCollider";
+
 
         //Collection of all in game entities
         public static Dictionary<int, Entity> nonGroundEntities = new Dictionary<int, Entity>();
@@ -102,6 +105,7 @@ namespace RunningGame
         public static Keys KEY_JUMP = Keys.W;
         public static Keys KEY_LEFT = Keys.A;
         public static Keys KEY_RIGHT = Keys.D;
+        public static Keys KEY_DOWN = Keys.S;
 
         //Switch Events
         public static string DOOR_EVENT_TYPE = "doorEvent";
