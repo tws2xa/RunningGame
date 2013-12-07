@@ -57,7 +57,7 @@ namespace RunningGame.Entities
             DrawComponent drawComp = (DrawComponent)addComponent(new DrawComponent(defaultWidth, defaultHeight, level, true), true);
             //Add image - Use base name for first parameter (everything in file path after Resources. and before the numbers and .png)
             //Then second parameter is full filepath to a default image
-            drawComp.addSprite("Artwork.Other.Blue", "RunningGame.Resources.Artwork.Foreground.Blue.png", "Main");
+            drawComp.addSprite("Artwork.Foreground.BlueDrop", "RunningGame.Resources.Artwork.Foreground.BlueDrop.png", "Main");
             drawComp.setSprite("Main"); //Set image to active image
             addComponent(new VelocityComponent(0, 0));
 
