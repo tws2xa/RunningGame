@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Drawing;
 using RunningGame.Entities;
 using RunningGame.Components;
 
@@ -22,6 +23,18 @@ namespace RunningGame.Systems
         bool hasRunOnce = false;
         Keys visionKey = Keys.V;
         float visionOrbSize = 20.0f;
+
+        int zoomOut = 50;
+
+        bool doFade = true;
+        float fadeTime = 0.15f;
+        float fadeTimer = -1.0f;
+
+        bool doBorder = true;
+        Brush borderBrush = Brushes.White;
+
+        Color toOrbCol = Color.LightGray;
+        Color toPlayerCol = Color.LightGray;
 
         Random rand = new Random();
 
@@ -55,21 +68,48 @@ namespace RunningGame.Systems
                 hasRunOnce = true;
             }
 
+            if (doFade && fadeTimer >= 0)
+            {
+                fadeTimer -= deltaTime;
+                if (fadeTimer < 0)
+                {
+                    fadeTimer = -1.0f;
+                    if (orbActive)
+                    {
+                        destroyVisionOrb();
+                        orbActive = false;
+                    }
+                    else
+                    {
+                        createVisionOrb();
+                        orbActive = true;
+                    }
+                }
+            }
 
             if (level.getInputSystem().myKeys[visionKey].down)
             {
-                if (orbActive)
+                if (doFade)
                 {
-                    destroyVisionOrb();
-                    orbActive = false;
+                    Color flashCol = toOrbCol;
+                    if(orbActive) flashCol = toPlayerCol;
+                    level.sysManager.drawSystem.setFlash(flashCol, fadeTime * 2);
+                    fadeTimer = fadeTime;
                 }
                 else
                 {
-                    createVisionOrb();
-                    orbActive = true;
+                    if (orbActive)
+                    {
+                        destroyVisionOrb();
+                        orbActive = false;
+                    }
+                    else
+                    {
+                        createVisionOrb();
+                        orbActive = true;
+                    }
                 }
 
-                return; //Don't do any other powerups after creating the orb!
             }
 
             foreach (Entity e in getApplicableEntities())
@@ -244,6 +284,14 @@ namespace RunningGame.Systems
             level.addEntity(newEntity.randId, newEntity); //This should just stay the same
 
             level.sysManager.drawSystem.mainView.setFollowEntity(newEntity);
+            level.sysManager.drawSystem.mainView.width += zoomOut;
+            level.sysManager.drawSystem.mainView.height += zoomOut;
+            if (doBorder)
+            {
+                level.sysManager.drawSystem.mainView.borderBrush = borderBrush;
+                level.sysManager.drawSystem.mainView.borderSize = 10;
+                level.sysManager.drawSystem.mainView.hasBorder = true;
+            }
         }
 
         private void destroyVisionOrb()
@@ -254,6 +302,13 @@ namespace RunningGame.Systems
             }
 
             level.sysManager.drawSystem.mainView.setFollowEntity(level.getPlayer());
+            level.sysManager.drawSystem.mainView.width -= zoomOut;
+            level.sysManager.drawSystem.mainView.height -= zoomOut;
+            if (doBorder)
+            {
+                level.sysManager.drawSystem.mainView.hasBorder = false;
+            }
+
             level.getPlayer().addComponent(new PlayerInputComponent(level.getPlayer()));
         }
 
