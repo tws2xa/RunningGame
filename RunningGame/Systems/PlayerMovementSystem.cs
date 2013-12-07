@@ -67,11 +67,13 @@ namespace RunningGame.Systems
                 //If there's a key down and the player isn't moving horizontally, check to make sure there's a collision
                 if (Math.Abs(velComp.x) < Math.Abs(pelInComp.platformerMoveSpeed))
                 {
+
+                    float allowedOverlap = 2.0f;
                     if (level.getInputSystem().myKeys[GlobalVars.KEY_RIGHT].pressed)
                     {
                         float leftX = (posComp.x - posComp.width / 2-1);
                         float upperY = (posComp.y - posComp.height / 2);
-                        float lowerY = (posComp.y + posComp.height / 2);
+                        float lowerY = (posComp.y + posComp.height / 2 - allowedOverlap);
 
                         if (!(level.getCollisionSystem().findObjectsBetweenPoints(leftX, upperY, leftX, lowerY).Count > 0))
                         {
@@ -82,7 +84,7 @@ namespace RunningGame.Systems
                     {
                         float rightX = (posComp.x + posComp.width / 2 + 1);
                         float upperY = (posComp.y - posComp.height / 2);
-                        float lowerY = (posComp.y + posComp.height / 2);
+                        float lowerY = (posComp.y + posComp.height / 2 - allowedOverlap);
 
                         if (!(level.getCollisionSystem().findObjectsBetweenPoints(rightX, upperY, rightX, lowerY).Count > 0))
                         {
