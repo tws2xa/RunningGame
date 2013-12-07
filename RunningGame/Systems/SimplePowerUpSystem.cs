@@ -143,7 +143,10 @@ namespace RunningGame.Systems
                 }
             }
 
-            if(!level.sysManager.visSystem.orbActive) checkForInput();
+            if (!level.sysManager.visSystem.orbActive)
+            {
+                checkForInput();
+            }
         }
         //----------------------------------------------------------------------------------------------
     

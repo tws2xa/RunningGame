@@ -281,6 +281,7 @@ namespace RunningGame.Systems
 
         public void createVisionOrb()
         {
+            if (level.getPlayer() == null) return;
             PositionComponent posComp = (PositionComponent)level.getPlayer().getComponent(GlobalVars.POSITION_COMPONENT_NAME);
             Player player = (Player)level.getPlayer();
             VelocityComponent playerVel = (VelocityComponent)player.getComponent(GlobalVars.VELOCITY_COMPONENT_NAME);
@@ -340,6 +341,7 @@ namespace RunningGame.Systems
                 plView.borderBrush = plBorderBrush;
                 level.sysManager.drawSystem.addView(plView);
             }
+            orbActive = true;
         }
 
         public void destroyVisionOrb()
@@ -367,6 +369,8 @@ namespace RunningGame.Systems
 
             if(level.getPlayer() != null)
                 level.getPlayer().addComponent(new PlayerInputComponent(level.getPlayer()));
+
+            orbActive = false;
         }
 
         public float getSpawnDistance(Player player)
@@ -389,7 +393,7 @@ namespace RunningGame.Systems
         public void checkPlayerWindowLocation()
         {
 
-            if (plView == null) return;
+            if (plView == null || level.getPlayer() == null) return;
 
             PositionComponent posComp = (PositionComponent)level.getPlayer().getComponent(GlobalVars.POSITION_COMPONENT_NAME);
             //Find player's quadrant
