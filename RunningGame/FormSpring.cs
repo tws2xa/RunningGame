@@ -189,7 +189,7 @@ namespace RunningGame
             
             GlobalVars.levels[1][0] = "RunningGame.Resources.Levels.World2Level1.png";
             GlobalVars.levels[1][1] = "RunningGame.Resources.Levels.World2Level2.png";
-            GlobalVars.levels[1][2] = "RunningGame.Resources.Levels.PresentationLevel.png";
+            GlobalVars.levels[1][2] = "RunningGame.Resources.Levels.BackupWorld2.png";
             
             GlobalVars.levels[2][0] = "RunningGame.Resources.Levels.World3Level1.png";
             GlobalVars.levels[2][1] = "RunningGame.Resources.Levels.World3Level2.png";
@@ -197,7 +197,7 @@ namespace RunningGame
             
             GlobalVars.levels[3][0] = "RunningGame.Resources.Levels.World4Level1.png";
             GlobalVars.levels[3][1] = "RunningGame.Resources.Levels.World4Level2.png";
-            GlobalVars.levels[3][2] = "RunningGame.Resources.Levels.World4Level3.png";
+            GlobalVars.levels[3][2] = "RunningGame.Resources.Levels.World4Level31.png";
             
             GlobalVars.levels[4][0] = "RunningGame.Resources.Levels.World5Level1.png";
             GlobalVars.levels[4][1] = "RunningGame.Resources.Levels.World5Level2.png";
