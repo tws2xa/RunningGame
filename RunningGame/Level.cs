@@ -487,13 +487,34 @@ namespace RunningGame
 
         public BackgroundEntity getMyBackgroundEntity()
         {
-            BackgroundEntity bkgEnt = new BackgroundEntity(this, 0, 0);
-            DrawComponent drawComp = (DrawComponent)bkgEnt.getComponent(GlobalVars.DRAW_COMPONENT_NAME);
-            PositionComponent posComp = (PositionComponent)bkgEnt.getComponent(GlobalVars.POSITION_COMPONENT_NAME);
-
+           
             string fullImageAddress = "RunningGame.Resources.Artwork.Background.Bkg11.png";
             string imageStub = "Artwork.Background.Bkg";
 
+            Bitmap tempImg = getBkgImg();
+            float newWidth = tempImg.Width;
+            float newHeight = tempImg.Height;
+
+            float scaleFactor = 1.1f;
+
+            while (newWidth / scaleFactor > levelWidth || newHeight / scaleFactor > levelHeight)
+            {
+                newWidth /= scaleFactor;
+                newHeight /= scaleFactor;
+            }
+
+            while (newWidth < levelWidth || newHeight < levelHeight)
+            {
+                newWidth *= scaleFactor;
+                newHeight *= scaleFactor;
+            }
+
+            BackgroundEntity bkgEnt = new BackgroundEntity(this, 0, 0, newWidth, newHeight);
+            DrawComponent drawComp = (DrawComponent)bkgEnt.getComponent(GlobalVars.DRAW_COMPONENT_NAME);
+            PositionComponent posComp = (PositionComponent)bkgEnt.getComponent(GlobalVars.POSITION_COMPONENT_NAME);
+
+
+            /*
             //Static Background
             if (sysManager.bkgPosSystem.scrollType == 0)
             {
@@ -546,6 +567,7 @@ namespace RunningGame
                 drawComp.resizeImages((int)newWidth, (int)newHeight);
                 getMovementSystem().changePosition(posComp, newWidth / 2, newHeight / 2, false);
             }
+             * */
             /*
             //Proportion Scrolling
             if (sysManager.bkgPosSystem.scrollType == 1 || sysManager.bkgPosSystem.scrollType == 2)

@@ -27,7 +27,22 @@ namespace RunningGame.Entities
 
             //Add the components.
             //Leave this for all entities.
-            addMyComponents(x, y);
+            addMyComponents(x, y, defaultWidth, defaultHeight);
+        }
+        public BackgroundEntity(Level level, float x, float y, float w, float h)
+        {
+            //Set level.
+            //Leave for all entities
+            this.level = level;
+            defaultWidth = level.levelWidth;
+            defaultHeight = level.levelHeight;
+            //Refers back to a class in the super Entity.
+            //Leave this for all entities.
+            initializeEntity(new Random().Next(Int32.MinValue, Int32.MaxValue), level);
+
+            //Add the components.
+            //Leave this for all entities.
+            addMyComponents(x, y, w, h);
         }
         public BackgroundEntity(Level level, int id, float x, float y)
         {
@@ -42,7 +57,7 @@ namespace RunningGame.Entities
 
             //Add the components.
             //Leave this for all entities.
-            addMyComponents(x, y);
+            addMyComponents(x, y, defaultWidth, defaultHeight);
         }
 
 
@@ -50,11 +65,11 @@ namespace RunningGame.Entities
 
         //Here's where you add all the components the entity has.
         //You can just uncomment the ones you want.
-        public void addMyComponents(float x, float y)
+        public void addMyComponents(float x, float y, float w, float h)
         {
             /*POSITION COMPONENT
              */
-            addComponent(new PositionComponent(x, y, defaultWidth, defaultHeight, this));
+            addComponent(new PositionComponent(x, y, w, h, this));
             
             /*DRAW COMPONENT
              */

@@ -476,7 +476,7 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\Artwork\Background\Bkg33.png" />
-    <EmbeddedResource Include="Resources\Artwork\Background\Bkg43.png" />
+    <EmbeddedResource Include="Resources\Artwork\Background\Bkg41.png" />
     <EmbeddedResource Include="Resources\Artwork\Background\Bkg53.png" />
   </ItemGroup>
   <ItemGroup>
@@ -485,6 +485,10 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="DeadPlayer.png" />
+    <Content Include="Resources\Artwork\Background\Bkg43.png" />
+    <EmbeddedResource Include="Resources\Artwork\Background\Bkg61.png" />
+    <EmbeddedResource Include="Resources\Artwork\Background\Bkg62.png" />
+    <EmbeddedResource Include="Resources\Artwork\Background\Bkg42.png" />
     <EmbeddedResource Include="Resources\Artwork\Foreground\BlueDrop.png" />
     <EmbeddedResource Include="Resources\Artwork\Foreground\PurpleDrop.png" />
     <EmbeddedResource Include="Resources\Artwork\Foreground\Orb3.png" />
