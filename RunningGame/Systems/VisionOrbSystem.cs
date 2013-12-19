@@ -36,15 +36,15 @@ namespace RunningGame.Systems
 
         //Border
         bool doBorder = true;
-        Brush borderBrush = Brushes.White;
-        int mainBorderSize = 10;
+        SolidBrush borderBrush = (SolidBrush)Brushes.White;
+        int mainBorderSize = 25;
 
         //Player Window
         bool doPlayerWindow = true;
         float plWinWidth = 200.0f;
         float plWinHeight = 170.0f;
         int plBorderSize = 5;
-        Brush plBorderBrush = Brushes.White;
+        SolidBrush plBorderBrush = (SolidBrush)Brushes.White;
         float plWinXLoc = 0; //Redefined in creation method
         float plWinYLoc = 0; //Redefined in creation method
         View plView = null;
@@ -298,7 +298,6 @@ namespace RunningGame.Systems
 
             player.removeComponent(GlobalVars.PLAYER_INPUT_COMPONENT_NAME);
 
-            //Entity newEntity = new [YOUR ENTITY HERE](level, x, y);
             VisionOrb newEntity = new VisionOrb(level, GenerateRandId(), x, y);
             level.addEntity(newEntity.randId, newEntity); //This should just stay the same
 
@@ -337,6 +336,7 @@ namespace RunningGame.Systems
                 plView.displayY = plWinYLoc;
                 plView.setFollowEntity(level.getPlayer());
                 plView.hasBorder = true;
+                plView.borderFade = false; 
                 plView.borderSize = plBorderSize;
                 plView.borderBrush = plBorderBrush;
                 level.sysManager.drawSystem.addView(plView);

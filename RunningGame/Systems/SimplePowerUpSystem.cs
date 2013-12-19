@@ -360,9 +360,9 @@ namespace RunningGame.Systems
             {
                 if (level.sysManager.drawSystem.getMainView() != null)
                 {
-                    System.Drawing.Brush borderBrush = new System.Drawing.SolidBrush(newBorderCol);
+                    System.Drawing.SolidBrush borderBrush = new System.Drawing.SolidBrush(newBorderCol);
                     level.sysManager.drawSystem.getMainView().borderBrush = borderBrush;
-                    level.sysManager.drawSystem.getMainView().borderSize = 5;
+                    level.sysManager.drawSystem.getMainView().borderSize = 25;
                     level.sysManager.drawSystem.getMainView().hasBorder = true;
                 }
             }

@@ -42,7 +42,9 @@ namespace RunningGame
         public Pen GrapplePen = new Pen(Brushes.Red, 3);
 
         public bool hasBorder = false;
-        public Brush borderBrush = Brushes.Brown;
+        public bool borderFade = true;
+        int amntSolid = 5; //How many layers to leave solid if fading
+        public SolidBrush borderBrush = (SolidBrush)Brushes.Brown;
         public float borderSize = 2.0f;
 
         public Level level;
@@ -245,8 +247,32 @@ namespace RunningGame
             //Draw Border
             if (this.hasBorder)
             {
-                mainG.DrawRectangle(new Pen(borderBrush, borderSize), new Rectangle((int)(displayX), (int)(displayY),
-                (int)(displayWidth), (int)(displayHeight)));
+                if (!this.borderFade)
+                {
+                    mainG.DrawRectangle(new Pen(borderBrush, borderSize), new Rectangle((int)(displayX), (int)(displayY),
+                    (int)(displayWidth), (int)(displayHeight)));
+                }
+                else
+                {
+                    int alphaDiff = (int)Math.Ceiling(255.0f / (borderSize - amntSolid)); //How much to decrease alpha per layer
+                    //Draw the solid bit
+                    //mainG.DrawRectangle(new Pen(borderBrush, amntSolid), new Rectangle((int)(displayX), (int)(displayY),
+                    //(int)(displayWidth), (int)(displayHeight)));
+
+                    int alphaVal = 255;
+                    alphaVal -= alphaDiff;
+
+                    for (int i = 0; i <= borderSize; i++)
+                    {
+                        if (alphaVal < 0) alphaVal = 0;
+                        Color tmpCol = Color.FromArgb(alphaVal, borderBrush.Color);
+                        Pen pen = new Pen(new SolidBrush(tmpCol), 1);
+                        mainG.DrawRectangle(pen, new Rectangle((int)(displayX+i), (int)(displayY+i),
+                            (int)(displayWidth-2*i), (int)(displayHeight-2*i)));alphaVal -= alphaDiff;
+                        alphaVal -= alphaDiff;
+                        if (alphaVal < 0) alphaVal = 0;
+                    }
+                }
             }
             //look into double buffers, mainG and G are different!
             //use mainG
