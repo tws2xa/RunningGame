@@ -46,7 +46,7 @@
             // 
             // btnBegin
             // 
-            this.btnBegin.Location = new System.Drawing.Point(12, 427);
+            this.btnBegin.Location = new System.Drawing.Point(502, 432);
             this.btnBegin.Name = "btnBegin";
             this.btnBegin.Size = new System.Drawing.Size(126, 41);
             this.btnBegin.TabIndex = 0;
@@ -68,7 +68,7 @@
             // btnEdit
             // 
             this.btnEdit.Enabled = false;
-            this.btnEdit.Location = new System.Drawing.Point(12, 381);
+            this.btnEdit.Location = new System.Drawing.Point(502, 386);
             this.btnEdit.Name = "btnEdit";
             this.btnEdit.Size = new System.Drawing.Size(126, 41);
             this.btnEdit.TabIndex = 2;
@@ -79,7 +79,7 @@
             // 
             // btnWorld1
             // 
-            this.btnWorld1.Location = new System.Drawing.Point(511, 287);
+            this.btnWorld1.Location = new System.Drawing.Point(12, 292);
             this.btnWorld1.Name = "btnWorld1";
             this.btnWorld1.Size = new System.Drawing.Size(117, 25);
             this.btnWorld1.TabIndex = 3;
@@ -89,7 +89,7 @@
             // 
             // btnWorld2
             // 
-            this.btnWorld2.Location = new System.Drawing.Point(511, 318);
+            this.btnWorld2.Location = new System.Drawing.Point(12, 323);
             this.btnWorld2.Name = "btnWorld2";
             this.btnWorld2.Size = new System.Drawing.Size(117, 25);
             this.btnWorld2.TabIndex = 4;
@@ -99,7 +99,7 @@
             // 
             // btnWorld3
             // 
-            this.btnWorld3.Location = new System.Drawing.Point(511, 349);
+            this.btnWorld3.Location = new System.Drawing.Point(12, 354);
             this.btnWorld3.Name = "btnWorld3";
             this.btnWorld3.Size = new System.Drawing.Size(117, 25);
             this.btnWorld3.TabIndex = 5;
@@ -109,7 +109,7 @@
             // 
             // btnWorld4
             // 
-            this.btnWorld4.Location = new System.Drawing.Point(511, 380);
+            this.btnWorld4.Location = new System.Drawing.Point(12, 385);
             this.btnWorld4.Name = "btnWorld4";
             this.btnWorld4.Size = new System.Drawing.Size(117, 25);
             this.btnWorld4.TabIndex = 6;
@@ -119,7 +119,7 @@
             // 
             // btnWorld5
             // 
-            this.btnWorld5.Location = new System.Drawing.Point(511, 411);
+            this.btnWorld5.Location = new System.Drawing.Point(12, 416);
             this.btnWorld5.Name = "btnWorld5";
             this.btnWorld5.Size = new System.Drawing.Size(117, 25);
             this.btnWorld5.TabIndex = 7;
@@ -129,7 +129,7 @@
             // 
             // btnLvl1
             // 
-            this.btnLvl1.Location = new System.Drawing.Point(511, 349);
+            this.btnLvl1.Location = new System.Drawing.Point(12, 354);
             this.btnLvl1.Name = "btnLvl1";
             this.btnLvl1.Size = new System.Drawing.Size(117, 25);
             this.btnLvl1.TabIndex = 8;
@@ -139,7 +139,7 @@
             // 
             // btnLvl2
             // 
-            this.btnLvl2.Location = new System.Drawing.Point(511, 380);
+            this.btnLvl2.Location = new System.Drawing.Point(12, 385);
             this.btnLvl2.Name = "btnLvl2";
             this.btnLvl2.Size = new System.Drawing.Size(117, 25);
             this.btnLvl2.TabIndex = 9;
@@ -149,7 +149,7 @@
             // 
             // btnLvl3
             // 
-            this.btnLvl3.Location = new System.Drawing.Point(511, 411);
+            this.btnLvl3.Location = new System.Drawing.Point(12, 416);
             this.btnLvl3.Name = "btnLvl3";
             this.btnLvl3.Size = new System.Drawing.Size(117, 25);
             this.btnLvl3.TabIndex = 10;
@@ -159,7 +159,7 @@
             // 
             // btnLvlReturn
             // 
-            this.btnLvlReturn.Location = new System.Drawing.Point(511, 443);
+            this.btnLvlReturn.Location = new System.Drawing.Point(12, 448);
             this.btnLvlReturn.Name = "btnLvlReturn";
             this.btnLvlReturn.Size = new System.Drawing.Size(117, 25);
             this.btnLvlReturn.TabIndex = 11;
@@ -169,7 +169,7 @@
             // 
             // btnPlay
             // 
-            this.btnPlay.Location = new System.Drawing.Point(511, 427);
+            this.btnPlay.Location = new System.Drawing.Point(12, 432);
             this.btnPlay.Name = "btnPlay";
             this.btnPlay.Size = new System.Drawing.Size(117, 41);
             this.btnPlay.TabIndex = 12;
@@ -179,7 +179,7 @@
             // 
             // btnWorld6
             // 
-            this.btnWorld6.Location = new System.Drawing.Point(511, 442);
+            this.btnWorld6.Location = new System.Drawing.Point(12, 447);
             this.btnWorld6.Name = "btnWorld6";
             this.btnWorld6.Size = new System.Drawing.Size(117, 25);
             this.btnWorld6.TabIndex = 13;
@@ -192,7 +192,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.BackgroundImage = global::RunningGame.Properties.Resources.Concept_Art2;
+            this.BackgroundImage = global::RunningGame.Properties.Resources.SpringBlurSmall;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(640, 480);
             this.Controls.Add(this.btnWorld6);
@@ -209,6 +209,7 @@
             this.Controls.Add(this.btnEdit);
             this.Controls.Add(this.lblLoading);
             this.Controls.Add(this.btnBegin);
+            this.DoubleBuffered = true;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.Name = "FormSpring";
             this.Text = "Project: Spring";

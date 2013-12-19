@@ -331,6 +331,8 @@ namespace RunningGame
                 sysManager.visSystem.destroyVisionOrb();
             }
 
+            if (sysManager.drawSystem.getMainView().hasBorder) sysManager.drawSystem.getMainView().hasBorder = false;
+
             Entity[] ents = GlobalVars.nonGroundEntities.Values.ToArray();
             for (int i = 0; i < ents.Length; i++)
             {

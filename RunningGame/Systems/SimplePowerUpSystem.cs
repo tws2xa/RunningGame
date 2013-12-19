@@ -217,12 +217,10 @@ namespace RunningGame.Systems
                         speedyEquipped = true;
                         level.getPlayer().setBlueImage();
                         newBorderCol = blueColor;
-                        refacePlayer();
                     }
                     else
                     {
                         level.getPlayer().setNormalImage();
-                        refacePlayer();
                     }
                     blockSpawnEquipped = false;
                 }
@@ -235,12 +233,10 @@ namespace RunningGame.Systems
                         blockSpawnEquipped = true;
                         level.getPlayer().setOrangeImage();
                         newBorderCol = orangeColor;
-                        refacePlayer();
                     }
                     else
                     {
                         level.getPlayer().setNormalImage();
-                        refacePlayer();
                     }
                 }
                 else if (blockSpawnEquipped)
@@ -249,7 +245,6 @@ namespace RunningGame.Systems
                     speedyEquipped = false;
                     blockSpawnEquipped = false;
                     level.getPlayer().setNormalImage();
-                    refacePlayer();
                 }
                 else
                 {
@@ -258,12 +253,10 @@ namespace RunningGame.Systems
                         bouncyEquipped = true;
                         level.getPlayer().setPurpleImage();
                         newBorderCol = purpleColor;
-                        refacePlayer();
                     }
                     else
                     {
                         level.getPlayer().setNormalImage();
-                        refacePlayer();
                     }
                     speedyEquipped = false;
                     blockSpawnEquipped = false;
@@ -278,7 +271,6 @@ namespace RunningGame.Systems
                     speedyEquipped = false;
                     blockSpawnEquipped = false;
                     level.getPlayer().setNormalImage();
-                    refacePlayer();
                 }
                 else if (speedyEquipped)
                 {
@@ -287,12 +279,10 @@ namespace RunningGame.Systems
                         bouncyEquipped = true;
                         level.getPlayer().setPurpleImage();
                         newBorderCol = purpleColor;
-                        refacePlayer();
                     }
                     else
                     {
                         level.getPlayer().setNormalImage();
-                        refacePlayer();
                     }
                     speedyEquipped = false;
                     blockSpawnEquipped = false;
@@ -305,12 +295,10 @@ namespace RunningGame.Systems
                         speedyEquipped = true;
                         level.getPlayer().setBlueImage();
                         newBorderCol = blueColor;
-                        refacePlayer();
                     }
                     else
                     {
                         level.getPlayer().setNormalImage();
-                        refacePlayer();
                     }
                     blockSpawnEquipped = false;
                 }
@@ -321,7 +309,6 @@ namespace RunningGame.Systems
                         blockSpawnEquipped = true;
                         level.getPlayer().setOrangeImage();
                         newBorderCol = orangeColor;
-                        refacePlayer();
                         bouncyEquipped = false;
                         speedyEquipped = false;
                     }
@@ -330,7 +317,6 @@ namespace RunningGame.Systems
                         speedyEquipped = true;
                         level.getPlayer().setBlueImage();
                         newBorderCol = blueColor;
-                        refacePlayer();
 
                         bouncyEquipped = false;
                         blockSpawnEquipped = false;
@@ -340,7 +326,6 @@ namespace RunningGame.Systems
                         bouncyEquipped = true;
                         level.getPlayer().setPurpleImage();
                         newBorderCol = purpleColor;
-                        refacePlayer();
                         speedyEquipped = false;
                         blockSpawnEquipped = false;
                     }
@@ -350,7 +335,6 @@ namespace RunningGame.Systems
                         speedyEquipped = false;
                         blockSpawnEquipped = false;
                         level.getPlayer().setNormalImage();
-                        refacePlayer();
                     }
 
                 }
@@ -381,19 +365,7 @@ namespace RunningGame.Systems
             {
                 level.getPlayer().setNormalImage();
             }
-            refacePlayer();
             return;
-        }
-
-        public void refacePlayer()
-        {
-            /*level.getPlayer().faceDirection(level.getPlayer().isLookingRight());
-
-            Console.WriteLine("Left: " + level.getPlayer().isLookingLeft());
-            Console.WriteLine("Right: " + level.getPlayer().isLookingRight());
-
-            if (level.getPlayer().isLookingRight()) level.getPlayer().faceRight();
-            else level.getPlayer().faceLeft();*/
         }
 
         public void equppedPowerup()
