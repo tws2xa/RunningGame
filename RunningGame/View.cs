@@ -49,6 +49,9 @@ namespace RunningGame
 
         public BackgroundEntity bkgEnt = null;
 
+        public bool seperateStaticObjImage = false; //If false, static objects get drawn to bkg - otherwise a seperate image.
+        public Bitmap staticObjImg = null;
+
         //Constructor that defaults to a 1:1 ratio for width and height, upper left corner
         public View(float x, float y, float width, float height, Level level)
         {
@@ -122,44 +125,79 @@ namespace RunningGame
                 hasDecreasedQuality = true;
             }
 
-            //First, if there's a background entity, draw that!
+            //Find background Entity first if need be
             if (bkgEnt == null)
             {
+
                 foreach (Entity e in entities)
                 {
-         
+
                     if (e is BackgroundEntity)
                     {
-                        bkgEnt = (BackgroundEntity)e;
-
-                        
-                        //Draw static entities onto background
-                        foreach(Entity ent in GlobalVars.groundEntities.Values) {
-
-                            DrawComponent grnDraw = (DrawComponent)ent.getComponent(GlobalVars.DRAW_COMPONENT_NAME);
-                            DrawComponent bkgDraw = (DrawComponent)bkgEnt.getComponent(GlobalVars.DRAW_COMPONENT_NAME);
-
-                            PositionComponent posComp = (PositionComponent)ent.getComponent(GlobalVars.POSITION_COMPONENT_NAME);
-                            PointF drawPoint = posComp.getPointF();
-                            drawPoint.X -= (posComp.width / 2.0f);
-                            drawPoint.Y -= (posComp.height / 2.0f);
-
-                            Graphics graph = Graphics.FromImage(bkgDraw.getImage());
-                            lock (grnDraw.getImage())
-                            {
-                                graph.DrawImageUnscaled(grnDraw.getImage(), new Point((int)drawPoint.X, (int)drawPoint.Y)); //Draw the image to the view
-                            }
-                            grnDraw.needRedraw = false;
-                            
-                        }
-
-                        break;
+                        bkgEnt = (BackgroundEntity)e; //Find background entity
                     }
                 }
             }
 
-            if(bkgEnt != null)
+            if (staticObjImg == null)
+            {
+                if (seperateStaticObjImage)
+                {
+                    staticObjImg = new Bitmap((int)Math.Ceiling(level.levelWidth), (int)Math.Ceiling(level.levelHeight));
+                }
+                else
+                {
+                    foreach (Entity e in entities)
+                    {
+
+                        if (e is BackgroundEntity)
+                        {
+                            if(bkgEnt == null)
+                                bkgEnt = (BackgroundEntity)e; //Find background entity
+                            DrawComponent bkgDraw = (DrawComponent)bkgEnt.getComponent(GlobalVars.DRAW_COMPONENT_NAME);
+                            staticObjImg = (Bitmap)bkgDraw.getImage();
+                        }
+                    }
+                }
+
+                //Draw static entities onto background
+                foreach(Entity ent in GlobalVars.groundEntities.Values) {
+
+                    DrawComponent grnDraw = (DrawComponent)ent.getComponent(GlobalVars.DRAW_COMPONENT_NAME);
+
+                    /*DrawComponent bkgDraw = (DrawComponent)bkgEnt.getComponent(GlobalVars.DRAW_COMPONENT_NAME);
+
+                    PositionComponent posComp = (PositionComponent)ent.getComponent(GlobalVars.POSITION_COMPONENT_NAME);
+                    PointF drawPoint = posComp.getPointF();
+                    drawPoint.X -= (posComp.width / 2.0f);
+                    drawPoint.Y -= (posComp.height / 2.0f);
+
+                    Graphics graph = Graphics.FromImage(bkgDraw.getImage());*/
+
+
+                    PositionComponent posComp = (PositionComponent)ent.getComponent(GlobalVars.POSITION_COMPONENT_NAME);
+                    PointF drawPoint = posComp.getPointF();
+                    drawPoint.X -= (posComp.width / 2.0f);
+                    drawPoint.Y -= (posComp.height / 2.0f);
+
+                    Graphics graph = Graphics.FromImage(staticObjImg);
+                    lock (grnDraw.getImage())
+                    {
+                        graph.DrawImageUnscaled(grnDraw.getImage(), new Point((int)drawPoint.X, (int)drawPoint.Y)); //Draw the image to the view
+                    }
+                    grnDraw.needRedraw = false;
+                            
+                }
+                
+            }
+
+            //First, if there's a background entity, draw that!
+            if (bkgEnt != null)
                 drawBkgEntity(bkgEnt);
+            if (seperateStaticObjImage)
+            {
+                drawStaticObjImage();
+            }
 
             
             //If there's a grapple, draw it
@@ -220,7 +258,11 @@ namespace RunningGame
 
         }
 
-
+        public void drawStaticObjImage()
+        {
+            if(staticObjImg == null) return;
+            g.DrawImage(staticObjImg, new RectangleF(x, y, width, height), new RectangleF(x, y, width, height), GraphicsUnit.Pixel);
+        }
         public void drawBkgEntity(Entity e)
         {
             //Pull out all required components
