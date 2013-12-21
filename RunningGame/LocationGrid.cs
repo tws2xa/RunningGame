@@ -30,6 +30,8 @@ namespace RunningGame
         float rowHeight = 20;
         float colWidth = 20;
 
+        public bool preciseCollisionChecking = true;
+
         Level level;
 
         //For drawing the grid
@@ -41,9 +43,9 @@ namespace RunningGame
             this.level = level;
             grid = new Dictionary<RectangleF, Dictionary<int, Entity>>();
             //Create the grid (With extra rows/cols on either side)
-            for (float i = -colWidth*2; i <= level.levelWidth+colWidth*4; i += colWidth)
+            for (float i = -colWidth*4; i <= level.levelWidth+colWidth*8; i += colWidth)
             {
-                for (float j = -rowHeight*2; j <= level.levelHeight+rowHeight*4; j += rowHeight)
+                for (float j = -rowHeight*4; j <= level.levelHeight+rowHeight*8; j += rowHeight)
                 {
                     RectangleF rect = new RectangleF(i, j, colWidth, rowHeight);
                     grid.Add(rect, new Dictionary<int, Entity>());
@@ -165,7 +167,7 @@ namespace RunningGame
 
             if (!grid.ContainsKey(checkRect))
             {
-                Console.WriteLine("Grid does not contain " + checkRect);
+                //Console.WriteLine("Grid does not contain " + checkRect);
                 return new List<Entity>();
             }
 
@@ -292,10 +294,183 @@ namespace RunningGame
             float xDiff = (float)Math.Abs(x1 - posComp2.x);
             float yDiff = (float)Math.Abs(y1 - posComp2.y);
 
-            return ( (xDiff - (posComp1.width / 2 + posComp2.width / 2)) <= buffer && (yDiff - (posComp1.height / 2 + posComp2.height / 2)) <= buffer);
+            if (!preciseCollisionChecking)
+            {
+                return ((xDiff - (posComp1.width / 2 + posComp2.width / 2)) <= buffer && (yDiff - (posComp1.height / 2 + posComp2.height / 2)) <= buffer);
+            }
+            else
+            {
+                if ((xDiff - (posComp1.width / 2 + posComp2.width / 2)) <= buffer && (yDiff - (posComp1.height / 2 + posComp2.height / 2)) <= buffer)
+                {
+                    return handleTransparentCollision(x1, y1, e1, e2);
+                }
+                return false;
+            }
 
+        }   
+
+
+
+        //Check to see if only transparent pixels are overlapping.
+        public bool handleTransparentCollision(float x1, float y1, Entity e1, Entity e2)
+        {
+
+            ColliderComponent firstCol = (ColliderComponent)e1.getComponent(GlobalVars.COLLIDER_COMPONENT_NAME);
+            ColliderComponent secondCol = (ColliderComponent)e2.getComponent(GlobalVars.COLLIDER_COMPONENT_NAME);
+
+            PositionComponent firstPos = (PositionComponent)e1.getComponent(GlobalVars.POSITION_COMPONENT_NAME);
+            PositionComponent secondPos = (PositionComponent)e2.getComponent(GlobalVars.POSITION_COMPONENT_NAME);
+
+            int minAlpha = 5;
+            int pixelBuffer = 3; //Extra pixels to check on either side
+
+            Bitmap firstImg = null;
+            Bitmap secondImg = null;
+            if(firstCol.drawComponent != null)
+                if(firstCol.drawComponent.getImage() != null)
+                    firstImg = (Bitmap)firstCol.drawComponent.getImage();
+            if(secondCol.drawComponent != null)
+                if(secondCol.drawComponent.getImage() != null)
+                    secondImg = (Bitmap)secondCol.drawComponent.getImage();
+
+            bool alwaysCollide1 = false;
+            bool alwaysCollide2 = false;
+
+            if (firstImg == null)
+                alwaysCollide1 = firstCol.collideOnNoSprite;
+            else
+            {
+                alwaysCollide1 = !firstCol.hasTransparentPixels;
+                //Resize as needed
+                if (!firstCol.drawComponent.sizeLocked)
+                {
+                    Bitmap newImg1 = new Bitmap(firstImg, new Size((int)firstPos.width, (int)firstPos.height));
+                    firstImg = newImg1;
+                }
+            }
+            if (secondImg == null)
+                alwaysCollide2 = secondCol.collideOnNoSprite;
+            else
+            {
+                alwaysCollide2 = !secondCol.hasTransparentPixels;
+                //Resize if needed
+                if (!secondCol.drawComponent.sizeLocked)
+                {
+                    Bitmap newImg2 = new Bitmap(secondImg, new Size((int)secondPos.width, (int)secondPos.height));
+                    secondImg = newImg2;
+                }
+            }
+
+            //If they're both always going to collide, just return true. No point wasting time checking.
+            if (alwaysCollide1 && alwaysCollide2)
+            {
+                return true;
+            }
+
+
+            //Pixel locations to check
+            int left1 = 0;
+            int left2 = 0;
+            int up1 = 0;
+            int up2 = 0;
+            int hOverlap = 0;
+            int vOverlap = 0;
+
+            //Edges of each entitiy
+            float leftEdge1 = x1 - firstPos.width/2;
+            float leftEdge2 = secondPos.x - secondPos.width/2;
+            float rightEdge1 = x1 + firstPos.width/2;
+            float rightEdge2 = secondPos.x + secondPos.width/2;
+            float upperEdge1 = y1 - firstPos.height/2;
+            float upperEdge2 = secondPos.y - secondPos.height/2;
+            float lowerEdge1 = y1 + firstPos.height/2;
+            float lowerEdge2 = secondPos.y + secondPos.height/2;
+
+            if (leftEdge1 <= leftEdge2)
+            {
+                left2 = 0;
+                left1 = (int)leftEdge2 - (int)leftEdge1;
+                if (rightEdge1 <= rightEdge2)
+                {
+                    hOverlap = (int)rightEdge1 - (int)leftEdge2;
+                }
+                else
+                {
+                    hOverlap = (int)rightEdge2 - (int)leftEdge2;
+                }
+            }
+            else
+            {
+                left1 = 0;
+                left2 = (int)leftEdge1 - (int)leftEdge2;
+                if (rightEdge1 <= rightEdge2)
+                {
+                    hOverlap = (int)rightEdge1 - (int)leftEdge1;
+                }
+                else
+                {
+                    hOverlap = (int)rightEdge2 - (int)leftEdge1;
+                }
+            }
+
+            if (upperEdge1 <= upperEdge2)
+            {
+                up2 = 0;
+                up1 = (int)upperEdge2 - (int)upperEdge1;
+
+                if (lowerEdge1 <= lowerEdge2)
+                {
+                   vOverlap = (int)lowerEdge1 - (int)upperEdge2;
+                }
+                else
+                {
+                    vOverlap = (int)lowerEdge2 - (int)upperEdge2;
+                }
+            }
+            else
+            {
+                up1 = 0;
+                up2 = (int)upperEdge1 - (int)upperEdge2;
+                if (lowerEdge1 <= lowerEdge2)
+                {
+                    vOverlap = (int)lowerEdge1 - (int)upperEdge1;
+                }
+                else
+                {
+                    vOverlap = (int)lowerEdge2 - (int)upperEdge1;
+                }
+            }
+
+            //Loop through and see if any non-transparent pixels overlap
+            for (int i = -pixelBuffer; i < hOverlap-1+pixelBuffer; i++)
+            {
+                for (int j = -pixelBuffer; j < vOverlap - 1+pixelBuffer; j++)
+                {
+
+                    //Which pixels to check
+                    int xSpot1 = left1 + i;
+                    int xSpot2 = left2 + i;
+                    int ySpot1 = up1 + j;
+                    int ySpot2 = up2 + j;
+                    
+                    if( xSpot1 < 0 || xSpot2 < 0 || ySpot1 < 0 || ySpot2 < 0)
+                        continue;
+                    if (!(firstImg == null) && (xSpot1 >= firstImg.Width || ySpot1 >= firstImg.Height))
+                        continue;
+                    if (!(secondImg == null) && (xSpot2 >= secondImg.Width || ySpot2 >= secondImg.Height))
+                        continue;
+
+                    //Check the pixel at each spot, if both are non-transparent, collision.
+                    if ((alwaysCollide1 || (firstImg != null && firstImg.GetPixel(xSpot1, ySpot1).A >= minAlpha)) &&
+                        (alwaysCollide2 || (secondImg != null && secondImg.GetPixel(xSpot2, ySpot2).A >= minAlpha)))
+                    {
+                        return true;
+                    }
+
+                }
+            }
+            return false;
         }
-
 
         public List<Entity> mergeArrayLists(List<Entity> a1, List<Entity> a2)
         {

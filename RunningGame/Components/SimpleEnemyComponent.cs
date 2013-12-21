@@ -15,6 +15,7 @@ namespace RunningGame.Components
         public bool checkCliff;
         public bool hasLandedOnce { get; set; }
         public bool hasRunOnce { get; set; }
+        public bool movingLeft = false;
 
         public SimpleEnemyComponent(float mySpeed, bool checkCliff)
         {

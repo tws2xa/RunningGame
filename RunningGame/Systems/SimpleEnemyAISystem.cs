@@ -57,15 +57,25 @@ namespace RunningGame.Systems
                     //e.updateOutOfView = false;
                 }
 
-                //If it's been stopped for more than one frame, try changing the direction and see if it can move that way instead.
-                if (velComp.x == 0 && simpEnemyComp.hasLandedOnce)
+                if (velComp.x < 0) simpEnemyComp.movingLeft = true;
+                else if (velComp.x > 0) simpEnemyComp.movingLeft = false;
+                else if (velComp.x == 0 && simpEnemyComp.hasLandedOnce) //If it's been stopped for more than one frame, try changing the direction and see if it can move that way instead.
                 {
                     //SimpleEnemyComponent simpEnemyComp = (SimpleEnemyComponent)e.getComponent(GlobalVars.SIMPLE_ENEMY_COMPONENT_NAME);
 
+                    /*
                     if (!simpEnemyComp.wasStoppedLastFrame)
                         velComp.x = simpEnemyComp.mySpeed;
                     else
                         velComp.x = -simpEnemyComp.mySpeed;
+                    */
+
+                    float newVel = simpEnemyComp.mySpeed;
+                    if (!simpEnemyComp.movingLeft) newVel *= -1;
+
+                    if (simpEnemyComp.wasStoppedLastFrame)
+                        velComp.x = newVel;
+
 
                     simpEnemyComp.wasStoppedLastFrame = true;
                 }

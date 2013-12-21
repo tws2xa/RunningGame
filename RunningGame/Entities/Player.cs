@@ -39,7 +39,10 @@ namespace RunningGame.Entities
 
         string activeLeftImage;
         string activeRightImage;
-        
+
+        bool forceLargeStopImage = false;
+        bool forceSmallStopImage = false;
+
         public Player() { }
 
         public Player(Level level, float x, float y)
@@ -106,6 +109,7 @@ namespace RunningGame.Entities
             //Collider
             addComponent(new ColliderComponent(this, GlobalVars.PLAYER_COLLIDER_TYPE), true);
 
+            
             //Squish Component
             SquishComponent sqComp = (SquishComponent)addComponent(new SquishComponent(defaultWidth, defaultHeight, defaultWidth * 1.2f, defaultHeight * 1.2f, defaultWidth / 2f, defaultHeight / 2f, defaultWidth * defaultHeight * 1.1f, defaultWidth * defaultHeight / 1.5f), true);
             sqComp.maxHeight = defaultHeight;
@@ -114,7 +118,8 @@ namespace RunningGame.Entities
             sqComp.minWidth = defaultWidth / 1.1f;
             sqComp.maxSurfaceArea = defaultHeight * defaultWidth * 1.1f;
             sqComp.minSurfaceArea = defaultHeight * defaultWidth / 1.1f;
-
+            
+             
             //Gravity Component
             addComponent(new GravityComponent(0, GlobalVars.STANDARD_GRAVITY));
 
@@ -267,9 +272,13 @@ namespace RunningGame.Entities
             {
                 animComp.animationOn = false;
                 DrawComponent drawComp = (DrawComponent)this.getComponent(GlobalVars.DRAW_COMPONENT_NAME);
-                if (drawComp.getSprite().currentImageIndex == 0 || drawComp.getSprite().currentImageIndex == 2)
+                if (forceLargeStopImage && (drawComp.getSprite().currentImageIndex == 0 || drawComp.getSprite().currentImageIndex == 2))
                 {
                     drawComp.getSprite().currentImageIndex++;
+                }
+                else if (forceSmallStopImage)
+                {
+                    drawComp.getSprite().currentImageIndex = 0;
                 }
             }
         }
