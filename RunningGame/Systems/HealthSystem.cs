@@ -6,13 +6,11 @@ using System.Threading.Tasks;
 using System.Collections;
 using RunningGame.Components;
 
-namespace RunningGame.Systems
-{
+namespace RunningGame.Systems {
     [Serializable()]
-    public class HealthSystem : GameSystem
-    {
+    public class HealthSystem : GameSystem {
 
-         //All systems MUST have an List of requiredComponents (May need to add using System.Collections at start of file)
+        //All systems MUST have an List of requiredComponents (May need to add using System.Collections at start of file)
         List<string> requiredComponents = new List<string>();
         //All systems MUST have a variable holding the level they're contained in
         Level level;
@@ -20,8 +18,7 @@ namespace RunningGame.Systems
         DeathHandler deathHandler;
 
         //Constructor - Always read in the level! You can read in other stuff too if need be.
-        public HealthSystem(Level level)
-        {
+        public HealthSystem(Level level) {
             //Here is where you add the Required components
             requiredComponents.Add(GlobalVars.HEALTH_COMPONENT_NAME); //Health component
 
@@ -33,14 +30,12 @@ namespace RunningGame.Systems
 
         //-------------------------------------- Overrides -------------------------------------------
         // Must have this. Same for all Systems.
-        public override List<string> getRequiredComponents()
-        {
+        public override List<string> getRequiredComponents() {
             return requiredComponents;
         }
-        
+
         //Must have this. Same for all Systems.
-        public override Level GetActiveLevel()
-        {
+        public override Level GetActiveLevel() {
             return level;
         }
 
@@ -49,27 +44,20 @@ namespace RunningGame.Systems
         //Use deltaTime for things like changing velocity or changing position from velocity
         //This is where you do anything that you want to happen every frame.
         //There is a chance that your system won't need to do anything in update. Still have it.
-        public override void Update(float deltaTime)
-        {
+        public override void Update(float deltaTime) {
 
-            foreach (Entity e in getApplicableEntities())
-            {
+            foreach (Entity e in getApplicableEntities()) {
                 HealthComponent healthComp = (HealthComponent)e.getComponent(GlobalVars.HEALTH_COMPONENT_NAME);
-                if (healthComp.isDead())
-                {
+                if (healthComp.isDead()) {
                     //Tell the death handler
                     deathHandler.handleDeath(e);
                 }
 
-                if (!healthComp.hasFullHealth())
-                {
-                    if (healthComp.timeSinceRecharge >= healthComp.rechargeTime)
-                    {
+                if (!healthComp.hasFullHealth()) {
+                    if (healthComp.timeSinceRecharge >= healthComp.rechargeTime) {
                         healthComp.addToHealth(healthComp.rechargeAmt);
                         healthComp.timeSinceRecharge = 0;
-                    }
-                    else
-                    {
+                    } else {
                         healthComp.timeSinceRecharge += deltaTime;
                     }
                 }

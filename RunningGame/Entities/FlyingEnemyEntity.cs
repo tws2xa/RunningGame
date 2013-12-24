@@ -6,11 +6,9 @@ using System.Threading.Tasks;
 using RunningGame.Components;
 using System.Collections;
 
-namespace RunningGame.Entities
-{
+namespace RunningGame.Entities {
     [Serializable()]
-    public class FlyingEnemyEntity:Entity
-    {
+    public class FlyingEnemyEntity : Entity {
 
 
         public float defaultWidth = 40;
@@ -20,16 +18,14 @@ namespace RunningGame.Entities
 
         //-------------------------------------------Constructors--------------------------------------------
 
-        public FlyingEnemyEntity(Level level, float x, float y)
-        {
+        public FlyingEnemyEntity(Level level, float x, float y) {
             this.level = level;
             this.depth = 3;
             initializeEntity(new Random().Next(Int32.MinValue, Int32.MaxValue), level);
 
             addMyComponents(x, y);
         }
-        public FlyingEnemyEntity(Level level, int id, float x, float y)
-        {
+        public FlyingEnemyEntity(Level level, int id, float x, float y) {
             this.level = level;
 
             initializeEntity(id, level);
@@ -41,15 +37,14 @@ namespace RunningGame.Entities
 
         //Here's where you add all the components the entity has.
         //You can just uncomment the ones you want.
-        public void addMyComponents(float x, float y)
-        {
+        public void addMyComponents(float x, float y) {
 
             this.updateOutOfView = true;
 
             /*POSITION COMPONENT - Does it have a position?
              */
             addComponent(new PositionComponent(x, y, defaultWidth, defaultHeight, this), true);
-            
+
             /*DRAW COMPONENT - Does it get drawn to the game world?
              */
             DrawComponent drawComp = (DrawComponent)addComponent(new DrawComponent(defaultWidth, defaultHeight, level, true), true);
@@ -72,7 +67,7 @@ namespace RunningGame.Entities
 
             drawComp.addAnimatedSprite(enemyAnimation, enemyAnimDefaults, leftImageName);
             drawComp.setSprite(leftImageName);
-            
+
             drawComp.addAnimatedSprite(enemyAnimation, enemyAnimDefaults, rightImageName);
             drawComp.rotateFlipSprite(rightImageName, System.Drawing.RotateFlipType.RotateNoneFlipX);
 
@@ -101,10 +96,9 @@ namespace RunningGame.Entities
             addComponent(new ScreenEdgeComponent(1, 1, 1, 1));
 
         }
-        
+
         //Revert!
-        public override void revertToStartingState()
-        {
+        public override void revertToStartingState() {
             PositionComponent posComp = (PositionComponent)getComponent(GlobalVars.POSITION_COMPONENT_NAME);
             level.getMovementSystem().teleportToNoCollisionCheck(posComp, posComp.startingX, posComp.startingY);
 
@@ -119,29 +113,25 @@ namespace RunningGame.Entities
             HealthComponent healthComp = (HealthComponent)getComponent(GlobalVars.HEALTH_COMPONENT_NAME);
             healthComp.restoreHealth();
         }
-        
-        
 
 
-        public void faceRight()
-        {
+
+
+        public void faceRight() {
             DrawComponent drawComp = (DrawComponent)this.getComponent(GlobalVars.DRAW_COMPONENT_NAME);
             drawComp.setSprite(rightImageName);
         }
-        public void faceLeft()
-        {
+        public void faceLeft() {
             DrawComponent drawComp = (DrawComponent)this.getComponent(GlobalVars.DRAW_COMPONENT_NAME);
             drawComp.setSprite(leftImageName);
         }
 
-        public bool isLookingLeft()
-        {
+        public bool isLookingLeft() {
             DrawComponent drawComp = (DrawComponent)this.getComponent(GlobalVars.DRAW_COMPONENT_NAME);
             return (drawComp.activeSprite == leftImageName);
         }
 
-        public bool isLookingRight()
-        {
+        public bool isLookingRight() {
             DrawComponent drawComp = (DrawComponent)this.getComponent(GlobalVars.DRAW_COMPONENT_NAME);
             return (drawComp.activeSprite == rightImageName);
         }

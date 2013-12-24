@@ -7,11 +7,9 @@ using System.Collections;
 using RunningGame.Entities;
 using RunningGame.Components;
 
-namespace RunningGame.Systems
-{
+namespace RunningGame.Systems {
     [Serializable()]
-    public class SwitchListenerSystem : GameSystem
-    {
+    public class SwitchListenerSystem : GameSystem {
 
         List<string> requiredComponents = new List<string>();
         Level level;
@@ -19,8 +17,7 @@ namespace RunningGame.Systems
         //Map event types to methods
         Dictionary<string, Func<Entity, bool, bool>> events = new Dictionary<string, Func<Entity, bool, bool>>();
 
-        public SwitchListenerSystem(Level level)
-        {
+        public SwitchListenerSystem(Level level) {
             //Here is where you add the Required components
             requiredComponents.Add(GlobalVars.SWITCH_LISTENER_COMPONENT_NAME); //Position
 
@@ -33,26 +30,21 @@ namespace RunningGame.Systems
 
         //-------------------------------------- Overrides -------------------------------------------
         // Must have this. Same for all Systems.
-        public override List<string> getRequiredComponents()
-        {
+        public override List<string> getRequiredComponents() {
             return requiredComponents;
         }
-        
+
         //Must have this. Same for all Systems.
-        public override Level GetActiveLevel()
-        {
+        public override Level GetActiveLevel() {
             return level;
         }
-        
-        public override void Update(float deltaTime)
-        {
-            foreach (Entity e in getApplicableEntities())
-            {
+
+        public override void Update(float deltaTime) {
+            foreach (Entity e in getApplicableEntities()) {
                 SwitchListenerComponent slComp = (SwitchListenerComponent)e.getComponent(GlobalVars.SWITCH_LISTENER_COMPONENT_NAME);
 
                 //If there has been a change, perform what is needed.
-                if (slComp.getChanged())
-                {
+                if (slComp.getChanged()) {
                     events[slComp.eventType].Invoke(e, slComp.getSwitchActive());
                     slComp.setChanged(false);
                 }
@@ -60,22 +52,18 @@ namespace RunningGame.Systems
         }
         //--------------------------------------------------------------------------------------------------
 
-        public bool doorSwitch(Entity e, bool active)
-        {
+        public bool doorSwitch(Entity e, bool active) {
             //Opened
-            if (active)
-            {
-                if (e.hasComponent(GlobalVars.COLLIDER_COMPONENT_NAME))
-                {
+            if (active) {
+                if (e.hasComponent(GlobalVars.COLLIDER_COMPONENT_NAME)) {
                     e.removeComponent(GlobalVars.COLLIDER_COMPONENT_NAME);
                     level.getCollisionSystem().colliderRemoved(e);
                 }
                 DrawComponent drawComp = (DrawComponent)e.getComponent(GlobalVars.DRAW_COMPONENT_NAME);
                 drawComp.setSprite(GlobalVars.DOOR_OPEN_SPRITE_NAME);
             }
-            //Closed
-            else
-            {
+                //Closed
+            else {
                 if (!e.hasComponent(GlobalVars.COLLIDER_COMPONENT_NAME))
                     e.addComponent(new ColliderComponent(e, GlobalVars.BASIC_SOLID_COLLIDER_TYPE));
                 DrawComponent drawComp = (DrawComponent)e.getComponent(GlobalVars.DRAW_COMPONENT_NAME);

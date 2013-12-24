@@ -6,12 +6,10 @@ using System.Threading.Tasks;
 using System.Collections;
 using RunningGame.Components;
 
-namespace RunningGame.Entities
-{
+namespace RunningGame.Entities {
     [Serializable()]
-    public class MovingPlatformEntity:Entity
-    {
-        
+    public class MovingPlatformEntity : Entity {
+
         public float defaultWidth = 40;
         public float defaultHeight = 20;
 
@@ -20,8 +18,7 @@ namespace RunningGame.Entities
         //Both take in the starting x and y of the entity.
         //Both take in the level that it's being applied to.
         //You probably won't have to edit these at all.
-        public MovingPlatformEntity(Level level, float x, float y)
-        {
+        public MovingPlatformEntity(Level level, float x, float y) {
             //Set level.
             //Leave for all entities
             this.level = level;
@@ -34,8 +31,7 @@ namespace RunningGame.Entities
             //Leave this for all entities.
             addMyComponents(x, y);
         }
-        public MovingPlatformEntity(Level level, int id, float x, float y)
-        {
+        public MovingPlatformEntity(Level level, int id, float x, float y) {
             //Set level.
             //Leave for all entities
             this.level = level;
@@ -53,12 +49,11 @@ namespace RunningGame.Entities
 
         //Here's where you add all the components the entity has.
         //You can just uncomment the ones you want.
-        public void addMyComponents(float x, float y)
-        {
+        public void addMyComponents(float x, float y) {
             /*POSITION COMPONENT - Does it have a position?
              */
             addComponent(new PositionComponent(x, y, defaultWidth, defaultHeight, this), true);
-            
+
             /*DRAW COMPONENT - Does it get drawn to the game world?
              */
             DrawComponent drawComp = (DrawComponent)addComponent(new DrawComponent(defaultWidth, defaultHeight, level, true), true);
@@ -79,14 +74,13 @@ namespace RunningGame.Entities
             addComponent(new MovingPlatformComponent(this), true);
 
         }
-        
+
         //You must have this, but it may be empty.
         //What should the entity do in order to revert to its starting state?
-        public override void revertToStartingState()
-        {
+        public override void revertToStartingState() {
             PositionComponent posComp = (PositionComponent)this.getComponent(GlobalVars.POSITION_COMPONENT_NAME);
             level.getMovementSystem().teleportToNoCollisionCheck(posComp, posComp.startingX, posComp.startingY);
         }
-         
+
     }
 }

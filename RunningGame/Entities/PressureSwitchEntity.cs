@@ -5,19 +5,16 @@ using System.Text;
 using System.Threading.Tasks;
 using RunningGame.Components;
 
-namespace RunningGame.Entities
-{
+namespace RunningGame.Entities {
     [Serializable()]
-    public class PressureSwitchEntity:Entity
-    {
+    public class PressureSwitchEntity : Entity {
         float defaultWidth = 20;
         float defaultHeight = 10;
 
         bool startingState; //Active or non-active at level start?
 
         //-------------------------------------------Constructors--------------------------------------------
-        public PressureSwitchEntity(Level level, float x, float y)
-        {
+        public PressureSwitchEntity(Level level, float x, float y) {
             //Set level.
             //Leave for all entities
             this.level = level;
@@ -25,15 +22,14 @@ namespace RunningGame.Entities
             //Refers back to a class in the super Entity.
             //Leave this for all entities.
             initializeEntity(new Random().Next(Int32.MinValue, Int32.MaxValue), level);
-            
+
             startingState = false;
 
             //Add the components.
             //Leave this for all entities.
             addMyComponents(x, y);
         }
-        public PressureSwitchEntity(Level level, int id, float x, float y)
-        {
+        public PressureSwitchEntity(Level level, int id, float x, float y) {
             //Set level.
             //Leave for all entities
             this.level = level;
@@ -48,8 +44,7 @@ namespace RunningGame.Entities
             //Leave this for all entities.
             addMyComponents(x, y);
         }
-        public PressureSwitchEntity(Level level, int id, float x, float y, bool active)
-        {
+        public PressureSwitchEntity(Level level, int id, float x, float y, bool active) {
             //Set level.
             //Leave for all entities
             this.level = level;
@@ -67,11 +62,10 @@ namespace RunningGame.Entities
 
         //------------------------------------------------------------------------------------------------------------------
 
-        public void addMyComponents(float x, float y)
-        {
+        public void addMyComponents(float x, float y) {
             //POSITION COMPONENT - Does it have a position?
             addComponent(new PositionComponent(x, y, defaultWidth, defaultHeight, this), true);
-            
+
             //DRAW COMPONENT - Does it get drawn to the game world?
             DrawComponent drawComp = (DrawComponent)addComponent(new DrawComponent(defaultWidth, defaultHeight, level, false), true);
             drawComp.addSprite("Artwork.Foreground.buttonUp", "RunningGame.Resources.Artwork.Foreground.buttonUp11.png", GlobalVars.SWITCH_INACTIVE_SPRITE_NAME);
@@ -87,16 +81,15 @@ namespace RunningGame.Entities
             //It's a pressure switch! (Timed Switch, Time = 0)
             addComponent(new TimedSwitchComponent(0), true);
         }
-        
-        public override void revertToStartingState()
-        {
+
+        public override void revertToStartingState() {
             SwitchComponent sc = (SwitchComponent)getComponent(GlobalVars.SWITCH_COMPONENT_NAME);
 
             PositionComponent posComp = (PositionComponent)getComponent(GlobalVars.POSITION_COMPONENT_NAME);
             float hDiff = posComp.height;
             level.getMovementSystem().changeHeight(posComp, defaultHeight);
             hDiff = posComp.height - hDiff;
-            level.getMovementSystem().teleportToNoCollisionCheck(posComp, posComp.x, posComp.y - hDiff/2); 
+            level.getMovementSystem().teleportToNoCollisionCheck(posComp, posComp.x, posComp.y - hDiff / 2);
 
             sc.setActive(false);
 

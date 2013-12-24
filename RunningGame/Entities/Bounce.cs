@@ -6,15 +6,12 @@ using System.Threading.Tasks;
 using RunningGame.Systems;
 using RunningGame.Components;
 
-namespace RunningGame.Entities
-{
-    public class Bounce : Entity
-    {
+namespace RunningGame.Entities {
+    public class Bounce : Entity {
         float defaultWidth = 11;
         float defaultHeight = 12;
 
-        public Bounce(Level level, float x, float y)
-        {
+        public Bounce(Level level, float x, float y) {
             //Set level.
             //Leave for all entities
             this.level = level;
@@ -28,8 +25,7 @@ namespace RunningGame.Entities
             addMyComponents(x, y);
         }
 
-        public Bounce(Level level, int id, float x, float y)
-        {
+        public Bounce(Level level, int id, float x, float y) {
             //Set level.
             //Leave for all entities
             this.level = level;
@@ -43,8 +39,7 @@ namespace RunningGame.Entities
             addMyComponents(x, y);
         }
 
-        public void addMyComponents(float x, float y)
-        {
+        public void addMyComponents(float x, float y) {
             //position and velocity
             addComponent(new PositionComponent(x, y, defaultWidth, defaultHeight, this), true);
             addComponent(new ColliderComponent(this, GlobalVars.BOUNCE_POSTGROUND_COLLIDER_TYPE), true);
@@ -55,9 +50,8 @@ namespace RunningGame.Entities
             drawComp.addSprite("Artwork.Foreground.PurpleSplat", "RunningGame.Resources.Artwork.Foreground.PurpleSplat.png", "Main");
             drawComp.setSprite("Main"); //Set image to active image
         }
-        
-        public override void revertToStartingState()
-        {
+
+        public override void revertToStartingState() {
         }
 
 

@@ -5,25 +5,21 @@ using System.Text;
 using System.Threading.Tasks;
 using RunningGame.Components;
 
-namespace RunningGame.Entities
-{
+namespace RunningGame.Entities {
     [Serializable()]
-    public class BulletEntity:Entity
-    {
+    public class BulletEntity : Entity {
 
         public float defaultWidth = 15;
         public float defaultHeight = 15;
 
         //-------------------------------------------Constructors--------------------------------------------
-        public BulletEntity(Level level, float x, float y)
-        {
+        public BulletEntity(Level level, float x, float y) {
             this.level = level;
             initializeEntity(new Random().Next(Int32.MinValue, Int32.MaxValue), level);
 
             addMyComponents(x, y, 0, 0);
         }
-        public BulletEntity(Level level, int id, float x, float y)
-        {
+        public BulletEntity(Level level, int id, float x, float y) {
             this.level = level;
 
             initializeEntity(id, level);
@@ -32,16 +28,14 @@ namespace RunningGame.Entities
         }
 
         //Can take in a velocity as well
-        public BulletEntity(Level level, float x, float y, float velX, float velY)
-        {
+        public BulletEntity(Level level, float x, float y, float velX, float velY) {
             this.level = level;
 
             initializeEntity(new Random().Next(Int32.MinValue, Int32.MaxValue), level);
 
             addMyComponents(x, y, velX, velY);
         }
-        public BulletEntity(Level level, int id, float x, float y, float velX, float velY)
-        {
+        public BulletEntity(Level level, int id, float x, float y, float velX, float velY) {
             this.level = level;
 
             initializeEntity(id, level);
@@ -51,19 +45,18 @@ namespace RunningGame.Entities
 
         //------------------------------------------------------------------------------------------------------------------
 
-        public void addMyComponents(float x, float y, float velX, float velY)
-        {
+        public void addMyComponents(float x, float y, float velX, float velY) {
 
             this.updateOutOfView = true;
 
             /*POSITION COMPONENT - Does it have a position?
              */
             addComponent(new PositionComponent(x, y, defaultWidth, defaultHeight, this), true);
-            
+
             /*DRAW COMPONENT - Does it get drawn to the game world?
              */
             DrawComponent drawComp = (DrawComponent)addComponent(new DrawComponent(defaultWidth, defaultHeight, level, true), true);
-            drawComp.addSprite("Artwork.Foreground.PaintBlob","RunningGame.Resources.Artwork.Foreground.PaintBlob11.png", "Main");
+            drawComp.addSprite("Artwork.Foreground.PaintBlob", "RunningGame.Resources.Artwork.Foreground.PaintBlob11.png", "Main");
             drawComp.setSprite("Main");
 
 
@@ -80,10 +73,9 @@ namespace RunningGame.Entities
             addComponent(new ColliderComponent(this, GlobalVars.BULLET_COLLIDER_TYPE), true);
 
             addComponent(new ScreenEdgeComponent(3, 3, 3, 3), true);
-            }
-        
-        public override void revertToStartingState()
-        {
+        }
+
+        public override void revertToStartingState() {
             //Stuff
         }
 

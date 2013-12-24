@@ -484,7 +484,6 @@
     <EmbeddedResource Include="Resources\Artwork\Background\Bkg32.png" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="DeadPlayer.png" />
     <Content Include="Resources\Artwork\Background\Bkg43.png" />
     <None Include="Resources\Artwork\Other\SpringBlurSmall.png" />
     <EmbeddedResource Include="Resources\Levels\World3Level11.png" />

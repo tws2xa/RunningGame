@@ -4,15 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RunningGame.Components
-{
+namespace RunningGame.Components {
     //Signals that an object is in the level background.
     //For now just used for the background image
-    class BackgroundComponent:Component
-    {
+    class BackgroundComponent : Component {
 
-        public BackgroundComponent()
-        {
+        public BackgroundComponent() {
             componentName = GlobalVars.BACKGROUND_COMPONENT_NAME;
         }
 

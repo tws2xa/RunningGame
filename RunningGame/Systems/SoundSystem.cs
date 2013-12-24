@@ -7,29 +7,25 @@ using System.Collections;
 using RunningGame.Components;
 using System.Media;
 
-namespace RunningGame.Systems
-{
+namespace RunningGame.Systems {
     [Serializable()]
     public class SoundSystem : GameSystem //Always extend GameSystem
     {
         List<string> requiredComponents = new List<string>();
         Level level;
 
-        public SoundSystem(Level level)
-        {
+        public SoundSystem(Level level) {
             this.level = level;
         }
 
         //-------------------------------------- Overrides -------------------------------------------
         // Must have this. Same for all Systems.
-        public override List<string> getRequiredComponents()
-        {
+        public override List<string> getRequiredComponents() {
             return requiredComponents;
         }
 
         //Must have this. Same for all Systems.
-        public override Level GetActiveLevel()
-        {
+        public override Level GetActiveLevel() {
             return level;
         }
 
@@ -38,16 +34,14 @@ namespace RunningGame.Systems
         //Use deltaTime for things like changing velocity or changing position from velocity
         //This is where you do anything that you want to happen every frame.
         //There is a chance that your system won't need to do anything in update. Still have it.
-        public override void Update(float deltaTime)
-        {
-            
+        public override void Update(float deltaTime) {
+
         }
         //----------------------------------------------------------------------------------------------
 
         //Here put any helper methods or really anything else you may want.
         //You may find it handy to have methods here that other systems can access.
-        public void playSound(string soundLocation, bool loop)
-        {
+        public void playSound(string soundLocation, bool loop) {
             System.IO.Stream stream = System.Reflection.Assembly.GetExecutingAssembly().GetManifestResourceStream(soundLocation);
             SoundPlayer player = new SoundPlayer(stream);
             if (loop)
@@ -55,8 +49,7 @@ namespace RunningGame.Systems
             else
                 player.Play();
         }
-        public void stopSound(SoundPlayer player)
-        {
+        public void stopSound(SoundPlayer player) {
             player.Stop();
         }
 

@@ -6,8 +6,7 @@ using System.Threading.Tasks;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace RunningGame
-{
+namespace RunningGame {
 
     /*
      * Global vars is just a useful static class to hold
@@ -16,8 +15,7 @@ namespace RunningGame
      * GlobalVars.NULL_COMPONENT_NAME;
      */
     [Serializable()]
-    static class GlobalVars
-    {
+    static class GlobalVars {
 
         //Menu
         public static int worldNum = 0;

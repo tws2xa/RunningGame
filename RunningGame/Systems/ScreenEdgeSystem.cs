@@ -7,18 +7,15 @@ using System.Collections;
 using RunningGame.Components;
 using RunningGame.Systems;
 
-namespace RunningGame.Systems
-{
+namespace RunningGame.Systems {
     [Serializable()]
-    public class ScreenEdgeSystem : GameSystem
-    {
+    public class ScreenEdgeSystem : GameSystem {
 
         List<string> requiredComponents = new List<string>();
         Level level;
 
         //Constructor - Always read in the level! You can read in other stuff too if need be.
-        public ScreenEdgeSystem(Level level)
-        {
+        public ScreenEdgeSystem(Level level) {
             //Here is where you add the Required components
             requiredComponents.Add(GlobalVars.POSITION_COMPONENT_NAME); //Position
             requiredComponents.Add(GlobalVars.SCREEN_EDGE_COMPONENT_NAME); //Screen Wrap
@@ -31,23 +28,19 @@ namespace RunningGame.Systems
 
         //-------------------------------------- Overrides -------------------------------------------
         // Must have this. Same for all Systems.
-        public override List<string> getRequiredComponents()
-        {
+        public override List<string> getRequiredComponents() {
             return requiredComponents;
         }
-        
+
         //Must have this. Same for all Systems.
-        public override Level GetActiveLevel()
-        {
+        public override Level GetActiveLevel() {
             return level;
         }
 
         //Check if it's out of the screen in a wrap direction, if so, wrap.
-        public override void Update(float deltaTime)
-        {
+        public override void Update(float deltaTime) {
 
-            foreach (Entity e in getApplicableEntities())
-            {
+            foreach (Entity e in getApplicableEntities()) {
 
                 PositionComponent posComp = (PositionComponent)e.getComponent(GlobalVars.POSITION_COMPONENT_NAME);
                 VelocityComponent velComp = (VelocityComponent)e.getComponent(GlobalVars.VELOCITY_COMPONENT_NAME);
@@ -64,85 +57,59 @@ namespace RunningGame.Systems
                 float buffer = 3.0f;
 
                 //Off sides of screen check
-                if (posComp.x > (level.levelWidth + posComp.width/2-buffer) && velComp.x > 0)
-                {
-                    if (scrEdgComp.right == 2)
-                    {
+                if (posComp.x > (level.levelWidth + posComp.width / 2 - buffer) && velComp.x > 0) {
+                    if (scrEdgComp.right == 2) {
                         wrapRight(posComp);
-                    }
-                    else if (scrEdgComp.right == 3)
-                    {
+                    } else if (scrEdgComp.right == 3) {
                         level.removeEntity(posComp.myEntity);
-                    }
-                    else if (scrEdgComp.right == 4)
-                    {
+                    } else if (scrEdgComp.right == 4) {
                         level.beginEndLevel();
                         level.removeEntity(posComp.myEntity);
-                    }
-                    else if (scrEdgComp.right == 5)
-                    {
+                    } else if (scrEdgComp.right == 5) {
                         if (!e.hasComponent(GlobalVars.HEALTH_COMPONENT_NAME)) return;
                         HealthComponent healthComp = (HealthComponent)e.getComponent(GlobalVars.HEALTH_COMPONENT_NAME);
-                        healthComp.subtractFromHealth(healthComp.maxHealth+1);
+                        healthComp.subtractFromHealth(healthComp.maxHealth + 1);
                     }
                 }
-                if (posComp.x < (-posComp.width/2+buffer) && velComp.x < 0)
-                {
-                    if(scrEdgComp.left == 2)
+                if (posComp.x < (-posComp.width / 2 + buffer) && velComp.x < 0) {
+                    if (scrEdgComp.left == 2)
                         wrapLeft(posComp);
-                    else if (scrEdgComp.left == 3)
-                    {
+                    else if (scrEdgComp.left == 3) {
                         level.removeEntity(posComp.myEntity);
-                    }
-                    else if (scrEdgComp.left == 4)
-                    {
+                    } else if (scrEdgComp.left == 4) {
                         level.beginEndLevel();
                         level.removeEntity(posComp.myEntity);
-                    }
-                    else if (scrEdgComp.left == 5)
-                    {
+                    } else if (scrEdgComp.left == 5) {
                         if (!e.hasComponent(GlobalVars.HEALTH_COMPONENT_NAME)) return;
                         HealthComponent healthComp = (HealthComponent)e.getComponent(GlobalVars.HEALTH_COMPONENT_NAME);
                         healthComp.subtractFromHealth(healthComp.maxHealth);
                     }
                 }
-                if (posComp.y > (level.levelHeight + posComp.height/2-buffer) && velComp.y > 0)
-                {
-                    if(scrEdgComp.down == 2)
+                if (posComp.y > (level.levelHeight + posComp.height / 2 - buffer) && velComp.y > 0) {
+                    if (scrEdgComp.down == 2)
                         wrapDown(posComp);
-                    else if (scrEdgComp.down == 3)
-                    {
+                    else if (scrEdgComp.down == 3) {
                         level.removeEntity(posComp.myEntity);
-                    }
-                    else if (scrEdgComp.down == 4)
-                    {
+                    } else if (scrEdgComp.down == 4) {
                         level.beginEndLevel();
                         level.removeEntity(posComp.myEntity);
-                    }
-                    else if (scrEdgComp.down == 5)
-                    {
+                    } else if (scrEdgComp.down == 5) {
                         if (!e.hasComponent(GlobalVars.HEALTH_COMPONENT_NAME)) return;
                         HealthComponent healthComp = (HealthComponent)e.getComponent(GlobalVars.HEALTH_COMPONENT_NAME);
                         healthComp.subtractFromHealth(healthComp.maxHealth);
                     }
                 }
-                if (posComp.y < (-posComp.height/2+buffer) && velComp.y < 0)
-                {
-                    if(scrEdgComp.up == 2)
+                if (posComp.y < (-posComp.height / 2 + buffer) && velComp.y < 0) {
+                    if (scrEdgComp.up == 2)
                         wrapUp(posComp);
-                    else if (scrEdgComp.down == 3)
-                    {
+                    else if (scrEdgComp.down == 3) {
                         level.removeEntity(posComp.myEntity);
-                    }
-                    else if (scrEdgComp.up == 4)
-                    {
+                    } else if (scrEdgComp.up == 4) {
                         level.beginEndLevel();
                         level.removeEntity(posComp.myEntity);
-                    }
-                    else if (scrEdgComp.up == 5)
-                    {
+                    } else if (scrEdgComp.up == 5) {
                         if (!e.hasComponent(GlobalVars.HEALTH_COMPONENT_NAME)) return;
-                        HealthComponent healthComp = (HealthComponent)e.getComponent(GlobalVars.HEALTH_COMPONENT_NAME); 
+                        HealthComponent healthComp = (HealthComponent)e.getComponent(GlobalVars.HEALTH_COMPONENT_NAME);
                         healthComp.subtractFromHealth(healthComp.maxHealth);
                     }
                 }
@@ -154,43 +121,35 @@ namespace RunningGame.Systems
 
         //WRAP
 
-        public void wrapLeft(PositionComponent posComp)
-        {
+        public void wrapLeft(PositionComponent posComp) {
             level.getMovementSystem().changeSingleAxisLocation('X', posComp, level.levelWidth + posComp.width, true); //Screen Wrap
         }
-        public void wrapRight(PositionComponent posComp)
-        {
+        public void wrapRight(PositionComponent posComp) {
             level.getMovementSystem().changeSingleAxisLocation('X', posComp, -posComp.width, true); //Screen Wrap
         }
-        public void wrapUp(PositionComponent posComp)
-        {
+        public void wrapUp(PositionComponent posComp) {
             level.getMovementSystem().changeSingleAxisLocation('Y', posComp, level.levelHeight + posComp.height, true); //Screen Wrap
         }
-        public void wrapDown(PositionComponent posComp)
-        {
+        public void wrapDown(PositionComponent posComp) {
             level.getMovementSystem().changeSingleAxisLocation('Y', posComp, -posComp.height, true); //Screen Wrap
         }
 
         //STOP
 
-        public void stopLeft(PositionComponent posComp, VelocityComponent velComp)
-        {
-            level.getMovementSystem().changeSingleAxisLocation('X', posComp, posComp.width/2, true);
+        public void stopLeft(PositionComponent posComp, VelocityComponent velComp) {
+            level.getMovementSystem().changeSingleAxisLocation('X', posComp, posComp.width / 2, true);
             if (velComp.x < 0) velComp.setVelocity(0, velComp.y);
         }
-        public void stopRight(PositionComponent posComp, VelocityComponent velComp)
-        {
-            level.getMovementSystem().changeSingleAxisLocation('X', posComp, level.levelWidth-posComp.width/2, true);
+        public void stopRight(PositionComponent posComp, VelocityComponent velComp) {
+            level.getMovementSystem().changeSingleAxisLocation('X', posComp, level.levelWidth - posComp.width / 2, true);
             if (velComp.x > 0) velComp.setVelocity(0, velComp.y);
         }
-        public void stopUp(PositionComponent posComp, VelocityComponent velComp)
-        {
-            level.getMovementSystem().changeSingleAxisLocation('Y', posComp, posComp.height/2, true);
+        public void stopUp(PositionComponent posComp, VelocityComponent velComp) {
+            level.getMovementSystem().changeSingleAxisLocation('Y', posComp, posComp.height / 2, true);
             if (velComp.y < 0) velComp.setVelocity(velComp.x, 0);
         }
-        public void stopDown(PositionComponent posComp, VelocityComponent velComp)
-        {
-            level.getMovementSystem().changeSingleAxisLocation('Y', posComp, level.levelHeight - posComp.height/2, true);
+        public void stopDown(PositionComponent posComp, VelocityComponent velComp) {
+            level.getMovementSystem().changeSingleAxisLocation('Y', posComp, level.levelHeight - posComp.height / 2, true);
             if (velComp.y > 0) velComp.setVelocity(velComp.x, 0);
         }
     }

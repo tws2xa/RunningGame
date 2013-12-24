@@ -6,20 +6,17 @@ using System.Threading.Tasks;
 using RunningGame.Systems;
 using RunningGame.Components;
 
-namespace RunningGame.Entities
-{
+namespace RunningGame.Entities {
 
     [Serializable()]
-    public class PreGroundSpeedy : Entity
-    {
+    public class PreGroundSpeedy : Entity {
         float defaultWidth = 10;
         float defaultHeight = 10;
 
         //float startingX;
         //float startingY;
 
-        public PreGroundSpeedy(Level level, float x, float y)
-        {
+        public PreGroundSpeedy(Level level, float x, float y) {
             //Set level.
             //Leave for all entities
             this.level = level;
@@ -33,8 +30,7 @@ namespace RunningGame.Entities
             addMyComponents(x, y);
         }
 
-        public PreGroundSpeedy(Level level, int id, float x, float y)
-        {
+        public PreGroundSpeedy(Level level, int id, float x, float y) {
             //Set level.
             //Leave for all entities
             this.level = level;
@@ -48,8 +44,7 @@ namespace RunningGame.Entities
             addMyComponents(x, y);
         }
 
-        public void addMyComponents(float x, float y)
-        {
+        public void addMyComponents(float x, float y) {
             //position and velocity
             addComponent(new PositionComponent(x, y, defaultWidth, defaultHeight, this), true);
             addComponent(new GravityComponent(0, GlobalVars.STANDARD_GRAVITY), true);
@@ -64,9 +59,8 @@ namespace RunningGame.Entities
             //Out of screen removal
             addComponent(new ScreenEdgeComponent(3, 3, 3, 3));
         }
-        
-        public override void revertToStartingState()
-        {
+
+        public override void revertToStartingState() {
         }
 
 

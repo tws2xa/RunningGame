@@ -7,14 +7,12 @@ using RunningGame.Components;
 using RunningGame.Systems;
 using System.Collections;
 
-namespace RunningGame.Components
-{
+namespace RunningGame.Components {
 
     //The entity has an x, y, width, and height.
 
     [Serializable()]
-    public class PositionComponent : Component
-    {
+    public class PositionComponent : Component {
         public float prevX { get; set; }
         public float prevY { get; set; }
         public float prevW { get; set; }
@@ -25,7 +23,7 @@ namespace RunningGame.Components
         public float height;
         public float startingWidth, startingHeight;
 
-        public bool positionHasChanged {get; set;}
+        public bool positionHasChanged { get; set; }
 
         public Entity myEntity;
         public CollisionDetectionSystem colSys;
@@ -33,8 +31,7 @@ namespace RunningGame.Components
         //When a collision occurs, this becomes whatever it collided with
         //public List<Entity> collidedWith { get; set; }
 
-        public PositionComponent(float x, float y, float w, float h, Entity myEntity)
-        {
+        public PositionComponent(float x, float y, float w, float h, Entity myEntity) {
             componentName = GlobalVars.POSITION_COMPONENT_NAME;
             this.prevX = x;
             this.prevY = y;
@@ -51,12 +48,9 @@ namespace RunningGame.Components
 
             this.myEntity = myEntity;
 
-            if (this.myEntity.level.sysManager != null && this.myEntity.level.sysManager.colSystem != null)
-            {
+            if (this.myEntity.level.sysManager != null && this.myEntity.level.sysManager.colSystem != null) {
                 colSys = this.myEntity.level.sysManager.colSystem;
-            }
-            else
-            {
+            } else {
                 colSys = null;
             }
 
@@ -66,19 +60,16 @@ namespace RunningGame.Components
 
 
         //Sets the current location as the starting location
-        public void setCurrentLocToStartingLoc()
-        {
+        public void setCurrentLocToStartingLoc() {
             startingX = x;
             startingY = y;
         }
 
         //Returns an integer position as a Point
-        public System.Drawing.Point getIntegerPoint()
-        {
+        public System.Drawing.Point getIntegerPoint() {
             return new System.Drawing.Point((int)Math.Round(x), (int)Math.Round(y));
         }
-        public System.Drawing.PointF getPointF()
-        {
+        public System.Drawing.PointF getPointF() {
             return new System.Drawing.PointF(x, y);
         }
 

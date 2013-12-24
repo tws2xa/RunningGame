@@ -5,10 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using RunningGame.Components;
 
-namespace RunningGame.Entities
-{
-    class SpikeEntity:Entity
-    {
+namespace RunningGame.Entities {
+    class SpikeEntity : Entity {
 
         float defaultWidth = 10.0f;
         float defaultHeight = 10.0f;
@@ -18,8 +16,7 @@ namespace RunningGame.Entities
         //Both take in the starting x and y of the entity.
         //Both take in the level that it's being applied to.
         //You probably won't have to edit these at all.
-        public SpikeEntity(Level level, float x, float y, int dir)
-        {
+        public SpikeEntity(Level level, float x, float y, int dir) {
             //Set level.
             //Leave for all entities
             this.level = level;
@@ -32,8 +29,7 @@ namespace RunningGame.Entities
             //Leave this for all entities.
             addMyComponents(x, y, dir);
         }
-        public SpikeEntity(Level level, int id, float x, float y, int dir)
-        {
+        public SpikeEntity(Level level, int id, float x, float y, int dir) {
             //Set level.
             //Leave for all entities
             this.level = level;
@@ -51,12 +47,11 @@ namespace RunningGame.Entities
 
         //Here's where you add all the components the entity has.
         //You can just uncomment the ones you want.
-        public void addMyComponents(float x, float y, int dir)
-        {
+        public void addMyComponents(float x, float y, int dir) {
             /*POSITION COMPONENT - Does it have a position?
              */
             PositionComponent posComp = (PositionComponent)addComponent(new PositionComponent(x, y, defaultWidth, defaultHeight, this), true);
-            
+
             /*DRAW COMPONENT - Does it get drawn to the game world?
              *You'll need to know the address for your image.
              *It'll probably be something along the lines of "RunningGame.Resources.[      ].png" ONLY png!!
@@ -70,13 +65,12 @@ namespace RunningGame.Entities
             string sprName = "Main";
             drawComp.addSprite("Artwork.Foreground.Spike", "RunningGame.Resources.Artwork.Foreground.Spike.png", sprName);
             drawComp.setSprite(sprName); //Set image to active image
-            
+
             //Rotate accordingly
-            for(int i=0; i<dir; i++)
-            {
+            for (int i = 0; i < dir; i++) {
                 drawComp.rotateFlipSprite(sprName, System.Drawing.RotateFlipType.Rotate90FlipNone);
             }
-            
+
 
             /*
              * DIRECTIONAL COMPONENT - it has a direction (used by collision)
@@ -88,9 +82,8 @@ namespace RunningGame.Entities
              */
             addComponent(new ColliderComponent(this, GlobalVars.SPIKE_COLLIDER_TYPE), true);
         }
-        
-        public override void revertToStartingState()
-        {
+
+        public override void revertToStartingState() {
             //Stuff
         }
     }

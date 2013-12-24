@@ -5,8 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Media;
 
-namespace RunningGame.Components
-{
+namespace RunningGame.Components {
     [Serializable()]
     public class SoundComponent : Component //Always extend Component
     {
@@ -14,8 +13,7 @@ namespace RunningGame.Components
         public bool playSound { get; set; }
         public SoundPlayer player;
 
-        public SoundComponent(string soundLocation, bool playSound)
-        {
+        public SoundComponent(string soundLocation, bool playSound) {
             this.componentName = GlobalVars.SOUND_COMPONENT_NAME;
             this.soundLocation = soundLocation;
             this.playSound = playSound;
@@ -23,11 +21,10 @@ namespace RunningGame.Components
 
         }
 
-        public void setSound(string soundLocation)
-        {
+        public void setSound(string soundLocation) {
             player.SoundLocation = soundLocation;
             player.Load();
         }
-        
+
     }
 }

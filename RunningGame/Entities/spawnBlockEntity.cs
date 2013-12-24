@@ -7,26 +7,22 @@ using RunningGame.Components;
 using System.Drawing;
 using System.Collections;
 
-namespace RunningGame.Entities
-{
-    class spawnBlockEntity: Entity
-    {
+namespace RunningGame.Entities {
+    class spawnBlockEntity : Entity {
         float defaultWidth = 18;
         float defaultHeight = 18;
 
         //string blockAnimationName = "blockAnimation";
 
-        public spawnBlockEntity(Level level, float x, float y)
-        {
+        public spawnBlockEntity(Level level, float x, float y) {
             this.level = level;
 
             initializeEntity(new Random().Next(Int32.MinValue, Int32.MaxValue), level);
-            
+
             addMyComponents(x, y);
         }
-        
-        public void addMyComponents(float x, float y)
-        {
+
+        public void addMyComponents(float x, float y) {
 
             this.updateOutOfView = true;
 
@@ -37,7 +33,7 @@ namespace RunningGame.Entities
             DrawComponent drawComp = (DrawComponent)addComponent(new DrawComponent(defaultWidth, defaultHeight, level, true), true);
             drawComp.addSprite("Artwork.Foreground.BlockSquare", "RunningGame.Resources.Artwork.Foreground.BlockSquare.png", "Main");
             drawComp.setSprite("Main");
-           
+
 
             //Velocity Component
             addComponent(new VelocityComponent(0, 0), true);
@@ -55,8 +51,7 @@ namespace RunningGame.Entities
             addComponent(new ScreenEdgeComponent(3, 3, 3, 3), true);
         }
 
-        public override void revertToStartingState()
-        {
+        public override void revertToStartingState() {
             PositionComponent posComp = (PositionComponent)this.getComponent(GlobalVars.POSITION_COMPONENT_NAME);
             level.getMovementSystem().changePosition(posComp, posComp.startingX, posComp.startingY, true);
             level.getMovementSystem().changeSize(posComp, posComp.startingWidth, posComp.startingHeight);

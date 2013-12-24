@@ -7,16 +7,13 @@ using RunningGame.Components;
 using System.Drawing;
 using System.Collections;
 
-namespace RunningGame.Entities
-{
-    class PreGroundBounce : Entity
-    {
+namespace RunningGame.Entities {
+    class PreGroundBounce : Entity {
         float defaultWidth = 11;
         float defaultHeight = 12;
 
         //string blockAnimationName = "blockAnimation";
-        public PreGroundBounce(Level level, float x, float y)
-        {
+        public PreGroundBounce(Level level, float x, float y) {
             //Set level.
             //Leave for all entities
             this.level = level;
@@ -29,8 +26,7 @@ namespace RunningGame.Entities
             //Leave this for all entities.
             addMyComponents(x, y);
         }
-        public PreGroundBounce(Level level,int id, float x, float y)
-        {
+        public PreGroundBounce(Level level, int id, float x, float y) {
             this.level = level;
 
             initializeEntity(id, level);
@@ -38,8 +34,7 @@ namespace RunningGame.Entities
             addMyComponents(x, y);
         }
 
-        public void addMyComponents(float x, float y)
-        {
+        public void addMyComponents(float x, float y) {
             //Position Component
             addComponent(new PositionComponent(x, y, defaultWidth, defaultHeight, this), true);
 
@@ -61,9 +56,8 @@ namespace RunningGame.Entities
             //Out of screen removal
             addComponent(new ScreenEdgeComponent(3, 3, 3, 3));
         }
-        public override void revertToStartingState()
-        {
-      
+        public override void revertToStartingState() {
+
         }
     }
 }

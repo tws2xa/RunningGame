@@ -6,17 +6,14 @@ using System.Threading.Tasks;
 using RunningGame.Systems;
 using RunningGame.Components;
 
-namespace RunningGame.Entities
-{
+namespace RunningGame.Entities {
 
     [Serializable()]
-    public class Speedy : Entity
-    {
+    public class Speedy : Entity {
         float defaultWidth = 11;
         float defaultHeight = 12;
 
-        public Speedy(Level level, float x, float y)
-        {
+        public Speedy(Level level, float x, float y) {
             //Set level.
             //Leave for all entities
             this.level = level;
@@ -30,8 +27,7 @@ namespace RunningGame.Entities
             addMyComponents(x, y);
         }
 
-        public Speedy(Level level, int id, float x, float y)
-        {
+        public Speedy(Level level, int id, float x, float y) {
             //Set level.
             //Leave for all entities
             this.level = level;
@@ -45,8 +41,7 @@ namespace RunningGame.Entities
             addMyComponents(x, y);
         }
 
-        public void addMyComponents(float x, float y)
-        {
+        public void addMyComponents(float x, float y) {
             //position and velocity
             addComponent(new PositionComponent(x, y, defaultWidth, defaultHeight, this), true);
             addComponent(new ColliderComponent(this, GlobalVars.SPEEDY_POSTGROUND_COLLIDER_TYPE), true);
@@ -58,9 +53,8 @@ namespace RunningGame.Entities
             drawComp.setSprite("Main"); //Set image to active image
             //Console.WriteLine("Speedy: " +drawComp.getImage());
         }
-        
-        public override void revertToStartingState()
-        {
+
+        public override void revertToStartingState() {
         }
 
 

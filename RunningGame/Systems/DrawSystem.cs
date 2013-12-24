@@ -9,8 +9,7 @@ using System.Collections;
 using RunningGame.Level_Editor;
 using RunningGame.Entities;
 
-namespace RunningGame.Systems
-{
+namespace RunningGame.Systems {
 
     /*
      * The draw system checks for entities with a position and draw component.
@@ -18,8 +17,7 @@ namespace RunningGame.Systems
      */
 
     [Serializable()]
-    public class DrawSystem : GameSystem
-    {
+    public class DrawSystem : GameSystem {
 
         Graphics g;
         Level level;
@@ -42,15 +40,16 @@ namespace RunningGame.Systems
         //draw function, if that timer is greater than 0, make alpha proportion, decrease time in update.
 
         /*FLASH STUFF ends here*/
-        [NonSerialized] Pen selectedEntBorderColor = Pens.Red;
-        [NonSerialized] Brush selectedEntFillColor = new SolidBrush(Color.FromArgb(100, Color.CornflowerBlue));
+        [NonSerialized]
+        Pen selectedEntBorderColor = Pens.Red;
+        [NonSerialized]
+        Brush selectedEntFillColor = new SolidBrush(Color.FromArgb(100, Color.CornflowerBlue));
 
         //View miniMap;
 
         bool miniMapOn = false;
 
-        public DrawSystem(Graphics g, Level level)
-        {
+        public DrawSystem(Graphics g, Level level) {
             //Required Components
             requiredComponents.Add(GlobalVars.DRAW_COMPONENT_NAME); //Draw Component
             requiredComponents.Add(GlobalVars.POSITION_COMPONENT_NAME); //Position Component
@@ -58,16 +57,14 @@ namespace RunningGame.Systems
             this.g = g;
             this.level = level;
 
-            if (level is CreationLevel)
-            {
+            if (level is CreationLevel) {
                 creatLev = (CreationLevel)level;
             }
 
             View mainView = new View(0, 0, level.cameraWidth, level.cameraHeight, 0, 0, level.cameraWidth, level.cameraHeight, level, level.getPlayer());
             addView(mainView);
 
-            if (miniMapOn)
-            {
+            if (miniMapOn) {
                 View miniMap = new View(0, 0, level.levelWidth, level.levelHeight, level.cameraWidth - 210, 10, 200, 100, level);
                 miniMap.bkgBrush = Brushes.DarkTurquoise;
                 miniMap.hasBorder = true;
@@ -75,8 +72,7 @@ namespace RunningGame.Systems
             }
 
         }
-        public DrawSystem(Graphics g, CreationLevel level)
-        {
+        public DrawSystem(Graphics g, CreationLevel level) {
             //Required Components
             requiredComponents.Add(GlobalVars.DRAW_COMPONENT_NAME); //Draw Component
             requiredComponents.Add(GlobalVars.POSITION_COMPONENT_NAME); //Position Component
@@ -84,68 +80,56 @@ namespace RunningGame.Systems
             this.g = g;
             this.level = level;
 
-            if (level is CreationLevel)
-            {
+            if (level is CreationLevel) {
                 creatLev = (CreationLevel)level;
             }
 
             View mainView = new View(0, 0, level.levelWidth, level.levelHeight, 0, 0, level.levelWidth, level.levelHeight, level);
             addView(mainView);
 
-            if (miniMapOn)
-            {
+            if (miniMapOn) {
                 View miniMap = new View(0, 0, level.levelWidth, level.levelHeight, level.cameraWidth - 100, 10, 200, 100, level);
                 miniMap.bkgBrush = Brushes.DarkTurquoise;
                 miniMap.hasBorder = true;
                 addView(miniMap);
             }
         }
-        public override List<string> getRequiredComponents()
-        {
+        public override List<string> getRequiredComponents() {
             return requiredComponents;
         }
-        public override Level GetActiveLevel()
-        {
+        public override Level GetActiveLevel() {
             return level;
         }
 
-        public override void Update(float deltaTime)
-        {
+        public override void Update(float deltaTime) {
 
-            if (views[0].followEntity == null)
-            {
+            if (views[0].followEntity == null) {
                 views[0].setFollowEntity(level.getPlayer());
             }
 
-            
+
             //*this part takes care of flashes on the screen
-            if (flashTime > 0)
-            {
+            if (flashTime > 0) {
                 flashTime = flashTime - deltaTime;
                 if (flashDirection)
                     alpha += (int)(deltaAlpha * deltaTime);
-                else
-                {
+                else {
                     //flashDirection is false
                     alpha -= (int)(deltaAlpha * deltaTime);
                 }
-                if (alpha >= 255)
-                {
+                if (alpha >= 255) {
                     alpha = 255;
                     flashDirection = false;
                 }
 
-                if (alpha <= 0)
-                {
+                if (alpha <= 0) {
                     flashTime = 0;
                     alpha = 0;
                 }
 
                 flashBrush.Color = Color.FromArgb(alpha, flashColor);
 
-            }
-            else
-            {
+            } else {
                 alpha = 0;
             }
             /*
@@ -158,27 +142,23 @@ namespace RunningGame.Systems
             //draw a rectangle
             //total time 
             //Update views
-            foreach (View v in views)
-            {
+            foreach (View v in views) {
                 v.Update();
             }
         }
 
 
-        public float getFlashTime()
-        {
+        public float getFlashTime() {
             return flashTime;
         }
-        public Brush getFlashBrush()
-        {
+        public Brush getFlashBrush() {
             return flashBrush;
         }
-        public void setFlash(Color c, float time)
-        {
-           
-            ((SolidBrush)flashBrush).Color = Color.FromArgb(0,  c);
+        public void setFlash(Color c, float time) {
+
+            ((SolidBrush)flashBrush).Color = Color.FromArgb(0, c);
             flashTime = time;
-            deltaAlpha = ((255*2)/(time)); // the 20 is arbitary for now since I can't figure out how to set the ratio, since I don't know 
+            deltaAlpha = ((255 * 2) / (time)); // the 20 is arbitary for now since I can't figure out how to set the ratio, since I don't know 
             //how to acces delta time from here
             flashDirection = true;
             flashColor = c;
@@ -191,16 +171,14 @@ namespace RunningGame.Systems
         // what you use to draw things to the image
         // g is a property(essentially the image)
         // every image has a graphics object associated with it, latched on it. 
-        public void Draw(Graphics g)
-        {
+        public void Draw(Graphics g) {
             List<Entity> entityList = getApplicableEntities();
-            
+
             //this is where all the entities are drawn, so modify this for depth
-            foreach (View v in views)
-            {
+            foreach (View v in views) {
                 v.Draw(g, entityList);
             }
-            
+
             /*
             //If you are in the level editor. Box the selected entities
             //Ignore this unless you are playing with level editor
@@ -217,23 +195,19 @@ namespace RunningGame.Systems
 
         }
 
-        public void addView(View v)
-        {
+        public void addView(View v) {
             views.Add(v);
         }
 
-        public View getMainView()
-        {
+        public View getMainView() {
             return views[0];
         }
 
-        public bool removeView(View plView)
-        {
+        public bool removeView(View plView) {
             return views.Remove(plView);
         }
 
-        public void gotoJustMainView()
-        {
+        public void gotoJustMainView() {
             View main = views[0];
             views.Clear();
             views.Add(main);

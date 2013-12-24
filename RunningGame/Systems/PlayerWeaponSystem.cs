@@ -7,11 +7,9 @@ using System.Collections;
 using RunningGame.Components;
 using RunningGame.Entities;
 
-namespace RunningGame.Systems
-{
+namespace RunningGame.Systems {
     [Serializable()]
-    public class PlayerWeaponSystem:GameSystem
-    {
+    public class PlayerWeaponSystem : GameSystem {
         List<string> requiredComponents = new List<string>();
         Level level;
 
@@ -23,47 +21,38 @@ namespace RunningGame.Systems
         int numBullets = 0;
 
         //Constructor - Always read in the level! You can read in other stuff too if need be.
-        public PlayerWeaponSystem(Level level)
-        {
+        public PlayerWeaponSystem(Level level) {
             this.level = level; //Always have this
 
         }
 
         //-------------------------------------- Overrides -------------------------------------------
         // Must have this. Same for all Systems.
-        public override List<string> getRequiredComponents()
-        {
+        public override List<string> getRequiredComponents() {
             return requiredComponents;
         }
-        
+
         //Must have this. Same for all Systems.
-        public override Level GetActiveLevel()
-        {
+        public override Level GetActiveLevel() {
             return level;
         }
 
-        public override void Update(float deltaTime)
-        {
+        public override void Update(float deltaTime) {
             //Only count up num bullets if a weapon has been fired.
             //If it hasn't then don't waste the time.
             numBullets = 0;
-            if (bulletFired)
-            {
-                foreach (Entity e in GlobalVars.nonGroundEntities.Values)
-                {
+            if (bulletFired) {
+                foreach (Entity e in GlobalVars.nonGroundEntities.Values) {
                     if (e is BulletEntity) numBullets++;
                 }
 
                 if (numBullets <= 0) bulletFired = false;
             }
 
-            if (!level.sysManager.visSystem.orbActive && level.getInputSystem().mouseLeftClick)
-            {
-                if (level.getPlayer() != null)
-                {
+            if (!level.sysManager.visSystem.orbActive && level.getInputSystem().mouseLeftClick) {
+                if (level.getPlayer() != null) {
                     //Count up number of already existing bullets
-                    if (numBullets < GlobalVars.MAX_NUM_BULLETS)
-                    {
+                    if (numBullets < GlobalVars.MAX_NUM_BULLETS) {
                         fireWeapon((PositionComponent)level.getPlayer().getComponent(GlobalVars.POSITION_COMPONENT_NAME));
                     }
                 }
@@ -71,8 +60,7 @@ namespace RunningGame.Systems
         }
         //--------------------------------------------------------------------------------------------
 
-        public void fireWeapon(PositionComponent posComp)
-        {
+        public void fireWeapon(PositionComponent posComp) {
             //Do maths!
             float mouseX = level.getInputSystem().mouseX + level.sysManager.drawSystem.getMainView().x;
             float mouseY = level.getInputSystem().mouseY + level.sysManager.drawSystem.getMainView().y;
@@ -101,44 +89,34 @@ namespace RunningGame.Systems
 
             //Recoil
             Player player = (Player)level.getPlayer();
-            if (recoil && player.hasComponent(GlobalVars.VELOCITY_COMPONENT_NAME))
-            {
+            if (recoil && player.hasComponent(GlobalVars.VELOCITY_COMPONENT_NAME)) {
                 VelocityComponent playerVelComp = (VelocityComponent)player.getComponent(GlobalVars.VELOCITY_COMPONENT_NAME);
                 //Don't recoil if the player is walking in the direcion of the shot
-                if (!((xVel > 0 && level.getInputSystem().myKeys[GlobalVars.KEY_RIGHT].pressed) || (xVel < 0 && level.getInputSystem().myKeys[GlobalVars.KEY_LEFT].pressed)))
-                {
-                    if(!level.sysManager.spSystem.speedyActive) playerVelComp.x -= (float)xVel * recoilMultiplier;
-                }
-                else
-                {
+                if (!((xVel > 0 && level.getInputSystem().myKeys[GlobalVars.KEY_RIGHT].pressed) || (xVel < 0 && level.getInputSystem().myKeys[GlobalVars.KEY_LEFT].pressed))) {
+                    if (!level.sysManager.spSystem.speedyActive) playerVelComp.x -= (float)xVel * recoilMultiplier;
+                } else {
                     //If the player is in the air, still recoil
                     float leftX = (posComp.x - posComp.width / 2);
                     float rightX = (posComp.x + posComp.width / 2);
                     float lowerY = (posComp.y + posComp.height / 2 + 1);
-                    if (!(level.getCollisionSystem().findObjectsBetweenPoints(leftX, lowerY, rightX, lowerY).Count > 0))
-                    {
+                    if (!(level.getCollisionSystem().findObjectsBetweenPoints(leftX, lowerY, rightX, lowerY).Count > 0)) {
                         //Check it isn't over the cap
-                        if (!((playerVelComp.x < 0 && playerVelComp.x < recoilCap) || (playerVelComp.x > 0 && playerVelComp.x > recoilCap)))
-                        {
+                        if (!((playerVelComp.x < 0 && playerVelComp.x < recoilCap) || (playerVelComp.x > 0 && playerVelComp.x > recoilCap))) {
                             if (!level.sysManager.spSystem.speedyActive) playerVelComp.x -= (float)xVel * recoilMultiplier;
                         }
                     }
                 }
 
                 //Check it isn't over the recoil cap
-                if (!((playerVelComp.y < 0 && playerVelComp.y < recoilCap) || (playerVelComp.y > 0 && playerVelComp.y > recoilCap)))
-                {
+                if (!((playerVelComp.y < 0 && playerVelComp.y < recoilCap) || (playerVelComp.y > 0 && playerVelComp.y > recoilCap))) {
                     playerVelComp.y -= (float)yVel * recoilMultiplier;
                 }
             }
 
             //Turn if need be
-            if (player.isLookingLeft() && xVel > 0)
-            {
+            if (player.isLookingLeft() && xVel > 0) {
                 player.faceRight();
-            }
-            else if (player.isLookingRight() && xVel < 0)
-            {
+            } else if (player.isLookingRight() && xVel < 0) {
                 player.faceLeft();
             }
             bulletFired = true;

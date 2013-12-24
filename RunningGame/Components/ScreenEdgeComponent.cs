@@ -4,11 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RunningGame.Components
-{
+namespace RunningGame.Components {
     [Serializable()]
-    public class ScreenEdgeComponent : Component
-    {
+    public class ScreenEdgeComponent : Component {
 
         //0 - Nothing
         //1 - Stop
@@ -18,8 +16,7 @@ namespace RunningGame.Components
         //5 - Death.
         public int left, right, up, down;
 
-        public ScreenEdgeComponent(int left, int right, int up, int down)
-        {
+        public ScreenEdgeComponent(int left, int right, int up, int down) {
 
             this.componentName = GlobalVars.SCREEN_EDGE_COMPONENT_NAME;
 

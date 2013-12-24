@@ -6,8 +6,7 @@ using System.Threading.Tasks;
 using System.Collections;
 using RunningGame.Components;
 
-namespace RunningGame.Systems
-{
+namespace RunningGame.Systems {
     /*
      * A Template for the system class
      */
@@ -21,8 +20,7 @@ namespace RunningGame.Systems
         Level level;
 
         //Constructor - Always read in the level! You can read in other stuff too if need be.
-        public SystemTemplate(Level level)
-        {
+        public SystemTemplate(Level level) {
             //Here is where you add the Required components
             requiredComponents.Add(GlobalVars.POSITION_COMPONENT_NAME); //Position
             requiredComponents.Add(GlobalVars.COLLIDER_COMPONENT_NAME); //Collider
@@ -34,14 +32,12 @@ namespace RunningGame.Systems
 
         //-------------------------------------- Overrides -------------------------------------------
         // Must have this. Same for all Systems.
-        public override List<string> getRequiredComponents()
-        {
+        public override List<string> getRequiredComponents() {
             return requiredComponents;
         }
-        
+
         //Must have this. Same for all Systems.
-        public override Level GetActiveLevel()
-        {
+        public override Level GetActiveLevel() {
             return level;
         }
 
@@ -50,8 +46,7 @@ namespace RunningGame.Systems
         //Use deltaTime for things like changing velocity or changing position from velocity
         //This is where you do anything that you want to happen every frame.
         //There is a chance that your system won't need to do anything in update. Still have it.
-        public override void Update(float deltaTime)
-        {
+        public override void Update(float deltaTime) {
             //Your brilliant coding Skillz go here. Or below in other methods.
         }
         //----------------------------------------------------------------------------------------------

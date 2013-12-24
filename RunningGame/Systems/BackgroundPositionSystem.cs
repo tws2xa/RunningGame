@@ -7,11 +7,9 @@ using System.Collections;
 using RunningGame.Components;
 using RunningGame.Entities;
 
-namespace RunningGame.Systems
-{
-    public class BackgroundPositionSystem:GameSystem
-    {
-        
+namespace RunningGame.Systems {
+    public class BackgroundPositionSystem : GameSystem {
+
         //All systems MUST have a List of requiredComponents (May need to add using System.Collections at start of file)
         //To access components you may need to also add "using RunningGame.Components"
         List<string> requiredComponents = new List<string>();
@@ -27,8 +25,7 @@ namespace RunningGame.Systems
 
 
         //Constructor - Always read in the level! You can read in other stuff too if need be.
-        public BackgroundPositionSystem(Level level)
-        {
+        public BackgroundPositionSystem(Level level) {
             //Here is where you add the Required components
             requiredComponents.Add(GlobalVars.POSITION_COMPONENT_NAME); //Position
             requiredComponents.Add(GlobalVars.BACKGROUND_COMPONENT_NAME); //Background
@@ -38,26 +35,21 @@ namespace RunningGame.Systems
 
         //-------------------------------------- Overrides -------------------------------------------
         // Must have this. Same for all Systems.
-        public override List<string> getRequiredComponents()
-        {
+        public override List<string> getRequiredComponents() {
             return requiredComponents;
         }
-        
+
         //Must have this. Same for all Systems.
-        public override Level GetActiveLevel()
-        {
+        public override Level GetActiveLevel() {
             return level;
         }
 
-        public override void Update(float deltaTime)
-        {
+        public override void Update(float deltaTime) {
 
 
             //Proportion Method
-            if (scrollType == 1)
-            {
-                foreach (Entity e in getApplicableEntities())
-                {
+            if (scrollType == 1) {
+                foreach (Entity e in getApplicableEntities()) {
                     PositionComponent posComp = (PositionComponent)e.getComponent(GlobalVars.POSITION_COMPONENT_NAME);
 
                     float viewX = level.sysManager.drawSystem.getMainView().x;
@@ -72,18 +64,15 @@ namespace RunningGame.Systems
                     bkgX += posComp.width / 2;
                     bkgY += posComp.height / 2;
 
-                    if (posComp.x != bkgX || posComp.y != bkgY)
-                    {
+                    if (posComp.x != bkgX || posComp.y != bkgY) {
                         level.getMovementSystem().changePosition(posComp, bkgX, bkgY, false);
                     }
                 }
             }
 
             //Proportion only horizontal
-            if (scrollType == 2)
-            {
-                foreach (Entity e in getApplicableEntities())
-                {
+            if (scrollType == 2) {
+                foreach (Entity e in getApplicableEntities()) {
                     PositionComponent posComp = (PositionComponent)e.getComponent(GlobalVars.POSITION_COMPONENT_NAME);
 
                     float viewX = level.sysManager.drawSystem.getMainView().x;
@@ -97,9 +86,8 @@ namespace RunningGame.Systems
                     bkgX += posComp.width / 2;
                     bkgY += posComp.height / 2;
 
-                    if (posComp.x != bkgX || posComp.y != bkgY)
-                    {
-                        level.getMovementSystem().changePosition(posComp, bkgX, viewY+posComp.height/2, false);
+                    if (posComp.x != bkgX || posComp.y != bkgY) {
+                        level.getMovementSystem().changePosition(posComp, bkgX, viewY + posComp.height / 2, false);
                     }
                 }
             }

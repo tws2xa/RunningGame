@@ -5,11 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Drawing;
 
-namespace RunningGame.Components
-{
+namespace RunningGame.Components {
     [Serializable()]
-    public class GrappleComponent:Component
-    {
+    public class GrappleComponent : Component {
         //Which State It's In
         //0 = mid       growing
         //1 = front     finished
@@ -24,8 +22,7 @@ namespace RunningGame.Components
         PointF startPoint;
         PointF endPoint;
 
-        public GrappleComponent(float startX, float startY, double direction)
-        {
+        public GrappleComponent(float startX, float startY, double direction) {
             this.componentName = GlobalVars.GRAPPLE_COMPONENT_NAME;
             //points.Add(new PointF(startX, startY));
             PointF p = new PointF(startX, startY);
@@ -34,20 +31,17 @@ namespace RunningGame.Components
             this.direction = direction;
         }
 
-        public PointF getFirstPoint()
-        {
+        public PointF getFirstPoint() {
             return startPoint;
             //return points[0];
         }
-        public PointF getLastPoint()
-        {
+        public PointF getLastPoint() {
             return endPoint;
             //return points[points.Count-1];
         }
 
 
-        public void setEndPoint(PointF p)
-        {
+        public void setEndPoint(PointF p) {
             //points.Add(p);
             endPoint = p;
         }
@@ -58,8 +52,7 @@ namespace RunningGame.Components
             points.RemoveAt(0);
         }*/
 
-        public void setFirstPoint(PointF p)
-        {
+        public void setFirstPoint(PointF p) {
             startPoint = p;
         }
     }

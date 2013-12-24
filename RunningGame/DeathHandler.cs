@@ -6,8 +6,7 @@ using System.Threading.Tasks;
 using RunningGame.Components;
 using RunningGame.Entities;
 
-namespace RunningGame
-{
+namespace RunningGame {
     /*
      * This class is where any and all entity "deaths" are handled.
      * Basically, if the health system notices that something has dropped to or below 0 health
@@ -17,8 +16,7 @@ namespace RunningGame
      */
 
     [Serializable()]
-    class DeathHandler
-    {
+    class DeathHandler {
 
         //The level
         Level level;
@@ -26,23 +24,19 @@ namespace RunningGame
         float resetTime = 1.0f;
         float levelResetTimer = -1.0f; //The timer - don't modify this!
 
-        public DeathHandler(Level level)
-        {
+        public DeathHandler(Level level) {
             //Set the level
             this.level = level;
         }
 
         //This is really only used if the level reset timer is set
-        public void update(float deltaTime)
-        {
+        public void update(float deltaTime) {
             //If the level reset timer is set...
-            if (levelResetTimer > 0)
-            {
+            if (levelResetTimer > 0) {
                 //Decrease the timer
                 levelResetTimer -= deltaTime;
                 //If the timer has passed (or hit) 0...
-                if (levelResetTimer <= 0)
-                {
+                if (levelResetTimer <= 0) {
                     //Reset the level.
                     level.resetLevel();
                     //Stop the timer.
@@ -56,11 +50,10 @@ namespace RunningGame
             //------- First check for any special cases
 
             //Is it the player? If so, reset the level.
-            if(e.hasComponent(GlobalVars.PLAYER_COMPONENT_NAME)) {
+            if (e.hasComponent(GlobalVars.PLAYER_COMPONENT_NAME)) {
 
                 //If the reset level timer hasn't already been set...
-                if (levelResetTimer < 0)
-                {
+                if (levelResetTimer < 0) {
                     //Get the player (Who just died)
                     Player pl = (Player)level.getPlayer();
 
@@ -76,21 +69,20 @@ namespace RunningGame
                     deadVelComp.y = velComp.y;
 
                     //If the player was looking left, flip the dead player entity's sprite so it's also looking left
-                    if (pl.isLookingLeft())
-                    {
+                    if (pl.isLookingLeft()) {
                         DrawComponent drawComp = (DrawComponent)deadPlayer.getComponent(GlobalVars.DRAW_COMPONENT_NAME);
                         drawComp.rotateFlipSprite("Main", System.Drawing.RotateFlipType.RotateNoneFlipX);
                     }
 
                     //Add the dead player entity
                     level.addEntity(deadPlayer);
-                    
+
                     //Remove the player
                     level.removeEntity(pl);
 
                     //Start the red flash
                     level.sysManager.drawSystem.setFlash(System.Drawing.Color.DarkRed, resetTime);
-                    
+
                     //Start the reset timer.
                     levelResetTimer = resetTime * 0.6f; ;
                 }

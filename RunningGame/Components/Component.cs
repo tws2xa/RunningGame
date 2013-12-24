@@ -4,8 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RunningGame
-{
+namespace RunningGame {
 
     /*
      * The component class from which all other components are born.
@@ -21,26 +20,22 @@ namespace RunningGame
      */
 
     [Serializable()]
-    public abstract class Component
-    {
+    public abstract class Component {
         public string componentName = GlobalVars.NULL_COMPONENT_NAME;
 
         //Two components are equal if they have the same component name
-        public override bool Equals(object obj)
-        {
+        public override bool Equals(object obj) {
             if (obj.GetType() != this.GetType()) return false;
 
             Component other = (Component)obj;
             return (other.componentName == this.componentName);
         }
 
-        public override int GetHashCode()
-        {
+        public override int GetHashCode() {
             return base.GetHashCode();
         }
 
-        public override string ToString()
-        {
+        public override string ToString() {
             return componentName;
         }
     }

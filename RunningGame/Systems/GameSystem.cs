@@ -6,8 +6,7 @@ using System.Threading.Tasks;
 using System.Collections;
 using RunningGame.Components;
 
-namespace RunningGame
-{
+namespace RunningGame {
 
     /*
      * This is the abstract class from which all other systems are born.
@@ -16,8 +15,7 @@ namespace RunningGame
      */
 
     [Serializable()]
-    public abstract class GameSystem
-    {
+    public abstract class GameSystem {
 
         public abstract Level GetActiveLevel();
 
@@ -32,17 +30,14 @@ namespace RunningGame
         //2 = yes
         int doActOnGround = 0;
 
-        
+
         //Returns a list of all entities with required components
-        public List<Entity> getApplicableEntities()
-        {
+        public List<Entity> getApplicableEntities() {
             List<Entity> a = applicableEntities.Values.ToList<Entity>();
             List<Entity> ret = new List<Entity>();
 
-            foreach (Entity e in a)
-            {
-                if (e.updateOutOfView || isInView(e))
-                {
+            foreach (Entity e in a) {
+                if (e.updateOutOfView || isInView(e)) {
                     ret.Add(e);
                 }
             }
@@ -62,52 +57,39 @@ namespace RunningGame
         }
 
 
-        public bool checkIfEntityIsApplicable(Entity e)
-        {
-            foreach (string c in getRequiredComponents())
-            {
+        public bool checkIfEntityIsApplicable(Entity e) {
+            foreach (string c in getRequiredComponents()) {
                 //If there is a single missing component - don't add.
-                if (!e.hasComponent(c))
-                {
+                if (!e.hasComponent(c)) {
                     return false;
                 }
             }
             return true;
         }
-        
-        public List<Entity> getApplicableEntities2()
-        {
+
+        public List<Entity> getApplicableEntities2() {
             List<Entity> appEnts = new List<Entity>();
 
 
 
-            if (!GetActiveLevel().paused)
-            {
-                try
-                {
+            if (!GetActiveLevel().paused) {
+                try {
 
-                    if (actOnGround())
-                    {
-                        foreach (Entity e in GlobalVars.groundEntities.Values)
-                        {
-                            if (e.updateOutOfView || isInView(e))
-                            {
+                    if (actOnGround()) {
+                        foreach (Entity e in GlobalVars.groundEntities.Values) {
+                            if (e.updateOutOfView || isInView(e)) {
                                 appEnts.Add(e);
                             }
                         }
                     }
 
-                    foreach (Entity e in GlobalVars.nonGroundEntities.Values)
-                    {
-                        if (e.updateOutOfView || isInView(e))
-                        {
+                    foreach (Entity e in GlobalVars.nonGroundEntities.Values) {
+                        if (e.updateOutOfView || isInView(e)) {
 
                             bool addEntity = true;
-                            foreach (string c in getRequiredComponents())
-                            {
+                            foreach (string c in getRequiredComponents()) {
                                 //If there is a single missing component - don't add.
-                                if (!e.hasComponent(c))
-                                {
+                                if (!e.hasComponent(c)) {
                                     addEntity = false;
                                     break;
                                 }
@@ -116,9 +98,7 @@ namespace RunningGame
                             if (addEntity) appEnts.Add(e);
                         }
                     }
-                }
-                catch (Exception e)
-                {
+                } catch (Exception e) {
                     Console.WriteLine("Exception in get applicable entities: " + e);
                 }
             }
@@ -128,16 +108,14 @@ namespace RunningGame
             return appEnts;
         }
 
-        public bool isInView(Entity e)
-        {
+        public bool isInView(Entity e) {
 
             if (!e.hasComponent(GlobalVars.POSITION_COMPONENT_NAME)) return true; //No position = always in view. Why not?
 
             PositionComponent posComp = (PositionComponent)e.getComponent(GlobalVars.POSITION_COMPONENT_NAME);
 
 
-            foreach (View v in GetActiveLevel().sysManager.drawSystem.views)
-            {
+            foreach (View v in GetActiveLevel().sysManager.drawSystem.views) {
                 float x = v.x;
                 float y = v.y;
 
@@ -154,17 +132,13 @@ namespace RunningGame
         }
 
 
-        public bool actOnGround()
-        {
-            if (doActOnGround == 0)
-            {
+        public bool actOnGround() {
+            if (doActOnGround == 0) {
                 List<string> reqComps = this.getRequiredComponents();
 
-                foreach (string s in reqComps)
-                {
+                foreach (string s in reqComps) {
 
-                    if(!(s == GlobalVars.POSITION_COMPONENT_NAME || s == GlobalVars.DRAW_COMPONENT_NAME || s == GlobalVars.COLLIDER_COMPONENT_NAME))
-                    {
+                    if (!(s == GlobalVars.POSITION_COMPONENT_NAME || s == GlobalVars.DRAW_COMPONENT_NAME || s == GlobalVars.COLLIDER_COMPONENT_NAME)) {
                         doActOnGround = 1;
                         break;
                     }
@@ -173,7 +147,7 @@ namespace RunningGame
 
                 if (doActOnGround != 1) doActOnGround = 2;
             }
-            
+
             return (doActOnGround == 2);
         }
 

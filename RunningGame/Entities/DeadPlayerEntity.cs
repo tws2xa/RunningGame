@@ -5,10 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using RunningGame.Components;
 
-namespace RunningGame.Entities
-{
-    class DeadPlayerEntity:Entity
-    {
+namespace RunningGame.Entities {
+    class DeadPlayerEntity : Entity {
 
         float defaultWidth = 39;
         float defaultHeight = 49;
@@ -18,8 +16,7 @@ namespace RunningGame.Entities
         //Both take in the starting x and y of the entity.
         //Both take in the level that it's being applied to.
         //You probably won't have to edit these at all.
-        public DeadPlayerEntity(Level level, float x, float y)
-        {
+        public DeadPlayerEntity(Level level, float x, float y) {
             //Set level.
             //Leave for all entities
             this.level = level;
@@ -32,8 +29,7 @@ namespace RunningGame.Entities
             //Leave this for all entities.
             addMyComponents(x, y);
         }
-        public DeadPlayerEntity(Level level, int id, float x, float y)
-        {
+        public DeadPlayerEntity(Level level, int id, float x, float y) {
             //Set level.
             //Leave for all entities
             this.level = level;
@@ -51,12 +47,11 @@ namespace RunningGame.Entities
 
         //Here's where you add all the components the entity has.
         //You can just uncomment the ones you want.
-        public void addMyComponents(float x, float y)
-        {
+        public void addMyComponents(float x, float y) {
             /*POSITION COMPONENT - Does it have a position?
              */
             addComponent(new PositionComponent(x, y, defaultWidth, defaultHeight, this), true);
-            
+
             /*DRAW COMPONENT - Does it get drawn to the game world?
              */
             DrawComponent drawComp = (DrawComponent)addComponent(new DrawComponent(defaultWidth, defaultHeight, level, true), true);
@@ -85,13 +80,12 @@ namespace RunningGame.Entities
             addComponent(new GravityComponent(0, GlobalVars.STANDARD_GRAVITY), true);
 
         }
-        
+
         //Will never start
-        public override void revertToStartingState()
-        {
+        public override void revertToStartingState() {
             //Stuff
         }
-         
+
 
     }
 }

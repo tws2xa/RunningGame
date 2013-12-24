@@ -6,17 +6,14 @@ using System.Threading.Tasks;
 using System.Collections;
 using RunningGame.Components;
 
-namespace RunningGame
-{
+namespace RunningGame {
     //Applies gravity to all objects with gravity, position, and velocity components
     [Serializable()]
-    public class GravitySystem : GameSystem
-    {
+    public class GravitySystem : GameSystem {
         List<string> requiredComponents = new List<string>();
         Level level;
 
-        public GravitySystem(Level activeLevel)
-        {
+        public GravitySystem(Level activeLevel) {
             //Required Components
             requiredComponents.Add(GlobalVars.VELOCITY_COMPONENT_NAME); //Velocity
             requiredComponents.Add(GlobalVars.POSITION_COMPONENT_NAME); //Position
@@ -26,17 +23,15 @@ namespace RunningGame
             level = activeLevel;
         }
 
-        public override Level GetActiveLevel()
-        {
+        public override Level GetActiveLevel() {
             return level;
         }
 
         //Run once each frame deltaTime is the amount of seconds since the last frame
-        public override void Update(float deltaTime)
-        {
-            foreach(Entity e in getApplicableEntities()) {
+        public override void Update(float deltaTime) {
+            foreach (Entity e in getApplicableEntities()) {
 
-                float floorBuffer = 1; //Distance it checks below object for a floor
+                float floorBuffer = GlobalVars.MIN_TILE_SIZE - 1; //Distance it checks below object for a floor
 
                 //Don't apply gravity if the object is on top of something
                 PositionComponent posComp = (PositionComponent)e.getComponent(GlobalVars.POSITION_COMPONENT_NAME);
@@ -46,19 +41,21 @@ namespace RunningGame
                 float leftX = (posComp.x - posComp.width / 2 - sideBuffer);
                 float rightX = (posComp.x + posComp.width / 2 + sideBuffer);
                 float lowerY = (posComp.y + posComp.height / 2 + floorBuffer);
-                List<Entity> cols = level.getCollisionSystem().findObjectsBetweenPoints(leftX, lowerY, rightX, lowerY);
+                Console.WriteLine("Lower y: " + lowerY);
+                List<Entity> cols = level.getCollisionSystem().checkForCollision(e, posComp.x, lowerY, posComp.width, posComp.height);
+                //List<Entity> cols = level.getCollisionSystem().findObjectsBetweenPoints(leftX, lowerY, rightX, lowerY);
+
                 bool shouldEnter = true;
-                foreach (Entity ent in cols)
-                {
+                foreach (Entity ent in cols) {
                     ColliderComponent collider = (ColliderComponent)ent.getComponent(GlobalVars.COLLIDER_COMPONENT_NAME);
-                    if (collider.colliderType == GlobalVars.BASIC_SOLID_COLLIDER_TYPE)
-                    {
+                    PositionComponent posComp2 = (PositionComponent)ent.getComponent(GlobalVars.POSITION_COMPONENT_NAME);
+                    //If the object is below the player, and it's solid, don't apply gravity.
+                    if ((posComp.y + posComp.height / 2) >= (posComp2.y - posComp2.height / 2) && collider.colliderType == GlobalVars.BASIC_SOLID_COLLIDER_TYPE) {
                         shouldEnter = false;
                         break;
                     }
                 }
-                if (shouldEnter)
-                {
+                if (shouldEnter) {
                     //Pull out all required components
                     VelocityComponent velComp = (VelocityComponent)e.getComponent(GlobalVars.VELOCITY_COMPONENT_NAME);
                     GravityComponent gravComp = (GravityComponent)e.getComponent(GlobalVars.GRAVITY_COMPONENT_NAME);
@@ -72,8 +69,7 @@ namespace RunningGame
 
         }
 
-        public override List<string> getRequiredComponents()
-        {
+        public override List<string> getRequiredComponents() {
             return requiredComponents;
         }
 

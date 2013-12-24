@@ -6,21 +6,18 @@ using System.Threading.Tasks;
 using System.Collections;
 using System.Windows.Forms;
 
-namespace RunningGame.Components
-{
+namespace RunningGame.Components {
 
     //The entity is the player.
 
     [Serializable()]
-    public class PlayerComponent : Component
-    {
+    public class PlayerComponent : Component {
 
 
-        public PlayerComponent()
-        {
+        public PlayerComponent() {
             this.componentName = GlobalVars.PLAYER_COMPONENT_NAME;
         }
-        
+
 
     }
 }

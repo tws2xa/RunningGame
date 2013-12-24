@@ -15,8 +15,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
 using System.Reflection;
 
-namespace RunningGame
-{
+namespace RunningGame {
     /*
      * A level is basically what it souds like.
      * It keeps track of all the entities within a stage
@@ -24,8 +23,7 @@ namespace RunningGame
      * the SystemManager which is what controls the game systems.
      */
     [Serializable()]
-    public class Level
-    {
+    public class Level {
 
         Random rand; //for creating entitiy ids
         //Dictionary<int, Entity> entities; //all entities in the level
@@ -33,7 +31,7 @@ namespace RunningGame
         public float cameraWidth { get; set; }
         public float cameraHeight { get; set; }
         public float levelWidth { get; set; }
-        public float levelHeight {get;set;}
+        public float levelHeight { get; set; }
         public bool paused = false; //Is the game paused?
 
         public int worldNum; //Which world is it?
@@ -56,18 +54,17 @@ namespace RunningGame
 
         public bool levelFullyLoaded = false;
 
-        public Level() {}
+        public Level() { }
 
-        public Level(float windowWidth, float windowHeight, string levelFile, int worldNum, int levelNum, bool isPaintFile, Graphics g)
-        {
+        public Level(float windowWidth, float windowHeight, string levelFile, int worldNum, int levelNum, bool isPaintFile, Graphics g) {
 
             this.worldNum = worldNum;
             this.levelNum = levelNum;
 
-            if(isPaintFile)
+            if (isPaintFile)
                 initializePaint(windowWidth, windowHeight, levelFile, g);
             //else
-                //initializeNotPaint(windowWidth, windowHeight, levelFile, g);
+            //initializeNotPaint(windowWidth, windowHeight, levelFile, g);
         }
 
         /*
@@ -130,22 +127,17 @@ namespace RunningGame
 
         }
         */
-        public void CopyFields(object oldObj, object newObj)
-        {
-            foreach (FieldInfo oldInfo in oldObj.GetType().GetFields(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance))
-            {
-                foreach (FieldInfo newInfo in newObj.GetType().GetFields(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance))
-                {
-                    if (oldInfo.Name == newInfo.Name)
-                    {
+        public void CopyFields(object oldObj, object newObj) {
+            foreach (FieldInfo oldInfo in oldObj.GetType().GetFields(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance)) {
+                foreach (FieldInfo newInfo in newObj.GetType().GetFields(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance)) {
+                    if (oldInfo.Name == newInfo.Name) {
                         newInfo.SetValue(newObj, oldInfo.GetValue(oldObj));
                     }
                 }
             }
         }
 
-        public void initializePaint(float windowWidth, float windowHeight, string levelFile, Graphics g)
-        {
+        public void initializePaint(float windowWidth, float windowHeight, string levelFile, Graphics g) {
 
             rand = new Random();
             this.g = g;
@@ -189,64 +181,45 @@ namespace RunningGame
         }
 
 
-        public void setPowerups()
-        {
-            if (worldNum > 1 || (worldNum == 1 && levelNum > 1))
-            {
+        public void setPowerups() {
+            if (worldNum > 1 || (worldNum == 1 && levelNum > 1)) {
                 sysManager.spSystem.unlockPowerup(1);
-                if (worldNum > 2 || (worldNum == 2 && levelNum > 1))
-                {
+                if (worldNum > 2 || (worldNum == 2 && levelNum > 1)) {
                     sysManager.spSystem.unlockPowerup(2);
-                    if (worldNum > 3 || (worldNum == 3 && levelNum > 1))
-                    {
+                    if (worldNum > 3 || (worldNum == 3 && levelNum > 1)) {
                         sysManager.spSystem.unlockPowerup(3);
-                        if (worldNum > 4 || (worldNum == 4 && levelNum > 1))
-                        {
+                        if (worldNum > 4 || (worldNum == 4 && levelNum > 1)) {
                             sysManager.spSystem.unlockPowerup(4);
-                            if (worldNum > 5 || (worldNum == 5 && levelNum > 1))
-                            {
+                            if (worldNum > 5 || (worldNum == 5 && levelNum > 1)) {
                                 sysManager.spSystem.unlockPowerup(5);
-                                if (worldNum > 6 || (worldNum == 6 && levelNum > 1))
-                                {
+                                if (worldNum > 6 || (worldNum == 6 && levelNum > 1)) {
                                     sysManager.spSystem.unlockPowerup(6);
-                                }
-                                else
-                                {
+                                } else {
                                     sysManager.spSystem.lockPowerup(6);
                                 }
-                            }
-                            else
-                            {
+                            } else {
                                 sysManager.spSystem.lockPowerup(5);
                                 sysManager.spSystem.lockPowerup(6);
                             }
-                        }
-                        else
-                        {
+                        } else {
                             sysManager.spSystem.lockPowerup(4);
                             sysManager.spSystem.lockPowerup(5);
                             sysManager.spSystem.lockPowerup(6);
                         }
-                    }
-                    else
-                    {
+                    } else {
                         sysManager.spSystem.lockPowerup(3);
                         sysManager.spSystem.lockPowerup(4);
                         sysManager.spSystem.lockPowerup(5);
                         sysManager.spSystem.lockPowerup(6);
                     }
-                }
-                else
-                {
+                } else {
                     sysManager.spSystem.lockPowerup(2);
                     sysManager.spSystem.lockPowerup(3);
                     sysManager.spSystem.lockPowerup(4);
                     sysManager.spSystem.lockPowerup(5);
                     sysManager.spSystem.lockPowerup(6);
                 }
-            }
-            else
-            {
+            } else {
                 sysManager.spSystem.lockPowerup(1);
                 sysManager.spSystem.lockPowerup(2);
                 sysManager.spSystem.lockPowerup(3);
@@ -259,8 +232,7 @@ namespace RunningGame
 
 
         //Game logic
-        public virtual void Update()
-        {
+        public virtual void Update() {
 
             //Time in seconds between frames
             currentTicks = DateTime.Now.Ticks;
@@ -270,18 +242,15 @@ namespace RunningGame
             float deltaTime = (float)(TimeSpan.FromTicks(pastTicks).TotalSeconds);
             fps = (1 / deltaTime);
 
-            if (levelFullyLoaded && !paused)
-            {
+            if (levelFullyLoaded && !paused) {
 
                 //If the timer has been started
-                if (endLvlTimer >= 0)
-                {
+                if (endLvlTimer >= 0) {
                     //Decrement it by the time that has passed
                     endLvlTimer -= deltaTime;
 
                     //If it's less than 0, tell the level to end.
-                    if (endLvlTimer <= 0)
-                    {
+                    if (endLvlTimer <= 0) {
                         endLvlTimer = -1;
                         shouldEndLevel = true;
                     }
@@ -292,20 +261,16 @@ namespace RunningGame
         }
 
         //Begin an end level routine
-        public void beginEndLevel()
-        {
-            if (endLvlTimer < 0)
-            {
+        public void beginEndLevel() {
+            if (endLvlTimer < 0) {
                 //Get the draw system, call the white clash, and start the end level timer.
                 DrawSystem drawSys = sysManager.drawSystem;
                 drawSys.setFlash(System.Drawing.Color.WhiteSmoke, endLvlTime * 2);
                 endLvlTimer = endLvlTime;
             }
         }
-        public void beginEndLevel(float time)
-        {
-            if (endLvlTimer < 0)
-            {
+        public void beginEndLevel(float time) {
+            if (endLvlTimer < 0) {
                 //Get the draw system, call the white clash, and start the end level timer.
                 DrawSystem drawSys = sysManager.drawSystem;
                 drawSys.setFlash(System.Drawing.Color.WhiteSmoke, time * 2);
@@ -315,46 +280,38 @@ namespace RunningGame
 
 
         //When an entity is given a collider - notify collider system
-        public virtual void colliderAdded(Entity e)
-        {
+        public virtual void colliderAdded(Entity e) {
             sysManager.colliderAdded(e);
         }
 
 
         //Reset the game to it's original startup state
-        public virtual void resetLevel()
-        {
+        public virtual void resetLevel() {
             paused = true; // Pause the game briefly
 
-            if (sysManager.visSystem.orbActive)
-            {
+            if (sysManager.visSystem.orbActive) {
                 sysManager.visSystem.destroyVisionOrb();
             }
 
             if (sysManager.drawSystem.getMainView().hasBorder) sysManager.drawSystem.getMainView().hasBorder = false;
 
             Entity[] ents = GlobalVars.nonGroundEntities.Values.ToArray();
-            for (int i = 0; i < ents.Length; i++)
-            {
+            for (int i = 0; i < ents.Length; i++) {
                 if (ents[i].isStartingEntity)
                     ents[i].revertToStartingState();
-                else
-                {
+                else {
                     removeEntity(ents[i]);
                 }
             }
             Entity[] grndents = GlobalVars.groundEntities.Values.ToArray();
-            for (int i = 0; i < grndents.Length; i++)
-            {
+            for (int i = 0; i < grndents.Length; i++) {
                 if (grndents[i].isStartingEntity)
                     grndents[i].revertToStartingState();
-                else
-                {
+                else {
                     removeEntity(grndents[i]);
                 }
             }
-            foreach (Entity e in GlobalVars.removedStartingEntities.Values)
-            {
+            foreach (Entity e in GlobalVars.removedStartingEntities.Values) {
                 e.revertToStartingState();
                 addEntity(e.randId, e);
             }
@@ -363,22 +320,19 @@ namespace RunningGame
             setPowerups();
 
             paused = false; //Restart the game  
-            
+
         }
 
-        public virtual void removeAllEntities()
-        {
-            
-            while(GlobalVars.nonGroundEntities.Values.Count > 0)
-            {
+        public virtual void removeAllEntities() {
+
+            while (GlobalVars.nonGroundEntities.Values.Count > 0) {
                 Entity e = GlobalVars.nonGroundEntities.Values.ToArray()[0];
                 removeEntity(e);
             }
 
             GlobalVars.nonGroundEntities.Clear();
 
-            while (GlobalVars.groundEntities.Values.Count > 0)
-            {
+            while (GlobalVars.groundEntities.Values.Count > 0) {
                 Entity e = GlobalVars.groundEntities.Values.ToArray()[0];
                 removeEntity(e);
             }
@@ -387,65 +341,53 @@ namespace RunningGame
         }
 
         //Input
-        public virtual void KeyDown(KeyEventArgs e)
-        {
+        public virtual void KeyDown(KeyEventArgs e) {
             sysManager.KeyDown(e);
         }
-        public virtual void KeyUp(KeyEventArgs e)
-        {
+        public virtual void KeyUp(KeyEventArgs e) {
             sysManager.KeyUp(e);
         }
-        public virtual void KeyPressed(KeyPressEventArgs e)
-        {
+        public virtual void KeyPressed(KeyPressEventArgs e) {
             sysManager.KeyPressed(e);
         }
-        public virtual void MouseClick(MouseEventArgs e)
-        {
+        public virtual void MouseClick(MouseEventArgs e) {
             //getCollisionSystem().MouseClick(e.X, e.Y);
             sysManager.MouseClick(e);
         }
-        public virtual void MouseMoved(MouseEventArgs e)
-        {
+        public virtual void MouseMoved(MouseEventArgs e) {
             sysManager.MouseMoved(e);
         }
 
 
 
         //Draw everything!
-        public virtual void Draw(Graphics g)
-        {
-            
+        public virtual void Draw(Graphics g) {
+
             sysManager.Draw(g);
             //this part is the check for the flash
             //if flashtime is greater than 0, then it means that flash needs to be done
-            
-            g.DrawString(fps.ToString("F") + "", SystemFonts.DefaultFont, Brushes.Black, new RectangleF(10, 10, cameraWidth-20, cameraHeight-20));
+
+            g.DrawString(getCollisionSystem().locGrid.preciseCollisionChecking.ToString(), SystemFonts.DefaultFont, Brushes.Black, new RectangleF(10, 30, cameraWidth - 20, cameraHeight - 20));
+            g.DrawString(fps.ToString("F") + "", SystemFonts.DefaultFont, Brushes.Black, new RectangleF(10, 10, cameraWidth - 20, cameraHeight - 20));
         }
 
         //Add an entity to the list of entities
-        public virtual void addEntity(Entity e)
-        {
+        public virtual void addEntity(Entity e) {
             addEntity(e.randId, e);
         }
-        public virtual void addEntity(int id, Entity e)
-        {
-            if (!sysManagerInit)
-            {
+        public virtual void addEntity(int id, Entity e) {
+            if (!sysManagerInit) {
                 sysManager = new SystemManager(this);
                 sysManagerInit = true;
             }
 
-            if (e is BasicGround)
-            {
-                if (GlobalVars.groundEntities.ContainsKey(id))
-                {
+            if (e is BasicGround) {
+                if (GlobalVars.groundEntities.ContainsKey(id)) {
                     GlobalVars.groundEntities.Remove(id);
                 }
                 GlobalVars.groundEntities.Add(id, e);
                 colliderAdded(e);
-            }
-            else
-            {
+            } else {
                 if (GlobalVars.nonGroundEntities.ContainsKey(id)) GlobalVars.nonGroundEntities.Remove(id);
                 GlobalVars.nonGroundEntities.Add(id, e);
                 if (e.hasComponent(GlobalVars.COLLIDER_COMPONENT_NAME))
@@ -453,35 +395,27 @@ namespace RunningGame
             }
 
             sysManager.entityAdded(e);
-            
+
         }
-        public virtual bool removeEntity(Entity e)
-        {
-            if (e == null)
-            {
+        public virtual bool removeEntity(Entity e) {
+            if (e == null) {
                 Console.WriteLine("You tryin' ta remove a null entity? Whachu doin' dat fo'?");
                 return false;
             }
-            if (e.hasComponent(GlobalVars.COLLIDER_COMPONENT_NAME))
-            {
+            if (e.hasComponent(GlobalVars.COLLIDER_COMPONENT_NAME)) {
                 getCollisionSystem().colliderRemoved(e);
             }
 
-            if (e is BasicGround)
-            {
-                if (GlobalVars.groundEntities.ContainsKey(e.randId))
-                {
+            if (e is BasicGround) {
+                if (GlobalVars.groundEntities.ContainsKey(e.randId)) {
                     if (e.isStartingEntity)
                         GlobalVars.removedStartingEntities.Add(e.randId, e);
                     GlobalVars.groundEntities.Remove(e.randId);
                     sysManager.entityRemoved(e);
                     return true;
                 }
-            }
-            else
-            {
-                if (GlobalVars.nonGroundEntities.ContainsKey(e.randId))
-                {
+            } else {
+                if (GlobalVars.nonGroundEntities.ContainsKey(e.randId)) {
                     if (e.isStartingEntity)
                         GlobalVars.removedStartingEntities.Add(e.randId, e);
                     GlobalVars.nonGroundEntities.Remove(e.randId);
@@ -492,9 +426,8 @@ namespace RunningGame
             return false; //Not found
         }
 
-        public BackgroundEntity getMyBackgroundEntity()
-        {
-           
+        public BackgroundEntity getMyBackgroundEntity() {
+
             string fullImageAddress = "RunningGame.Resources.Artwork.Background.Bkg11.png";
             string imageStub = "Artwork.Background.Bkg";
 
@@ -504,14 +437,12 @@ namespace RunningGame
 
             float scaleFactor = 1.1f;
 
-            while (newWidth / scaleFactor > levelWidth || newHeight / scaleFactor > levelHeight)
-            {
+            while (newWidth / scaleFactor > levelWidth || newHeight / scaleFactor > levelHeight) {
                 newWidth /= scaleFactor;
                 newHeight /= scaleFactor;
             }
 
-            while (newWidth < levelWidth || newHeight < levelHeight)
-            {
+            while (newWidth < levelWidth || newHeight < levelHeight) {
                 newWidth *= scaleFactor;
                 newHeight *= scaleFactor;
             }
@@ -600,7 +531,7 @@ namespace RunningGame
 
             }
             */
-            
+
             drawComp.addSprite(imageStub, fullImageAddress, "MainBkg");
             drawComp.setSprite("MainBkg");
 
@@ -611,16 +542,14 @@ namespace RunningGame
         }
 
 
-        public Bitmap getBkgImg()
-        {
+        public Bitmap getBkgImg() {
             string defaultAddress = "RunningGame.Resources.Artwork.Background.Bkg11.png";
 
             System.Reflection.Assembly myAssembly = System.Reflection.Assembly.GetExecutingAssembly();
             string addr = ("RunningGame.Resources.Artwork.Background.Bkg" + worldNum + "" + levelNum + ".png");
             System.IO.Stream myStream = myAssembly.GetManifestResourceStream("RunningGame.Resources.Artwork.Background.Bkg11.png");
 
-            if (myStream == null)
-            {
+            if (myStream == null) {
                 myStream = myAssembly.GetManifestResourceStream(defaultAddress);
             }
 
@@ -634,36 +563,29 @@ namespace RunningGame
         public virtual Dictionary<int, Entity> getNonGroundEntities() {
             return GlobalVars.nonGroundEntities;
         }
-        public virtual Dictionary<int, Entity> getGroundEntities()
-        {
+        public virtual Dictionary<int, Entity> getGroundEntities() {
             return GlobalVars.groundEntities;
         }
-        public virtual MovementSystem getMovementSystem()
-        {
+        public virtual MovementSystem getMovementSystem() {
             return sysManager.moveSystem;
         }
-        public virtual CollisionDetectionSystem getCollisionSystem()
-        {
+        public virtual CollisionDetectionSystem getCollisionSystem() {
             return sysManager.colSystem;
         }
-        public virtual InputSystem getInputSystem()
-        {
+        public virtual InputSystem getInputSystem() {
             if (sysManager != null)
                 return sysManager.inputSystem;
             else return null;
         }
-        public virtual Player getPlayer()
-        {
-            foreach (Entity e in GlobalVars.nonGroundEntities.Values)
-            {
+        public virtual Player getPlayer() {
+            foreach (Entity e in GlobalVars.nonGroundEntities.Values) {
                 if (e.hasComponent(GlobalVars.PLAYER_COMPONENT_NAME)) return (Player)e;
             }
 
             return null;
         }
 
-        public void Close()
-        {
+        public void Close() {
             removeAllEntities();
             GlobalVars.removedStartingEntities.Clear();
         }

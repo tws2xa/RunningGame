@@ -6,11 +6,9 @@ using System.Threading.Tasks;
 using RunningGame.Components;
 using RunningGame.Entities;
 
-namespace RunningGame.Entities
-{
+namespace RunningGame.Entities {
     [Serializable()]
-    public class VisionOrb:Entity
-    {
+    public class VisionOrb : Entity {
 
         int defaultWidth = 20;
         int defaultHeight = 20;
@@ -20,8 +18,7 @@ namespace RunningGame.Entities
         //Both take in the starting x and y of the entity.
         //Both take in the level that it's being applied to.
         //You probably won't have to edit these at all.
-        public VisionOrb(Level level, float x, float y)
-        {
+        public VisionOrb(Level level, float x, float y) {
             //Set level.
             //Leave for all entities
             this.level = level;
@@ -34,8 +31,7 @@ namespace RunningGame.Entities
             //Leave this for all entities.
             addMyComponents(x, y);
         }
-        public VisionOrb(Level level, int id, float x, float y)
-        {
+        public VisionOrb(Level level, int id, float x, float y) {
             //Set level.
             //Leave for all entities
             this.level = level;
@@ -53,12 +49,11 @@ namespace RunningGame.Entities
 
         //Here's where you add all the components the entity has.
         //You can just uncomment the ones you want.
-        public void addMyComponents(float x, float y)
-        {
+        public void addMyComponents(float x, float y) {
             /*POSITION COMPONENT - Does it have a position?
              */
             addComponent(new PositionComponent(x, y, defaultWidth, defaultHeight, this), true);
-            
+
             /*DRAW COMPONENT - Does it get drawn to the game world?
              *You'll need to know the address for your image.
              *It'll probably be something along the lines of "RunningGame.Resources.[      ].png" ONLY png!!
@@ -124,22 +119,21 @@ namespace RunningGame.Entities
              *Basically, every rechargeTime, the entity regenerates rechargeAmount
              */
             addComponent(new HealthComponent(100, 100, true, 5), true);
-            
+
             //Edge of screen component
             addComponent(new ScreenEdgeComponent(1, 1, 1, 1), true);
         }
-        
+
         //You must have this, but it may be empty.
         //What should the entity do in order to revert to its starting state?
         //Common things are:
-            //Set position back to startingX and startingY
-                //NOTE: If doing this, you probably want to use the MovementSystem's teleportToNoCollisionCheck() method
-                //rather than the usual changePosition()
-            //Set velocity to 0 in both directions
+        //Set position back to startingX and startingY
+        //NOTE: If doing this, you probably want to use the MovementSystem's teleportToNoCollisionCheck() method
+        //rather than the usual changePosition()
+        //Set velocity to 0 in both directions
         //Note: Some things, like ground, dont move, and really don't need anything here.
         //Note: Some things, like a bullet, won't ever exist at the start of a level, so you could probably leave this empty.
-        public override void revertToStartingState()
-        {
+        public override void revertToStartingState() {
             //Stuff
         }
     }

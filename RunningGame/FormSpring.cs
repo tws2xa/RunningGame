@@ -9,11 +9,9 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Collections;
 
-namespace RunningGame
-{
+namespace RunningGame {
 
-    public partial class FormSpring : Form
-    {
+    public partial class FormSpring : Form {
 
         //The game
         Game game;
@@ -36,14 +34,12 @@ namespace RunningGame
         public List<Keys> downKeys = new List<Keys>();
 
         //When the form starts up, initialize it.
-        public FormSpring()
-        {
+        public FormSpring() {
             InitializeComponent();
         }
 
         //Called when the form loads
-        private void FormRunningGame_Load(object sender, EventArgs e)
-        {
+        private void FormRunningGame_Load(object sender, EventArgs e) {
             //Set the background image
             bkgImg = this.BackgroundImage;
 
@@ -66,53 +62,47 @@ namespace RunningGame
         }
 
         //Called when the form is closed
-        private void FormRunningGame_FormClosing(object sender, FormClosingEventArgs e)
-        {
+        private void FormRunningGame_FormClosing(object sender, FormClosingEventArgs e) {
             //If the game is running, stop it.
-            if(game != null)
+            if (game != null)
                 game.close();
         }
 
         //Called when the debug begin button is clicked
-        private void btnBegin_Click(object sender, EventArgs e)
-        {
+        private void btnBegin_Click(object sender, EventArgs e) {
             //Load the default level
             loadLevel();
         }
 
         //Load level (For default level)
-        private void loadLevel()
-        {
+        private void loadLevel() {
             //Hide all buttons!
-            foreach (Control c in this.Controls)
-            {
-                if (c is Button)
-                {
+            foreach (Control c in this.Controls) {
+                if (c is Button) {
                     c.Enabled = false;
                     c.Visible = false;
                 }
             }
-            
+
             //Clear the background image
             this.BackgroundImage = null;
 
             //Write the loading text
             lblLoading.Text = "Loading...";
-            
+
             //Refresh the form (So the loading text appears)
             this.Refresh();
 
             //Start the game
             //Use this.Width and this.Height instead of ClientSize to reduce streaching at edge
             game = new Game(this.CreateGraphics(), this.ClientSize.Width, this.ClientSize.Height, "", 1, 1, this);
-            
+
             //Once the game has been started - hide the loading text
             lblLoading.Visible = false;
         }
 
         //Called when the edit button is clicked.
-        private void btnEdit_Click(object sender, EventArgs e)
-        {
+        private void btnEdit_Click(object sender, EventArgs e) {
             //Show the editor form.
             FormEditor frmEdit = new FormEditor();
             frmEdit.Show();
@@ -120,48 +110,42 @@ namespace RunningGame
 
         //-------------------------WORLD BUTTONS-----------------------------
         //World 1
-        private void btnWorld1_Click(object sender, EventArgs e)
-        {
+        private void btnWorld1_Click(object sender, EventArgs e) {
             GlobalVars.worldNum = 1;
             showHideLevelButtons(true);
             showHideWorldButtons(false);
         }
 
         //World 2
-        private void btnWorld2_Click(object sender, EventArgs e)
-        {
+        private void btnWorld2_Click(object sender, EventArgs e) {
             GlobalVars.worldNum = 2;
             showHideLevelButtons(true);
             showHideWorldButtons(false);
         }
 
         //World 3
-        private void btnWorld3_Click(object sender, EventArgs e)
-        {
+        private void btnWorld3_Click(object sender, EventArgs e) {
             GlobalVars.worldNum = 3;
             showHideLevelButtons(true);
             showHideWorldButtons(false);
         }
 
         //World 4
-        private void btnWorld4_Click(object sender, EventArgs e)
-        {
+        private void btnWorld4_Click(object sender, EventArgs e) {
             GlobalVars.worldNum = 4;
             showHideLevelButtons(true);
             showHideWorldButtons(false);
         }
 
         //World 5
-        private void btnWorld5_Click(object sender, EventArgs e)
-        {
+        private void btnWorld5_Click(object sender, EventArgs e) {
             GlobalVars.worldNum = 5;
             showHideLevelButtons(true);
             showHideWorldButtons(false);
         }
 
         //World 6
-        private void btnWorld6_Click(object sender, EventArgs e)
-        {
+        private void btnWorld6_Click(object sender, EventArgs e) {
             GlobalVars.worldNum = 6;
             showHideLevelButtons(true);
             showHideWorldButtons(false);
@@ -171,14 +155,11 @@ namespace RunningGame
 
         //---------------------------ADD LEVELS HERE----------------------
 
-        private void addLevels()
-        {
+        private void addLevels() {
             string defaultLevel = "RunningGame.Resources.Levels.PresentationLevelExtended.png";
-            for (int i = 0; i < GlobalVars.numWorlds; i++)
-            {
+            for (int i = 0; i < GlobalVars.numWorlds; i++) {
                 GlobalVars.levels.Add(new List<string>());
-                for (int j = 0; j < GlobalVars.numLevelsPerWorld; j++)
-                {
+                for (int j = 0; j < GlobalVars.numLevelsPerWorld; j++) {
                     GlobalVars.levels[i].Add(defaultLevel);
                 }
             }
@@ -186,23 +167,23 @@ namespace RunningGame
             GlobalVars.levels[0][0] = "RunningGame.Resources.Levels.World1Level1.png";
             GlobalVars.levels[0][1] = "RunningGame.Resources.Levels.World1Level2.png";
             GlobalVars.levels[0][2] = "RunningGame.Resources.Levels.World1Level3.png";
-            
+
             GlobalVars.levels[1][0] = "RunningGame.Resources.Levels.World2Level1.png";
             GlobalVars.levels[1][1] = "RunningGame.Resources.Levels.World2Level2.png";
             GlobalVars.levels[1][2] = "RunningGame.Resources.Levels.World2Level31.png";
-            
+
             GlobalVars.levels[2][0] = "RunningGame.Resources.Levels.World3Level1.png";
             GlobalVars.levels[2][1] = "RunningGame.Resources.Levels.World3Level2.png";
             GlobalVars.levels[2][2] = "RunningGame.Resources.Levels.World3Level3.png";
-            
+
             GlobalVars.levels[3][0] = "RunningGame.Resources.Levels.World4Level1.png";
             GlobalVars.levels[3][1] = "RunningGame.Resources.Levels.World4Level2.png";
             GlobalVars.levels[3][2] = "RunningGame.Resources.Levels.World4Level31.png";
-            
+
             GlobalVars.levels[4][0] = "RunningGame.Resources.Levels.World5Level1.png";
             GlobalVars.levels[4][1] = "RunningGame.Resources.Levels.World5Level2.png";
             GlobalVars.levels[4][2] = "RunningGame.Resources.Levels.World5level3.png";
-            
+
             GlobalVars.levels[5][0] = "RunningGame.Resources.Levels.World6level1.png";
             GlobalVars.levels[5][1] = "RunningGame.Resources.Levels.World6level2.png";
             GlobalVars.levels[5][2] = "RunningGame.Resources.Levels.World6level3.png";
@@ -213,11 +194,9 @@ namespace RunningGame
 
         //---------------------------LEVEL BUTTONS------------------------
         //Level one
-        private void btnLevel1_Click(object sender, EventArgs e)
-        {
-            switch (GlobalVars.worldNum)
-            {
-                case(0):
+        private void btnLevel1_Click(object sender, EventArgs e) {
+            switch (GlobalVars.worldNum) {
+                case (0):
                     Console.WriteLine("Error: Selecting level 1 in world 0");
                     break;
                 case (1):
@@ -242,10 +221,8 @@ namespace RunningGame
         }
 
         //Level 2
-        private void btnLvl2_Click(object sender, EventArgs e)
-        {
-            switch (GlobalVars.worldNum)
-            {
+        private void btnLvl2_Click(object sender, EventArgs e) {
+            switch (GlobalVars.worldNum) {
                 case (0):
                     Console.WriteLine("Error: Selecting level 2 in world 0");
                     break;
@@ -271,10 +248,8 @@ namespace RunningGame
         }
 
         //Level 3
-        private void btnLvl3_Click(object sender, EventArgs e)
-        {
-            switch (GlobalVars.worldNum)
-            {
+        private void btnLvl3_Click(object sender, EventArgs e) {
+            switch (GlobalVars.worldNum) {
                 case (0):
                     Console.WriteLine("Error: Selecting level 1 in world 0");
                     break;
@@ -300,16 +275,14 @@ namespace RunningGame
         }
 
         //Return to world select menu
-        private void btnLvlReturn_Click(object sender, EventArgs e)
-        {
+        private void btnLvlReturn_Click(object sender, EventArgs e) {
             showHideLevelButtons(false);
             showHideWorldButtons(true);
         }
         //----------------------------------------------------------------
 
         //Called when the play button is clicked
-        private void button1_Click(object sender, EventArgs e)
-        {
+        private void button1_Click(object sender, EventArgs e) {
             btnPlay.Visible = false;
             btnPlay.Enabled = false;
             showHideWorldButtons(true);
@@ -318,8 +291,7 @@ namespace RunningGame
 
 
         //Shows/hides the select level buttons
-        private void showHideLevelButtons(bool show)
-        {
+        private void showHideLevelButtons(bool show) {
             btnLvl1.Visible = show;
             btnLvl1.Enabled = show;
 
@@ -334,8 +306,7 @@ namespace RunningGame
         }
 
         //Show/hides the select world buttons
-        private void showHideWorldButtons(bool show)
-        {
+        private void showHideWorldButtons(bool show) {
             btnWorld1.Visible = show;
             btnWorld1.Enabled = show;
 
@@ -354,19 +325,15 @@ namespace RunningGame
             btnWorld6.Visible = show;
             btnWorld6.Enabled = show;
         }
-         
-   
+
+
         //Resets the menu
-        public void Reset()
-        {
-            
+        public void Reset() {
+
             //Get on the proper thread
-            if (InvokeRequired)
-            {
+            if (InvokeRequired) {
                 Invoke(new resetDelegate(Reset));
-            }
-            else
-            {
+            } else {
                 showHideLevelButtons(false);
                 showHideWorldButtons(false);
                 this.BackgroundImage = bkgImg;
@@ -376,17 +343,13 @@ namespace RunningGame
                 game = null;
             }
         }
-        public void Reset(int newWorld, int newNum)
-        {
+        public void Reset(int newWorld, int newNum) {
 
             //Get on the proper thread
-            if (InvokeRequired)
-            {
+            if (InvokeRequired) {
                 resetDelegate2 reset = Reset;
                 Invoke(reset, newWorld, newNum);
-            }
-            else
-            {
+            } else {
                 /*showHideLevelButtons(false);
                 showHideWorldButtons(false);
                 this.BackgroundImage = bkgImg;
@@ -399,13 +362,10 @@ namespace RunningGame
         }
 
         //Load a specific level
-        private void loadLevel(int world, int level)
-        {
+        private void loadLevel(int world, int level) {
             //Hide all buttons!
-            foreach (Control c in this.Controls)
-            {
-                if (c is Button)
-                {
+            foreach (Control c in this.Controls) {
+                if (c is Button) {
                     c.Enabled = false;
                     c.Visible = false;
                 }
@@ -423,7 +383,7 @@ namespace RunningGame
 
             //Start the game
             //Use this.Width and this.Height instead of ClientSize to reduce streaching at edge
-            game = new Game(this.CreateGraphics(), this.ClientSize.Width, this.ClientSize.Height, GlobalVars.levels[world-1][level-1], world, level, this);
+            game = new Game(this.CreateGraphics(), this.ClientSize.Width, this.ClientSize.Height, GlobalVars.levels[world - 1][level - 1], world, level, this);
 
             //Once the game is started, hide the loading text
             lblLoading.Visible = false;
@@ -433,11 +393,9 @@ namespace RunningGame
         //-----------------------------------------INPUT-----------------------------------------------
 
         //Called when a key is released
-        private void FormRunningGame_KeyUp(object sender, KeyEventArgs e)
-        {
+        private void FormRunningGame_KeyUp(object sender, KeyEventArgs e) {
             //If the game is running...
-            if (game != null)
-            {
+            if (game != null) {
                 //Let the game know that the key was released
                 game.KeyUp(e);
                 //If the key is contained in downKeys, remove it. (It is no longer down)
@@ -450,27 +408,22 @@ namespace RunningGame
         }
 
         //Called when a key is held down
-        private void FormRunningGame_KeyPress(object sender, KeyPressEventArgs e)
-        {
+        private void FormRunningGame_KeyPress(object sender, KeyPressEventArgs e) {
             //If the game is running, tell it that the key was pressed
-            if (game != null)
-            {
+            if (game != null) {
                 game.KeyPressed(e);
 
                 e.Handled = true;
-                
+
             }
         }
 
         //Called when a key is first pushed
-        private void FormRunningGame_KeyDown(object sender, KeyEventArgs e)
-        {
+        private void FormRunningGame_KeyDown(object sender, KeyEventArgs e) {
             //If the game is running...
-            if (game != null)
-            {
+            if (game != null) {
                 //If it hasn;t already been registered as pressed
-                if (!downKeys.Contains(e.KeyData))
-                {
+                if (!downKeys.Contains(e.KeyData)) {
                     //Tell the game it was pressed
                     game.KeyDown(e);
                     //Add it to the list of pressed keys
@@ -483,8 +436,7 @@ namespace RunningGame
         }
 
         //Called when the mouse is clicked in the form
-        private void FormSpring_MouseClick(object sender, MouseEventArgs e)
-        {
+        private void FormSpring_MouseClick(object sender, MouseEventArgs e) {
             //If the game is running, tell the game that the mouse was clicked
             if (game != null)
                 game.MouseClick(e);

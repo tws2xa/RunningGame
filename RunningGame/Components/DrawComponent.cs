@@ -6,13 +6,11 @@ using System.Threading.Tasks;
 using System.Drawing;
 using System.Collections;
 
-namespace RunningGame.Components
-{
+namespace RunningGame.Components {
     //The entity has a sprite and will be drawn
 
     [Serializable()]
-    public class DrawComponent : Component
-    {
+    public class DrawComponent : Component {
 
         //public string defaultImageName = "defaultImageName";
 
@@ -21,7 +19,7 @@ namespace RunningGame.Components
         //public Dictionary<string, Sprite> images = new Dictionary<string, Sprite>();
         public Dictionary<string, Sprite> images = new Dictionary<string, Sprite>();
 
-        public float width {get; set;}
+        public float width { get; set; }
         public float height { get; set; }
         public bool sizeLocked;
         public string activeSprite;
@@ -31,11 +29,10 @@ namespace RunningGame.Components
         public bool needRedraw = true;
 
         public bool useAlreadyLoadedImage = true; //Check to see if the image is already loaded, if so - use that.
-                                                    //Turn off if you want it to have a seperate copy of the image.
+        //Turn off if you want it to have a seperate copy of the image.
 
         //Try not to use this constructor
-        public DrawComponent(Bitmap img, string spriteName, float width, float height, Level level, bool sizeLocked)
-        {
+        public DrawComponent(Bitmap img, string spriteName, float width, float height, Level level, bool sizeLocked) {
             this.componentName = GlobalVars.DRAW_COMPONENT_NAME;
             this.width = width;
             this.height = height;
@@ -44,15 +41,14 @@ namespace RunningGame.Components
 
             activeSprite = spriteName;
 
-            
+
             Sprite newSprite = new Sprite(spriteName, img);
             images.Add(spriteName, newSprite);
-            
+
         }
 
         //Default image is the address of the image shown if the other images can't be found
-        public DrawComponent(float width, float height, Level level, bool sizeLocked)
-        {
+        public DrawComponent(float width, float height, Level level, bool sizeLocked) {
 
 
             this.componentName = GlobalVars.DRAW_COMPONENT_NAME;
@@ -61,18 +57,17 @@ namespace RunningGame.Components
             this.sizeLocked = sizeLocked;
             this.level = level;
 
-            
+
             //Bitmap image = readInImage(defaultImage);
 
             /*
             Sprite newSprite = new Sprite(defaultImageName, image);
             images.Add(defaultImageName, newSprite);
              * */
-            
+
         }
 
-        public void addSprite(string baseName, string defaultFileName, string spriteName)
-        {
+        public void addSprite(string baseName, string defaultFileName, string spriteName) {
             Bitmap image = readInImage(getImageFilePathName(baseName));
 
             //If image not found, check for ones of the same world, perhaps different level
@@ -82,8 +77,7 @@ namespace RunningGame.Components
                 image = readInImage(getImageFilePathOther2(baseName));
 
             //Still null? Goto default
-            if (image == null)
-            {
+            if (image == null) {
                 image = readInImage(defaultFileName);
             }
 
@@ -94,12 +88,10 @@ namespace RunningGame.Components
             images.Add(spriteName, spr);
         }
 
-        public void addAnimatedSprite(List<string> baseAddresses, List<string> defaultAddresses, string spriteName)
-        {
+        public void addAnimatedSprite(List<string> baseAddresses, List<string> defaultAddresses, string spriteName) {
             List<Bitmap> newImages = new List<Bitmap>();
             int i = 0;
-            foreach (string str in baseAddresses)
-            {
+            foreach (string str in baseAddresses) {
                 Bitmap img = readInImage(getImageFilePathName(str));
 
                 if (img == null) img = readInImage(defaultAddresses[i]);
@@ -114,14 +106,10 @@ namespace RunningGame.Components
 
         }
 
-        public Bitmap readInImage(string imageAddress)
-        {
-            if (this.useAlreadyLoadedImage && GlobalVars.imagesInStore.ContainsKey(makeImageKey(imageAddress, width, height)))
-            {
+        public Bitmap readInImage(string imageAddress) {
+            if (this.useAlreadyLoadedImage && GlobalVars.imagesInStore.ContainsKey(makeImageKey(imageAddress, width, height))) {
                 return GlobalVars.imagesInStore[makeImageKey(imageAddress, width, height)];
-            }
-            else
-            {
+            } else {
                 System.Reflection.Assembly myAssembly = System.Reflection.Assembly.GetExecutingAssembly();
                 System.IO.Stream myStream = myAssembly.GetManifestResourceStream(imageAddress);
 
@@ -130,115 +118,91 @@ namespace RunningGame.Components
                 Bitmap sprite = new Bitmap(myStream); //Getting an error here? Did you remember to make your image an embedded resource?
                 myStream.Close();
 
-                if (sizeLocked)
-                {
+                if (sizeLocked) {
                     sprite = new Bitmap(sprite, new Size((int)Math.Ceiling(width), (int)Math.Ceiling(height)));
                 }
 
-                Bitmap newSprite = sprite.Clone(new RectangleF(0, 0, sprite.Width-1, sprite.Height-1), System.Drawing.Imaging.PixelFormat.Format32bppPArgb);
+                Bitmap newSprite = sprite.Clone(new RectangleF(0, 0, sprite.Width - 1, sprite.Height - 1), System.Drawing.Imaging.PixelFormat.Format32bppPArgb);
 
-                if(this.sizeLocked && this.useAlreadyLoadedImage) GlobalVars.imagesInStore.Add(makeImageKey(imageAddress, width, height), newSprite);
+                if (this.sizeLocked && this.useAlreadyLoadedImage) GlobalVars.imagesInStore.Add(makeImageKey(imageAddress, width, height), newSprite);
                 return newSprite;
             }
         }
 
-        public string makeImageKey(string address, float width, float height)
-        {
+        public string makeImageKey(string address, float width, float height) {
             return (address + "" + width + "" + height);
         }
 
-        public Image getImage()
-        {
+        public Image getImage() {
             return getSprite().getCurrentImage();
         }
 
-        public Sprite getSprite()
-        {
-            if (activeSprite == null)
-            {
+        public Sprite getSprite() {
+            if (activeSprite == null) {
                 return new Sprite("placeholder", new Bitmap((int)width, (int)height));
             }
             return (Sprite)images[activeSprite];
         }
 
-        public void rotateFlipSprite(string spriteName, RotateFlipType rotation)
-        {
-            if (images.ContainsKey(spriteName))
-            {
+        public void rotateFlipSprite(string spriteName, RotateFlipType rotation) {
+            if (images.ContainsKey(spriteName)) {
 
                 List<Bitmap> newImages = new List<Bitmap>();
 
                 Sprite s = (Sprite)images[spriteName];
 
-                foreach (Image b in s.images)
-                {
+                foreach (Image b in s.images) {
                     //Must create a copy so it doesn't flip ALL things using this image
-                    try
-                    {
+                    try {
                         Bitmap newImage = new Bitmap(b);
                         newImage.RotateFlip(rotation);
                         newImages.Add(newImage);
-                    }
-                    catch (InvalidOperationException e)
-                    {
+                    } catch (InvalidOperationException e) {
                         Console.WriteLine("Couldn't flip an image! Exception: " + e);
                     }
-                    
+
                 }
 
                 s.images = newImages;
-            }
-            else
+            } else
                 Console.WriteLine("Trying to rotate/flip a nonexistant image: " + spriteName);
         }
-        
+
         //Auto resets the animation
-        public void setSprite(string spriteName)
-        {
-            if (images.ContainsKey(spriteName))
-            {
+        public void setSprite(string spriteName) {
+            if (images.ContainsKey(spriteName)) {
                 activeSprite = spriteName;
                 getSprite().currentImageIndex = 0;
-            }
-            else
+            } else
                 Console.WriteLine("Trying to set sprite to nonexistant image: " + spriteName);
         }
         //Can tell it not to reset animation if you'd like.
-        public void setSprite(string spriteName, bool resetAnimation)
-        {
-            if (images.ContainsKey(spriteName))
-            {
+        public void setSprite(string spriteName, bool resetAnimation) {
+            if (images.ContainsKey(spriteName)) {
                 activeSprite = spriteName;
-                if (resetAnimation)
-                {
+                if (resetAnimation) {
                     getSprite().currentImageIndex = 0;
                 }
-            }
-            else
+            } else
                 Console.WriteLine("Trying to set sprite to nonexistant image: " + spriteName);
         }
 
-        public void resizeImages(int width, int height)
-        {
+        public void resizeImages(int width, int height) {
 
-            if (!sizeLocked)
-            {
+            if (!sizeLocked) {
                 Console.WriteLine("Probably no need to call resizeImages on something not size locked. The image gets resized every frame.");
                 return;
             }
 
-            foreach (Sprite sprite in images.Values)
-            {
-                for (int i=0; i<sprite.images.Count; i++)
-                {
+            foreach (Sprite sprite in images.Values) {
+                for (int i = 0; i < sprite.images.Count; i++) {
                     Bitmap b = new Bitmap((Image)sprite.images[i], width, height);
                     sprite.images[i] = b;
                 }
             }
         }
 
-        public string getImageFilePathName(string baseName)
-        {
+        public string getImageFilePathName(string baseName) {
             string retStr = "RunningGame.Resources.";
             retStr += baseName;
             retStr += level.worldNum;
@@ -246,12 +210,11 @@ namespace RunningGame.Components
             retStr += ".png";
             return retStr;
         }
-        public string getImageFilePathOther1(string baseName)
-        {
+        public string getImageFilePathOther1(string baseName) {
             int addNum = level.levelNum;
             if (addNum == 1) addNum = 2;
             else if (addNum == 2) addNum = 3;
-            else if(addNum == 3) addNum = 1;
+            else if (addNum == 3) addNum = 1;
 
             string retStr = "RunningGame.Resources.";
             retStr += baseName;
@@ -260,8 +223,7 @@ namespace RunningGame.Components
             retStr += ".png";
             return retStr;
         }
-        public string getImageFilePathOther2(string baseName)
-        {
+        public string getImageFilePathOther2(string baseName) {
             int addNum = level.levelNum;
             if (addNum == 1) addNum = 3;
             else if (addNum == 2) addNum = 1;

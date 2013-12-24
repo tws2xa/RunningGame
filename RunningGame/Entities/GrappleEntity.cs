@@ -7,8 +7,7 @@ using RunningGame.Components;
 using RunningGame.Entities;
 using RunningGame.Systems;
 
-namespace RunningGame.Entities
-{
+namespace RunningGame.Entities {
 
     /*
      * Grapple is like this freaky meta-entity
@@ -24,19 +23,17 @@ namespace RunningGame.Entities
      */
 
     [Serializable()]
-    public class GrappleEntity:Entity
-    {
-        
+    public class GrappleEntity : Entity {
+
         float defaultWidth = GlobalVars.MIN_TILE_SIZE;
         float defaultHeight = GlobalVars.MIN_TILE_SIZE;
-        
+
         //-------------------------------------------Constructors--------------------------------------------
         //One takes in an ID, the other generats it.
         //Both take in the starting x and y of the entity.
         //Both take in the level that it's being applied to.
         //You probably won't have to edit these at all.
-        public GrappleEntity(Level level, float x, float y)
-        {
+        public GrappleEntity(Level level, float x, float y) {
             //Set level.
             //Leave for all entities
             this.level = level;
@@ -49,8 +46,7 @@ namespace RunningGame.Entities
             //Leave this for all entities.
             addMyComponents(x, y, 0);
         }
-        public GrappleEntity(Level level, int id, float x, float y)
-        {
+        public GrappleEntity(Level level, int id, float x, float y) {
             //Set level.
             //Leave for all entities
             this.level = level;
@@ -65,8 +61,7 @@ namespace RunningGame.Entities
         }
 
         //Takes in a direction
-        public GrappleEntity(Level level, int id, float x, float y, double dir)
-        {
+        public GrappleEntity(Level level, int id, float x, float y, double dir) {
             //Set level.
             //Leave for all entities
             this.level = level;
@@ -86,33 +81,31 @@ namespace RunningGame.Entities
 
         //Here's where you add all the components the entity has.
         //You can just uncomment the ones you want.
-        public void addMyComponents(float x, float y, double dir)
-        {
+        public void addMyComponents(float x, float y, double dir) {
             /*POSITION COMPONENT - Does it have a position?
              */
             PositionComponent posComp = (PositionComponent)addComponent(new PositionComponent(x, y, defaultWidth, defaultHeight, this), true);
-            
+
             /*
              * GRAPPLE COMPONENT
              */
             addComponent(new GrappleComponent(x, y, dir), true);
 
         }
-        
+
         //You must have this, but it may be empty.
         //What should the entity do in order to revert to its starting state?
         //Common things are:
-            //Set position back to startingX and startingY
-                //NOTE: If doing this, you probably want to use the MovementSystem's teleportToNoCollisionCheck() method
-                //rather than the usual changePosition()
-            //Set velocity to 0 in both directions
+        //Set position back to startingX and startingY
+        //NOTE: If doing this, you probably want to use the MovementSystem's teleportToNoCollisionCheck() method
+        //rather than the usual changePosition()
+        //Set velocity to 0 in both directions
         //Note: Some things, like ground, dont move, and really don't need anything here.
         //Note: Some things, like a bullet, won't ever exist at the start of a level, so you could probably leave this empty.
-        public override void revertToStartingState()
-        {
+        public override void revertToStartingState() {
             //Stuff
         }
-         
+
 
     }
 }

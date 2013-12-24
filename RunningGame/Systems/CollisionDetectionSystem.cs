@@ -9,8 +9,7 @@ using RunningGame.Components;
 using RunningGame.Level_Editor;
 using RunningGame.Entities;
 
-namespace RunningGame.Systems
-{
+namespace RunningGame.Systems {
 
     /*
      * The collision detection system is what is used to
@@ -27,14 +26,12 @@ namespace RunningGame.Systems
      */
 
     [Serializable()]
-    public class CollisionDetectionSystem : GameSystem
-    {
+    public class CollisionDetectionSystem : GameSystem {
         List<string> requiredComponents = new List<string>();
         Level level;
         public LocationGrid locGrid;
 
-        public CollisionDetectionSystem(Level level)
-        {
+        public CollisionDetectionSystem(Level level) {
             //Required components
             requiredComponents.Add(GlobalVars.POSITION_COMPONENT_NAME); //Position
             requiredComponents.Add(GlobalVars.COLLIDER_COMPONENT_NAME); //Collider
@@ -46,73 +43,60 @@ namespace RunningGame.Systems
         }
 
         //-------------------------------------- Overrides -------------------------------------------
-        public override List<string> getRequiredComponents()
-        {
+        public override List<string> getRequiredComponents() {
             return requiredComponents;
         }
 
-        public override Level GetActiveLevel()
-        {
+        public override Level GetActiveLevel() {
             return level;
         }
 
-        public override void Update(float deltaTime)
-        {
+        public override void Update(float deltaTime) {
             List<Entity> ents = getApplicableEntities();
-            foreach (Entity e in ents)
-            {
+            foreach (Entity e in ents) {
                 //Check each entity for whether or not it's been moved. If so - handle it.
                 PositionComponent posComp = (PositionComponent)e.getComponent(GlobalVars.POSITION_COMPONENT_NAME);
-                if (posComp.positionHasChanged)
-                {
+                if (posComp.positionHasChanged) {
                     locGrid.handleMovedEntity(e);
                     posComp.positionHasChanged = false;
                 }
             }
-            
+
         }
         //----------------------------------------------------------------------------------------------
 
-        public void colliderAdded(Entity e)
-        {
+        public void colliderAdded(Entity e) {
             locGrid.addEntity(e);
         }
-        public void colliderRemoved(Entity e)
-        {
+        public void colliderRemoved(Entity e) {
             PositionComponent posComp = (PositionComponent)e.getComponent(GlobalVars.POSITION_COMPONENT_NAME);
             locGrid.removeEntity(e, posComp.prevX, posComp.prevY, posComp.prevW, posComp.prevH);
         }
 
-        public List<Entity> checkForCollision(Entity e, float newX, float newY, float width, float height)
-        {
+        public List<Entity> checkForCollision(Entity e, float newX, float newY, float width, float height) {
             return locGrid.checkForCollisions(e, newX, newY, width, height);
         }
 
-        public List<Entity> findObjectAtPoint(float x, float y)
-        {
+        public List<Entity> findObjectAtPoint(float x, float y) {
             return locGrid.findObjectsAtPoint(x, y);
         }
 
-        public List<Entity> findObjectsBetweenPoints(System.Drawing.PointF point1, System.Drawing.PointF point2)
-        {
+        public List<Entity> findObjectsBetweenPoints(System.Drawing.PointF point1, System.Drawing.PointF point2) {
             return findObjectsBetweenPoints(point1.X, point1.Y, point2.X, point2.Y);
         }
 
-        public List<Entity> findObjectsBetweenPoints(float x1, float y1, float x2, float y2)
-        {
+        public List<Entity> findObjectsBetweenPoints(float x1, float y1, float x2, float y2) {
             return locGrid.findObjectsBetweenPoints(x1, y1, x2, y2);
         }
 
-        public void MouseClick(float x, float y)
-        {
+        public void MouseClick(float x, float y) {
             locGrid.MouseClick(x, y);
         }
 
 
 
         //Draw the tree
-        public void Draw(System.Drawing.Graphics g)
-        {
+        public void Draw(System.Drawing.Graphics g) {
             locGrid.Draw(g);
         }
 

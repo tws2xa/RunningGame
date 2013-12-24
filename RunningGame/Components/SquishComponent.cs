@@ -4,11 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RunningGame.Components
-{
+namespace RunningGame.Components {
     [Serializable()]
-    public class SquishComponent : Component
-    {
+    public class SquishComponent : Component {
 
 
         //"Base" width and height of the entity
@@ -45,8 +43,7 @@ namespace RunningGame.Components
         public float xStretchThreshold = 0.1f;
         public float yStretchThreshold = 0.1f;
 
-        public SquishComponent(float baseWidth, float baseHeight, float maxWidth, float maxHeight, float minWidth, float minHeight, float maxSurfaceArea, float minSurfaceArea)
-        {
+        public SquishComponent(float baseWidth, float baseHeight, float maxWidth, float maxHeight, float minWidth, float minHeight, float maxSurfaceArea, float minSurfaceArea) {
 
             this.componentName = GlobalVars.SQUISH_COMPONENT_NAME;
 
@@ -65,9 +62,8 @@ namespace RunningGame.Components
             this.maxSurfaceArea = maxSurfaceArea;
             this.minSurfaceArea = minSurfaceArea;
         }
-        public SquishComponent(float baseWidth, float baseHeight, float maxWidth, float maxHeight, float minWidth, float minHeight)
-        {
-            
+        public SquishComponent(float baseWidth, float baseHeight, float maxWidth, float maxHeight, float minWidth, float minHeight) {
+
             this.componentName = GlobalVars.SQUISH_COMPONENT_NAME;
 
             this.baseWidth = baseWidth;
@@ -79,8 +75,8 @@ namespace RunningGame.Components
             this.minWidth = minWidth;
             this.minHeight = minHeight;
 
-            this.maxSurfaceArea = maxWidth*maxHeight;
-            this.minSurfaceArea = minWidth*minHeight;
+            this.maxSurfaceArea = maxWidth * maxHeight;
+            this.minSurfaceArea = minWidth * minHeight;
         }
 
     }

@@ -7,8 +7,7 @@ using RunningGame.Components;
 using System.Drawing;
 using System.Collections;
 
-namespace RunningGame.Entities
-{
+namespace RunningGame.Entities {
     /*
      * This is the player - yo.
      * It's a lot like other entities, the only special things
@@ -16,12 +15,11 @@ namespace RunningGame.Entities
      * These change which way the player sprite is looking.
      */
     [Serializable()]
-    public class Player : Entity
-    {
+    public class Player : Entity {
 
         float defaultWidth = 39;
         float defaultHeight = 49;
-        
+
         string rightImageName = "right";
         string leftImageName = "left";
 
@@ -33,7 +31,7 @@ namespace RunningGame.Entities
 
         string walkOrangeLeft = "oL";
         string walkOrangeRight = "oR";
-        
+
         string walkPurpleLeft = "pL";
         string walkPurpleRight = "pE";
 
@@ -45,8 +43,7 @@ namespace RunningGame.Entities
 
         public Player() { }
 
-        public Player(Level level, float x, float y)
-        {
+        public Player(Level level, float x, float y) {
             this.level = level;
             this.depth = 1;
             initializeEntity(new Random().Next(Int32.MinValue, Int32.MaxValue), level);
@@ -58,8 +55,7 @@ namespace RunningGame.Entities
 
         }
 
-        public Player(Level level, int id, float x, float y)
-        {
+        public Player(Level level, int id, float x, float y) {
             this.level = level;
 
             initializeEntity(id, level);
@@ -69,8 +65,7 @@ namespace RunningGame.Entities
 
 
 
-        public void addMyComponents(float x, float y)
-        {
+        public void addMyComponents(float x, float y) {
 
             //Position Component
             addComponent(new PositionComponent(x, y, defaultWidth, defaultHeight, this), true);
@@ -99,7 +94,7 @@ namespace RunningGame.Entities
             //Animation Component
             AnimationComponent animComp = (AnimationComponent)addComponent(new AnimationComponent(GlobalVars.playerAnimatonSpeed), true);
             animComp.animationOn = false;
-            
+
             //Player Component
             addComponent(new PlayerComponent(), true);
 
@@ -109,7 +104,7 @@ namespace RunningGame.Entities
             //Collider
             addComponent(new ColliderComponent(this, GlobalVars.PLAYER_COLLIDER_TYPE), true);
 
-            
+
             //Squish Component
             SquishComponent sqComp = (SquishComponent)addComponent(new SquishComponent(defaultWidth, defaultHeight, defaultWidth * 1.2f, defaultHeight * 1.2f, defaultWidth / 2f, defaultHeight / 2f, defaultWidth * defaultHeight * 1.1f, defaultWidth * defaultHeight / 1.5f), true);
             sqComp.maxHeight = defaultHeight;
@@ -118,8 +113,8 @@ namespace RunningGame.Entities
             sqComp.minWidth = defaultWidth / 1.1f;
             sqComp.maxSurfaceArea = defaultHeight * defaultWidth * 1.1f;
             sqComp.minSurfaceArea = defaultHeight * defaultWidth / 1.1f;
-            
-             
+
+
             //Gravity Component
             addComponent(new GravityComponent(0, GlobalVars.STANDARD_GRAVITY));
 
@@ -132,8 +127,7 @@ namespace RunningGame.Entities
         }
 
 
-        public void addWalkAnimation(string baseName, string spriteNameLeft, string spriteNameRight, DrawComponent drawComp)
-        {
+        public void addWalkAnimation(string baseName, string spriteNameLeft, string spriteNameRight, DrawComponent drawComp) {
             string imgOne = baseName + "1.png";
             string imgTwo = baseName + "2.png";
             string imgThree = baseName + "3.png";
@@ -159,8 +153,7 @@ namespace RunningGame.Entities
 
         }
 
-        public override void revertToStartingState()
-        {
+        public override void revertToStartingState() {
             PositionComponent posComp = (PositionComponent)this.getComponent(GlobalVars.POSITION_COMPONENT_NAME);
             level.getMovementSystem().teleportToNoCollisionCheck(posComp, posComp.startingX, posComp.startingY);
             level.getMovementSystem().changeSize(posComp, posComp.startingWidth, posComp.startingHeight);
@@ -177,46 +170,39 @@ namespace RunningGame.Entities
             HealthComponent healthComp = (HealthComponent)this.getComponent(GlobalVars.HEALTH_COMPONENT_NAME);
             healthComp.restoreHealth();
 
-            if (!hasComponent(GlobalVars.PLAYER_INPUT_COMPONENT_NAME))
-            {
+            if (!hasComponent(GlobalVars.PLAYER_INPUT_COMPONENT_NAME)) {
                 addComponent(new PlayerInputComponent(this));
             }
 
-            if (!hasComponent(GlobalVars.GRAVITY_COMPONENT_NAME))
-            {
+            if (!hasComponent(GlobalVars.GRAVITY_COMPONENT_NAME)) {
                 addComponent(new GravityComponent(0, GlobalVars.STANDARD_GRAVITY));
             }
         }
-        
 
-        public void faceRight()
-        {
-            
+
+        public void faceRight() {
+
             DrawComponent drawComp = (DrawComponent)this.getComponent(GlobalVars.DRAW_COMPONENT_NAME);
             drawComp.setSprite(activeRightImage);
         }
-        public void faceLeft()
-        {
+        public void faceLeft() {
             DrawComponent drawComp = (DrawComponent)this.getComponent(GlobalVars.DRAW_COMPONENT_NAME);
             drawComp.setSprite(activeLeftImage);
         }
 
-        public bool isLookingLeft()
-        {
+        public bool isLookingLeft() {
             DrawComponent drawComp = (DrawComponent)this.getComponent(GlobalVars.DRAW_COMPONENT_NAME);
             return (drawComp.activeSprite == activeLeftImage);
         }
 
-        public bool isLookingRight()
-        {
+        public bool isLookingRight() {
             DrawComponent drawComp = (DrawComponent)this.getComponent(GlobalVars.DRAW_COMPONENT_NAME);
             return (drawComp.activeSprite == activeRightImage);
         }
 
 
 
-        public void setNormalImage()
-        {
+        public void setNormalImage() {
             bool lookLeft = isLookingLeft();
 
             activeLeftImage = walkLeft;
@@ -224,8 +210,7 @@ namespace RunningGame.Entities
 
             refreshImage(lookLeft);
         }
-        public void setBlueImage()
-        {
+        public void setBlueImage() {
             bool lookLeft = isLookingLeft();
 
             activeLeftImage = walkBlueLeft;
@@ -233,8 +218,7 @@ namespace RunningGame.Entities
 
             refreshImage(lookLeft);
         }
-        public void setOrangeImage()
-        {
+        public void setOrangeImage() {
             bool lookLeft = isLookingLeft();
 
             activeLeftImage = walkOrangeLeft;
@@ -242,8 +226,7 @@ namespace RunningGame.Entities
 
             refreshImage(lookLeft);
         }
-        public void setPurpleImage()
-        {
+        public void setPurpleImage() {
             bool lookLeft = isLookingLeft();
 
             activeLeftImage = walkPurpleLeft;
@@ -252,8 +235,7 @@ namespace RunningGame.Entities
             refreshImage(lookLeft);
         }
 
-        public void refreshImage(bool left)
-        {
+        public void refreshImage(bool left) {
             DrawComponent drawComp = (DrawComponent)this.getComponent(GlobalVars.DRAW_COMPONENT_NAME);
 
             int spriteNum = drawComp.getSprite().currentImageIndex;
@@ -265,28 +247,21 @@ namespace RunningGame.Entities
         }
 
 
-        public void stopAnimation()
-        {
+        public void stopAnimation() {
             AnimationComponent animComp = (AnimationComponent)this.getComponent(GlobalVars.ANIMATION_COMPONENT_NAME);
-            if (animComp.animationOn)
-            {
+            if (animComp.animationOn) {
                 animComp.animationOn = false;
                 DrawComponent drawComp = (DrawComponent)this.getComponent(GlobalVars.DRAW_COMPONENT_NAME);
-                if (forceLargeStopImage && (drawComp.getSprite().currentImageIndex == 0 || drawComp.getSprite().currentImageIndex == 2))
-                {
+                if (forceLargeStopImage && (drawComp.getSprite().currentImageIndex == 0 || drawComp.getSprite().currentImageIndex == 2)) {
                     drawComp.getSprite().currentImageIndex++;
-                }
-                else if (forceSmallStopImage)
-                {
+                } else if (forceSmallStopImage) {
                     drawComp.getSprite().currentImageIndex = 0;
                 }
             }
         }
-        public void startAnimation()
-        {
+        public void startAnimation() {
             AnimationComponent animComp = (AnimationComponent)this.getComponent(GlobalVars.ANIMATION_COMPONENT_NAME);
-            if (!animComp.animationOn)
-            {
+            if (!animComp.animationOn) {
                 animComp.animationOn = true;
             }
         }
