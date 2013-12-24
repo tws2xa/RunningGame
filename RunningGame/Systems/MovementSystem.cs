@@ -160,19 +160,24 @@ namespace RunningGame.Systems {
 
                                     if (isX) {
                                         if (posComp.x < (otherPosComp.x))
-                                            level.getMovementSystem().changePosition(posComp, otherPosComp.x - otherPosComp.width / 2 - posComp.width / 2, posComp.y, false);
+                                            level.getMovementSystem().changePosition(posComp, getClosestPositionWithNoCollision(posComp, otherPosComp, true, true),
+                                                posComp.y, false);
                                         else
-                                            level.getMovementSystem().changePosition(posComp, otherPosComp.x + otherPosComp.width / 2 + posComp.width / 2, posComp.y, false);
+                                            level.getMovementSystem().changePosition(posComp, getClosestPositionWithNoCollision(posComp, otherPosComp, true, false),
+                                                posComp.y, false);
 
                                         //posComp.positionHasChanged = true;
                                     } else {
                                         if (posComp.y < (otherPosComp.y))
-                                            level.getMovementSystem().changePosition(posComp, posComp.x, otherPosComp.y - otherPosComp.height / 2 - posComp.height / 2, false);
+                                            level.getMovementSystem().changePosition(posComp, posComp.x, getClosestPositionWithNoCollision(posComp, otherPosComp, false, true),
+                                                false);
                                         else
-                                            level.getMovementSystem().changePosition(posComp, posComp.x, otherPosComp.y + otherPosComp.height / 2 + posComp.height / 2, false);
+                                            level.getMovementSystem().changePosition(posComp, posComp.x, getClosestPositionWithNoCollision(posComp, otherPosComp, false, false),
+                                                false);
 
                                         //posComp.positionHasChanged = true;
                                     }
+
                                 }
                             }
                         }
@@ -194,6 +199,32 @@ namespace RunningGame.Systems {
             }
         }
 
+
+        public float getClosestPositionWithNoCollision(PositionComponent pos1, PositionComponent pos2, bool xDir, bool leftOrUp) {
+            float retPos = 0.0f;
+            if (xDir && leftOrUp) retPos = pos2.x - pos2.width / 2 - pos1.width / 2;
+            else if (xDir && !leftOrUp) retPos = pos2.x + pos2.width / 2 + pos1.width / 2;
+            else if (!xDir && leftOrUp) retPos = pos2.y - pos2.height / 2 - pos1.height / 2;
+            else if (!xDir && !leftOrUp) retPos = pos2.y + pos2.height / 2 + pos1.height / 2;
+
+            float newX = pos1.x;
+            float newY = pos1.y;
+
+            if (xDir) newX = retPos;
+            else newY = retPos;
+
+            List<Entity> cols = level.getCollisionSystem().checkForCollision(pos1.myEntity, newX, newY, pos1.width, pos1.height);
+            while (cols.Count <= 0) {
+                if (leftOrUp) retPos += 1;
+                else retPos -= 1;
+                if (xDir) newX = retPos;
+                else newY = retPos;
+                cols = level.getCollisionSystem().checkForCollision(pos1.myEntity, newX, newY, pos1.width, pos1.height);
+            }
+
+
+            return retPos;
+        }
 
         //Size
         public void changeSize(PositionComponent posComp, float newW, float newH) {

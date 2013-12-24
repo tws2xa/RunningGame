@@ -252,7 +252,7 @@ namespace RunningGame {
 
 
         public bool checkTwoEntityCollision(float x1, float y1, Entity e1, Entity e2) {
-            Console.WriteLine(y1);
+            //Console.WriteLine(y1);
             PositionComponent posComp1 = (PositionComponent)e1.getComponent(GlobalVars.POSITION_COMPONENT_NAME);
             PositionComponent posComp2 = (PositionComponent)e2.getComponent(GlobalVars.POSITION_COMPONENT_NAME);
 
@@ -283,10 +283,13 @@ namespace RunningGame {
             PositionComponent firstPos = (PositionComponent)e1.getComponent(GlobalVars.POSITION_COMPONENT_NAME);
             PositionComponent secondPos = (PositionComponent)e2.getComponent(GlobalVars.POSITION_COMPONENT_NAME);
 
-            if (firstCol == null || secondCol == null || firstPos == null || secondPos == null) return false; //Something's missing a required component
-
+            //Something's missing a required component
+            if (firstCol == null || secondCol == null || firstPos == null || secondPos == null) {
+                Console.WriteLine("Missing Required Component for handling collision between: " + e1 + " and " + e2);
+                return false;
+            }
             int minAlpha = 5;
-            int pixelBuffer = 3; //Extra pixels to check on either side
+            int pixelBuffer = 0; //Extra pixels to check on either side
 
             Bitmap firstImg = null;
             Bitmap secondImg = null;

@@ -79,8 +79,9 @@ namespace RunningGame.Entities {
             addComponent(drawComp, true);
 
             //Collider
-            addComponent(new ColliderComponent(this, GlobalVars.BASIC_SOLID_COLLIDER_TYPE));
-
+            ColliderComponent c = (ColliderComponent)addComponent(new ColliderComponent(this, GlobalVars.BASIC_SOLID_COLLIDER_TYPE));
+            c.hasTransparentPixels = false;
+            c.collideOnNoSprite = true;
         }
 
 

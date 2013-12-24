@@ -41,7 +41,7 @@ namespace RunningGame {
                 float leftX = (posComp.x - posComp.width / 2 - sideBuffer);
                 float rightX = (posComp.x + posComp.width / 2 + sideBuffer);
                 float lowerY = (posComp.y + posComp.height / 2 + floorBuffer);
-                Console.WriteLine("Lower y: " + lowerY);
+                //Console.WriteLine("Lower y: " + lowerY);
                 List<Entity> cols = level.getCollisionSystem().checkForCollision(e, posComp.x, lowerY, posComp.width, posComp.height);
                 //List<Entity> cols = level.getCollisionSystem().findObjectsBetweenPoints(leftX, lowerY, rightX, lowerY);
 
