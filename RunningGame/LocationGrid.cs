@@ -28,7 +28,7 @@ namespace RunningGame {
         float rowHeight = 20;
         float colWidth = 20;
 
-        public bool preciseCollisionChecking = true;
+        public bool preciseCollisionChecking = false;
 
         Level level;
 
@@ -166,20 +166,12 @@ namespace RunningGame {
 
             int skipNum = 1;
 
-            /*
-            float lowerX = Math.Min(x1, x2);
-            float higherX = Math.Max(x1, x2);
-            float lowerY = Math.Min(y1, y2);
-            float higherY = Math.Max(y1, y2);
-            */
+            double theta = Math.PI / 2;
 
-            double theta = 0;
             if (x2 != x1) {
                 theta = Math.Atan((y2 - y1) / (x2 - x1));
-            }
-
-            if (x2 < x1) {
-                theta += Math.PI;
+            } else if (y2 < y1) {
+                theta = 3 * Math.PI / 2;
             }
 
             float checkX = x1;
@@ -191,23 +183,12 @@ namespace RunningGame {
 
             while (!hasChanged) {
                 retList = mergeArrayLists(retList, findObjectsAtPoint(checkX, checkY));
-                //Console.WriteLine("Checking (" + checkX + ", " + checkY + ")");
                 checkX += skipNum * (float)Math.Cos(theta);
                 checkY += skipNum * (float)Math.Sin(theta);
-                double tmp = dist;
+                double oldDist = dist;
                 dist = getDist(new PointF(checkX, checkY), new PointF(x2, y2));
-                if (tmp < dist) hasChanged = true; //If it's gotten longer, not shorter - stop.
+                if (oldDist < dist) hasChanged = true; //If it's gotten longer, not shorter - stop.
             }
-
-            /*
-            for (float x = lowerX; x <= higherX; x += skipNum)
-            {
-                for (float y = lowerY; y <= higherY; y += skipNum)
-                {
-                    retList = mergeArrayLists(retList, findObjectsAtPoint(x, y));
-                }
-            }
-             * */
 
             return retList;
 
@@ -230,7 +211,6 @@ namespace RunningGame {
 
 
         public List<Entity> checkForCollisions(Entity e, float x, float y, float w, float h) {
-
 
             List<Entity> collisions = new List<Entity>();
 
@@ -256,15 +236,16 @@ namespace RunningGame {
             PositionComponent posComp1 = (PositionComponent)e1.getComponent(GlobalVars.POSITION_COMPONENT_NAME);
             PositionComponent posComp2 = (PositionComponent)e2.getComponent(GlobalVars.POSITION_COMPONENT_NAME);
 
-            float buffer = -0.01f;
+            float xbuffer = -0.01f;
+            float ybuffer = -0.01f;
 
             float xDiff = (float)Math.Abs(x1 - posComp2.x);
             float yDiff = (float)Math.Abs(y1 - posComp2.y);
 
             if (!preciseCollisionChecking) {
-                return ((xDiff - (posComp1.width / 2 + posComp2.width / 2)) <= buffer && (yDiff - (posComp1.height / 2 + posComp2.height / 2)) <= buffer);
+                return ((xDiff - (posComp1.width / 2 + posComp2.width / 2)) <= xbuffer && (yDiff - (posComp1.height / 2 + posComp2.height / 2)) <= xbuffer);
             } else {
-                if ((xDiff - (posComp1.width / 2 + posComp2.width / 2)) <= buffer && (yDiff - (posComp1.height / 2 + posComp2.height / 2)) <= buffer) {
+                if ((xDiff - (posComp1.width / 2 + posComp2.width / 2)) <= ybuffer && (yDiff - (posComp1.height / 2 + posComp2.height / 2)) <= ybuffer) {
                     return handleTransparentCollision(x1, y1, e1, e2);
                 }
                 return false;
@@ -288,7 +269,7 @@ namespace RunningGame {
                 Console.WriteLine("Missing Required Component for handling collision between: " + e1 + " and " + e2);
                 return false;
             }
-            int minAlpha = 5;
+            int minAlpha = 50;
             int pixelBuffer = 0; //Extra pixels to check on either side
 
             Bitmap firstImg = null;
