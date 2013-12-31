@@ -103,7 +103,7 @@ namespace RunningGame.Systems {
             }
 
             if (level.getInputSystem().myKeys[typeKey].down) {
-                getTypes();
+                //getTypes();
             }
 
 

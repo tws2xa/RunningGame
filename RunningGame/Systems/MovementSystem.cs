@@ -94,8 +94,6 @@ namespace RunningGame.Systems {
             posComp.positionHasChanged = true;
         }
 
-        //* BACKUP OF CHANGING A SINGLE AXIS LOCATION
-
         public void changeSingleAxisLocation(Char axis, PositionComponent posComp, float newVal, bool moveToContact) {
             bool movementBlocked = false;
 
@@ -115,38 +113,19 @@ namespace RunningGame.Systems {
                 return;
             }
 
-            //Check for collisions
+            //Check for collisions before it moves
             if (posComp.myEntity.hasComponent(GlobalVars.COLLIDER_COMPONENT_NAME)) {
-
-                //TODO - Check a line rather than just the point. Maybe check every minimum tile size?
-
-                // Theory:
-                // diff = difference between current position and move position
-                // while(diff > 0) {
-                //      if(diff > minTileSize) {
-                //          checkForCollisions(loc+minTileSize)
-                //          if none - move
-                //          else - handle collision, if stop then exit
-                //          diff = difference between newLoc and goal;
-                //      } else {
-                //          checkForCollisions(loc+diff);
-                //          if none - move
-                //          else - handle collision, if stop then exit
-                //      }
-                // }
-
 
                 VelocityComponent velComp = (VelocityComponent)posComp.myEntity.getComponent(GlobalVars.VELOCITY_COMPONENT_NAME);
 
                 //List of all collisions caused by potential move
                 List<Entity> collisions = level.getCollisionSystem().checkForCollision(posComp.myEntity, xVal, yVal, posComp.width, posComp.height);
 
-                //If there's a collision
+                //Perform all collisions
                 if (collisions.Count > 0 && !(level is CreationLevel)) {
                     foreach (Entity e in collisions) {
-                        //If e also has a collider
                         if (e.hasComponent(GlobalVars.COLLIDER_COMPONENT_NAME)) {
-                            //Handle the collision
+                            //Handle the collision. handleCollision(...) will return true if it should stop the movement.
                             if (colHandler.handleCollision(posComp.myEntity, e)) {
 
                                 if (isX) velComp.x = 0;
@@ -202,12 +181,15 @@ namespace RunningGame.Systems {
 
         public float getClosestPositionWithNoCollision(PositionComponent pos1, PositionComponent pos2, bool xDir, bool leftOrUp) {
             float retPos = 0.0f;
+
             if (xDir && leftOrUp) retPos = pos2.x - pos2.width / 2 - pos1.width / 2;
             else if (xDir && !leftOrUp) retPos = pos2.x + pos2.width / 2 + pos1.width / 2;
             else if (!xDir && leftOrUp) retPos = pos2.y - pos2.height / 2 - pos1.height / 2;
             else if (!xDir && !leftOrUp) retPos = pos2.y + pos2.height / 2 + pos1.height / 2;
 
-            if (!level.getCollisionSystem().locGrid.preciseCollisionChecking) return retPos;
+            if (!level.getCollisionSystem().locGrid.preciseCollisionChecking) {
+                return retPos;
+            }
 
             float newX = pos1.x;
             float newY = pos1.y;

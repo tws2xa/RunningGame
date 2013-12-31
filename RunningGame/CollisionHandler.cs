@@ -69,6 +69,7 @@ namespace RunningGame {
             addToDictionary(GlobalVars.PLAYER_COLLIDER_TYPE, GlobalVars.END_LEVEL_COLLIDER_TYPE, endLevelCollision);
             addToDictionary(GlobalVars.PLAYER_COLLIDER_TYPE, GlobalVars.POWERUP_PICKUP_COLLIDER_TYPE, powerupPickupPlayerCollision);
             addToDictionary(GlobalVars.PLAYER_COLLIDER_TYPE, GlobalVars.SPIKE_COLLIDER_TYPE, spikePlayerCollision);
+            addToDictionary(GlobalVars.PLAYER_COLLIDER_TYPE, GlobalVars.BOUNCE_POSTGROUND_COLLIDER_TYPE, bounceCollision);
 
             addToDictionary(GlobalVars.BULLET_COLLIDER_TYPE, GlobalVars.PLAYER_COLLIDER_TYPE, doNothingCollision);
             addToDictionary(GlobalVars.BULLET_COLLIDER_TYPE, GlobalVars.SIMPLE_ENEMY_COLLIDER_TYPE, DestroyBothCollision);
@@ -78,8 +79,6 @@ namespace RunningGame {
             addToDictionary(GlobalVars.BOUNCE_PREGROUND_COLLIDER_TYPE, GlobalVars.PLAYER_COLLIDER_TYPE, doNothingCollision);
             addToDictionary(GlobalVars.BOUNCE_PREGROUND_COLLIDER_TYPE, GlobalVars.SIMPLE_ENEMY_COLLIDER_TYPE, doNothingCollision);
             addToDictionary(GlobalVars.BOUNCE_PREGROUND_COLLIDER_TYPE, GlobalVars.BOUNCE_PREGROUND_COLLIDER_TYPE, doNothingCollision);
-
-            addToDictionary(GlobalVars.BOUNCE_POSTGROUND_COLLIDER_TYPE, GlobalVars.PLAYER_COLLIDER_TYPE, bouncePlayerCollision);
             addToDictionary(GlobalVars.BOUNCE_PREGROUND_COLLIDER_TYPE, GlobalVars.BOUNCE_POSTGROUND_COLLIDER_TYPE, removeBounceCollision);
             addToDictionary(GlobalVars.BOUNCE_PREGROUND_COLLIDER_TYPE, GlobalVars.SPAWN_BLOCK_COLLIDER_TYPE, removeBounceCollision);
 
@@ -94,7 +93,9 @@ namespace RunningGame {
             addToDictionary(GlobalVars.SPEEDY_PREGROUND_COLLIDER_TYPE, GlobalVars.PLAYER_COLLIDER_TYPE, doNothingCollision);
             addToDictionary(GlobalVars.SPEEDY_PREGROUND_COLLIDER_TYPE, GlobalVars.SIMPLE_ENEMY_COLLIDER_TYPE, doNothingCollision);
             addToDictionary(GlobalVars.SPEEDY_PREGROUND_COLLIDER_TYPE, GlobalVars.SPAWN_BLOCK_COLLIDER_TYPE, removeSpeedyCollision);
-            addToDictionary(GlobalVars.SPEEDY_POSTGROUND_COLLIDER_TYPE, GlobalVars.SPAWN_BLOCK_COLLIDER_TYPE, speedyOtherCollision);
+
+            addToDictionary(GlobalVars.SPAWN_BLOCK_COLLIDER_TYPE, GlobalVars.SPEEDY_POSTGROUND_COLLIDER_TYPE, speedyOtherCollision);
+            addToDictionary(GlobalVars.SPAWN_BLOCK_COLLIDER_TYPE, GlobalVars.BOUNCE_POSTGROUND_COLLIDER_TYPE, bounceCollision);
         }
 
         //This adds something to the default collison dictionary.
@@ -118,7 +119,7 @@ namespace RunningGame {
 
             //If it's not listed as a special case collision type - get the default collision
             if (!collisionDictionary.ContainsKey(collisionTypeName)) {
-                //Checks if there's a doNothingCollision, if so it does nothing. Otherwise it pick's e1's default or e2s default.
+                //Checks if there's a doNothingCollision in either case, if so it does nothing. Otherwise it pick's e1's default or e2s default.
                 if (defaultCollisions.ContainsKey(col1.colliderType) && defaultCollisions[col1.colliderType] == doNothingCollision) {
                     return false;
                 }
@@ -176,25 +177,27 @@ namespace RunningGame {
          */
 
         //Dont do anything for now, increase player.y component up whenever collide with block
-        public bool bouncePlayerCollision(Entity e1, Entity e2) {
-            float increment = 350f;
-            Player player;
+        public bool bounceCollision(Entity e1, Entity e2) {
+            float launchVel = 350f;
+            Entity other;
             Bounce bounce;
-            if (e1 is Player) {
-                player = (Player)e1;
+            if (e2 is Bounce) {
+                other = e1;
                 bounce = (Bounce)e2;
-            } else if (e2 is Player) {
-                player = (Player)e2;
+            } else if (e1 is Bounce) {
+                other = e2;
                 bounce = (Bounce)e1;
             } else {
                 Console.WriteLine("Player Collision with no bounce block...");
                 return false;
             }
 
-            //PositionComponent pos = (PositionComponent)player.getComponent(GlobalVars.POSITION_COMPONENT_NAME);
-            //pos.y= pos.y - increment;
-            VelocityComponent vel = (VelocityComponent)player.getComponent(GlobalVars.VELOCITY_COMPONENT_NAME);
-            vel.y = -increment;
+            if (!other.hasComponent(GlobalVars.VELOCITY_COMPONENT_NAME)) {
+                Console.WriteLine("Trying to bounce " + other + ", which has no velocity component.");
+                return false;
+            }
+            VelocityComponent vel = (VelocityComponent)other.getComponent(GlobalVars.VELOCITY_COMPONENT_NAME);
+            vel.y = -launchVel;
 
             PositionComponent bouncePos = (PositionComponent)bounce.getComponent(GlobalVars.POSITION_COMPONENT_NAME);
             float xLoc = bouncePos.x;

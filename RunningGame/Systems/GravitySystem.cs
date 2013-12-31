@@ -31,31 +31,31 @@ namespace RunningGame {
         public override void Update(float deltaTime) {
             foreach (Entity e in getApplicableEntities()) {
 
-                float floorBuffer = GlobalVars.MIN_TILE_SIZE - 1; //Distance it checks below object for a floor
-
                 //Don't apply gravity if the object is on top of something
                 PositionComponent posComp = (PositionComponent)e.getComponent(GlobalVars.POSITION_COMPONENT_NAME);
 
                 float sideBuffer = -1;
+                float floorBuffer = GlobalVars.MIN_TILE_SIZE / 2; //Distance it checks below object for the ground
 
                 float leftX = (posComp.x - posComp.width / 2 - sideBuffer);
                 float rightX = (posComp.x + posComp.width / 2 + sideBuffer);
                 float lowerY = (posComp.y + posComp.height / 2 + floorBuffer);
                 //Console.WriteLine("Lower y: " + lowerY);
-                List<Entity> cols = level.getCollisionSystem().checkForCollision(e, posComp.x, lowerY, posComp.width, posComp.height);
-                //List<Entity> cols = level.getCollisionSystem().findObjectsBetweenPoints(leftX, lowerY, rightX, lowerY);
+                //List<Entity> cols = level.getCollisionSystem().checkForCollision(e, posComp.x, lowerY, posComp.width, posComp.height);
+                List<Entity> cols = level.getCollisionSystem().findObjectsBetweenPoints(leftX, lowerY, rightX, lowerY);
 
-                bool shouldEnter = true;
+                bool shouldApplyGravity = true; //False if there's a solid object below
+
                 foreach (Entity ent in cols) {
                     ColliderComponent collider = (ColliderComponent)ent.getComponent(GlobalVars.COLLIDER_COMPONENT_NAME);
                     PositionComponent posComp2 = (PositionComponent)ent.getComponent(GlobalVars.POSITION_COMPONENT_NAME);
                     //If the object is below the player, and it's solid, don't apply gravity.
-                    if ((posComp.y + posComp.height / 2) >= (posComp2.y - posComp2.height / 2) && collider.colliderType == GlobalVars.BASIC_SOLID_COLLIDER_TYPE) {
-                        shouldEnter = false;
+                    if ((posComp.y + (posComp.height / 2)) <= (posComp2.y - (posComp2.height / 2)) && collider.colliderType == GlobalVars.BASIC_SOLID_COLLIDER_TYPE) {
+                        shouldApplyGravity = false;
                         break;
                     }
                 }
-                if (shouldEnter) {
+                if (shouldApplyGravity) {
                     //Pull out all required components
                     VelocityComponent velComp = (VelocityComponent)e.getComponent(GlobalVars.VELOCITY_COMPONENT_NAME);
                     GravityComponent gravComp = (GravityComponent)e.getComponent(GlobalVars.GRAVITY_COMPONENT_NAME);

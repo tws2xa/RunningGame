@@ -236,16 +236,16 @@ namespace RunningGame {
             PositionComponent posComp1 = (PositionComponent)e1.getComponent(GlobalVars.POSITION_COMPONENT_NAME);
             PositionComponent posComp2 = (PositionComponent)e2.getComponent(GlobalVars.POSITION_COMPONENT_NAME);
 
-            float xbuffer = -0.01f;
-            float ybuffer = -0.01f;
+            float xbuffer = 0;
+            float ybuffer = 0;
 
             float xDiff = (float)Math.Abs(x1 - posComp2.x);
             float yDiff = (float)Math.Abs(y1 - posComp2.y);
 
             if (!preciseCollisionChecking) {
-                return ((xDiff - (posComp1.width / 2 + posComp2.width / 2)) <= xbuffer && (yDiff - (posComp1.height / 2 + posComp2.height / 2)) <= xbuffer);
+                return ((xDiff - (posComp1.width / 2 + posComp2.width / 2)) <= xbuffer && (yDiff - (posComp1.height / 2 + posComp2.height / 2)) <= ybuffer);
             } else {
-                if ((xDiff - (posComp1.width / 2 + posComp2.width / 2)) <= ybuffer && (yDiff - (posComp1.height / 2 + posComp2.height / 2)) <= ybuffer) {
+                if ((xDiff - (posComp1.width / 2 + posComp2.width / 2)) <= xbuffer && (yDiff - (posComp1.height / 2 + posComp2.height / 2)) <= ybuffer) {
                     return handleTransparentCollision(x1, y1, e1, e2);
                 }
                 return false;

@@ -376,6 +376,8 @@ namespace RunningGame.Systems {
         }
 
         public void glide() {
+            if (level.getPlayer() == null) return;
+            if (!level.getPlayer().hasComponent(GlobalVars.GRAVITY_COMPONENT_NAME)) return;
             GravityComponent gravComp = (GravityComponent)this.level.getPlayer().getComponent(GlobalVars.GRAVITY_COMPONENT_NAME);
             gravComp.setGravity(gravComp.x, (Glide_Gravity_Decrease));
             glideActive = true;
