@@ -57,35 +57,7 @@ namespace RunningGame.Systems {
                 }
 
                 //If there's a key down and the player isn't moving horizontally, check to make sure there's a collision
-                if (Math.Abs(velComp.x) < Math.Abs(pelInComp.platformerMoveSpeed)) {
-
-                    float allowedOverlap = 0.0f;
-                    float extraHDistCheck = GlobalVars.MIN_TILE_SIZE / 2;
-                    if (level.getInputSystem().myKeys[GlobalVars.KEY_RIGHT].pressed) {
-                        float leftX = (posComp.x - posComp.width / 2 + extraHDistCheck);
-                        float upperY = (posComp.y - posComp.height / 2);
-                        float lowerY = (posComp.y + posComp.height / 2 - allowedOverlap);
-
-                        bool tmpPrecice = level.getCollisionSystem().locGrid.preciseCollisionChecking;
-                        level.getCollisionSystem().locGrid.preciseCollisionChecking = false; //turn off precise collision detection to prevent jitters.
-                        if (!(level.getCollisionSystem().findObjectsBetweenPoints(leftX, upperY, leftX, lowerY).Count > 0)) {
-                            beginMoveRight(posComp, velComp, pelInComp, animComp);
-                        }
-                        level.getCollisionSystem().locGrid.preciseCollisionChecking = tmpPrecice; //Put it back on asap!
-                    }
-                    if (level.getInputSystem().myKeys[GlobalVars.KEY_LEFT].pressed) {
-                        float rightX = (posComp.x + posComp.width / 2 - extraHDistCheck);
-                        float upperY = (posComp.y - posComp.height / 2);
-                        float lowerY = (posComp.y + posComp.height / 2 - allowedOverlap);
-
-                        bool tmpPrecice = level.getCollisionSystem().locGrid.preciseCollisionChecking;
-                        level.getCollisionSystem().locGrid.preciseCollisionChecking = false; //turn off precise collision detection to prevent jitters.
-                        if (!(level.getCollisionSystem().findObjectsBetweenPoints(rightX, upperY, rightX, lowerY).Count > 0)) {
-                            beginMoveLeft(posComp, velComp, pelInComp, animComp);
-                        }
-                        level.getCollisionSystem().locGrid.preciseCollisionChecking = tmpPrecice; //Put it back on asap!
-                    }
-                }
+                restartHorizontalMovementIfNoBlock(velComp, posComp, pelInComp, animComp);
 
                 if (level.getInputSystem().myKeys[GlobalVars.KEY_RIGHT].pressed || level.getInputSystem().myKeys[GlobalVars.KEY_LEFT].pressed) {
                     level.getPlayer().startAnimation();
@@ -94,8 +66,7 @@ namespace RunningGame.Systems {
                         level.getPlayer().stopAnimation();
                 }
 
-
-                //Slow horizontal if no left/rght key down
+                //Slow horizontal if no left/right key down
                 if (velComp.x != 0 && !level.getInputSystem().myKeys[GlobalVars.KEY_LEFT].pressed && !level.getInputSystem().myKeys[GlobalVars.KEY_RIGHT].pressed) {
                     //If it's on top of something
                     float leftX = (posComp.x - posComp.width / 2);
@@ -117,6 +88,51 @@ namespace RunningGame.Systems {
 
         }
         //-----------------------------------------------------------------------------
+
+        //------------------------------- Helper Methods -------------------------------
+        /*
+         * This method checks to see if a left/right key is down and there's no movement.
+         * If that's the case - it makes sure there's something blocking the movement, or it restarts it.
+         * 
+         * This is used for situations like when the player is running against a wall and jumps, if the jump
+         * clears the wall then the horizontal movement should restart without the need for a second key press.
+         */
+        public void restartHorizontalMovementIfNoBlock(VelocityComponent velComp, PositionComponent posComp, PlayerInputComponent pelInComp, AnimationComponent animComp) {
+            if (Math.Abs(velComp.x) < Math.Abs(pelInComp.playerHorizMoveSpeed)) {
+
+                float allowedOverlap = 0.0f;
+                float extraHDistCheck = GlobalVars.MIN_TILE_SIZE / 2;
+                float upperY = (posComp.y - posComp.height / 2);
+                float lowerY = (posComp.y + posComp.height / 2 - allowedOverlap);
+
+                if (level.getInputSystem().myKeys[GlobalVars.KEY_RIGHT].pressed) {
+
+                    float rightX = (posComp.x + posComp.width / 2 + extraHDistCheck);
+                    bool tmpPrecice = level.getCollisionSystem().locGrid.preciseCollisionChecking;
+                    level.getCollisionSystem().locGrid.preciseCollisionChecking = false; //turn off precise collision detection to prevent jitters.
+
+                    if (!(level.getCollisionSystem().findObjectsBetweenPoints(rightX, upperY, rightX, lowerY).Count > 0)) {
+                        beginMoveRight(posComp, velComp, pelInComp, animComp);
+                    }
+
+                    level.getCollisionSystem().locGrid.preciseCollisionChecking = tmpPrecice; //put collision detection back to its normal setting
+
+                }
+                if (level.getInputSystem().myKeys[GlobalVars.KEY_LEFT].pressed) {
+
+                    float leftX = (posComp.x - posComp.width / 2 - extraHDistCheck);
+                    bool tmpPrecice = level.getCollisionSystem().locGrid.preciseCollisionChecking;
+                    level.getCollisionSystem().locGrid.preciseCollisionChecking = false; //turn off precise collision detection to prevent jitters.
+
+                    if (!(level.getCollisionSystem().findObjectsBetweenPoints(leftX, upperY, leftX, lowerY).Count > 0)) {
+                        beginMoveLeft(posComp, velComp, pelInComp, animComp);
+                    }
+
+                    level.getCollisionSystem().locGrid.preciseCollisionChecking = tmpPrecice; //Put it back on asap!
+                }
+
+            }
+        }
 
         //----------------------------------- Input ----------------------------------- 
         public void checkForInput(PositionComponent posComp, VelocityComponent velComp, PlayerInputComponent pelInComp, AnimationComponent animComp) {
@@ -155,14 +171,14 @@ namespace RunningGame.Systems {
             }
         }
         public void beginMoveLeft(PositionComponent posComp, VelocityComponent velComp, PlayerInputComponent pelInComp, AnimationComponent animComp) {
-            velComp.setVelocity(-pelInComp.platformerMoveSpeed, velComp.y);
+            velComp.setVelocity(-pelInComp.playerHorizMoveSpeed, velComp.y);
             if (!pelInComp.player.isLookingLeft())
                 pelInComp.player.faceLeft();
             level.getPlayer().startAnimation();
 
         }
         public void beginMoveRight(PositionComponent posComp, VelocityComponent velComp, PlayerInputComponent pelInComp, AnimationComponent animComp) {
-            velComp.setVelocity(pelInComp.platformerMoveSpeed, velComp.y);
+            velComp.setVelocity(pelInComp.playerHorizMoveSpeed, velComp.y);
             if (!pelInComp.player.isLookingRight())
                 pelInComp.player.faceRight();
             level.getPlayer().startAnimation();

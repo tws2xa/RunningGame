@@ -9,7 +9,7 @@ namespace RunningGame.Components {
     [Serializable()]
     public class PlayerInputComponent : Component {
         public float jumpStrength { get; set; }
-        public float platformerMoveSpeed { get; set; }
+        public float playerHorizMoveSpeed { get; set; }
         //public int numAirJumps { get; set; } //number of jumps possible in the air (numAirJumps = 1 means you can double jump)
         public int passedAirjumps { get; set; }
         public Player player { get; set; }
@@ -20,7 +20,7 @@ namespace RunningGame.Components {
 
             this.player = (Player)player;
             jumpStrength = -150f;
-            platformerMoveSpeed = 150f;
+            playerHorizMoveSpeed = 150f;
             //numAirJumps = GlobalVars.normNumAirJumps; //number of jumps possible in the air (numAirJumps = 1 means you can double jump)
             passedAirjumps = 2;
         }

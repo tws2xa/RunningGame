@@ -35,7 +35,7 @@ namespace RunningGame {
                 PositionComponent posComp = (PositionComponent)e.getComponent(GlobalVars.POSITION_COMPONENT_NAME);
 
                 float sideBuffer = -1;
-                float floorBuffer = GlobalVars.MIN_TILE_SIZE / 2; //Distance it checks below object for the ground
+                float floorBuffer = 1; //Distance it checks below object for the ground
 
                 float leftX = (posComp.x - posComp.width / 2 - sideBuffer);
                 float rightX = (posComp.x + posComp.width / 2 + sideBuffer);
