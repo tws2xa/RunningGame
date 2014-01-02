@@ -129,8 +129,8 @@ namespace RunningGame {
                         RectangleF rect = new RectangleF(i, j, colWidth, rowHeight);
                         if (grid.ContainsKey(rect))
                             retList.Add(rect);
-                        else
-                            Console.WriteLine("Looking for nonexistant rectangle " + rect);
+                        //else
+                            //Console.WriteLine("Looking for nonexistant rectangle " + rect);
                     }
                 }
             } else {

@@ -46,16 +46,14 @@ namespace RunningGame.Systems {
         bool blockSpawnEquipped = false;
         bool bouncyEquipped = false;
 
-        //bounce powerup info
-
         //Spawn Bock Info
         Queue<spawnBlockEntity> spawnBlocks = new Queue<spawnBlockEntity>(); // A queue of the spawn blocks
         int maxNumSpawnBlocks = 3;
 
         //speedy powerup infos
         public float speedyTime = 1.0f;
-        public float speedyTimer = -1.0f;
-        public bool speedyActive = false;
+        public Dictionary<Entity, float> speedyTimers;
+        public bool playerSpeedyEnabled = false;
 
         //Grapple
         bool hasRunOnce = false; //Used to add keys once and only once. Can't in constructor because inputSystem not ready yet
@@ -67,6 +65,7 @@ namespace RunningGame.Systems {
             this.level = level; //Always have this
             glideTimer = glideDuration;
             spawnDistance = 0;
+            speedyTimers = new Dictionary<Entity, float>();
         }
 
         //-------------------------------------- Overrides -------------------------------------------
@@ -82,30 +81,46 @@ namespace RunningGame.Systems {
 
         public override void Update(float deltaTime) {
             curDeltaTime = deltaTime;
+
             if (!hasRunOnce) {
-                level.getInputSystem().addKey(glideKey);
 
-                level.getInputSystem().addKey(cycleDownPowerupKey);
-                level.getInputSystem().addKey(cycleUpPowerupKey);
-                level.getInputSystem().addKey(equippedPowerupKey);
-
+                addKeys();
+                
                 PositionComponent posComp = (PositionComponent)level.getPlayer().getComponent(GlobalVars.POSITION_COMPONENT_NAME);
                 spawnDistance = posComp.width / 2 + 15.0f;
 
-
                 hasRunOnce = true;
             }
-            if (glideActive && level.getPlayer() != null) {
 
-                VelocityComponent velComp = (VelocityComponent)this.level.getPlayer().getComponent(GlobalVars.VELOCITY_COMPONENT_NAME);
-                if (velComp.y > maxVelocity) {
-                    velComp.setVelocity(velComp.x, maxVelocity);
+            manageGlideTimer( deltaTime );
+
+            manageSpeedyTimer( deltaTime );
+
+            if (!level.sysManager.visSystem.orbActive) {
+                checkForInput();
+            }
+        }
+        //----------------------------------------------------------------------------------------------
+
+        public void addKeys() {
+            level.getInputSystem().addKey( glideKey );
+            level.getInputSystem().addKey( cycleDownPowerupKey );
+            level.getInputSystem().addKey( cycleUpPowerupKey );
+            level.getInputSystem().addKey( equippedPowerupKey );
+        }
+
+        public void manageGlideTimer(float deltaTime) {
+            if ( glideActive && level.getPlayer() != null ) {
+
+                VelocityComponent velComp = ( VelocityComponent )this.level.getPlayer().getComponent( GlobalVars.VELOCITY_COMPONENT_NAME );
+                if ( velComp.y > maxVelocity ) {
+                    velComp.setVelocity( velComp.x, maxVelocity );
                 }
                 glideTimer = glideTimer - deltaTime;
-                if (glideTimer < 0.0f) {
-                    GravityComponent gravComp = (GravityComponent)this.level.getPlayer().getComponent(GlobalVars.GRAVITY_COMPONENT_NAME);
-                    if (gravComp != null) {
-                        gravComp.setGravity(gravComp.x, GlobalVars.STANDARD_GRAVITY);
+                if ( glideTimer < 0.0f ) {
+                    GravityComponent gravComp = ( GravityComponent )this.level.getPlayer().getComponent( GlobalVars.GRAVITY_COMPONENT_NAME );
+                    if ( gravComp != null ) {
+                        gravComp.setGravity( gravComp.x, GlobalVars.STANDARD_GRAVITY );
                     }
                     glideActive = false;
                     glideTimer = glideDuration;
@@ -113,27 +128,40 @@ namespace RunningGame.Systems {
                 }
 
             }
+        }
 
-            if (speedyTimer > 0 && level.getPlayer() != null) {
-                if (level.getPlayer() == null) return;
-                speedyTimer -= deltaTime;
-                if (!level.getPlayer().hasComponent(GlobalVars.VELOCITY_COMPONENT_NAME)) return;
-                VelocityComponent velComp = (VelocityComponent)this.level.getPlayer().getComponent(GlobalVars.VELOCITY_COMPONENT_NAME);
-                if (speedyTimer <= 0 || Math.Abs(velComp.x) < GlobalVars.SPEEDY_SPEED) {
-                    velComp.setVelocity(0, velComp.y);
-                    speedyTimer = -1;
-                    speedyActive = false;
-                    if (!level.getPlayer().hasComponent(GlobalVars.PLAYER_INPUT_COMPONENT_NAME)) {
-                        level.getPlayer().addComponent(new PlayerInputComponent(level.getPlayer()));
+        public void manageSpeedyTimer( float deltaTime ) {
+
+            List<Entity> toRemove = new List<Entity>();
+
+            foreach (Entity e in speedyTimers.Keys.ToList()) {
+                if(!(e.hasComponent(GlobalVars.VELOCITY_COMPONENT_NAME))) return;
+
+                VelocityComponent velComp = (VelocityComponent)e.getComponent( GlobalVars.VELOCITY_COMPONENT_NAME );
+                speedyTimers[e] -= deltaTime;
+                if ( speedyTimers[e] <= 0 || Math.Abs( velComp.x ) < GlobalVars.SPEEDY_SPEED ) {
+                    velComp.setVelocity( 0, velComp.y );
+                    toRemove.Add( e );
+
+                    if ( e is Player ) {
+                        playerSpeedyEnabled = false;
+                        if ( !( e.hasComponent( GlobalVars.PLAYER_INPUT_COMPONENT_NAME ) ) ) {
+                            e.addComponent( new PlayerInputComponent( level.getPlayer() ) );
+                        }
+                    }
+
+                    if ( e.hasComponent( GlobalVars.PUSHABLE_COMPONENT_NAME ) ) {
+                        PushableComponent pushComp = ( PushableComponent )e.getComponent( GlobalVars.PUSHABLE_COMPONENT_NAME );
+                        pushComp.dontSlow = false;
                     }
                 }
             }
 
-            if (!level.sysManager.visSystem.orbActive) {
-                checkForInput();
+            foreach ( Entity remEnt in toRemove ) {
+                speedyTimers.Remove( remEnt );
             }
+
         }
-        //----------------------------------------------------------------------------------------------
 
         public void speedyEntity(float x, float y) {
 

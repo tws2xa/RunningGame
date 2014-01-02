@@ -86,6 +86,7 @@
     <Compile Include="Components\PlayeInputComponent.cs" />
     <Compile Include="Components\PlayerComponent.cs" />
     <Compile Include="Components\PowerupPickupComponent.cs" />
+    <Compile Include="Components\PushableComponent.cs" />
     <Compile Include="Components\ScreenEdgeComponent.cs" />
     <Compile Include="Components\SimpleEnemyComponent.cs" />
     <Compile Include="Components\SoundComponent.cs" />
@@ -142,6 +143,7 @@
     <Compile Include="Systems\GrappleSystem.cs" />
     <Compile Include="Systems\MovingPlatformSystem.cs" />
     <Compile Include="Systems\PlayerWeaponSystem.cs" />
+    <Compile Include="Systems\PushableSystem.cs" />
     <Compile Include="Systems\SimpleEnemyAISystem.cs" />
     <Compile Include="Systems\SimplePowerUpSystem.cs" />
     <Compile Include="Systems\DebugSystem.cs" />

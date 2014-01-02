@@ -13,6 +13,8 @@ namespace RunningGame {
         List<string> requiredComponents = new List<string>();
         Level level;
 
+        public bool moveToContactWhenTouchGround = false;
+
         public GravitySystem(Level activeLevel) {
             //Required Components
             requiredComponents.Add(GlobalVars.VELOCITY_COMPONENT_NAME); //Velocity
@@ -51,6 +53,12 @@ namespace RunningGame {
                     PositionComponent posComp2 = (PositionComponent)ent.getComponent(GlobalVars.POSITION_COMPONENT_NAME);
                     //If the object is below the player, and it's solid, don't apply gravity.
                     if ((posComp.y + (posComp.height / 2)) <= (posComp2.y - (posComp2.height / 2)) && collider.colliderType == GlobalVars.BASIC_SOLID_COLLIDER_TYPE) {
+                        float newY = posComp2.y - posComp2.height / 2 - posComp.height / 2;
+                        
+                        if(moveToContactWhenTouchGround && Math.Abs(posComp.y - newY) > 1) {
+                            level.getMovementSystem().changePosition(posComp, posComp.x, newY, true);
+                        }
+
                         shouldApplyGravity = false;
                         break;
                     }

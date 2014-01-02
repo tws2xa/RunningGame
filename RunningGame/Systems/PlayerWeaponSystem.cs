@@ -61,6 +61,9 @@ namespace RunningGame.Systems {
         //--------------------------------------------------------------------------------------------
 
         public void fireWeapon(PositionComponent posComp) {
+
+            if(level.getPlayer() == null) return;
+
             //Do maths!
             float mouseX = level.getInputSystem().mouseX + level.sysManager.drawSystem.getMainView().x;
             float mouseY = level.getInputSystem().mouseY + level.sysManager.drawSystem.getMainView().y;
@@ -78,9 +81,12 @@ namespace RunningGame.Systems {
             if (yDiff > 0 && yVel < 0) yVel = -yVel;
             if (yDiff < 0 && yVel > 0) yVel = -yVel;
 
-            if (level.sysManager.spSystem.speedyActive && xVel > 0) xVel += GlobalVars.SPEEDY_SPEED;
-            else if (level.sysManager.spSystem.speedyActive && xVel < 0) xVel -= GlobalVars.SPEEDY_SPEED;
-
+            //if (level.sysManager.spSystem.speedyActive && xVel > 0) xVel += GlobalVars.SPEEDY_SPEED;
+            //else if (level.sysManager.spSystem.speedyActive && xVel < 0) xVel -= GlobalVars.SPEEDY_SPEED;
+            Player player = (Player)level.getPlayer();
+            VelocityComponent playerVelComp = (VelocityComponent)player.getComponent(GlobalVars.VELOCITY_COMPONENT_NAME);
+            xVel += playerVelComp.x;
+            yVel += playerVelComp.y;
 
             //Make the bullet
             BulletEntity bullet = new BulletEntity(level, posComp.x, posComp.y, (float)xVel, (float)yVel);
@@ -88,12 +94,10 @@ namespace RunningGame.Systems {
             //level.sysManager.sndSystem.playSound("RunningGame.Resources.Sounds.boop.wav", false);
 
             //Recoil
-            Player player = (Player)level.getPlayer();
             if (recoil && player.hasComponent(GlobalVars.VELOCITY_COMPONENT_NAME)) {
-                VelocityComponent playerVelComp = (VelocityComponent)player.getComponent(GlobalVars.VELOCITY_COMPONENT_NAME);
                 //Don't recoil if the player is walking in the direcion of the shot
                 if (!((xVel > 0 && level.getInputSystem().myKeys[GlobalVars.KEY_RIGHT].pressed) || (xVel < 0 && level.getInputSystem().myKeys[GlobalVars.KEY_LEFT].pressed))) {
-                    if (!level.sysManager.spSystem.speedyActive) playerVelComp.x -= (float)xVel * recoilMultiplier;
+                    if (!level.sysManager.spSystem.playerSpeedyEnabled) playerVelComp.x -= (float)xVel * recoilMultiplier;
                 } else {
                     //If the player is in the air, still recoil
                     float leftX = (posComp.x - posComp.width / 2);
@@ -102,7 +106,7 @@ namespace RunningGame.Systems {
                     if (!(level.getCollisionSystem().findObjectsBetweenPoints(leftX, lowerY, rightX, lowerY).Count > 0)) {
                         //Check it isn't over the cap
                         if (!((playerVelComp.x < 0 && playerVelComp.x < recoilCap) || (playerVelComp.x > 0 && playerVelComp.x > recoilCap))) {
-                            if (!level.sysManager.spSystem.speedyActive) playerVelComp.x -= (float)xVel * recoilMultiplier;
+                            if (!level.sysManager.spSystem.playerSpeedyEnabled) playerVelComp.x -= (float)xVel * recoilMultiplier;
                         }
                     }
                 }

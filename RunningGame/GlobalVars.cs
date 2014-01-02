@@ -46,7 +46,8 @@ namespace RunningGame {
         public static string POWERUP_PICKUP_COMPONENT_NAME = "pwrupPkpComp";
         public static string SPAWN_BLOCK_COMPONENT_NAME = "spawnBlkComp";
         public static string DIRECTION_COMPONENT_NAME = "spikeComp";
-        public static string VISION_ORB_INPUT_COMPONENT_NAME = "visionInput";
+        public static string VISION_ORB_INPUT_COMPONENT_NAME = "visionInputComp";
+        public static string PUSHABLE_COMPONENT_NAME = "pushableComp";
 
         //Collider Types
         public static string PLAYER_COLLIDER_TYPE = "playerCollider";
