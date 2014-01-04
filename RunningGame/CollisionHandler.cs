@@ -780,6 +780,13 @@ namespace RunningGame {
 
             pushableComp.wasPushedLastFrame = true;
 
+            //If pushee is stopped (i.e. it can't move for some reason - stop the pusher as well)
+            if ( pushableComp.movementStopped != 0 ) {
+                if ( pushableComp.movementStopped == 3 ) return true; //blocked in both directions
+                if ( pushableComp.movementStopped == 2 && pusherVel.x > 0 ) return true; //blocked right.
+                if ( pushableComp.movementStopped == 1 && pusherVel.x < 0 ) return true; //blocked left.
+            }
+
             return false;
 
         }

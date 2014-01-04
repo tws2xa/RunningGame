@@ -165,6 +165,29 @@ namespace RunningGame.Systems {
             }
 
 
+            if ( isX && posComp.myEntity.hasComponent( GlobalVars.PUSHABLE_COMPONENT_NAME ) ) {
+                PushableComponent pushComp = ( PushableComponent )posComp.myEntity.getComponent( GlobalVars.PUSHABLE_COMPONENT_NAME );
+                if ( movementBlocked ) {
+                    if(xVal < posComp.x) { //left
+                        if ( pushComp.movementStopped == 0 ) pushComp.movementStopped = 1;
+                        else if ( pushComp.movementStopped == 2 ) pushComp.movementStopped = 3;
+                    }
+                    if ( xVal > posComp.x ) { //right
+                        if ( pushComp.movementStopped == 0 ) pushComp.movementStopped = 2;
+                        else if ( pushComp.movementStopped == 1 ) pushComp.movementStopped = 3;
+                    }
+                } else {
+                    if ( xVal < posComp.x ) {
+                        if ( pushComp.movementStopped == 3 ) pushComp.movementStopped = 2;
+                        else if ( pushComp.movementStopped == 1 ) pushComp.movementStopped = 0;
+                    }
+                    if ( xVal > posComp.x ) {
+                        if ( pushComp.movementStopped == 3 ) pushComp.movementStopped = 1;
+                        else if ( pushComp.movementStopped == 2 ) pushComp.movementStopped =0;
+                    }
+                }
+            }
+
             //If movement isn't blocked - move and set position changed to true
             if (!movementBlocked) {
                 if (isX) {
