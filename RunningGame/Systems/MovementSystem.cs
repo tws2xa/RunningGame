@@ -210,7 +210,7 @@ namespace RunningGame.Systems {
             else if (!xDir && leftOrUp) retPos = pos2.y - pos2.height / 2 - pos1.height / 2;
             else if (!xDir && !leftOrUp) retPos = pos2.y + pos2.height / 2 + pos1.height / 2;
 
-            if (!level.getCollisionSystem().locGrid.preciseCollisionChecking) {
+            if (!GlobalVars.preciseCollisionChecking) {
                 return retPos;
             }
 

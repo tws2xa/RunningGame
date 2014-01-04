@@ -28,7 +28,6 @@ namespace RunningGame {
         float rowHeight = 20;
         float colWidth = 20;
 
-        public bool preciseCollisionChecking = false;
 
         Level level;
 
@@ -242,7 +241,7 @@ namespace RunningGame {
             float xDiff = (float)Math.Abs(x1 - posComp2.x);
             float yDiff = (float)Math.Abs(y1 - posComp2.y);
 
-            if (!preciseCollisionChecking) {
+            if (!GlobalVars.preciseCollisionChecking) {
                 return ((xDiff - (posComp1.width / 2 + posComp2.width / 2)) <= xbuffer && (yDiff - (posComp1.height / 2 + posComp2.height / 2)) <= ybuffer);
             } else {
                 if ((xDiff - (posComp1.width / 2 + posComp2.width / 2)) <= xbuffer && (yDiff - (posComp1.height / 2 + posComp2.height / 2)) <= ybuffer) {

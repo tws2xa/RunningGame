@@ -108,27 +108,27 @@ namespace RunningGame.Systems {
                 if (level.getInputSystem().myKeys[GlobalVars.KEY_RIGHT].pressed) {
 
                     float rightX = (posComp.x + posComp.width / 2 + extraHDistCheck);
-                    bool tmpPrecice = level.getCollisionSystem().locGrid.preciseCollisionChecking;
-                    level.getCollisionSystem().locGrid.preciseCollisionChecking = false; //turn off precise collision detection to prevent jitters.
+                    bool tmpPrecice = GlobalVars.preciseCollisionChecking;
+                    GlobalVars.preciseCollisionChecking = false; //turn off precise collision detection to prevent jitters.
 
                     if (!(level.getCollisionSystem().findObjectsBetweenPoints(rightX, upperY, rightX, lowerY).Count > 0)) {
                         beginMoveRight(posComp, velComp, pelInComp, animComp);
                     }
 
-                    level.getCollisionSystem().locGrid.preciseCollisionChecking = tmpPrecice; //put collision detection back to its normal setting
+                    GlobalVars.preciseCollisionChecking = tmpPrecice; //put collision detection back to its normal setting
 
                 }
                 if (level.getInputSystem().myKeys[GlobalVars.KEY_LEFT].pressed) {
 
                     float leftX = (posComp.x - posComp.width / 2 - extraHDistCheck);
-                    bool tmpPrecice = level.getCollisionSystem().locGrid.preciseCollisionChecking;
-                    level.getCollisionSystem().locGrid.preciseCollisionChecking = false; //turn off precise collision detection to prevent jitters.
+                    bool tmpPrecice = GlobalVars.preciseCollisionChecking;
+                    GlobalVars.preciseCollisionChecking = false; //turn off precise collision detection to prevent jitters.
 
                     if (!(level.getCollisionSystem().findObjectsBetweenPoints(leftX, upperY, leftX, lowerY).Count > 0)) {
                         beginMoveLeft(posComp, velComp, pelInComp, animComp);
                     }
 
-                    level.getCollisionSystem().locGrid.preciseCollisionChecking = tmpPrecice; //Put it back on asap!
+                    GlobalVars.preciseCollisionChecking = tmpPrecice; //Put it back on asap!
                 }
 
             }

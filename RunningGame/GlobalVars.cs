@@ -131,5 +131,9 @@ namespace RunningGame {
         public static int doubleJumpNumAirJumps = 1;
         public static int normNumAirJumps = 0;
         public static int numAirJumps = 0;
+
+
+        //Settings
+        public static bool preciseCollisionChecking = false;
     }
 }
