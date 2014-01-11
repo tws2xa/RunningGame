@@ -27,7 +27,7 @@ namespace RunningGame {
 
         //The dictionary of special case collisions
         public Dictionary<string, Func<Entity, Entity, bool>> collisionDictionary = new Dictionary<string, Func<Entity, Entity, bool>>();
-        //This dictionary holds default collision function
+        //This dictionary holds default collision function for each collider
         public Dictionary<string, Func<Entity, Entity, bool>> defaultCollisions = new Dictionary<string, Func<Entity, Entity, bool>>();
 
         Random rand = new Random();
@@ -35,20 +35,16 @@ namespace RunningGame {
         //The level
         public Level level;
 
-
+        //Some variables to help make spike collision more forgiving.
         public float playerSpikeCollisionLeewaySameDir = 3.0f; //Overlap needed for collision to trigger
         public float playerSpikeOppDirNecessaryOverlap = 5.0f; //If moving h, how much overlap must there be in v direction and vice versa
-
-        //public float playerEnemyCollisionLeeway = 5.0f; //Overlap needed for collision to trigger
 
         public CollisionHandler( Level level ) {
             //Set the level
             this.level = level;
 
-            //Create the Func objects for all the collision functions
-            //Func<Entity, Entity, bool> [Var Name] = [Name of your method];
-
             //Set defaults (i.e. If there is no specific collision listed, what does it do?)
+            //Format: .Add(collider string, name of the collision function);
             defaultCollisions.Add( GlobalVars.SPEEDY_PREGROUND_COLLIDER_TYPE, removeSpeedyCollision );
             defaultCollisions.Add( GlobalVars.BASIC_SOLID_COLLIDER_TYPE, simpleStopCollision );
             defaultCollisions.Add( GlobalVars.SPAWN_BLOCK_COLLIDER_TYPE, simpleStopCollision );
@@ -64,13 +60,14 @@ namespace RunningGame {
 
 
             //Add non-default collisions to dictionary
+            //Format: addToDictonary(Collider 1, Collider 2, name of function) Note - Order of colliders does not matter
             addToDictionary( GlobalVars.PLAYER_COLLIDER_TYPE, GlobalVars.SPEEDY_POSTGROUND_COLLIDER_TYPE, speedyOtherCollision );
             addToDictionary( GlobalVars.PLAYER_COLLIDER_TYPE, GlobalVars.SWITCH_COLLIDER_TYPE, switchFlipCollision );
             addToDictionary( GlobalVars.PLAYER_COLLIDER_TYPE, GlobalVars.END_LEVEL_COLLIDER_TYPE, endLevelCollision );
             addToDictionary( GlobalVars.PLAYER_COLLIDER_TYPE, GlobalVars.POWERUP_PICKUP_COLLIDER_TYPE, powerupPickupPlayerCollision );
             addToDictionary( GlobalVars.PLAYER_COLLIDER_TYPE, GlobalVars.SPIKE_COLLIDER_TYPE, spikePlayerCollision );
             addToDictionary( GlobalVars.PLAYER_COLLIDER_TYPE, GlobalVars.BOUNCE_POSTGROUND_COLLIDER_TYPE, bounceCollision );
-            addToDictionary( GlobalVars.PLAYER_COLLIDER_TYPE, GlobalVars.SPAWN_BLOCK_COLLIDER_TYPE, playerPushCollision );
+            addToDictionary( GlobalVars.PLAYER_COLLIDER_TYPE, GlobalVars.SPAWN_BLOCK_COLLIDER_TYPE, simpleStopCollision );
 
             addToDictionary( GlobalVars.BULLET_COLLIDER_TYPE, GlobalVars.PLAYER_COLLIDER_TYPE, doNothingCollision );
             addToDictionary( GlobalVars.BULLET_COLLIDER_TYPE, GlobalVars.SIMPLE_ENEMY_COLLIDER_TYPE, DestroyBothCollision );
@@ -109,7 +106,7 @@ namespace RunningGame {
             collisionDictionary.Add( getCollisionTypeName( type1, type2 ), func );
         }
 
-        //If this returns true - stop movement; False - do not stop movement.
+        //If this returns true: stop movement | False: do not stop movement.
         public bool handleCollision( Entity e1, Entity e2 ) {
             //Get the two colliders
             ColliderComponent col1 = ( ColliderComponent )e1.getComponent( GlobalVars.COLLIDER_COMPONENT_NAME );
@@ -118,9 +115,16 @@ namespace RunningGame {
             //Get the type of collision that has occured
             string collisionTypeName = getCollisionTypeName( col1.colliderType, col2.colliderType );
 
-            //If it's not listed as a special case collision type - get the default collision
+            //Check to make sure it's not listed as a special case collision type.
             if ( !collisionDictionary.ContainsKey( collisionTypeName ) ) {
-                //Checks if there's a doNothingCollision in either case, if so it does nothing. Otherwise it pick's e1's default or e2s default.
+                /*
+                 * Here we must decide which default collision to do (since there's two colliders).
+                 * If either collider has a do-nothing collision default, it will do nothing.
+                 * Next it performs the default collision linked to e1's collider.
+                 * Then it performs the default collision linked to e2's collider.
+                 * If either of the above collisions (or both) said to stop movement, it returns true. Otherwise false.
+                */
+
                 if ( defaultCollisions.ContainsKey( col1.colliderType ) && defaultCollisions[col1.colliderType] == doNothingCollision ) {
                     return false;
                 }
@@ -136,16 +140,14 @@ namespace RunningGame {
 
                 }
                 if ( defaultCollisions.ContainsKey( col2.colliderType ) ) {
-                    //If it is listed - call the collision method and return the stopMovement value
                     stop2 = defaultCollisions[col2.colliderType]( e1, e2 );
                 }
 
-                //If no default collision is listed, and it's not in the special cases either - do nothing
                 return ( stop1 || stop2 ); //Return false = do not stop the movement
-            } else //There is a special case
+            } else //This else statement is entered only if there is a special case listed
             {
                 //Call the special case collision method and return the stopMovement value
-                bool stopMovement = collisionDictionary[collisionTypeName]( e1, e2 );
+                bool stopMovement = collisionDictionary[collisionTypeName]( e1, e2 ); //Call the listed special case
                 return stopMovement;
             }
 
@@ -155,6 +157,7 @@ namespace RunningGame {
         public string getCollisionTypeName( string type1, string type2 ) {
 
             //Basically puts the names in alphabetical order (I think) and combines them into one string.
+            //Putting in alphabetical order makes sure order doesn't matter.
             int num = string.CompareOrdinal( type1, type2 ); //?
             if ( num < 0 )
                 return ( type1 + "" + type2 );
@@ -164,7 +167,7 @@ namespace RunningGame {
 
         //This update is just used if the end level timer has been started.
         public void update( float deltaTime ) {
-
+            //Nada
         }
 
 
@@ -172,14 +175,33 @@ namespace RunningGame {
 
         /*
          * Each collision method takes in two entities, and returns a bool.
-         * The bool value is whetehr or not to stop the movement.
+         * The bool value is whether or not to stop the movement.
          * True = Stop Movement
          * False = Do Not Stop Movement
+         * 
+         * The two entities are the two colliding entities
          */
 
-        //Dont do anything for now, increase player.y component up whenever collide with block
+
+
+
+        //Don't do anything
+        public bool doNothingCollision( Entity e1, Entity e2 ) {
+            return false;
+        }
+
+        //Just stop the movement
+        public static bool simpleStopCollision( Entity e1, Entity e2 ) {
+            return true; //Don't allow the movement.
+        }
+
+        //Called when an entitiy collides with a Bounce entity.
+        //Bounces the other entity into the air.
+        //Replaces the bounce with a BasicGround entity.
         public bool bounceCollision( Entity e1, Entity e2 ) {
             float launchVel = 350f;
+
+            //This step is done in almost every collision. It makes sure we have the expected entity types.
             Entity other;
             Bounce bounce;
             if ( e2 is Bounce ) {
@@ -193,6 +215,7 @@ namespace RunningGame {
                 return false;
             }
 
+            //Make sure the entity which will be bounced has a velocity component
             if ( !other.hasComponent( GlobalVars.VELOCITY_COMPONENT_NAME ) ) {
                 Console.WriteLine( "Trying to bounce " + other + ", which has no velocity component." );
                 return false;
@@ -208,7 +231,7 @@ namespace RunningGame {
             //Remove current bouncy
             removeSplatAddGround( bounce );
 
-            //Remove adjacent bouncies
+            //Find and Remove adjacent bouncies
             List<Entity> adj = level.getCollisionSystem().findObjectAtPoint( changingX, yLoc );
             while ( adj.Count > 0 && adj[0] is Bounce ) {
                 removeSplatAddGround( adj[0] );
@@ -228,6 +251,7 @@ namespace RunningGame {
 
         }
 
+        //This is used to remove either a Bounce or Speedy entity and replace it with a BasicGround.
         public void removeSplatAddGround( Entity splat ) {
 
             PositionComponent splatPos = ( PositionComponent )splat.getComponent( GlobalVars.POSITION_COMPONENT_NAME );
@@ -247,6 +271,7 @@ namespace RunningGame {
 
         }
 
+        //This collision removes a PreGroundBounce entity and does nothing else
         public bool removeBounceCollision( Entity e1, Entity e2 ) {
             Entity preBounce = null;
             if ( e1 is PreGroundBounce ) {
@@ -260,6 +285,9 @@ namespace RunningGame {
             level.removeEntity( preBounce );
             return false;
         }
+
+        //This collision takes a PreGroundBounce that has just collided with the ground
+        //And turns it into a PostGroundBounce (i.e. a Bounce entity)
         public bool bounceGroundCollision( Entity e1, Entity e2 ) {
             Entity bounceB = null;
             Entity ground = null;
@@ -283,16 +311,9 @@ namespace RunningGame {
 
             return false;
         }
-        //Don't do anything
-        public bool doNothingCollision( Entity e1, Entity e2 ) {
-            return false;
-        }
 
-        //Just stop the movement
-        public static bool simpleStopCollision( Entity e1, Entity e2 ) {
-            return true; //Don't allow the movement.
-        }
-
+        //This method takes a PreGroundSpeedy that has just collided with the Ground
+        //And turns it into a PostGroundSpeedy.
         public bool speedyGroundCollision( Entity e1, Entity e2 ) {
             Entity speedy = null;
             Entity theGround = null;
@@ -320,7 +341,24 @@ namespace RunningGame {
             return false;
         }
 
-        //Speed the player up
+
+        //This finds and removes a PreGroundSpeedy entity.
+        public bool removeSpeedyCollision( Entity e1, Entity e2 ) {
+            Entity pre = null;
+            if ( e1 is PreGroundSpeedy ) pre = e1;
+            else if ( e2 is PreGroundSpeedy ) pre = e2;
+            else {
+                Console.WriteLine( "Remove Speedy with no Speedy" );
+                return false;
+            }
+
+            level.removeEntity( pre );
+
+            return false;
+        }
+
+        //Accelerates the player in whichever horizontal direction he/she is moving.
+        //If the player is not moving, it goes the direction the player is facing.
         public bool speedyOtherCollision( Entity e1, Entity e2 ) {
             Entity other = null;
             Entity speedyBlock = null;
@@ -413,7 +451,7 @@ namespace RunningGame {
             return false;
         }
 
-        //This flip the switch (assuming e1 or e2 is a switch)
+        //This flips a switch (assuming e1 or e2 is a switch)
         public static bool switchFlipCollision( Entity e1, Entity e2 ) {
             //Find out which one is the switch
             SwitchComponent sc; //The switch
@@ -442,7 +480,7 @@ namespace RunningGame {
 
         }
 
-        //This occurs when the player collides with an enemy
+        //This occurs when the player collides with an enemy. Kills the player.
         public static bool killPlayerCollision( Entity e1, Entity e2 ) {
             //Figure out which entity is the player
             Player player;
@@ -464,7 +502,8 @@ namespace RunningGame {
 
         }
 
-        //When the bullet collides with something that isn't an enemy
+        //This occurs when the bullet collides with something that isn't an enemy
+        //It finds and removes the bullet.
         public bool bulletNonEnemyCollision( Entity e1, Entity e2 ) {
             //Get the bullet
             BulletEntity bullet;
@@ -484,7 +523,7 @@ namespace RunningGame {
             return false;
         }
 
-        //When an enemy collides with a bullet
+        //Destroy both colliding entities
         public bool DestroyBothCollision( Entity e1, Entity e2 ) {
             //Remove both the enemy and the bullet
             level.removeEntity( e1 );
@@ -501,6 +540,9 @@ namespace RunningGame {
             return false;
         }
 
+        //This is used when the moving platform collides with an entity
+        //It should move the entity with the platform
+        //INCOMPLETE
         public bool platformOtherCollision( Entity e1, Entity e2 ) {
             MovingPlatformEntity plat;
             Entity other;
@@ -536,20 +578,6 @@ namespace RunningGame {
                 level.getMovementSystem().changePosition( otherPos, otherPos.x, platPos.y - platPos.height / 2 - otherPos.height / 2, false );
                 otherVel.y = platVel.y;
             }
-
-            return false;
-        }
-
-        public bool removeSpeedyCollision( Entity e1, Entity e2 ) {
-            Entity pre = null;
-            if ( e1 is PreGroundSpeedy ) pre = e1;
-            else if ( e2 is PreGroundSpeedy ) pre = e2;
-            else {
-                Console.WriteLine( "Remove Speedy with no Speedy" );
-                return false;
-            }
-
-            level.removeEntity( pre );
 
             return false;
         }
@@ -596,11 +624,20 @@ namespace RunningGame {
             return false;
         }
 
+        //This handles the collision between a spawn block and an enemy.
+        //It checks to see if the spawnblock has been weaponized
+        //If it has been weaponized
+        //  It kills the enemy and checks to see how many other enemies the block has killed
+        //  If it's killed the max number of enemies, it destroyes the block as well
+        //If it has not been weaponized
+        //  It performs a simple stop collision
         public bool spawnEnemyCollision( Entity e1, Entity e2 ) {
             Entity spawnBlock = null;
             Entity other = null;
 
-            if ( e1 is spawnBlockEntity ) { spawnBlock = e1; other = e2; } else if ( e2 is spawnBlockEntity ) { spawnBlock = e2; other = e1; } else { Console.WriteLine( "Spawn Enemy Collision with no Spawn!" ); return false; }
+            if ( e1 is spawnBlockEntity ) { spawnBlock = e1; other = e2; }
+            else if ( e2 is spawnBlockEntity ) { spawnBlock = e2; other = e1; }
+            else { Console.WriteLine( "Spawn Enemy Collision with no Spawn!" ); return false; }
 
             SpawnBlockComponent spComp = ( SpawnBlockComponent )spawnBlock.getComponent( GlobalVars.SPAWN_BLOCK_COMPONENT_NAME );
 
@@ -618,6 +655,8 @@ namespace RunningGame {
 
         }
 
+        //If there's satisfactory overlap between the player and the spike it kills the player.
+        //Otherwise it does nothing.
         public bool spikePlayerCollision( Entity e1, Entity e2 ) {
             SpikeEntity spike = null;
             Player player = null;
@@ -642,16 +681,12 @@ namespace RunningGame {
             if ( checkSpikeCollision( posPlayer, posSpikes, dirComp.dir % 4 ) ) {
                 switch ( dirComp.dir % 4 ) {
                     case ( 0 ): //Player needs to be above spikes
-                        //Console.WriteLine("Above " + (posSpikes.y - posSpikes.height / 2 + playerSpikeCollisionLeewaySameDir) + ", " + (posPlayer.y + posPlayer.height / 2));
                         return killPlayerCollision( e1, e2 );
                     case ( 1 )://Player needs to be right of spikes
-                        //Console.WriteLine("Right " + (posSpikes.x + posSpikes.width / 2 - playerSpikeCollisionLeewaySameDir) + ", " + (posPlayer.x - posPlayer.width / 2));
                         return killPlayerCollision( e1, e2 );
                     case ( 2 ):
-                        //Console.WriteLine("Below " + (posSpikes.y + posSpikes.height / 2 - playerSpikeCollisionLeewaySameDir) + ", " + (posPlayer.y - posPlayer.height / 2));
                         return killPlayerCollision( e1, e2 );
                     case ( 3 )://Player needs to be left of spikes
-                        //Console.WriteLine("Left " + (posSpikes.x - posSpikes.width / 2 + playerSpikeCollisionLeewaySameDir) + ", " + (posPlayer.x + posPlayer.width / 2));
                         return killPlayerCollision( e1, e2 );
                 }
             }
@@ -660,7 +695,7 @@ namespace RunningGame {
 
         }
 
-
+        //Makes sure there's satisfactory overlap for spikes to kill the player
         private bool checkSpikeCollision( PositionComponent posPlayer, PositionComponent posSpikes, int dir ) {
 
             switch ( dir ) {
@@ -723,7 +758,11 @@ namespace RunningGame {
 
         }
 
-        public bool playerPushCollision( Entity e1, Entity e2 ) {
+        //Allows one entity to push another entity.
+        //Currently only works with player as the pusher.
+        //Actually jk doesn't even work with player as the pusher.
+        //INCOMPLETE
+        public bool pushCollision( Entity e1, Entity e2 ) {
             
             Entity pusher = null;
             Entity pushee = null; //Pushee is now a word.
@@ -756,41 +795,82 @@ namespace RunningGame {
             VelocityComponent pusherVel = ( VelocityComponent )pusher.getComponent( GlobalVars.VELOCITY_COMPONENT_NAME );
             VelocityComponent pusheeVel = ( VelocityComponent )pushee.getComponent( GlobalVars.VELOCITY_COMPONENT_NAME );
             PushableComponent pushableComp = ( PushableComponent )pushee.getComponent( GlobalVars.PUSHABLE_COMPONENT_NAME );
-            
-            //If one is above the other, return true (stop movement)
-            if ( (pusherPos.y - pusherPos.height / 2) > (pusheePos.y + pusheePos.height / 2) ) {
-                return true;
+
+            float amtVertOverlapStillAbove = 1; //How much vertical overlap can there be for one object to still be counted as "above" the other
+            float amtHorizOverlapStillAbove = 1; //How much horizontal overlap can there be for one object to still be counted as "beside" the other
+
+
+
+            //Check the direction is pushable. If not, simple stop.
+            int pusherSide = -1; //0 = right, 1 = above, 2 = left, 3 = below
+            if ( ((pusherPos.y - pusherPos.height / 2) - (pusheePos.y + pusheePos.height / 2)) > amtVertOverlapStillAbove ) {
+                pusherSide = 3;
+                if(!pushableComp.vert)
+                    return simpleStopCollision(e1, e2);
             }
-            if ( (pusherPos.y + pusherPos.height / 2) < (pusheePos.y - pusheePos.height / 2) ) {
-                return true;
+            else if ( ( ( pusheePos.y - pusheePos.height / 2 ) - ( pusherPos.y + pusherPos.height / 2 ) ) > amtVertOverlapStillAbove ) {
+                pusherSide = 1;
+                if(!pushableComp.vert)
+                    return simpleStopCollision( e1, e2 );
             }
+            else if ( ( ( pusherPos.x - pusherPos.width / 2 ) - ( pusheePos.x + pusheePos.width / 2 ) ) > amtHorizOverlapStillAbove ) {
+                pusherSide = 0;
+                if ( !pushableComp.horiz )
+                    return simpleStopCollision( e1, e2 );
+            }
+            else if ( ( ( pusheePos.x - pusheePos.width / 2 ) - ( pusherPos.x + pusherPos.width / 2 ) ) > amtHorizOverlapStillAbove ) {
+                pusherSide = 2;
+                if ( !pushableComp.horiz )
+                    return simpleStopCollision( e1, e2 );
+            }
+
+
 
             //Check if they're on the correct side for their velocity
-            bool pusherLeft = ( ( pusherPos.x + pusherPos.width / 2 ) < ( pusheePos.x - pusheePos.width / 2 ) );
 
-            if ( pusherLeft && pusherVel.x > 0 ) {
+            if ( pusherSide == 0 && pusherVel.x < 0 ) {
+                if ( !pushableComp.horiz ) return simpleStopCollision( e1, e2 );
+                if ( pusheeVel.x > pusherVel.x ) {
+                    pusheeVel.x = pusherVel.x;
+                }
+            } else if ( pusherSide == 2 && pusherVel.x > 0) {
+                if ( !pushableComp.horiz ) return simpleStopCollision( e1, e2 );
                 if ( pusheeVel.x < pusherVel.x ) {
                     pusheeVel.x = pusherVel.x;
                 }
-            } else if ( !pusherLeft && pusherVel.x < 0 ) {
-                if ( pusheeVel.x > pusherVel.x ) {
-                    pusheeVel.x = pusherVel.x;
+            } else if ( pusherSide == 1 && pusherVel.y < 0 ) {
+                if ( !pushableComp.vert ) return simpleStopCollision( e1, e2 );
+                if ( pusheeVel.y > pusherVel.y ) {
+                    pusheeVel.y = pusherVel.y;
+                }
+            } else if ( pusherSide == 3 && pusherVel.y > 0) {
+                if ( !pushableComp.vert ) return simpleStopCollision( e1, e2 );
+                if ( pusheeVel.y < pusherVel.y ) {
+                    pusheeVel.y = pusherVel.y;
                 }
             }
 
             pushableComp.wasPushedLastFrame = true;
 
             //If pushee is stopped (i.e. it can't move for some reason - stop the pusher as well)
-            if ( pushableComp.movementStopped != 0 ) {
-                if ( pushableComp.movementStopped == 3 ) return true; //blocked in both directions
-                if ( pushableComp.movementStopped == 2 && pusherVel.x > 0 ) return true; //blocked right.
-                if ( pushableComp.movementStopped == 1 && pusherVel.x < 0 ) return true; //blocked left.
+            if ( (pusherSide == 0 || pusherSide == 2) && pushableComp.horizMovementStopped != 0 ) {
+                if ( pushableComp.horizMovementStopped == 3 ) return true; //blocked in both directions
+                if ( pushableComp.horizMovementStopped == 2 && pusherVel.x > 0 ) return true; //blocked right.
+                if ( pushableComp.horizMovementStopped == 1 && pusherVel.x < 0 ) return true; //blocked left.
+            }
+
+            if ( ( pusherSide == 1 || pusherSide == 3 ) && pushableComp.vertMovementStopped != 0 ) {
+                if ( pushableComp.vertMovementStopped == 3 ) return true; //blocked in both directions
+                if ( pushableComp.vertMovementStopped == 2 && pusherVel.y > 0 ) return true; //blocked down.
+                if ( pushableComp.vertMovementStopped == 1 && pusherVel.y < 0 ) return true; //blocked up.
             }
 
             return false;
 
         }
 
+        //Generates a random ID for when you're creating a new entity.
+        //Makes sure there are no duplicate ID's added.
         public int GenerateRandId() {
             int id = rand.Next( Int32.MinValue, Int32.MaxValue );
             while ( GlobalVars.removedStartingEntities.ContainsKey( id ) || GlobalVars.nonGroundEntities.ContainsKey( id ) || GlobalVars.groundEntities.ContainsKey( id ) ) {

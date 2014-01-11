@@ -169,21 +169,43 @@ namespace RunningGame.Systems {
                 PushableComponent pushComp = ( PushableComponent )posComp.myEntity.getComponent( GlobalVars.PUSHABLE_COMPONENT_NAME );
                 if ( movementBlocked ) {
                     if(xVal < posComp.x) { //left
-                        if ( pushComp.movementStopped == 0 ) pushComp.movementStopped = 1;
-                        else if ( pushComp.movementStopped == 2 ) pushComp.movementStopped = 3;
+                        if ( pushComp.horizMovementStopped == 0 ) pushComp.horizMovementStopped = 1;
+                        else if ( pushComp.horizMovementStopped == 2 ) pushComp.horizMovementStopped = 3;
                     }
                     if ( xVal > posComp.x ) { //right
-                        if ( pushComp.movementStopped == 0 ) pushComp.movementStopped = 2;
-                        else if ( pushComp.movementStopped == 1 ) pushComp.movementStopped = 3;
+                        if ( pushComp.horizMovementStopped == 0 ) pushComp.horizMovementStopped = 2;
+                        else if ( pushComp.horizMovementStopped == 1 ) pushComp.horizMovementStopped = 3;
                     }
                 } else {
                     if ( xVal < posComp.x ) {
-                        if ( pushComp.movementStopped == 3 ) pushComp.movementStopped = 2;
-                        else if ( pushComp.movementStopped == 1 ) pushComp.movementStopped = 0;
+                        if ( pushComp.horizMovementStopped == 3 ) pushComp.horizMovementStopped = 2;
+                        else if ( pushComp.horizMovementStopped == 1 ) pushComp.horizMovementStopped = 0;
                     }
                     if ( xVal > posComp.x ) {
-                        if ( pushComp.movementStopped == 3 ) pushComp.movementStopped = 1;
-                        else if ( pushComp.movementStopped == 2 ) pushComp.movementStopped =0;
+                        if ( pushComp.horizMovementStopped == 3 ) pushComp.horizMovementStopped = 1;
+                        else if ( pushComp.horizMovementStopped == 2 ) pushComp.horizMovementStopped =0;
+                    }
+                }
+            }
+            if ( !isX && posComp.myEntity.hasComponent( GlobalVars.PUSHABLE_COMPONENT_NAME ) ) {
+                PushableComponent pushComp = ( PushableComponent )posComp.myEntity.getComponent( GlobalVars.PUSHABLE_COMPONENT_NAME );
+                if ( movementBlocked ) {
+                    if ( yVal < posComp.y ) { //up
+                        if ( pushComp.vertMovementStopped == 0 ) pushComp.vertMovementStopped = 1;
+                        else if ( pushComp.vertMovementStopped == 2 ) pushComp.vertMovementStopped = 3;
+                    }
+                    if ( yVal > posComp.y ) { //right
+                        if ( pushComp.vertMovementStopped == 0 ) pushComp.vertMovementStopped = 2;
+                        else if ( pushComp.vertMovementStopped == 1 ) pushComp.vertMovementStopped = 3;
+                    }
+                } else {
+                    if ( yVal < posComp.y ) {
+                        if ( pushComp.vertMovementStopped == 3 ) pushComp.vertMovementStopped = 2;
+                        else if ( pushComp.vertMovementStopped == 1 ) pushComp.vertMovementStopped = 0;
+                    }
+                    if ( yVal > posComp.y ) {
+                        if ( pushComp.vertMovementStopped == 3 ) pushComp.vertMovementStopped = 1;
+                        else if ( pushComp.vertMovementStopped == 2 ) pushComp.vertMovementStopped = 0;
                     }
                 }
             }

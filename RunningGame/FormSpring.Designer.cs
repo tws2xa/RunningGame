@@ -52,7 +52,6 @@
             this.btnBegin.TabIndex = 0;
             this.btnBegin.Text = "Debug Begin!";
             this.btnBegin.UseVisualStyleBackColor = true;
-            this.btnBegin.Visible = false;
             this.btnBegin.Click += new System.EventHandler(this.btnBegin_Click);
             // 
             // lblLoading

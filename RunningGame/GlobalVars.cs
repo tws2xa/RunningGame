@@ -131,6 +131,7 @@ namespace RunningGame {
         public static int doubleJumpNumAirJumps = 1;
         public static int normNumAirJumps = 0;
         public static int numAirJumps = 0;
+        public static float PLAYER_HORIZ_MOVE_SPEED = 150.0f;
 
 
         //Settings

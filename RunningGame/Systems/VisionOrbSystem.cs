@@ -35,7 +35,7 @@ namespace RunningGame.Systems {
         //Border
         bool doBorder = true;
         SolidBrush borderBrush = (SolidBrush)Brushes.White;
-        int mainBorderSize = 25;
+        int mainBorderSize = 50;
 
         //Player Window
         bool doPlayerWindow = true;

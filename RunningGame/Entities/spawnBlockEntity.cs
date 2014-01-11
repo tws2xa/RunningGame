@@ -9,8 +9,8 @@ using System.Collections;
 
 namespace RunningGame.Entities {
     class spawnBlockEntity : Entity {
-        float defaultWidth = 18;
-        float defaultHeight = 18;
+        float defaultWidth = 20;
+        float defaultHeight = 20;
 
         //string blockAnimationName = "blockAnimation";
 
@@ -50,8 +50,12 @@ namespace RunningGame.Entities {
             //Off side of screen
             addComponent( new ScreenEdgeComponent( 3, 3, 3, 3 ), true );
 
-            //Pushabel
-            addComponent( new PushableComponent(), true );
+            /*
+            //Pushable
+            PushableComponent pushComp = (PushableComponent)addComponent( new PushableComponent(), true );
+            pushComp.horiz = false;
+            pushComp.vert = false;
+            */
         }
 
         public override void revertToStartingState() {

@@ -20,7 +20,7 @@ namespace RunningGame.Components {
 
             this.player = (Player)player;
             jumpStrength = -150f;
-            playerHorizMoveSpeed = 150f;
+            playerHorizMoveSpeed = GlobalVars.PLAYER_HORIZ_MOVE_SPEED;
             //numAirJumps = GlobalVars.normNumAirJumps; //number of jumps possible in the air (numAirJumps = 1 means you can double jump)
             passedAirjumps = 2;
         }

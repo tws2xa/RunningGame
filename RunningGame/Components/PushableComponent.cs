@@ -12,7 +12,10 @@ namespace RunningGame.Components {
 
         public bool wasPushedLastFrame = false;
         public bool dontSlow = false;
-        public int movementStopped = 0; //0 = stopped in neither direction, 1 = left, 2 = right, 3 = both
+        public bool horiz = true;
+        public bool vert = true;
+        public int horizMovementStopped = 0; //0 = stopped in neither direction, 1 = left, 2 = right, 3 = both
+        public int vertMovementStopped = 0; //0 = stopped in neither direction, 1 = up, 2 = down, 3 = both
 
         public PushableComponent() {
             

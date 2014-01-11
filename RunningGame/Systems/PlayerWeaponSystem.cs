@@ -85,8 +85,8 @@ namespace RunningGame.Systems {
             //else if (level.sysManager.spSystem.speedyActive && xVel < 0) xVel -= GlobalVars.SPEEDY_SPEED;
             Player player = (Player)level.getPlayer();
             VelocityComponent playerVelComp = (VelocityComponent)player.getComponent(GlobalVars.VELOCITY_COMPONENT_NAME);
-            xVel += playerVelComp.x;
-            yVel += playerVelComp.y;
+            if(Math.Abs(xVel) > GlobalVars.PLAYER_HORIZ_MOVE_SPEED) xVel += playerVelComp.x;
+            if(Math.Abs(yVel) > GlobalVars.STANDARD_GRAVITY) yVel += playerVelComp.y;
 
             //Make the bullet
             BulletEntity bullet = new BulletEntity(level, posComp.x, posComp.y, (float)xVel, (float)yVel);
