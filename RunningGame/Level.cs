@@ -382,6 +382,8 @@ namespace RunningGame {
         public virtual void addEntity( Entity e ) {
             addEntity( e.randId, e );
         }
+
+        //Add an entity to the list of entities. Takes in the entity and it's ID
         public virtual void addEntity( int id, Entity e ) {
             if ( !sysManagerInit ) {
                 sysManager = new SystemManager( this );
@@ -404,17 +406,23 @@ namespace RunningGame {
             sysManager.entityAdded( e );
 
         }
+
+        //Removes an entity from the level.
         public virtual bool removeEntity( Entity e ) {
             if ( e == null ) {
                 Console.WriteLine( "You tryin' ta remove a null entity? Whachu doin' dat fo'?" );
                 return false;
             }
+            //If the entity has a collider - notify the collision system of the change and remove it from locGrid
             if ( e.hasComponent( GlobalVars.COLLIDER_COMPONENT_NAME ) ) {
                 getCollisionSystem().colliderRemoved( e );
             }
 
+            //If it's ground, remove it from the ground list. Otherwise remove it from the other list
             if ( e is BasicGround ) {
                 if ( GlobalVars.groundEntities.ContainsKey( e.randId ) ) {
+                    //If it's a starting entity, add it to the list of removed starting entities
+                    //So that it can be restored if the level is reset
                     if ( e.isStartingEntity )
                         GlobalVars.removedStartingEntities.Add( e.randId, e );
                     GlobalVars.groundEntities.Remove( e.randId );
@@ -422,6 +430,8 @@ namespace RunningGame {
                     return true;
                 }
             } else {
+                //If it's a starting entity, add it to the list of removed starting entities
+                //So that it can be restored if the level is reset
                 if ( GlobalVars.nonGroundEntities.ContainsKey( e.randId ) ) {
                     if ( e.isStartingEntity )
                         GlobalVars.removedStartingEntities.Add( e.randId, e );
@@ -433,6 +443,7 @@ namespace RunningGame {
             return false; //Not found
         }
 
+        //This creates the background entity for the level.
         public BackgroundEntity getMyBackgroundEntity() {
 
             string fullImageAddress = "RunningGame.Resources.Artwork.Background.Bkg11.png";
@@ -548,7 +559,8 @@ namespace RunningGame {
 
         }
 
-
+        //Returns the background image that belongs to the level
+        //Uses the file naming convention RunningGame.Resources.Artwork.Background.Bkg[World#][Level#]
         public Bitmap getBkgImg() {
             string defaultAddress = "RunningGame.Resources.Artwork.Background.Bkg11.png";
 
@@ -592,6 +604,7 @@ namespace RunningGame {
             return null;
         }
 
+        //Close the level.
         public void Close() {
             removeAllEntities();
             GlobalVars.removedStartingEntities.Clear();
