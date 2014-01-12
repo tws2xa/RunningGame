@@ -635,9 +635,7 @@ namespace RunningGame {
             Entity spawnBlock = null;
             Entity other = null;
 
-            if ( e1 is spawnBlockEntity ) { spawnBlock = e1; other = e2; }
-            else if ( e2 is spawnBlockEntity ) { spawnBlock = e2; other = e1; }
-            else { Console.WriteLine( "Spawn Enemy Collision with no Spawn!" ); return false; }
+            if ( e1 is spawnBlockEntity ) { spawnBlock = e1; other = e2; } else if ( e2 is spawnBlockEntity ) { spawnBlock = e2; other = e1; } else { Console.WriteLine( "Spawn Enemy Collision with no Spawn!" ); return false; }
 
             SpawnBlockComponent spComp = ( SpawnBlockComponent )spawnBlock.getComponent( GlobalVars.SPAWN_BLOCK_COMPONENT_NAME );
 
@@ -763,11 +761,11 @@ namespace RunningGame {
         //Actually jk doesn't even work with player as the pusher.
         //INCOMPLETE
         public bool pushCollision( Entity e1, Entity e2 ) {
-            
+
             Entity pusher = null;
             Entity pushee = null; //Pushee is now a word.
 
-            if(e1 is Player) {
+            if ( e1 is Player ) {
                 pusher = e1;
                 pushee = e2;
             } else if ( e2 is Player ) {
@@ -803,22 +801,19 @@ namespace RunningGame {
 
             //Check the direction is pushable. If not, simple stop.
             int pusherSide = -1; //0 = right, 1 = above, 2 = left, 3 = below
-            if ( ((pusherPos.y - pusherPos.height / 2) - (pusheePos.y + pusheePos.height / 2)) > amtVertOverlapStillAbove ) {
+            if ( ( ( pusherPos.y - pusherPos.height / 2 ) - ( pusheePos.y + pusheePos.height / 2 ) ) > amtVertOverlapStillAbove ) {
                 pusherSide = 3;
-                if(!pushableComp.vert)
-                    return simpleStopCollision(e1, e2);
-            }
-            else if ( ( ( pusheePos.y - pusheePos.height / 2 ) - ( pusherPos.y + pusherPos.height / 2 ) ) > amtVertOverlapStillAbove ) {
-                pusherSide = 1;
-                if(!pushableComp.vert)
+                if ( !pushableComp.vert )
                     return simpleStopCollision( e1, e2 );
-            }
-            else if ( ( ( pusherPos.x - pusherPos.width / 2 ) - ( pusheePos.x + pusheePos.width / 2 ) ) > amtHorizOverlapStillAbove ) {
+            } else if ( ( ( pusheePos.y - pusheePos.height / 2 ) - ( pusherPos.y + pusherPos.height / 2 ) ) > amtVertOverlapStillAbove ) {
+                pusherSide = 1;
+                if ( !pushableComp.vert )
+                    return simpleStopCollision( e1, e2 );
+            } else if ( ( ( pusherPos.x - pusherPos.width / 2 ) - ( pusheePos.x + pusheePos.width / 2 ) ) > amtHorizOverlapStillAbove ) {
                 pusherSide = 0;
                 if ( !pushableComp.horiz )
                     return simpleStopCollision( e1, e2 );
-            }
-            else if ( ( ( pusheePos.x - pusheePos.width / 2 ) - ( pusherPos.x + pusherPos.width / 2 ) ) > amtHorizOverlapStillAbove ) {
+            } else if ( ( ( pusheePos.x - pusheePos.width / 2 ) - ( pusherPos.x + pusherPos.width / 2 ) ) > amtHorizOverlapStillAbove ) {
                 pusherSide = 2;
                 if ( !pushableComp.horiz )
                     return simpleStopCollision( e1, e2 );
@@ -833,7 +828,7 @@ namespace RunningGame {
                 if ( pusheeVel.x > pusherVel.x ) {
                     pusheeVel.x = pusherVel.x;
                 }
-            } else if ( pusherSide == 2 && pusherVel.x > 0) {
+            } else if ( pusherSide == 2 && pusherVel.x > 0 ) {
                 if ( !pushableComp.horiz ) return simpleStopCollision( e1, e2 );
                 if ( pusheeVel.x < pusherVel.x ) {
                     pusheeVel.x = pusherVel.x;
@@ -843,7 +838,7 @@ namespace RunningGame {
                 if ( pusheeVel.y > pusherVel.y ) {
                     pusheeVel.y = pusherVel.y;
                 }
-            } else if ( pusherSide == 3 && pusherVel.y > 0) {
+            } else if ( pusherSide == 3 && pusherVel.y > 0 ) {
                 if ( !pushableComp.vert ) return simpleStopCollision( e1, e2 );
                 if ( pusheeVel.y < pusherVel.y ) {
                     pusheeVel.y = pusherVel.y;
@@ -853,7 +848,7 @@ namespace RunningGame {
             pushableComp.wasPushedLastFrame = true;
 
             //If pushee is stopped (i.e. it can't move for some reason - stop the pusher as well)
-            if ( (pusherSide == 0 || pusherSide == 2) && pushableComp.horizMovementStopped != 0 ) {
+            if ( ( pusherSide == 0 || pusherSide == 2 ) && pushableComp.horizMovementStopped != 0 ) {
                 if ( pushableComp.horizMovementStopped == 3 ) return true; //blocked in both directions
                 if ( pushableComp.horizMovementStopped == 2 && pusherVel.x > 0 ) return true; //blocked right.
                 if ( pushableComp.horizMovementStopped == 1 && pusherVel.x < 0 ) return true; //blocked left.

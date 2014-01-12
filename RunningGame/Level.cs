@@ -25,8 +25,8 @@ namespace RunningGame {
     [Serializable()]
     public class Level {
 
-        Random rand; //for creating entitiy ids
-        //Dictionary<int, Entity> entities; //all entities in the level
+        Random rand; //for creating entitiy random id's
+
         public Graphics g { get; set; }
         public float cameraWidth { get; set; }
         public float cameraHeight { get; set; }
@@ -41,33 +41,35 @@ namespace RunningGame {
 
         public float fps;
 
+        //Used for calculating fps and deltaTime
         long prevTicks = DateTime.Now.Ticks;
         long currentTicks;
         long pastTicks;
 
-        public SystemManager sysManager; //Controls all systems
-        bool sysManagerInit = false;
+        public SystemManager sysManager; //Manages and Controls all systems
+        bool sysManagerInit = false; //Has the systemManager been initialized yet?
 
-        //Timer for the collision that ends the level - how long a break/fade is there before it cuts to next level?
-        float endLvlTime = 0.5f;
+        //Timer for ending the level - how long a break/fade is there before it cuts to next level?
+        float endLvlTime = 0.5f; //Typical length for setting the timer to when ending the level. In seconds.
         float endLvlTimer = -1.0f; //Timer. Do not modify.
+
 
         public bool levelFullyLoaded = false;
 
         public Level() { }
 
-        public Level(float windowWidth, float windowHeight, string levelFile, int worldNum, int levelNum, bool isPaintFile, Graphics g) {
+        public Level( float windowWidth, float windowHeight, string levelFile, int worldNum, int levelNum, bool isPaintFile, Graphics g ) {
 
             this.worldNum = worldNum;
             this.levelNum = levelNum;
 
-            if (isPaintFile)
-                initializePaint(windowWidth, windowHeight, levelFile, g);
+            if ( isPaintFile )
+                initializePaint( windowWidth, windowHeight, levelFile, g );
             //else
             //initializeNotPaint(windowWidth, windowHeight, levelFile, g);
         }
 
-        /*
+        /* Used for level editor. Doesn't work.
         public void initializeNotPaint(float windowWidth, float windowHeight, string levelFile, Graphics g)
         {
             BinaryFormatter bf = new BinaryFormatter();
@@ -127,51 +129,49 @@ namespace RunningGame {
 
         }
         */
-        public void CopyFields(object oldObj, object newObj) {
-            foreach (FieldInfo oldInfo in oldObj.GetType().GetFields(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance)) {
-                foreach (FieldInfo newInfo in newObj.GetType().GetFields(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance)) {
-                    if (oldInfo.Name == newInfo.Name) {
-                        newInfo.SetValue(newObj, oldInfo.GetValue(oldObj));
+
+        //Also used for level editor. Doesn't work.
+        public void CopyFields( object oldObj, object newObj ) {
+            foreach ( FieldInfo oldInfo in oldObj.GetType().GetFields( BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance ) ) {
+                foreach ( FieldInfo newInfo in newObj.GetType().GetFields( BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance ) ) {
+                    if ( oldInfo.Name == newInfo.Name ) {
+                        newInfo.SetValue( newObj, oldInfo.GetValue( oldObj ) );
                     }
                 }
             }
         }
 
-        public void initializePaint(float windowWidth, float windowHeight, string levelFile, Graphics g) {
+        //Loads a level from a paint file.
+        public void initializePaint( float windowWidth, float windowHeight, string levelFile, Graphics g ) {
 
             rand = new Random();
             this.g = g;
 
 
             System.Reflection.Assembly myAssembly = System.Reflection.Assembly.GetExecutingAssembly();
-            System.IO.Stream myStream = myAssembly.GetManifestResourceStream(levelFile);
-            Bitmap lvlImg = new Bitmap(myStream);
+            System.IO.Stream myStream = myAssembly.GetManifestResourceStream( levelFile );
+            Bitmap lvlImg = new Bitmap( myStream );
 
             cameraWidth = windowWidth;
             cameraHeight = windowHeight;
             this.levelWidth = lvlImg.Width * GlobalVars.LEVEL_READER_TILE_WIDTH;
             this.levelHeight = lvlImg.Height * GlobalVars.LEVEL_READER_TILE_HEIGHT;
 
-            //Entities
-            //entities = new Dictionary<int, Entity>();
-
-            if (!sysManagerInit) sysManager = new SystemManager(this);
+            if ( !sysManagerInit ) sysManager = new SystemManager( this );
 
             sysManagerInit = true;
 
             sysManager.ClearSystems();
 
-            LevelImageReader lvlImgReader = new LevelImageReader(this, lvlImg);
-            lvlImgReader.readImage(this);
-
-            //levelBeginState = new Dictionary<int, Entity>(entities); //Copy the beginning game state
+            LevelImageReader lvlImgReader = new LevelImageReader( this, lvlImg );
+            lvlImgReader.readImage( this );
 
             prevTicks = DateTime.Now.Ticks;
 
             levelFullyLoaded = true;
 
             Entity bkgEnt = getMyBackgroundEntity();
-            addEntity(bkgEnt.randId, bkgEnt);
+            addEntity( bkgEnt.randId, bkgEnt );
 
 
             //Set the player powerup staring values
@@ -180,52 +180,53 @@ namespace RunningGame {
             resetLevel();
         }
 
-
+        //This looks at the world and level numbers to figure out which powerups
+        //Should and should not be enabled at the start of the level.
         public void setPowerups() {
-            if (worldNum > 1 || (worldNum == 1 && levelNum > 1)) {
-                sysManager.spSystem.unlockPowerup(1);
-                if (worldNum > 2 || (worldNum == 2 && levelNum > 1)) {
-                    sysManager.spSystem.unlockPowerup(2);
-                    if (worldNum > 3 || (worldNum == 3 && levelNum > 1)) {
-                        sysManager.spSystem.unlockPowerup(3);
-                        if (worldNum > 4 || (worldNum == 4 && levelNum > 1)) {
-                            sysManager.spSystem.unlockPowerup(4);
-                            if (worldNum > 5 || (worldNum == 5 && levelNum > 1)) {
-                                sysManager.spSystem.unlockPowerup(5);
-                                if (worldNum > 6 || (worldNum == 6 && levelNum > 1)) {
-                                    sysManager.spSystem.unlockPowerup(6);
+            if ( worldNum > 1 || ( worldNum == 1 && levelNum > 1 ) ) {
+                sysManager.spSystem.unlockPowerup( 1 );
+                if ( worldNum > 2 || ( worldNum == 2 && levelNum > 1 ) ) {
+                    sysManager.spSystem.unlockPowerup( 2 );
+                    if ( worldNum > 3 || ( worldNum == 3 && levelNum > 1 ) ) {
+                        sysManager.spSystem.unlockPowerup( 3 );
+                        if ( worldNum > 4 || ( worldNum == 4 && levelNum > 1 ) ) {
+                            sysManager.spSystem.unlockPowerup( 4 );
+                            if ( worldNum > 5 || ( worldNum == 5 && levelNum > 1 ) ) {
+                                sysManager.spSystem.unlockPowerup( 5 );
+                                if ( worldNum > 6 || ( worldNum == 6 && levelNum > 1 ) ) {
+                                    sysManager.spSystem.unlockPowerup( 6 );
                                 } else {
-                                    sysManager.spSystem.lockPowerup(6);
+                                    sysManager.spSystem.lockPowerup( 6 );
                                 }
                             } else {
-                                sysManager.spSystem.lockPowerup(5);
-                                sysManager.spSystem.lockPowerup(6);
+                                sysManager.spSystem.lockPowerup( 5 );
+                                sysManager.spSystem.lockPowerup( 6 );
                             }
                         } else {
-                            sysManager.spSystem.lockPowerup(4);
-                            sysManager.spSystem.lockPowerup(5);
-                            sysManager.spSystem.lockPowerup(6);
+                            sysManager.spSystem.lockPowerup( 4 );
+                            sysManager.spSystem.lockPowerup( 5 );
+                            sysManager.spSystem.lockPowerup( 6 );
                         }
                     } else {
-                        sysManager.spSystem.lockPowerup(3);
-                        sysManager.spSystem.lockPowerup(4);
-                        sysManager.spSystem.lockPowerup(5);
-                        sysManager.spSystem.lockPowerup(6);
+                        sysManager.spSystem.lockPowerup( 3 );
+                        sysManager.spSystem.lockPowerup( 4 );
+                        sysManager.spSystem.lockPowerup( 5 );
+                        sysManager.spSystem.lockPowerup( 6 );
                     }
                 } else {
-                    sysManager.spSystem.lockPowerup(2);
-                    sysManager.spSystem.lockPowerup(3);
-                    sysManager.spSystem.lockPowerup(4);
-                    sysManager.spSystem.lockPowerup(5);
-                    sysManager.spSystem.lockPowerup(6);
+                    sysManager.spSystem.lockPowerup( 2 );
+                    sysManager.spSystem.lockPowerup( 3 );
+                    sysManager.spSystem.lockPowerup( 4 );
+                    sysManager.spSystem.lockPowerup( 5 );
+                    sysManager.spSystem.lockPowerup( 6 );
                 }
             } else {
-                sysManager.spSystem.lockPowerup(1);
-                sysManager.spSystem.lockPowerup(2);
-                sysManager.spSystem.lockPowerup(3);
-                sysManager.spSystem.lockPowerup(4);
-                sysManager.spSystem.lockPowerup(5);
-                sysManager.spSystem.lockPowerup(6);
+                sysManager.spSystem.lockPowerup( 1 );
+                sysManager.spSystem.lockPowerup( 2 );
+                sysManager.spSystem.lockPowerup( 3 );
+                sysManager.spSystem.lockPowerup( 4 );
+                sysManager.spSystem.lockPowerup( 5 );
+                sysManager.spSystem.lockPowerup( 6 );
             }
 
         }
@@ -239,49 +240,50 @@ namespace RunningGame {
             pastTicks = currentTicks - prevTicks;
             prevTicks = currentTicks;
 
-            float deltaTime = (float)(TimeSpan.FromTicks(pastTicks).TotalSeconds);
-            fps = (1 / deltaTime);
+            float deltaTime = ( float )( TimeSpan.FromTicks( pastTicks ).TotalSeconds );
+            fps = ( 1 / deltaTime );
 
-            if (levelFullyLoaded && !paused) {
+            if ( levelFullyLoaded && !paused ) {
 
                 //If the timer has been started
-                if (endLvlTimer >= 0) {
+                if ( endLvlTimer >= 0 ) {
                     //Decrement it by the time that has passed
                     endLvlTimer -= deltaTime;
 
                     //If it's less than 0, tell the level to end.
-                    if (endLvlTimer <= 0) {
+                    if ( endLvlTimer <= 0 ) {
                         endLvlTimer = -1;
                         shouldEndLevel = true;
                     }
                 }
 
-                sysManager.Update(deltaTime); //Update systems
+                sysManager.Update( deltaTime ); //Update systems
             }
         }
 
-        //Begin an end level routine
+        //Begin an end level routine with default time
         public void beginEndLevel() {
-            if (endLvlTimer < 0) {
+            if ( endLvlTimer < 0 ) {
                 //Get the draw system, call the white clash, and start the end level timer.
                 DrawSystem drawSys = sysManager.drawSystem;
-                drawSys.setFlash(System.Drawing.Color.WhiteSmoke, endLvlTime * 2);
+                drawSys.setFlash( System.Drawing.Color.WhiteSmoke, endLvlTime * 2 );
                 endLvlTimer = endLvlTime;
             }
         }
-        public void beginEndLevel(float time) {
-            if (endLvlTimer < 0) {
+        //Begin an end level routine with given time delay
+        public void beginEndLevel( float time ) {
+            if ( endLvlTimer < 0 ) {
                 //Get the draw system, call the white clash, and start the end level timer.
                 DrawSystem drawSys = sysManager.drawSystem;
-                drawSys.setFlash(System.Drawing.Color.WhiteSmoke, time * 2);
+                drawSys.setFlash( System.Drawing.Color.WhiteSmoke, time * 2 );
                 endLvlTimer = time;
             }
         }
 
 
-        //When an entity is given a collider - notify collider system
-        public virtual void colliderAdded(Entity e) {
-            sysManager.colliderAdded(e);
+        //When an entity is given a collider - notify collider system so it can update the location grid
+        public virtual void colliderAdded( Entity e ) {
+            sysManager.colliderAdded( e );
         }
 
 
@@ -289,137 +291,142 @@ namespace RunningGame {
         public virtual void resetLevel() {
             paused = true; // Pause the game briefly
 
-            if (sysManager.visSystem.orbActive) {
+            //Deactivate the vision orb if it's active
+            if ( sysManager.visSystem.orbActive ) {
                 sysManager.visSystem.destroyVisionOrb();
             }
 
-            if (sysManager.drawSystem.getMainView().hasBorder) sysManager.drawSystem.getMainView().hasBorder = false;
+            //Remove border
+            if ( sysManager.drawSystem.getMainView().hasBorder ) sysManager.drawSystem.getMainView().hasBorder = false;
 
+            //Remove non-starting entities, and restore starting entities to their initial state
             Entity[] ents = GlobalVars.nonGroundEntities.Values.ToArray();
-            for (int i = 0; i < ents.Length; i++) {
-                if (ents[i].isStartingEntity)
+            for ( int i = 0; i < ents.Length; i++ ) {
+                if ( ents[i].isStartingEntity )
                     ents[i].revertToStartingState();
                 else {
-                    removeEntity(ents[i]);
+                    removeEntity( ents[i] );
                 }
             }
+            //Do the same for ground
             Entity[] grndents = GlobalVars.groundEntities.Values.ToArray();
-            for (int i = 0; i < grndents.Length; i++) {
-                if (grndents[i].isStartingEntity)
+            for ( int i = 0; i < grndents.Length; i++ ) {
+                if ( grndents[i].isStartingEntity )
                     grndents[i].revertToStartingState();
                 else {
-                    removeEntity(grndents[i]);
+                    removeEntity( grndents[i] );
                 }
             }
-            foreach (Entity e in GlobalVars.removedStartingEntities.Values) {
+            foreach ( Entity e in GlobalVars.removedStartingEntities.Values ) {
                 e.revertToStartingState();
-                addEntity(e.randId, e);
+                addEntity( e.randId, e );
             }
             GlobalVars.removedStartingEntities.Clear();
 
-            setPowerups();
+            setPowerups(); //Reset the powerups
 
             paused = false; //Restart the game  
 
         }
 
+        //Get rid of all the entities in the level
         public virtual void removeAllEntities() {
 
-            while (GlobalVars.nonGroundEntities.Values.Count > 0) {
+            while ( GlobalVars.nonGroundEntities.Values.Count > 0 ) {
                 Entity e = GlobalVars.nonGroundEntities.Values.ToArray()[0];
-                removeEntity(e);
+                removeEntity( e );
             }
 
             GlobalVars.nonGroundEntities.Clear();
 
-            while (GlobalVars.groundEntities.Values.Count > 0) {
+            while ( GlobalVars.groundEntities.Values.Count > 0 ) {
                 Entity e = GlobalVars.groundEntities.Values.ToArray()[0];
-                removeEntity(e);
+                removeEntity( e );
             }
 
             GlobalVars.groundEntities.Clear();
         }
 
-        //Input
-        public virtual void KeyDown(KeyEventArgs e) {
-            sysManager.KeyDown(e);
+        //Input (Just passed on to the system manager.)
+        public virtual void KeyDown( KeyEventArgs e ) {
+            sysManager.KeyDown( e );
         }
-        public virtual void KeyUp(KeyEventArgs e) {
-            sysManager.KeyUp(e);
+        public virtual void KeyUp( KeyEventArgs e ) {
+            sysManager.KeyUp( e );
         }
-        public virtual void KeyPressed(KeyPressEventArgs e) {
-            sysManager.KeyPressed(e);
+        public virtual void KeyPressed( KeyPressEventArgs e ) {
+            sysManager.KeyPressed( e );
         }
-        public virtual void MouseClick(MouseEventArgs e) {
+        public virtual void MouseClick( MouseEventArgs e ) {
             //getCollisionSystem().MouseClick(e.X, e.Y);
-            sysManager.MouseClick(e);
+            sysManager.MouseClick( e );
         }
-        public virtual void MouseMoved(MouseEventArgs e) {
-            sysManager.MouseMoved(e);
+        public virtual void MouseMoved( MouseEventArgs e ) {
+            sysManager.MouseMoved( e );
         }
 
 
 
         //Draw everything!
-        public virtual void Draw(Graphics g) {
+        public virtual void Draw( Graphics g ) {
 
-            sysManager.Draw(g);
+            sysManager.Draw( g );
             //this part is the check for the flash
             //if flashtime is greater than 0, then it means that flash needs to be done
 
             g.DrawString( GlobalVars.preciseCollisionChecking.ToString(), SystemFonts.DefaultFont, Brushes.Black, new RectangleF( 10, 30, cameraWidth - 20, cameraHeight - 20 ) );
-            g.DrawString(fps.ToString("F") + "", SystemFonts.DefaultFont, Brushes.Black, new RectangleF(10, 10, cameraWidth - 20, cameraHeight - 20));
+            g.DrawString( fps.ToString( "F" ) + "", SystemFonts.DefaultFont, Brushes.Black, new RectangleF( 10, 10, cameraWidth - 20, cameraHeight - 20 ) );
         }
 
         //Add an entity to the list of entities
-        public virtual void addEntity(Entity e) {
-            addEntity(e.randId, e);
+        public virtual void addEntity( Entity e ) {
+            addEntity( e.randId, e );
         }
-        public virtual void addEntity(int id, Entity e) {
-            if (!sysManagerInit) {
-                sysManager = new SystemManager(this);
+        public virtual void addEntity( int id, Entity e ) {
+            if ( !sysManagerInit ) {
+                sysManager = new SystemManager( this );
                 sysManagerInit = true;
             }
 
-            if (e is BasicGround) {
-                if (GlobalVars.groundEntities.ContainsKey(id)) {
-                    GlobalVars.groundEntities.Remove(id);
+            if ( e is BasicGround ) {
+                if ( GlobalVars.groundEntities.ContainsKey( id ) ) {
+                    GlobalVars.groundEntities.Remove( id );
                 }
-                GlobalVars.groundEntities.Add(id, e);
-                colliderAdded(e);
+                GlobalVars.groundEntities.Add( id, e );
+                colliderAdded( e );
             } else {
-                if (GlobalVars.nonGroundEntities.ContainsKey(id)) GlobalVars.nonGroundEntities.Remove(id);
-                GlobalVars.nonGroundEntities.Add(id, e);
-                if (e.hasComponent(GlobalVars.COLLIDER_COMPONENT_NAME))
-                    colliderAdded(e);
+                if ( GlobalVars.nonGroundEntities.ContainsKey( id ) ) GlobalVars.nonGroundEntities.Remove( id );
+                GlobalVars.nonGroundEntities.Add( id, e );
+                if ( e.hasComponent( GlobalVars.COLLIDER_COMPONENT_NAME ) )
+                    colliderAdded( e );
             }
 
-            sysManager.entityAdded(e);
+            sysManager.entityAdded( e );
 
         }
-        public virtual bool removeEntity(Entity e) {
-            if (e == null) {
-                Console.WriteLine("You tryin' ta remove a null entity? Whachu doin' dat fo'?");
+        public virtual bool removeEntity( Entity e ) {
+            if ( e == null ) {
+                Console.WriteLine( "You tryin' ta remove a null entity? Whachu doin' dat fo'?" );
                 return false;
             }
-            if (e.hasComponent(GlobalVars.COLLIDER_COMPONENT_NAME)) {
-                getCollisionSystem().colliderRemoved(e);
+            if ( e.hasComponent( GlobalVars.COLLIDER_COMPONENT_NAME ) ) {
+                getCollisionSystem().colliderRemoved( e );
             }
 
-            if (e is BasicGround) {
-                if (GlobalVars.groundEntities.ContainsKey(e.randId)) {
-                    if (e.isStartingEntity)
-                        GlobalVars.removedStartingEntities.Add(e.randId, e);
-                    GlobalVars.groundEntities.Remove(e.randId);
-                    sysManager.entityRemoved(e);
+            if ( e is BasicGround ) {
+                if ( GlobalVars.groundEntities.ContainsKey( e.randId ) ) {
+                    if ( e.isStartingEntity )
+                        GlobalVars.removedStartingEntities.Add( e.randId, e );
+                    GlobalVars.groundEntities.Remove( e.randId );
+                    sysManager.entityRemoved( e );
                     return true;
                 }
             } else {
-                if (GlobalVars.nonGroundEntities.ContainsKey(e.randId)) {
-                    if (e.isStartingEntity)
-                        GlobalVars.removedStartingEntities.Add(e.randId, e);
-                    GlobalVars.nonGroundEntities.Remove(e.randId);
-                    sysManager.entityRemoved(e);
+                if ( GlobalVars.nonGroundEntities.ContainsKey( e.randId ) ) {
+                    if ( e.isStartingEntity )
+                        GlobalVars.removedStartingEntities.Add( e.randId, e );
+                    GlobalVars.nonGroundEntities.Remove( e.randId );
+                    sysManager.entityRemoved( e );
                     return true;
                 }
             }
@@ -437,19 +444,19 @@ namespace RunningGame {
 
             float scaleFactor = 1.1f;
 
-            while (newWidth / scaleFactor > levelWidth || newHeight / scaleFactor > levelHeight) {
+            while ( newWidth / scaleFactor > levelWidth || newHeight / scaleFactor > levelHeight ) {
                 newWidth /= scaleFactor;
                 newHeight /= scaleFactor;
             }
 
-            while (newWidth < levelWidth || newHeight < levelHeight) {
+            while ( newWidth < levelWidth || newHeight < levelHeight ) {
                 newWidth *= scaleFactor;
                 newHeight *= scaleFactor;
             }
 
-            BackgroundEntity bkgEnt = new BackgroundEntity(this, 0, 0, newWidth, newHeight);
-            DrawComponent drawComp = (DrawComponent)bkgEnt.getComponent(GlobalVars.DRAW_COMPONENT_NAME);
-            PositionComponent posComp = (PositionComponent)bkgEnt.getComponent(GlobalVars.POSITION_COMPONENT_NAME);
+            BackgroundEntity bkgEnt = new BackgroundEntity( this, 0, 0, newWidth, newHeight );
+            DrawComponent drawComp = ( DrawComponent )bkgEnt.getComponent( GlobalVars.DRAW_COMPONENT_NAME );
+            PositionComponent posComp = ( PositionComponent )bkgEnt.getComponent( GlobalVars.POSITION_COMPONENT_NAME );
 
 
             /*
@@ -532,8 +539,8 @@ namespace RunningGame {
             }
             */
 
-            drawComp.addSprite(imageStub, fullImageAddress, "MainBkg");
-            drawComp.setSprite("MainBkg");
+            drawComp.addSprite( imageStub, fullImageAddress, "MainBkg" );
+            drawComp.setSprite( "MainBkg" );
 
             bkgEnt.isStartingEntity = true;
 
@@ -546,14 +553,14 @@ namespace RunningGame {
             string defaultAddress = "RunningGame.Resources.Artwork.Background.Bkg11.png";
 
             System.Reflection.Assembly myAssembly = System.Reflection.Assembly.GetExecutingAssembly();
-            string addr = ("RunningGame.Resources.Artwork.Background.Bkg" + worldNum + "" + levelNum + ".png");
-            System.IO.Stream myStream = myAssembly.GetManifestResourceStream("RunningGame.Resources.Artwork.Background.Bkg11.png");
+            string addr = ( "RunningGame.Resources.Artwork.Background.Bkg" + worldNum + "" + levelNum + ".png" );
+            System.IO.Stream myStream = myAssembly.GetManifestResourceStream( "RunningGame.Resources.Artwork.Background.Bkg11.png" );
 
-            if (myStream == null) {
-                myStream = myAssembly.GetManifestResourceStream(defaultAddress);
+            if ( myStream == null ) {
+                myStream = myAssembly.GetManifestResourceStream( defaultAddress );
             }
 
-            Bitmap sprite = new Bitmap(myStream); //Getting an error here? Did you remember to make your image an embedded resource?
+            Bitmap sprite = new Bitmap( myStream ); //Getting an error here? Did you remember to make your image an embedded resource?
             myStream.Close();
 
             return sprite;
@@ -573,13 +580,13 @@ namespace RunningGame {
             return sysManager.colSystem;
         }
         public virtual InputSystem getInputSystem() {
-            if (sysManager != null)
+            if ( sysManager != null )
                 return sysManager.inputSystem;
             else return null;
         }
         public virtual Player getPlayer() {
-            foreach (Entity e in GlobalVars.nonGroundEntities.Values) {
-                if (e.hasComponent(GlobalVars.PLAYER_COMPONENT_NAME)) return (Player)e;
+            foreach ( Entity e in GlobalVars.nonGroundEntities.Values ) {
+                if ( e.hasComponent( GlobalVars.PLAYER_COMPONENT_NAME ) ) return ( Player )e;
             }
 
             return null;
