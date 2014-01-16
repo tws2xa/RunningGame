@@ -31,7 +31,7 @@ namespace RunningGame.Systems {
         int alpha = 0; // have to figure out the right number/ratio
         float deltaAlpha = 0;
         Color flashColor = Color.White;
-        SolidBrush flashBrush = new SolidBrush(Color.FromArgb(0, Color.White)); //white is completely arbitrary
+        SolidBrush flashBrush = new SolidBrush( Color.FromArgb( 0, Color.White ) ); //white is completely arbitrary
         Boolean flashDirection = true; // if truue, then the flash direction is going forwar, (fades into color), if false
         //it means that it's fading out
         //alpha is a proportion 
@@ -43,55 +43,55 @@ namespace RunningGame.Systems {
         [NonSerialized]
         Pen selectedEntBorderColor = Pens.Red;
         [NonSerialized]
-        Brush selectedEntFillColor = new SolidBrush(Color.FromArgb(100, Color.CornflowerBlue));
+        Brush selectedEntFillColor = new SolidBrush( Color.FromArgb( 100, Color.CornflowerBlue ) );
 
         //View miniMap;
 
         bool miniMapOn = false;
 
-        public DrawSystem(Graphics g, Level level) {
+        public DrawSystem( Graphics g, Level level ) {
             //Required Components
-            requiredComponents.Add(GlobalVars.DRAW_COMPONENT_NAME); //Draw Component
-            requiredComponents.Add(GlobalVars.POSITION_COMPONENT_NAME); //Position Component
+            requiredComponents.Add( GlobalVars.DRAW_COMPONENT_NAME ); //Draw Component
+            requiredComponents.Add( GlobalVars.POSITION_COMPONENT_NAME ); //Position Component
 
             this.g = g;
             this.level = level;
 
-            if (level is CreationLevel) {
-                creatLev = (CreationLevel)level;
+            if ( level is CreationLevel ) {
+                creatLev = ( CreationLevel )level;
             }
 
-            View mainView = new View(0, 0, level.cameraWidth, level.cameraHeight, 0, 0, level.cameraWidth, level.cameraHeight, level, level.getPlayer());
-            addView(mainView);
+            View mainView = new View( 0, 0, level.cameraWidth, level.cameraHeight, 0, 0, level.cameraWidth, level.cameraHeight, level, level.getPlayer() );
+            addView( mainView );
 
-            if (miniMapOn) {
-                View miniMap = new View(0, 0, level.levelWidth, level.levelHeight, level.cameraWidth - 210, 10, 200, 100, level);
+            if ( miniMapOn ) {
+                View miniMap = new View( 0, 0, level.levelWidth, level.levelHeight, level.cameraWidth - 210, 10, 200, 100, level );
                 miniMap.bkgBrush = Brushes.DarkTurquoise;
                 miniMap.hasBorder = true;
-                addView(miniMap);
+                addView( miniMap );
             }
 
         }
-        public DrawSystem(Graphics g, CreationLevel level) {
+        public DrawSystem( Graphics g, CreationLevel level ) {
             //Required Components
-            requiredComponents.Add(GlobalVars.DRAW_COMPONENT_NAME); //Draw Component
-            requiredComponents.Add(GlobalVars.POSITION_COMPONENT_NAME); //Position Component
+            requiredComponents.Add( GlobalVars.DRAW_COMPONENT_NAME ); //Draw Component
+            requiredComponents.Add( GlobalVars.POSITION_COMPONENT_NAME ); //Position Component
 
             this.g = g;
             this.level = level;
 
-            if (level is CreationLevel) {
-                creatLev = (CreationLevel)level;
+            if ( level is CreationLevel ) {
+                creatLev = ( CreationLevel )level;
             }
 
-            View mainView = new View(0, 0, level.levelWidth, level.levelHeight, 0, 0, level.levelWidth, level.levelHeight, level);
-            addView(mainView);
+            View mainView = new View( 0, 0, level.levelWidth, level.levelHeight, 0, 0, level.levelWidth, level.levelHeight, level );
+            addView( mainView );
 
-            if (miniMapOn) {
-                View miniMap = new View(0, 0, level.levelWidth, level.levelHeight, level.cameraWidth - 100, 10, 200, 100, level);
+            if ( miniMapOn ) {
+                View miniMap = new View( 0, 0, level.levelWidth, level.levelHeight, level.cameraWidth - 100, 10, 200, 100, level );
                 miniMap.bkgBrush = Brushes.DarkTurquoise;
                 miniMap.hasBorder = true;
-                addView(miniMap);
+                addView( miniMap );
             }
         }
         public override List<string> getRequiredComponents() {
@@ -101,33 +101,33 @@ namespace RunningGame.Systems {
             return level;
         }
 
-        public override void Update(float deltaTime) {
+        public override void Update( float deltaTime ) {
 
-            if (views[0].followEntity == null) {
-                views[0].setFollowEntity(level.getPlayer());
+            if ( views[0].followEntity == null ) {
+                views[0].setFollowEntity( level.getPlayer() );
             }
 
 
             //*this part takes care of flashes on the screen
-            if (flashTime > 0) {
+            if ( flashTime > 0 ) {
                 flashTime = flashTime - deltaTime;
-                if (flashDirection)
-                    alpha += (int)(deltaAlpha * deltaTime);
+                if ( flashDirection )
+                    alpha += ( int )( deltaAlpha * deltaTime );
                 else {
                     //flashDirection is false
-                    alpha -= (int)(deltaAlpha * deltaTime);
+                    alpha -= ( int )( deltaAlpha * deltaTime );
                 }
-                if (alpha >= 255) {
+                if ( alpha >= 255 ) {
                     alpha = 255;
                     flashDirection = false;
                 }
 
-                if (alpha <= 0) {
+                if ( alpha <= 0 ) {
                     flashTime = 0;
                     alpha = 0;
                 }
 
-                flashBrush.Color = Color.FromArgb(alpha, flashColor);
+                flashBrush.Color = Color.FromArgb( alpha, flashColor );
 
             } else {
                 alpha = 0;
@@ -142,7 +142,7 @@ namespace RunningGame.Systems {
             //draw a rectangle
             //total time 
             //Update views
-            foreach (View v in views) {
+            foreach ( View v in views ) {
                 v.Update();
             }
         }
@@ -154,11 +154,11 @@ namespace RunningGame.Systems {
         public Brush getFlashBrush() {
             return flashBrush;
         }
-        public void setFlash(Color c, float time) {
+        public void setFlash( Color c, float time ) {
 
-            ((SolidBrush)flashBrush).Color = Color.FromArgb(0, c);
+            ( ( SolidBrush )flashBrush ).Color = Color.FromArgb( 0, c );
             flashTime = time;
-            deltaAlpha = ((255 * 2) / (time)); // the 20 is arbitary for now since I can't figure out how to set the ratio, since I don't know 
+            deltaAlpha = ( ( 255 * 2 ) / ( time ) ); // the 20 is arbitary for now since I can't figure out how to set the ratio, since I don't know 
             //how to acces delta time from here
             flashDirection = true;
             flashColor = c;
@@ -171,12 +171,12 @@ namespace RunningGame.Systems {
         // what you use to draw things to the image
         // g is a property(essentially the image)
         // every image has a graphics object associated with it, latched on it. 
-        public void Draw(Graphics g) {
+        public void Draw( Graphics g ) {
             List<Entity> entityList = getApplicableEntities();
 
             //this is where all the entities are drawn, so modify this for depth
-            foreach (View v in views) {
-                v.Draw(g, entityList);
+            foreach ( View v in views ) {
+                v.Draw( g, entityList );
             }
 
             /*
@@ -195,22 +195,22 @@ namespace RunningGame.Systems {
 
         }
 
-        public void addView(View v) {
-            views.Add(v);
+        public void addView( View v ) {
+            views.Add( v );
         }
 
         public View getMainView() {
             return views[0];
         }
 
-        public bool removeView(View plView) {
-            return views.Remove(plView);
+        public bool removeView( View plView ) {
+            return views.Remove( plView );
         }
 
         public void gotoJustMainView() {
             View main = views[0];
             views.Clear();
-            views.Add(main);
+            views.Add( main );
         }
     }
 }

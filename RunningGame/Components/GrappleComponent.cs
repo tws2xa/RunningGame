@@ -22,10 +22,10 @@ namespace RunningGame.Components {
         PointF startPoint;
         PointF endPoint;
 
-        public GrappleComponent(float startX, float startY, double direction) {
+        public GrappleComponent( float startX, float startY, double direction ) {
             this.componentName = GlobalVars.GRAPPLE_COMPONENT_NAME;
             //points.Add(new PointF(startX, startY));
-            PointF p = new PointF(startX, startY);
+            PointF p = new PointF( startX, startY );
             startPoint = p;
             endPoint = p;
             this.direction = direction;
@@ -41,7 +41,7 @@ namespace RunningGame.Components {
         }
 
 
-        public void setEndPoint(PointF p) {
+        public void setEndPoint( PointF p ) {
             //points.Add(p);
             endPoint = p;
         }
@@ -52,7 +52,7 @@ namespace RunningGame.Components {
             points.RemoveAt(0);
         }*/
 
-        public void setFirstPoint(PointF p) {
+        public void setFirstPoint( PointF p ) {
             startPoint = p;
         }
     }

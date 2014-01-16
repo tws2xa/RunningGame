@@ -16,47 +16,47 @@ namespace RunningGame.Entities {
         //Both take in the starting x and y of the entity.
         //Both take in the level that it's being applied to.
         //You probably won't have to edit these at all.
-        public EndLevelEntity(Level level, float x, float y) {
+        public EndLevelEntity( Level level, float x, float y ) {
             //Set level.
             //Leave for all entities
             this.level = level;
 
             //Refers back to a class in the super Entity.
             //Leave this for all entities.
-            initializeEntity(new Random().Next(Int32.MinValue, Int32.MaxValue), level);
+            initializeEntity( new Random().Next( Int32.MinValue, Int32.MaxValue ), level );
 
             //Add the components.
             //Leave this for all entities.
-            addMyComponents(x, y);
+            addMyComponents( x, y );
         }
-        public EndLevelEntity(Level level, int id, float x, float y) {
+        public EndLevelEntity( Level level, int id, float x, float y ) {
             //Set level.
             //Leave for all entities
             this.level = level;
 
             //Refers back to a class in the super Entity.
             //Leave this for all entities.
-            initializeEntity(id, level);
+            initializeEntity( id, level );
 
             //Add the components.
             //Leave this for all entities.
-            addMyComponents(x, y);
+            addMyComponents( x, y );
         }
 
         //------------------------------------------------------------------------------------------------------------------
 
-        public void addMyComponents(float x, float y) {
+        public void addMyComponents( float x, float y ) {
             /*POSITION COMPONENT - Does it have a position?
              */
-            addComponent(new PositionComponent(x, y, defaultWidth, defaultHeight, this), true);
+            addComponent( new PositionComponent( x, y, defaultWidth, defaultHeight, this ), true );
 
             /*DRAW COMPONENT - Does it get drawn to the game world?
              *You'll need to know the address for your image.
              *It'll probably be something along the lines of "RunningGame.Resources.[      ].png" ONLY png!!
              */
-            DrawComponent drawComp = (DrawComponent)addComponent(new DrawComponent(defaultWidth, defaultHeight, level, true), true);
-            drawComp.addSprite("Artwork.Other.WhiteSquare", "RunningGame.Resources.Artwork.Other.WhiteSquare.png", "Main");
-            drawComp.setSprite("Main");
+            DrawComponent drawComp = ( DrawComponent )addComponent( new DrawComponent( defaultWidth, defaultHeight, level, true ), true );
+            drawComp.addSprite( "Artwork.Other.WhiteSquare", "RunningGame.Resources.Artwork.Other.WhiteSquare.png", "Main" );
+            drawComp.setSprite( "Main" );
 
             /* ANIMATION COMPONENT - Does it need animating?
              * The float that this reads in is the amount of time (in seconds) between frames.
@@ -72,7 +72,7 @@ namespace RunningGame.Entities {
             /*COLLIDER - Does it hit things?
              *The second field is the collider type. Look in GlobalVars for a string with the right name.
              */
-            addComponent(new ColliderComponent(this, GlobalVars.END_LEVEL_COLLIDER_TYPE), true);
+            addComponent( new ColliderComponent( this, GlobalVars.END_LEVEL_COLLIDER_TYPE ), true );
 
             /*GRAVITY COMPONENT - Does it have Gravity?
              *There's a standard gravity in GlobalVars

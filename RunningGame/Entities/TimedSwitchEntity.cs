@@ -17,83 +17,83 @@ namespace RunningGame.Entities {
         bool startingState; //Active or non-active at level start?
 
         //-------------------------------------------Constructors--------------------------------------------
-        public TimedSwitchEntity(Level level, float x, float y) {
+        public TimedSwitchEntity( Level level, float x, float y ) {
             //Set level.
             //Leave for all entities
             this.level = level;
 
             //Refers back to a class in the super Entity.
             //Leave this for all entities.
-            initializeEntity(new Random().Next(Int32.MinValue, Int32.MaxValue), level);
+            initializeEntity( new Random().Next( Int32.MinValue, Int32.MaxValue ), level );
 
             startingState = false;
 
             //Add the components.
             //Leave this for all entities.
-            addMyComponents(x, y);
+            addMyComponents( x, y );
         }
-        public TimedSwitchEntity(Level level, int id, float x, float y) {
+        public TimedSwitchEntity( Level level, int id, float x, float y ) {
             //Set level.
             //Leave for all entities
             this.level = level;
 
             //Refers back to a class in the super Entity.
             //Leave this for all entities.
-            initializeEntity(id, level);
+            initializeEntity( id, level );
 
             startingState = false;
 
             //Add the components.
             //Leave this for all entities.
-            addMyComponents(x, y);
+            addMyComponents( x, y );
         }
-        public TimedSwitchEntity(Level level, int id, float x, float y, bool active) {
+        public TimedSwitchEntity( Level level, int id, float x, float y, bool active ) {
             //Set level.
             //Leave for all entities
             this.level = level;
 
             //Refers back to a class in the super Entity.
             //Leave this for all entities.
-            initializeEntity(id, level);
+            initializeEntity( id, level );
 
             startingState = active;
 
             //Add the components.
             //Leave this for all entities.
-            addMyComponents(x, y);
+            addMyComponents( x, y );
         }
 
         //------------------------------------------------------------------------------------------------------------------
 
-        public void addMyComponents(float x, float y) {
+        public void addMyComponents( float x, float y ) {
             //POSITION COMPONENT - Does it have a position?
-            addComponent(new PositionComponent(x, y, defaultWidth, defaultHeight, this), true);
+            addComponent( new PositionComponent( x, y, defaultWidth, defaultHeight, this ), true );
 
             //DRAW COMPONENT - Does it get drawn to the game world?
-            DrawComponent drawComp = (DrawComponent)addComponent(new DrawComponent(defaultWidth, defaultHeight, level, true), true);
-            drawComp.addSprite("Artwork.Foreground.switchUp", "RunningGame.Resources.Artwork.Foreground.switchUp11.png", GlobalVars.SWITCH_INACTIVE_SPRITE_NAME);
-            drawComp.addSprite("Artwork.Foreground.switchRight", "RunningGame.Resources.Artwork.Foreground.switchRight11.png", GlobalVars.SWITCH_ACTIVE_SPRITE_NAME);
-            drawComp.setSprite(GlobalVars.SWITCH_INACTIVE_SPRITE_NAME);
+            DrawComponent drawComp = ( DrawComponent )addComponent( new DrawComponent( defaultWidth, defaultHeight, level, true ), true );
+            drawComp.addSprite( "Artwork.Foreground.switchUp", "RunningGame.Resources.Artwork.Foreground.switchUp11.png", GlobalVars.SWITCH_INACTIVE_SPRITE_NAME );
+            drawComp.addSprite( "Artwork.Foreground.switchRight", "RunningGame.Resources.Artwork.Foreground.switchRight11.png", GlobalVars.SWITCH_ACTIVE_SPRITE_NAME );
+            drawComp.setSprite( GlobalVars.SWITCH_INACTIVE_SPRITE_NAME );
 
             //COLLIDER - Does it hit things?
-            addComponent(new ColliderComponent(this, GlobalVars.SWITCH_COLLIDER_TYPE), true);
+            addComponent( new ColliderComponent( this, GlobalVars.SWITCH_COLLIDER_TYPE ), true );
 
             //Swich Component - Is it a switch? Yes.
-            addComponent(new SwitchComponent(startingState), true);
+            addComponent( new SwitchComponent( startingState ), true );
 
             //Timed Switch Component It's a timed switch!
-            addComponent(new TimedSwitchComponent(defaultTime), true);
+            addComponent( new TimedSwitchComponent( defaultTime ), true );
         }
 
         public override void revertToStartingState() {
-            SwitchComponent sc = (SwitchComponent)getComponent(GlobalVars.SWITCH_COMPONENT_NAME);
-            sc.setActive(startingState);
+            SwitchComponent sc = ( SwitchComponent )getComponent( GlobalVars.SWITCH_COMPONENT_NAME );
+            sc.setActive( startingState );
 
-            DrawComponent drawComp = (DrawComponent)getComponent(GlobalVars.DRAW_COMPONENT_NAME);
-            if (startingState)
-                drawComp.setSprite(GlobalVars.SWITCH_ACTIVE_SPRITE_NAME);
+            DrawComponent drawComp = ( DrawComponent )getComponent( GlobalVars.DRAW_COMPONENT_NAME );
+            if ( startingState )
+                drawComp.setSprite( GlobalVars.SWITCH_ACTIVE_SPRITE_NAME );
             else
-                drawComp.setSprite(GlobalVars.SWITCH_INACTIVE_SPRITE_NAME);
+                drawComp.setSprite( GlobalVars.SWITCH_INACTIVE_SPRITE_NAME );
         }
 
     }

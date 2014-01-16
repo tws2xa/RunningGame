@@ -13,15 +13,15 @@ namespace RunningGame.Components {
         public bool playSound { get; set; }
         public SoundPlayer player;
 
-        public SoundComponent(string soundLocation, bool playSound) {
+        public SoundComponent( string soundLocation, bool playSound ) {
             this.componentName = GlobalVars.SOUND_COMPONENT_NAME;
             this.soundLocation = soundLocation;
             this.playSound = playSound;
-            player = new SoundPlayer(soundLocation);
+            player = new SoundPlayer( soundLocation );
 
         }
 
-        public void setSound(string soundLocation) {
+        public void setSound( string soundLocation ) {
             player.SoundLocation = soundLocation;
             player.Load();
         }

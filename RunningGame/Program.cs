@@ -13,8 +13,8 @@ namespace RunningGame {
         [STAThread]
         static void Main() {
             Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new FormSpring());
+            Application.SetCompatibleTextRenderingDefault( false );
+            Application.Run( new FormSpring() );
         }
     }
 }

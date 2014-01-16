@@ -18,7 +18,7 @@ namespace RunningGame.Components {
         public int vertMovementStopped = 0; //0 = stopped in neither direction, 1 = up, 2 = down, 3 = both
 
         public PushableComponent() {
-            
+
             componentName = GlobalVars.PUSHABLE_COMPONENT_NAME;
 
         }

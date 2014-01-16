@@ -14,7 +14,7 @@ namespace RunningGame.Components {
         public bool pauseIndefinitelyAfterCycle { get; set; }
         public bool animationOn;
 
-        public AnimationComponent(float animationFrameTime) {
+        public AnimationComponent( float animationFrameTime ) {
             /*
              * Always always ALWAYS set the component name to whatever you have it as in GlobalVars (add one if need be)
              */

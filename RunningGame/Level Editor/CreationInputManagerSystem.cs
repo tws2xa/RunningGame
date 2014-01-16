@@ -9,13 +9,11 @@ using RunningGame.Systems;
 using RunningGame.Entities;
 using System.Windows.Forms;
 
-namespace RunningGame.Level_Editor
-{
+namespace RunningGame.Level_Editor {
 
     [Serializable()]
-    public class CreationInputManagerSystem : GameSystem
-    {
-        
+    public class CreationInputManagerSystem : GameSystem {
+
         //All systems MUST have an List of requiredComponents (May need to add using System.Collections at start of file)
         //To access components you may need to also add "using RunningGame.Components"
         List<string> requiredComponents = new List<string>();
@@ -26,9 +24,8 @@ namespace RunningGame.Level_Editor
         public Keys escKey = Keys.Escape;
         public Keys delKey = Keys.Delete;
         public Keys shiftKey = Keys.ShiftKey;
-        
-        public CreationInputManagerSystem(CreationLevel level)
-        {
+
+        public CreationInputManagerSystem( CreationLevel level ) {
             //Here is where you add the Required components
             //No Req Components
 
@@ -40,154 +37,128 @@ namespace RunningGame.Level_Editor
 
         //-------------------------------------- Overrides -------------------------------------------
         // Must have this. Same for all Systems.
-        public override List<string> getRequiredComponents()
-        {
+        public override List<string> getRequiredComponents() {
             return requiredComponents;
         }
-        
+
         //Must have this. Same for all Systems.
-        public override Level GetActiveLevel()
-        {
+        public override Level GetActiveLevel() {
             return level;
         }
 
-        public override void Update(float deltaTime)
-        {
+        public override void Update( float deltaTime ) {
 
 
-            if (!hasAddedKeys)
-            {
-                level.getInputSystem().addKey(escKey);
-                level.getInputSystem().addKey(delKey);
-                level.getInputSystem().addKey(shiftKey);
+            if ( !hasAddedKeys ) {
+                level.getInputSystem().addKey( escKey );
+                level.getInputSystem().addKey( delKey );
+                level.getInputSystem().addKey( shiftKey );
                 hasAddedKeys = true;
             }
 
 
             //Check for mouse click. Select/Deselect Entity
-            if (level.getInputSystem().mouseLeftClick)
-            {
-                if (level.vars.protoEntity == null)
-                {
+            if ( level.getInputSystem().mouseLeftClick ) {
+                if ( level.vars.protoEntity == null ) {
                     //Select an entity
-                    selectEntityAt(level.getInputSystem().mouseX, level.getInputSystem().mouseY);
-                }
-                else
-                {
+                    selectEntityAt( level.getInputSystem().mouseX, level.getInputSystem().mouseY );
+                } else {
                     //Create entity from proto entity
                     createEntityFromProto();
                 }
             }
-            
-            if (level.getInputSystem().myKeys[escKey].down)
-            {
+
+            if ( level.getInputSystem().myKeys[escKey].down ) {
                 deselectEntity();
                 removeProtoEntity();
             }
 
-            if (level.getInputSystem().myKeys[delKey].down)
-            {
-                if (level.vars.selectedEntity != null)
-                {
-                    level.removeEntity(level.vars.selectedEntity);
+            if ( level.getInputSystem().myKeys[delKey].down ) {
+                if ( level.vars.selectedEntity != null ) {
+                    level.removeEntity( level.vars.selectedEntity );
                     deselectEntity();
                 }
             }
 
-            if (level.getInputSystem().myKeys[shiftKey].down)
-            {
+            if ( level.getInputSystem().myKeys[shiftKey].down ) {
 
             }
-            
+
         }
         //---------------------------------- Helpers -----------------------------------------------
 
-        public bool shiftPressed()
-        {
-            return (level.getInputSystem().myKeys[shiftKey].pressed);
+        public bool shiftPressed() {
+            return ( level.getInputSystem().myKeys[shiftKey].pressed );
         }
 
 
         //---------------------------------- Entity Selection --------------------------------------
 
-        public void selectEntityAt(float x, float y)
-        {
-            List<Entity> ents = level.getCollisionSystem().findObjectAtPoint(x, y);
-            if (ents.Count > 0)
-            {
-                selectEntity((Entity)ents[0]);
-            }
-            else if (!shiftPressed())
-            {
+        public void selectEntityAt( float x, float y ) {
+            List<Entity> ents = level.getCollisionSystem().findObjectAtPoint( x, y );
+            if ( ents.Count > 0 ) {
+                selectEntity( ( Entity )ents[0] );
+            } else if ( !shiftPressed() ) {
                 deselectEntity();
             }
         }
 
-        public void selectEntity(Entity e)
-        {
+        public void selectEntity( Entity e ) {
             level.vars.selectedEntity = e;
             level.vars.editForm.refreshEntityPropertiesList();
-            if (!shiftPressed())
+            if ( !shiftPressed() )
                 level.vars.allSelectedEntities.Clear();
-            level.vars.allSelectedEntities.Insert(0, e);
+            level.vars.allSelectedEntities.Insert( 0, e );
         }
 
-        public void deselectEntity()
-        {
+        public void deselectEntity() {
             level.vars.selectedEntity = null;
             level.vars.editForm.refreshEntityPropertiesList();
         }
 
         //---------------------------------------- Proto Entity Stuff --------------------------------
 
-        public void removeProtoEntity()
-        {
-            if (level.vars.protoEntity != null)
-                level.removeEntity(level.vars.protoEntity);
+        public void removeProtoEntity() {
+            if ( level.vars.protoEntity != null )
+                level.removeEntity( level.vars.protoEntity );
             level.vars.protoEntity = null;
         }
-        public void createEntityFromProto()
-        {
+        public void createEntityFromProto() {
 
-            if (level.vars.protoEntity.myEntType == typeof(Player) && level.getPlayer() != null)
-            {
-                Console.WriteLine("Trying to add a second player. That's a bad idea.");
+            if ( level.vars.protoEntity.myEntType == typeof( Player ) && level.getPlayer() != null ) {
+                Console.WriteLine( "Trying to add a second player. That's a bad idea." );
                 return;
             }
 
-            Entity e = (Entity)Activator.CreateInstance(level.vars.protoEntity.myEntType, level, 0, 0);
-            if (e.getComponent(GlobalVars.POSITION_COMPONENT_NAME) != null)
-            {
-                PositionComponent newPosComp = (PositionComponent)e.getComponent(GlobalVars.POSITION_COMPONENT_NAME);
-                PositionComponent protoPosComp = (PositionComponent)level.vars.protoEntity.getComponent(GlobalVars.POSITION_COMPONENT_NAME);
+            Entity e = ( Entity )Activator.CreateInstance( level.vars.protoEntity.myEntType, level, 0, 0 );
+            if ( e.getComponent( GlobalVars.POSITION_COMPONENT_NAME ) != null ) {
+                PositionComponent newPosComp = ( PositionComponent )e.getComponent( GlobalVars.POSITION_COMPONENT_NAME );
+                PositionComponent protoPosComp = ( PositionComponent )level.vars.protoEntity.getComponent( GlobalVars.POSITION_COMPONENT_NAME );
                 e.isStartingEntity = true;
-                level.getMovementSystem().changePosition(newPosComp, protoPosComp.x, protoPosComp.y, false);
+                level.getMovementSystem().changePosition( newPosComp, protoPosComp.x, protoPosComp.y, false );
 
-                if (e is BasicGround)
-                {
-                    BasicGround ground = (BasicGround)e;
+                if ( e is BasicGround ) {
+                    BasicGround ground = ( BasicGround )e;
 
                     //If no ground above it, change to a grass sprite
-                    List<Entity> above = level.getCollisionSystem().findObjectAtPoint(newPosComp.x, (newPosComp.y - newPosComp.height/2 - 1));
-                    if (above.Count <= 0 || !(above[0] is BasicGround))
-                    {
-                        ground.changeSprite(false);
+                    List<Entity> above = level.getCollisionSystem().findObjectAtPoint( newPosComp.x, ( newPosComp.y - newPosComp.height / 2 - 1 ) );
+                    if ( above.Count <= 0 || !( above[0] is BasicGround ) ) {
+                        ground.changeSprite( false );
                     }
 
                     //If ground below it, make dirt
-                    List<Entity> below = level.getCollisionSystem().findObjectAtPoint(newPosComp.x, (newPosComp.y + newPosComp.height / 2 + 1));
-                    if (below.Count > 0 && (below[0] is BasicGround))
-                    {
-                        BasicGround ground2 = (BasicGround)below[0];
-                        ground2.changeSprite(true);
+                    List<Entity> below = level.getCollisionSystem().findObjectAtPoint( newPosComp.x, ( newPosComp.y + newPosComp.height / 2 + 1 ) );
+                    if ( below.Count > 0 && ( below[0] is BasicGround ) ) {
+                        BasicGround ground2 = ( BasicGround )below[0];
+                        ground2.changeSprite( true );
                     }
 
                 }
 
             }
-            level.addEntity(e.randId, e);
+            level.addEntity( e.randId, e );
             removeProtoEntity();
-            selectEntity(e);
+            selectEntity( e );
         }
 
     }

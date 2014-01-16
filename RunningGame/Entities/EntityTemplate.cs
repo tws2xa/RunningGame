@@ -22,38 +22,38 @@ namespace RunningGame.Entities {
         //Both take in the starting x and y of the entity.
         //Both take in the level that it's being applied to.
         //You probably won't have to edit these at all.
-        public EntityTemplate(Level level, float x, float y) {
+        public EntityTemplate( Level level, float x, float y ) {
             //Set level.
             //Leave for all entities
             this.level = level;
 
             //Refers back to a class in the super Entity.
             //Leave this for all entities.
-            initializeEntity(new Random().Next(Int32.MinValue, Int32.MaxValue), level);
+            initializeEntity( new Random().Next( Int32.MinValue, Int32.MaxValue ), level );
 
             //Add the components.
             //Leave this for all entities.
-            addMyComponents(x, y);
+            addMyComponents( x, y );
         }
-        public EntityTemplate(Level level, int id, float x, float y) {
+        public EntityTemplate( Level level, int id, float x, float y ) {
             //Set level.
             //Leave for all entities
             this.level = level;
 
             //Refers back to a class in the super Entity.
             //Leave this for all entities.
-            initializeEntity(id, level);
+            initializeEntity( id, level );
 
             //Add the components.
             //Leave this for all entities.
-            addMyComponents(x, y);
+            addMyComponents( x, y );
         }
 
         //------------------------------------------------------------------------------------------------------------------
 
         //Here's where you add all the components the entity has.
         //You can just uncomment the ones you want.
-        public void addMyComponents(float x, float y) {
+        public void addMyComponents( float x, float y ) {
             /*POSITION COMPONENT - Does it have a position?
              */
             //addComponent(new PositionComponent(x, y, defaultWidth, defaultHeight, this), true);

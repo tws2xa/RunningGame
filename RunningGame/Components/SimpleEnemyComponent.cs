@@ -15,7 +15,7 @@ namespace RunningGame.Components {
         public bool hasRunOnce { get; set; }
         public bool movingLeft = false;
 
-        public SimpleEnemyComponent(float mySpeed, bool checkCliff) {
+        public SimpleEnemyComponent( float mySpeed, bool checkCliff ) {
             this.componentName = GlobalVars.SIMPLE_ENEMY_COMPONENT_NAME;
             this.mySpeed = mySpeed;
             wasStoppedLastFrame = false;

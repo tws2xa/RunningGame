@@ -6,12 +6,10 @@ using System.Threading.Tasks;
 using System.Collections;
 using System.Windows.Forms;
 
-namespace RunningGame.Level_Editor
-{
+namespace RunningGame.Level_Editor {
 
     [Serializable()]
-    public class CreationGlobalVars
-    {
+    public class CreationGlobalVars {
 
         public Entity selectedEntity { get; set; }
         public List<Entity> allSelectedEntities { get; set; }
@@ -19,14 +17,13 @@ namespace RunningGame.Level_Editor
         public float gridSize = GlobalVars.MIN_TILE_SIZE / 2;
         public bool gridLock = true;
         public FormEditor editForm { get; set; }
- 
-        public CreationGlobalVars()
-        {
+
+        public CreationGlobalVars() {
             editForm = null;
             protoEntity = null;
             selectedEntity = null;
             allSelectedEntities = new List<Entity>();
         }
- 
+
     }
 }

@@ -37,7 +37,7 @@ namespace RunningGame.Systems {
 
         int switchId;
 
-        public DebugSystem(Level level) {
+        public DebugSystem( Level level ) {
             this.level = level; //Always have this
         }
 
@@ -52,23 +52,23 @@ namespace RunningGame.Systems {
             return level;
         }
 
-        public override void Update(float deltaTime) {
+        public override void Update( float deltaTime ) {
 
-            if (!hasRunOnce) {
-                level.getInputSystem().addKey(addEntityKey);
-                level.getInputSystem().addKey(harmPlayerKey);
-                level.getInputSystem().addKey(resetLevelKey);
-                level.getInputSystem().addKey(endLevelKey);
-                level.getInputSystem().addKey(skipLevelKey);
-                level.getInputSystem().addKey(typeKey);
+            if ( !hasRunOnce ) {
+                level.getInputSystem().addKey( addEntityKey );
+                level.getInputSystem().addKey( harmPlayerKey );
+                level.getInputSystem().addKey( resetLevelKey );
+                level.getInputSystem().addKey( endLevelKey );
+                level.getInputSystem().addKey( skipLevelKey );
+                level.getInputSystem().addKey( typeKey );
 
 
-                level.getInputSystem().addKey(toggleBounce);
-                level.getInputSystem().addKey(toggleDoubleJump);
-                level.getInputSystem().addKey(toggleGlide);
-                level.getInputSystem().addKey(toggleGrapple);
-                level.getInputSystem().addKey(toggleSpeedy);
-                level.getInputSystem().addKey(toggleSpawn);
+                level.getInputSystem().addKey( toggleBounce );
+                level.getInputSystem().addKey( toggleDoubleJump );
+                level.getInputSystem().addKey( toggleGlide );
+                level.getInputSystem().addKey( toggleGrapple );
+                level.getInputSystem().addKey( toggleSpeedy );
+                level.getInputSystem().addKey( toggleSpawn );
 
                 hasRunOnce = true;
             }
@@ -79,51 +79,51 @@ namespace RunningGame.Systems {
 
 
         public void checkForInput() {
-            if (level.getInputSystem().myKeys[addEntityKey].down) {
-                PositionComponent posComp = (PositionComponent)level.getPlayer().getComponent(GlobalVars.POSITION_COMPONENT_NAME);
-                debugAddEntity(posComp.x + posComp.width * 1.5f, posComp.y);
+            if ( level.getInputSystem().myKeys[addEntityKey].down ) {
+                PositionComponent posComp = ( PositionComponent )level.getPlayer().getComponent( GlobalVars.POSITION_COMPONENT_NAME );
+                debugAddEntity( posComp.x + posComp.width * 1.5f, posComp.y );
                 //addDoorOrSwitch(posComp.x + posComp.width * 1.5f, posComp.y);
             }
 
-            if (level.getInputSystem().myKeys[harmPlayerKey].down) {
-                HealthComponent healthComp = (HealthComponent)level.getPlayer().getComponent(GlobalVars.HEALTH_COMPONENT_NAME);
-                healthComp.subtractFromHealth(25);
+            if ( level.getInputSystem().myKeys[harmPlayerKey].down ) {
+                HealthComponent healthComp = ( HealthComponent )level.getPlayer().getComponent( GlobalVars.HEALTH_COMPONENT_NAME );
+                healthComp.subtractFromHealth( 25 );
             }
 
-            if (level.getInputSystem().myKeys[resetLevelKey].up) {
+            if ( level.getInputSystem().myKeys[resetLevelKey].up ) {
                 level.resetLevel();
             }
 
-            if (level.getInputSystem().myKeys[skipLevelKey].up) {
-                level.beginEndLevel(0.0f);
-            } else if (level.getInputSystem().myKeys[endLevelKey].up) {
+            if ( level.getInputSystem().myKeys[skipLevelKey].up ) {
+                level.beginEndLevel( 0.0f );
+            } else if ( level.getInputSystem().myKeys[endLevelKey].up ) {
                 level.worldNum = GlobalVars.numWorlds;
                 level.levelNum = GlobalVars.numLevelsPerWorld;
-                level.beginEndLevel(0.0f);
+                level.beginEndLevel( 0.0f );
             }
 
-            if (level.getInputSystem().myKeys[typeKey].down) {
+            if ( level.getInputSystem().myKeys[typeKey].down ) {
                 //getTypes();
             }
 
 
-            if (level.getInputSystem().myKeys[toggleBounce].down) {
-                togglePowerup(GlobalVars.BOUNCE_NUM);
+            if ( level.getInputSystem().myKeys[toggleBounce].down ) {
+                togglePowerup( GlobalVars.BOUNCE_NUM );
             }
-            if (level.getInputSystem().myKeys[toggleSpeedy].down) {
-                togglePowerup(GlobalVars.SPEED_NUM);
+            if ( level.getInputSystem().myKeys[toggleSpeedy].down ) {
+                togglePowerup( GlobalVars.SPEED_NUM );
             }
-            if (level.getInputSystem().myKeys[toggleDoubleJump].down) {
-                togglePowerup(GlobalVars.JMP_NUM);
+            if ( level.getInputSystem().myKeys[toggleDoubleJump].down ) {
+                togglePowerup( GlobalVars.JMP_NUM );
             }
-            if (level.getInputSystem().myKeys[toggleGlide].down) {
-                togglePowerup(GlobalVars.GLIDE_NUM);
+            if ( level.getInputSystem().myKeys[toggleGlide].down ) {
+                togglePowerup( GlobalVars.GLIDE_NUM );
             }
-            if (level.getInputSystem().myKeys[toggleGrapple].down) {
-                togglePowerup(GlobalVars.GRAP_NUM);
+            if ( level.getInputSystem().myKeys[toggleGrapple].down ) {
+                togglePowerup( GlobalVars.GRAP_NUM );
             }
-            if (level.getInputSystem().myKeys[toggleSpawn].down) {
-                togglePowerup(GlobalVars.SPAWN_NUM);
+            if ( level.getInputSystem().myKeys[toggleSpawn].down ) {
+                togglePowerup( GlobalVars.SPAWN_NUM );
             }
         }
 
@@ -135,37 +135,37 @@ namespace RunningGame.Systems {
         public void getTypes() {
             List<Entity> entities = getApplicableEntities();
 
-            foreach (Entity e in entities) {
-                if (!(e is BackgroundEntity))
-                    Console.WriteLine(e.GetType());
+            foreach ( Entity e in entities ) {
+                if ( !( e is BackgroundEntity ) )
+                    Console.WriteLine( e.GetType() );
             }
 
         }
 
-        void togglePowerup(int pupNum) {
-            level.sysManager.spSystem.togglePowerup(pupNum);
+        void togglePowerup( int pupNum ) {
+            level.sysManager.spSystem.togglePowerup( pupNum );
         }
 
-        public void makeFlash(float time, Color color) {
+        public void makeFlash( float time, Color color ) {
             DrawSystem ds = level.sysManager.drawSystem;
-            ds.setFlash(color, time);
+            ds.setFlash( color, time );
         }
-        public void debugAddEntity(float x, float y) {
+        public void debugAddEntity( float x, float y ) {
 
             //Entity newEntity = new [YOUR ENTITY HERE](level, x, y);
-            Entity newEntity = new PreGroundSpeedy(level, x, y);
-            level.addEntity(newEntity.randId, newEntity); //This should just stay the same
+            Entity newEntity = new PreGroundSpeedy( level, x, y );
+            level.addEntity( newEntity.randId, newEntity ); //This should just stay the same
         }
 
-        public void addDoorOrSwitch(float x, float y) {
-            if (addingDoor) {
-                DoorEntity d = new DoorEntity(level, x, y - 20, switchId);
-                level.addEntity(d.randId, d);
+        public void addDoorOrSwitch( float x, float y ) {
+            if ( addingDoor ) {
+                DoorEntity d = new DoorEntity( level, x, y - 20, switchId );
+                level.addEntity( d.randId, d );
                 addingDoor = false;
             } else {
-                TimedSwitchEntity s = new TimedSwitchEntity(level, x, y);
+                TimedSwitchEntity s = new TimedSwitchEntity( level, x, y );
                 switchId = s.randId;
-                level.addEntity(s.randId, s);
+                level.addEntity( s.randId, s );
                 addingDoor = true;
             }
         }

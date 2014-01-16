@@ -43,7 +43,7 @@ namespace RunningGame.Components {
         public float xStretchThreshold = 0.1f;
         public float yStretchThreshold = 0.1f;
 
-        public SquishComponent(float baseWidth, float baseHeight, float maxWidth, float maxHeight, float minWidth, float minHeight, float maxSurfaceArea, float minSurfaceArea) {
+        public SquishComponent( float baseWidth, float baseHeight, float maxWidth, float maxHeight, float minWidth, float minHeight, float maxSurfaceArea, float minSurfaceArea ) {
 
             this.componentName = GlobalVars.SQUISH_COMPONENT_NAME;
 
@@ -62,7 +62,7 @@ namespace RunningGame.Components {
             this.maxSurfaceArea = maxSurfaceArea;
             this.minSurfaceArea = minSurfaceArea;
         }
-        public SquishComponent(float baseWidth, float baseHeight, float maxWidth, float maxHeight, float minWidth, float minHeight) {
+        public SquishComponent( float baseWidth, float baseHeight, float maxWidth, float maxHeight, float minWidth, float minHeight ) {
 
             this.componentName = GlobalVars.SQUISH_COMPONENT_NAME;
 

@@ -12,10 +12,10 @@ namespace RunningGame.Components {
         public float platformerMoveSpeed { get; set; }
         public VisionOrb vision { get; set; }
 
-        public VisionInputComponent(Entity VisionOrb) {
+        public VisionInputComponent( Entity VisionOrb ) {
             this.componentName = GlobalVars.VISION_ORB_INPUT_COMPONENT_NAME;
 
-            this.vision = (VisionOrb)vision;
+            this.vision = ( VisionOrb )vision;
             platformerMoveSpeed = 150f;
         }
 

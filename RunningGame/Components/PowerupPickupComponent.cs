@@ -10,7 +10,7 @@ namespace RunningGame.Components {
 
         public int compNum = -1;
 
-        public PowerupPickupComponent(int compNum) {
+        public PowerupPickupComponent( int compNum ) {
             this.componentName = GlobalVars.POWERUP_PICKUP_COMPONENT_NAME;
             this.compNum = compNum;
         }

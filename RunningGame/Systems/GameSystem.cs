@@ -19,7 +19,7 @@ namespace RunningGame {
 
         public abstract Level GetActiveLevel();
 
-        public abstract void Update(float deltaTime);
+        public abstract void Update( float deltaTime );
 
         public abstract List<string> getRequiredComponents(); //string names of all required components (Use GlobalVars script to get the names)
 
@@ -36,9 +36,9 @@ namespace RunningGame {
             List<Entity> a = applicableEntities.Values.ToList<Entity>();
             List<Entity> ret = new List<Entity>();
 
-            foreach (Entity e in a) {
-                if (e.updateOutOfView || isInView(e)) {
-                    ret.Add(e);
+            foreach ( Entity e in a ) {
+                if ( e.updateOutOfView || isInView( e ) ) {
+                    ret.Add( e );
                 }
             }
 
@@ -57,10 +57,10 @@ namespace RunningGame {
         }
 
 
-        public bool checkIfEntityIsApplicable(Entity e) {
-            foreach (string c in getRequiredComponents()) {
+        public bool checkIfEntityIsApplicable( Entity e ) {
+            foreach ( string c in getRequiredComponents() ) {
                 //If there is a single missing component - don't add.
-                if (!e.hasComponent(c)) {
+                if ( !e.hasComponent( c ) ) {
                     return false;
                 }
             }
@@ -72,34 +72,34 @@ namespace RunningGame {
 
 
 
-            if (!GetActiveLevel().paused) {
+            if ( !GetActiveLevel().paused ) {
                 try {
 
-                    if (actOnGround()) {
-                        foreach (Entity e in GlobalVars.groundEntities.Values) {
-                            if (e.updateOutOfView || isInView(e)) {
-                                appEnts.Add(e);
+                    if ( actOnGround() ) {
+                        foreach ( Entity e in GlobalVars.groundEntities.Values ) {
+                            if ( e.updateOutOfView || isInView( e ) ) {
+                                appEnts.Add( e );
                             }
                         }
                     }
 
-                    foreach (Entity e in GlobalVars.nonGroundEntities.Values) {
-                        if (e.updateOutOfView || isInView(e)) {
+                    foreach ( Entity e in GlobalVars.nonGroundEntities.Values ) {
+                        if ( e.updateOutOfView || isInView( e ) ) {
 
                             bool addEntity = true;
-                            foreach (string c in getRequiredComponents()) {
+                            foreach ( string c in getRequiredComponents() ) {
                                 //If there is a single missing component - don't add.
-                                if (!e.hasComponent(c)) {
+                                if ( !e.hasComponent( c ) ) {
                                     addEntity = false;
                                     break;
                                 }
                             }
 
-                            if (addEntity) appEnts.Add(e);
+                            if ( addEntity ) appEnts.Add( e );
                         }
                     }
-                } catch (Exception e) {
-                    Console.WriteLine("Exception in get applicable entities: " + e);
+                } catch ( Exception e ) {
+                    Console.WriteLine( "Exception in get applicable entities: " + e );
                 }
             }
 
@@ -108,23 +108,23 @@ namespace RunningGame {
             return appEnts;
         }
 
-        public bool isInView(Entity e) {
+        public bool isInView( Entity e ) {
 
-            if (!e.hasComponent(GlobalVars.POSITION_COMPONENT_NAME)) return true; //No position = always in view. Why not?
+            if ( !e.hasComponent( GlobalVars.POSITION_COMPONENT_NAME ) ) return true; //No position = always in view. Why not?
 
-            PositionComponent posComp = (PositionComponent)e.getComponent(GlobalVars.POSITION_COMPONENT_NAME);
+            PositionComponent posComp = ( PositionComponent )e.getComponent( GlobalVars.POSITION_COMPONENT_NAME );
 
 
-            foreach (View v in GetActiveLevel().sysManager.drawSystem.views) {
+            foreach ( View v in GetActiveLevel().sysManager.drawSystem.views ) {
                 float x = v.x;
                 float y = v.y;
 
                 float width = v.width;
                 float height = v.height;
 
-                if (!((posComp.x + posComp.width) < x || (posComp.y + posComp.height) < y)) return true;
+                if ( !( ( posComp.x + posComp.width ) < x || ( posComp.y + posComp.height ) < y ) ) return true;
 
-                if (!((posComp.x - posComp.width) > (x + width) || (posComp.y - posComp.height) > (y + height))) return true;
+                if ( !( ( posComp.x - posComp.width ) > ( x + width ) || ( posComp.y - posComp.height ) > ( y + height ) ) ) return true;
             }
 
             return false;
@@ -133,22 +133,22 @@ namespace RunningGame {
 
 
         public bool actOnGround() {
-            if (doActOnGround == 0) {
+            if ( doActOnGround == 0 ) {
                 List<string> reqComps = this.getRequiredComponents();
 
-                foreach (string s in reqComps) {
+                foreach ( string s in reqComps ) {
 
-                    if (!(s == GlobalVars.POSITION_COMPONENT_NAME || s == GlobalVars.DRAW_COMPONENT_NAME || s == GlobalVars.COLLIDER_COMPONENT_NAME)) {
+                    if ( !( s == GlobalVars.POSITION_COMPONENT_NAME || s == GlobalVars.DRAW_COMPONENT_NAME || s == GlobalVars.COLLIDER_COMPONENT_NAME ) ) {
                         doActOnGround = 1;
                         break;
                     }
 
                 }
 
-                if (doActOnGround != 1) doActOnGround = 2;
+                if ( doActOnGround != 1 ) doActOnGround = 2;
             }
 
-            return (doActOnGround == 2);
+            return ( doActOnGround == 2 );
         }
 
     }

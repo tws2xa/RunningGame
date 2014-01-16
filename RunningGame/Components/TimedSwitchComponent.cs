@@ -11,7 +11,7 @@ namespace RunningGame.Components {
         public float baseTime;
         public float timer;
 
-        public TimedSwitchComponent(float time) {
+        public TimedSwitchComponent( float time ) {
 
             this.componentName = GlobalVars.TIMED_SWITCH_COMPONENT_NAME;
 

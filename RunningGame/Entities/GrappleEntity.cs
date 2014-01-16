@@ -33,46 +33,46 @@ namespace RunningGame.Entities {
         //Both take in the starting x and y of the entity.
         //Both take in the level that it's being applied to.
         //You probably won't have to edit these at all.
-        public GrappleEntity(Level level, float x, float y) {
+        public GrappleEntity( Level level, float x, float y ) {
             //Set level.
             //Leave for all entities
             this.level = level;
             this.depth = 2;
             //Refers back to a class in the super Entity.
             //Leave this for all entities.
-            initializeEntity(new Random().Next(Int32.MinValue, Int32.MaxValue), level);
+            initializeEntity( new Random().Next( Int32.MinValue, Int32.MaxValue ), level );
 
             //Add the components.
             //Leave this for all entities.
-            addMyComponents(x, y, 0);
+            addMyComponents( x, y, 0 );
         }
-        public GrappleEntity(Level level, int id, float x, float y) {
+        public GrappleEntity( Level level, int id, float x, float y ) {
             //Set level.
             //Leave for all entities
             this.level = level;
 
             //Refers back to a class in the super Entity.
             //Leave this for all entities.
-            initializeEntity(id, level);
+            initializeEntity( id, level );
 
             //Add the components.
             //Leave this for all entities.
-            addMyComponents(x, y, 0);
+            addMyComponents( x, y, 0 );
         }
 
         //Takes in a direction
-        public GrappleEntity(Level level, int id, float x, float y, double dir) {
+        public GrappleEntity( Level level, int id, float x, float y, double dir ) {
             //Set level.
             //Leave for all entities
             this.level = level;
 
             //Refers back to a class in the super Entity.
             //Leave this for all entities.
-            initializeEntity(id, level);
+            initializeEntity( id, level );
 
             //Add the components.
             //Leave this for all entities.
-            addMyComponents(x, y, dir);
+            addMyComponents( x, y, dir );
         }
 
 
@@ -81,15 +81,15 @@ namespace RunningGame.Entities {
 
         //Here's where you add all the components the entity has.
         //You can just uncomment the ones you want.
-        public void addMyComponents(float x, float y, double dir) {
+        public void addMyComponents( float x, float y, double dir ) {
             /*POSITION COMPONENT - Does it have a position?
              */
-            PositionComponent posComp = (PositionComponent)addComponent(new PositionComponent(x, y, defaultWidth, defaultHeight, this), true);
+            PositionComponent posComp = ( PositionComponent )addComponent( new PositionComponent( x, y, defaultWidth, defaultHeight, this ), true );
 
             /*
              * GRAPPLE COMPONENT
              */
-            addComponent(new GrappleComponent(x, y, dir), true);
+            addComponent( new GrappleComponent( x, y, dir ), true );
 
         }
 

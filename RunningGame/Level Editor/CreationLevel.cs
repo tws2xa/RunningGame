@@ -39,7 +39,7 @@ namespace RunningGame.Level_Editor {
 
         public CreationGlobalVars vars;
 
-        public CreationLevel(float levelWidth, float levelHeight, float panelWidth, float panelHeight, Graphics g) {
+        public CreationLevel( float levelWidth, float levelHeight, float panelWidth, float panelHeight, Graphics g ) {
 
             vars = new CreationGlobalVars();
 
@@ -51,7 +51,7 @@ namespace RunningGame.Level_Editor {
             this.levelWidth = levelWidth;
             this.levelHeight = levelHeight;
 
-            if (!sysManagerInit) sysManager = new CreationSystemManager(this);
+            if ( !sysManagerInit ) sysManager = new CreationSystemManager( this );
 
             sysManagerInit = true;
 
@@ -60,26 +60,26 @@ namespace RunningGame.Level_Editor {
             levelFullyLoaded = true;
         }
 
-        public CreationLevel(float panelWidth, float panelHeight, string levelFile, Graphics g) {
+        public CreationLevel( float panelWidth, float panelHeight, string levelFile, Graphics g ) {
 
             vars = new CreationGlobalVars();
 
             rand = new Random();
             this.g = g;
 
-            Bitmap lvlImg = (Bitmap)Bitmap.FromFile(levelFile);
+            Bitmap lvlImg = ( Bitmap )Bitmap.FromFile( levelFile );
 
             cameraWidth = panelWidth;
             cameraHeight = panelHeight;
             this.levelWidth = lvlImg.Width * GlobalVars.LEVEL_READER_TILE_WIDTH;
             this.levelHeight = lvlImg.Height * GlobalVars.LEVEL_READER_TILE_HEIGHT;
 
-            if (!sysManagerInit) sysManager = new CreationSystemManager(this);
+            if ( !sysManagerInit ) sysManager = new CreationSystemManager( this );
 
             sysManagerInit = true;
 
-            LevelImageReader lvlImgReader = new LevelImageReader(this, lvlImg);
-            lvlImgReader.readImage(this);
+            LevelImageReader lvlImgReader = new LevelImageReader( this, lvlImg );
+            lvlImgReader.readImage( this );
 
             //levelBeginState = new Dictionary<int, Entity>(entities); //Copy the beginning game state
 
@@ -88,23 +88,23 @@ namespace RunningGame.Level_Editor {
             levelFullyLoaded = true;
         }
 
-        public void loadFromPaint(string fileName, Graphics newG) {
+        public void loadFromPaint( string fileName, Graphics newG ) {
 
             sysManagerInit = false;
 
             this.g = newG;
 
-            Bitmap lvlImg = (Bitmap)Bitmap.FromFile(fileName);
+            Bitmap lvlImg = ( Bitmap )Bitmap.FromFile( fileName );
 
             this.levelWidth = lvlImg.Width * GlobalVars.LEVEL_READER_TILE_WIDTH;
             this.levelHeight = lvlImg.Height * GlobalVars.LEVEL_READER_TILE_HEIGHT;
 
-            sysManager = new CreationSystemManager(this);
+            sysManager = new CreationSystemManager( this );
 
             sysManagerInit = true;
 
-            LevelImageReader lvlImgReader = new LevelImageReader(this, lvlImg);
-            lvlImgReader.readImage(this);
+            LevelImageReader lvlImgReader = new LevelImageReader( this, lvlImg );
+            lvlImgReader.readImage( this );
         }
 
         //Game logic
@@ -115,18 +115,18 @@ namespace RunningGame.Level_Editor {
             pastTicks = currentTicks - prevTicks;
             prevTicks = currentTicks;
 
-            float deltaTime = (float)(TimeSpan.FromTicks(pastTicks).TotalSeconds);
-            fps = (1 / deltaTime);
+            float deltaTime = ( float )( TimeSpan.FromTicks( pastTicks ).TotalSeconds );
+            fps = ( 1 / deltaTime );
 
-            if (levelFullyLoaded && !paused) {
-                sysManager.Update(deltaTime); //Update systems
+            if ( levelFullyLoaded && !paused ) {
+                sysManager.Update( deltaTime ); //Update systems
             }
 
         }
 
         //When an entity is given a collider - notify collider system
-        public override void colliderAdded(Entity e) {
-            sysManager.colliderAdded(e);
+        public override void colliderAdded( Entity e ) {
+            sysManager.colliderAdded( e );
         }
 
 
@@ -134,24 +134,24 @@ namespace RunningGame.Level_Editor {
         public override void resetLevel() {
             paused = true; // Pause the game briefly
             Entity[] ents = GlobalVars.nonGroundEntities.Values.ToArray();
-            for (int i = 0; i < ents.Length; i++) {
-                if (ents[i].isStartingEntity)
+            for ( int i = 0; i < ents.Length; i++ ) {
+                if ( ents[i].isStartingEntity )
                     ents[i].revertToStartingState();
                 else {
-                    removeEntity(ents[i]);
+                    removeEntity( ents[i] );
                 }
             }
             Entity[] grndents = GlobalVars.groundEntities.Values.ToArray();
-            for (int i = 0; i < grndents.Length; i++) {
-                if (grndents[i].isStartingEntity)
+            for ( int i = 0; i < grndents.Length; i++ ) {
+                if ( grndents[i].isStartingEntity )
                     grndents[i].revertToStartingState();
                 else {
-                    removeEntity(grndents[i]);
+                    removeEntity( grndents[i] );
                 }
             }
-            foreach (Entity e in GlobalVars.removedStartingEntities.Values) {
+            foreach ( Entity e in GlobalVars.removedStartingEntities.Values ) {
                 e.revertToStartingState();
-                addEntity(e.randId, e);
+                addEntity( e.randId, e );
             }
             GlobalVars.removedStartingEntities.Clear();
             paused = false; //Restart the game  
@@ -170,63 +170,63 @@ namespace RunningGame.Level_Editor {
         }
 
         //Input
-        public override void KeyDown(KeyEventArgs e) {
-            sysManager.KeyDown(e);
+        public override void KeyDown( KeyEventArgs e ) {
+            sysManager.KeyDown( e );
         }
-        public override void KeyUp(KeyEventArgs e) {
-            sysManager.KeyUp(e);
+        public override void KeyUp( KeyEventArgs e ) {
+            sysManager.KeyUp( e );
         }
-        public override void KeyPressed(KeyPressEventArgs e) {
-            sysManager.KeyPressed(e);
+        public override void KeyPressed( KeyPressEventArgs e ) {
+            sysManager.KeyPressed( e );
         }
-        public override void MouseClick(MouseEventArgs e) {
+        public override void MouseClick( MouseEventArgs e ) {
             //getCollisionSystem().MouseClick(e.X, e.Y);
-            sysManager.MouseClick(e);
+            sysManager.MouseClick( e );
         }
-        public override void MouseMoved(MouseEventArgs e) {
-            sysManager.MouseMoved(e);
+        public override void MouseMoved( MouseEventArgs e ) {
+            sysManager.MouseMoved( e );
         }
-        public void MouseLeave(EventArgs e) {
-            if (vars.protoEntity != null) {
-                PositionComponent posComp = (PositionComponent)vars.protoEntity.getComponent(GlobalVars.POSITION_COMPONENT_NAME);
-                getMovementSystem().changePosition(posComp, -100, -100, false);
+        public void MouseLeave( EventArgs e ) {
+            if ( vars.protoEntity != null ) {
+                PositionComponent posComp = ( PositionComponent )vars.protoEntity.getComponent( GlobalVars.POSITION_COMPONENT_NAME );
+                getMovementSystem().changePosition( posComp, -100, -100, false );
             }
         }
 
         //Draw everything!
-        public override void Draw(Graphics g) {
-            sysManager.Draw(g);
+        public override void Draw( Graphics g ) {
+            sysManager.Draw( g );
         }
 
         //Add an entity to the list of entities
-        public override void addEntity(int id, Entity e) {
-            if (!sysManagerInit) {
-                sysManager = new CreationSystemManager(this);
+        public override void addEntity( int id, Entity e ) {
+            if ( !sysManagerInit ) {
+                sysManager = new CreationSystemManager( this );
                 sysManagerInit = true;
             }
-            if (e is BasicGround) {
-                GlobalVars.groundEntities.Add(id, e);
+            if ( e is BasicGround ) {
+                GlobalVars.groundEntities.Add( id, e );
             } else {
-                GlobalVars.nonGroundEntities.Add(id, e);
+                GlobalVars.nonGroundEntities.Add( id, e );
             }
-            if (e.hasComponent(GlobalVars.COLLIDER_COMPONENT_NAME)) {
-                getCollisionSystem().colliderAdded(e);
+            if ( e.hasComponent( GlobalVars.COLLIDER_COMPONENT_NAME ) ) {
+                getCollisionSystem().colliderAdded( e );
             }
         }
-        public override bool removeEntity(Entity e) {
-            if (e == null) {
-                Console.WriteLine("Trying to remove null entity");
+        public override bool removeEntity( Entity e ) {
+            if ( e == null ) {
+                Console.WriteLine( "Trying to remove null entity" );
                 return false;
             }
-            if (e.isStartingEntity)
-                GlobalVars.removedStartingEntities.Add(e.randId, e);
-            if (e.hasComponent(GlobalVars.COLLIDER_COMPONENT_NAME))
-                getCollisionSystem().colliderRemoved(e);
+            if ( e.isStartingEntity )
+                GlobalVars.removedStartingEntities.Add( e.randId, e );
+            if ( e.hasComponent( GlobalVars.COLLIDER_COMPONENT_NAME ) )
+                getCollisionSystem().colliderRemoved( e );
 
-            if (e is BasicGround) {
-                GlobalVars.groundEntities.Remove(e.randId);
+            if ( e is BasicGround ) {
+                GlobalVars.groundEntities.Remove( e.randId );
             } else {
-                GlobalVars.nonGroundEntities.Remove(e.randId);
+                GlobalVars.nonGroundEntities.Remove( e.randId );
             }
 
             return true;
@@ -248,14 +248,14 @@ namespace RunningGame.Level_Editor {
             return sysManager.colSystem;
         }
         public override InputSystem getInputSystem() {
-            if (sysManager != null)
+            if ( sysManager != null )
                 return sysManager.inputSystem;
             else return null;
         }
         public override Player getPlayer() {
-            foreach (Entity e in GlobalVars.nonGroundEntities.Values) {
-                if (e is Player)
-                    return (Player)e;
+            foreach ( Entity e in GlobalVars.nonGroundEntities.Values ) {
+                if ( e is Player )
+                    return ( Player )e;
             }
             return null;
         }

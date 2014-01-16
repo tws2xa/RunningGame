@@ -37,12 +37,12 @@ namespace RunningGame {
 
         bool hasDecreasedQuality = false;
 
-        public Pen GrapplePen = new Pen(Brushes.Red, 3);
+        public Pen GrapplePen = new Pen( Brushes.Red, 3 );
 
         public bool hasBorder = false;
         public bool borderFade = true;
         int amntSolid = 5; //How many layers to leave solid if fading
-        public SolidBrush borderBrush = (SolidBrush)Brushes.Brown;
+        public SolidBrush borderBrush = ( SolidBrush )Brushes.Brown;
         public float borderSize = 2.0f;
 
         public Level level;
@@ -53,23 +53,23 @@ namespace RunningGame {
         public Bitmap staticObjImg = null;
 
         //Constructor that defaults to a 1:1 ratio for width and height, upper left corner
-        public View(float x, float y, float width, float height, Level level) {
-            Initialize(x, y, width, height, 0, 0, width, height, level, null);
+        public View( float x, float y, float width, float height, Level level ) {
+            Initialize( x, y, width, height, 0, 0, width, height, level, null );
         }
         //Fills in all values
-        public View(float x, float y, float width, float height, float displayX, float displayY, float displayWidth, float displayHeight, Level level) {
-            Initialize(x, y, width, height, displayX, displayY, displayWidth, displayHeight, level, null);
+        public View( float x, float y, float width, float height, float displayX, float displayY, float displayWidth, float displayHeight, Level level ) {
+            Initialize( x, y, width, height, displayX, displayY, displayWidth, displayHeight, level, null );
         }
         //Constructor that defaults to a 1:1 ratio for width and height, upper left corner
-        public View(float x, float y, float width, float height, Level level, Entity followEntity) {
-            Initialize(x, y, width, height, 0, 0, width, height, level, followEntity);
+        public View( float x, float y, float width, float height, Level level, Entity followEntity ) {
+            Initialize( x, y, width, height, 0, 0, width, height, level, followEntity );
         }
         //Fills in all values
-        public View(float x, float y, float width, float height, float displayX, float displayY, float displayWidth, float displayHeight, Level level, Entity followEntity) {
-            Initialize(x, y, width, height, displayX, displayY, displayWidth, displayHeight, level, followEntity);
+        public View( float x, float y, float width, float height, float displayX, float displayY, float displayWidth, float displayHeight, Level level, Entity followEntity ) {
+            Initialize( x, y, width, height, displayX, displayY, displayWidth, displayHeight, level, followEntity );
         }
 
-        public void Initialize(float x, float y, float width, float height, float displayX, float displayY, float displayWidth, float displayHeight, Level level, Entity followEntity) {
+        public void Initialize( float x, float y, float width, float height, float displayX, float displayY, float displayWidth, float displayHeight, Level level, Entity followEntity ) {
             this.x = x;
             this.y = y;
             this.width = width;
@@ -81,8 +81,8 @@ namespace RunningGame {
             this.level = level;
 
             this.followEntity = followEntity;
-            if (followEntity != null) {
-                followPosComp = (PositionComponent)followEntity.getComponent(GlobalVars.POSITION_COMPONENT_NAME);
+            if ( followEntity != null ) {
+                followPosComp = ( PositionComponent )followEntity.getComponent( GlobalVars.POSITION_COMPONENT_NAME );
             }
             xBor = width / 5;
             yBor = height / 5;
@@ -91,17 +91,17 @@ namespace RunningGame {
             wRatio = displayWidth / width;
             hRatio = displayHeight / height;
 
-            drawImg = new Bitmap((int)level.levelWidth, (int)level.levelHeight);
-            g = Graphics.FromImage(drawImg);
+            drawImg = new Bitmap( ( int )level.levelWidth, ( int )level.levelHeight );
+            g = Graphics.FromImage( drawImg );
             bkgBrush = Brushes.DeepSkyBlue;
         }
 
-        public void Draw(Graphics mainG, List<Entity> entities) {
+        public void Draw( Graphics mainG, List<Entity> entities ) {
 
 
             //g.FillRectangle(bkgBrush, new Rectangle(0, 0, (int)width, (int)height)); //Clear
 
-            if (!hasDecreasedQuality) {
+            if ( !hasDecreasedQuality ) {
                 g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor; // or NearestNeighbour
                 g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.None;
                 g.PixelOffsetMode = System.Drawing.Drawing2D.PixelOffsetMode.None;
@@ -118,35 +118,35 @@ namespace RunningGame {
             }
 
             //Find background Entity first if need be
-            if (bkgEnt == null) {
+            if ( bkgEnt == null ) {
 
-                foreach (Entity e in entities) {
+                foreach ( Entity e in entities ) {
 
-                    if (e is BackgroundEntity) {
-                        bkgEnt = (BackgroundEntity)e; //Find background entity
+                    if ( e is BackgroundEntity ) {
+                        bkgEnt = ( BackgroundEntity )e; //Find background entity
                     }
                 }
             }
 
-            if (staticObjImg == null) {
-                if (seperateStaticObjImage) {
-                    staticObjImg = new Bitmap((int)Math.Ceiling(level.levelWidth), (int)Math.Ceiling(level.levelHeight));
+            if ( staticObjImg == null ) {
+                if ( seperateStaticObjImage ) {
+                    staticObjImg = new Bitmap( ( int )Math.Ceiling( level.levelWidth ), ( int )Math.Ceiling( level.levelHeight ) );
                 } else {
-                    foreach (Entity e in entities) {
+                    foreach ( Entity e in entities ) {
 
-                        if (e is BackgroundEntity) {
-                            if (bkgEnt == null)
-                                bkgEnt = (BackgroundEntity)e; //Find background entity
-                            DrawComponent bkgDraw = (DrawComponent)bkgEnt.getComponent(GlobalVars.DRAW_COMPONENT_NAME);
-                            staticObjImg = (Bitmap)bkgDraw.getImage();
+                        if ( e is BackgroundEntity ) {
+                            if ( bkgEnt == null )
+                                bkgEnt = ( BackgroundEntity )e; //Find background entity
+                            DrawComponent bkgDraw = ( DrawComponent )bkgEnt.getComponent( GlobalVars.DRAW_COMPONENT_NAME );
+                            staticObjImg = ( Bitmap )bkgDraw.getImage();
                         }
                     }
                 }
 
                 //Draw static entities onto background
-                foreach (Entity ent in GlobalVars.groundEntities.Values) {
+                foreach ( Entity ent in GlobalVars.groundEntities.Values ) {
 
-                    DrawComponent grnDraw = (DrawComponent)ent.getComponent(GlobalVars.DRAW_COMPONENT_NAME);
+                    DrawComponent grnDraw = ( DrawComponent )ent.getComponent( GlobalVars.DRAW_COMPONENT_NAME );
 
                     /*DrawComponent bkgDraw = (DrawComponent)bkgEnt.getComponent(GlobalVars.DRAW_COMPONENT_NAME);
 
@@ -158,14 +158,14 @@ namespace RunningGame {
                     Graphics graph = Graphics.FromImage(bkgDraw.getImage());*/
 
 
-                    PositionComponent posComp = (PositionComponent)ent.getComponent(GlobalVars.POSITION_COMPONENT_NAME);
+                    PositionComponent posComp = ( PositionComponent )ent.getComponent( GlobalVars.POSITION_COMPONENT_NAME );
                     PointF drawPoint = posComp.getPointF();
-                    drawPoint.X -= (posComp.width / 2.0f);
-                    drawPoint.Y -= (posComp.height / 2.0f);
+                    drawPoint.X -= ( posComp.width / 2.0f );
+                    drawPoint.Y -= ( posComp.height / 2.0f );
 
-                    Graphics graph = Graphics.FromImage(staticObjImg);
-                    lock (grnDraw.getImage()) {
-                        graph.DrawImageUnscaled(grnDraw.getImage(), new Point((int)drawPoint.X, (int)drawPoint.Y)); //Draw the image to the view
+                    Graphics graph = Graphics.FromImage( staticObjImg );
+                    lock ( grnDraw.getImage() ) {
+                        graph.DrawImageUnscaled( grnDraw.getImage(), new Point( ( int )drawPoint.X, ( int )drawPoint.Y ) ); //Draw the image to the view
                     }
                     grnDraw.needRedraw = false;
 
@@ -174,18 +174,18 @@ namespace RunningGame {
             }
 
             //First, if there's a background entity, draw that!
-            if (bkgEnt != null)
-                drawBkgEntity(bkgEnt);
-            if (seperateStaticObjImage) {
+            if ( bkgEnt != null )
+                drawBkgEntity( bkgEnt );
+            if ( seperateStaticObjImage ) {
                 drawStaticObjImage();
             }
 
 
             //If there's a grapple, draw it
-            if (level.sysManager.grapSystem.isGrappling) {
-                foreach (Entity e in GlobalVars.nonGroundEntities.Values) {
-                    if (e is GrappleEntity) {
-                        GrappleComponent grapComp = (GrappleComponent)e.getComponent(GlobalVars.GRAPPLE_COMPONENT_NAME);
+            if ( level.sysManager.grapSystem.isGrappling ) {
+                foreach ( Entity e in GlobalVars.nonGroundEntities.Values ) {
+                    if ( e is GrappleEntity ) {
+                        GrappleComponent grapComp = ( GrappleComponent )e.getComponent( GlobalVars.GRAPPLE_COMPONENT_NAME );
 
                         PointF start = grapComp.getFirstPoint();
                         PointF end = grapComp.getLastPoint();
@@ -201,7 +201,7 @@ namespace RunningGame {
                         end.X *= wRatio;
                         end.Y *= hRatio;
                         */
-                        g.DrawLine(GrapplePen, start, end);
+                        g.DrawLine( GrapplePen, start, end );
                         break; //Should only be one - this'll save some time.
                     }
                 }
@@ -209,23 +209,23 @@ namespace RunningGame {
 
 
             //For all applicable entities (Entities with required components)
-            foreach (Entity e in entities) {
-                if (!(e is BackgroundEntity))
-                    drawEntity(e);
+            foreach ( Entity e in entities ) {
+                if ( !( e is BackgroundEntity ) )
+                    drawEntity( e );
             }
 
             //mainG.DrawImage(drawImg, new Point((int)displayX, (int)displayY)); //Draw the view to the main window
             //mainG.DrawImageUnscaled(drawImg, new Point((int)displayX, (int)displayY)); //Draw the view to the main window
-            mainG.DrawImage(drawImg, new RectangleF(displayX, displayY, displayWidth, displayHeight), new RectangleF(x, y, width, height), GraphicsUnit.Pixel);
+            mainG.DrawImage( drawImg, new RectangleF( displayX, displayY, displayWidth, displayHeight ), new RectangleF( x, y, width, height ), GraphicsUnit.Pixel );
 
 
             //Draw Border
-            if (this.hasBorder) {
-                if (!this.borderFade) {
-                    mainG.DrawRectangle(new Pen(borderBrush, borderSize), new Rectangle((int)(displayX), (int)(displayY),
-                    (int)(displayWidth), (int)(displayHeight)));
+            if ( this.hasBorder ) {
+                if ( !this.borderFade ) {
+                    mainG.DrawRectangle( new Pen( borderBrush, borderSize ), new Rectangle( ( int )( displayX ), ( int )( displayY ),
+                    ( int )( displayWidth ), ( int )( displayHeight ) ) );
                 } else {
-                    int alphaDiff = (int)Math.Ceiling(255.0f / (borderSize - amntSolid)); //How much to decrease alpha per layer
+                    int alphaDiff = ( int )Math.Ceiling( 255.0f / ( borderSize - amntSolid ) ); //How much to decrease alpha per layer
                     //Draw the solid bit
                     //mainG.DrawRectangle(new Pen(borderBrush, amntSolid), new Rectangle((int)(displayX), (int)(displayY),
                     //(int)(displayWidth), (int)(displayHeight)));
@@ -233,43 +233,43 @@ namespace RunningGame {
                     int alphaVal = 255;
                     alphaVal -= alphaDiff;
 
-                    for (int i = 0; i <= borderSize; i++) {
-                        if (alphaVal < 0) alphaVal = 0;
-                        Color tmpCol = Color.FromArgb(alphaVal, borderBrush.Color);
-                        Pen pen = new Pen(new SolidBrush(tmpCol), 1);
-                        mainG.DrawRectangle(pen, new Rectangle((int)(displayX + i), (int)(displayY + i),
-                            (int)(displayWidth - 2 * i), (int)(displayHeight - 2 * i))); alphaVal -= alphaDiff;
+                    for ( int i = 0; i <= borderSize; i++ ) {
+                        if ( alphaVal < 0 ) alphaVal = 0;
+                        Color tmpCol = Color.FromArgb( alphaVal, borderBrush.Color );
+                        Pen pen = new Pen( new SolidBrush( tmpCol ), 1 );
+                        mainG.DrawRectangle( pen, new Rectangle( ( int )( displayX + i ), ( int )( displayY + i ),
+                            ( int )( displayWidth - 2 * i ), ( int )( displayHeight - 2 * i ) ) ); alphaVal -= alphaDiff;
                         alphaVal -= alphaDiff;
-                        if (alphaVal < 0) alphaVal = 0;
+                        if ( alphaVal < 0 ) alphaVal = 0;
                     }
                 }
             }
             //look into double buffers, mainG and G are different!
             //use mainG
-            if (level.sysManager.drawSystem.getFlashTime() > 0) {
-                mainG.FillRectangle(level.sysManager.drawSystem.getFlashBrush(), new Rectangle((int)(displayX), (int)(displayY),
-                (int)(displayWidth), (int)(displayHeight)));
+            if ( level.sysManager.drawSystem.getFlashTime() > 0 ) {
+                mainG.FillRectangle( level.sysManager.drawSystem.getFlashBrush(), new Rectangle( ( int )( displayX ), ( int )( displayY ),
+                ( int )( displayWidth ), ( int )( displayHeight ) ) );
             }
 
         }
 
         public void drawStaticObjImage() {
-            if (staticObjImg == null) return;
-            g.DrawImage(staticObjImg, new RectangleF(x, y, width, height), new RectangleF(x, y, width, height), GraphicsUnit.Pixel);
+            if ( staticObjImg == null ) return;
+            g.DrawImage( staticObjImg, new RectangleF( x, y, width, height ), new RectangleF( x, y, width, height ), GraphicsUnit.Pixel );
         }
-        public void drawBkgEntity(Entity e) {
+        public void drawBkgEntity( Entity e ) {
             //Pull out all required components
-            PositionComponent posComp = (PositionComponent)e.getComponent(GlobalVars.POSITION_COMPONENT_NAME);
-            DrawComponent drawComp = (DrawComponent)e.getComponent(GlobalVars.DRAW_COMPONENT_NAME);
+            PositionComponent posComp = ( PositionComponent )e.getComponent( GlobalVars.POSITION_COMPONENT_NAME );
+            DrawComponent drawComp = ( DrawComponent )e.getComponent( GlobalVars.DRAW_COMPONENT_NAME );
 
-            if (isInView(posComp)) {
-                if (g != null) {
+            if ( isInView( posComp ) ) {
+                if ( g != null ) {
                     Image img = drawComp.getImage();
 
                     //Get center instead of upper left
                     PointF drawPoint = posComp.getPointF();
-                    drawPoint.X -= (posComp.width / 2.0f);
-                    drawPoint.Y -= (posComp.height / 2.0f);
+                    drawPoint.X -= ( posComp.width / 2.0f );
+                    drawPoint.Y -= ( posComp.height / 2.0f );
 
                     drawPoint.X -= this.x;
                     drawPoint.Y -= this.y;
@@ -278,32 +278,32 @@ namespace RunningGame {
                     drawPoint.Y *= hRatio;
 
 
-                    lock (img) {
+                    lock ( img ) {
                         //g.DrawImage(img, new RectangleF(0, 0, width, height), new RectangleF(x, y, width, height), GraphicsUnit.Pixel);
-                        g.DrawImage(img, new RectangleF(x, y, width, height), new RectangleF(x, y, width, height), GraphicsUnit.Pixel);
+                        g.DrawImage( img, new RectangleF( x, y, width, height ), new RectangleF( x, y, width, height ), GraphicsUnit.Pixel );
                     }
                 }
             }
 
         }
 
-        public void drawEntity(Entity e) {
+        public void drawEntity( Entity e ) {
 
             //Pull out all required components
-            PositionComponent posComp = (PositionComponent)e.getComponent(GlobalVars.POSITION_COMPONENT_NAME);
-            DrawComponent drawComp = (DrawComponent)e.getComponent(GlobalVars.DRAW_COMPONENT_NAME);
+            PositionComponent posComp = ( PositionComponent )e.getComponent( GlobalVars.POSITION_COMPONENT_NAME );
+            DrawComponent drawComp = ( DrawComponent )e.getComponent( GlobalVars.DRAW_COMPONENT_NAME );
 
-            if (drawComp.needRedraw) {
+            if ( drawComp.needRedraw ) {
 
-                if (isInView(posComp)) {
-                    if (g != null) {
+                if ( isInView( posComp ) ) {
+                    if ( g != null ) {
                         Image img = null;
                         //If size is locked, don't resize the image.
-                        if (drawComp.sizeLocked && wRatio == 1 && hRatio == 1) {
+                        if ( drawComp.sizeLocked && wRatio == 1 && hRatio == 1 ) {
                             img = drawComp.getImage();
                         } else {
-                            Size imageSize = new Size((int)(posComp.width * wRatio), (int)(posComp.height * hRatio));
-                            img = new Bitmap(drawComp.getImage(), imageSize);
+                            Size imageSize = new Size( ( int )( posComp.width * wRatio ), ( int )( posComp.height * hRatio ) );
+                            img = new Bitmap( drawComp.getImage(), imageSize );
                         }
 
                         /*
@@ -320,39 +320,39 @@ namespace RunningGame {
                          */
 
                         PointF drawPoint = posComp.getPointF();
-                        drawPoint.X -= (posComp.width / 2.0f);
-                        drawPoint.Y -= (posComp.height / 2.0f);
+                        drawPoint.X -= ( posComp.width / 2.0f );
+                        drawPoint.Y -= ( posComp.height / 2.0f );
 
-                        lock (img) {
-                            g.DrawImageUnscaled(img, new Point((int)drawPoint.X, (int)drawPoint.Y)); //Draw the image to the view
+                        lock ( img ) {
+                            g.DrawImageUnscaled( img, new Point( ( int )drawPoint.X, ( int )drawPoint.Y ) ); //Draw the image to the view
                         }
                         //Health bar if need be
-                        if (e.hasComponent(GlobalVars.HEALTH_COMPONENT_NAME)) {
-                            HealthComponent healthComp = (HealthComponent)e.getComponent(GlobalVars.HEALTH_COMPONENT_NAME);
-                            if (healthComp.healthBar && (healthComp.showBarOnFull || !healthComp.hasFullHealth())) {
+                        if ( e.hasComponent( GlobalVars.HEALTH_COMPONENT_NAME ) ) {
+                            HealthComponent healthComp = ( HealthComponent )e.getComponent( GlobalVars.HEALTH_COMPONENT_NAME );
+                            if ( healthComp.healthBar && ( healthComp.showBarOnFull || !healthComp.hasFullHealth() ) ) {
                                 int barHeight = 4;
                                 int ySpace = 3;
                                 int xSpace = 0;
 
-                                int xLoc = ((int)Math.Round(posComp.x - posComp.width / 2) + xSpace);
-                                int yLoc = ((int)Math.Round(posComp.y - posComp.height / 2) - barHeight - ySpace);
-                                int fullWidth = ((int)Math.Round(posComp.width) - 2 * xSpace);
+                                int xLoc = ( ( int )Math.Round( posComp.x - posComp.width / 2 ) + xSpace );
+                                int yLoc = ( ( int )Math.Round( posComp.y - posComp.height / 2 ) - barHeight - ySpace );
+                                int fullWidth = ( ( int )Math.Round( posComp.width ) - 2 * xSpace );
 
-                                Rectangle backRect = new Rectangle(xLoc, yLoc, fullWidth, barHeight);
-                                Rectangle foreRect = new Rectangle(xLoc, yLoc, (int)Math.Round(fullWidth * healthComp.getHealthPercentage()), barHeight);
+                                Rectangle backRect = new Rectangle( xLoc, yLoc, fullWidth, barHeight );
+                                Rectangle foreRect = new Rectangle( xLoc, yLoc, ( int )Math.Round( fullWidth * healthComp.getHealthPercentage() ), barHeight );
 
-                                g.FillRectangle(healthComp.backHealthBarBrush, backRect);
-                                g.FillRectangle(healthComp.foreHealthBarBrush, foreRect);
-                                g.DrawRectangle(Pens.Black, backRect); //Border
+                                g.FillRectangle( healthComp.backHealthBarBrush, backRect );
+                                g.FillRectangle( healthComp.foreHealthBarBrush, foreRect );
+                                g.DrawRectangle( Pens.Black, backRect ); //Border
 
                             }
                         }
 
-                        if (e is BasicGround & bkgEnt != null) {
-                            DrawComponent bkgDraw = (DrawComponent)bkgEnt.getComponent(GlobalVars.DRAW_COMPONENT_NAME);
-                            Graphics graph = Graphics.FromImage(bkgDraw.getImage());
-                            lock (img) {
-                                graph.DrawImageUnscaled(img, new Point((int)drawPoint.X, (int)drawPoint.Y)); //Draw the image to the view
+                        if ( e is BasicGround & bkgEnt != null ) {
+                            DrawComponent bkgDraw = ( DrawComponent )bkgEnt.getComponent( GlobalVars.DRAW_COMPONENT_NAME );
+                            Graphics graph = Graphics.FromImage( bkgDraw.getImage() );
+                            lock ( img ) {
+                                graph.DrawImageUnscaled( img, new Point( ( int )drawPoint.X, ( int )drawPoint.Y ) ); //Draw the image to the view
                             }
                             drawComp.needRedraw = false;
                         }
@@ -363,8 +363,8 @@ namespace RunningGame {
         }
 
         public void Update() {
-            if (followEntity == null) return;
-            moveCamera(followPosComp.x, followPosComp.y);
+            if ( followEntity == null ) return;
+            moveCamera( followPosComp.x, followPosComp.y );
             /*
             if ((followPosComp.x - x) < xBor)
             {
@@ -391,34 +391,34 @@ namespace RunningGame {
             */
         }
 
-        public void moveCamera(float newX, float newY) {
+        public void moveCamera( float newX, float newY ) {
 
-            if ((newX - x) < xBor) {
+            if ( ( newX - x ) < xBor ) {
                 this.x = newX - xBor;
             }
-            if ((newY - y) < yBor) {
+            if ( ( newY - y ) < yBor ) {
                 this.y = newY - yBor;
             }
-            if ((newX - this.x) > (this.width - xBor)) {
-                this.x = (newX - this.width + xBor);
+            if ( ( newX - this.x ) > ( this.width - xBor ) ) {
+                this.x = ( newX - this.width + xBor );
             }
-            if ((newY - this.y) > (this.height - yBor)) {
-                this.y = (newY - this.height + yBor);
+            if ( ( newY - this.y ) > ( this.height - yBor ) ) {
+                this.y = ( newY - this.height + yBor );
             }
 
             //Don't view off of level
-            if (this.x < 0) this.x = 0;
-            if (this.y < 0) this.y = 0;
-            if (this.x + this.width > level.levelWidth) this.x = (level.levelWidth - this.width);
-            if (this.y + this.height > level.levelHeight) this.y = (level.levelHeight - this.height);
+            if ( this.x < 0 ) this.x = 0;
+            if ( this.y < 0 ) this.y = 0;
+            if ( this.x + this.width > level.levelWidth ) this.x = ( level.levelWidth - this.width );
+            if ( this.y + this.height > level.levelHeight ) this.y = ( level.levelHeight - this.height );
         }
 
-        public bool isInView(PositionComponent posComp) {
-            if ((posComp.x + posComp.width) < x || (posComp.y + posComp.height) < y) {
+        public bool isInView( PositionComponent posComp ) {
+            if ( ( posComp.x + posComp.width ) < x || ( posComp.y + posComp.height ) < y ) {
                 return false;
             }
 
-            if ((posComp.x - posComp.width) > (x + width) || (posComp.y - posComp.height) > (y + height)) {
+            if ( ( posComp.x - posComp.width ) > ( x + width ) || ( posComp.y - posComp.height ) > ( y + height ) ) {
                 return false;
             }
             return true;
@@ -426,15 +426,15 @@ namespace RunningGame {
         }
 
 
-        public void setFollowEntity(Entity e) {
+        public void setFollowEntity( Entity e ) {
             this.followEntity = e;
-            if (followEntity != null) {
-                followPosComp = (PositionComponent)followEntity.getComponent(GlobalVars.POSITION_COMPONENT_NAME);
+            if ( followEntity != null ) {
+                followPosComp = ( PositionComponent )followEntity.getComponent( GlobalVars.POSITION_COMPONENT_NAME );
             }
         }
 
         public void centerOnFollowEntity() {
-            moveCamera(followPosComp.x, followPosComp.y);
+            moveCamera( followPosComp.x, followPosComp.y );
         }
     }
 }

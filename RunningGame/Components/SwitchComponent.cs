@@ -20,7 +20,7 @@ namespace RunningGame.Components {
             this.active = false;
             listeners = new List<SwitchListenerComponent>();
         }
-        public SwitchComponent(bool active) {
+        public SwitchComponent( bool active ) {
             this.componentName = GlobalVars.SWITCH_COMPONENT_NAME;
             this.active = active;
             listeners = new List<SwitchListenerComponent>();
@@ -31,16 +31,16 @@ namespace RunningGame.Components {
             notifyObservers();
         }
 
-        public void setActive(bool active) {
+        public void setActive( bool active ) {
             this.active = active;
             notifyObservers();
         }
 
         //Tell all the switch listeners that the switch changed state
         public void notifyObservers() {
-            foreach (SwitchListenerComponent c in listeners) {
+            foreach ( SwitchListenerComponent c in listeners ) {
                 // Set Changed 
-                c.setChanged(true);
+                c.setChanged( true );
             }
         }
     }

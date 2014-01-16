@@ -16,41 +16,41 @@ namespace RunningGame.Entities {
         //Both take in the starting x and y of the entity.
         //Both take in the level that it's being applied to.
         //You probably won't have to edit these at all.
-        public SpikeEntity(Level level, float x, float y, int dir) {
+        public SpikeEntity( Level level, float x, float y, int dir ) {
             //Set level.
             //Leave for all entities
             this.level = level;
 
             //Refers back to a class in the super Entity.
             //Leave this for all entities.
-            initializeEntity(new Random().Next(Int32.MinValue, Int32.MaxValue), level);
+            initializeEntity( new Random().Next( Int32.MinValue, Int32.MaxValue ), level );
 
             //Add the components.
             //Leave this for all entities.
-            addMyComponents(x, y, dir);
+            addMyComponents( x, y, dir );
         }
-        public SpikeEntity(Level level, int id, float x, float y, int dir) {
+        public SpikeEntity( Level level, int id, float x, float y, int dir ) {
             //Set level.
             //Leave for all entities
             this.level = level;
 
             //Refers back to a class in the super Entity.
             //Leave this for all entities.
-            initializeEntity(id, level);
+            initializeEntity( id, level );
 
             //Add the components.
             //Leave this for all entities.
-            addMyComponents(x, y, dir);
+            addMyComponents( x, y, dir );
         }
 
         //------------------------------------------------------------------------------------------------------------------
 
         //Here's where you add all the components the entity has.
         //You can just uncomment the ones you want.
-        public void addMyComponents(float x, float y, int dir) {
+        public void addMyComponents( float x, float y, int dir ) {
             /*POSITION COMPONENT - Does it have a position?
              */
-            PositionComponent posComp = (PositionComponent)addComponent(new PositionComponent(x, y, defaultWidth, defaultHeight, this), true);
+            PositionComponent posComp = ( PositionComponent )addComponent( new PositionComponent( x, y, defaultWidth, defaultHeight, this ), true );
 
             /*DRAW COMPONENT - Does it get drawn to the game world?
              *You'll need to know the address for your image.
@@ -59,28 +59,28 @@ namespace RunningGame.Entities {
              *Then add the image
              *Then set the image to the active image
              */
-            DrawComponent drawComp = (DrawComponent)addComponent(new DrawComponent(defaultWidth, defaultHeight, level, true), true);
+            DrawComponent drawComp = ( DrawComponent )addComponent( new DrawComponent( defaultWidth, defaultHeight, level, true ), true );
             //Add image - Use base name for first parameter (everything in file path after Resources. and before the numbers and .png)
             //Then second parameter is full filepath to a default image
             string sprName = "Main";
-            drawComp.addSprite("Artwork.Foreground.Spike", "RunningGame.Resources.Artwork.Foreground.Spike.png", sprName);
-            drawComp.setSprite(sprName); //Set image to active image
+            drawComp.addSprite( "Artwork.Foreground.Spike", "RunningGame.Resources.Artwork.Foreground.Spike.png", sprName );
+            drawComp.setSprite( sprName ); //Set image to active image
 
             //Rotate accordingly
-            for (int i = 0; i < dir; i++) {
-                drawComp.rotateFlipSprite(sprName, System.Drawing.RotateFlipType.Rotate90FlipNone);
+            for ( int i = 0; i < dir; i++ ) {
+                drawComp.rotateFlipSprite( sprName, System.Drawing.RotateFlipType.Rotate90FlipNone );
             }
 
 
             /*
              * DIRECTIONAL COMPONENT - it has a direction (used by collision)
              */
-            addComponent(new DirectionalComponent(dir), true);
+            addComponent( new DirectionalComponent( dir ), true );
 
             /*COLLIDER - Does it hit things?
              *The second field is the collider type. Look in GlobalVars for a string with the right name.
              */
-            addComponent(new ColliderComponent(this, GlobalVars.SPIKE_COLLIDER_TYPE), true);
+            addComponent( new ColliderComponent( this, GlobalVars.SPIKE_COLLIDER_TYPE ), true );
         }
 
         public override void revertToStartingState() {

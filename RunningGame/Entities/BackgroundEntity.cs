@@ -12,7 +12,7 @@ namespace RunningGame.Entities {
         public float defaultWidth;
         public float defaultHeight;
 
-        public BackgroundEntity(Level level, float x, float y) {
+        public BackgroundEntity( Level level, float x, float y ) {
             //Set level.
             //Leave for all entities
             this.level = level;
@@ -20,13 +20,13 @@ namespace RunningGame.Entities {
             defaultHeight = level.levelHeight;
             //Refers back to a class in the super Entity.
             //Leave this for all entities.
-            initializeEntity(new Random().Next(Int32.MinValue, Int32.MaxValue), level);
+            initializeEntity( new Random().Next( Int32.MinValue, Int32.MaxValue ), level );
 
             //Add the components.
             //Leave this for all entities.
-            addMyComponents(x, y, defaultWidth, defaultHeight);
+            addMyComponents( x, y, defaultWidth, defaultHeight );
         }
-        public BackgroundEntity(Level level, float x, float y, float w, float h) {
+        public BackgroundEntity( Level level, float x, float y, float w, float h ) {
             //Set level.
             //Leave for all entities
             this.level = level;
@@ -34,13 +34,13 @@ namespace RunningGame.Entities {
             defaultHeight = level.levelHeight;
             //Refers back to a class in the super Entity.
             //Leave this for all entities.
-            initializeEntity(new Random().Next(Int32.MinValue, Int32.MaxValue), level);
+            initializeEntity( new Random().Next( Int32.MinValue, Int32.MaxValue ), level );
 
             //Add the components.
             //Leave this for all entities.
-            addMyComponents(x, y, w, h);
+            addMyComponents( x, y, w, h );
         }
-        public BackgroundEntity(Level level, int id, float x, float y) {
+        public BackgroundEntity( Level level, int id, float x, float y ) {
             //Set level.
             //Leave for all entities
             this.level = level;
@@ -48,11 +48,11 @@ namespace RunningGame.Entities {
             defaultHeight = level.levelHeight;
             //Refers back to a class in the super Entity.
             //Leave this for all entities.
-            initializeEntity(id, level);
+            initializeEntity( id, level );
 
             //Add the components.
             //Leave this for all entities.
-            addMyComponents(x, y, defaultWidth, defaultHeight);
+            addMyComponents( x, y, defaultWidth, defaultHeight );
         }
 
 
@@ -60,17 +60,17 @@ namespace RunningGame.Entities {
 
         //Here's where you add all the components the entity has.
         //You can just uncomment the ones you want.
-        public void addMyComponents(float x, float y, float w, float h) {
+        public void addMyComponents( float x, float y, float w, float h ) {
             /*POSITION COMPONENT
              */
-            addComponent(new PositionComponent(x, y, w, h, this));
+            addComponent( new PositionComponent( x, y, w, h, this ) );
 
             /*DRAW COMPONENT
              */
-            DrawComponent drawComp = (DrawComponent)addComponent(new DrawComponent(defaultWidth, defaultHeight, level, true), true);
+            DrawComponent drawComp = ( DrawComponent )addComponent( new DrawComponent( defaultWidth, defaultHeight, level, true ), true );
             drawComp.useAlreadyLoadedImage = false;
-            drawComp.addSprite("Artwork.Other.WhiteSquare", "RunningGame.Resources.Artwork.Background.Bkg11.png", "Main");
-            drawComp.setSprite("Main");
+            drawComp.addSprite( "Artwork.Other.WhiteSquare", "RunningGame.Resources.Artwork.Background.Bkg11.png", "Main" );
+            drawComp.setSprite( "Main" );
 
             /* ANIMATION COMPONENT
              */
@@ -78,7 +78,7 @@ namespace RunningGame.Entities {
 
             /*BACKGROUND COMPONENT
              */
-            addComponent(new BackgroundComponent(), true);
+            addComponent( new BackgroundComponent(), true );
         }
 
         public override void revertToStartingState() {

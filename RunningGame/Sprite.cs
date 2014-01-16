@@ -21,28 +21,28 @@ namespace RunningGame {
         public string name { get; set; }
         public int currentImageIndex { get; set; }
 
-        public Sprite(string name, List<Bitmap> images) {
+        public Sprite( string name, List<Bitmap> images ) {
             this.name = name;
             this.images = images;
             currentImageIndex = 0;
         }
-        public Sprite(string name, Bitmap image) {
+        public Sprite( string name, Bitmap image ) {
             this.name = name;
             images = new List<Bitmap>();
-            images.Add(image);
+            images.Add( image );
             currentImageIndex = 0;
         }
 
         public Bitmap getCurrentImage() {
-            if (currentImageIndex < images.Count)
+            if ( currentImageIndex < images.Count )
                 return images[currentImageIndex];
             else {
-                Console.WriteLine("Trying to access non-existant image in sprite " + name);
+                Console.WriteLine( "Trying to access non-existant image in sprite " + name );
                 return null;
             }
         }
         public int getNumImages() {
-            return (images.Count);
+            return ( images.Count );
         }
     }
 }

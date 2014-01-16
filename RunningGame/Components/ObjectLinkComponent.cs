@@ -15,7 +15,7 @@ namespace RunningGame.Components {
     [Serializable()]
     public class ObjectLinkComponent : Component {
 
-        public ObjectLinkComponent(Entity myEntity, Entity linkedTo) {
+        public ObjectLinkComponent( Entity myEntity, Entity linkedTo ) {
             this.componentName = GlobalVars.OBJECT_LINK_COMPONENT_NAME;
         }
 

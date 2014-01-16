@@ -16,7 +16,7 @@ namespace RunningGame.Components {
         //5 - Death.
         public int left, right, up, down;
 
-        public ScreenEdgeComponent(int left, int right, int up, int down) {
+        public ScreenEdgeComponent( int left, int right, int up, int down ) {
 
             this.componentName = GlobalVars.SCREEN_EDGE_COMPONENT_NAME;
 

@@ -10,7 +10,7 @@ namespace RunningGame.Components {
 
         public int dir = 0;
 
-        public DirectionalComponent(int dir) {
+        public DirectionalComponent( int dir ) {
             this.componentName = GlobalVars.DIRECTION_COMPONENT_NAME;
             this.dir = dir;
         }

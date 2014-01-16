@@ -14,7 +14,7 @@ namespace RunningGame.Systems {
         List<string> requiredComponents = new List<string>();
         Level level;
 
-        public SoundSystem(Level level) {
+        public SoundSystem( Level level ) {
             this.level = level;
         }
 
@@ -34,22 +34,22 @@ namespace RunningGame.Systems {
         //Use deltaTime for things like changing velocity or changing position from velocity
         //This is where you do anything that you want to happen every frame.
         //There is a chance that your system won't need to do anything in update. Still have it.
-        public override void Update(float deltaTime) {
+        public override void Update( float deltaTime ) {
 
         }
         //----------------------------------------------------------------------------------------------
 
         //Here put any helper methods or really anything else you may want.
         //You may find it handy to have methods here that other systems can access.
-        public void playSound(string soundLocation, bool loop) {
-            System.IO.Stream stream = System.Reflection.Assembly.GetExecutingAssembly().GetManifestResourceStream(soundLocation);
-            SoundPlayer player = new SoundPlayer(stream);
-            if (loop)
+        public void playSound( string soundLocation, bool loop ) {
+            System.IO.Stream stream = System.Reflection.Assembly.GetExecutingAssembly().GetManifestResourceStream( soundLocation );
+            SoundPlayer player = new SoundPlayer( stream );
+            if ( loop )
                 player.PlayLooping();
             else
                 player.Play();
         }
-        public void stopSound(SoundPlayer player) {
+        public void stopSound( SoundPlayer player ) {
             player.Stop();
         }
 

@@ -14,7 +14,7 @@ namespace RunningGame.Components {
         public string eventType { get; set; } //What does the switch do? Is it a door? Maybe a moving platform? See Global Vars.
 
         //Instantiate with a switch id
-        public SwitchListenerComponent(int switchId, string eventType) {
+        public SwitchListenerComponent( int switchId, string eventType ) {
 
             this.componentName = GlobalVars.SWITCH_LISTENER_COMPONENT_NAME;
 
@@ -25,41 +25,41 @@ namespace RunningGame.Components {
 
         public bool getChanged() {
             //If not assigned to a switch - first get the switch
-            if (mySwitch == null) {
+            if ( mySwitch == null ) {
                 subscribe();
                 changed = true;
             }
-            if (mySwitch != null)
+            if ( mySwitch != null )
                 return changed;
             else {
-                Console.WriteLine("Trying to access changed with a null switch. ID: " + switchId);
+                Console.WriteLine( "Trying to access changed with a null switch. ID: " + switchId );
                 return false;
             }
         }
 
         public bool getSwitchActive() {
             //Get switch if need be
-            if (mySwitch == null) {
+            if ( mySwitch == null ) {
                 subscribe();
             }
-            if (mySwitch != null)
+            if ( mySwitch != null )
                 return mySwitch.active;
             else {
-                Console.WriteLine("Trying to access active for a null switch. ID: " + switchId);
+                Console.WriteLine( "Trying to access active for a null switch. ID: " + switchId );
                 return false;
             }
         }
 
         public void subscribe() {
-            foreach (int id in GlobalVars.nonGroundEntities.Keys) {
-                if (id == this.switchId) {
-                    this.mySwitch = (SwitchComponent)GlobalVars.nonGroundEntities[id].getComponent(GlobalVars.SWITCH_COMPONENT_NAME);
-                    this.mySwitch.listeners.Add(this);
+            foreach ( int id in GlobalVars.nonGroundEntities.Keys ) {
+                if ( id == this.switchId ) {
+                    this.mySwitch = ( SwitchComponent )GlobalVars.nonGroundEntities[id].getComponent( GlobalVars.SWITCH_COMPONENT_NAME );
+                    this.mySwitch.listeners.Add( this );
                 }
             }
         }
 
-        public void setChanged(bool changed) {
+        public void setChanged( bool changed ) {
             this.changed = changed;
         }
 

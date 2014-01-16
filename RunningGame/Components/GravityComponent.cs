@@ -20,18 +20,18 @@ namespace RunningGame.Components {
             this.x = 0;
             this.y = GlobalVars.STANDARD_GRAVITY;
         }
-        public GravityComponent(float x, float y) {
+        public GravityComponent( float x, float y ) {
             this.componentName = GlobalVars.GRAVITY_COMPONENT_NAME;
             this.x = x;
             this.y = y;
         }
 
-        public void setGravity(float x, float y) {
+        public void setGravity( float x, float y ) {
             this.x = x;
             this.y = y;
         }
 
-        public void incGravity(float x, float y) {
+        public void incGravity( float x, float y ) {
             this.x += x;
             this.y += y;
         }

@@ -18,13 +18,13 @@ namespace RunningGame.Systems {
         DeathHandler deathHandler;
 
         //Constructor - Always read in the level! You can read in other stuff too if need be.
-        public HealthSystem(Level level) {
+        public HealthSystem( Level level ) {
             //Here is where you add the Required components
-            requiredComponents.Add(GlobalVars.HEALTH_COMPONENT_NAME); //Health component
+            requiredComponents.Add( GlobalVars.HEALTH_COMPONENT_NAME ); //Health component
 
             this.level = level; //Always have this
 
-            deathHandler = new DeathHandler(level);
+            deathHandler = new DeathHandler( level );
 
         }
 
@@ -44,28 +44,28 @@ namespace RunningGame.Systems {
         //Use deltaTime for things like changing velocity or changing position from velocity
         //This is where you do anything that you want to happen every frame.
         //There is a chance that your system won't need to do anything in update. Still have it.
-        public override void Update(float deltaTime) {
+        public override void Update( float deltaTime ) {
 
-            foreach (Entity e in getApplicableEntities()) {
-                HealthComponent healthComp = (HealthComponent)e.getComponent(GlobalVars.HEALTH_COMPONENT_NAME);
-                if (healthComp.isDead()) {
+            foreach ( Entity e in getApplicableEntities() ) {
+                HealthComponent healthComp = ( HealthComponent )e.getComponent( GlobalVars.HEALTH_COMPONENT_NAME );
+                if ( healthComp.isDead() ) {
                     //Tell the death handler
-                    deathHandler.handleDeath(e);
+                    deathHandler.handleDeath( e );
                 }
 
-                if (!healthComp.hasFullHealth()) {
-                    if (healthComp.timeSinceRecharge >= healthComp.rechargeTime) {
-                        healthComp.addToHealth(healthComp.rechargeAmt);
+                if ( !healthComp.hasFullHealth() ) {
+                    if ( healthComp.timeSinceRecharge >= healthComp.rechargeTime ) {
+                        healthComp.addToHealth( healthComp.rechargeAmt );
                         healthComp.timeSinceRecharge = 0;
                     } else {
                         healthComp.timeSinceRecharge += deltaTime;
                     }
                 }
 
-                if (healthComp.health > healthComp.maxHealth) healthComp.restoreHealth();
+                if ( healthComp.health > healthComp.maxHealth ) healthComp.restoreHealth();
             }
 
-            deathHandler.update(deltaTime);
+            deathHandler.update( deltaTime );
 
         }
         //----------------------------------------------------------------------------------------------

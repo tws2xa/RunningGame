@@ -31,7 +31,7 @@ namespace RunningGame.Components {
         //When a collision occurs, this becomes whatever it collided with
         //public List<Entity> collidedWith { get; set; }
 
-        public PositionComponent(float x, float y, float w, float h, Entity myEntity) {
+        public PositionComponent( float x, float y, float w, float h, Entity myEntity ) {
             componentName = GlobalVars.POSITION_COMPONENT_NAME;
             this.prevX = x;
             this.prevY = y;
@@ -48,7 +48,7 @@ namespace RunningGame.Components {
 
             this.myEntity = myEntity;
 
-            if (this.myEntity.level.sysManager != null && this.myEntity.level.sysManager.colSystem != null) {
+            if ( this.myEntity.level.sysManager != null && this.myEntity.level.sysManager.colSystem != null ) {
                 colSys = this.myEntity.level.sysManager.colSystem;
             } else {
                 colSys = null;
@@ -67,10 +67,10 @@ namespace RunningGame.Components {
 
         //Returns an integer position as a Point
         public System.Drawing.Point getIntegerPoint() {
-            return new System.Drawing.Point((int)Math.Round(x), (int)Math.Round(y));
+            return new System.Drawing.Point( ( int )Math.Round( x ), ( int )Math.Round( y ) );
         }
         public System.Drawing.PointF getPointF() {
-            return new System.Drawing.PointF(x, y);
+            return new System.Drawing.PointF( x, y );
         }
 
     }

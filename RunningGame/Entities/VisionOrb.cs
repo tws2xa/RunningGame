@@ -18,41 +18,41 @@ namespace RunningGame.Entities {
         //Both take in the starting x and y of the entity.
         //Both take in the level that it's being applied to.
         //You probably won't have to edit these at all.
-        public VisionOrb(Level level, float x, float y) {
+        public VisionOrb( Level level, float x, float y ) {
             //Set level.
             //Leave for all entities
             this.level = level;
 
             //Refers back to a class in the super Entity.
             //Leave this for all entities.
-            initializeEntity(new Random().Next(Int32.MinValue, Int32.MaxValue), level);
+            initializeEntity( new Random().Next( Int32.MinValue, Int32.MaxValue ), level );
 
             //Add the components.
             //Leave this for all entities.
-            addMyComponents(x, y);
+            addMyComponents( x, y );
         }
-        public VisionOrb(Level level, int id, float x, float y) {
+        public VisionOrb( Level level, int id, float x, float y ) {
             //Set level.
             //Leave for all entities
             this.level = level;
 
             //Refers back to a class in the super Entity.
             //Leave this for all entities.
-            initializeEntity(id, level);
+            initializeEntity( id, level );
 
             //Add the components.
             //Leave this for all entities.
-            addMyComponents(x, y);
+            addMyComponents( x, y );
         }
 
         //------------------------------------------------------------------------------------------------------------------
 
         //Here's where you add all the components the entity has.
         //You can just uncomment the ones you want.
-        public void addMyComponents(float x, float y) {
+        public void addMyComponents( float x, float y ) {
             /*POSITION COMPONENT - Does it have a position?
              */
-            addComponent(new PositionComponent(x, y, defaultWidth, defaultHeight, this), true);
+            addComponent( new PositionComponent( x, y, defaultWidth, defaultHeight, this ), true );
 
             /*DRAW COMPONENT - Does it get drawn to the game world?
              *You'll need to know the address for your image.
@@ -61,18 +61,18 @@ namespace RunningGame.Entities {
              *Then add the image
              *Then set the image to the active image
              */
-            DrawComponent drawComp = (DrawComponent)addComponent(new DrawComponent(defaultWidth, defaultHeight, level, true), true);
+            DrawComponent drawComp = ( DrawComponent )addComponent( new DrawComponent( defaultWidth, defaultHeight, level, true ), true );
             //Add image - Use base name for first parameter (everything in file path after Resources. and before the numbers and .png)
             //Then second parameter is full filepath to a default image
-            drawComp.addSprite("Artwork.Other.WhiteSquare", "RunningGame.Resources.Artwork.Other.WhiteSquare.png", "Main");
-            drawComp.setSprite("Main"); //Set image to active image
+            drawComp.addSprite( "Artwork.Other.WhiteSquare", "RunningGame.Resources.Artwork.Other.WhiteSquare.png", "Main" );
+            drawComp.setSprite( "Main" ); //Set image to active image
 
             /* ANIMATION COMPONENT - Does it need animating?
              * The float that this reads in is the amount of time (in seconds) between frames.
              * So, if it was 5, you would be on one frame for 5 seconds, then switch to the next, then 5 seconds later
              * It'd switch to the next etc, etc...
              */
-            addComponent(new AnimationComponent(0.05f));
+            addComponent( new AnimationComponent( 0.05f ) );
 
 
             List<string> anim = new List<string>()
@@ -99,29 +99,29 @@ namespace RunningGame.Entities {
                 "RunningGame.Resources.Artwork.Foreground.Orb1.png"
             };
 
-            drawComp.addAnimatedSprite(anim, animDefaults, "MainAnim");
-            drawComp.setSprite("MainAnim");
+            drawComp.addAnimatedSprite( anim, animDefaults, "MainAnim" );
+            drawComp.setSprite( "MainAnim" );
             /*VELOCITY COMPONENT - Does it move?
              */
-            addComponent(new VelocityComponent(0, 0), true);
+            addComponent( new VelocityComponent( 0, 0 ), true );
 
             /*VISION COMPONENT
              */
-            addComponent(new VisionInputComponent(this), true);
+            addComponent( new VisionInputComponent( this ), true );
 
             /*COLLIDER - Does it hit things?
              *The second field is the collider type. Look in GlobalVars for a string with the right name.
              */
-            addComponent(new ColliderComponent(this, GlobalVars.VISION_COLLIDER_TYPE), true);
+            addComponent( new ColliderComponent( this, GlobalVars.VISION_COLLIDER_TYPE ), true );
 
             /*HEALTH COMPONENT - Does it have health, can it die?
              *Parameters: maxHealth, startingHealth, draw a health bar?, recharge amount, recharge time
              *Basically, every rechargeTime, the entity regenerates rechargeAmount
              */
-            addComponent(new HealthComponent(100, 100, true, 5), true);
+            addComponent( new HealthComponent( 100, 100, true, 5 ), true );
 
             //Edge of screen component
-            addComponent(new ScreenEdgeComponent(1, 1, 1, 1), true);
+            addComponent( new ScreenEdgeComponent( 1, 1, 1, 1 ), true );
         }
 
         //You must have this, but it may be empty.

@@ -36,14 +36,14 @@ namespace RunningGame.Systems {
         List<string> requiredComponents = new List<string>();
         Level level;
 
-        public InputSystem(Level level) {
+        public InputSystem( Level level ) {
 
             this.level = level; //Always have this
 
-            myKeys.Add(GlobalVars.KEY_JUMP, new KeyBools());
-            myKeys.Add(GlobalVars.KEY_LEFT, new KeyBools());
-            myKeys.Add(GlobalVars.KEY_RIGHT, new KeyBools());
-            myKeys.Add(GlobalVars.KEY_DOWN, new KeyBools());
+            myKeys.Add( GlobalVars.KEY_JUMP, new KeyBools() );
+            myKeys.Add( GlobalVars.KEY_LEFT, new KeyBools() );
+            myKeys.Add( GlobalVars.KEY_RIGHT, new KeyBools() );
+            myKeys.Add( GlobalVars.KEY_DOWN, new KeyBools() );
 
         }
 
@@ -58,34 +58,34 @@ namespace RunningGame.Systems {
             return level;
         }
 
-        public override void Update(float deltaTime) {
-            foreach (KeyBools b in myKeys.Values) {
-                if (b.down) {
+        public override void Update( float deltaTime ) {
+            foreach ( KeyBools b in myKeys.Values ) {
+                if ( b.down ) {
                     b.downTimer += 1;
-                    if (b.downTimer > 0) {
+                    if ( b.downTimer > 0 ) {
                         b.downTimer = 0;
                         b.down = false;
                     }
                 }
-                if (b.up) {
+                if ( b.up ) {
                     b.upTimer += 1;
-                    if (b.upTimer > 0) {
+                    if ( b.upTimer > 0 ) {
                         b.upTimer = 0;
                         b.up = false;
                     }
                 }
             }
 
-            if (mouseLeftClick) {
+            if ( mouseLeftClick ) {
                 mouseLeftClickCounter++;
-                if (mouseLeftClickCounter > 0) {
+                if ( mouseLeftClickCounter > 0 ) {
                     mouseLeftClickCounter = 0;
                     mouseLeftClick = false;
                 }
             }
-            if (mouseRightClick) {
+            if ( mouseRightClick ) {
                 mouseRightClickCounter++;
-                if (mouseRightClickCounter > 0) {
+                if ( mouseRightClickCounter > 0 ) {
                     mouseRightClickCounter = 0;
                     mouseRightClick = false;
                 }
@@ -94,39 +94,39 @@ namespace RunningGame.Systems {
         //----------------------------------------------------------------------------------------------
 
         //Input
-        public void KeyDown(KeyEventArgs e) {
-            if (myKeys.ContainsKey(e.KeyData)) {
-                if (!myKeys[e.KeyData].down) //If it's just been pressed, set down to true
+        public void KeyDown( KeyEventArgs e ) {
+            if ( myKeys.ContainsKey( e.KeyData ) ) {
+                if ( !myKeys[e.KeyData].down ) //If it's just been pressed, set down to true
                     myKeys[e.KeyData].down = true;
                 myKeys[e.KeyData].pressed = true;
             }
         }
-        public void KeyUp(KeyEventArgs e) {
-            if (myKeys.ContainsKey(e.KeyData)) {
+        public void KeyUp( KeyEventArgs e ) {
+            if ( myKeys.ContainsKey( e.KeyData ) ) {
 
                 myKeys[e.KeyData].pressed = false;
                 myKeys[e.KeyData].up = true;
 
             }
         }
-        public void MouseClick(MouseEventArgs e) {
-            if (e.Button == MouseButtons.Left) {
+        public void MouseClick( MouseEventArgs e ) {
+            if ( e.Button == MouseButtons.Left ) {
                 mouseX = e.X;
                 mouseY = e.Y;
                 mouseLeftClick = true;
-            } else if (e.Button == MouseButtons.Right) {
+            } else if ( e.Button == MouseButtons.Right ) {
                 mouseX = e.X;
                 mouseY = e.Y;
                 mouseRightClick = true;
             }
         }
-        public void MouseMoved(MouseEventArgs e) {
+        public void MouseMoved( MouseEventArgs e ) {
             mouseX = e.X;
             mouseY = e.Y;
         }
 
-        public void addKey(Keys key) {
-            myKeys.Add(key, new KeyBools());
+        public void addKey( Keys key ) {
+            myKeys.Add( key, new KeyBools() );
         }
 
 

@@ -18,19 +18,19 @@ namespace RunningGame.Components {
             this.x = 0;
             this.y = 0;
         }
-        public VelocityComponent(float x, float y) {
+        public VelocityComponent( float x, float y ) {
             this.componentName = GlobalVars.VELOCITY_COMPONENT_NAME;
             this.x = x;
             this.y = y;
         }
 
         //Set velocity
-        public void setVelocity(float x, float y) {
+        public void setVelocity( float x, float y ) {
             this.x = x;
             this.y = y;
         }
         //Add to velocity
-        public void incVelocity(float x, float y) {
+        public void incVelocity( float x, float y ) {
             this.x += x;
             this.y += y;
         }

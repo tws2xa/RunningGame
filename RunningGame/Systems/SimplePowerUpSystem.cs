@@ -61,7 +61,7 @@ namespace RunningGame.Systems {
 
         float curDeltaTime = 0.0f;
 
-        public SimplePowerUpSystem(Level level) {
+        public SimplePowerUpSystem( Level level ) {
             this.level = level; //Always have this
             glideTimer = glideDuration;
             spawnDistance = 0;
@@ -79,14 +79,14 @@ namespace RunningGame.Systems {
             return level;
         }
 
-        public override void Update(float deltaTime) {
+        public override void Update( float deltaTime ) {
             curDeltaTime = deltaTime;
 
-            if (!hasRunOnce) {
+            if ( !hasRunOnce ) {
 
                 addKeys();
-                
-                PositionComponent posComp = (PositionComponent)level.getPlayer().getComponent(GlobalVars.POSITION_COMPONENT_NAME);
+
+                PositionComponent posComp = ( PositionComponent )level.getPlayer().getComponent( GlobalVars.POSITION_COMPONENT_NAME );
                 spawnDistance = posComp.width / 2 + 15.0f;
 
                 hasRunOnce = true;
@@ -96,7 +96,7 @@ namespace RunningGame.Systems {
 
             manageSpeedyTimer( deltaTime );
 
-            if (!level.sysManager.visSystem.orbActive) {
+            if ( !level.sysManager.visSystem.orbActive ) {
                 checkForInput();
             }
         }
@@ -109,7 +109,7 @@ namespace RunningGame.Systems {
             level.getInputSystem().addKey( equippedPowerupKey );
         }
 
-        public void manageGlideTimer(float deltaTime) {
+        public void manageGlideTimer( float deltaTime ) {
             if ( glideActive && level.getPlayer() != null ) {
 
                 VelocityComponent velComp = ( VelocityComponent )this.level.getPlayer().getComponent( GlobalVars.VELOCITY_COMPONENT_NAME );
@@ -134,10 +134,10 @@ namespace RunningGame.Systems {
 
             List<Entity> toRemove = new List<Entity>();
 
-            foreach (Entity e in speedyTimers.Keys.ToList()) {
-                if(!(e.hasComponent(GlobalVars.VELOCITY_COMPONENT_NAME))) return;
+            foreach ( Entity e in speedyTimers.Keys.ToList() ) {
+                if ( !( e.hasComponent( GlobalVars.VELOCITY_COMPONENT_NAME ) ) ) return;
 
-                VelocityComponent velComp = (VelocityComponent)e.getComponent( GlobalVars.VELOCITY_COMPONENT_NAME );
+                VelocityComponent velComp = ( VelocityComponent )e.getComponent( GlobalVars.VELOCITY_COMPONENT_NAME );
                 speedyTimers[e] -= deltaTime;
                 if ( speedyTimers[e] <= 0 || Math.Abs( velComp.x ) < GlobalVars.SPEEDY_SPEED ) {
                     velComp.setVelocity( 0, velComp.y );
@@ -163,35 +163,35 @@ namespace RunningGame.Systems {
 
         }
 
-        public void speedyEntity(float x, float y) {
+        public void speedyEntity( float x, float y ) {
 
-            if (level.getCollisionSystem().findObjectsBetweenPoints(x - speedySize / 2, y - speedySize / 2, x + speedySize / 2, y + speedySize / 2).Count > 0) return;
-            if (level.getCollisionSystem().findObjectsBetweenPoints(x - speedySize / 2, y + speedySize / 2, x + speedySize / 2, y - speedySize / 2).Count > 0) return;
+            if ( level.getCollisionSystem().findObjectsBetweenPoints( x - speedySize / 2, y - speedySize / 2, x + speedySize / 2, y + speedySize / 2 ).Count > 0 ) return;
+            if ( level.getCollisionSystem().findObjectsBetweenPoints( x - speedySize / 2, y + speedySize / 2, x + speedySize / 2, y - speedySize / 2 ).Count > 0 ) return;
 
-            Entity newEntity = new PreGroundSpeedy(level, x, y);
+            Entity newEntity = new PreGroundSpeedy( level, x, y );
 
-            level.addEntity(newEntity.randId, newEntity);
+            level.addEntity( newEntity.randId, newEntity );
         }
         public void checkForInput() {
 
-            if (glideUnlocked && level.getInputSystem().myKeys[glideKey].down) {
+            if ( glideUnlocked && level.getInputSystem().myKeys[glideKey].down ) {
                 glide();
             }
 
-            if (level.getInputSystem().myKeys[cycleUpPowerupKey].down) {
-                CycleThroughEquips(true);
+            if ( level.getInputSystem().myKeys[cycleUpPowerupKey].down ) {
+                CycleThroughEquips( true );
             }
 
-            if (level.getInputSystem().myKeys[cycleDownPowerupKey].down) {
-                CycleThroughEquips(false);
+            if ( level.getInputSystem().myKeys[cycleDownPowerupKey].down ) {
+                CycleThroughEquips( false );
             }
 
 
-            if (level.getInputSystem().myKeys[equippedPowerupKey].down) {
+            if ( level.getInputSystem().myKeys[equippedPowerupKey].down ) {
                 equppedPowerup();
             }
 
-            if (grappleUnlocked && level.getInputSystem().mouseRightClick) {
+            if ( grappleUnlocked && level.getInputSystem().mouseRightClick ) {
                 Grapple();
             }
 
@@ -203,7 +203,7 @@ namespace RunningGame.Systems {
         //Speed
         //Spawn
         //None
-        public void CycleThroughEquips(bool up) {
+        public void CycleThroughEquips( bool up ) {
 
             if ( level.getPlayer() == null ) return;
 
@@ -214,10 +214,10 @@ namespace RunningGame.Systems {
 
             System.Drawing.Color newBorderCol = defaultColor; //Default Color.
 
-            if (up) {
-                if (bouncyEquipped) {
+            if ( up ) {
+                if ( bouncyEquipped ) {
                     bouncyEquipped = false;
-                    if (speedyUnlocked) {
+                    if ( speedyUnlocked ) {
                         speedyEquipped = true;
                         level.getPlayer().setBlueImage();
                         newBorderCol = blueColor;
@@ -225,23 +225,23 @@ namespace RunningGame.Systems {
                         level.getPlayer().setNormalImage();
                     }
                     blockSpawnEquipped = false;
-                } else if (speedyEquipped) {
+                } else if ( speedyEquipped ) {
                     bouncyEquipped = false;
                     speedyEquipped = false;
-                    if (spawnUnlocked) {
+                    if ( spawnUnlocked ) {
                         blockSpawnEquipped = true;
                         level.getPlayer().setOrangeImage();
                         newBorderCol = orangeColor;
                     } else {
                         level.getPlayer().setNormalImage();
                     }
-                } else if (blockSpawnEquipped) {
+                } else if ( blockSpawnEquipped ) {
                     bouncyEquipped = false;
                     speedyEquipped = false;
                     blockSpawnEquipped = false;
                     level.getPlayer().setNormalImage();
                 } else {
-                    if (bouncyUnlocked) {
+                    if ( bouncyUnlocked ) {
                         bouncyEquipped = true;
                         level.getPlayer().setPurpleImage();
                         newBorderCol = purpleColor;
@@ -253,13 +253,13 @@ namespace RunningGame.Systems {
                 }
             } else {
 
-                if (bouncyEquipped) {
+                if ( bouncyEquipped ) {
                     bouncyEquipped = false;
                     speedyEquipped = false;
                     blockSpawnEquipped = false;
                     level.getPlayer().setNormalImage();
-                } else if (speedyEquipped) {
-                    if (bouncyUnlocked) {
+                } else if ( speedyEquipped ) {
+                    if ( bouncyUnlocked ) {
                         bouncyEquipped = true;
                         level.getPlayer().setPurpleImage();
                         newBorderCol = purpleColor;
@@ -268,9 +268,9 @@ namespace RunningGame.Systems {
                     }
                     speedyEquipped = false;
                     blockSpawnEquipped = false;
-                } else if (blockSpawnEquipped) {
+                } else if ( blockSpawnEquipped ) {
                     bouncyEquipped = false;
-                    if (speedyUnlocked) {
+                    if ( speedyUnlocked ) {
                         speedyEquipped = true;
                         level.getPlayer().setBlueImage();
                         newBorderCol = blueColor;
@@ -280,20 +280,20 @@ namespace RunningGame.Systems {
                     blockSpawnEquipped = false;
                 } else //Nothing equiped
                 {
-                    if (spawnUnlocked) {
+                    if ( spawnUnlocked ) {
                         blockSpawnEquipped = true;
                         level.getPlayer().setOrangeImage();
                         newBorderCol = orangeColor;
                         bouncyEquipped = false;
                         speedyEquipped = false;
-                    } else if (speedyUnlocked) {
+                    } else if ( speedyUnlocked ) {
                         speedyEquipped = true;
                         level.getPlayer().setBlueImage();
                         newBorderCol = blueColor;
 
                         bouncyEquipped = false;
                         blockSpawnEquipped = false;
-                    } else if (bouncyUnlocked) {
+                    } else if ( bouncyUnlocked ) {
                         bouncyEquipped = true;
                         level.getPlayer().setPurpleImage();
                         newBorderCol = purpleColor;
@@ -309,9 +309,9 @@ namespace RunningGame.Systems {
                 }
             }
 
-            if (newBorderCol != defaultColor) {
-                if (level.sysManager.drawSystem.getMainView() != null) {
-                    System.Drawing.SolidBrush borderBrush = new System.Drawing.SolidBrush(newBorderCol);
+            if ( newBorderCol != defaultColor ) {
+                if ( level.sysManager.drawSystem.getMainView() != null ) {
+                    System.Drawing.SolidBrush borderBrush = new System.Drawing.SolidBrush( newBorderCol );
                     level.sysManager.drawSystem.getMainView().borderBrush = borderBrush;
                     level.sysManager.drawSystem.getMainView().borderSize = 25;
                     level.sysManager.drawSystem.getMainView().hasBorder = true;
@@ -325,7 +325,7 @@ namespace RunningGame.Systems {
             bouncyEquipped = false;
             speedyEquipped = false;
             blockSpawnEquipped = false;
-            if (level.getPlayer() != null) {
+            if ( level.getPlayer() != null ) {
                 level.getPlayer().setNormalImage();
             }
             return;
@@ -333,12 +333,12 @@ namespace RunningGame.Systems {
 
         public void equppedPowerup() {
 
-            if (bouncyEquipped) {
+            if ( bouncyEquipped ) {
                 //Bouncy Call Here
                 createBounce();
-            } else if (speedyEquipped) {
+            } else if ( speedyEquipped ) {
                 createSpeedy();
-            } else if (blockSpawnEquipped) {
+            } else if ( blockSpawnEquipped ) {
                 blockSpawn();
             } else {
                 //Derp
@@ -346,34 +346,34 @@ namespace RunningGame.Systems {
         }
 
         public void createSpeedy() {
-            PositionComponent posComp = (PositionComponent)level.getPlayer().getComponent(GlobalVars.POSITION_COMPONENT_NAME);
-            Player player = (Player)level.getPlayer();
+            PositionComponent posComp = ( PositionComponent )level.getPlayer().getComponent( GlobalVars.POSITION_COMPONENT_NAME );
+            Player player = ( Player )level.getPlayer();
 
-            if (player == null) return;
+            if ( player == null ) return;
 
-            speedyEntity(posComp.x + getSpawnDistance(player), posComp.y);
+            speedyEntity( posComp.x + getSpawnDistance( player ), posComp.y );
 
         }
 
-        public void bounceEntity(float x, float y) {
+        public void bounceEntity( float x, float y ) {
 
-            if (level.getCollisionSystem().findObjectsBetweenPoints(x - bouncySize / 2, y - bouncySize / 2, x + bouncySize / 2, y + bouncySize / 2).Count > 0) return;
-            if (level.getCollisionSystem().findObjectsBetweenPoints(x - bouncySize / 2, y + bouncySize / 2, x + bouncySize / 2, y - bouncySize / 2).Count > 0) return;
+            if ( level.getCollisionSystem().findObjectsBetweenPoints( x - bouncySize / 2, y - bouncySize / 2, x + bouncySize / 2, y + bouncySize / 2 ).Count > 0 ) return;
+            if ( level.getCollisionSystem().findObjectsBetweenPoints( x - bouncySize / 2, y + bouncySize / 2, x + bouncySize / 2, y - bouncySize / 2 ).Count > 0 ) return;
 
-            Entity newBounceEntity = new PreGroundBounce(level, x, y);
+            Entity newBounceEntity = new PreGroundBounce( level, x, y );
 
-            level.addEntity(newBounceEntity.randId, newBounceEntity);
+            level.addEntity( newBounceEntity.randId, newBounceEntity );
         }
         public void createBounce() {
-            PositionComponent posComp = (PositionComponent)level.getPlayer().getComponent(GlobalVars.POSITION_COMPONENT_NAME);
-            Player player = (Player)level.getPlayer();
+            PositionComponent posComp = ( PositionComponent )level.getPlayer().getComponent( GlobalVars.POSITION_COMPONENT_NAME );
+            Player player = ( Player )level.getPlayer();
 
-            bounceEntity(posComp.x + getSpawnDistance(player), posComp.y);
+            bounceEntity( posComp.x + getSpawnDistance( player ), posComp.y );
 
         }
         public void Grapple() {
-            if (level.getPlayer() == null) return;
-            PositionComponent playerPos = (PositionComponent)level.getPlayer().getComponent(GlobalVars.POSITION_COMPONENT_NAME);
+            if ( level.getPlayer() == null ) return;
+            PositionComponent playerPos = ( PositionComponent )level.getPlayer().getComponent( GlobalVars.POSITION_COMPONENT_NAME );
 
             //Get the direction
             double dir = 0;
@@ -385,131 +385,131 @@ namespace RunningGame.Systems {
             float xDiff = mouseX - playerPos.x;
             float yDiff = mouseY - playerPos.y;
 
-            dir = Math.Atan(yDiff / xDiff);
+            dir = Math.Atan( yDiff / xDiff );
 
-            if (mouseX < playerPos.x) {
+            if ( mouseX < playerPos.x ) {
                 dir += Math.PI;
-                if (!level.getPlayer().isLookingLeft()) {
+                if ( !level.getPlayer().isLookingLeft() ) {
                     level.getPlayer().faceLeft();
                 }
-            } else if (mouseX > playerPos.x && !level.getPlayer().isLookingRight()) {
+            } else if ( mouseX > playerPos.x && !level.getPlayer().isLookingRight() ) {
                 level.getPlayer().faceRight();
             }
 
             //Add the entity
-            GrappleEntity grap = new GrappleEntity(level, new Random().Next(), playerPos.x, playerPos.y, dir);
-            level.addEntity(grap);
-            VelocityComponent velComp = (VelocityComponent)level.getPlayer().getComponent(GlobalVars.VELOCITY_COMPONENT_NAME);
+            GrappleEntity grap = new GrappleEntity( level, new Random().Next(), playerPos.x, playerPos.y, dir );
+            level.addEntity( grap );
+            VelocityComponent velComp = ( VelocityComponent )level.getPlayer().getComponent( GlobalVars.VELOCITY_COMPONENT_NAME );
             velComp.x = 0;
-            level.getPlayer().removeComponent(GlobalVars.PLAYER_INPUT_COMPONENT_NAME);
-            if (level.sysManager.grapSystem.removeGravity == 1) level.getPlayer().removeComponent(GlobalVars.GRAVITY_COMPONENT_NAME);
+            level.getPlayer().removeComponent( GlobalVars.PLAYER_INPUT_COMPONENT_NAME );
+            if ( level.sysManager.grapSystem.removeGravity == 1 ) level.getPlayer().removeComponent( GlobalVars.GRAVITY_COMPONENT_NAME );
         }
 
         public void glide() {
-            if (level.getPlayer() == null) return;
-            if (!level.getPlayer().hasComponent(GlobalVars.GRAVITY_COMPONENT_NAME)) return;
-            GravityComponent gravComp = (GravityComponent)this.level.getPlayer().getComponent(GlobalVars.GRAVITY_COMPONENT_NAME);
-            gravComp.setGravity(gravComp.x, (Glide_Gravity_Decrease));
+            if ( level.getPlayer() == null ) return;
+            if ( !level.getPlayer().hasComponent( GlobalVars.GRAVITY_COMPONENT_NAME ) ) return;
+            GravityComponent gravComp = ( GravityComponent )this.level.getPlayer().getComponent( GlobalVars.GRAVITY_COMPONENT_NAME );
+            gravComp.setGravity( gravComp.x, ( Glide_Gravity_Decrease ) );
             glideActive = true;
         }
 
         public void blockSpawn() {
-            PositionComponent posComp = (PositionComponent)level.getPlayer().getComponent(GlobalVars.POSITION_COMPONENT_NAME);
-            Player player = (Player)level.getPlayer();
+            PositionComponent posComp = ( PositionComponent )level.getPlayer().getComponent( GlobalVars.POSITION_COMPONENT_NAME );
+            Player player = ( Player )level.getPlayer();
 
-            createBlockEntity(posComp.x + getSpawnDistance(player), posComp.y);
+            createBlockEntity( posComp.x + getSpawnDistance( player ), posComp.y );
 
         }
 
-        public void createBlockEntity(float x, float y) {
+        public void createBlockEntity( float x, float y ) {
 
 
-            if (level.getCollisionSystem().findObjectsBetweenPoints(x - spawnBlockSize / 2, y - spawnBlockSize / 2, x + spawnBlockSize / 2, y + spawnBlockSize / 2).Count > 0) return;
-            if (level.getCollisionSystem().findObjectsBetweenPoints(x - spawnBlockSize / 2, y + spawnBlockSize / 2, x + spawnBlockSize / 2, y - spawnBlockSize / 2).Count > 0) return;
+            if ( level.getCollisionSystem().findObjectsBetweenPoints( x - spawnBlockSize / 2, y - spawnBlockSize / 2, x + spawnBlockSize / 2, y + spawnBlockSize / 2 ).Count > 0 ) return;
+            if ( level.getCollisionSystem().findObjectsBetweenPoints( x - spawnBlockSize / 2, y + spawnBlockSize / 2, x + spawnBlockSize / 2, y - spawnBlockSize / 2 ).Count > 0 ) return;
 
-            if (spawnBlocks.Count >= maxNumSpawnBlocks) {
+            if ( spawnBlocks.Count >= maxNumSpawnBlocks ) {
                 spawnBlockEntity old = spawnBlocks.Dequeue();
-                level.removeEntity(old);
+                level.removeEntity( old );
             }
             //Entity newEntity = new [YOUR ENTITY HERE](level, x, y);
-            spawnBlockEntity newEntity = new spawnBlockEntity(level, x, y);
-            level.addEntity(newEntity.randId, newEntity); //This should just stay the same
-            spawnBlocks.Enqueue(newEntity);
+            spawnBlockEntity newEntity = new spawnBlockEntity( level, x, y );
+            level.addEntity( newEntity.randId, newEntity ); //This should just stay the same
+            spawnBlocks.Enqueue( newEntity );
         }
 
 
 
 
-        public void togglePowerup(int pupNum) {
-            switch (pupNum) {
-                case (GlobalVars.BOUNCE_NUM):
-                    bouncyUnlocked = !getUnlocked(pupNum);
+        public void togglePowerup( int pupNum ) {
+            switch ( pupNum ) {
+                case ( GlobalVars.BOUNCE_NUM ):
+                    bouncyUnlocked = !getUnlocked( pupNum );
                     break;
-                case (GlobalVars.SPEED_NUM):
-                    speedyUnlocked = !getUnlocked(pupNum);
+                case ( GlobalVars.SPEED_NUM ):
+                    speedyUnlocked = !getUnlocked( pupNum );
                     break;
-                case (GlobalVars.JMP_NUM):
-                    if (getUnlocked(pupNum)) {
+                case ( GlobalVars.JMP_NUM ):
+                    if ( getUnlocked( pupNum ) ) {
                         GlobalVars.numAirJumps = GlobalVars.normNumAirJumps;
                     } else {
                         GlobalVars.numAirJumps = GlobalVars.doubleJumpNumAirJumps;
                     }
                     break;
-                case (GlobalVars.SPAWN_NUM):
-                    spawnUnlocked = !getUnlocked(pupNum);
+                case ( GlobalVars.SPAWN_NUM ):
+                    spawnUnlocked = !getUnlocked( pupNum );
                     break;
-                case (GlobalVars.GLIDE_NUM):
-                    glideUnlocked = !getUnlocked(pupNum);
+                case ( GlobalVars.GLIDE_NUM ):
+                    glideUnlocked = !getUnlocked( pupNum );
                     break;
-                case (GlobalVars.GRAP_NUM):
-                    grappleUnlocked = !getUnlocked(pupNum);
+                case ( GlobalVars.GRAP_NUM ):
+                    grappleUnlocked = !getUnlocked( pupNum );
                     break;
 
             }
         }
 
-        public void unlockPowerup(int pupNum) {
-            if (!getUnlocked(pupNum)) togglePowerup(pupNum);
+        public void unlockPowerup( int pupNum ) {
+            if ( !getUnlocked( pupNum ) ) togglePowerup( pupNum );
         }
 
-        public void lockPowerup(int pupNum) {
-            if (getUnlocked(pupNum)) togglePowerup(pupNum);
+        public void lockPowerup( int pupNum ) {
+            if ( getUnlocked( pupNum ) ) togglePowerup( pupNum );
         }
 
-        public bool getUnlocked(int pupNum) {
-            switch (pupNum) {
-                case (GlobalVars.BOUNCE_NUM):
+        public bool getUnlocked( int pupNum ) {
+            switch ( pupNum ) {
+                case ( GlobalVars.BOUNCE_NUM ):
                     return bouncyUnlocked;
-                case (GlobalVars.SPEED_NUM):
+                case ( GlobalVars.SPEED_NUM ):
                     return speedyUnlocked;
-                case (GlobalVars.JMP_NUM):
-                    PlayerInputComponent inpComp = (PlayerInputComponent)level.getPlayer().getComponent(GlobalVars.PLAYER_INPUT_COMPONENT_NAME);
-                    return (GlobalVars.numAirJumps == GlobalVars.doubleJumpNumAirJumps);
-                case (GlobalVars.SPAWN_NUM):
+                case ( GlobalVars.JMP_NUM ):
+                    PlayerInputComponent inpComp = ( PlayerInputComponent )level.getPlayer().getComponent( GlobalVars.PLAYER_INPUT_COMPONENT_NAME );
+                    return ( GlobalVars.numAirJumps == GlobalVars.doubleJumpNumAirJumps );
+                case ( GlobalVars.SPAWN_NUM ):
                     return spawnUnlocked;
-                case (GlobalVars.GLIDE_NUM):
+                case ( GlobalVars.GLIDE_NUM ):
                     return glideUnlocked;
-                case (GlobalVars.GRAP_NUM):
+                case ( GlobalVars.GRAP_NUM ):
                     return grappleUnlocked;
             }
             return false;
         }
 
-        public float getSpawnDistance(Player player) {
-            if (player == null) return 0;
-            VelocityComponent velComp = (VelocityComponent)player.getComponent(GlobalVars.VELOCITY_COMPONENT_NAME);
-            return getSpawnDistance(player, velComp);
+        public float getSpawnDistance( Player player ) {
+            if ( player == null ) return 0;
+            VelocityComponent velComp = ( VelocityComponent )player.getComponent( GlobalVars.VELOCITY_COMPONENT_NAME );
+            return getSpawnDistance( player, velComp );
         }
 
 
-        public float getSpawnDistance(Player player, VelocityComponent velComp) {
-            if (velComp == null) return 0;
+        public float getSpawnDistance( Player player, VelocityComponent velComp ) {
+            if ( velComp == null ) return 0;
 
 
-            float dist = spawnDistance + Math.Abs(velComp.x * curDeltaTime);
+            float dist = spawnDistance + Math.Abs( velComp.x * curDeltaTime );
 
-            if (player.isLookingLeft()) {
-                return (-1 * dist);
+            if ( player.isLookingLeft() ) {
+                return ( -1 * dist );
             } else {
                 return dist;
             }

@@ -24,11 +24,11 @@ namespace RunningGame {
         public string componentName = GlobalVars.NULL_COMPONENT_NAME;
 
         //Two components are equal if they have the same component name
-        public override bool Equals(object obj) {
-            if (obj.GetType() != this.GetType()) return false;
+        public override bool Equals( object obj ) {
+            if ( obj.GetType() != this.GetType() ) return false;
 
-            Component other = (Component)obj;
-            return (other.componentName == this.componentName);
+            Component other = ( Component )obj;
+            return ( other.componentName == this.componentName );
         }
 
         public override int GetHashCode() {

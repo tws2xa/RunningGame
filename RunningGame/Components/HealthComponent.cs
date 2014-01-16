@@ -23,7 +23,7 @@ namespace RunningGame.Components {
         public bool showBarOnFull { get; set; }
 
         //Create component, give full health to start.
-        public HealthComponent(int maxHealth, bool healthBar, int rechargeAmt, float rechargeTime) {
+        public HealthComponent( int maxHealth, bool healthBar, int rechargeAmt, float rechargeTime ) {
 
             componentName = GlobalVars.HEALTH_COMPONENT_NAME;
 
@@ -39,7 +39,7 @@ namespace RunningGame.Components {
             showBarOnFull = false;
         }
         //Create compoenent with given starting health.
-        public HealthComponent(int startingHealth, int maxHealth, bool healthBar, int rechargeRate) {
+        public HealthComponent( int startingHealth, int maxHealth, bool healthBar, int rechargeRate ) {
 
             componentName = GlobalVars.HEALTH_COMPONENT_NAME;
 
@@ -56,19 +56,19 @@ namespace RunningGame.Components {
         }
 
         public float getHealthPercentage() {
-            return ((float)health) / ((float)maxHealth);
+            return ( ( float )health ) / ( ( float )maxHealth );
         }
 
         public int getMissingHealth() {
             return maxHealth - health;
         }
 
-        public int subtractFromHealth(int amt) {
+        public int subtractFromHealth( int amt ) {
             health -= amt;
             return health;
         }
 
-        public int addToHealth(int amt) {
+        public int addToHealth( int amt ) {
             health += amt;
             return health;
         }
@@ -79,11 +79,11 @@ namespace RunningGame.Components {
         }
 
         public bool isDead() {
-            return (health <= 0);
+            return ( health <= 0 );
         }
 
         public bool hasFullHealth() {
-            return (health >= maxHealth);
+            return ( health >= maxHealth );
         }
 
     }
