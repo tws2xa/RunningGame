@@ -205,6 +205,8 @@ namespace RunningGame.Systems {
         //None
         public void CycleThroughEquips(bool up) {
 
+            if ( level.getPlayer() == null ) return;
+
             System.Drawing.Color purpleColor = System.Drawing.Color.Purple;
             System.Drawing.Color blueColor = System.Drawing.Color.Blue;
             System.Drawing.Color orangeColor = System.Drawing.Color.Orange;

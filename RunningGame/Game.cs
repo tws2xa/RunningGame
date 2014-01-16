@@ -70,7 +70,7 @@ namespace RunningGame {
             GlobalVars.groundEntities.Clear();
             GlobalVars.nonGroundEntities.Clear();
             GlobalVars.removedStartingEntities.Clear();
-            currentLevel = new Level( winWidth, winHeight, "RunningGame.Resources.Levels.DebugLevel.png", world, level, true, dbGraphics );
+            currentLevel = new Level( winWidth, winHeight, "RunningGame.Resources.Levels.DebugLevel.png", 1, 1, true, dbGraphics );
         }
 
         //This first clears all lists, then loads a given level.
