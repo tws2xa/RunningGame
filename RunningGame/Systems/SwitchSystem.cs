@@ -70,7 +70,7 @@ namespace RunningGame.Systems {
                                 foreach ( Entity above in aboveCollisions ) {
                                     if ( above.hasComponent( GlobalVars.POSITION_COMPONENT_NAME ) ) {
                                         PositionComponent pos = ( PositionComponent )above.getComponent( GlobalVars.POSITION_COMPONENT_NAME );
-                                        level.getMovementSystem().changePosition( pos, pos.x, pos.y - hDiff, true );
+                                        level.getMovementSystem().changePosition( pos, pos.x, pos.y - hDiff, true, true );
                                     }
                                 }
                             }

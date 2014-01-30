@@ -151,7 +151,7 @@ namespace RunningGame.Systems {
                     //Get first point in grapple
                     PointF newPlayerPos = grapComp.getFirstPoint();
                     //Move player
-                    level.getMovementSystem().changePosition( playerPos, newPlayerPos.X, newPlayerPos.Y, true );
+                    level.getMovementSystem().changePosition( playerPos, newPlayerPos.X, newPlayerPos.Y, true, true );
 
 
                     //Check to see if it's intersecting anything mid-way

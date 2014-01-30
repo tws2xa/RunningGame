@@ -56,7 +56,7 @@ namespace RunningGame {
                         float newY = posComp2.y - posComp2.height / 2 - posComp.height / 2;
 
                         if ( moveToContactWhenTouchGround && Math.Abs( posComp.y - newY ) > 1 ) {
-                            level.getMovementSystem().changePosition( posComp, posComp.x, newY, true );
+                            level.getMovementSystem().changePosition( posComp, posComp.x, newY, false, true);
                         }
 
                         shouldApplyGravity = false;

@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Collections;
 using RunningGame.Components;
+using RunningGame.Entities;
 using RunningGame.Level_Editor;
 
 namespace RunningGame.Systems {
@@ -58,7 +59,7 @@ namespace RunningGame.Systems {
 
                     //Add velocity to position
                     incrementPosition( posComp, velComp.x * deltaTime, velComp.y * deltaTime );
-
+                    
                 }
 
             }
@@ -68,23 +69,33 @@ namespace RunningGame.Systems {
         //----------------------------------------------DIRECT CHANGES IN POSITION------------------------------------------------
         //Location
         public void incrementPosition( PositionComponent posComp, float incX, float incY ) {
+
+            //Must do one at a time for moveToContact
+            if(incX != 0) changePosition( posComp, posComp.x + incX, posComp.y, true, false);
+            if(incY != 0) changePosition( posComp, posComp.x, posComp.y + incY, false, true );
+
+            /*
             if ( incX != 0 ) {
                 changeSingleAxisLocation( 'X', posComp, posComp.x + incX, true );
             }
             if ( incY != 0 ) {
                 changeSingleAxisLocation( 'Y', posComp, posComp.y + incY, true );
             }
+             */
         }
 
-        public void changePosition( PositionComponent posComp, float newX, float newY, bool moveToContact ) {
-            if ( newX != posComp.x ) {
+        public void changePosition( PositionComponent posComp, float newX, float newY, bool moveToContactH, bool moveToContactV ) {
+
+            changeLocation( posComp, newX, newY, moveToContactH, moveToContactV );
+            
+            /*if ( newX != posComp.x ) {
                 //Console.WriteLine("Changing x from " + posComp.x + " to " + newX);
                 changeSingleAxisLocation( 'X', posComp, newX, moveToContact );
             }
             if ( newY != posComp.y ) {
                 //Console.WriteLine("Changing y from " + posComp.y + " to " + newY);
                 changeSingleAxisLocation( 'Y', posComp, newY, moveToContact );
-            }
+            }*/
         }
         public void teleportToNoCollisionCheck( PositionComponent posComp, float newX, float newY ) {
             posComp.prevX = posComp.x;
@@ -94,6 +105,15 @@ namespace RunningGame.Systems {
             posComp.positionHasChanged = true;
         }
 
+        public void changeX( PositionComponent posComp, float newVal, bool moveToContact ) {
+            changePosition( posComp, newVal, posComp.y, moveToContact, false );
+        }
+
+        public void changeY( PositionComponent posComp, float newVal, bool moveToContact ) {
+            changePosition( posComp, posComp.x, newVal, false, moveToContact );
+        }
+
+        /*
         public void changeSingleAxisLocation( Char axis, PositionComponent posComp, float newVal, bool moveToContact ) {
             bool movementBlocked = false;
 
@@ -164,7 +184,6 @@ namespace RunningGame.Systems {
                 }
             }
 
-
             if ( isX && posComp.myEntity.hasComponent( GlobalVars.PUSHABLE_COMPONENT_NAME ) ) {
                 PushableComponent pushComp = ( PushableComponent )posComp.myEntity.getComponent( GlobalVars.PUSHABLE_COMPONENT_NAME );
                 if ( movementBlocked ) {
@@ -222,8 +241,148 @@ namespace RunningGame.Systems {
                 posComp.positionHasChanged = true;
             }
         }
+        */
 
+        //-----------------------------------------CHANGE LOCATION METHODS--------------------------------------------
 
+        //Walking gitters caused here because of moveToContact issues (i think)
+
+        public void changeLocation( PositionComponent posComp, float newX, float newY, bool moveToContactH, bool moveToContactV ) {
+            bool movementBlocked = false;
+
+            //Check for collisions before it moves
+            if ( posComp.myEntity.hasComponent( GlobalVars.COLLIDER_COMPONENT_NAME ) ) {
+                movementBlocked = manageMovementColliderCheck( posComp, newX, newY, moveToContactH, moveToContactV );
+            }
+
+            if ( posComp.myEntity.hasComponent( GlobalVars.PUSHABLE_COMPONENT_NAME ) ) {
+                handlePushWithMovement(posComp, newX, newY, movementBlocked);
+            }
+
+            //If movement isn't blocked - move and set position changed to true
+            if ( !movementBlocked ) {
+
+                if ( posComp.x != newX ) {
+                    posComp.prevX = posComp.x;
+                }
+
+                if ( posComp.y != newY ) {
+                    posComp.prevY = posComp.y;
+                }
+
+                posComp.x = newX;
+                posComp.y = newY;
+
+                posComp.positionHasChanged = true;
+            }
+        }
+
+        //Handle any pushing that needs to be done when moved
+        public void handlePushWithMovement(PositionComponent posComp, float newX, float newY, bool movementBlocked) {
+
+            if ( !( posComp.myEntity.hasComponent( GlobalVars.PUSHABLE_COMPONENT_NAME ) ) ) return;
+            
+            if ( newX != posComp.x ) {
+                PushableComponent pushComp = ( PushableComponent )posComp.myEntity.getComponent( GlobalVars.PUSHABLE_COMPONENT_NAME );
+                if ( movementBlocked ) {
+                    if ( newX < posComp.x ) { //left
+                        if ( pushComp.horizMovementStopped == 0 ) pushComp.horizMovementStopped = 1;
+                        else if ( pushComp.horizMovementStopped == 2 ) pushComp.horizMovementStopped = 3;
+                    }
+                    if ( newX > posComp.x ) { //right
+                        if ( pushComp.horizMovementStopped == 0 ) pushComp.horizMovementStopped = 2;
+                        else if ( pushComp.horizMovementStopped == 1 ) pushComp.horizMovementStopped = 3;
+                    }
+                } else {
+                    if ( newX < posComp.x ) {
+                        if ( pushComp.horizMovementStopped == 3 ) pushComp.horizMovementStopped = 2;
+                        else if ( pushComp.horizMovementStopped == 1 ) pushComp.horizMovementStopped = 0;
+                    }
+                    if ( newX > posComp.x ) {
+                        if ( pushComp.horizMovementStopped == 3 ) pushComp.horizMovementStopped = 1;
+                        else if ( pushComp.horizMovementStopped == 2 ) pushComp.horizMovementStopped = 0;
+                    }
+                }
+            }
+            if ( newY != posComp.y ) {
+                PushableComponent pushComp = ( PushableComponent )posComp.myEntity.getComponent( GlobalVars.PUSHABLE_COMPONENT_NAME );
+                if ( movementBlocked ) {
+                    if ( newY < posComp.y ) { //up
+                        if ( pushComp.vertMovementStopped == 0 ) pushComp.vertMovementStopped = 1;
+                        else if ( pushComp.vertMovementStopped == 2 ) pushComp.vertMovementStopped = 3;
+                    }
+                    if ( newY > posComp.y ) { //right
+                        if ( pushComp.vertMovementStopped == 0 ) pushComp.vertMovementStopped = 2;
+                        else if ( pushComp.vertMovementStopped == 1 ) pushComp.vertMovementStopped = 3;
+                    }
+                } else {
+                    if ( newY < posComp.y ) {
+                        if ( pushComp.vertMovementStopped == 3 ) pushComp.vertMovementStopped = 2;
+                        else if ( pushComp.vertMovementStopped == 1 ) pushComp.vertMovementStopped = 0;
+                    }
+                    if ( newY > posComp.y ) {
+                        if ( pushComp.vertMovementStopped == 3 ) pushComp.vertMovementStopped = 1;
+                        else if ( pushComp.vertMovementStopped == 2 ) pushComp.vertMovementStopped = 0;
+                    }
+                }
+            }
+        }
+
+        //Returns whether or not movement has been blocked by a collision
+        public bool manageMovementColliderCheck(PositionComponent posComp, float newX, float newY, bool moveToContactH, bool moveToContactV) {
+
+            VelocityComponent velComp = ( VelocityComponent )posComp.myEntity.getComponent( GlobalVars.VELOCITY_COMPONENT_NAME );
+
+            //List of all collisions caused by potential move
+            List<Entity> collisions = level.getCollisionSystem().checkForCollision( posComp.myEntity, newX, newY, posComp.width, posComp.height );
+
+            bool movementBlocked = false;
+
+            //Perform all collisions
+            if ( collisions.Count > 0 && !( level is CreationLevel ) ) {
+
+                foreach ( Entity e in collisions ) {
+                    if  ( ! ( e.hasComponent( GlobalVars.COLLIDER_COMPONENT_NAME ) ) ) continue;
+
+                    //Handle the collision. handleCollision(...) will return true if it should stop the movement.
+                    if ( colHandler.handleCollision( posComp.myEntity, e ) ) {
+                        movementBlocked = true;
+                        stopMovementAfterCollision(e, posComp, velComp, newX, newY, moveToContactH, moveToContactV);
+                    }
+                }
+            }
+            return movementBlocked;
+        }
+
+        //Stop an entities movement after a collision
+        public void stopMovementAfterCollision(Entity collisionEntity, PositionComponent posComp, VelocityComponent velComp, float newX, float newY, bool moveToContactH, bool moveToContactV) {
+
+            if ( newX != posComp.x ) velComp.x = 0;
+            if ( newY != posComp.y ) velComp.y = 0;
+
+            //Move to edge of object if already mostly at the edge... ONLY IF MOVE TO CONTACT IS TRUE
+            if ( moveToContactH || moveToContactV ) {
+                PositionComponent otherPosComp = ( PositionComponent )collisionEntity.getComponent( GlobalVars.POSITION_COMPONENT_NAME );
+
+                float allowedDistanceChange = 1.0f;
+
+                if (moveToContactH && (Math.Abs(newX - posComp.x) > allowedDistanceChange) ) {
+                    
+                    if ( posComp.x < ( otherPosComp.x ) )
+                        level.getMovementSystem().changePosition( posComp, getClosestPositionWithNoCollision( posComp, otherPosComp, true, true ), posComp.y, false, false );
+                    else
+                        level.getMovementSystem().changePosition( posComp, getClosestPositionWithNoCollision( posComp, otherPosComp, true, false ), posComp.y, false, false );
+                } if ( moveToContactV && (Math.Abs(newY - posComp.y) > allowedDistanceChange) ) {
+                    if ( posComp.y < ( otherPosComp.y ) )
+                        level.getMovementSystem().changePosition( posComp, posComp.x, getClosestPositionWithNoCollision( posComp, otherPosComp, false, true ), false, false );
+                    else
+                        level.getMovementSystem().changePosition( posComp, posComp.x, getClosestPositionWithNoCollision( posComp, otherPosComp, false, false ), false, false );
+                }
+            }
+
+        }
+
+        //Returns the closest location (x or y) to entity 2 that entity 1 can be before a collision occurs
         public float getClosestPositionWithNoCollision( PositionComponent pos1, PositionComponent pos2, bool xDir, bool leftOrUp ) {
             float retPos = 0.0f;
 
@@ -254,6 +413,10 @@ namespace RunningGame.Systems {
 
             return retPos;
         }
+
+
+        //------------------------------------------------------------------------------------------------------------
+
 
         //Size
         public void changeSize( PositionComponent posComp, float newW, float newH ) {

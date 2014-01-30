@@ -398,6 +398,8 @@ namespace RunningGame {
 
         //Called when a key is released
         private void FormRunningGame_KeyUp( object sender, KeyEventArgs e ) {
+            e.Handled = true;
+            e.SuppressKeyPress = true;
             //If the game is running...
             if ( game != null ) {
                 //Let the game know that the key was released
@@ -405,9 +407,6 @@ namespace RunningGame {
                 //If the key is contained in downKeys, remove it. (It is no longer down)
                 if ( downKeys.Contains( e.KeyData ) )
                     downKeys.Remove( e.KeyData );
-
-                e.Handled = true;
-                e.SuppressKeyPress = true;
             }
         }
 
@@ -418,12 +417,15 @@ namespace RunningGame {
                 game.KeyPressed( e );
 
                 e.Handled = true;
-
             }
         }
 
         //Called when a key is first pushed
         private void FormRunningGame_KeyDown( object sender, KeyEventArgs e ) {
+
+            e.Handled = true;
+            e.SuppressKeyPress = true;
+
             //If the game is running...
             if ( game != null ) {
                 //If it hasn;t already been registered as pressed
@@ -433,8 +435,6 @@ namespace RunningGame {
                     //Add it to the list of pressed keys
                     downKeys.Add( e.KeyData );
 
-                    e.Handled = true;
-                    e.SuppressKeyPress = true;
                 }
             }
         }

@@ -122,34 +122,34 @@ namespace RunningGame.Systems {
         //WRAP
 
         public void wrapLeft( PositionComponent posComp ) {
-            level.getMovementSystem().changeSingleAxisLocation( 'X', posComp, level.levelWidth + posComp.width, true ); //Screen Wrap
+            level.getMovementSystem().changeX( posComp, level.levelWidth + posComp.width, true ); //Screen Wrap
         }
         public void wrapRight( PositionComponent posComp ) {
-            level.getMovementSystem().changeSingleAxisLocation( 'X', posComp, -posComp.width, true ); //Screen Wrap
+            level.getMovementSystem().changeX( posComp, -posComp.width, true ); //Screen Wrap
         }
         public void wrapUp( PositionComponent posComp ) {
-            level.getMovementSystem().changeSingleAxisLocation( 'Y', posComp, level.levelHeight + posComp.height, true ); //Screen Wrap
+            level.getMovementSystem().changeY( posComp, level.levelHeight + posComp.height, true ); //Screen Wrap
         }
         public void wrapDown( PositionComponent posComp ) {
-            level.getMovementSystem().changeSingleAxisLocation( 'Y', posComp, -posComp.height, true ); //Screen Wrap
+            level.getMovementSystem().changeY( posComp, -posComp.height, true ); //Screen Wrap
         }
 
         //STOP
 
         public void stopLeft( PositionComponent posComp, VelocityComponent velComp ) {
-            level.getMovementSystem().changeSingleAxisLocation( 'X', posComp, posComp.width / 2, true );
+            level.getMovementSystem().changeX( posComp, posComp.width / 2, true );
             if ( velComp.x < 0 ) velComp.setVelocity( 0, velComp.y );
         }
         public void stopRight( PositionComponent posComp, VelocityComponent velComp ) {
-            level.getMovementSystem().changeSingleAxisLocation( 'X', posComp, level.levelWidth - posComp.width / 2, true );
+            level.getMovementSystem().changeX( posComp, level.levelWidth - posComp.width / 2, true );
             if ( velComp.x > 0 ) velComp.setVelocity( 0, velComp.y );
         }
         public void stopUp( PositionComponent posComp, VelocityComponent velComp ) {
-            level.getMovementSystem().changeSingleAxisLocation( 'Y', posComp, posComp.height / 2, true );
+            level.getMovementSystem().changeY( posComp, posComp.height / 2, true );
             if ( velComp.y < 0 ) velComp.setVelocity( velComp.x, 0 );
         }
         public void stopDown( PositionComponent posComp, VelocityComponent velComp ) {
-            level.getMovementSystem().changeSingleAxisLocation( 'Y', posComp, level.levelHeight - posComp.height / 2, true );
+            level.getMovementSystem().changeY( posComp, level.levelHeight - posComp.height / 2, true );
             if ( velComp.y > 0 ) velComp.setVelocity( velComp.x, 0 );
         }
     }

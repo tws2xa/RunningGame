@@ -136,10 +136,10 @@ namespace RunningGame {
             if ( item.obj.GetType() == typeof( PositionComponent ) ) {
                 PositionComponent posComp = ( PositionComponent )item.obj;
                 if ( item.fieldInfo.Name == "x" ) {
-                    creationGame.getCurrentLevel().getMovementSystem().changePosition( posComp, float.Parse( txtVar.Text ), posComp.y, false );
+                    creationGame.getCurrentLevel().getMovementSystem().changePosition( posComp, float.Parse( txtVar.Text ), posComp.y, false, false );
                     posComp.startingX = float.Parse( txtVar.Text );
                 } else if ( item.fieldInfo.Name == "y" ) {
-                    creationGame.getCurrentLevel().getMovementSystem().changePosition( posComp, posComp.x, float.Parse( txtVar.Text ), false );
+                    creationGame.getCurrentLevel().getMovementSystem().changePosition( posComp, posComp.x, float.Parse( txtVar.Text ), false, false );
                     posComp.startingY = float.Parse( txtVar.Text );
                 } else if ( item.fieldInfo.Name == "width" ) {
                     creationGame.getCurrentLevel().getMovementSystem().changeWidth( posComp, float.Parse( txtVar.Text ) );

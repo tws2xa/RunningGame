@@ -135,7 +135,7 @@ namespace RunningGame.Level_Editor {
                 PositionComponent newPosComp = ( PositionComponent )e.getComponent( GlobalVars.POSITION_COMPONENT_NAME );
                 PositionComponent protoPosComp = ( PositionComponent )level.vars.protoEntity.getComponent( GlobalVars.POSITION_COMPONENT_NAME );
                 e.isStartingEntity = true;
-                level.getMovementSystem().changePosition( newPosComp, protoPosComp.x, protoPosComp.y, false );
+                level.getMovementSystem().changePosition( newPosComp, protoPosComp.x, protoPosComp.y, false, false );
 
                 if ( e is BasicGround ) {
                     BasicGround ground = ( BasicGround )e;

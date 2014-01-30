@@ -40,7 +40,7 @@ namespace RunningGame.Level_Editor {
                     p = getGridPoint( level.getInputSystem().mouseX, level.getInputSystem().mouseY );
                 else
                     p = new PointF( level.getInputSystem().mouseX, level.getInputSystem().mouseY );
-                level.getMovementSystem().changePosition( posComp, p.X, p.Y, false );
+                level.getMovementSystem().changePosition( posComp, p.X, p.Y, false, false );
             }
         }
 

@@ -189,7 +189,7 @@ namespace RunningGame.Level_Editor {
         public void MouseLeave( EventArgs e ) {
             if ( vars.protoEntity != null ) {
                 PositionComponent posComp = ( PositionComponent )vars.protoEntity.getComponent( GlobalVars.POSITION_COMPONENT_NAME );
-                getMovementSystem().changePosition( posComp, -100, -100, false );
+                getMovementSystem().changePosition( posComp, -100, -100, false, false );
             }
         }
 

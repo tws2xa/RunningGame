@@ -65,7 +65,7 @@ namespace RunningGame.Systems {
                     bkgY += posComp.height / 2;
 
                     if ( posComp.x != bkgX || posComp.y != bkgY ) {
-                        level.getMovementSystem().changePosition( posComp, bkgX, bkgY, false );
+                        level.getMovementSystem().changePosition( posComp, bkgX, bkgY, false, false );
                     }
                 }
             }
@@ -87,7 +87,7 @@ namespace RunningGame.Systems {
                     bkgY += posComp.height / 2;
 
                     if ( posComp.x != bkgX || posComp.y != bkgY ) {
-                        level.getMovementSystem().changePosition( posComp, bkgX, viewY + posComp.height / 2, false );
+                        level.getMovementSystem().changePosition( posComp, bkgX, viewY + posComp.height / 2, false , false);
                     }
                 }
             }

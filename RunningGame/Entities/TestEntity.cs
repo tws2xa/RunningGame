@@ -57,7 +57,7 @@ namespace RunningGame.Entities {
 
         public override void revertToStartingState() {
             PositionComponent posComp = ( PositionComponent )this.getComponent( GlobalVars.POSITION_COMPONENT_NAME );
-            level.getMovementSystem().changePosition( posComp, posComp.startingX, posComp.startingY, true );
+            level.getMovementSystem().changePosition( posComp, posComp.startingX, posComp.startingY, true, true );
             level.getMovementSystem().changeSize( posComp, posComp.startingWidth, posComp.startingHeight );
 
             VelocityComponent velComp = ( VelocityComponent )this.getComponent( GlobalVars.VELOCITY_COMPONENT_NAME );

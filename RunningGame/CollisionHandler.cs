@@ -575,7 +575,7 @@ namespace RunningGame {
 
             //If vertical, move other's y to the moving platform's
             if ( platComp.vertical ) {
-                level.getMovementSystem().changePosition( otherPos, otherPos.x, platPos.y - platPos.height / 2 - otherPos.height / 2, false );
+                level.getMovementSystem().changePosition( otherPos, otherPos.x, platPos.y - platPos.height / 2 - otherPos.height / 2, false, false );
                 otherVel.y = platVel.y;
             }
 

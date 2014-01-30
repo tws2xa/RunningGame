@@ -165,7 +165,7 @@ namespace RunningGame.Systems {
 
 
             level.getMovementSystem().changeHeight( posComp, posComp.height - amt );
-            level.getMovementSystem().changePosition( posComp, posComp.x, posComp.y + amt / 2, true );
+            level.getMovementSystem().changePosition( posComp, posComp.x, posComp.y + amt / 2, false, true );
 
         }
 
@@ -177,7 +177,7 @@ namespace RunningGame.Systems {
 
 
             level.getMovementSystem().changeHeight( posComp, posComp.height - amt );
-            level.getMovementSystem().changePosition( posComp, posComp.x, posComp.y - amt / 2, true );
+            level.getMovementSystem().changePosition( posComp, posComp.x, posComp.y - amt / 2, false, true);
 
         }
 
@@ -188,7 +188,7 @@ namespace RunningGame.Systems {
             }
 
             level.getMovementSystem().changeWidth( posComp, posComp.width - amt );
-            level.getMovementSystem().changePosition( posComp, posComp.x - amt / 2, posComp.y, true );
+            level.getMovementSystem().changePosition( posComp, posComp.x - amt / 2, posComp.y, true, false );
         }
 
         public void squishRight( PositionComponent posComp, SquishComponent squishComp, float amt ) {
@@ -198,7 +198,7 @@ namespace RunningGame.Systems {
             }
 
             level.getMovementSystem().changeWidth( posComp, posComp.width - amt );
-            level.getMovementSystem().changePosition( posComp, posComp.x + amt / 2, posComp.y, true );
+            level.getMovementSystem().changePosition( posComp, posComp.x + amt / 2, posComp.y, true, false );
         }
 
         public void squishWidthCenter( PositionComponent posComp, SquishComponent squishComp, float amt ) {
