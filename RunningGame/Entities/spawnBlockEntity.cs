@@ -50,12 +50,13 @@ namespace RunningGame.Entities {
             //Off side of screen
             addComponent( new ScreenEdgeComponent( 3, 3, 3, 3 ), true );
 
-            /*
+            
             //Pushable
             PushableComponent pushComp = (PushableComponent)addComponent( new PushableComponent(), true );
-            pushComp.horiz = false;
+            pushComp.horiz = true;
             pushComp.vert = false;
-            */
+            
+            
         }
 
         public override void revertToStartingState() {

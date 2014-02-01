@@ -565,14 +565,29 @@ namespace RunningGame {
             string defaultAddress = "RunningGame.Resources.Artwork.Background.Bkg11.png";
 
             System.Reflection.Assembly myAssembly = System.Reflection.Assembly.GetExecutingAssembly();
-            string addr = ( "RunningGame.Resources.Artwork.Background.Bkg" + worldNum + "" + levelNum + ".png" );
-            System.IO.Stream myStream = myAssembly.GetManifestResourceStream( "RunningGame.Resources.Artwork.Background.Bkg11.png" );
+
+            string addr = "";
+            System.IO.Stream myStream = null;
+
+            if ( levelNum == 1 ) {
+
+                addr = ( "RunningGame.Resources.Artwork.Background.Bkg" + worldNum + "" + levelNum + "PreColor.png" );
+                myStream = myAssembly.GetManifestResourceStream( addr );
+
+            } 
+
+            if(myStream == null) {
+                addr = ( "RunningGame.Resources.Artwork.Background.Bkg" + worldNum + "" + levelNum + ".png" );
+                myStream = myAssembly.GetManifestResourceStream( addr );
+            }
 
             if ( myStream == null ) {
                 myStream = myAssembly.GetManifestResourceStream( defaultAddress );
             }
 
-            Bitmap sprite = new Bitmap( myStream ); //Getting an error here? Did you remember to make your image an embedded resource?
+            // Are you getting an error here?
+            //Did you remember to make your image an embedded resource?
+            Bitmap sprite = new Bitmap( myStream ); 
             myStream.Close();
 
             return sprite;
