@@ -65,11 +65,12 @@ namespace RunningGame {
         }
 
 
-        //HERE IS WHERE YOU SAY WHICH LEVEL TO LOAD ON DEBUG
         public void startLevel( int world, int level ) {
             GlobalVars.groundEntities.Clear();
             GlobalVars.nonGroundEntities.Clear();
             GlobalVars.removedStartingEntities.Clear();
+            //HERE IS WHERE YOU SAY WHICH LEVEL TO LOAD ON DEBUG
+            //YOU GET TO IT BY PRESSING THE DEBUG BUTTON
             currentLevel = new Level( winWidth, winHeight, "RunningGame.Resources.Levels.DebugLevel.png", 1, 1, true, dbGraphics );
         }
 
