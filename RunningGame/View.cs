@@ -244,6 +244,7 @@ namespace RunningGame {
                     }
                 }
             }
+
             //look into double buffers, mainG and G are different!
             //use mainG
             if ( level.sysManager.drawSystem.getFlashTime() > 0 ) {

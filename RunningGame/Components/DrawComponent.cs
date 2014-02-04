@@ -67,7 +67,8 @@ namespace RunningGame.Components {
 
         }
 
-        public void addSprite( string baseName, string defaultFileName, string spriteName ) {
+        public bool addSprite( string baseName, string defaultFileName, string spriteName ) {
+            bool ret = true; //Returns false if it goes to default image.
             Bitmap image = readInImage( getImageFilePathName( baseName ) );
 
             //If image not found, check for ones of the same world, perhaps different level
@@ -79,6 +80,7 @@ namespace RunningGame.Components {
             //Still null? Goto default
             if ( image == null ) {
                 image = readInImage( defaultFileName );
+                ret = false;
             }
 
             if ( image == null ) Console.WriteLine( "Error: Null image for " + spriteName + " baseName: " + baseName + " defaultFile: " + defaultFileName );
@@ -86,6 +88,7 @@ namespace RunningGame.Components {
             Sprite spr = new Sprite( spriteName, image );
 
             images.Add( spriteName, spr );
+            return ret;
         }
 
         public void addAnimatedSprite( List<string> baseAddresses, List<string> defaultAddresses, string spriteName ) {

@@ -129,6 +129,33 @@ namespace RunningGame {
                 //Draw stuff for game menu.
             }
 
+
+            bool blockColor = false;
+            //hi
+            if ( blockColor ) {
+                Color colorToBlock = Color.FromArgb( 0, 0, 255 );
+
+                for(int i=0; i<bufferImage.Width; i++) {
+                    for(int j=0; j<bufferImage.Height; j++) {
+
+                        Color oldCol = bufferImage.GetPixel( i, j );
+                        int newR = oldCol.R;
+                        int newG = oldCol.G;
+                        int newB = oldCol.B;
+                        if ( newR < colorToBlock.R ) newR = 0;
+                        else newR -= colorToBlock.R;
+                        if ( newG < colorToBlock.G ) newG = 0;
+                        else newG -= colorToBlock.G;
+                        if ( newB < colorToBlock.B ) newB = 0;
+                        else newB -= colorToBlock.B;
+                        Color newCol = Color.FromArgb( newR, newG, newB );
+                        bufferImage.SetPixel( i, j, newCol );
+                    }
+
+                }
+
+            }
+
             //Draw the double buffer image to the window.
             try {
                 mainWinGraphics.DrawImageUnscaled( bufferImage, zeroPoint );

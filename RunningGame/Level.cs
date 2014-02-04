@@ -448,6 +448,8 @@ namespace RunningGame {
 
             string fullImageAddress = "RunningGame.Resources.Artwork.Background.Bkg11.png";
             string imageStub = "Artwork.Background.Bkg";
+            string preColorImageStub = "Artwork.Background.BkgPreColor";
+
 
             Bitmap tempImg = getBkgImg();
             float newWidth = tempImg.Width;
@@ -549,9 +551,24 @@ namespace RunningGame {
 
             }
             */
+            bool tryBkgColorChange = false;
+            if ( tryBkgColorChange ) {
+                bool wentToDefault = false;
+                if ( levelNum == 1 ) {
+                    wentToDefault = drawComp.addSprite( preColorImageStub, fullImageAddress, "PreColorBkg" );
+                }
 
-            drawComp.addSprite( imageStub, fullImageAddress, "MainBkg" );
-            drawComp.setSprite( "MainBkg" );
+                drawComp.addSprite( imageStub, fullImageAddress, "MainBkg" );
+
+                if ( wentToDefault || levelNum != 1 ) {
+                    drawComp.setSprite( "MainBkg" );
+                } else {
+                    drawComp.setSprite( "PreColorBkg" );
+                }
+            } else {
+                drawComp.addSprite( imageStub, fullImageAddress, "MainBkg" );
+                drawComp.setSprite( "MainBkg" );
+            }
 
             bkgEnt.isStartingEntity = true;
 
