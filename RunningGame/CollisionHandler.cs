@@ -67,7 +67,7 @@ namespace RunningGame {
             addToDictionary( GlobalVars.PLAYER_COLLIDER_TYPE, GlobalVars.POWERUP_PICKUP_COLLIDER_TYPE, powerupPickupPlayerCollision );
             addToDictionary( GlobalVars.PLAYER_COLLIDER_TYPE, GlobalVars.SPIKE_COLLIDER_TYPE, spikePlayerCollision );
             addToDictionary( GlobalVars.PLAYER_COLLIDER_TYPE, GlobalVars.BOUNCE_POSTGROUND_COLLIDER_TYPE, bounceCollision );
-            addToDictionary( GlobalVars.PLAYER_COLLIDER_TYPE, GlobalVars.SPAWN_BLOCK_COLLIDER_TYPE, simpleStopCollision );
+            addToDictionary( GlobalVars.PLAYER_COLLIDER_TYPE, GlobalVars.SPAWN_BLOCK_COLLIDER_TYPE, simpleStopCollision);
 
             addToDictionary( GlobalVars.BULLET_COLLIDER_TYPE, GlobalVars.PLAYER_COLLIDER_TYPE, doNothingCollision );
             addToDictionary( GlobalVars.BULLET_COLLIDER_TYPE, GlobalVars.SIMPLE_ENEMY_COLLIDER_TYPE, DestroyBothCollision );
@@ -617,7 +617,11 @@ namespace RunningGame {
                     break;
             }
 
-            level.sysManager.drawSystem.setFlash( col, 0.5f );
+            float flashTime = 0.5f;
+            level.timerMethods.Add( level.setToPostColors, flashTime/2 );
+            //level.setToPostColors();
+
+            level.sysManager.drawSystem.setFlash( col, flashTime );
 
             level.removeEntity( pickup );
 

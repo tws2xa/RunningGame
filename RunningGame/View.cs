@@ -52,6 +52,8 @@ namespace RunningGame {
         public bool seperateStaticObjImage = false; //If false, static objects get drawn to bkg - otherwise a seperate image.
         public Bitmap staticObjImg = null;
 
+        //public bool redrawStatics = true;
+
         //Constructor that defaults to a 1:1 ratio for width and height, upper left corner
         public View( float x, float y, float width, float height, Level level ) {
             Initialize( x, y, width, height, 0, 0, width, height, level, null );
@@ -128,7 +130,7 @@ namespace RunningGame {
                 }
             }
 
-            if ( staticObjImg == null ) {
+            if ( staticObjImg == null /*|| redrawStatics*/) {
                 if ( seperateStaticObjImage ) {
                     staticObjImg = new Bitmap( ( int )Math.Ceiling( level.levelWidth ), ( int )Math.Ceiling( level.levelHeight ) );
                 } else {
@@ -168,7 +170,7 @@ namespace RunningGame {
                         graph.DrawImageUnscaled( grnDraw.getImage(), new Point( ( int )drawPoint.X, ( int )drawPoint.Y ) ); //Draw the image to the view
                     }
                     grnDraw.needRedraw = false;
-
+                    //redrawStatics = false;
                 }
 
             }
@@ -244,6 +246,7 @@ namespace RunningGame {
                     }
                 }
             }
+
             //look into double buffers, mainG and G are different!
             //use mainG
             if ( level.sysManager.drawSystem.getFlashTime() > 0 ) {

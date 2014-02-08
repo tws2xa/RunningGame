@@ -65,11 +65,12 @@ namespace RunningGame {
         }
 
 
-        //HERE IS WHERE YOU SAY WHICH LEVEL TO LOAD ON DEBUG
         public void startLevel( int world, int level ) {
             GlobalVars.groundEntities.Clear();
             GlobalVars.nonGroundEntities.Clear();
             GlobalVars.removedStartingEntities.Clear();
+            //HERE IS WHERE YOU SAY WHICH LEVEL TO LOAD ON DEBUG
+            //YOU GET TO IT BY PRESSING THE DEBUG BUTTON
             currentLevel = new Level( winWidth, winHeight, "RunningGame.Resources.Levels.DebugLevel.png", 1, 1, true, dbGraphics );
         }
 
@@ -126,6 +127,33 @@ namespace RunningGame {
                 currentLevel.Draw( dbGraphics );
             } else {
                 //Draw stuff for game menu.
+            }
+
+
+            bool blockColor = false;
+            //hi
+            if ( blockColor ) {
+                Color colorToBlock = Color.FromArgb( 0, 0, 255 );
+
+                for(int i=0; i<bufferImage.Width; i++) {
+                    for(int j=0; j<bufferImage.Height; j++) {
+
+                        Color oldCol = bufferImage.GetPixel( i, j );
+                        int newR = oldCol.R;
+                        int newG = oldCol.G;
+                        int newB = oldCol.B;
+                        if ( newR < colorToBlock.R ) newR = 0;
+                        else newR -= colorToBlock.R;
+                        if ( newG < colorToBlock.G ) newG = 0;
+                        else newG -= colorToBlock.G;
+                        if ( newB < colorToBlock.B ) newB = 0;
+                        else newB -= colorToBlock.B;
+                        Color newCol = Color.FromArgb( newR, newG, newB );
+                        bufferImage.SetPixel( i, j, newCol );
+                    }
+
+                }
+
             }
 
             //Draw the double buffer image to the window.

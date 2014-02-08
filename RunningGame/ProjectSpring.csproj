@@ -486,6 +486,32 @@
     <EmbeddedResource Include="Resources\Artwork\Background\Bkg32.png" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Resources\Artwork\Background\Bkg60.png" />
+    <EmbeddedResource Include="Resources\Artwork\Background\Bkg61.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\Grass\Dirt10.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\Grass\Grass010.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\Grass\Grass110.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\Grass\Grass210.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\Grass\Grass310.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\Grass\Grass410.png" />
+    <EmbeddedResource Include="Resources\Artwork\Background\Bkg10.png" />
+    <EmbeddedResource Include="Resources\Artwork\Background\Bkg30.png" />
+    <EmbeddedResource Include="Resources\Artwork\Background\Bkg50.png" />
+    <EmbeddedResource Include="Resources\Artwork\Background\Bkg60a.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\buttonDown10.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\buttonDown20.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\buttonDown30.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\buttonDown40.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\buttonDown50.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\buttonDown60.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\buttonUp10.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\buttonUp20.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\buttonUp30.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\buttonUp40.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\buttonUp50.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\buttonUp60.png" />
+    <EmbeddedResource Include="Resources\Artwork\Background\Bkg20.png" />
+    <EmbeddedResource Include="Resources\Artwork\Background\Bkg40.png" />
     <Content Include="Resources\Artwork\Background\Bkg43.png" />
     <EmbeddedResource Include="Resources\Levels\World1Level1anna.png" />
     <EmbeddedResource Include="Resources\Levels\leveltry.png" />
@@ -493,15 +519,15 @@
     <EmbeddedResource Include="Resources\Levels\World3Level11.png" />
     <EmbeddedResource Include="Resources\Levels\World2Level31.png" />
     <EmbeddedResource Include="Resources\Levels\World4Level31.png" />
-    <EmbeddedResource Include="Resources\Artwork\Background\Bkg61.png" />
-    <EmbeddedResource Include="Resources\Artwork\Background\Bkg62.png" />
+    <EmbeddedResource Include="Resources\Artwork\Background\Bkg61a.png" />
+    <EmbeddedResource Include="Resources\Artwork\Background\Bkg62a.png" />
     <EmbeddedResource Include="Resources\Artwork\Background\Bkg42.png" />
     <EmbeddedResource Include="Resources\Artwork\Foreground\BlueDrop.png" />
     <EmbeddedResource Include="Resources\Artwork\Foreground\PurpleDrop.png" />
     <EmbeddedResource Include="Resources\Artwork\Foreground\Orb3.png" />
     <EmbeddedResource Include="Resources\Artwork\Foreground\Orb4.png" />
     <EmbeddedResource Include="Resources\Artwork\Background\Bkg23.png" />
-    <EmbeddedResource Include="Resources\Artwork\Background\Bkg63.png" />
+    <EmbeddedResource Include="Resources\Artwork\Background\Bkg63a.png" />
     <EmbeddedResource Include="Resources\Artwork\Creatures\DeadPlayer.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
