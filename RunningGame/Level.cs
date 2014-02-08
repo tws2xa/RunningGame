@@ -36,6 +36,7 @@ namespace RunningGame {
 
         public int worldNum; //Which world is it?
         public int levelNum; //Which level in that world?
+        public bool colorOrbObtained = true; //In level 1, has the color orb been obtained yet?
 
         public bool shouldEndLevel = false; //Should it end the level at the end of the frame?
 
@@ -53,7 +54,6 @@ namespace RunningGame {
         float endLvlTime = 0.5f; //Typical length for setting the timer to when ending the level. In seconds.
         float endLvlTimer = -1.0f; //Timer. Do not modify.
 
-
         public bool levelFullyLoaded = false;
 
         public Level() { }
@@ -62,6 +62,7 @@ namespace RunningGame {
 
             this.worldNum = worldNum;
             this.levelNum = levelNum;
+            this.colorOrbObtained = ( levelNum != 1 ); //False when level 1 begins, otherwise true.
 
             if ( isPaintFile )
                 initializePaint( windowWidth, windowHeight, levelFile, g );
@@ -644,5 +645,14 @@ namespace RunningGame {
 
 
 
+
+        public void setToPostColors() {
+            this.colorOrbObtained = true;
+            
+            foreach ( Entity e in sysManager.drawSystem.getApplicableEntities() ) {
+                DrawComponent drawComp = ( DrawComponent )e.getComponent( GlobalVars.DRAW_COMPONENT_NAME );
+                drawComp.switchToPostColorImage();
+            }
+        }
     }
 }

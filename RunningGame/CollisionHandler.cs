@@ -617,6 +617,8 @@ namespace RunningGame {
                     break;
             }
 
+            level.setToPostColors();
+
             level.sysManager.drawSystem.setFlash( col, 0.5f );
 
             level.removeEntity( pickup );

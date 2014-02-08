@@ -132,7 +132,8 @@ namespace RunningGame {
         public static int normNumAirJumps = 0;
         public static int numAirJumps = 0;
         public static float PLAYER_HORIZ_MOVE_SPEED = 150.0f;
-
+        public static string PRECOLOR_SPRITE_NAME = "preColSprite";
+        public static string MAIN_SPRITE_NAME = "MainSprite";
 
         //Settings
         public static bool preciseCollisionChecking = false;
