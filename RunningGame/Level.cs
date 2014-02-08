@@ -56,6 +56,9 @@ namespace RunningGame {
 
         public bool levelFullyLoaded = false;
 
+        //A queue of methods (values) to run after a certain period of time(key, in seconds).
+        public Dictionary<Action, float> timerMethods = new Dictionary<Action, float>(); 
+
         public Level() { }
 
         public Level( float windowWidth, float windowHeight, string levelFile, int worldNum, int levelNum, bool isPaintFile, Graphics g ) {
@@ -256,6 +259,26 @@ namespace RunningGame {
                         endLvlTimer = -1;
                         shouldEndLevel = true;
                     }
+                }
+
+                List<Action> toRemove = new List<Action>();
+                List<Action> allActions = timerMethods.Keys.ToList<Action>();
+                foreach ( Action action in allActions ) {
+                    if ( timerMethods[action] >= 0 ) {
+                        timerMethods[action] -= deltaTime;
+
+                        if ( timerMethods[action] <= 0 ) {
+                            action.Invoke();
+                            toRemove.Add( action );
+                        }
+
+                    } else {
+                        toRemove.Add( action );
+                    }
+                }
+
+                foreach ( Action action in toRemove ) {
+                    timerMethods.Remove( action );
                 }
 
                 sysManager.Update( deltaTime ); //Update systems

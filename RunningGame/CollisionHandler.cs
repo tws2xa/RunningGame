@@ -617,9 +617,11 @@ namespace RunningGame {
                     break;
             }
 
-            level.setToPostColors();
+            float flashTime = 0.5f;
+            level.timerMethods.Add( level.setToPostColors, flashTime/2 );
+            //level.setToPostColors();
 
-            level.sysManager.drawSystem.setFlash( col, 0.5f );
+            level.sysManager.drawSystem.setFlash( col, flashTime );
 
             level.removeEntity( pickup );
 
