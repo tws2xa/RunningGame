@@ -12,7 +12,7 @@ namespace RunningGame.Entities {
 
 
         public float defaultWidth = 30;
-        public float defaultHeight = 60;
+        public float defaultHeight = 59;
         public string leftImageName = "EnemyWalkLeft";
         public string rightImageName = "EnemyRightLeft";
 
