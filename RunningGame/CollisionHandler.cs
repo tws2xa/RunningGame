@@ -618,7 +618,9 @@ namespace RunningGame {
             }
 
             float flashTime = 0.5f;
-            level.timerMethods.Add( level.setToPostColors, flashTime/2 );
+            if ( !level.colorOrbObtained && !level.timerMethods.ContainsKey( level.setToPostColors ) ) {
+                level.timerMethods.Add( level.setToPostColors, flashTime / 2 );
+            }
             //level.setToPostColors();
 
             level.sysManager.drawSystem.setFlash( col, flashTime );
