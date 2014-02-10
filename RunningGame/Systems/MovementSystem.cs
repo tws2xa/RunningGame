@@ -417,7 +417,6 @@ namespace RunningGame.Systems {
                 e2Y += diff / 2;
             }
 
-
             if ( xDir && leftOrUp ) retPos = e2X - e2Width / 2 - e1Width / 2;
             else if ( xDir && !leftOrUp ) retPos = e2X + e2Width / 2 + e1Width / 2;
             else if ( !xDir && leftOrUp ) retPos = e2Y - e2Height / 2 - e1Height / 2;

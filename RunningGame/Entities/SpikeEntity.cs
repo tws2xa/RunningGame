@@ -88,7 +88,7 @@ namespace RunningGame.Entities {
             /*COLLIDER - Does it hit things?
              *The second field is the collider type. Look in GlobalVars for a string with the right name.
              */
-            addComponent( new ColliderComponent( this, GlobalVars.SPIKE_COLLIDER_TYPE, 5, 5 ), true );
+            addComponent( new ColliderComponent( this, GlobalVars.SPIKE_COLLIDER_TYPE, 4, 4 ), true );
         }
 
         public override void revertToStartingState() {

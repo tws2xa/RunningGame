@@ -91,9 +91,9 @@ namespace RunningGame {
                     
                     //If the object is below the player, and it's solid, don't apply gravity.
                     if ( ( e1Y + ( e1Height / 2 ) ) <= ( e2Y - ( e2Height / 2 ) ) && colComp2.colliderType == GlobalVars.BASIC_SOLID_COLLIDER_TYPE ) {
-                        float newY = e2Y - e2Height / 2 - e1Height / 2;
+                        float newY = posComp1.y - posComp2.height / 2 - posComp1.height / 2;
 
-                        if ( moveToContactWhenTouchGround && Math.Abs( e1Y - newY ) > 1 ) {
+                        if ( moveToContactWhenTouchGround && Math.Abs( e1Y - newY ) > 0.1 ) {
                             level.getMovementSystem().changePosition( posComp1, e1X, newY, false, true);
                         }
 

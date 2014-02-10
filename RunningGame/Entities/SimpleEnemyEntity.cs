@@ -12,7 +12,7 @@ namespace RunningGame.Entities {
 
 
         public float defaultWidth = 30;
-        public float defaultHeight = 59;
+        public float defaultHeight = 60;
         public string leftImageName = "EnemyWalkLeft";
         public string rightImageName = "EnemyRightLeft";
 
@@ -78,7 +78,7 @@ namespace RunningGame.Entities {
             /*COLLIDER - Does it hit things?
              *The second field is the collider type. Look in GlobalVars for a string with the right name.
              */
-            addComponent( new ColliderComponent( this, GlobalVars.SIMPLE_ENEMY_COLLIDER_TYPE ), true );
+            addComponent( new ColliderComponent( this, GlobalVars.SIMPLE_ENEMY_COLLIDER_TYPE, defaultWidth, defaultHeight-4 ), true );
 
             /*GRAVITY COMPONENT - Does it have Gravity?
              */
