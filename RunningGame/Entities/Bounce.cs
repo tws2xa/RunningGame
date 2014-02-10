@@ -47,7 +47,7 @@ namespace RunningGame.Entities {
             //Then second parameter is full filepath to a default image
             drawComp.addSprite( "Artwork.Foreground.PurpleSplat", "RunningGame.Resources.Artwork.Foreground.PurpleSplat.png", "Main" );
             drawComp.setSprite( "Main" ); //Set image to active image
-            addComponent( new ColliderComponent( this, GlobalVars.BOUNCE_POSTGROUND_COLLIDER_TYPE ), true );
+            addComponent( new ColliderComponent( this, GlobalVars.BOUNCE_POSTGROUND_COLLIDER_TYPE, defaultWidth-4, defaultHeight+3 ), true );
         }
 
         public override void revertToStartingState() {

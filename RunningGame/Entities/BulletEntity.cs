@@ -9,8 +9,8 @@ namespace RunningGame.Entities {
     [Serializable()]
     public class BulletEntity : Entity {
 
-        public float defaultWidth = 15;
-        public float defaultHeight = 15;
+        public float defaultWidth = 40;
+        public float defaultHeight = 40;
 
         //-------------------------------------------Constructors--------------------------------------------
         public BulletEntity( Level level, float x, float y ) {
@@ -54,9 +54,10 @@ namespace RunningGame.Entities {
             addComponent( new PositionComponent( x, y, defaultWidth, defaultHeight, this ), true );
 
             /*DRAW COMPONENT - Does it get drawn to the game world?
+             * NOTE: Was PaintBlob11.png before Bullet11.png
              */
             DrawComponent drawComp = ( DrawComponent )addComponent( new DrawComponent( defaultWidth, defaultHeight, level, true ), true );
-            drawComp.addSprite( "Artwork.Foreground.PaintBlob", "RunningGame.Resources.Artwork.Foreground.PaintBlob11.png", "Main" );
+            drawComp.addSprite( "Artwork.Foreground.Bullet", "RunningGame.Resources.Artwork.Foreground.Bullet11.png", "Main" );
             drawComp.setSprite( "Main" );
 
 
@@ -70,7 +71,7 @@ namespace RunningGame.Entities {
 
             /*COLLIDER - Does it hit things?
              */
-            addComponent( new ColliderComponent( this, GlobalVars.BULLET_COLLIDER_TYPE ), true );
+            addComponent( new ColliderComponent( this, GlobalVars.BULLET_COLLIDER_TYPE, 10, 10 ), true );
 
             addComponent( new ScreenEdgeComponent( 3, 3, 3, 3 ), true );
         }
