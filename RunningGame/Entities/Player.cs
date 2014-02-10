@@ -102,7 +102,7 @@ namespace RunningGame.Entities {
             addComponent( new PlayerInputComponent( this ), true );
 
             //Collider
-            addComponent( new ColliderComponent( this, GlobalVars.PLAYER_COLLIDER_TYPE ), true );
+            addComponent( new ColliderComponent( this, GlobalVars.PLAYER_COLLIDER_TYPE ), true);
 
 
             //Squish Component

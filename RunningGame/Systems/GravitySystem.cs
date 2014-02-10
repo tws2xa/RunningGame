@@ -34,14 +34,35 @@ namespace RunningGame {
             foreach ( Entity e in getApplicableEntities() ) {
 
                 //Don't apply gravity if the object is on top of something
-                PositionComponent posComp = ( PositionComponent )e.getComponent( GlobalVars.POSITION_COMPONENT_NAME );
+                PositionComponent posComp1 = ( PositionComponent )e.getComponent( GlobalVars.POSITION_COMPONENT_NAME );
+                ColliderComponent colComp1 = ( ColliderComponent )e.getComponent( GlobalVars.COLLIDER_COMPONENT_NAME );
 
                 float sideBuffer = -1;
                 float floorBuffer = 1; //Distance it checks below object for the ground
 
-                float leftX = ( posComp.x - posComp.width / 2 - sideBuffer );
-                float rightX = ( posComp.x + posComp.width / 2 + sideBuffer );
-                float lowerY = ( posComp.y + posComp.height / 2 + floorBuffer );
+                float e1X = posComp1.x;
+                float e1Y = posComp1.y;
+                float e1Width = posComp1.width;
+                float e1Height = posComp1.height;
+
+                //If it has a collider, use its Width and Height instead.
+                if ( colComp1 != null ) {
+                    e1Width = colComp1.width;
+                    e1Height = colComp1.height;
+                }
+
+                if ( e1Width != posComp1.width ) {
+                    float diff = ( posComp1.width - e1Width );
+                    e1X += diff / 2;
+                }
+                if ( e1Height != posComp1.height ) {
+                    float diff = ( posComp1.height - e1Height );
+                    e1Y += diff / 2;
+                }
+
+                float leftX = ( e1X - e1Width / 2 - sideBuffer );
+                float rightX = ( e1X + e1Width / 2 + sideBuffer );
+                float lowerY = ( e1Y + e1Height / 2 + floorBuffer );
                 //Console.WriteLine("Lower y: " + lowerY);
                 //List<Entity> cols = level.getCollisionSystem().checkForCollision(e, posComp.x, lowerY, posComp.width, posComp.height);
                 List<Entity> cols = level.getCollisionSystem().findObjectsBetweenPoints( leftX, lowerY, rightX, lowerY );
@@ -49,14 +70,31 @@ namespace RunningGame {
                 bool shouldApplyGravity = true; //False if there's a solid object below
 
                 foreach ( Entity ent in cols ) {
-                    ColliderComponent collider = ( ColliderComponent )ent.getComponent( GlobalVars.COLLIDER_COMPONENT_NAME );
+                    ColliderComponent colComp2 = ( ColliderComponent )ent.getComponent( GlobalVars.COLLIDER_COMPONENT_NAME );
                     PositionComponent posComp2 = ( PositionComponent )ent.getComponent( GlobalVars.POSITION_COMPONENT_NAME );
-                    //If the object is below the player, and it's solid, don't apply gravity.
-                    if ( ( posComp.y + ( posComp.height / 2 ) ) <= ( posComp2.y - ( posComp2.height / 2 ) ) && collider.colliderType == GlobalVars.BASIC_SOLID_COLLIDER_TYPE ) {
-                        float newY = posComp2.y - posComp2.height / 2 - posComp.height / 2;
 
-                        if ( moveToContactWhenTouchGround && Math.Abs( posComp.y - newY ) > 1 ) {
-                            level.getMovementSystem().changePosition( posComp, posComp.x, newY, false, true);
+                    //Separated out for easy changing.
+                    float e2X = posComp2.x;
+                    float e2Y = posComp2.y;
+                    float e2Width = colComp2.width;
+                    float e2Height = colComp2.height;
+
+                    //Center width/height values
+                    if ( e2Width != posComp2.width ) {
+                        float diff = ( posComp2.width - e2Width );
+                        e2X += diff / 2;
+                    }
+                    if ( e2Height != posComp2.height ) {
+                        float diff = ( posComp2.height - e2Height );
+                        e2Y += diff / 2;
+                    }
+                    
+                    //If the object is below the player, and it's solid, don't apply gravity.
+                    if ( ( e1Y + ( e1Height / 2 ) ) <= ( e2Y - ( e2Height / 2 ) ) && colComp2.colliderType == GlobalVars.BASIC_SOLID_COLLIDER_TYPE ) {
+                        float newY = e2Y - e2Height / 2 - e1Height / 2;
+
+                        if ( moveToContactWhenTouchGround && Math.Abs( e1Y - newY ) > 1 ) {
+                            level.getMovementSystem().changePosition( posComp1, e1X, newY, false, true);
                         }
 
                         shouldApplyGravity = false;
