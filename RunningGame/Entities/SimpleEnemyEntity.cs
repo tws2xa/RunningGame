@@ -78,7 +78,7 @@ namespace RunningGame.Entities {
             /*COLLIDER - Does it hit things?
              *The second field is the collider type. Look in GlobalVars for a string with the right name.
              */
-            addComponent( new ColliderComponent( this, GlobalVars.SIMPLE_ENEMY_COLLIDER_TYPE, defaultWidth, defaultHeight-4 ), true );
+            addComponent( new ColliderComponent( this, GlobalVars.SIMPLE_ENEMY_COLLIDER_TYPE, defaultWidth, defaultHeight), true );
 
             /*GRAVITY COMPONENT - Does it have Gravity?
              */

@@ -69,7 +69,6 @@ namespace RunningGame.Systems {
                     if ( simpEnemyComp.wasStoppedLastFrame ) {
                         velComp.x = newVel;
                     }
-                    
 
                     simpEnemyComp.wasStoppedLastFrame = true;
                 }
