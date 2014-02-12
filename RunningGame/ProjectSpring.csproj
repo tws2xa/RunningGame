@@ -386,8 +386,8 @@
     <EmbeddedResource Include="Resources\Levels\DebugLevel.png" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\Artwork\Foreground\PowerupPickups\BouncePickup.png" />
     <EmbeddedResource Include="Resources\Artwork\Foreground\PowerupPickups\DoubleJumpPickup.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\PowerupPickups\BouncePickup.png" />
     <EmbeddedResource Include="Resources\Artwork\Foreground\PowerupPickups\GlidePickup.png" />
     <EmbeddedResource Include="Resources\Artwork\Foreground\PowerupPickups\GrapplePickup.png" />
     <EmbeddedResource Include="Resources\Artwork\Foreground\PowerupPickups\SpawnPickup.png" />

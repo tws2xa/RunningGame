@@ -598,13 +598,13 @@ namespace RunningGame {
 
             switch ( ppComp.compNum ) {
                 case ( GlobalVars.BOUNCE_NUM ):
-                    col = System.Drawing.Color.Purple;
+                    col = System.Drawing.Color.LightGreen;
                     break;
                 case ( GlobalVars.SPEED_NUM ):
                     col = System.Drawing.Color.Teal;
                     break;
                 case ( GlobalVars.JMP_NUM ):
-                    col = System.Drawing.Color.LightGreen;
+                    col = System.Drawing.Color.Purple;
                     break;
                 case ( GlobalVars.GLIDE_NUM ):
                     col = System.Drawing.Color.Yellow;
