@@ -62,7 +62,7 @@ namespace RunningGame.Systems {
             //Required Components
             requiredComponents.Add( GlobalVars.DRAW_COMPONENT_NAME ); //Draw Component
             requiredComponents.Add( GlobalVars.POSITION_COMPONENT_NAME ); //Position Component
-
+            
             this.g = g;
             this.level = level;
 
@@ -210,12 +210,14 @@ namespace RunningGame.Systems {
 
         public void activateTextFlash(string text, Color c, float timerIn, float time, float timerOut)
         {
+            if (textState >= 0)
+                return;
             this.text = text;
             deltaInAlpha = (255 / timerIn);
             deltaOutAlpha = (255 / timerOut);
             textBrush.Color = Color.FromArgb(0, c);
-            
-            
+            textState = 0;
+            textTimer = time;
         }
         //Explanantion of g
         //g is a brush for an image
