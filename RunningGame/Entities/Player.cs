@@ -17,8 +17,8 @@ namespace RunningGame.Entities {
     [Serializable()]
     public class Player : Entity {
 
-        float defaultWidth = 39;
-        float defaultHeight = 49;
+        float defaultWidth = 40;
+        float defaultHeight = 50;
 
         string rightImageName = "right";
         string leftImageName = "left";
@@ -102,9 +102,9 @@ namespace RunningGame.Entities {
             addComponent( new PlayerInputComponent( this ), true );
 
             //Collider
-            addComponent( new ColliderComponent( this, GlobalVars.PLAYER_COLLIDER_TYPE ), true );
+            addComponent( new ColliderComponent( this, GlobalVars.PLAYER_COLLIDER_TYPE , defaultWidth-4, defaultHeight-4), true);
 
-
+            /*
             //Squish Component
             SquishComponent sqComp = ( SquishComponent )addComponent( new SquishComponent( defaultWidth, defaultHeight, defaultWidth * 1.2f, defaultHeight * 1.2f, defaultWidth / 2f, defaultHeight / 2f, defaultWidth * defaultHeight * 1.1f, defaultWidth * defaultHeight / 1.5f ), true );
             sqComp.maxHeight = defaultHeight;
@@ -113,6 +113,7 @@ namespace RunningGame.Entities {
             sqComp.minWidth = defaultWidth / 1.1f;
             sqComp.maxSurfaceArea = defaultHeight * defaultWidth * 1.1f;
             sqComp.minSurfaceArea = defaultHeight * defaultWidth / 1.1f;
+            */
 
 
             //Gravity Component

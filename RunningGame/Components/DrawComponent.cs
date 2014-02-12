@@ -268,6 +268,12 @@ namespace RunningGame.Components {
             this.setSprite( postColorName, false );
             this.needRedraw = true;
         }
+        public void switchToPreColorImage() {
+            if ( this.activeSprite == postColorName ) {
+                this.setSprite( postColorName + "" + GlobalVars.PRECOLOR_SPRITE_NAME, false );
+                this.needRedraw = true;
+            }
+        }
 
         public string getImageFilePathName( string baseName ) {
             string retStr = "RunningGame.Resources.";

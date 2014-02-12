@@ -347,6 +347,9 @@ namespace RunningGame {
             }
             GlobalVars.removedStartingEntities.Clear();
 
+            if ( levelNum == 1 ) {
+                setToPreColors(); //Reset Colors if first level in a world.
+            }
             setPowerups(); //Reset the powerups
 
             paused = false; //Restart the game  
@@ -672,6 +675,14 @@ namespace RunningGame {
         public void setToPostColors() {
             this.colorOrbObtained = true;
             
+            foreach ( Entity e in sysManager.drawSystem.getApplicableEntities() ) {
+                DrawComponent drawComp = ( DrawComponent )e.getComponent( GlobalVars.DRAW_COMPONENT_NAME );
+                drawComp.switchToPostColorImage();
+            }
+        }
+        public void setToPreColors() {
+            this.colorOrbObtained = false;
+
             foreach ( Entity e in sysManager.drawSystem.getApplicableEntities() ) {
                 DrawComponent drawComp = ( DrawComponent )e.getComponent( GlobalVars.DRAW_COMPONENT_NAME );
                 drawComp.switchToPostColorImage();

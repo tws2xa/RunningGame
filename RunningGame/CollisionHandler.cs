@@ -618,7 +618,9 @@ namespace RunningGame {
             }
 
             float flashTime = 0.5f;
-            level.timerMethods.Add( level.setToPostColors, flashTime/2 );
+            if ( !level.colorOrbObtained && !level.timerMethods.ContainsKey( level.setToPostColors ) ) {
+                level.timerMethods.Add( level.setToPostColors, flashTime / 2 );
+            }
             //level.setToPostColors();
 
             level.sysManager.drawSystem.setFlash( col, flashTime );
@@ -700,6 +702,9 @@ namespace RunningGame {
         //Makes sure there's satisfactory overlap for spikes to kill the player
         private bool checkSpikeCollision( PositionComponent posPlayer, PositionComponent posSpikes, int dir ) {
 
+            return true;
+
+            /*
             switch ( dir ) {
                 case ( 0 ): //Player Above
                     if ( ( posSpikes.y - posSpikes.height / 2 + playerSpikeCollisionLeewaySameDir ) <= ( posPlayer.y + posPlayer.height / 2 ) ) {
@@ -756,6 +761,7 @@ namespace RunningGame {
                 default:
                     return false;
             }
+            */
 
 
         }

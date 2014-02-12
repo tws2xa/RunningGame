@@ -486,6 +486,7 @@
     <EmbeddedResource Include="Resources\Artwork\Background\Bkg32.png" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Resources\Artwork\Foreground\Bullet11.png" />
     <EmbeddedResource Include="Resources\Artwork\Background\Bkg60.png" />
     <EmbeddedResource Include="Resources\Artwork\Background\Bkg61.png" />
     <EmbeddedResource Include="Resources\Artwork\Foreground\Grass\Dirt10.png" />
@@ -513,6 +514,8 @@
     <EmbeddedResource Include="Resources\Artwork\Background\Bkg20.png" />
     <EmbeddedResource Include="Resources\Artwork\Background\Bkg40.png" />
     <Content Include="Resources\Artwork\Background\Bkg43.png" />
+    <EmbeddedResource Include="Resources\Levels\World1Level1anna.png" />
+    <EmbeddedResource Include="Resources\Levels\leveltry.png" />
     <None Include="Resources\Artwork\Other\SpringBlurSmall.png" />
     <EmbeddedResource Include="Resources\Levels\World3Level11.png" />
     <EmbeddedResource Include="Resources\Levels\World2Level31.png" />

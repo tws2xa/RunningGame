@@ -42,13 +42,12 @@ namespace RunningGame.Entities {
         public void addMyComponents( float x, float y ) {
             //position and velocity
             addComponent( new PositionComponent( x, y, defaultWidth, defaultHeight, this ), true );
-            addComponent( new ColliderComponent( this, GlobalVars.BOUNCE_POSTGROUND_COLLIDER_TYPE ), true );
             DrawComponent drawComp = ( DrawComponent )addComponent( new DrawComponent( defaultWidth, defaultHeight, level, true ), true );
-
             //Add image - Use base name for first parameter (everything in file path after Resources. and before the numbers and .png)
             //Then second parameter is full filepath to a default image
             drawComp.addSprite( "Artwork.Foreground.PurpleSplat", "RunningGame.Resources.Artwork.Foreground.PurpleSplat.png", "Main" );
             drawComp.setSprite( "Main" ); //Set image to active image
+            addComponent( new ColliderComponent( this, GlobalVars.BOUNCE_POSTGROUND_COLLIDER_TYPE, defaultWidth-4, defaultHeight+3 ), true );
         }
 
         public override void revertToStartingState() {

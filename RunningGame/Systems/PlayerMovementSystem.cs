@@ -171,17 +171,21 @@ namespace RunningGame.Systems {
             }
         }
         public void beginMoveLeft( PositionComponent posComp, VelocityComponent velComp, PlayerInputComponent pelInComp, AnimationComponent animComp ) {
-            velComp.setVelocity( -pelInComp.playerHorizMoveSpeed, velComp.y );
-            if ( !pelInComp.player.isLookingLeft() )
-                pelInComp.player.faceLeft();
-            level.getPlayer().startAnimation();
+            if ( pelInComp != null && pelInComp.player != null ) {
+                velComp.setVelocity( -pelInComp.playerHorizMoveSpeed, velComp.y );
+                if ( !pelInComp.player.isLookingLeft() )
+                    pelInComp.player.faceLeft();
+                level.getPlayer().startAnimation();
+            }
 
         }
         public void beginMoveRight( PositionComponent posComp, VelocityComponent velComp, PlayerInputComponent pelInComp, AnimationComponent animComp ) {
-            velComp.setVelocity( pelInComp.playerHorizMoveSpeed, velComp.y );
-            if ( !pelInComp.player.isLookingRight() )
-                pelInComp.player.faceRight();
-            level.getPlayer().startAnimation();
+            if ( pelInComp != null && pelInComp.player != null ) {
+                velComp.setVelocity( pelInComp.playerHorizMoveSpeed, velComp.y );
+                if ( !pelInComp.player.isLookingRight() )
+                    pelInComp.player.faceRight();
+                level.getPlayer().startAnimation();
+            }
         }
         public void endLeftHorizontalMove( PositionComponent posComp, VelocityComponent velComp, AnimationComponent animComp ) {
             if ( velComp.x < 0 ) velComp.setVelocity( 0, velComp.y );

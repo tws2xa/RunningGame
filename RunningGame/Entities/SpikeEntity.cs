@@ -66,9 +66,17 @@ namespace RunningGame.Entities {
             drawComp.addSprite( "Artwork.Foreground.Spike", "RunningGame.Resources.Artwork.Foreground.Spike.png", sprName );
             drawComp.setSprite( sprName ); //Set image to active image
 
+            //Won't always be the same as spr name
+            //Like if it's been de-colored as a result of being in a
+            //World's 1st level before the color orb is obtained.
+            string currentSprite = drawComp.activeSprite;
+            
             //Rotate accordingly
             for ( int i = 0; i < dir; i++ ) {
                 drawComp.rotateFlipSprite( sprName, System.Drawing.RotateFlipType.Rotate90FlipNone );
+                if ( currentSprite != sprName ) {
+                    drawComp.rotateFlipSprite( currentSprite, System.Drawing.RotateFlipType.Rotate90FlipNone );
+                }
             }
 
 
@@ -80,7 +88,7 @@ namespace RunningGame.Entities {
             /*COLLIDER - Does it hit things?
              *The second field is the collider type. Look in GlobalVars for a string with the right name.
              */
-            addComponent( new ColliderComponent( this, GlobalVars.SPIKE_COLLIDER_TYPE ), true );
+            addComponent( new ColliderComponent( this, GlobalVars.SPIKE_COLLIDER_TYPE, 4, 4 ), true );
         }
 
         public override void revertToStartingState() {

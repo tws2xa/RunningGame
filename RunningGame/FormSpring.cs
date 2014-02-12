@@ -168,7 +168,7 @@ namespace RunningGame {
             //Format: GlobalVars.levels[world # - 1][level # - 1] = "Image address"
             //Remember the indexes start at 0, so they're off by 1
             //i.e. levels[0][0] => World 1 Level 1
-            GlobalVars.levels[0][0] = "RunningGame.Resources.Levels.World1Level1.png";
+            GlobalVars.levels[0][0] = "RunningGame.Resources.Levels.World1Level1anna.png";
             GlobalVars.levels[0][1] = "RunningGame.Resources.Levels.World1Level2.png";
             GlobalVars.levels[0][2] = "RunningGame.Resources.Levels.World1Level3.png";
 
