@@ -118,6 +118,10 @@ namespace RunningGame.Systems {
             if ( level.getInputSystem().myKeys[resetLevelKey].up ) {
                 level.resetLevel();
             }
+            if (level.getInputSystem().myKeys[addEntityKey].up)
+            {
+                level.sysManager.drawSystem.activateTextFlash("hellooo", Color.CornflowerBlue, 0.5f, 2, 1);
+            }
 
             if ( level.getInputSystem().myKeys[skipLevelKey].up ) {
                 level.beginEndLevel( 0.0f );
