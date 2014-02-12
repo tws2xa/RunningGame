@@ -95,7 +95,7 @@ namespace RunningGame {
 
             //Start the game
             //Use this.Width and this.Height instead of ClientSize to reduce streaching at edge
-            game = new Game( this.CreateGraphics(), this.ClientSize.Width, this.ClientSize.Height, "", 1, 1, this );
+            game = new Game( this.CreateGraphics(), this.ClientSize.Width, this.ClientSize.Height, "", 1, 1, this, displayFontLbl.Font );
 
             //Once the game has been started - hide the loading text
             lblLoading.Visible = false;
@@ -387,7 +387,7 @@ namespace RunningGame {
 
             //Start the game
             //Use this.Width and this.Height instead of ClientSize to reduce streaching at edge
-            game = new Game( this.CreateGraphics(), this.ClientSize.Width, this.ClientSize.Height, GlobalVars.levels[world - 1][level - 1], world, level, this );
+            game = new Game( this.CreateGraphics(), this.ClientSize.Width, this.ClientSize.Height, GlobalVars.levels[world - 1][level - 1], world, level, this, displayFontLbl.Font );
 
             //Once the game is started, hide the loading text
             lblLoading.Visible = false;

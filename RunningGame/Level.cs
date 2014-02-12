@@ -56,13 +56,15 @@ namespace RunningGame {
 
         public bool levelFullyLoaded = false;
 
+        public Font displayFont = SystemFonts.DefaultFont;
+
         //A queue of methods (values) to run after a certain period of time(key, in seconds).
         public Dictionary<Action, float> timerMethods = new Dictionary<Action, float>(); 
 
         public Level() { }
 
-        public Level( float windowWidth, float windowHeight, string levelFile, int worldNum, int levelNum, bool isPaintFile, Graphics g ) {
-
+        public Level( float windowWidth, float windowHeight, string levelFile, int worldNum, int levelNum, bool isPaintFile, Graphics g, Font displayFont ) {
+            this.displayFont = displayFont;
             this.worldNum = worldNum;
             this.levelNum = levelNum;
             this.colorOrbObtained = ( levelNum != 1 ); //False when level 1 begins, otherwise true.

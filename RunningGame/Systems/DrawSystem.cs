@@ -59,6 +59,9 @@ namespace RunningGame.Systems {
         bool miniMapOn = false;
 
         public DrawSystem( Graphics g, Level level ) {
+
+            this.textFont = level.displayFont;
+            
             //Required Components
             requiredComponents.Add( GlobalVars.DRAW_COMPONENT_NAME ); //Draw Component
             requiredComponents.Add( GlobalVars.POSITION_COMPONENT_NAME ); //Position Component
