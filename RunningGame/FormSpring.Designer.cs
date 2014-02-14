@@ -185,14 +185,14 @@
             // displayFontLbl
             // 
             this.displayFontLbl.AutoSize = true;
-            this.displayFontLbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 36F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.displayFontLbl.Location = new System.Drawing.Point(467, 248);
+            this.displayFontLbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.displayFontLbl.Location = new System.Drawing.Point(393, 223);
             this.displayFontLbl.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.displayFontLbl.Name = "displayFontLbl";
-            this.displayFontLbl.Size = new System.Drawing.Size(152, 55);
+            this.displayFontLbl.Size = new System.Drawing.Size(216, 29);
             this.displayFontLbl.TabIndex = 14;
             this.displayFontLbl.Tag = "displayFontLbl";
-            this.displayFontLbl.Text = "label1";
+            this.displayFontLbl.Text = "Display Text Demo";
             this.displayFontLbl.Visible = false;
             // 
             // FormSpring

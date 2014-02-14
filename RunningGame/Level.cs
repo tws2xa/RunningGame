@@ -61,6 +61,14 @@ namespace RunningGame {
         //A queue of methods (values) to run after a certain period of time(key, in seconds).
         public Dictionary<Action, float> timerMethods = new Dictionary<Action, float>(); 
 
+
+        //Used for displaying instruction text:
+        public string dispTxt = "";
+        public Color dispCol = Color.White;
+        public float dispTimeIn = 0;
+        public float dispConstTime = 0;
+        public float dispTimeOut = 0;
+
         public Level() { }
 
         public Level( float windowWidth, float windowHeight, string levelFile, int worldNum, int levelNum, bool isPaintFile, Graphics g, Font displayFont ) {
@@ -681,6 +689,16 @@ namespace RunningGame {
                 DrawComponent drawComp = ( DrawComponent )e.getComponent( GlobalVars.DRAW_COMPONENT_NAME );
                 drawComp.switchToPostColorImage();
             }
+        }
+        public void setInstrText( string txt, Color col, float timeIn, float constTime, float timeOut ) {
+            dispTxt = txt;
+            dispCol = col;
+            dispTimeIn = timeIn;
+            dispConstTime = constTime;
+            dispTimeOut = timeOut;
+        }
+        public void displayInstrText() {
+            sysManager.drawSystem.activateTextFlash( dispTxt, dispCol, dispTimeIn, dispConstTime, dispTimeOut );
         }
         public void setToPreColors() {
             this.colorOrbObtained = false;

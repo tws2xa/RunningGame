@@ -596,30 +596,52 @@ namespace RunningGame {
 
             System.Drawing.Color col = System.Drawing.Color.Peru; //Peru is a color.
 
+            string displayStr = "";
+            System.Drawing.Color textCol = col;
+            float fadeInTime = 0.2f;
+            float constTime = 3;
+            float fadeOutTime = 1.5f;
+
             switch ( ppComp.compNum ) {
                 case ( GlobalVars.BOUNCE_NUM ):
+                    displayStr = "Bounce Gel Unlocked!\n[Q]/[E] to Equip, [F] to use.";
                     col = System.Drawing.Color.Purple;
+                    textCol = System.Drawing.Color.DarkViolet;
                     break;
                 case ( GlobalVars.SPEED_NUM ):
                     col = System.Drawing.Color.Teal;
+                    displayStr = "Speed Gel Unlocked!\n[Q]/[E] to Equip, [F] to use.";
+                    textCol = System.Drawing.Color.DarkBlue;
                     break;
                 case ( GlobalVars.JMP_NUM ):
                     col = System.Drawing.Color.LightGreen;
+                    displayStr = "Double Jump Unlocked!\nPress [W] in air to use.";
+                    textCol = System.Drawing.Color.SpringGreen;
                     break;
                 case ( GlobalVars.GLIDE_NUM ):
                     col = System.Drawing.Color.Yellow;
+                    displayStr = "Glide Unlocked!\nPress [Space] in air to use.";
+                    textCol = System.Drawing.Color.Yellow;
                     break;
                 case ( GlobalVars.SPAWN_NUM ):
                     col = System.Drawing.Color.Orange;
+                    displayStr = "Block Spawn Unlocked\n[Q]/[E] to Equip, [F] to use.";
+                    textCol = System.Drawing.Color.DarkOrange;
                     break;
                 case ( GlobalVars.GRAP_NUM ):
                     col = System.Drawing.Color.Red;
+                    displayStr = "Grapple Unlocked!\nRight click to use.";
+                    textCol = System.Drawing.Color.DarkRed;
                     break;
             }
 
             float flashTime = 0.5f;
             if ( !level.colorOrbObtained && !level.timerMethods.ContainsKey( level.setToPostColors ) ) {
                 level.timerMethods.Add( level.setToPostColors, flashTime / 2 );
+            }
+            if ( !level.timerMethods.ContainsKey( level.displayInstrText) ) {
+                level.setInstrText( displayStr, textCol, fadeInTime, constTime, fadeOutTime );
+                level.timerMethods.Add( level.displayInstrText, flashTime / 2 );
             }
             //level.setToPostColors();
 
