@@ -57,13 +57,31 @@ namespace RunningGame.Entities {
              * NOTE: Was PaintBlob11.png before Bullet11.png
              */
             DrawComponent drawComp = ( DrawComponent )addComponent( new DrawComponent( defaultWidth, defaultHeight, level, true ), true );
-            drawComp.addSprite( "Artwork.Foreground.Bullet", "RunningGame.Resources.Artwork.Foreground.Bullet11.png", "Main" );
-            drawComp.setSprite( "Main" );
 
+
+            List<string> bulletAnimation = new List<string>()
+            {
+                "Artwork.Foreground.Bullet.Bullet1",
+                "Artwork.Foreground.Bullet.Bullet2",
+                "Artwork.Foreground.Bullet.Bullet3"
+            };
+
+            List<string> bulletAnimDefaults = new List<string>()
+            {
+                "RunningGame.Resources.Artwork.Foreground.Bullet.Bullet111",
+                "RunningGame.Resources.Artwork.Foreground.Bullet.Bullet211",
+                "RunningGame.Resources.Artwork.Foreground.Bullet.Bullet311"
+            };
+
+            
+            //drawComp.addSprite( "Artwork.Foreground.Bullet", "RunningGame.Resources.Artwork.Foreground.Bullet11.png", "Main" );
+            drawComp.addAnimatedSprite( bulletAnimation, bulletAnimDefaults, "Main" );
+            drawComp.setSprite( "Main" );
+            
 
             /* ANIMATION COMPONENT - Does it need animating?
              */
-            addComponent( new AnimationComponent( 0.0005f ), true );
+            addComponent( new AnimationComponent( 0.08f ), true );
 
             /*VELOCITY COMPONENT - Does it move?
              */
