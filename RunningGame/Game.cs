@@ -27,6 +27,7 @@ namespace RunningGame {
         Point zeroPoint = new Point( 0, 0 );
 
         private FormSpring frm; //Form it's being run on.
+        Font displayFont = SystemFonts.DefaultFont;
 
         [NonSerialized]
         private Graphics mainWinGraphics; //Graphcis object attached to the main window
@@ -39,9 +40,10 @@ namespace RunningGame {
         private Graphics dbGraphics; //Graphics attached to bufferImage
 
         //Start the game and load the given world/level
-        public Game( Graphics winGraphics, int w, int h, string str, int world, int level, FormSpring frm ) {
+        public Game( Graphics winGraphics, int w, int h, string str, int world, int level, FormSpring frm, Font fnt ) {
 
             this.frm = frm;
+            this.displayFont = fnt;
 
             mainWinGraphics = winGraphics;
             winWidth = w;
@@ -71,7 +73,7 @@ namespace RunningGame {
             GlobalVars.removedStartingEntities.Clear();
             //HERE IS WHERE YOU SAY WHICH LEVEL TO LOAD ON DEBUG
             //YOU GET TO IT BY PRESSING THE DEBUG BUTTON
-            currentLevel = new Level( winWidth, winHeight, "RunningGame.Resources.Levels.DebugLevel.png", 1, 1, true, dbGraphics );
+            currentLevel = new Level( winWidth, winHeight, "RunningGame.Resources.Levels.DebugLevel.png", 1, 1, true, dbGraphics, displayFont );
         }
 
         //This first clears all lists, then loads a given level.
@@ -79,7 +81,7 @@ namespace RunningGame {
             GlobalVars.groundEntities.Clear();
             GlobalVars.nonGroundEntities.Clear();
             GlobalVars.removedStartingEntities.Clear();
-            currentLevel = new Level( winWidth, winHeight, str, world, level, true, dbGraphics );
+            currentLevel = new Level( winWidth, winHeight, str, world, level, true, dbGraphics, displayFont );
         }
 
         //This is run once every frame

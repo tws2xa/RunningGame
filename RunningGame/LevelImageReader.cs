@@ -24,6 +24,7 @@ namespace RunningGame {
         Color basicGroundCol = Color.FromArgb( 0, 0, 0 ); //Basic Ground is black.
         Color playerCol = Color.FromArgb( 0, 0, 255 ); //Player is blue.
         Color vertMovPlatCol = Color.FromArgb( 0, 255, 0 ); //Vertical Plafroms are green!
+        Color horizMovPlatCol = Color.FromArgb( 0, 255, 255 ); //Horizontal Plafroms are cyan!
         Color simpleEnemyColor = Color.FromArgb( 255, 0, 0 ); //Walking Enemies are red.
         Color flyingEnemyColor = Color.FromArgb( 255, 255, 0 ); //Flying enemies are yellow!
         Color endLevelCol = Color.FromArgb( 255, 255, 255 ); //End level is white
@@ -185,6 +186,20 @@ namespace RunningGame {
                         adjustLocation( plat, level );
 
                         plat.isStartingEntity = true;
+                        level.addEntity( plat );
+                    } else if ( col == horizMovPlatCol ) {
+                        float xLoc = ( levelX ) * tileWidth;
+                        float yLoc = ( levelY ) * tileHeight;
+                        int id = rand.Next( Int32.MinValue, Int32.MaxValue );
+
+                        MovingPlatformEntity plat = new MovingPlatformEntity( level, id, xLoc, yLoc );
+                        adjustLocation( plat, level );
+
+                        plat.isStartingEntity = true;
+                        MovingPlatformComponent movPlatComp = ( MovingPlatformComponent )plat.getComponent( GlobalVars.MOVING_PLATFORM_COMPONENT_NAME );
+                        movPlatComp.vertical = false;
+                        VelocityComponent velComp = ( VelocityComponent )plat.getComponent( GlobalVars.VELOCITY_COMPONENT_NAME );
+                        velComp.y = 0;
                         level.addEntity( plat );
                     } else if ( col == bouncePickup ) {
                         float xLoc = ( levelX ) * tileWidth;

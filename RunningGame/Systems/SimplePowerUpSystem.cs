@@ -212,7 +212,7 @@ namespace RunningGame.Systems {
             System.Drawing.Color orangeColor = System.Drawing.Color.Orange;
             System.Drawing.Color defaultColor = System.Drawing.Color.AliceBlue;
 
-            System.Drawing.Color newBorderCol = defaultColor; //Default Color.
+            System.Drawing.Color newBorderCol = defaultColor; //Default Color. 
 
             if ( up ) {
                 if ( speedyEquipped ) {

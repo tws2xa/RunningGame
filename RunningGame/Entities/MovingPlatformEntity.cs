@@ -11,7 +11,7 @@ namespace RunningGame.Entities {
     public class MovingPlatformEntity : Entity {
 
         public float defaultWidth = 40;
-        public float defaultHeight = 20;
+        public float defaultHeight = 15;
 
         //-------------------------------------------Constructors--------------------------------------------
         //One takes in an ID, the other generats it.

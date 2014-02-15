@@ -247,12 +247,24 @@ namespace RunningGame {
                 }
             }
 
+            
+
             //look into double buffers, mainG and G are different!
             //use mainG
+
+            if ( level.sysManager.drawSystem.textState >= 0 ) {
+                StringFormat centerFormat = new StringFormat();
+                centerFormat.Alignment = StringAlignment.Center;
+                centerFormat.LineAlignment = StringAlignment.Center;
+                PointF textPosition = new PointF( displayX + displayWidth / 2, displayY + displayHeight / 4 );
+                mainG.DrawString( level.sysManager.drawSystem.text, level.sysManager.drawSystem.textFont, level.sysManager.drawSystem.textBrush, textPosition.X, textPosition.Y, centerFormat );
+            }
+
             if ( level.sysManager.drawSystem.getFlashTime() > 0 ) {
                 mainG.FillRectangle( level.sysManager.drawSystem.getFlashBrush(), new Rectangle( ( int )( displayX ), ( int )( displayY ),
                 ( int )( displayWidth ), ( int )( displayHeight ) ) );
             }
+
 
         }
 

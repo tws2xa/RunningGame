@@ -58,12 +58,13 @@ namespace RunningGame.Systems {
 
                 //If there's a key down and the player isn't moving horizontally, check to make sure there's a collision
                 restartHorizontalMovementIfNoBlock( velComp, posComp, pelInComp, animComp );
-
-                if ( level.getInputSystem().myKeys[GlobalVars.KEY_RIGHT].pressed || level.getInputSystem().myKeys[GlobalVars.KEY_LEFT].pressed ) {
-                    level.getPlayer().startAnimation();
-                } else {
-                    if ( level.getPlayer() != null )
-                        level.getPlayer().stopAnimation();
+                if ( level != null ) {
+                    if ( level.getInputSystem().myKeys[GlobalVars.KEY_RIGHT].pressed || level.getInputSystem().myKeys[GlobalVars.KEY_LEFT].pressed ) {
+                        level.getPlayer().startAnimation();
+                    } else {
+                        if ( level.getPlayer() != null )
+                            level.getPlayer().stopAnimation();
+                    }
                 }
 
                 //Slow horizontal if no left/right key down
