@@ -46,39 +46,54 @@ namespace RunningGame.Systems {
 
                 if ( simpEnemyComp.hasRunOnce && !simpEnemyComp.hasLandedOnce && velComp.y <= 0 ) {
                     simpEnemyComp.hasLandedOnce = true;
-                    //e.updateOutOfView = false;
                 }
-
-                if ( velComp.x < 0 ) simpEnemyComp.movingLeft = true;
-                else if ( velComp.x > 0 ) simpEnemyComp.movingLeft = false;
-                else if ( velComp.x == 0 && simpEnemyComp.hasLandedOnce ) //If it's been stopped for more than one frame, try changing the direction and see if it can move that way instead.
+                if ( velComp.x < 0 ) {
+                    simpEnemyComp.movingLeft = true;
+                    simpEnemyComp.wasStoppedLastFrame = false;
+                } else if ( velComp.x > 0 ) {
+                    simpEnemyComp.movingLeft = false;
+                    simpEnemyComp.wasStoppedLastFrame = false;
+                } else if ( velComp.x == 0 && simpEnemyComp.hasLandedOnce ) //If it's been stopped for more than one frame, try changing the direction and see if it can move that way instead.
                 {
-                    //SimpleEnemyComponent simpEnemyComp = (SimpleEnemyComponent)e.getComponent(GlobalVars.SIMPLE_ENEMY_COMPONENT_NAME);
-
                     /*
                     if (!simpEnemyComp.wasStoppedLastFrame)
                         velComp.x = simpEnemyComp.mySpeed;
                     else
                         velComp.x = -simpEnemyComp.mySpeed;
                     */
-
+                    
                     float newVel = simpEnemyComp.mySpeed;
                     if ( !simpEnemyComp.movingLeft ) newVel *= -1;
 
-                    if ( simpEnemyComp.wasStoppedLastFrame )
+                    if ( simpEnemyComp.wasStoppedLastFrame ) {
                         velComp.x = newVel;
-
+                    }
 
                     simpEnemyComp.wasStoppedLastFrame = true;
-                } else if ( simpEnemyComp.wasStoppedLastFrame ) {
-                    simpEnemyComp.wasStoppedLastFrame = false;
                 }
 
                 //Change position if it's about to fall off a cliff, and checkCliff is true.
                 if ( simpEnemyComp.hasLandedOnce && simpEnemyComp.checkCliff ) {
                     PositionComponent posComp = ( PositionComponent )e.getComponent( GlobalVars.POSITION_COMPONENT_NAME );
+                    ColliderComponent colComp = ( ColliderComponent )e.getComponent( GlobalVars.COLLIDER_COMPONENT_NAME );
 
-                    List<Entity> collisionsAheadAndBelow = level.getCollisionSystem().findObjectAtPoint( posComp.x + getSign( velComp.x ) * ( posComp.width / 2 + 1 ), posComp.y + posComp.height / 2 + 1 );
+                    //Separated out for easy changing.
+                    float e1X = posComp.x;
+                    float e1Y = posComp.y;
+                    float e1Width = colComp.width;
+                    float e1Height = colComp.height;
+
+                    //Center width/height values
+                    if ( e1Width != posComp.width ) {
+                        float diff = ( posComp.width - e1Width );
+                        e1X += diff / 2;
+                    }
+                    if ( e1Height != posComp.height ) {
+                        float diff = ( posComp.height - e1Height );
+                        e1Y += diff / 2;
+                    }
+
+                    List<Entity> collisionsAheadAndBelow = level.getCollisionSystem().findObjectAtPoint( e1X + getSign( velComp.x ) * ( e1Width / 2 + 1 ), e1Y + e1Height / 2 + 1 );
 
                     if ( collisionsAheadAndBelow.Count <= 0 ) {
                         velComp.x = -velComp.x;

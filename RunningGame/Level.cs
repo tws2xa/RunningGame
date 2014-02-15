@@ -56,13 +56,23 @@ namespace RunningGame {
 
         public bool levelFullyLoaded = false;
 
+        public Font displayFont = SystemFonts.DefaultFont;
+
         //A queue of methods (values) to run after a certain period of time(key, in seconds).
         public Dictionary<Action, float> timerMethods = new Dictionary<Action, float>(); 
 
+
+        //Used for displaying instruction text:
+        public string dispTxt = "";
+        public Color dispCol = Color.White;
+        public float dispTimeIn = 0;
+        public float dispConstTime = 0;
+        public float dispTimeOut = 0;
+
         public Level() { }
 
-        public Level( float windowWidth, float windowHeight, string levelFile, int worldNum, int levelNum, bool isPaintFile, Graphics g ) {
-
+        public Level( float windowWidth, float windowHeight, string levelFile, int worldNum, int levelNum, bool isPaintFile, Graphics g, Font displayFont ) {
+            this.displayFont = displayFont;
             this.worldNum = worldNum;
             this.levelNum = levelNum;
             this.colorOrbObtained = ( levelNum != 1 ); //False when level 1 begins, otherwise true.
@@ -347,6 +357,9 @@ namespace RunningGame {
             }
             GlobalVars.removedStartingEntities.Clear();
 
+            if ( levelNum == 1 ) {
+                setToPreColors(); //Reset Colors if first level in a world.
+            }
             setPowerups(); //Reset the powerups
 
             paused = false; //Restart the game  
@@ -672,6 +685,24 @@ namespace RunningGame {
         public void setToPostColors() {
             this.colorOrbObtained = true;
             
+            foreach ( Entity e in sysManager.drawSystem.getApplicableEntities() ) {
+                DrawComponent drawComp = ( DrawComponent )e.getComponent( GlobalVars.DRAW_COMPONENT_NAME );
+                drawComp.switchToPostColorImage();
+            }
+        }
+        public void setInstrText( string txt, Color col, float timeIn, float constTime, float timeOut ) {
+            dispTxt = txt;
+            dispCol = col;
+            dispTimeIn = timeIn;
+            dispConstTime = constTime;
+            dispTimeOut = timeOut;
+        }
+        public void displayInstrText() {
+            sysManager.drawSystem.activateTextFlash( dispTxt, dispCol, dispTimeIn, dispConstTime, dispTimeOut );
+        }
+        public void setToPreColors() {
+            this.colorOrbObtained = false;
+
             foreach ( Entity e in sysManager.drawSystem.getApplicableEntities() ) {
                 DrawComponent drawComp = ( DrawComponent )e.getComponent( GlobalVars.DRAW_COMPONENT_NAME );
                 drawComp.switchToPostColorImage();
