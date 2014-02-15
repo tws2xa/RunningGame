@@ -28,6 +28,8 @@ namespace RunningGame.Components {
 
         public bool needRedraw = true;
 
+        public string postColorName = GlobalVars.MAIN_SPRITE_NAME;
+
         public bool useAlreadyLoadedImage = true; //Check to see if the image is already loaded, if so - use that.
         //Turn off if you want it to have a seperate copy of the image.
 
@@ -67,7 +69,8 @@ namespace RunningGame.Components {
 
         }
 
-        public void addSprite( string baseName, string defaultFileName, string spriteName ) {
+        public bool addSprite( string baseName, string defaultFileName, string spriteName ) {
+            bool ret = true; //Returns false if it goes to default image.
             Bitmap image = readInImage( getImageFilePathName( baseName ) );
 
             //If image not found, check for ones of the same world, perhaps different level
@@ -79,6 +82,7 @@ namespace RunningGame.Components {
             //Still null? Goto default
             if ( image == null ) {
                 image = readInImage( defaultFileName );
+                ret = false;
             }
 
             if ( image == null ) Console.WriteLine( "Error: Null image for " + spriteName + " baseName: " + baseName + " defaultFile: " + defaultFileName );
@@ -86,15 +90,68 @@ namespace RunningGame.Components {
             Sprite spr = new Sprite( spriteName, image );
 
             images.Add( spriteName, spr );
+
+            //If level 1 & color orb hasn't been obtained, create a second sprite that's colorless
+            if ( level.levelNum == 1 && !level.colorOrbObtained ) {
+                Bitmap colorlessImg = getPreColorImage( baseName, image );
+
+                string preColorImageName = spriteName + "" + GlobalVars.PRECOLOR_SPRITE_NAME;
+
+                Sprite preColorSpr = new Sprite( preColorImageName, colorlessImg );
+                images.Add( preColorImageName, preColorSpr );
+            }
+
+            return ret;
         }
+
+
+        public Bitmap getPreColorImage(string baseName, Bitmap colorImage) {
+            Bitmap colorlessImg = readInImage( getPreColorPath( baseName ) );
+            //If image not found, check for other potential images
+            if ( colorlessImg == null )
+                for ( int i = GlobalVars.numLevelsPerWorld; i > 0; i-- ) {
+                    colorlessImg = readInImage( getImageFilePathPreColor2( baseName, i ) ); //Previous world's art.
+                    if ( colorlessImg != null ) {
+                        break;
+                    }
+                }
+            if ( colorlessImg == null ) {
+                for ( int i = level.levelNum - 1; i > 0; i-- ) {
+                    colorlessImg = readInImage( getImageFilePathPreColor3( baseName, i ) );
+                    if ( colorlessImg != null )
+                        break;
+                }
+            }
+            //Still null? Just add original image instead.
+            if ( colorlessImg == null ) {
+                colorlessImg = colorImage;
+                /*
+                Console.WriteLine( "Could find no image for: " );
+                Console.WriteLine( "\t" + getPreColorPath( baseName ) );
+                Console.WriteLine( "\t" + getImageFilePathPreColor2( baseName, 9 ) );
+                Console.WriteLine( "\t" + getImageFilePathPreColor3( baseName, 9 ) );
+                */
+            }
+            if ( colorImage == null ) Console.WriteLine( "Error: Null image for baseName: " + baseName + " in the level precolor section" );
+
+            return colorlessImg;
+        }
+
 
         public void addAnimatedSprite( List<string> baseAddresses, List<string> defaultAddresses, string spriteName ) {
             List<Bitmap> newImages = new List<Bitmap>();
             int i = 0;
             foreach ( string str in baseAddresses ) {
                 Bitmap img = readInImage( getImageFilePathName( str ) );
+                //If image not found, check for ones of the same world, perhaps different level
+                if ( img == null )
+                    img = readInImage( getImageFilePathOther1( str ) );
+                if ( img == null )
+                    img = readInImage( getImageFilePathOther2( str ) );
 
                 if ( img == null ) img = readInImage( defaultAddresses[i] );
+
+                if ( img == null ) Console.WriteLine( "Error: Null image for " + spriteName + " baseName: " + str + " defaultFile: " + defaultAddresses[i] );
 
                 newImages.Add( img );
                 i++;
@@ -170,20 +227,31 @@ namespace RunningGame.Components {
 
         //Auto resets the animation
         public void setSprite( string spriteName ) {
-            if ( images.ContainsKey( spriteName ) ) {
-                activeSprite = spriteName;
-                getSprite().currentImageIndex = 0;
-            } else
-                Console.WriteLine( "Trying to set sprite to nonexistant image: " + spriteName );
+            setSprite( spriteName, true );
         }
+
         //Can tell it not to reset animation if you'd like.
         public void setSprite( string spriteName, bool resetAnimation ) {
-            if ( images.ContainsKey( spriteName ) ) {
-                activeSprite = spriteName;
-                if ( resetAnimation ) {
-                    getSprite().currentImageIndex = 0;
+            bool doNorm = true;
+
+            if ( level.levelNum == 1 && !level.colorOrbObtained ) {
+                string preColStr = spriteName + "" + GlobalVars.PRECOLOR_SPRITE_NAME;
+                if ( images.ContainsKey( preColStr ) ) {
+                    activeSprite = preColStr;
+                    doNorm = false;
+                    postColorName = spriteName;
+                    if ( resetAnimation )
+                        getSprite().currentImageIndex = 0;
                 }
-            } else
+            }
+
+            if ( doNorm && images.ContainsKey( spriteName ) ) {
+                postColorName = spriteName;
+                activeSprite = spriteName;
+                if(getSprite().images[0] == null) Console.WriteLine( "Erorr with active sprite: " + activeSprite + " it's null...");
+                if ( resetAnimation )
+                    getSprite().currentImageIndex = 0;
+            } else if ( doNorm )
                 Console.WriteLine( "Trying to set sprite to nonexistant image: " + spriteName );
         }
 
@@ -202,11 +270,24 @@ namespace RunningGame.Components {
             }
         }
 
+
+        public void switchToPostColorImage() {
+            this.setSprite( postColorName, false );
+            this.needRedraw = true;
+        }
+        public void switchToPreColorImage() {
+            if ( this.activeSprite == postColorName ) {
+                this.setSprite( postColorName + "" + GlobalVars.PRECOLOR_SPRITE_NAME, false );
+                this.needRedraw = true;
+            }
+        }
+
         public string getImageFilePathName( string baseName ) {
             string retStr = "RunningGame.Resources.";
             retStr += baseName;
             retStr += level.worldNum;
             retStr += level.levelNum;
+
             retStr += ".png";
             return retStr;
         }
@@ -234,6 +315,42 @@ namespace RunningGame.Components {
             retStr += level.worldNum;
             retStr += addNum;
             retStr += ".png";
+            return retStr;
+        }
+
+        public string getPreColorPath( string baseName ) {
+            string retStr = "RunningGame.Resources.";
+            retStr += baseName;
+            retStr += level.worldNum;
+
+            if ( level.levelNum == 1 && !level.colorOrbObtained ) {
+                retStr += "0";
+            } else {
+                retStr += level.levelNum;
+            }
+
+            retStr += ".png";
+            return retStr;
+        }
+        //Checks previous world's last level
+        public string getImageFilePathPreColor2( string baseName, int levelNum) {
+
+            string retStr = "RunningGame.Resources.";
+            retStr += baseName;
+            retStr += (level.worldNum-1);
+            retStr += levelNum;
+            retStr += ".png";
+
+            return retStr;
+        }
+        public string getImageFilePathPreColor3( string baseName, int worldNum ) {
+            
+            string retStr = "RunningGame.Resources.";
+            retStr += baseName;
+            retStr += worldNum;
+            retStr += "0";
+            retStr += ".png";
+
             return retStr;
         }
     }

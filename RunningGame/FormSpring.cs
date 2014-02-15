@@ -95,7 +95,7 @@ namespace RunningGame {
 
             //Start the game
             //Use this.Width and this.Height instead of ClientSize to reduce streaching at edge
-            game = new Game( this.CreateGraphics(), this.ClientSize.Width, this.ClientSize.Height, "", 1, 1, this );
+            game = new Game( this.CreateGraphics(), this.ClientSize.Width, this.ClientSize.Height, "", 1, 1, this, displayFontLbl.Font );
 
             //Once the game has been started - hide the loading text
             lblLoading.Visible = false;
@@ -168,7 +168,7 @@ namespace RunningGame {
             //Format: GlobalVars.levels[world # - 1][level # - 1] = "Image address"
             //Remember the indexes start at 0, so they're off by 1
             //i.e. levels[0][0] => World 1 Level 1
-            GlobalVars.levels[0][0] = "RunningGame.Resources.Levels.World1Level1.png";
+            GlobalVars.levels[0][0] = "RunningGame.Resources.Levels.World1Level1anna.png";
             GlobalVars.levels[0][1] = "RunningGame.Resources.Levels.World1Level2.png";
             GlobalVars.levels[0][2] = "RunningGame.Resources.Levels.World1Level3.png";
 
@@ -387,7 +387,7 @@ namespace RunningGame {
 
             //Start the game
             //Use this.Width and this.Height instead of ClientSize to reduce streaching at edge
-            game = new Game( this.CreateGraphics(), this.ClientSize.Width, this.ClientSize.Height, GlobalVars.levels[world - 1][level - 1], world, level, this );
+            game = new Game( this.CreateGraphics(), this.ClientSize.Width, this.ClientSize.Height, GlobalVars.levels[world - 1][level - 1], world, level, this, displayFontLbl.Font );
 
             //Once the game is started, hide the loading text
             lblLoading.Visible = false;

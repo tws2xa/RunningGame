@@ -86,6 +86,7 @@ namespace RunningGame {
             moveSystem.Update( deltaTime );
             bkgPosSystem.Update( deltaTime );
             pushSystem.Update( deltaTime );
+            movPlatSystem.Update( deltaTime );
             scrEdgeSystem.Update( deltaTime );
             playerSystem.Update( deltaTime );
             visSystem.Update( deltaTime );

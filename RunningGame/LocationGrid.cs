@@ -234,17 +234,48 @@ namespace RunningGame {
             //Console.WriteLine(y1);
             PositionComponent posComp1 = ( PositionComponent )e1.getComponent( GlobalVars.POSITION_COMPONENT_NAME );
             PositionComponent posComp2 = ( PositionComponent )e2.getComponent( GlobalVars.POSITION_COMPONENT_NAME );
+            ColliderComponent colComp1 = ( ColliderComponent )e1.getComponent( GlobalVars.COLLIDER_COMPONENT_NAME );
+            ColliderComponent colComp2 = ( ColliderComponent )e2.getComponent( GlobalVars.COLLIDER_COMPONENT_NAME );
+
+            //Separated out for easy changing.
+            float e1X = posComp1.x;
+            float e1Y = posComp1.y;
+            float e2X = posComp2.x;
+            float e2Y = posComp2.y;
+            float e1Width = colComp1.width;
+            float e1Height = colComp1.height;
+            float e2Width = colComp2.width;
+            float e2Height = colComp2.height;
+
+            //Center width/height values
+            if ( e1Width != posComp1.width ) {
+                float diff = (posComp1.width - e1Width);
+                e1X += diff / 2;
+            }
+            if ( e2Width != posComp2.width ) {
+                float diff = ( posComp2.width - e2Width );
+                e2X += diff / 2;
+            }
+            if ( e1Height != posComp1.height ) {
+                float diff = ( posComp1.height - e1Height );
+                e1Y += diff / 2;
+            }
+            if ( e2Height != posComp2.height ) {
+                float diff = ( posComp2.height - e2Height );
+                e2Y += diff / 2;
+            }
+
 
             float xbuffer = 0;
             float ybuffer = 0;
 
-            float xDiff = ( float )Math.Abs( x1 - posComp2.x );
-            float yDiff = ( float )Math.Abs( y1 - posComp2.y );
+            float xDiff = ( float )Math.Abs( x1 - e2X );
+            float yDiff = ( float )Math.Abs( y1 - e2Y );
 
             if ( !GlobalVars.preciseCollisionChecking ) {
-                return ( ( xDiff - ( posComp1.width / 2 + posComp2.width / 2 ) ) <= xbuffer && ( yDiff - ( posComp1.height / 2 + posComp2.height / 2 ) ) <= ybuffer );
+                return ( ( xDiff - ( e1Width / 2 + e2Width / 2 ) ) <= xbuffer && ( yDiff - ( e1Height / 2 + e2Height / 2 ) ) <= ybuffer );
             } else {
-                if ( ( xDiff - ( posComp1.width / 2 + posComp2.width / 2 ) ) <= xbuffer && ( yDiff - ( posComp1.height / 2 + posComp2.height / 2 ) ) <= ybuffer ) {
+                if ( ( xDiff - ( e1Width / 2 + e2Width / 2 ) ) <= xbuffer && ( yDiff - ( e1Height / 2 + e2Height / 2 ) ) <= ybuffer ) {
                     return handleTransparentCollision( x1, y1, e1, e2 );
                 }
                 return false;

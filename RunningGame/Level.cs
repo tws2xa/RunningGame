@@ -36,6 +36,7 @@ namespace RunningGame {
 
         public int worldNum; //Which world is it?
         public int levelNum; //Which level in that world?
+        public bool colorOrbObtained = true; //In level 1, has the color orb been obtained yet?
 
         public bool shouldEndLevel = false; //Should it end the level at the end of the frame?
 
@@ -53,15 +54,28 @@ namespace RunningGame {
         float endLvlTime = 0.5f; //Typical length for setting the timer to when ending the level. In seconds.
         float endLvlTimer = -1.0f; //Timer. Do not modify.
 
-
         public bool levelFullyLoaded = false;
+
+        public Font displayFont = SystemFonts.DefaultFont;
+
+        //A queue of methods (values) to run after a certain period of time(key, in seconds).
+        public Dictionary<Action, float> timerMethods = new Dictionary<Action, float>(); 
+
+
+        //Used for displaying instruction text:
+        public string dispTxt = "";
+        public Color dispCol = Color.White;
+        public float dispTimeIn = 0;
+        public float dispConstTime = 0;
+        public float dispTimeOut = 0;
 
         public Level() { }
 
-        public Level( float windowWidth, float windowHeight, string levelFile, int worldNum, int levelNum, bool isPaintFile, Graphics g ) {
-
+        public Level( float windowWidth, float windowHeight, string levelFile, int worldNum, int levelNum, bool isPaintFile, Graphics g, Font displayFont ) {
+            this.displayFont = displayFont;
             this.worldNum = worldNum;
             this.levelNum = levelNum;
+            this.colorOrbObtained = ( levelNum != 1 ); //False when level 1 begins, otherwise true.
 
             if ( isPaintFile )
                 initializePaint( windowWidth, windowHeight, levelFile, g );
@@ -257,6 +271,26 @@ namespace RunningGame {
                     }
                 }
 
+                List<Action> toRemove = new List<Action>();
+                List<Action> allActions = timerMethods.Keys.ToList<Action>();
+                foreach ( Action action in allActions ) {
+                    if ( timerMethods[action] >= 0 ) {
+                        timerMethods[action] -= deltaTime;
+
+                        if ( timerMethods[action] <= 0 ) {
+                            action.Invoke();
+                            toRemove.Add( action );
+                        }
+
+                    } else {
+                        toRemove.Add( action );
+                    }
+                }
+
+                foreach ( Action action in toRemove ) {
+                    timerMethods.Remove( action );
+                }
+
                 sysManager.Update( deltaTime ); //Update systems
             }
         }
@@ -323,6 +357,9 @@ namespace RunningGame {
             }
             GlobalVars.removedStartingEntities.Clear();
 
+            if ( levelNum == 1 ) {
+                setToPreColors(); //Reset Colors if first level in a world.
+            }
             setPowerups(); //Reset the powerups
 
             paused = false; //Restart the game  
@@ -448,6 +485,8 @@ namespace RunningGame {
 
             string fullImageAddress = "RunningGame.Resources.Artwork.Background.Bkg11.png";
             string imageStub = "Artwork.Background.Bkg";
+            string preColorImageStub = "Artwork.Background.BkgPreColor";
+
 
             Bitmap tempImg = getBkgImg();
             float newWidth = tempImg.Width;
@@ -549,9 +588,24 @@ namespace RunningGame {
 
             }
             */
+            bool tryBkgColorChange = false;
+            if ( tryBkgColorChange ) {
+                bool wentToDefault = false;
+                if ( levelNum == 1 ) {
+                    wentToDefault = drawComp.addSprite( preColorImageStub, fullImageAddress, "PreColorBkg" );
+                }
 
-            drawComp.addSprite( imageStub, fullImageAddress, "MainBkg" );
-            drawComp.setSprite( "MainBkg" );
+                drawComp.addSprite( imageStub, fullImageAddress, "MainBkg" );
+
+                if ( wentToDefault || levelNum != 1 ) {
+                    drawComp.setSprite( "MainBkg" );
+                } else {
+                    drawComp.setSprite( "PreColorBkg" );
+                }
+            } else {
+                drawComp.addSprite( imageStub, fullImageAddress, "MainBkg" );
+                drawComp.setSprite( "MainBkg" );
+            }
 
             bkgEnt.isStartingEntity = true;
 
@@ -565,14 +619,29 @@ namespace RunningGame {
             string defaultAddress = "RunningGame.Resources.Artwork.Background.Bkg11.png";
 
             System.Reflection.Assembly myAssembly = System.Reflection.Assembly.GetExecutingAssembly();
-            string addr = ( "RunningGame.Resources.Artwork.Background.Bkg" + worldNum + "" + levelNum + ".png" );
-            System.IO.Stream myStream = myAssembly.GetManifestResourceStream( "RunningGame.Resources.Artwork.Background.Bkg11.png" );
+
+            string addr = "";
+            System.IO.Stream myStream = null;
+
+            if ( levelNum == 1 ) {
+
+                addr = ( "RunningGame.Resources.Artwork.Background.Bkg" + worldNum + "" + levelNum + "PreColor.png" );
+                myStream = myAssembly.GetManifestResourceStream( addr );
+
+            } 
+
+            if(myStream == null) {
+                addr = ( "RunningGame.Resources.Artwork.Background.Bkg" + worldNum + "" + levelNum + ".png" );
+                myStream = myAssembly.GetManifestResourceStream( addr );
+            }
 
             if ( myStream == null ) {
                 myStream = myAssembly.GetManifestResourceStream( defaultAddress );
             }
 
-            Bitmap sprite = new Bitmap( myStream ); //Getting an error here? Did you remember to make your image an embedded resource?
+            // Are you getting an error here?
+            //Did you remember to make your image an embedded resource?
+            Bitmap sprite = new Bitmap( myStream ); 
             myStream.Close();
 
             return sprite;
@@ -612,5 +681,32 @@ namespace RunningGame {
 
 
 
+
+        public void setToPostColors() {
+            this.colorOrbObtained = true;
+            
+            foreach ( Entity e in sysManager.drawSystem.getApplicableEntities() ) {
+                DrawComponent drawComp = ( DrawComponent )e.getComponent( GlobalVars.DRAW_COMPONENT_NAME );
+                drawComp.switchToPostColorImage();
+            }
+        }
+        public void setInstrText( string txt, Color col, float timeIn, float constTime, float timeOut ) {
+            dispTxt = txt;
+            dispCol = col;
+            dispTimeIn = timeIn;
+            dispConstTime = constTime;
+            dispTimeOut = timeOut;
+        }
+        public void displayInstrText() {
+            sysManager.drawSystem.activateTextFlash( dispTxt, dispCol, dispTimeIn, dispConstTime, dispTimeOut );
+        }
+        public void setToPreColors() {
+            this.colorOrbObtained = false;
+
+            foreach ( Entity e in sysManager.drawSystem.getApplicableEntities() ) {
+                DrawComponent drawComp = ( DrawComponent )e.getComponent( GlobalVars.DRAW_COMPONENT_NAME );
+                drawComp.switchToPostColorImage();
+            }
+        }
     }
 }

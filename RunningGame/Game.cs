@@ -27,6 +27,7 @@ namespace RunningGame {
         Point zeroPoint = new Point( 0, 0 );
 
         private FormSpring frm; //Form it's being run on.
+        Font displayFont = SystemFonts.DefaultFont;
 
         [NonSerialized]
         private Graphics mainWinGraphics; //Graphcis object attached to the main window
@@ -39,9 +40,10 @@ namespace RunningGame {
         private Graphics dbGraphics; //Graphics attached to bufferImage
 
         //Start the game and load the given world/level
-        public Game( Graphics winGraphics, int w, int h, string str, int world, int level, FormSpring frm ) {
+        public Game( Graphics winGraphics, int w, int h, string str, int world, int level, FormSpring frm, Font fnt ) {
 
             this.frm = frm;
+            this.displayFont = fnt;
 
             mainWinGraphics = winGraphics;
             winWidth = w;
@@ -65,12 +67,13 @@ namespace RunningGame {
         }
 
 
-        //HERE IS WHERE YOU SAY WHICH LEVEL TO LOAD ON DEBUG
         public void startLevel( int world, int level ) {
             GlobalVars.groundEntities.Clear();
             GlobalVars.nonGroundEntities.Clear();
             GlobalVars.removedStartingEntities.Clear();
-            currentLevel = new Level( winWidth, winHeight, "RunningGame.Resources.Levels.DebugLevel.png", 1, 1, true, dbGraphics );
+            //HERE IS WHERE YOU SAY WHICH LEVEL TO LOAD ON DEBUG
+            //YOU GET TO IT BY PRESSING THE DEBUG BUTTON
+            currentLevel = new Level( winWidth, winHeight, "RunningGame.Resources.Levels.DebugLevel.png", 1, 1, true, dbGraphics, displayFont );
         }
 
         //This first clears all lists, then loads a given level.
@@ -78,7 +81,7 @@ namespace RunningGame {
             GlobalVars.groundEntities.Clear();
             GlobalVars.nonGroundEntities.Clear();
             GlobalVars.removedStartingEntities.Clear();
-            currentLevel = new Level( winWidth, winHeight, str, world, level, true, dbGraphics );
+            currentLevel = new Level( winWidth, winHeight, str, world, level, true, dbGraphics, displayFont );
         }
 
         //This is run once every frame
@@ -126,6 +129,33 @@ namespace RunningGame {
                 currentLevel.Draw( dbGraphics );
             } else {
                 //Draw stuff for game menu.
+            }
+
+
+            bool blockColor = false;
+            //hi
+            if ( blockColor ) {
+                Color colorToBlock = Color.FromArgb( 0, 0, 255 );
+
+                for(int i=0; i<bufferImage.Width; i++) {
+                    for(int j=0; j<bufferImage.Height; j++) {
+
+                        Color oldCol = bufferImage.GetPixel( i, j );
+                        int newR = oldCol.R;
+                        int newG = oldCol.G;
+                        int newB = oldCol.B;
+                        if ( newR < colorToBlock.R ) newR = 0;
+                        else newR -= colorToBlock.R;
+                        if ( newG < colorToBlock.G ) newG = 0;
+                        else newG -= colorToBlock.G;
+                        if ( newB < colorToBlock.B ) newB = 0;
+                        else newB -= colorToBlock.B;
+                        Color newCol = Color.FromArgb( newR, newG, newB );
+                        bufferImage.SetPixel( i, j, newCol );
+                    }
+
+                }
+
             }
 
             //Draw the double buffer image to the window.

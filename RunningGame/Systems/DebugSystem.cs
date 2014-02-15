@@ -79,6 +79,7 @@ namespace RunningGame.Systems {
 
 
         public void checkForInput() {
+            /*
             if ( level.getInputSystem().myKeys[addEntityKey].down ) {
                 PositionComponent posComp = ( PositionComponent )level.getPlayer().getComponent( GlobalVars.POSITION_COMPONENT_NAME );
                 debugAddEntity( posComp.x + posComp.width * 1.5f, posComp.y );
@@ -89,21 +90,9 @@ namespace RunningGame.Systems {
                 HealthComponent healthComp = ( HealthComponent )level.getPlayer().getComponent( GlobalVars.HEALTH_COMPONENT_NAME );
                 healthComp.subtractFromHealth( 25 );
             }
-
-            if ( level.getInputSystem().myKeys[resetLevelKey].up ) {
-                level.resetLevel();
-            }
-
-            if ( level.getInputSystem().myKeys[skipLevelKey].up ) {
-                level.beginEndLevel( 0.0f );
-            } else if ( level.getInputSystem().myKeys[endLevelKey].up ) {
-                level.worldNum = GlobalVars.numWorlds;
-                level.levelNum = GlobalVars.numLevelsPerWorld;
-                level.beginEndLevel( 0.0f );
-            }
-
+             * 
             if ( level.getInputSystem().myKeys[typeKey].down ) {
-                //getTypes();
+                getTypes();
             }
 
 
@@ -125,6 +114,23 @@ namespace RunningGame.Systems {
             if ( level.getInputSystem().myKeys[toggleSpawn].down ) {
                 togglePowerup( GlobalVars.SPAWN_NUM );
             }
+            */
+            if ( level.getInputSystem().myKeys[resetLevelKey].up ) {
+                level.resetLevel();
+            }
+            if (level.getInputSystem().myKeys[addEntityKey].up)
+            {
+                level.sysManager.drawSystem.activateTextFlash("hellooo", Color.CornflowerBlue, 0.5f, 2, 1);
+            }
+
+            if ( level.getInputSystem().myKeys[skipLevelKey].up ) {
+                level.beginEndLevel( 0.0f );
+            } else if ( level.getInputSystem().myKeys[endLevelKey].up ) {
+                level.worldNum = GlobalVars.numWorlds;
+                level.levelNum = GlobalVars.numLevelsPerWorld;
+                level.beginEndLevel( 0.0f );
+            }
+
         }
 
         /*
