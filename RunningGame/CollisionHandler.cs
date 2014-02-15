@@ -83,6 +83,7 @@ namespace RunningGame {
             addToDictionary( GlobalVars.SIMPLE_ENEMY_COLLIDER_TYPE, GlobalVars.PLAYER_COLLIDER_TYPE, killPlayerCollision );
             addToDictionary( GlobalVars.SIMPLE_ENEMY_COLLIDER_TYPE, GlobalVars.SPAWN_BLOCK_COLLIDER_TYPE, spawnEnemyCollision );
 
+            //addToDictionary( GlobalVars.MOVING_PLATFORM_COLLIDER_TYPE, GlobalVars.PLAYER_COLLIDER_TYPE, simpleStopCollision );
             addToDictionary( GlobalVars.MOVING_PLATFORM_COLLIDER_TYPE, GlobalVars.PLAYER_COLLIDER_TYPE, platformOtherCollision );
 
             addToDictionary( GlobalVars.VISION_COLLIDER_TYPE, GlobalVars.BASIC_SOLID_COLLIDER_TYPE, simpleStopCollision );
@@ -544,6 +545,7 @@ namespace RunningGame {
         //It should move the entity with the platform
         //INCOMPLETE
         public bool platformOtherCollision( Entity e1, Entity e2 ) {
+            
             MovingPlatformEntity plat;
             Entity other;
             if ( e1 is MovingPlatformEntity ) {
@@ -560,26 +562,24 @@ namespace RunningGame {
 
             PositionComponent platPos = ( PositionComponent )plat.getComponent( GlobalVars.POSITION_COMPONENT_NAME );
             PositionComponent otherPos = ( PositionComponent )other.getComponent( GlobalVars.POSITION_COMPONENT_NAME );
-
-            float buffer = 2;
+            ColliderComponent platCol = ( ColliderComponent )plat.getComponent( GlobalVars.COLLIDER_COMPONENT_NAME );
+            ColliderComponent otherCol = ( ColliderComponent )plat.getComponent( GlobalVars.COLLIDER_COMPONENT_NAME );
+            
+            float buffer = 3;
 
             //If other is not above the platform, just do a simple stop for other.
-            float diff = ( otherPos.y + otherPos.height / 2 ) - ( platPos.y - platPos.height / 2 );
+            float diff = ( otherPos.y + otherCol.height / 2 ) - ( platPos.y - platCol.height / 2 );
+
             if ( Math.Abs( diff ) > buffer ) {
                 return true;
             }
 
-            MovingPlatformComponent platComp = ( MovingPlatformComponent )plat.getComponent( GlobalVars.MOVING_PLATFORM_COMPONENT_NAME );
-            VelocityComponent platVel = ( VelocityComponent )plat.getComponent( GlobalVars.VELOCITY_COMPONENT_NAME );
-            VelocityComponent otherVel = ( VelocityComponent )other.getComponent( GlobalVars.VELOCITY_COMPONENT_NAME );
-
-            //If vertical, move other's y to the moving platform's
-            if ( platComp.vertical ) {
-                level.getMovementSystem().changePosition( otherPos, otherPos.x, platPos.y - platPos.height / 2 - otherPos.height / 2, false, false );
-                otherVel.y = platVel.y;
-            }
 
             return false;
+        }
+
+        public bool isWithinRange( float test, float left, float right ) {
+            return ( left < test && right > test );
         }
 
         public bool powerupPickupPlayerCollision( Entity e1, Entity e2 ) {
