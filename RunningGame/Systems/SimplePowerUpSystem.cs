@@ -240,7 +240,7 @@ namespace RunningGame.Systems {
                     bouncyEquipped = false;
                     blockSpawnEquipped = false;
                     level.getPlayer().setNormalImage();
-                } else {
+                } else { //Nothing equipped
                     if ( speedyUnlocked ) {
                         speedyEquipped = true;
                         level.getPlayer().setBlueImage();
@@ -278,7 +278,7 @@ namespace RunningGame.Systems {
                         level.getPlayer().setNormalImage();
                     }
                     blockSpawnEquipped = false;
-                } else //Nothing equiped
+                } else //Nothing equipped
                 {
                     if ( spawnUnlocked ) {
                         blockSpawnEquipped = true;
