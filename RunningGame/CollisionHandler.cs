@@ -606,7 +606,7 @@ namespace RunningGame {
                 case ( GlobalVars.BOUNCE_NUM ):
                     col = System.Drawing.Color.LightGreen;
                     displayStr = "Bounce Gel Unlocked!\n[Q]/[E] to Equip, [F] to use.";
-                    textCol = System.Drawing.Color.DarkViolet;
+                    textCol = System.Drawing.Color.SpringGreen;
                     break;
                 case ( GlobalVars.SPEED_NUM ):
                     col = System.Drawing.Color.Teal;
@@ -616,7 +616,7 @@ namespace RunningGame {
                 case ( GlobalVars.JMP_NUM ):
                     col = System.Drawing.Color.Purple;
                     displayStr = "Double Jump Unlocked!\nPress [W] in air to use.";
-                    textCol = System.Drawing.Color.SpringGreen;
+                    textCol = System.Drawing.Color.DarkViolet;
                     break;
                 case ( GlobalVars.GLIDE_NUM ):
                     col = System.Drawing.Color.Yellow;
