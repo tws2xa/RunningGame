@@ -353,7 +353,7 @@
   <ItemGroup>
     <EmbeddedResource Include="Resources\Artwork\Creatures\player3.png" />
     <EmbeddedResource Include="Resources\Artwork\Creatures\PlayerOrange3.png" />
-    <EmbeddedResource Include="Resources\Artwork\Creatures\PlayerPurple3.png" />
+    <EmbeddedResource Include="Resources\Artwork\Creatures\PlayerGreen3.png" />
     <EmbeddedResource Include="Resources\Artwork\Creatures\PlayerBlue3.png" />
     <EmbeddedResource Include="Resources\Artwork\Foreground\Grass\Grass061.png" />
     <EmbeddedResource Include="Resources\Artwork\Foreground\Grass\Grass161.png" />
@@ -379,8 +379,8 @@
     <EmbeddedResource Include="Resources\Artwork\Creatures\PlayerBlue2.png" />
     <EmbeddedResource Include="Resources\Artwork\Creatures\PlayerOrange1.png" />
     <EmbeddedResource Include="Resources\Artwork\Creatures\PlayerOrange2.png" />
-    <EmbeddedResource Include="Resources\Artwork\Creatures\PlayerPurple1.png" />
-    <EmbeddedResource Include="Resources\Artwork\Creatures\PlayerPurple2.png" />
+    <EmbeddedResource Include="Resources\Artwork\Creatures\PlayerGreen1.png" />
+    <EmbeddedResource Include="Resources\Artwork\Creatures\PlayerGreen2.png" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\Levels\DebugLevel.png" />

@@ -207,7 +207,7 @@ namespace RunningGame.Systems {
 
             if ( level.getPlayer() == null ) return;
 
-            System.Drawing.Color purpleColor = System.Drawing.Color.Purple;
+            System.Drawing.Color greenColor = System.Drawing.Color.Green;
             System.Drawing.Color blueColor = System.Drawing.Color.Blue;
             System.Drawing.Color orangeColor = System.Drawing.Color.Orange;
             System.Drawing.Color defaultColor = System.Drawing.Color.AliceBlue;
@@ -219,8 +219,8 @@ namespace RunningGame.Systems {
                     speedyEquipped = false;
                     if ( bouncyUnlocked ) {
                         bouncyEquipped = true;
-                        level.getPlayer().setPurpleImage();
-                        newBorderCol = purpleColor;
+                        level.getPlayer().setGreenImage();
+                        newBorderCol = greenColor;
                     } else {
                         level.getPlayer().setNormalImage();
                     }
@@ -272,8 +272,8 @@ namespace RunningGame.Systems {
                     speedyEquipped = false;
                     if ( bouncyUnlocked ) {
                         bouncyEquipped = true;
-                        level.getPlayer().setPurpleImage();
-                        newBorderCol = purpleColor;
+                        level.getPlayer().setGreenImage();
+                        newBorderCol = greenColor;
                     } else {
                         level.getPlayer().setNormalImage();
                     }
@@ -288,8 +288,8 @@ namespace RunningGame.Systems {
                         bouncyEquipped = false;
                     } else if ( bouncyUnlocked ) {
                         bouncyEquipped = true;
-                        level.getPlayer().setPurpleImage();
-                        newBorderCol = purpleColor;
+                        level.getPlayer().setGreenImage();
+                        newBorderCol = greenColor;
 
                         speedyEquipped = false;
                         blockSpawnEquipped = false;
