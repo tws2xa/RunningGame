@@ -217,6 +217,7 @@ namespace RunningGame.Systems {
             if ( up ) {
                 if ( speedyEquipped ) {
                     speedyEquipped = false;
+                    blockSpawnEquipped = false;
                     if ( bouncyUnlocked ) {
                         bouncyEquipped = true;
                         level.getPlayer().setGreenImage();
@@ -224,7 +225,6 @@ namespace RunningGame.Systems {
                     } else {
                         level.getPlayer().setNormalImage();
                     }
-                    blockSpawnEquipped = false;
                 } else if ( bouncyEquipped ) {
                     speedyEquipped = false;
                     bouncyEquipped = false;
@@ -241,6 +241,8 @@ namespace RunningGame.Systems {
                     blockSpawnEquipped = false;
                     level.getPlayer().setNormalImage();
                 } else { //Nothing equipped
+                    bouncyEquipped = false;
+                    blockSpawnEquipped = false;
                     if ( speedyUnlocked ) {
                         speedyEquipped = true;
                         level.getPlayer().setBlueImage();
@@ -248,8 +250,6 @@ namespace RunningGame.Systems {
                     } else {
                         level.getPlayer().setNormalImage();
                     }
-                    bouncyEquipped = false;
-                    blockSpawnEquipped = false;
                 }
             } else {
 
@@ -259,6 +259,8 @@ namespace RunningGame.Systems {
                     blockSpawnEquipped = false;
                     level.getPlayer().setNormalImage();
                 } else if ( bouncyEquipped ) {
+                    bouncyEquipped = false;
+                    blockSpawnEquipped = false;
                     if ( speedyUnlocked ) {
                         speedyEquipped = true;
                         level.getPlayer().setBlueImage();
@@ -266,10 +268,9 @@ namespace RunningGame.Systems {
                     } else {
                         level.getPlayer().setNormalImage();
                     }
-                    bouncyEquipped = false;
-                    blockSpawnEquipped = false;
                 } else if ( blockSpawnEquipped ) {
                     speedyEquipped = false;
+                    blockSpawnEquipped = false;
                     if ( bouncyUnlocked ) {
                         bouncyEquipped = true;
                         level.getPlayer().setGreenImage();
@@ -277,7 +278,6 @@ namespace RunningGame.Systems {
                     } else {
                         level.getPlayer().setNormalImage();
                     }
-                    blockSpawnEquipped = false;
                 } else //Nothing equipped
                 {
                     if ( spawnUnlocked ) {
@@ -332,16 +332,12 @@ namespace RunningGame.Systems {
         }
 
         public void equppedPowerup() {
-
             if ( bouncyEquipped ) {
-                //Bouncy Call Here
                 createBounce();
             } else if ( speedyEquipped ) {
                 createSpeedy();
             } else if ( blockSpawnEquipped ) {
                 blockSpawn();
-            } else {
-                //Derp
             }
         }
 

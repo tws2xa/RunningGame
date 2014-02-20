@@ -640,6 +640,7 @@ namespace RunningGame {
                 level.timerMethods.Add( level.setToPostColors, flashTime / 2 );
             }
             if ( !level.timerMethods.ContainsKey( level.displayInstrText) ) {
+                level.sysManager.drawSystem.textShadow = true;
                 level.setInstrText( displayStr, textCol, fadeInTime, constTime, fadeOutTime );
                 level.timerMethods.Add( level.displayInstrText, flashTime / 2 );
             }

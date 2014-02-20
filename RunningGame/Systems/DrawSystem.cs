@@ -40,6 +40,8 @@ namespace RunningGame.Systems {
         //draw function, if that timer is greater than 0, make alpha proportion, decrease time in update.
 
         /*FLASH STUFF ends here*/
+
+        //Text Flash
         public float deltaInAlpha = 0;
         public float deltaOutAlpha = 0;
         public int textState = -1;
@@ -47,6 +49,7 @@ namespace RunningGame.Systems {
         public SolidBrush textBrush = new SolidBrush(Color.FromArgb(0, Color.White));
         public string text = "";
         public Font textFont = SystemFonts.DefaultFont;
+        public bool textShadow = true;
      
         
         [NonSerialized]
