@@ -486,6 +486,9 @@
     <EmbeddedResource Include="Resources\Artwork\Background\Bkg32.png" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Resources\Artwork\Foreground\Bullet\Bullet251.png" />
+    <EmbeddedResource Include="Resources\Artwork\Creatures\vision_orb1.png" />
+    <EmbeddedResource Include="Resources\Artwork\Creatures\vision_orb2.png" />
     <EmbeddedResource Include="Resources\Levels\World1Level3anna.png" />
     <EmbeddedResource Include="Resources\Levels\World1Level2anna.png" />
     <EmbeddedResource Include="Resources\Artwork\Foreground\Bullet\Bullet111.png" />
@@ -493,19 +496,12 @@
     <EmbeddedResource Include="Resources\Artwork\Foreground\Bullet\Bullet131.png" />
     <EmbeddedResource Include="Resources\Artwork\Foreground\Bullet\Bullet141.png" />
     <EmbeddedResource Include="Resources\Artwork\Foreground\Bullet\Bullet151.png" />
-    <EmbeddedResource Include="Resources\Artwork\Foreground\Bullet\Bullet161.png" />
     <EmbeddedResource Include="Resources\Artwork\Foreground\Bullet\Bullet211.png" />
     <EmbeddedResource Include="Resources\Artwork\Foreground\Bullet\Bullet221.png" />
     <EmbeddedResource Include="Resources\Artwork\Foreground\Bullet\Bullet231.png" />
     <EmbeddedResource Include="Resources\Artwork\Foreground\Bullet\Bullet241.png" />
-    <EmbeddedResource Include="Resources\Artwork\Foreground\Bullet\Bullet252.png" />
     <EmbeddedResource Include="Resources\Artwork\Foreground\Bullet\Bullet261.png" />
-    <EmbeddedResource Include="Resources\Artwork\Foreground\Bullet\Bullet311.png" />
-    <EmbeddedResource Include="Resources\Artwork\Foreground\Bullet\Bullet321.png" />
-    <EmbeddedResource Include="Resources\Artwork\Foreground\Bullet\Bullet331.png" />
-    <EmbeddedResource Include="Resources\Artwork\Foreground\Bullet\Bullet341.png" />
-    <EmbeddedResource Include="Resources\Artwork\Foreground\Bullet\Bullet353.png" />
-    <EmbeddedResource Include="Resources\Artwork\Foreground\Bullet\Bullet361.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\Bullet\Bullet161.png" />
     <EmbeddedResource Include="Resources\Artwork\Foreground\Bullet11.png" />
     <EmbeddedResource Include="Resources\Artwork\Background\Bkg60.png" />
     <EmbeddedResource Include="Resources\Artwork\Background\Bkg61.png" />
