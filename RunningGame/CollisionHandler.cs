@@ -57,7 +57,7 @@ namespace RunningGame {
             defaultCollisions.Add( GlobalVars.SPIKE_COLLIDER_TYPE, doNothingCollision );
             defaultCollisions.Add( GlobalVars.VISION_COLLIDER_TYPE, doNothingCollision );
             defaultCollisions.Add( GlobalVars.BOUNCE_PREGROUND_COLLIDER_TYPE, bounceGroundCollision );
-
+            defaultCollisions.Add( GlobalVars.PLATFORM_TURN_COLLIDER_TYPE, doNothingCollision );
 
             //Add non-default collisions to dictionary
             //Format: addToDictonary(Collider 1, Collider 2, name of function) Note - Order of colliders does not matter
@@ -95,6 +95,8 @@ namespace RunningGame {
 
             addToDictionary( GlobalVars.SPAWN_BLOCK_COLLIDER_TYPE, GlobalVars.SPEEDY_POSTGROUND_COLLIDER_TYPE, speedyOtherCollision );
             addToDictionary( GlobalVars.SPAWN_BLOCK_COLLIDER_TYPE, GlobalVars.BOUNCE_POSTGROUND_COLLIDER_TYPE, bounceCollision );
+
+            addToDictionary( GlobalVars.MOVING_PLATFORM_COLLIDER_TYPE, GlobalVars.PLATFORM_TURN_COLLIDER_TYPE, simpleStopCollision );
         }
 
         //This adds something to the default collison dictionary.
