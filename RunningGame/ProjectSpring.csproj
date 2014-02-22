@@ -102,6 +102,7 @@
     <Compile Include="Entities\BackgroundEntity.cs" />
     <Compile Include="Entities\BasicGround.cs" />
     <Compile Include="Entities\Bounce.cs" />
+    <Compile Include="Entities\PlatformTurnEntity.cs" />
     <Compile Include="Entities\PreGroundBounce.cs" />
     <Compile Include="Entities\PreGroundSpeedy.cs" />
     <Compile Include="Entities\GrappleEntity.cs" />
