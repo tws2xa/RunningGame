@@ -591,6 +591,9 @@ namespace RunningGame {
             }
             */
 
+            drawComp.addSprite( imageStub, fullImageAddress, "MainBkg" );
+            drawComp.setSprite( "MainBkg" );
+
             bkgEnt.isStartingEntity = true;
 
             return bkgEnt;
