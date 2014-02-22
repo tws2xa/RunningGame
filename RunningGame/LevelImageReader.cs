@@ -28,6 +28,7 @@ namespace RunningGame {
         Color simpleEnemyColor = Color.FromArgb( 255, 0, 0 ); //Walking Enemies are red.
         Color flyingEnemyColor = Color.FromArgb( 255, 255, 0 ); //Flying enemies are yellow!
         Color endLevelCol = Color.FromArgb( 255, 255, 255 ); //End level is white
+        Color movePlatformTurn = Color.FromArgb( 140, 140, 140 ); //Turn Platform Entity
         Color testEntityColor = Color.FromArgb( 42, 42, 42 ); //Test entity is 42, 42, 42.
 
         Color jmpPickup = Color.FromArgb( 100, 100, 0 );
@@ -127,6 +128,11 @@ namespace RunningGame {
                         adjustLocation( player, level );
                         player.isStartingEntity = true;
                         level.addEntity( player.randId, player );
+                    } else if ( col == movePlatformTurn) {
+                        PlatformTurnEntity platTurn = new PlatformTurnEntity(level, rand.Next( Int32.MinValue, Int32.MaxValue ), levelX * tileWidth, levelY * tileHeight );
+                        adjustLocation( platTurn, level );
+                        platTurn.isStartingEntity = true;
+                        level.addEntity( platTurn.randId, platTurn );
                     } else if ( col == basicGroundCol ) {
 
                         float groundX = ( levelX ) * tileWidth;
