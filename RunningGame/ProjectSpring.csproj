@@ -486,6 +486,7 @@
     <EmbeddedResource Include="Resources\Artwork\Background\Bkg32.png" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Resources\Levels\World1Level3anna.png" />
     <EmbeddedResource Include="Resources\Levels\World1Level2anna.png" />
     <EmbeddedResource Include="Resources\Artwork\Foreground\Bullet\Bullet111.png" />
     <EmbeddedResource Include="Resources\Artwork\Foreground\Bullet\Bullet121.png" />
