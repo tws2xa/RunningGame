@@ -489,21 +489,23 @@ namespace RunningGame {
 
 
             Bitmap tempImg = getBkgImg();
+
             float newWidth = tempImg.Width;
             float newHeight = tempImg.Height;
 
-            float scaleFactor = 1.1f;
+            if ( !GlobalVars.fullForegroundImage ) {
+                float scaleFactor = 1.1f;
 
-            while ( newWidth / scaleFactor > levelWidth || newHeight / scaleFactor > levelHeight ) {
-                newWidth /= scaleFactor;
-                newHeight /= scaleFactor;
+                while ( newWidth / scaleFactor > levelWidth || newHeight / scaleFactor > levelHeight ) {
+                    newWidth /= scaleFactor;
+                    newHeight /= scaleFactor;
+                }
+
+                while ( newWidth < levelWidth || newHeight < levelHeight ) {
+                    newWidth *= scaleFactor;
+                    newHeight *= scaleFactor;
+                }
             }
-
-            while ( newWidth < levelWidth || newHeight < levelHeight ) {
-                newWidth *= scaleFactor;
-                newHeight *= scaleFactor;
-            }
-
             BackgroundEntity bkgEnt = new BackgroundEntity( this, 0, 0, newWidth, newHeight );
             DrawComponent drawComp = ( DrawComponent )bkgEnt.getComponent( GlobalVars.DRAW_COMPONENT_NAME );
             PositionComponent posComp = ( PositionComponent )bkgEnt.getComponent( GlobalVars.POSITION_COMPONENT_NAME );
@@ -588,24 +590,6 @@ namespace RunningGame {
 
             }
             */
-            bool tryBkgColorChange = false;
-            if ( tryBkgColorChange ) {
-                bool wentToDefault = false;
-                if ( levelNum == 1 ) {
-                    wentToDefault = drawComp.addSprite( preColorImageStub, fullImageAddress, "PreColorBkg" );
-                }
-
-                drawComp.addSprite( imageStub, fullImageAddress, "MainBkg" );
-
-                if ( wentToDefault || levelNum != 1 ) {
-                    drawComp.setSprite( "MainBkg" );
-                } else {
-                    drawComp.setSprite( "PreColorBkg" );
-                }
-            } else {
-                drawComp.addSprite( imageStub, fullImageAddress, "MainBkg" );
-                drawComp.setSprite( "MainBkg" );
-            }
 
             bkgEnt.isStartingEntity = true;
 

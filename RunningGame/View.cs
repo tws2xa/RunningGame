@@ -146,31 +146,33 @@ namespace RunningGame {
                 }
 
                 //Draw static entities onto background
-                foreach ( Entity ent in GlobalVars.groundEntities.Values ) {
+                if ( !GlobalVars.fullForegroundImage ) {
+                    foreach ( Entity ent in GlobalVars.groundEntities.Values ) {
 
-                    DrawComponent grnDraw = ( DrawComponent )ent.getComponent( GlobalVars.DRAW_COMPONENT_NAME );
+                        DrawComponent grnDraw = ( DrawComponent )ent.getComponent( GlobalVars.DRAW_COMPONENT_NAME );
 
-                    /*DrawComponent bkgDraw = (DrawComponent)bkgEnt.getComponent(GlobalVars.DRAW_COMPONENT_NAME);
+                        /*DrawComponent bkgDraw = (DrawComponent)bkgEnt.getComponent(GlobalVars.DRAW_COMPONENT_NAME);
 
-                    PositionComponent posComp = (PositionComponent)ent.getComponent(GlobalVars.POSITION_COMPONENT_NAME);
-                    PointF drawPoint = posComp.getPointF();
-                    drawPoint.X -= (posComp.width / 2.0f);
-                    drawPoint.Y -= (posComp.height / 2.0f);
+                        PositionComponent posComp = (PositionComponent)ent.getComponent(GlobalVars.POSITION_COMPONENT_NAME);
+                        PointF drawPoint = posComp.getPointF();
+                        drawPoint.X -= (posComp.width / 2.0f);
+                        drawPoint.Y -= (posComp.height / 2.0f);
 
-                    Graphics graph = Graphics.FromImage(bkgDraw.getImage());*/
+                        Graphics graph = Graphics.FromImage(bkgDraw.getImage());*/
 
 
-                    PositionComponent posComp = ( PositionComponent )ent.getComponent( GlobalVars.POSITION_COMPONENT_NAME );
-                    PointF drawPoint = posComp.getPointF();
-                    drawPoint.X -= ( posComp.width / 2.0f );
-                    drawPoint.Y -= ( posComp.height / 2.0f );
+                        PositionComponent posComp = ( PositionComponent )ent.getComponent( GlobalVars.POSITION_COMPONENT_NAME );
+                        PointF drawPoint = posComp.getPointF();
+                        drawPoint.X -= ( posComp.width / 2.0f );
+                        drawPoint.Y -= ( posComp.height / 2.0f );
 
-                    Graphics graph = Graphics.FromImage( staticObjImg );
-                    lock ( grnDraw.getImage() ) {
-                        graph.DrawImageUnscaled( grnDraw.getImage(), new Point( ( int )drawPoint.X, ( int )drawPoint.Y ) ); //Draw the image to the view
+                        Graphics graph = Graphics.FromImage( staticObjImg );
+                        lock ( grnDraw.getImage() ) {
+                            graph.DrawImageUnscaled( grnDraw.getImage(), new Point( ( int )drawPoint.X, ( int )drawPoint.Y ) ); //Draw the image to the view
+                        }
+                        grnDraw.needRedraw = false;
+                        //redrawStatics = false;
                     }
-                    grnDraw.needRedraw = false;
-                    //redrawStatics = false;
                 }
 
             }

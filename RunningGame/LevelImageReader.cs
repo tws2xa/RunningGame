@@ -138,10 +138,12 @@ namespace RunningGame {
                         ground.isStartingEntity = true;
                         level.addEntity( ground.randId, ground );
 
-                        //If no ground above it, change to a grass sprite
-                        List<Entity> above = level.getCollisionSystem().findObjectAtPoint( ( levelX ) * tileWidth, ( levelY - 1 ) * tileWidth );
-                        if ( above.Count <= 0 || !( above[0] is BasicGround ) ) {
-                            ground.changeSprite( false );
+                        if ( !GlobalVars.fullForegroundImage ) {
+                            //If no ground above it, change to a grass sprite
+                            List<Entity> above = level.getCollisionSystem().findObjectAtPoint( ( levelX ) * tileWidth, ( levelY - 1 ) * tileWidth );
+                            if ( above.Count <= 0 || !( above[0] is BasicGround ) ) {
+                                ground.changeSprite( false );
+                            }
                         }
 
                     } else if ( col == testEntityColor ) {

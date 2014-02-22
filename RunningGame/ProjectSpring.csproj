@@ -486,6 +486,8 @@
     <EmbeddedResource Include="Resources\Artwork\Background\Bkg32.png" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Resources\Artwork\Background\Bkg10.png" />
+    <EmbeddedResource Include="Resources\Artwork\Background\Bkg11b.png" />
     <EmbeddedResource Include="Resources\Artwork\Foreground\Bullet\Bullet251.png" />
     <EmbeddedResource Include="Resources\Artwork\Creatures\vision_orb1.png" />
     <EmbeddedResource Include="Resources\Artwork\Creatures\vision_orb2.png" />
@@ -511,7 +513,7 @@
     <EmbeddedResource Include="Resources\Artwork\Foreground\Grass\Grass210.png" />
     <EmbeddedResource Include="Resources\Artwork\Foreground\Grass\Grass310.png" />
     <EmbeddedResource Include="Resources\Artwork\Foreground\Grass\Grass410.png" />
-    <EmbeddedResource Include="Resources\Artwork\Background\Bkg10.png" />
+    <EmbeddedResource Include="Resources\Artwork\Background\Bkg10a.png" />
     <EmbeddedResource Include="Resources\Artwork\Background\Bkg30.png" />
     <EmbeddedResource Include="Resources\Artwork\Background\Bkg50.png" />
     <EmbeddedResource Include="Resources\Artwork\Background\Bkg60a.png" />
