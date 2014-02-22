@@ -30,9 +30,9 @@ namespace RunningGame {
         Color endLevelCol = Color.FromArgb( 255, 255, 255 ); //End level is white
         Color testEntityColor = Color.FromArgb( 42, 42, 42 ); //Test entity is 42, 42, 42.
 
-        Color bouncePickup = Color.FromArgb( 100, 100, 0 );
+        Color jmpPickup = Color.FromArgb( 100, 100, 0 );
         Color speedyPickup = Color.FromArgb( 100, 100, 1 );
-        Color jmpPickup = Color.FromArgb( 100, 100, 2 );
+        Color bouncePickup = Color.FromArgb( 100, 100, 2 );
         Color glidePickup = Color.FromArgb( 100, 100, 3 );
         Color spawnPickup = Color.FromArgb( 100, 100, 4 );
         Color grapPickup = Color.FromArgb( 100, 100, 5 );

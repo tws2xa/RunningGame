@@ -353,7 +353,7 @@
   <ItemGroup>
     <EmbeddedResource Include="Resources\Artwork\Creatures\player3.png" />
     <EmbeddedResource Include="Resources\Artwork\Creatures\PlayerOrange3.png" />
-    <EmbeddedResource Include="Resources\Artwork\Creatures\PlayerPurple3.png" />
+    <EmbeddedResource Include="Resources\Artwork\Creatures\PlayerGreen3.png" />
     <EmbeddedResource Include="Resources\Artwork\Creatures\PlayerBlue3.png" />
     <EmbeddedResource Include="Resources\Artwork\Foreground\Grass\Grass061.png" />
     <EmbeddedResource Include="Resources\Artwork\Foreground\Grass\Grass161.png" />
@@ -379,15 +379,15 @@
     <EmbeddedResource Include="Resources\Artwork\Creatures\PlayerBlue2.png" />
     <EmbeddedResource Include="Resources\Artwork\Creatures\PlayerOrange1.png" />
     <EmbeddedResource Include="Resources\Artwork\Creatures\PlayerOrange2.png" />
-    <EmbeddedResource Include="Resources\Artwork\Creatures\PlayerPurple1.png" />
-    <EmbeddedResource Include="Resources\Artwork\Creatures\PlayerPurple2.png" />
+    <EmbeddedResource Include="Resources\Artwork\Creatures\PlayerGreen1.png" />
+    <EmbeddedResource Include="Resources\Artwork\Creatures\PlayerGreen2.png" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\Levels\DebugLevel.png" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\Artwork\Foreground\PowerupPickups\BouncePickup.png" />
     <EmbeddedResource Include="Resources\Artwork\Foreground\PowerupPickups\DoubleJumpPickup.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\PowerupPickups\BouncePickup.png" />
     <EmbeddedResource Include="Resources\Artwork\Foreground\PowerupPickups\GlidePickup.png" />
     <EmbeddedResource Include="Resources\Artwork\Foreground\PowerupPickups\GrapplePickup.png" />
     <EmbeddedResource Include="Resources\Artwork\Foreground\PowerupPickups\SpawnPickup.png" />
@@ -466,7 +466,7 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\Artwork\Foreground\BlueSplat.png" />
-    <EmbeddedResource Include="Resources\Artwork\Foreground\PurpleSplat.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\GreenSplat.png" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\Levels\World1Level3.png" />
@@ -544,7 +544,7 @@
     <EmbeddedResource Include="Resources\Artwork\Background\Bkg62a.png" />
     <EmbeddedResource Include="Resources\Artwork\Background\Bkg42.png" />
     <EmbeddedResource Include="Resources\Artwork\Foreground\BlueDrop.png" />
-    <EmbeddedResource Include="Resources\Artwork\Foreground\PurpleDrop.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\GreenDrop.png" />
     <EmbeddedResource Include="Resources\Artwork\Foreground\Orb3.png" />
     <EmbeddedResource Include="Resources\Artwork\Foreground\Orb4.png" />
     <EmbeddedResource Include="Resources\Artwork\Background\Bkg23.png" />

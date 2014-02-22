@@ -40,7 +40,7 @@ namespace RunningGame.Entities {
 
             //Draw component
             DrawComponent drawComp = ( DrawComponent )addComponent( new DrawComponent( defaultWidth, defaultHeight, level, true ), true );
-            drawComp.addSprite( "Artwork.Foreground.PurpleDrop", "RunningGame.Resources.Artwork.Foreground.PurpleDrop.png", "Main" );
+            drawComp.addSprite( "Artwork.Foreground.GreenDrop", "RunningGame.Resources.Artwork.Foreground.GreenDrop.png", "Main" );
             drawComp.setSprite( "Main" );
 
 

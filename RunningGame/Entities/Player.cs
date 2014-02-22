@@ -32,8 +32,8 @@ namespace RunningGame.Entities {
         string walkOrangeLeft = "oL";
         string walkOrangeRight = "oR";
 
-        string walkPurpleLeft = "pL";
-        string walkPurpleRight = "pE";
+        string walkGreenLeft = "pL";
+        string walkGreenRight = "pE";
 
         string activeLeftImage;
         string activeRightImage;
@@ -84,7 +84,7 @@ namespace RunningGame.Entities {
             addWalkAnimation( "RunningGame.Resources.Artwork.Creatures.player", walkLeft, walkRight, drawComp );
             addWalkAnimation( "RunningGame.Resources.Artwork.Creatures.PlayerBlue", walkBlueLeft, walkBlueRight, drawComp );
             addWalkAnimation( "RunningGame.Resources.Artwork.Creatures.PlayerOrange", walkOrangeLeft, walkOrangeRight, drawComp );
-            addWalkAnimation( "RunningGame.Resources.Artwork.Creatures.PlayerPurple", walkPurpleLeft, walkPurpleRight, drawComp );
+            addWalkAnimation( "RunningGame.Resources.Artwork.Creatures.PlayerGreen", walkGreenLeft, walkGreenRight, drawComp );
 
             drawComp.setSprite( rightImageName, true );
 
@@ -227,11 +227,11 @@ namespace RunningGame.Entities {
 
             refreshImage( lookLeft );
         }
-        public void setPurpleImage() {
+        public void setGreenImage() {
             bool lookLeft = isLookingLeft();
 
-            activeLeftImage = walkPurpleLeft;
-            activeRightImage = walkPurpleRight;
+            activeLeftImage = walkGreenLeft;
+            activeRightImage = walkGreenRight;
 
             refreshImage( lookLeft );
         }
