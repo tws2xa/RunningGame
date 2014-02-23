@@ -487,6 +487,12 @@
     <EmbeddedResource Include="Resources\Artwork\Background\Bkg32.png" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Resources\Artwork\Foreground\Bullet\Bullet311.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\Bullet\Bullet321.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\Bullet\Bullet331.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\Bullet\Bullet341.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\Bullet\Bullet351.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\Bullet\Bullet361.png" />
     <EmbeddedResource Include="Resources\Levels\World2Level1anna.png" />
     <EmbeddedResource Include="Resources\Artwork\Background\Bkg10.png" />
     <EmbeddedResource Include="Resources\Artwork\Background\Bkg11b.png" />
