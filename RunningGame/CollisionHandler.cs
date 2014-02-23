@@ -545,9 +545,8 @@ namespace RunningGame {
 
         //This is used when the moving platform collides with an entity
         //It should move the entity with the platform
-        //INCOMPLETE
         public bool platformOtherCollision( Entity e1, Entity e2 ) {
-            
+
             MovingPlatformEntity plat;
             Entity other;
             if ( e1 is MovingPlatformEntity ) {
@@ -567,17 +566,18 @@ namespace RunningGame {
             ColliderComponent platCol = ( ColliderComponent )plat.getComponent( GlobalVars.COLLIDER_COMPONENT_NAME );
             ColliderComponent otherCol = ( ColliderComponent )plat.getComponent( GlobalVars.COLLIDER_COMPONENT_NAME );
             
-            float buffer = 3;
+            float buffer = -2;
 
             //If other is not above the platform, just do a simple stop for other.
-            float diff = ( otherPos.y + otherCol.height / 2 ) - ( platPos.y - platCol.height / 2 );
 
-            if ( Math.Abs( diff ) > buffer ) {
-                return true;
+            float diff = ( platPos.y - platCol.height / 2 ) - ( otherPos.y + otherCol.height / 2 );
+
+            if ( diff > buffer ) {
+                return false;
             }
 
 
-            return false;
+            return true;
         }
 
         public bool isWithinRange( float test, float left, float right ) {

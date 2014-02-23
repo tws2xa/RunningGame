@@ -140,7 +140,9 @@ namespace RunningGame.Systems {
                 VelocityComponent velComp = ( VelocityComponent )e.getComponent( GlobalVars.VELOCITY_COMPONENT_NAME );
                 speedyTimers[e] -= deltaTime;
                 if ( speedyTimers[e] <= 0 || Math.Abs( velComp.x ) < GlobalVars.SPEEDY_SPEED ) {
+                    //If it's not in the air, stop horizontal movement.
                     velComp.setVelocity( 0, velComp.y );
+
                     toRemove.Add( e );
 
                     if ( e is Player ) {

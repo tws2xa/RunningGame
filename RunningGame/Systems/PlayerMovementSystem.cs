@@ -69,21 +69,17 @@ namespace RunningGame.Systems {
 
                 //Slow horizontal if no left/right key down
                 if ( velComp.x != 0 && !level.getInputSystem().myKeys[GlobalVars.KEY_LEFT].pressed && !level.getInputSystem().myKeys[GlobalVars.KEY_RIGHT].pressed ) {
-                    //If it's on top of something
-                    float leftX = ( posComp.x - posComp.width / 2 );
-                    float rightX = ( posComp.x + posComp.width / 2 );
-                    float lowerY = ( posComp.y + posComp.height / 2 + 1 );
-                    if ( ( level.getCollisionSystem().findObjectsBetweenPoints( leftX, lowerY, rightX, lowerY ).Count > 0 ) ) {
-                        if ( velComp.x < 0 ) {
-                            velComp.x += playerHorizSlowSpeed;
-                            if ( velComp.x > 0 )
-                                velComp.x = 0;
-                        } else {
-                            velComp.x -= playerHorizSlowSpeed;
-                            if ( velComp.x < 0 )
-                                velComp.x = 0;
-                        }
+                    
+                    if ( velComp.x < 0 ) {
+                        velComp.x += playerHorizSlowSpeed;
+                        if ( velComp.x > 0 )
+                            velComp.x = 0;
+                    } else {
+                        velComp.x -= playerHorizSlowSpeed;
+                        if ( velComp.x < 0 )
+                            velComp.x = 0;
                     }
+                    
                 }
             }
 

@@ -34,6 +34,7 @@ namespace RunningGame {
         PositionComponent followPosComp;
         float xBor { get; set; }
         float yBor { get; set; }
+        public float normWidth, normHeight;
 
         bool hasDecreasedQuality = false;
 
@@ -41,7 +42,7 @@ namespace RunningGame {
 
         public bool hasBorder = false;
         public bool borderFade = true;
-        int amntSolid = 5; //How many layers to leave solid if fading
+        int amntSolid = 5; //How many layers to leave solid if fading a border
         public SolidBrush borderBrush = ( SolidBrush )Brushes.Brown;
         public float borderSize = 2.0f;
 
@@ -76,6 +77,8 @@ namespace RunningGame {
             this.y = y;
             this.width = width;
             this.height = height;
+            this.normWidth = width;
+            this.normHeight = height;
             this.displayX = displayX;
             this.displayY = displayY;
             this.displayWidth = displayWidth;
@@ -86,8 +89,8 @@ namespace RunningGame {
             if ( followEntity != null ) {
                 followPosComp = ( PositionComponent )followEntity.getComponent( GlobalVars.POSITION_COMPONENT_NAME );
             }
-            xBor = width / 5;
-            yBor = height / 5;
+            xBor = width / 3.5f;
+            yBor = height / 3.5f;
 
 
             wRatio = displayWidth / width;
