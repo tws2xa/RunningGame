@@ -70,7 +70,7 @@ namespace RunningGame {
         public static string SPAWN_BLOCK_COLLIDER_TYPE = "spawnBlock";
         public static string SPIKE_COLLIDER_TYPE = "killPlayerCollider";
         public static string VISION_COLLIDER_TYPE = "visionCollider";
-
+        public static string PLATFORM_TURN_COLLIDER_TYPE = "platTurnCollider";
 
         //Collection of all in game entities
         public static Dictionary<int, Entity> nonGroundEntities = new Dictionary<int, Entity>();
@@ -137,5 +137,6 @@ namespace RunningGame {
 
         //Settings
         public static bool preciseCollisionChecking = false;
+        public static bool fullForegroundImage = false;
     }
 }

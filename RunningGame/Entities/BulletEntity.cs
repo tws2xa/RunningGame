@@ -62,15 +62,13 @@ namespace RunningGame.Entities {
             List<string> bulletAnimation = new List<string>()
             {
                 "Artwork.Foreground.Bullet.Bullet1",
-                "Artwork.Foreground.Bullet.Bullet2",
-                "Artwork.Foreground.Bullet.Bullet3"
+                "Artwork.Foreground.Bullet.Bullet2"
             };
 
             List<string> bulletAnimDefaults = new List<string>()
             {
                 "RunningGame.Resources.Artwork.Foreground.Bullet.Bullet111",
-                "RunningGame.Resources.Artwork.Foreground.Bullet.Bullet211",
-                "RunningGame.Resources.Artwork.Foreground.Bullet.Bullet311"
+                "RunningGame.Resources.Artwork.Foreground.Bullet.Bullet211"
             };
 
             

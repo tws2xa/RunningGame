@@ -45,7 +45,7 @@ namespace RunningGame.Entities {
             DrawComponent drawComp = ( DrawComponent )addComponent( new DrawComponent( defaultWidth, defaultHeight, level, true ), true );
             //Add image - Use base name for first parameter (everything in file path after Resources. and before the numbers and .png)
             //Then second parameter is full filepath to a default image
-            drawComp.addSprite( "Artwork.Foreground.PurpleSplat", "RunningGame.Resources.Artwork.Foreground.PurpleSplat.png", "Main" );
+            drawComp.addSprite( "Artwork.Foreground.GreenSplat", "RunningGame.Resources.Artwork.Foreground.GreenSplat.png", "Main" );
             drawComp.setSprite( "Main" ); //Set image to active image
             addComponent( new ColliderComponent( this, GlobalVars.BOUNCE_POSTGROUND_COLLIDER_TYPE, defaultWidth-4, defaultHeight+3 ), true );
         }

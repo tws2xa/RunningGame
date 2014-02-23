@@ -104,19 +104,20 @@ namespace RunningGame.Systems {
                                 level.getMovementSystem().changePosition( otherPos, otherPos.x, posComp.y - colComp.height / 2 - otherCol.height / 2 - 3, false, false );
                             }
                         } else {
-                            //if ( ( velComp.x <= 0 && otherVel.x >= velComp.x ) || ( velComp.x >= 0 && otherVel.x <= velComp.y ) ) {
+                            if ( ( velComp.x <= 0 && otherVel.x >= velComp.x ) || ( velComp.x >= 0 && otherVel.x <= velComp.y ) ) {
                                 otherVel.x = velComp.x;
                                 if ( otherEnt.hasComponent( GlobalVars.GRAVITY_COMPONENT_NAME ) ) {
                                     GravityComponent otherGrav = ( GravityComponent )otherEnt.getComponent( GlobalVars.GRAVITY_COMPONENT_NAME );
                                     
                                     otherVel.x -= otherGrav.x * deltaTime;
                                 }
+
                                 if ( otherEnt is Entities.Player ) {
                                     level.getMovementSystem().changePosition( otherPos, otherPos.x + velComp.x * deltaTime, posComp.y - colComp.height / 2 - otherCol.height / 2 - 3, false, false );
                                 }  else {
                                     level.getMovementSystem().changePosition( otherPos, otherPos.x, posComp.y - colComp.height / 2 - otherCol.height / 2 - 3, false, false );
                                 }
-                            //}
+                            }
                         }
                     }
                 }

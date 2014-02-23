@@ -198,49 +198,49 @@ namespace RunningGame {
         //Should and should not be enabled at the start of the level.
         public void setPowerups() {
             if ( worldNum > 1 || ( worldNum == 1 && levelNum > 1 ) ) {
-                sysManager.spSystem.unlockPowerup( 1 );
+                sysManager.spSystem.unlockPowerup( GlobalVars.JMP_NUM );
                 if ( worldNum > 2 || ( worldNum == 2 && levelNum > 1 ) ) {
-                    sysManager.spSystem.unlockPowerup( 2 );
+                    sysManager.spSystem.unlockPowerup( GlobalVars.SPEED_NUM );
                     if ( worldNum > 3 || ( worldNum == 3 && levelNum > 1 ) ) {
-                        sysManager.spSystem.unlockPowerup( 3 );
+                        sysManager.spSystem.unlockPowerup( GlobalVars.BOUNCE_NUM );
                         if ( worldNum > 4 || ( worldNum == 4 && levelNum > 1 ) ) {
-                            sysManager.spSystem.unlockPowerup( 4 );
+                            sysManager.spSystem.unlockPowerup( GlobalVars.GLIDE_NUM );
                             if ( worldNum > 5 || ( worldNum == 5 && levelNum > 1 ) ) {
-                                sysManager.spSystem.unlockPowerup( 5 );
+                                sysManager.spSystem.unlockPowerup( GlobalVars.SPAWN_NUM );
                                 if ( worldNum > 6 || ( worldNum == 6 && levelNum > 1 ) ) {
-                                    sysManager.spSystem.unlockPowerup( 6 );
+                                    sysManager.spSystem.unlockPowerup( GlobalVars.GRAP_NUM );
                                 } else {
-                                    sysManager.spSystem.lockPowerup( 6 );
+                                    sysManager.spSystem.lockPowerup( GlobalVars.GRAP_NUM );
                                 }
                             } else {
-                                sysManager.spSystem.lockPowerup( 5 );
-                                sysManager.spSystem.lockPowerup( 6 );
+                                sysManager.spSystem.lockPowerup( GlobalVars.SPAWN_NUM );
+                                sysManager.spSystem.lockPowerup( GlobalVars.GRAP_NUM );
                             }
                         } else {
-                            sysManager.spSystem.lockPowerup( 4 );
-                            sysManager.spSystem.lockPowerup( 5 );
-                            sysManager.spSystem.lockPowerup( 6 );
+                            sysManager.spSystem.lockPowerup(GlobalVars.GLIDE_NUM);
+                            sysManager.spSystem.lockPowerup( GlobalVars.SPAWN_NUM );
+                            sysManager.spSystem.lockPowerup( GlobalVars.GRAP_NUM );
                         }
                     } else {
-                        sysManager.spSystem.lockPowerup( 3 );
-                        sysManager.spSystem.lockPowerup( 4 );
-                        sysManager.spSystem.lockPowerup( 5 );
-                        sysManager.spSystem.lockPowerup( 6 );
+                        sysManager.spSystem.lockPowerup( GlobalVars.BOUNCE_NUM );
+                        sysManager.spSystem.lockPowerup(GlobalVars.GLIDE_NUM);
+                        sysManager.spSystem.lockPowerup( GlobalVars.SPAWN_NUM );
+                        sysManager.spSystem.lockPowerup( GlobalVars.GRAP_NUM );
                     }
                 } else {
-                    sysManager.spSystem.lockPowerup( 2 );
-                    sysManager.spSystem.lockPowerup( 3 );
-                    sysManager.spSystem.lockPowerup( 4 );
-                    sysManager.spSystem.lockPowerup( 5 );
-                    sysManager.spSystem.lockPowerup( 6 );
+                    sysManager.spSystem.lockPowerup( GlobalVars.SPEED_NUM );
+                    sysManager.spSystem.lockPowerup( GlobalVars.BOUNCE_NUM );
+                    sysManager.spSystem.lockPowerup(GlobalVars.GLIDE_NUM);
+                    sysManager.spSystem.lockPowerup( GlobalVars.SPAWN_NUM );
+                    sysManager.spSystem.lockPowerup( GlobalVars.GRAP_NUM );
                 }
             } else {
-                sysManager.spSystem.lockPowerup( 1 );
-                sysManager.spSystem.lockPowerup( 2 );
-                sysManager.spSystem.lockPowerup( 3 );
-                sysManager.spSystem.lockPowerup( 4 );
-                sysManager.spSystem.lockPowerup( 5 );
-                sysManager.spSystem.lockPowerup( 6 );
+                sysManager.spSystem.lockPowerup( GlobalVars.JMP_NUM );
+                sysManager.spSystem.lockPowerup( GlobalVars.SPEED_NUM );
+                sysManager.spSystem.lockPowerup( GlobalVars.BOUNCE_NUM );
+                sysManager.spSystem.lockPowerup(GlobalVars.GLIDE_NUM);
+                sysManager.spSystem.lockPowerup( GlobalVars.SPAWN_NUM );
+                sysManager.spSystem.lockPowerup( GlobalVars.GRAP_NUM );
             }
 
         }
@@ -489,21 +489,23 @@ namespace RunningGame {
 
 
             Bitmap tempImg = getBkgImg();
+
             float newWidth = tempImg.Width;
             float newHeight = tempImg.Height;
 
-            float scaleFactor = 1.1f;
+            if ( !GlobalVars.fullForegroundImage ) {
+                float scaleFactor = 1.1f;
 
-            while ( newWidth / scaleFactor > levelWidth || newHeight / scaleFactor > levelHeight ) {
-                newWidth /= scaleFactor;
-                newHeight /= scaleFactor;
+                while ( newWidth / scaleFactor > levelWidth || newHeight / scaleFactor > levelHeight ) {
+                    newWidth /= scaleFactor;
+                    newHeight /= scaleFactor;
+                }
+
+                while ( newWidth < levelWidth || newHeight < levelHeight ) {
+                    newWidth *= scaleFactor;
+                    newHeight *= scaleFactor;
+                }
             }
-
-            while ( newWidth < levelWidth || newHeight < levelHeight ) {
-                newWidth *= scaleFactor;
-                newHeight *= scaleFactor;
-            }
-
             BackgroundEntity bkgEnt = new BackgroundEntity( this, 0, 0, newWidth, newHeight );
             DrawComponent drawComp = ( DrawComponent )bkgEnt.getComponent( GlobalVars.DRAW_COMPONENT_NAME );
             PositionComponent posComp = ( PositionComponent )bkgEnt.getComponent( GlobalVars.POSITION_COMPONENT_NAME );
@@ -588,24 +590,9 @@ namespace RunningGame {
 
             }
             */
-            bool tryBkgColorChange = false;
-            if ( tryBkgColorChange ) {
-                bool wentToDefault = false;
-                if ( levelNum == 1 ) {
-                    wentToDefault = drawComp.addSprite( preColorImageStub, fullImageAddress, "PreColorBkg" );
-                }
 
-                drawComp.addSprite( imageStub, fullImageAddress, "MainBkg" );
-
-                if ( wentToDefault || levelNum != 1 ) {
-                    drawComp.setSprite( "MainBkg" );
-                } else {
-                    drawComp.setSprite( "PreColorBkg" );
-                }
-            } else {
-                drawComp.addSprite( imageStub, fullImageAddress, "MainBkg" );
-                drawComp.setSprite( "MainBkg" );
-            }
+            drawComp.addSprite( imageStub, fullImageAddress, "MainBkg" );
+            drawComp.setSprite( "MainBkg" );
 
             bkgEnt.isStartingEntity = true;
 

@@ -34,6 +34,7 @@ namespace RunningGame {
         PositionComponent followPosComp;
         float xBor { get; set; }
         float yBor { get; set; }
+        public float normWidth, normHeight;
 
         bool hasDecreasedQuality = false;
 
@@ -41,7 +42,7 @@ namespace RunningGame {
 
         public bool hasBorder = false;
         public bool borderFade = true;
-        int amntSolid = 5; //How many layers to leave solid if fading
+        int amntSolid = 5; //How many layers to leave solid if fading a border
         public SolidBrush borderBrush = ( SolidBrush )Brushes.Brown;
         public float borderSize = 2.0f;
 
@@ -76,6 +77,8 @@ namespace RunningGame {
             this.y = y;
             this.width = width;
             this.height = height;
+            this.normWidth = width;
+            this.normHeight = height;
             this.displayX = displayX;
             this.displayY = displayY;
             this.displayWidth = displayWidth;
@@ -86,8 +89,8 @@ namespace RunningGame {
             if ( followEntity != null ) {
                 followPosComp = ( PositionComponent )followEntity.getComponent( GlobalVars.POSITION_COMPONENT_NAME );
             }
-            xBor = width / 5;
-            yBor = height / 5;
+            xBor = width / 3.5f;
+            yBor = height / 3.5f;
 
 
             wRatio = displayWidth / width;
@@ -146,31 +149,33 @@ namespace RunningGame {
                 }
 
                 //Draw static entities onto background
-                foreach ( Entity ent in GlobalVars.groundEntities.Values ) {
+                if ( !GlobalVars.fullForegroundImage ) {
+                    foreach ( Entity ent in GlobalVars.groundEntities.Values ) {
 
-                    DrawComponent grnDraw = ( DrawComponent )ent.getComponent( GlobalVars.DRAW_COMPONENT_NAME );
+                        DrawComponent grnDraw = ( DrawComponent )ent.getComponent( GlobalVars.DRAW_COMPONENT_NAME );
 
-                    /*DrawComponent bkgDraw = (DrawComponent)bkgEnt.getComponent(GlobalVars.DRAW_COMPONENT_NAME);
+                        /*DrawComponent bkgDraw = (DrawComponent)bkgEnt.getComponent(GlobalVars.DRAW_COMPONENT_NAME);
 
-                    PositionComponent posComp = (PositionComponent)ent.getComponent(GlobalVars.POSITION_COMPONENT_NAME);
-                    PointF drawPoint = posComp.getPointF();
-                    drawPoint.X -= (posComp.width / 2.0f);
-                    drawPoint.Y -= (posComp.height / 2.0f);
+                        PositionComponent posComp = (PositionComponent)ent.getComponent(GlobalVars.POSITION_COMPONENT_NAME);
+                        PointF drawPoint = posComp.getPointF();
+                        drawPoint.X -= (posComp.width / 2.0f);
+                        drawPoint.Y -= (posComp.height / 2.0f);
 
-                    Graphics graph = Graphics.FromImage(bkgDraw.getImage());*/
+                        Graphics graph = Graphics.FromImage(bkgDraw.getImage());*/
 
 
-                    PositionComponent posComp = ( PositionComponent )ent.getComponent( GlobalVars.POSITION_COMPONENT_NAME );
-                    PointF drawPoint = posComp.getPointF();
-                    drawPoint.X -= ( posComp.width / 2.0f );
-                    drawPoint.Y -= ( posComp.height / 2.0f );
+                        PositionComponent posComp = ( PositionComponent )ent.getComponent( GlobalVars.POSITION_COMPONENT_NAME );
+                        PointF drawPoint = posComp.getPointF();
+                        drawPoint.X -= ( posComp.width / 2.0f );
+                        drawPoint.Y -= ( posComp.height / 2.0f );
 
-                    Graphics graph = Graphics.FromImage( staticObjImg );
-                    lock ( grnDraw.getImage() ) {
-                        graph.DrawImageUnscaled( grnDraw.getImage(), new Point( ( int )drawPoint.X, ( int )drawPoint.Y ) ); //Draw the image to the view
+                        Graphics graph = Graphics.FromImage( staticObjImg );
+                        lock ( grnDraw.getImage() ) {
+                            graph.DrawImageUnscaled( grnDraw.getImage(), new Point( ( int )drawPoint.X, ( int )drawPoint.Y ) ); //Draw the image to the view
+                        }
+                        grnDraw.needRedraw = false;
+                        //redrawStatics = false;
                     }
-                    grnDraw.needRedraw = false;
-                    //redrawStatics = false;
                 }
 
             }
@@ -257,6 +262,14 @@ namespace RunningGame {
                 centerFormat.Alignment = StringAlignment.Center;
                 centerFormat.LineAlignment = StringAlignment.Center;
                 PointF textPosition = new PointF( displayX + displayWidth / 2, displayY + displayHeight / 4 );
+                if ( level.sysManager.drawSystem.textShadow ) {
+                    float shadowOffsetX = 1.2f;
+                    float shadowOffsetY = 1.0f;
+                    int maxShadowOpacity = 170;
+                    SolidBrush shadowBrush = ( SolidBrush )level.sysManager.drawSystem.textBrush.Clone();
+                    shadowBrush.Color = Color.FromArgb( Math.Min( shadowBrush.Color.A, maxShadowOpacity ), Color.Black );
+                    mainG.DrawString( level.sysManager.drawSystem.text, level.sysManager.drawSystem.textFont, shadowBrush, textPosition.X + shadowOffsetX, textPosition.Y + shadowOffsetY, centerFormat );
+                }
                 mainG.DrawString( level.sysManager.drawSystem.text, level.sysManager.drawSystem.textFont, level.sysManager.drawSystem.textBrush, textPosition.X, textPosition.Y, centerFormat );
             }
 

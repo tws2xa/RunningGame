@@ -10,8 +10,8 @@ namespace RunningGame.Entities {
     [Serializable()]
     public class VisionOrb : Entity {
 
-        int defaultWidth = 20;
-        int defaultHeight = 20;
+        int defaultWidth = 46;
+        int defaultHeight = 30;
 
         //-------------------------------------------Constructors--------------------------------------------
         //One takes in an ID, the other generats it.
@@ -72,31 +72,19 @@ namespace RunningGame.Entities {
              * So, if it was 5, you would be on one frame for 5 seconds, then switch to the next, then 5 seconds later
              * It'd switch to the next etc, etc...
              */
-            addComponent( new AnimationComponent( 0.05f ) );
+            addComponent( new AnimationComponent( 0.2f ) );
 
 
             List<string> anim = new List<string>()
             {
-                "Artwork.Foreground.Orb0",
-                "Artwork.Foreground.Orb1",
-                "Artwork.Foreground.Orb2",
-                "Artwork.Foreground.Orb3",
-                "Artwork.Foreground.Orb4",
-                "Artwork.Foreground.Orb3",
-                "Artwork.Foreground.Orb2",
-                "Artwork.Foreground.Orb1"
+                "Artwork.Creatures.vision_orb1",
+                "Artwork.Creatures.vision_orb2",
             };
 
             List<string> animDefaults = new List<string>()
             {
-                "RunningGame.Resources.Artwork.Foreground.Orb0.png",
-                "RunningGame.Resources.Artwork.Foreground.Orb1.png",
-                "RunningGame.Resources.Artwork.Foreground.Orb2.png",
-                "RunningGame.Resources.Artwork.Foreground.Orb3.png",
-                "RunningGame.Resources.Artwork.Foreground.Orb4.png",
-                "RunningGame.Resources.Artwork.Foreground.Orb3.png",
-                "RunningGame.Resources.Artwork.Foreground.Orb2.png",
-                "RunningGame.Resources.Artwork.Foreground.Orb1.png"
+                "RunningGame.Resources.Artwork.Creatures.vision_orb1.png",
+                "RunningGame.Resources.Artwork.Creatures.vision_orb2.png",
             };
 
             drawComp.addAnimatedSprite( anim, animDefaults, "MainAnim" );

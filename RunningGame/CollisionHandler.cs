@@ -57,7 +57,7 @@ namespace RunningGame {
             defaultCollisions.Add( GlobalVars.SPIKE_COLLIDER_TYPE, doNothingCollision );
             defaultCollisions.Add( GlobalVars.VISION_COLLIDER_TYPE, doNothingCollision );
             defaultCollisions.Add( GlobalVars.BOUNCE_PREGROUND_COLLIDER_TYPE, bounceGroundCollision );
-
+            defaultCollisions.Add( GlobalVars.PLATFORM_TURN_COLLIDER_TYPE, doNothingCollision );
 
             //Add non-default collisions to dictionary
             //Format: addToDictonary(Collider 1, Collider 2, name of function) Note - Order of colliders does not matter
@@ -78,7 +78,7 @@ namespace RunningGame {
             addToDictionary( GlobalVars.BOUNCE_PREGROUND_COLLIDER_TYPE, GlobalVars.SIMPLE_ENEMY_COLLIDER_TYPE, doNothingCollision );
             addToDictionary( GlobalVars.BOUNCE_PREGROUND_COLLIDER_TYPE, GlobalVars.BOUNCE_PREGROUND_COLLIDER_TYPE, doNothingCollision );
             addToDictionary( GlobalVars.BOUNCE_PREGROUND_COLLIDER_TYPE, GlobalVars.BOUNCE_POSTGROUND_COLLIDER_TYPE, removeBounceCollision );
-            addToDictionary( GlobalVars.BOUNCE_PREGROUND_COLLIDER_TYPE, GlobalVars.SPAWN_BLOCK_COLLIDER_TYPE, removeBounceCollision );
+            addToDictionary( GlobalVars.BOUNCE_PREGROUND_COLLIDER_TYPE, GlobalVars.SPAWN_BLOCK_COLLIDER_TYPE, doNothingCollision);
 
             addToDictionary( GlobalVars.SIMPLE_ENEMY_COLLIDER_TYPE, GlobalVars.PLAYER_COLLIDER_TYPE, killPlayerCollision );
             addToDictionary( GlobalVars.SIMPLE_ENEMY_COLLIDER_TYPE, GlobalVars.SPAWN_BLOCK_COLLIDER_TYPE, spawnEnemyCollision );
@@ -91,10 +91,12 @@ namespace RunningGame {
             addToDictionary( GlobalVars.SPEEDY_PREGROUND_COLLIDER_TYPE, GlobalVars.BASIC_SOLID_COLLIDER_TYPE, speedyGroundCollision );
             addToDictionary( GlobalVars.SPEEDY_PREGROUND_COLLIDER_TYPE, GlobalVars.PLAYER_COLLIDER_TYPE, doNothingCollision );
             addToDictionary( GlobalVars.SPEEDY_PREGROUND_COLLIDER_TYPE, GlobalVars.SIMPLE_ENEMY_COLLIDER_TYPE, doNothingCollision );
-            addToDictionary( GlobalVars.SPEEDY_PREGROUND_COLLIDER_TYPE, GlobalVars.SPAWN_BLOCK_COLLIDER_TYPE, removeSpeedyCollision );
+            addToDictionary( GlobalVars.SPEEDY_PREGROUND_COLLIDER_TYPE, GlobalVars.SPAWN_BLOCK_COLLIDER_TYPE, doNothingCollision);
 
             addToDictionary( GlobalVars.SPAWN_BLOCK_COLLIDER_TYPE, GlobalVars.SPEEDY_POSTGROUND_COLLIDER_TYPE, speedyOtherCollision );
             addToDictionary( GlobalVars.SPAWN_BLOCK_COLLIDER_TYPE, GlobalVars.BOUNCE_POSTGROUND_COLLIDER_TYPE, bounceCollision );
+
+            addToDictionary( GlobalVars.MOVING_PLATFORM_COLLIDER_TYPE, GlobalVars.PLATFORM_TURN_COLLIDER_TYPE, simpleStopCollision );
         }
 
         //This adds something to the default collison dictionary.
@@ -543,9 +545,8 @@ namespace RunningGame {
 
         //This is used when the moving platform collides with an entity
         //It should move the entity with the platform
-        //INCOMPLETE
         public bool platformOtherCollision( Entity e1, Entity e2 ) {
-            
+
             MovingPlatformEntity plat;
             Entity other;
             if ( e1 is MovingPlatformEntity ) {
@@ -565,17 +566,25 @@ namespace RunningGame {
             ColliderComponent platCol = ( ColliderComponent )plat.getComponent( GlobalVars.COLLIDER_COMPONENT_NAME );
             ColliderComponent otherCol = ( ColliderComponent )plat.getComponent( GlobalVars.COLLIDER_COMPONENT_NAME );
             
-            float buffer = 3;
+            float buffer = -2;
+
+            if ( other.hasComponent( GlobalVars.VELOCITY_COMPONENT_NAME ) ) {
+                VelocityComponent otherVel = ( VelocityComponent )other.getComponent( GlobalVars.VELOCITY_COMPONENT_NAME );
+                if ( otherVel.y > 0 ) {
+                    buffer += otherVel.y;
+                }
+            }
 
             //If other is not above the platform, just do a simple stop for other.
-            float diff = ( otherPos.y + otherCol.height / 2 ) - ( platPos.y - platCol.height / 2 );
 
-            if ( Math.Abs( diff ) > buffer ) {
-                return true;
+            float diff = ( platPos.y - platCol.height / 2 ) - ( otherPos.y + otherCol.height / 2 );
+
+            if ( diff > buffer ) {
+                return false;
             }
 
 
-            return false;
+            return true;
         }
 
         public bool isWithinRange( float test, float left, float right ) {
@@ -604,9 +613,9 @@ namespace RunningGame {
 
             switch ( ppComp.compNum ) {
                 case ( GlobalVars.BOUNCE_NUM ):
+                    col = System.Drawing.Color.LightGreen;
                     displayStr = "Bounce Gel Unlocked!\n[Q]/[E] to Equip, [F] to use.";
-                    col = System.Drawing.Color.Purple;
-                    textCol = System.Drawing.Color.DarkViolet;
+                    textCol = System.Drawing.Color.SpringGreen;
                     break;
                 case ( GlobalVars.SPEED_NUM ):
                     col = System.Drawing.Color.Teal;
@@ -614,9 +623,9 @@ namespace RunningGame {
                     textCol = System.Drawing.Color.DarkBlue;
                     break;
                 case ( GlobalVars.JMP_NUM ):
-                    col = System.Drawing.Color.LightGreen;
+                    col = System.Drawing.Color.Purple;
                     displayStr = "Double Jump Unlocked!\nPress [W] in air to use.";
-                    textCol = System.Drawing.Color.SpringGreen;
+                    textCol = System.Drawing.Color.DarkViolet;
                     break;
                 case ( GlobalVars.GLIDE_NUM ):
                     col = System.Drawing.Color.Yellow;
@@ -640,6 +649,7 @@ namespace RunningGame {
                 level.timerMethods.Add( level.setToPostColors, flashTime / 2 );
             }
             if ( !level.timerMethods.ContainsKey( level.displayInstrText) ) {
+                level.sysManager.drawSystem.textShadow = true;
                 level.setInstrText( displayStr, textCol, fadeInTime, constTime, fadeOutTime );
                 level.timerMethods.Add( level.displayInstrText, flashTime / 2 );
             }
