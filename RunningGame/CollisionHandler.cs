@@ -568,6 +568,13 @@ namespace RunningGame {
             
             float buffer = -2;
 
+            if ( other.hasComponent( GlobalVars.VELOCITY_COMPONENT_NAME ) ) {
+                VelocityComponent otherVel = ( VelocityComponent )other.getComponent( GlobalVars.VELOCITY_COMPONENT_NAME );
+                if ( otherVel.y > 0 ) {
+                    buffer += otherVel.y;
+                }
+            }
+
             //If other is not above the platform, just do a simple stop for other.
 
             float diff = ( platPos.y - platCol.height / 2 ) - ( otherPos.y + otherCol.height / 2 );
