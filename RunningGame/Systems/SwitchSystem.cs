@@ -57,7 +57,7 @@ namespace RunningGame.Systems {
                     //If it's a pressure switch
                     if ( timedComp.baseTime <= 0 ) {
                         PositionComponent posComp = ( PositionComponent )e.getComponent( GlobalVars.POSITION_COMPONENT_NAME );
-                        List<Entity> aboveCollisions = level.getCollisionSystem().findObjectsBetweenPoints( posComp.x - posComp.width / 2, posComp.y - posComp.height / 2 - 1, posComp.x + posComp.width / 2, posComp.y - posComp.height / 2 - 1 );
+                        List<Entity> aboveCollisions = level.getCollisionSystem().findObjectsBetweenPoints( posComp.x - posComp.width / 2, posComp.y - posComp.height / 2 - 5, posComp.x + posComp.width / 2, posComp.y - posComp.height / 2 - 5 );
                         //If there's something above the switch, and it's inactive - make it active!
                         if ( aboveCollisions.Count > 0 ) {
                             if ( !switchComp.active ) {
@@ -70,7 +70,13 @@ namespace RunningGame.Systems {
                                 foreach ( Entity above in aboveCollisions ) {
                                     if ( above.hasComponent( GlobalVars.POSITION_COMPONENT_NAME ) ) {
                                         PositionComponent pos = ( PositionComponent )above.getComponent( GlobalVars.POSITION_COMPONENT_NAME );
-                                        level.getMovementSystem().changePosition( pos, pos.x, pos.y - hDiff, true, true );
+                                        float theirHeight = pos.height;
+                                        if ( above.hasComponent( GlobalVars.COLLIDER_COMPONENT_NAME ) ) {
+                                            ColliderComponent theirCol = ( ColliderComponent )above.getComponent( GlobalVars.COLLIDER_COMPONENT_NAME );
+                                            theirHeight = theirCol.height;
+                                        }
+                                        ColliderComponent myCol = ( ColliderComponent )e.getComponent( GlobalVars.COLLIDER_COMPONENT_NAME );
+                                        level.getMovementSystem().changePosition( pos, pos.x, posComp.y-myCol.height/2 - theirHeight/2, true, true);
                                     }
                                 }
                             }

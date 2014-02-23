@@ -39,7 +39,7 @@ namespace RunningGame.Entities {
             addComponent( new VelocityComponent( 0, 0 ), true );
 
             //Collider
-            addComponent( new ColliderComponent( this, GlobalVars.SPAWN_BLOCK_COLLIDER_TYPE ), true );
+            addComponent( new ColliderComponent( this, GlobalVars.SPAWN_BLOCK_COLLIDER_TYPE), true );
 
             //Gravity Component
             addComponent( new GravityComponent( 0, GlobalVars.STANDARD_GRAVITY ), true );
@@ -50,12 +50,12 @@ namespace RunningGame.Entities {
             //Off side of screen
             addComponent( new ScreenEdgeComponent( 3, 3, 3, 3 ), true );
 
-            
+            /*
             //Pushable
             PushableComponent pushComp = (PushableComponent)addComponent( new PushableComponent(), true );
             pushComp.horiz = true;
             pushComp.vert = false;
-            
+            */
             
         }
 

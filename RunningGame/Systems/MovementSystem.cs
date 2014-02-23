@@ -456,7 +456,14 @@ namespace RunningGame.Systems {
             posComp.prevH = posComp.height;
             posComp.height = newH;
 
+            if ( posComp.myEntity.hasComponent( GlobalVars.COLLIDER_COMPONENT_NAME ) ) {
+                ColliderComponent colComp = (ColliderComponent)posComp.myEntity.getComponent( GlobalVars.COLLIDER_COMPONENT_NAME );
+                colComp.width = newW;
+                colComp.height = newH;
+            }
+
             posComp.positionHasChanged = true;
+
         }
         public void changeWidth( PositionComponent posComp, float newW ) {
             changeSize( posComp, newW, posComp.height );

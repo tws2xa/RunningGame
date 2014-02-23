@@ -58,5 +58,25 @@ namespace RunningGame.Components {
             myEntity.level.colliderAdded( myEntity );
         }
 
+
+        public float getX(PositionComponent posComp) {
+            //Center width values
+            if ( this.width != posComp.width ) {
+                float diff = ( posComp.width - this.width );
+                return posComp.x += diff / 2;
+            } else {
+                return posComp.x;
+            }
+
+        }
+        public float getY(PositionComponent posComp) {
+            //Center height values
+            if ( this.height != posComp.height) {
+                float diff = ( posComp.height - this.height);
+                return posComp.y += diff / 2;
+            } else {
+                return posComp.y;
+            }
+        }
     }
 }
