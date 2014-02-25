@@ -38,11 +38,13 @@
             this.btnPlay = new System.Windows.Forms.Button();
             this.btnWorld6 = new System.Windows.Forms.Button();
             this.displayFontLbl = new System.Windows.Forms.Label();
+            this.btnControls = new System.Windows.Forms.Button();
+            this.btnControlReturn = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // btnBegin
             // 
-            this.btnBegin.Location = new System.Drawing.Point(502, 432);
+            this.btnBegin.Location = new System.Drawing.Point(135, 431);
             this.btnBegin.Name = "btnBegin";
             this.btnBegin.Size = new System.Drawing.Size(126, 41);
             this.btnBegin.TabIndex = 0;
@@ -63,7 +65,7 @@
             // btnEdit
             // 
             this.btnEdit.Enabled = false;
-            this.btnEdit.Location = new System.Drawing.Point(502, 386);
+            this.btnEdit.Location = new System.Drawing.Point(135, 385);
             this.btnEdit.Name = "btnEdit";
             this.btnEdit.Size = new System.Drawing.Size(126, 41);
             this.btnEdit.TabIndex = 2;
@@ -195,6 +197,28 @@
             this.displayFontLbl.Text = "Display Text Demo";
             this.displayFontLbl.Visible = false;
             // 
+            // btnControls
+            // 
+            this.btnControls.Location = new System.Drawing.Point(502, 431);
+            this.btnControls.Name = "btnControls";
+            this.btnControls.Size = new System.Drawing.Size(126, 41);
+            this.btnControls.TabIndex = 15;
+            this.btnControls.Text = "Controls";
+            this.btnControls.UseVisualStyleBackColor = true;
+            this.btnControls.Click += new System.EventHandler(this.btnControls_Click);
+            // 
+            // btnControlReturn
+            // 
+            this.btnControlReturn.Enabled = false;
+            this.btnControlReturn.Location = new System.Drawing.Point(511, 448);
+            this.btnControlReturn.Name = "btnControlReturn";
+            this.btnControlReturn.Size = new System.Drawing.Size(117, 25);
+            this.btnControlReturn.TabIndex = 16;
+            this.btnControlReturn.Text = "Return";
+            this.btnControlReturn.UseVisualStyleBackColor = true;
+            this.btnControlReturn.Visible = false;
+            this.btnControlReturn.Click += new System.EventHandler(this.btnControlReturn_Click);
+            // 
             // FormSpring
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -203,6 +227,8 @@
             this.BackgroundImage = global::RunningGame.Properties.Resources.SpringBlurSmall;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(640, 480);
+            this.Controls.Add(this.btnControlReturn);
+            this.Controls.Add(this.btnControls);
             this.Controls.Add(this.displayFontLbl);
             this.Controls.Add(this.btnWorld6);
             this.Controls.Add(this.btnPlay);
@@ -250,6 +276,8 @@
         private System.Windows.Forms.Button btnPlay;
         private System.Windows.Forms.Button btnWorld6;
         private System.Windows.Forms.Label displayFontLbl;
+        private System.Windows.Forms.Button btnControls;
+        private System.Windows.Forms.Button btnControlReturn;
     }
 }
 

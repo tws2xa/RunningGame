@@ -309,6 +309,12 @@ namespace RunningGame {
             btnLvlReturn.Enabled = show;
         }
 
+        //Show/hides the control buttons
+        private void showHideControlButtons( bool show ) {
+            this.btnControlReturn.Visible = show;
+            this.btnControlReturn.Enabled = show;
+        }
+
         //Show/hides the select world buttons
         private void showHideWorldButtons( bool show ) {
             btnWorld1.Visible = show;
@@ -340,9 +346,12 @@ namespace RunningGame {
             } else {
                 showHideLevelButtons( false );
                 showHideWorldButtons( false );
+                showHideControlButtons( false );
                 this.BackgroundImage = bkgImg;
                 this.btnPlay.Enabled = true;
                 this.btnPlay.Visible = true;
+                this.btnControls.Enabled = true;
+                this.btnControls.Visible = true;
                 game.close();
                 game = null;
             }
@@ -444,6 +453,18 @@ namespace RunningGame {
             //If the game is running, tell the game that the mouse was clicked
             if ( game != null )
                 game.MouseClick( e );
+        }
+
+        private void btnControls_Click( object sender, EventArgs e ) {
+            btnControls.Visible = false;
+            btnControls.Enabled = false;
+            showHideControlButtons( true );
+        }
+
+        private void btnControlReturn_Click( object sender, EventArgs e ) {
+            showHideControlButtons( false );
+            btnControls.Visible = true;
+            btnControls.Enabled = true;
         }
 
         //---------------------------------------------------------------------------------------------
