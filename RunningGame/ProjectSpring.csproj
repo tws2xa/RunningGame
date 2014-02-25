@@ -487,6 +487,13 @@
     <EmbeddedResource Include="Resources\Artwork\Background\Bkg32.png" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Resources\Artwork\Foreground\Grass\SimpGrass10.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\Grass\SimpGrass11.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\Grass\SimpGrass21.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\Grass\SimpGrass31.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\Grass\SimpGrass41.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\Grass\SimpGrass51.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\Grass\SimpGrass61.png" />
     <EmbeddedResource Include="Resources\Artwork\Foreground\Bullet\Bullet311.png" />
     <EmbeddedResource Include="Resources\Artwork\Foreground\Bullet\Bullet321.png" />
     <EmbeddedResource Include="Resources\Artwork\Foreground\Bullet\Bullet331.png" />
