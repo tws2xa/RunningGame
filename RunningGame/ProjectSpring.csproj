@@ -501,7 +501,7 @@
     <EmbeddedResource Include="Resources\Artwork\Foreground\Bullet\Bullet351.png" />
     <EmbeddedResource Include="Resources\Artwork\Foreground\Bullet\Bullet361.png" />
     <EmbeddedResource Include="Resources\Levels\World2Level1anna.png" />
-    <EmbeddedResource Include="Resources\Artwork\Background\Bkg10.png" />
+    <EmbeddedResource Include="Resources\Artwork\Background\Bkg10b.png" />
     <EmbeddedResource Include="Resources\Artwork\Background\Bkg11b.png" />
     <EmbeddedResource Include="Resources\Artwork\Foreground\Bullet\Bullet251.png" />
     <EmbeddedResource Include="Resources\Artwork\Creatures\vision_orb1.png" />
@@ -546,6 +546,7 @@
     <EmbeddedResource Include="Resources\Artwork\Foreground\buttonUp60.png" />
     <EmbeddedResource Include="Resources\Artwork\Background\Bkg20.png" />
     <EmbeddedResource Include="Resources\Artwork\Background\Bkg40.png" />
+    <EmbeddedResource Include="Resources\Artwork\Background\Bkg10.png" />
     <Content Include="Resources\Artwork\Background\Bkg43.png" />
     <EmbeddedResource Include="Resources\Levels\World1Level1anna.png" />
     <EmbeddedResource Include="Resources\Levels\leveltry.png" />
