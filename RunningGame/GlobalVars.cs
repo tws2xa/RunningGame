@@ -139,5 +139,9 @@ namespace RunningGame {
         public static bool preciseCollisionChecking = false;
         public static bool fullForegroundImage = false;
         public static bool simpleGround = true;
+
+        public static List<Keys> reservedKeys = new List<Keys>(){
+       Keys.A, Keys.W, Keys.D
+        };
     }
 }
