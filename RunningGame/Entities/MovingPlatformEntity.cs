@@ -57,7 +57,7 @@ namespace RunningGame.Entities {
             /*DRAW COMPONENT - Does it get drawn to the game world?
              */
             DrawComponent drawComp = ( DrawComponent )addComponent( new DrawComponent( defaultWidth, defaultHeight, level, true ), true );
-            drawComp.addSprite( "Artwork.Other.WhiteSquare", "RunningGame.Resources.Artwork.Other.WhiteSquare.png", "Main" ); //Add image
+            drawComp.addSprite( "Artwork.Foreground.MovPlat", "RunningGame.Resources.Artwork.Foreground.MovPlat.png", "Main" ); //Add image
             drawComp.setSprite( "Main" ); //Set image to active image
 
             /*VELOCITY COMPONENT - Does it move?
