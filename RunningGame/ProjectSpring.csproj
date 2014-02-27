@@ -494,6 +494,7 @@
     <EmbeddedResource Include="Resources\Artwork\Foreground\MovPlat41.png" />
     <EmbeddedResource Include="Resources\Artwork\Foreground\MovPlat51.png" />
     <EmbeddedResource Include="Resources\Artwork\Foreground\MovPlat61.png" />
+    <EmbeddedResource Include="Resources\Levels\World3Level1_new.png" />
     <EmbeddedResource Include="Resources\Artwork\Foreground\Grass\SimpGrass10.png" />
     <EmbeddedResource Include="Resources\Artwork\Foreground\Grass\SimpGrass11.png" />
     <EmbeddedResource Include="Resources\Artwork\Foreground\Grass\SimpGrass21.png" />
