@@ -126,6 +126,9 @@ namespace RunningGame {
                     else if ( col == playerCol ) {
                         Player player = new Player( level, rand.Next( Int32.MinValue, Int32.MaxValue ), levelX * tileWidth, levelY * tileHeight );
                         adjustLocation( player, level );
+                        PositionComponent posComp = ( PositionComponent )player.getComponent( GlobalVars.POSITION_COMPONENT_NAME );
+                        level.getMovementSystem().teleportToNoCollisionCheck( posComp, posComp.x, posComp.y - GlobalVars.MIN_TILE_SIZE/2 );
+                        posComp.setCurrentLocToStartingLoc();
                         player.isStartingEntity = true;
                         level.addEntity( player.randId, player );
                     } else if ( col == movePlatformTurn) {
