@@ -58,6 +58,7 @@ namespace RunningGame {
         public bool playerImmune = false;
 
         public bool levelFullyLoaded = false;
+        public bool hasRunOnce = false;
 
         public Font displayFont = SystemFonts.DefaultFont;
 
@@ -80,8 +81,14 @@ namespace RunningGame {
             this.levelNum = levelNum;
             this.colorOrbObtained = ( levelNum != 1 ); //False when level 1 begins, otherwise true.
 
+            //Set the player to immune for a bit just as the level starts
+            this.playerImmune = true;
+            this.timerMethods.Add( this.disableImmune, 0.30f );
+
+
             if ( isPaintFile )
                 initializePaint( windowWidth, windowHeight, levelFile, g );
+            
             //else
             //initializeNotPaint(windowWidth, windowHeight, levelFile, g);
         }
@@ -295,6 +302,11 @@ namespace RunningGame {
                 }
 
                 sysManager.Update( deltaTime ); //Update systems
+                
+                if(!hasRunOnce){
+                    resetLevel();
+                    hasRunOnce = true;
+                }
             }
         }
 
@@ -326,6 +338,7 @@ namespace RunningGame {
 
         //Reset the game to it's original startup state
         public virtual void resetLevel() {
+
             paused = true; // Pause the game briefly
 
             //Deactivate the vision orb if it's active
