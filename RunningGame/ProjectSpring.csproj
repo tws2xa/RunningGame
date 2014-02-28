@@ -337,7 +337,7 @@
     <EmbeddedResource Include="Resources\Artwork\Creatures\player2.png" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\Artwork\Background\Bkg11.png" />
+    <EmbeddedResource Include="Resources\Artwork\Background\Bkg11a.png" />
     <EmbeddedResource Include="Resources\Artwork\Background\Bkg1Extra1.png" />
     <EmbeddedResource Include="Resources\Artwork\Background\Bkg12.png" />
     <EmbeddedResource Include="Resources\Artwork\Background\Bkg1Extra2.png" />
@@ -555,6 +555,7 @@
     <EmbeddedResource Include="Resources\Artwork\Background\Bkg20.png" />
     <EmbeddedResource Include="Resources\Artwork\Background\Bkg40.png" />
     <EmbeddedResource Include="Resources\Artwork\Background\Bkg10.png" />
+    <EmbeddedResource Include="Resources\Artwork\Background\Bkg11.png" />
     <Content Include="Resources\Artwork\Background\Bkg43.png" />
     <EmbeddedResource Include="Resources\Levels\World1Level1anna.png" />
     <EmbeddedResource Include="Resources\Levels\leveltry.png" />
