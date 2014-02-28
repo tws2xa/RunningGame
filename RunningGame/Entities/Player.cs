@@ -120,7 +120,7 @@ namespace RunningGame.Entities {
             addComponent( new GravityComponent( 0, GlobalVars.STANDARD_GRAVITY ) );
 
             //Health Component
-            addComponent( new HealthComponent( 100, true, 1, 0.5f ) );
+            addComponent( new HealthComponent( 100, true, 1, 0.5f, level ) );
 
             //Screen Edge Stop/Wrap/End Level
             addComponent( new ScreenEdgeComponent( 1, 4, 1, 5 ) );

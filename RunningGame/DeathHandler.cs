@@ -64,9 +64,9 @@ namespace RunningGame {
                     //Create a dead player entity
                     DeadPlayerEntity deadPlayer = new DeadPlayerEntity( level, posComp.x, posComp.y );
                     //Set the dead player entity's velocity equal to the velocity of the old player
-                    VelocityComponent deadVelComp = ( VelocityComponent )deadPlayer.getComponent( GlobalVars.VELOCITY_COMPONENT_NAME );
-                    deadVelComp.x = velComp.x;
-                    deadVelComp.y = velComp.y;
+                    //VelocityComponent deadVelComp = ( VelocityComponent )deadPlayer.getComponent( GlobalVars.VELOCITY_COMPONENT_NAME );
+                    //deadVelComp.x = velComp.x;
+                    //deadVelComp.y = velComp.y;
 
                     //If the player was looking left, flip the dead player entity's sprite so it's also looking left
                     if ( pl.isLookingLeft() ) {

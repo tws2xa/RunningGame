@@ -54,6 +54,9 @@ namespace RunningGame {
         float endLvlTime = 0.5f; //Typical length for setting the timer to when ending the level. In seconds.
         float endLvlTimer = -1.0f; //Timer. Do not modify.
 
+        //Player can't take damage
+        public bool playerImmune = false;
+
         public bool levelFullyLoaded = false;
 
         public Font displayFont = SystemFonts.DefaultFont;
@@ -694,6 +697,16 @@ namespace RunningGame {
                 DrawComponent drawComp = ( DrawComponent )e.getComponent( GlobalVars.DRAW_COMPONENT_NAME );
                 drawComp.switchToPostColorImage();
             }
+        }
+
+        public void disableImmune() {
+            this.playerImmune = false;
+        }
+        public void enableImmune() {
+            this.playerImmune = true;
+        }
+        public void toggleImmune() {
+            this.playerImmune = !this.playerImmune;
         }
     }
 }

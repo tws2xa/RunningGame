@@ -87,7 +87,7 @@ namespace RunningGame.Entities {
 
             /*HEALTH COMPONENT - Does it have health, can it die?
              */
-            addComponent( new HealthComponent( 100, true, 0, 100.0f ), true );
+            addComponent( new HealthComponent( 100, true, 0, 100.0f, level ), true );
 
             /*SIMPLE ENEMY COMPONENT
              */
