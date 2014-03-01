@@ -86,73 +86,10 @@ namespace RunningGame {
             this.timerMethods.Add( this.disableImmune, 0.30f );
 
 
-            if ( isPaintFile )
-                initializePaint( windowWidth, windowHeight, levelFile, g );
+            initializePaint( windowWidth, windowHeight, levelFile, g );
             
-            //else
-            //initializeNotPaint(windowWidth, windowHeight, levelFile, g);
         }
 
-        /* Used for level editor. Doesn't work.
-        public void initializeNotPaint(float windowWidth, float windowHeight, string levelFile, Graphics g)
-        {
-            BinaryFormatter bf = new BinaryFormatter();
-            Stream f = Assembly.GetExecutingAssembly().GetManifestResourceStream(levelFile);
-
-            List<Object> ents = (List<Object>)bf.Deserialize(f);
-
-            cameraWidth = windowWidth;
-            cameraHeight = windowHeight;
-            this.levelWidth = (float)ents[0];
-            this.levelHeight = (float)ents[1];
-
-            if (!sysManagerInit) sysManager = new SystemManager(this);
-
-            sysManagerInit = true;
-
-            prevTicks = DateTime.Now.Ticks;
-
-            levelFullyLoaded = true;
-
-            //
-            for (int i = 2; i < ents.Count; i++)
-            {
-                Entity oldEnt = (Entity)ents[i];
-                Entity newEnt = (Entity)Activator.CreateInstance(oldEnt.GetType(), this, 0, 0);
-
-                newEnt.randId = oldEnt.randId;
-
-                //Copy all the fields! Ugh
-                CopyFields(oldEnt, newEnt);
-                foreach (Component oldC in oldEnt.getComponents())
-                {
-                    if (newEnt.hasComponent(oldC.componentName))
-                    {
-                        Component newC = newEnt.getComponent(oldC.componentName);
-                        CopyFields(oldC, newC);
-                    }
-                }
-
-                newEnt.level = this;
-                addEntity(newEnt.randId, newEnt);
-            }
-            //
-
-
-            
-            for (int i = 2; i < ents.Count; i++)
-            {
-                Entity e = (Entity)ents[i];
-                e.level = this;
-                addEntity(e.randId, e);
-            }
-            
-
-            Entity bkgEnt = getMyBackgroundEntity();
-            addEntity(bkgEnt.randId, bkgEnt);
-
-        }
-        */
 
         //Also used for level editor. Doesn't work.
         public void CopyFields( object oldObj, object newObj ) {

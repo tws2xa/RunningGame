@@ -299,7 +299,7 @@ namespace RunningGame.Systems {
                         speedyEquipped = true;
                         level.getPlayer().setBlueImage();
                         newBorderCol = blueColor;
-                        speedyEquipped = false;
+                        bouncyEquipped = false;
                         blockSpawnEquipped = false;
                     } else {
                         bouncyEquipped = false;
