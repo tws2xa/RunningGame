@@ -17,8 +17,8 @@ namespace RunningGame.Entities {
     [Serializable()]
     public class Player : Entity {
 
-        float defaultWidth = 39;
-        float defaultHeight = 49;
+        float defaultWidth = 40;
+        float defaultHeight = 50;
 
         string rightImageName = "right";
         string leftImageName = "left";
@@ -32,8 +32,8 @@ namespace RunningGame.Entities {
         string walkOrangeLeft = "oL";
         string walkOrangeRight = "oR";
 
-        string walkPurpleLeft = "pL";
-        string walkPurpleRight = "pE";
+        string walkGreenLeft = "pL";
+        string walkGreenRight = "pE";
 
         string activeLeftImage;
         string activeRightImage;
@@ -84,7 +84,7 @@ namespace RunningGame.Entities {
             addWalkAnimation( "RunningGame.Resources.Artwork.Creatures.player", walkLeft, walkRight, drawComp );
             addWalkAnimation( "RunningGame.Resources.Artwork.Creatures.PlayerBlue", walkBlueLeft, walkBlueRight, drawComp );
             addWalkAnimation( "RunningGame.Resources.Artwork.Creatures.PlayerOrange", walkOrangeLeft, walkOrangeRight, drawComp );
-            addWalkAnimation( "RunningGame.Resources.Artwork.Creatures.PlayerPurple", walkPurpleLeft, walkPurpleRight, drawComp );
+            addWalkAnimation( "RunningGame.Resources.Artwork.Creatures.PlayerGreen", walkGreenLeft, walkGreenRight, drawComp );
 
             drawComp.setSprite( rightImageName, true );
 
@@ -102,9 +102,9 @@ namespace RunningGame.Entities {
             addComponent( new PlayerInputComponent( this ), true );
 
             //Collider
-            addComponent( new ColliderComponent( this, GlobalVars.PLAYER_COLLIDER_TYPE ), true );
+            addComponent( new ColliderComponent( this, GlobalVars.PLAYER_COLLIDER_TYPE , defaultWidth-4, defaultHeight-4), true);
 
-
+            /*
             //Squish Component
             SquishComponent sqComp = ( SquishComponent )addComponent( new SquishComponent( defaultWidth, defaultHeight, defaultWidth * 1.2f, defaultHeight * 1.2f, defaultWidth / 2f, defaultHeight / 2f, defaultWidth * defaultHeight * 1.1f, defaultWidth * defaultHeight / 1.5f ), true );
             sqComp.maxHeight = defaultHeight;
@@ -113,13 +113,14 @@ namespace RunningGame.Entities {
             sqComp.minWidth = defaultWidth / 1.1f;
             sqComp.maxSurfaceArea = defaultHeight * defaultWidth * 1.1f;
             sqComp.minSurfaceArea = defaultHeight * defaultWidth / 1.1f;
+            */
 
 
             //Gravity Component
             addComponent( new GravityComponent( 0, GlobalVars.STANDARD_GRAVITY ) );
 
             //Health Component
-            addComponent( new HealthComponent( 100, true, 1, 0.5f ) );
+            addComponent( new HealthComponent( 100, true, 1, 0.5f, level ) );
 
             //Screen Edge Stop/Wrap/End Level
             addComponent( new ScreenEdgeComponent( 1, 4, 1, 5 ) );
@@ -226,11 +227,11 @@ namespace RunningGame.Entities {
 
             refreshImage( lookLeft );
         }
-        public void setPurpleImage() {
+        public void setGreenImage() {
             bool lookLeft = isLookingLeft();
 
-            activeLeftImage = walkPurpleLeft;
-            activeRightImage = walkPurpleRight;
+            activeLeftImage = walkGreenLeft;
+            activeRightImage = walkGreenRight;
 
             refreshImage( lookLeft );
         }

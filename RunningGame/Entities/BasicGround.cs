@@ -53,33 +53,38 @@ namespace RunningGame.Entities {
             //Position Component
             addComponent( new PositionComponent( x, y, width, height, this ), true );
 
-            //Draw component
-            DrawComponent drawComp = new DrawComponent( defaultWidth, defaultHeight, level, true );
-            drawComp.addSprite( "Artwork.Foreground.Grass.Dirt", "RunningGame.Resources.Artwork.Foreground.Grass.Dirt61.png", dirtSpriteName );
+            if ( !GlobalVars.fullForegroundImage) {
+                //Draw component
+                DrawComponent drawComp = new DrawComponent( defaultWidth, defaultHeight, level, true );
+                drawComp.addSprite( "Artwork.Foreground.Grass.Dirt", "RunningGame.Resources.Artwork.Foreground.Grass.Dirt61.png", dirtSpriteName );
+                string grassFile = "placeholder";
+                if ( !GlobalVars.simpleGround ) {
+                    grassFile = "Artwork.Foreground.Grass.Grass0";
+                    Random rand = new Random( this.randId );
+                    switch ( rand.Next( 0, 5 ) ) {
+                        case ( 1 ):
+                            grassFile = "Artwork.Foreground.Grass.Grass1";
+                            break;
+                        case ( 2 ):
+                            grassFile = "Artwork.Foreground.Grass.Grass2";
+                            break;
+                        case ( 3 ):
+                            grassFile = "Artwork.Foreground.Grass.Grass3";
+                            break;
+                        case ( 4 ):
+                            grassFile = "Artwork.Foreground.Grass.Grass4";
+                            break;
+                    }
+                } else {
+                    grassFile = "Artwork.Foreground.Grass.SimpGrass";
+                }
 
-            string grassFile = "Artwork.Foreground.Grass.Grass0";
-            Random rand = new Random( this.randId );
-            switch ( rand.Next( 0, 5 ) ) {
-                case ( 1 ):
-                    grassFile = "Artwork.Foreground.Grass.Grass1";
-                    break;
-                case ( 2 ):
-                    grassFile = "Artwork.Foreground.Grass.Grass2";
-                    break;
-                case ( 3 ):
-                    grassFile = "Artwork.Foreground.Grass.Grass3";
-                    break;
-                case ( 4 ):
-                    grassFile = "Artwork.Foreground.Grass.Grass4";
-                    break;
+                drawComp.addSprite( grassFile, "RunningGame.Resources.Artwork.Foreground.Grass61.png", grassSpriteName );
+                drawComp.setSprite( dirtSpriteName );
+                addComponent( drawComp, true );
             }
-
-            drawComp.addSprite( grassFile, "RunningGame.Resources.Artwork.Foreground.Grass61.png", grassSpriteName );
-            drawComp.setSprite( dirtSpriteName );
-            addComponent( drawComp, true );
-
             //Collider
-            ColliderComponent c = ( ColliderComponent )addComponent( new ColliderComponent( this, GlobalVars.BASIC_SOLID_COLLIDER_TYPE ) );
+            ColliderComponent c = ( ColliderComponent )addComponent( new ColliderComponent( this, GlobalVars.BASIC_SOLID_COLLIDER_TYPE, defaultWidth-1, defaultHeight-1 ) );
             c.hasTransparentPixels = false;
             c.collideOnNoSprite = true;
         }
@@ -90,8 +95,9 @@ namespace RunningGame.Entities {
         }
 
         public void changeSprite( bool dirt ) {
+            if ( !this.hasComponent( GlobalVars.DRAW_COMPONENT_NAME ) ) return;
             DrawComponent drawComp = ( DrawComponent )this.getComponent( GlobalVars.DRAW_COMPONENT_NAME );
-
+            
             if ( dirt ) {
                 drawComp.setSprite( dirtSpriteName );
             } else {

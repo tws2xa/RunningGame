@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Drawing;
 using System.Collections;
 using RunningGame.Entities;
 using RunningGame.Components;
@@ -45,8 +46,8 @@ namespace RunningGame.Systems {
 
                 //If there has been a change, perform what is needed.
                 if ( slComp.getChanged() ) {
-                    events[slComp.eventType].Invoke( e, slComp.getSwitchActive() );
-                    slComp.setChanged( false );
+                    bool handled = events[slComp.eventType].Invoke( e, slComp.getSwitchActive() );
+                    if(handled) slComp.setChanged( false );
                 }
             }
         }
@@ -64,6 +65,27 @@ namespace RunningGame.Systems {
             }
                 //Closed
             else {
+                //Check for the player within the door.
+                PositionComponent posComp = (PositionComponent)e.getComponent(GlobalVars.POSITION_COMPONENT_NAME);
+                PointF lowerLeft = new PointF(posComp.x - posComp.width/2, posComp.y + posComp.height/2);
+                PointF upperRight = new PointF(posComp.x + posComp.width/2, posComp.y - posComp.height/2);
+                List<Entity> cols = level.getCollisionSystem().findObjectsBetweenPoints( lowerLeft, upperRight );
+                //Don't close on player.
+                foreach ( Entity ent in cols ) {
+                    if ( ent is Player ) {
+                        VelocityComponent velComp = ( VelocityComponent )ent.getComponent( GlobalVars.VELOCITY_COMPONENT_NAME );
+                        PositionComponent playerComp = ( PositionComponent )ent.getComponent( GlobalVars.POSITION_COMPONENT_NAME );
+                        
+                        float kickOutSpeed = 200.0f;
+                        if ( playerComp.x > posComp.x ) {
+                            velComp.setVelocity(kickOutSpeed, velComp.y);
+                        } else {
+                            velComp.setVelocity( -kickOutSpeed, velComp.y );
+                        }
+
+                        return false;
+                    }
+                }
                 if ( !e.hasComponent( GlobalVars.COLLIDER_COMPONENT_NAME ) )
                     e.addComponent( new ColliderComponent( e, GlobalVars.BASIC_SOLID_COLLIDER_TYPE ) );
                 DrawComponent drawComp = ( DrawComponent )e.getComponent( GlobalVars.DRAW_COMPONENT_NAME );

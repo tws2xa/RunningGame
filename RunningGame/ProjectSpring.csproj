@@ -102,6 +102,7 @@
     <Compile Include="Entities\BackgroundEntity.cs" />
     <Compile Include="Entities\BasicGround.cs" />
     <Compile Include="Entities\Bounce.cs" />
+    <Compile Include="Entities\PlatformTurnEntity.cs" />
     <Compile Include="Entities\PreGroundBounce.cs" />
     <Compile Include="Entities\PreGroundSpeedy.cs" />
     <Compile Include="Entities\GrappleEntity.cs" />
@@ -336,7 +337,7 @@
     <EmbeddedResource Include="Resources\Artwork\Creatures\player2.png" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\Artwork\Background\Bkg11.png" />
+    <EmbeddedResource Include="Resources\Artwork\Background\Bkg11a.png" />
     <EmbeddedResource Include="Resources\Artwork\Background\Bkg1Extra1.png" />
     <EmbeddedResource Include="Resources\Artwork\Background\Bkg12.png" />
     <EmbeddedResource Include="Resources\Artwork\Background\Bkg1Extra2.png" />
@@ -353,7 +354,7 @@
   <ItemGroup>
     <EmbeddedResource Include="Resources\Artwork\Creatures\player3.png" />
     <EmbeddedResource Include="Resources\Artwork\Creatures\PlayerOrange3.png" />
-    <EmbeddedResource Include="Resources\Artwork\Creatures\PlayerPurple3.png" />
+    <EmbeddedResource Include="Resources\Artwork\Creatures\PlayerGreen3.png" />
     <EmbeddedResource Include="Resources\Artwork\Creatures\PlayerBlue3.png" />
     <EmbeddedResource Include="Resources\Artwork\Foreground\Grass\Grass061.png" />
     <EmbeddedResource Include="Resources\Artwork\Foreground\Grass\Grass161.png" />
@@ -379,15 +380,15 @@
     <EmbeddedResource Include="Resources\Artwork\Creatures\PlayerBlue2.png" />
     <EmbeddedResource Include="Resources\Artwork\Creatures\PlayerOrange1.png" />
     <EmbeddedResource Include="Resources\Artwork\Creatures\PlayerOrange2.png" />
-    <EmbeddedResource Include="Resources\Artwork\Creatures\PlayerPurple1.png" />
-    <EmbeddedResource Include="Resources\Artwork\Creatures\PlayerPurple2.png" />
+    <EmbeddedResource Include="Resources\Artwork\Creatures\PlayerGreen1.png" />
+    <EmbeddedResource Include="Resources\Artwork\Creatures\PlayerGreen2.png" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\Levels\DebugLevel.png" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\Artwork\Foreground\PowerupPickups\BouncePickup.png" />
     <EmbeddedResource Include="Resources\Artwork\Foreground\PowerupPickups\DoubleJumpPickup.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\PowerupPickups\BouncePickup.png" />
     <EmbeddedResource Include="Resources\Artwork\Foreground\PowerupPickups\GlidePickup.png" />
     <EmbeddedResource Include="Resources\Artwork\Foreground\PowerupPickups\GrapplePickup.png" />
     <EmbeddedResource Include="Resources\Artwork\Foreground\PowerupPickups\SpawnPickup.png" />
@@ -466,7 +467,7 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\Artwork\Foreground\BlueSplat.png" />
-    <EmbeddedResource Include="Resources\Artwork\Foreground\PurpleSplat.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\GreenSplat.png" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\Levels\World1Level3.png" />
@@ -486,6 +487,47 @@
     <EmbeddedResource Include="Resources\Artwork\Background\Bkg32.png" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Resources\Artwork\Foreground\MovPlat10.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\MovPlat11.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\MovPlat21.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\MovPlat31.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\MovPlat41.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\MovPlat51.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\MovPlat61.png" />
+    <EmbeddedResource Include="Resources\Levels\World3Level1_new.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\Grass\SimpGrass10.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\Grass\SimpGrass11.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\Grass\SimpGrass21.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\Grass\SimpGrass31.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\Grass\SimpGrass41.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\Grass\SimpGrass51.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\Grass\SimpGrass61.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\Bullet\Bullet311.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\Bullet\Bullet321.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\Bullet\Bullet331.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\Bullet\Bullet341.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\Bullet\Bullet351.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\Bullet\Bullet361.png" />
+    <EmbeddedResource Include="Resources\Levels\World2Level1anna.png" />
+    <EmbeddedResource Include="Resources\Artwork\Background\Bkg10b.png" />
+    <EmbeddedResource Include="Resources\Artwork\Background\Bkg11b.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\Bullet\Bullet251.png" />
+    <EmbeddedResource Include="Resources\Artwork\Creatures\vision_orb1.png" />
+    <EmbeddedResource Include="Resources\Artwork\Creatures\vision_orb2.png" />
+    <EmbeddedResource Include="Resources\Levels\World1Level3anna.png" />
+    <EmbeddedResource Include="Resources\Levels\World1Level2anna.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\Bullet\Bullet111.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\Bullet\Bullet121.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\Bullet\Bullet131.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\Bullet\Bullet141.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\Bullet\Bullet151.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\Bullet\Bullet211.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\Bullet\Bullet221.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\Bullet\Bullet231.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\Bullet\Bullet241.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\Bullet\Bullet261.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\Bullet\Bullet161.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\Bullet11.png" />
     <EmbeddedResource Include="Resources\Artwork\Background\Bkg60.png" />
     <EmbeddedResource Include="Resources\Artwork\Background\Bkg61.png" />
     <EmbeddedResource Include="Resources\Artwork\Foreground\Grass\Dirt10.png" />
@@ -494,7 +536,7 @@
     <EmbeddedResource Include="Resources\Artwork\Foreground\Grass\Grass210.png" />
     <EmbeddedResource Include="Resources\Artwork\Foreground\Grass\Grass310.png" />
     <EmbeddedResource Include="Resources\Artwork\Foreground\Grass\Grass410.png" />
-    <EmbeddedResource Include="Resources\Artwork\Background\Bkg10.png" />
+    <EmbeddedResource Include="Resources\Artwork\Background\Bkg10a.png" />
     <EmbeddedResource Include="Resources\Artwork\Background\Bkg30.png" />
     <EmbeddedResource Include="Resources\Artwork\Background\Bkg50.png" />
     <EmbeddedResource Include="Resources\Artwork\Background\Bkg60a.png" />
@@ -512,7 +554,11 @@
     <EmbeddedResource Include="Resources\Artwork\Foreground\buttonUp60.png" />
     <EmbeddedResource Include="Resources\Artwork\Background\Bkg20.png" />
     <EmbeddedResource Include="Resources\Artwork\Background\Bkg40.png" />
+    <EmbeddedResource Include="Resources\Artwork\Background\Bkg10.png" />
+    <EmbeddedResource Include="Resources\Artwork\Background\Bkg11.png" />
     <Content Include="Resources\Artwork\Background\Bkg43.png" />
+    <EmbeddedResource Include="Resources\Levels\World1Level1anna.png" />
+    <EmbeddedResource Include="Resources\Levels\leveltry.png" />
     <None Include="Resources\Artwork\Other\SpringBlurSmall.png" />
     <EmbeddedResource Include="Resources\Levels\World3Level11.png" />
     <EmbeddedResource Include="Resources\Levels\World2Level31.png" />
@@ -521,7 +567,7 @@
     <EmbeddedResource Include="Resources\Artwork\Background\Bkg62a.png" />
     <EmbeddedResource Include="Resources\Artwork\Background\Bkg42.png" />
     <EmbeddedResource Include="Resources\Artwork\Foreground\BlueDrop.png" />
-    <EmbeddedResource Include="Resources\Artwork\Foreground\PurpleDrop.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\GreenDrop.png" />
     <EmbeddedResource Include="Resources\Artwork\Foreground\Orb3.png" />
     <EmbeddedResource Include="Resources\Artwork\Foreground\Orb4.png" />
     <EmbeddedResource Include="Resources\Artwork\Background\Bkg23.png" />

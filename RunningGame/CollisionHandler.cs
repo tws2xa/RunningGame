@@ -57,7 +57,7 @@ namespace RunningGame {
             defaultCollisions.Add( GlobalVars.SPIKE_COLLIDER_TYPE, doNothingCollision );
             defaultCollisions.Add( GlobalVars.VISION_COLLIDER_TYPE, doNothingCollision );
             defaultCollisions.Add( GlobalVars.BOUNCE_PREGROUND_COLLIDER_TYPE, bounceGroundCollision );
-
+            defaultCollisions.Add( GlobalVars.PLATFORM_TURN_COLLIDER_TYPE, doNothingCollision );
 
             //Add non-default collisions to dictionary
             //Format: addToDictonary(Collider 1, Collider 2, name of function) Note - Order of colliders does not matter
@@ -78,11 +78,12 @@ namespace RunningGame {
             addToDictionary( GlobalVars.BOUNCE_PREGROUND_COLLIDER_TYPE, GlobalVars.SIMPLE_ENEMY_COLLIDER_TYPE, doNothingCollision );
             addToDictionary( GlobalVars.BOUNCE_PREGROUND_COLLIDER_TYPE, GlobalVars.BOUNCE_PREGROUND_COLLIDER_TYPE, doNothingCollision );
             addToDictionary( GlobalVars.BOUNCE_PREGROUND_COLLIDER_TYPE, GlobalVars.BOUNCE_POSTGROUND_COLLIDER_TYPE, removeBounceCollision );
-            addToDictionary( GlobalVars.BOUNCE_PREGROUND_COLLIDER_TYPE, GlobalVars.SPAWN_BLOCK_COLLIDER_TYPE, removeBounceCollision );
+            addToDictionary( GlobalVars.BOUNCE_PREGROUND_COLLIDER_TYPE, GlobalVars.SPAWN_BLOCK_COLLIDER_TYPE, doNothingCollision);
 
-            addToDictionary( GlobalVars.SIMPLE_ENEMY_COLLIDER_TYPE, GlobalVars.PLAYER_COLLIDER_TYPE, killPlayerCollision );
+            addToDictionary( GlobalVars.SIMPLE_ENEMY_COLLIDER_TYPE, GlobalVars.PLAYER_COLLIDER_TYPE, damageHealthCollision );
             addToDictionary( GlobalVars.SIMPLE_ENEMY_COLLIDER_TYPE, GlobalVars.SPAWN_BLOCK_COLLIDER_TYPE, spawnEnemyCollision );
 
+            //addToDictionary( GlobalVars.MOVING_PLATFORM_COLLIDER_TYPE, GlobalVars.PLAYER_COLLIDER_TYPE, simpleStopCollision );
             addToDictionary( GlobalVars.MOVING_PLATFORM_COLLIDER_TYPE, GlobalVars.PLAYER_COLLIDER_TYPE, platformOtherCollision );
 
             addToDictionary( GlobalVars.VISION_COLLIDER_TYPE, GlobalVars.BASIC_SOLID_COLLIDER_TYPE, simpleStopCollision );
@@ -90,10 +91,12 @@ namespace RunningGame {
             addToDictionary( GlobalVars.SPEEDY_PREGROUND_COLLIDER_TYPE, GlobalVars.BASIC_SOLID_COLLIDER_TYPE, speedyGroundCollision );
             addToDictionary( GlobalVars.SPEEDY_PREGROUND_COLLIDER_TYPE, GlobalVars.PLAYER_COLLIDER_TYPE, doNothingCollision );
             addToDictionary( GlobalVars.SPEEDY_PREGROUND_COLLIDER_TYPE, GlobalVars.SIMPLE_ENEMY_COLLIDER_TYPE, doNothingCollision );
-            addToDictionary( GlobalVars.SPEEDY_PREGROUND_COLLIDER_TYPE, GlobalVars.SPAWN_BLOCK_COLLIDER_TYPE, removeSpeedyCollision );
+            addToDictionary( GlobalVars.SPEEDY_PREGROUND_COLLIDER_TYPE, GlobalVars.SPAWN_BLOCK_COLLIDER_TYPE, doNothingCollision);
 
             addToDictionary( GlobalVars.SPAWN_BLOCK_COLLIDER_TYPE, GlobalVars.SPEEDY_POSTGROUND_COLLIDER_TYPE, speedyOtherCollision );
             addToDictionary( GlobalVars.SPAWN_BLOCK_COLLIDER_TYPE, GlobalVars.BOUNCE_POSTGROUND_COLLIDER_TYPE, bounceCollision );
+
+            addToDictionary( GlobalVars.MOVING_PLATFORM_COLLIDER_TYPE, GlobalVars.PLATFORM_TURN_COLLIDER_TYPE, simpleStopCollision );
         }
 
         //This adds something to the default collison dictionary.
@@ -503,6 +506,78 @@ namespace RunningGame {
 
         }
 
+        public bool damageHealthCollision( Entity e1, Entity e2 ) {
+            //Figure out which entity is the player
+            Player player;
+            Entity enemy;
+            if ( e1 is Player ) {
+                player = ( Player )e1;
+                enemy = e2;
+            } else if ( e2 is Player ) {
+                player = ( Player )e2;
+                enemy = e1;
+            } else {
+                Console.WriteLine( "Halve Health Player Collision with no player..." );
+                return false;
+            }
+
+            //Decrease the player's health (In this case, it just removes it completely.
+            
+            HealthComponent playerHealthComp = ( HealthComponent )player.getComponent( GlobalVars.HEALTH_COMPONENT_NAME );
+            playerHealthComp.subtractFromHealth( (int)Math.Ceiling(playerHealthComp.maxHealth/1.8f) ); //Bubye healths! >:)
+            level.playerImmune = true;
+            if ( !this.level.timerMethods.ContainsKey( level.disableImmune ) ) {
+                this.level.timerMethods.Add( level.disableImmune, 0.30f );
+            }
+
+            VelocityComponent playerVelComp = ( VelocityComponent )player.getComponent( GlobalVars.VELOCITY_COMPONENT_NAME );
+            PositionComponent playerPos = ( PositionComponent )player.getComponent( GlobalVars.POSITION_COMPONENT_NAME );
+            PositionComponent enemyPos = ( PositionComponent )enemy.getComponent( GlobalVars.POSITION_COMPONENT_NAME );
+            ColliderComponent playerCol = ( ColliderComponent )player.getComponent( GlobalVars.COLLIDER_COMPONENT_NAME );
+            ColliderComponent enemyCol = ( ColliderComponent )enemy.getComponent( GlobalVars.COLLIDER_COMPONENT_NAME );
+    
+            float playerLeft = (playerCol.getX(playerPos)-playerCol.width/2);
+            float playerRight = ( playerCol.getX( playerPos ) + playerCol.width / 2 );
+            float enemyLeft = ( enemyCol.getX( enemyPos ) - enemyCol.width / 2 );
+            float enemyRight = ( enemyCol.getX( enemyPos ) + enemyCol.width / 2 );
+
+            float playerUp = ( playerCol.getY( playerPos ) - playerCol.height / 2 );
+            float playerDown = ( playerCol.getY( playerPos ) + playerCol.height / 2 );
+            float enemyUp = ( enemyCol.getY( enemyPos ) - enemyCol.height / 2 );
+            float enemyDown = ( enemyCol.getY( enemyPos ) + enemyCol.height / 2 );
+            
+            float reboundSpeedX = 170;
+            float reboundSpeedY = 100;
+            float buffer = 5;
+
+            bool doLeft = ( ( playerRight - enemyLeft ) < buffer );
+            bool doRight = ( ( enemyRight - playerLeft ) < buffer );
+            bool doUp = ( ( playerDown - enemyUp ) < buffer );
+            bool doDown = ( ( enemyDown - playerUp ) < buffer );
+
+            //Player is left
+            if ( doLeft ) {
+                playerVelComp.setVelocity( -reboundSpeedX, playerVelComp.y );
+            }
+            //Player right
+            else if ( doRight ) {
+                playerVelComp.setVelocity( reboundSpeedX, playerVelComp.y );
+            }
+            //Player is up
+            if ( doUp ) {
+                playerVelComp.setVelocity( playerVelComp.x, -reboundSpeedY );
+            }
+            //Player down
+            else if (doDown) {
+                playerVelComp.setVelocity( playerVelComp.x, reboundSpeedY );
+            }
+            
+
+            //Do bother stopping movement
+            return true;
+        }
+
+
         //This occurs when the bullet collides with something that isn't an enemy
         //It finds and removes the bullet.
         public bool bulletNonEnemyCollision( Entity e1, Entity e2 ) {
@@ -543,8 +618,8 @@ namespace RunningGame {
 
         //This is used when the moving platform collides with an entity
         //It should move the entity with the platform
-        //INCOMPLETE
         public bool platformOtherCollision( Entity e1, Entity e2 ) {
+
             MovingPlatformEntity plat;
             Entity other;
             if ( e1 is MovingPlatformEntity ) {
@@ -561,26 +636,32 @@ namespace RunningGame {
 
             PositionComponent platPos = ( PositionComponent )plat.getComponent( GlobalVars.POSITION_COMPONENT_NAME );
             PositionComponent otherPos = ( PositionComponent )other.getComponent( GlobalVars.POSITION_COMPONENT_NAME );
+            ColliderComponent platCol = ( ColliderComponent )plat.getComponent( GlobalVars.COLLIDER_COMPONENT_NAME );
+            ColliderComponent otherCol = ( ColliderComponent )plat.getComponent( GlobalVars.COLLIDER_COMPONENT_NAME );
+            
+            float buffer = -2;
 
-            float buffer = 2;
+            if ( other.hasComponent( GlobalVars.VELOCITY_COMPONENT_NAME ) ) {
+                VelocityComponent otherVel = ( VelocityComponent )other.getComponent( GlobalVars.VELOCITY_COMPONENT_NAME );
+                if ( otherVel.y > 0 ) {
+                    buffer += otherVel.y;
+                }
+            }
 
             //If other is not above the platform, just do a simple stop for other.
-            float diff = ( otherPos.y + otherPos.height / 2 ) - ( platPos.y - platPos.height / 2 );
-            if ( Math.Abs( diff ) > buffer ) {
-                return true;
+
+            float diff = ( platPos.y - platCol.height / 2 ) - ( otherPos.y + otherCol.height / 2 );
+
+            if ( diff > buffer ) {
+                return false;
             }
 
-            MovingPlatformComponent platComp = ( MovingPlatformComponent )plat.getComponent( GlobalVars.MOVING_PLATFORM_COMPONENT_NAME );
-            VelocityComponent platVel = ( VelocityComponent )plat.getComponent( GlobalVars.VELOCITY_COMPONENT_NAME );
-            VelocityComponent otherVel = ( VelocityComponent )other.getComponent( GlobalVars.VELOCITY_COMPONENT_NAME );
 
-            //If vertical, move other's y to the moving platform's
-            if ( platComp.vertical ) {
-                level.getMovementSystem().changePosition( otherPos, otherPos.x, platPos.y - platPos.height / 2 - otherPos.height / 2, false, false );
-                otherVel.y = platVel.y;
-            }
+            return true;
+        }
 
-            return false;
+        public bool isWithinRange( float test, float left, float right ) {
+            return ( left < test && right > test );
         }
 
         public bool powerupPickupPlayerCollision( Entity e1, Entity e2 ) {
@@ -597,29 +678,54 @@ namespace RunningGame {
 
             System.Drawing.Color col = System.Drawing.Color.Peru; //Peru is a color.
 
+            string displayStr = "";
+            System.Drawing.Color textCol = col;
+            float fadeInTime = 0.2f;
+            float constTime = 3;
+            float fadeOutTime = 1.5f;
+
             switch ( ppComp.compNum ) {
                 case ( GlobalVars.BOUNCE_NUM ):
-                    col = System.Drawing.Color.Purple;
+                    col = System.Drawing.Color.LightGreen;
+                    displayStr = "Bounce Gel Unlocked!\n[Q]/[E] to Equip, [F] to use.";
+                    textCol = System.Drawing.Color.SpringGreen;
                     break;
                 case ( GlobalVars.SPEED_NUM ):
                     col = System.Drawing.Color.Teal;
+                    displayStr = "Speed Gel Unlocked!\n[Q]/[E] to Equip, [F] to use.";
+                    textCol = System.Drawing.Color.DarkBlue;
                     break;
                 case ( GlobalVars.JMP_NUM ):
-                    col = System.Drawing.Color.LightGreen;
+                    col = System.Drawing.Color.Purple;
+                    displayStr = "Double Jump Unlocked!\nPress [W] in air to use.";
+                    textCol = System.Drawing.Color.DarkViolet;
                     break;
                 case ( GlobalVars.GLIDE_NUM ):
                     col = System.Drawing.Color.Yellow;
+                    displayStr = "Glide Unlocked!\nPress [Space] in air to use.";
+                    textCol = System.Drawing.Color.Yellow;
                     break;
                 case ( GlobalVars.SPAWN_NUM ):
                     col = System.Drawing.Color.Orange;
+                    displayStr = "Block Spawn Unlocked\n[Q]/[E] to Equip, [F] to use.";
+                    textCol = System.Drawing.Color.DarkOrange;
                     break;
                 case ( GlobalVars.GRAP_NUM ):
                     col = System.Drawing.Color.Red;
+                    displayStr = "Grapple Unlocked!\nRight click to use.";
+                    textCol = System.Drawing.Color.DarkRed;
                     break;
             }
 
             float flashTime = 0.5f;
-            level.timerMethods.Add( level.setToPostColors, flashTime/2 );
+            if ( !level.colorOrbObtained && !level.timerMethods.ContainsKey( level.setToPostColors ) ) {
+                level.timerMethods.Add( level.setToPostColors, flashTime / 2 );
+            }
+            if ( !level.timerMethods.ContainsKey( level.displayInstrText) ) {
+                level.sysManager.drawSystem.textShadow = true;
+                level.setInstrText( displayStr, textCol, fadeInTime, constTime, fadeOutTime );
+                level.timerMethods.Add( level.displayInstrText, flashTime / 2 );
+            }
             //level.setToPostColors();
 
             level.sysManager.drawSystem.setFlash( col, flashTime );
@@ -701,6 +807,9 @@ namespace RunningGame {
         //Makes sure there's satisfactory overlap for spikes to kill the player
         private bool checkSpikeCollision( PositionComponent posPlayer, PositionComponent posSpikes, int dir ) {
 
+            return true;
+
+            /*
             switch ( dir ) {
                 case ( 0 ): //Player Above
                     if ( ( posSpikes.y - posSpikes.height / 2 + playerSpikeCollisionLeewaySameDir ) <= ( posPlayer.y + posPlayer.height / 2 ) ) {
@@ -757,6 +866,7 @@ namespace RunningGame {
                 default:
                     return false;
             }
+            */
 
 
         }

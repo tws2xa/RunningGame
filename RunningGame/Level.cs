@@ -54,85 +54,42 @@ namespace RunningGame {
         float endLvlTime = 0.5f; //Typical length for setting the timer to when ending the level. In seconds.
         float endLvlTimer = -1.0f; //Timer. Do not modify.
 
+        //Player can't take damage
+        public bool playerImmune = false;
+
         public bool levelFullyLoaded = false;
+        public bool hasRunOnce = false;
+
+        public Font displayFont = SystemFonts.DefaultFont;
 
         //A queue of methods (values) to run after a certain period of time(key, in seconds).
         public Dictionary<Action, float> timerMethods = new Dictionary<Action, float>(); 
 
+
+        //Used for displaying instruction text:
+        public string dispTxt = "";
+        public Color dispCol = Color.White;
+        public float dispTimeIn = 0;
+        public float dispConstTime = 0;
+        public float dispTimeOut = 0;
+
         public Level() { }
 
-        public Level( float windowWidth, float windowHeight, string levelFile, int worldNum, int levelNum, bool isPaintFile, Graphics g ) {
-
+        public Level( float windowWidth, float windowHeight, string levelFile, int worldNum, int levelNum, bool isPaintFile, Graphics g, Font displayFont ) {
+            this.displayFont = displayFont;
             this.worldNum = worldNum;
             this.levelNum = levelNum;
             this.colorOrbObtained = ( levelNum != 1 ); //False when level 1 begins, otherwise true.
 
-            if ( isPaintFile )
-                initializePaint( windowWidth, windowHeight, levelFile, g );
-            //else
-            //initializeNotPaint(windowWidth, windowHeight, levelFile, g);
+            //Set the player to immune for a bit just as the level starts
+            this.playerImmune = true;
+            this.timerMethods.Add( this.disableImmune, 0.30f );
+
+
+            initializePaint( windowWidth, windowHeight, levelFile, g );
+            
         }
 
-        /* Used for level editor. Doesn't work.
-        public void initializeNotPaint(float windowWidth, float windowHeight, string levelFile, Graphics g)
-        {
-            BinaryFormatter bf = new BinaryFormatter();
-            Stream f = Assembly.GetExecutingAssembly().GetManifestResourceStream(levelFile);
-
-            List<Object> ents = (List<Object>)bf.Deserialize(f);
-
-            cameraWidth = windowWidth;
-            cameraHeight = windowHeight;
-            this.levelWidth = (float)ents[0];
-            this.levelHeight = (float)ents[1];
-
-            if (!sysManagerInit) sysManager = new SystemManager(this);
-
-            sysManagerInit = true;
-
-            prevTicks = DateTime.Now.Ticks;
-
-            levelFullyLoaded = true;
-
-            //
-            for (int i = 2; i < ents.Count; i++)
-            {
-                Entity oldEnt = (Entity)ents[i];
-                Entity newEnt = (Entity)Activator.CreateInstance(oldEnt.GetType(), this, 0, 0);
-
-                newEnt.randId = oldEnt.randId;
-
-                //Copy all the fields! Ugh
-                CopyFields(oldEnt, newEnt);
-                foreach (Component oldC in oldEnt.getComponents())
-                {
-                    if (newEnt.hasComponent(oldC.componentName))
-                    {
-                        Component newC = newEnt.getComponent(oldC.componentName);
-                        CopyFields(oldC, newC);
-                    }
-                }
-
-                newEnt.level = this;
-                addEntity(newEnt.randId, newEnt);
-            }
-            //
-
-
-            
-            for (int i = 2; i < ents.Count; i++)
-            {
-                Entity e = (Entity)ents[i];
-                e.level = this;
-                addEntity(e.randId, e);
-            }
-            
-
-            Entity bkgEnt = getMyBackgroundEntity();
-            addEntity(bkgEnt.randId, bkgEnt);
-
-        }
-        */
 
         //Also used for level editor. Doesn't work.
         public void CopyFields( object oldObj, object newObj ) {
@@ -188,49 +145,49 @@ namespace RunningGame {
         //Should and should not be enabled at the start of the level.
         public void setPowerups() {
             if ( worldNum > 1 || ( worldNum == 1 && levelNum > 1 ) ) {
-                sysManager.spSystem.unlockPowerup( 1 );
+                sysManager.spSystem.unlockPowerup( GlobalVars.JMP_NUM );
                 if ( worldNum > 2 || ( worldNum == 2 && levelNum > 1 ) ) {
-                    sysManager.spSystem.unlockPowerup( 2 );
+                    sysManager.spSystem.unlockPowerup( GlobalVars.SPEED_NUM );
                     if ( worldNum > 3 || ( worldNum == 3 && levelNum > 1 ) ) {
-                        sysManager.spSystem.unlockPowerup( 3 );
+                        sysManager.spSystem.unlockPowerup( GlobalVars.BOUNCE_NUM );
                         if ( worldNum > 4 || ( worldNum == 4 && levelNum > 1 ) ) {
-                            sysManager.spSystem.unlockPowerup( 4 );
+                            sysManager.spSystem.unlockPowerup( GlobalVars.GLIDE_NUM );
                             if ( worldNum > 5 || ( worldNum == 5 && levelNum > 1 ) ) {
-                                sysManager.spSystem.unlockPowerup( 5 );
+                                sysManager.spSystem.unlockPowerup( GlobalVars.SPAWN_NUM );
                                 if ( worldNum > 6 || ( worldNum == 6 && levelNum > 1 ) ) {
-                                    sysManager.spSystem.unlockPowerup( 6 );
+                                    sysManager.spSystem.unlockPowerup( GlobalVars.GRAP_NUM );
                                 } else {
-                                    sysManager.spSystem.lockPowerup( 6 );
+                                    sysManager.spSystem.lockPowerup( GlobalVars.GRAP_NUM );
                                 }
                             } else {
-                                sysManager.spSystem.lockPowerup( 5 );
-                                sysManager.spSystem.lockPowerup( 6 );
+                                sysManager.spSystem.lockPowerup( GlobalVars.SPAWN_NUM );
+                                sysManager.spSystem.lockPowerup( GlobalVars.GRAP_NUM );
                             }
                         } else {
-                            sysManager.spSystem.lockPowerup( 4 );
-                            sysManager.spSystem.lockPowerup( 5 );
-                            sysManager.spSystem.lockPowerup( 6 );
+                            sysManager.spSystem.lockPowerup(GlobalVars.GLIDE_NUM);
+                            sysManager.spSystem.lockPowerup( GlobalVars.SPAWN_NUM );
+                            sysManager.spSystem.lockPowerup( GlobalVars.GRAP_NUM );
                         }
                     } else {
-                        sysManager.spSystem.lockPowerup( 3 );
-                        sysManager.spSystem.lockPowerup( 4 );
-                        sysManager.spSystem.lockPowerup( 5 );
-                        sysManager.spSystem.lockPowerup( 6 );
+                        sysManager.spSystem.lockPowerup( GlobalVars.BOUNCE_NUM );
+                        sysManager.spSystem.lockPowerup(GlobalVars.GLIDE_NUM);
+                        sysManager.spSystem.lockPowerup( GlobalVars.SPAWN_NUM );
+                        sysManager.spSystem.lockPowerup( GlobalVars.GRAP_NUM );
                     }
                 } else {
-                    sysManager.spSystem.lockPowerup( 2 );
-                    sysManager.spSystem.lockPowerup( 3 );
-                    sysManager.spSystem.lockPowerup( 4 );
-                    sysManager.spSystem.lockPowerup( 5 );
-                    sysManager.spSystem.lockPowerup( 6 );
+                    sysManager.spSystem.lockPowerup( GlobalVars.SPEED_NUM );
+                    sysManager.spSystem.lockPowerup( GlobalVars.BOUNCE_NUM );
+                    sysManager.spSystem.lockPowerup(GlobalVars.GLIDE_NUM);
+                    sysManager.spSystem.lockPowerup( GlobalVars.SPAWN_NUM );
+                    sysManager.spSystem.lockPowerup( GlobalVars.GRAP_NUM );
                 }
             } else {
-                sysManager.spSystem.lockPowerup( 1 );
-                sysManager.spSystem.lockPowerup( 2 );
-                sysManager.spSystem.lockPowerup( 3 );
-                sysManager.spSystem.lockPowerup( 4 );
-                sysManager.spSystem.lockPowerup( 5 );
-                sysManager.spSystem.lockPowerup( 6 );
+                sysManager.spSystem.lockPowerup( GlobalVars.JMP_NUM );
+                sysManager.spSystem.lockPowerup( GlobalVars.SPEED_NUM );
+                sysManager.spSystem.lockPowerup( GlobalVars.BOUNCE_NUM );
+                sysManager.spSystem.lockPowerup(GlobalVars.GLIDE_NUM);
+                sysManager.spSystem.lockPowerup( GlobalVars.SPAWN_NUM );
+                sysManager.spSystem.lockPowerup( GlobalVars.GRAP_NUM );
             }
 
         }
@@ -282,6 +239,11 @@ namespace RunningGame {
                 }
 
                 sysManager.Update( deltaTime ); //Update systems
+                
+                if(!hasRunOnce){
+                    resetLevel();
+                    hasRunOnce = true;
+                }
             }
         }
 
@@ -313,6 +275,7 @@ namespace RunningGame {
 
         //Reset the game to it's original startup state
         public virtual void resetLevel() {
+
             paused = true; // Pause the game briefly
 
             //Deactivate the vision orb if it's active
@@ -347,6 +310,9 @@ namespace RunningGame {
             }
             GlobalVars.removedStartingEntities.Clear();
 
+            if ( levelNum == 1 ) {
+                setToPreColors(); //Reset Colors if first level in a world.
+            }
             setPowerups(); //Reset the powerups
 
             paused = false; //Restart the game  
@@ -476,21 +442,23 @@ namespace RunningGame {
 
 
             Bitmap tempImg = getBkgImg();
+
             float newWidth = tempImg.Width;
             float newHeight = tempImg.Height;
 
-            float scaleFactor = 1.1f;
+            if ( !GlobalVars.fullForegroundImage ) {
+                float scaleFactor = 1.1f;
 
-            while ( newWidth / scaleFactor > levelWidth || newHeight / scaleFactor > levelHeight ) {
-                newWidth /= scaleFactor;
-                newHeight /= scaleFactor;
+                while ( newWidth / scaleFactor > levelWidth || newHeight / scaleFactor > levelHeight ) {
+                    newWidth /= scaleFactor;
+                    newHeight /= scaleFactor;
+                }
+
+                while ( newWidth < levelWidth || newHeight < levelHeight ) {
+                    newWidth *= scaleFactor;
+                    newHeight *= scaleFactor;
+                }
             }
-
-            while ( newWidth < levelWidth || newHeight < levelHeight ) {
-                newWidth *= scaleFactor;
-                newHeight *= scaleFactor;
-            }
-
             BackgroundEntity bkgEnt = new BackgroundEntity( this, 0, 0, newWidth, newHeight );
             DrawComponent drawComp = ( DrawComponent )bkgEnt.getComponent( GlobalVars.DRAW_COMPONENT_NAME );
             PositionComponent posComp = ( PositionComponent )bkgEnt.getComponent( GlobalVars.POSITION_COMPONENT_NAME );
@@ -575,24 +543,9 @@ namespace RunningGame {
 
             }
             */
-            bool tryBkgColorChange = false;
-            if ( tryBkgColorChange ) {
-                bool wentToDefault = false;
-                if ( levelNum == 1 ) {
-                    wentToDefault = drawComp.addSprite( preColorImageStub, fullImageAddress, "PreColorBkg" );
-                }
 
-                drawComp.addSprite( imageStub, fullImageAddress, "MainBkg" );
-
-                if ( wentToDefault || levelNum != 1 ) {
-                    drawComp.setSprite( "MainBkg" );
-                } else {
-                    drawComp.setSprite( "PreColorBkg" );
-                }
-            } else {
-                drawComp.addSprite( imageStub, fullImageAddress, "MainBkg" );
-                drawComp.setSprite( "MainBkg" );
-            }
+            drawComp.addSprite( imageStub, fullImageAddress, "MainBkg" );
+            drawComp.setSprite( "MainBkg" );
 
             bkgEnt.isStartingEntity = true;
 
@@ -676,6 +629,34 @@ namespace RunningGame {
                 DrawComponent drawComp = ( DrawComponent )e.getComponent( GlobalVars.DRAW_COMPONENT_NAME );
                 drawComp.switchToPostColorImage();
             }
+        }
+        public void setInstrText( string txt, Color col, float timeIn, float constTime, float timeOut ) {
+            dispTxt = txt;
+            dispCol = col;
+            dispTimeIn = timeIn;
+            dispConstTime = constTime;
+            dispTimeOut = timeOut;
+        }
+        public void displayInstrText() {
+            sysManager.drawSystem.activateTextFlash( dispTxt, dispCol, dispTimeIn, dispConstTime, dispTimeOut );
+        }
+        public void setToPreColors() {
+            this.colorOrbObtained = false;
+
+            foreach ( Entity e in sysManager.drawSystem.getApplicableEntities() ) {
+                DrawComponent drawComp = ( DrawComponent )e.getComponent( GlobalVars.DRAW_COMPONENT_NAME );
+                drawComp.switchToPostColorImage();
+            }
+        }
+
+        public void disableImmune() {
+            this.playerImmune = false;
+        }
+        public void enableImmune() {
+            this.playerImmune = true;
+        }
+        public void toggleImmune() {
+            this.playerImmune = !this.playerImmune;
         }
     }
 }

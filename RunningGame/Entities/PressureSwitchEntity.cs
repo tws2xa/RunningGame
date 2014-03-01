@@ -73,7 +73,7 @@ namespace RunningGame.Entities {
             drawComp.setSprite( GlobalVars.SWITCH_INACTIVE_SPRITE_NAME );
 
             //COLLIDER - Does it hit things?
-            addComponent( new ColliderComponent( this, GlobalVars.BASIC_SOLID_COLLIDER_TYPE ), true );
+            addComponent( new ColliderComponent( this, GlobalVars.BASIC_SOLID_COLLIDER_TYPE), true );
 
             //Swich Component - Is it a switch? Yes.
             addComponent( new SwitchComponent( startingState ), true );

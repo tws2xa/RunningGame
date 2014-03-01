@@ -58,31 +58,28 @@ namespace RunningGame.Systems {
 
                 //If there's a key down and the player isn't moving horizontally, check to make sure there's a collision
                 restartHorizontalMovementIfNoBlock( velComp, posComp, pelInComp, animComp );
-
-                if ( level.getInputSystem().myKeys[GlobalVars.KEY_RIGHT].pressed || level.getInputSystem().myKeys[GlobalVars.KEY_LEFT].pressed ) {
-                    level.getPlayer().startAnimation();
-                } else {
-                    if ( level.getPlayer() != null )
-                        level.getPlayer().stopAnimation();
+                if ( level != null ) {
+                    if ( level.getInputSystem().myKeys[GlobalVars.KEY_RIGHT].pressed || level.getInputSystem().myKeys[GlobalVars.KEY_LEFT].pressed ) {
+                        level.getPlayer().startAnimation();
+                    } else {
+                        if ( level.getPlayer() != null )
+                            level.getPlayer().stopAnimation();
+                    }
                 }
 
                 //Slow horizontal if no left/right key down
                 if ( velComp.x != 0 && !level.getInputSystem().myKeys[GlobalVars.KEY_LEFT].pressed && !level.getInputSystem().myKeys[GlobalVars.KEY_RIGHT].pressed ) {
-                    //If it's on top of something
-                    float leftX = ( posComp.x - posComp.width / 2 );
-                    float rightX = ( posComp.x + posComp.width / 2 );
-                    float lowerY = ( posComp.y + posComp.height / 2 + 1 );
-                    if ( ( level.getCollisionSystem().findObjectsBetweenPoints( leftX, lowerY, rightX, lowerY ).Count > 0 ) ) {
-                        if ( velComp.x < 0 ) {
-                            velComp.x += playerHorizSlowSpeed;
-                            if ( velComp.x > 0 )
-                                velComp.x = 0;
-                        } else {
-                            velComp.x -= playerHorizSlowSpeed;
-                            if ( velComp.x < 0 )
-                                velComp.x = 0;
-                        }
+                    
+                    if ( velComp.x < 0 ) {
+                        velComp.x += playerHorizSlowSpeed;
+                        if ( velComp.x > 0 )
+                            velComp.x = 0;
+                    } else {
+                        velComp.x -= playerHorizSlowSpeed;
+                        if ( velComp.x < 0 )
+                            velComp.x = 0;
                     }
+                    
                 }
             }
 
@@ -171,17 +168,21 @@ namespace RunningGame.Systems {
             }
         }
         public void beginMoveLeft( PositionComponent posComp, VelocityComponent velComp, PlayerInputComponent pelInComp, AnimationComponent animComp ) {
-            velComp.setVelocity( -pelInComp.playerHorizMoveSpeed, velComp.y );
-            if ( !pelInComp.player.isLookingLeft() )
-                pelInComp.player.faceLeft();
-            level.getPlayer().startAnimation();
+            if ( pelInComp != null && pelInComp.player != null ) {
+                velComp.setVelocity( -pelInComp.playerHorizMoveSpeed, velComp.y );
+                if ( !pelInComp.player.isLookingLeft() )
+                    pelInComp.player.faceLeft();
+                level.getPlayer().startAnimation();
+            }
 
         }
         public void beginMoveRight( PositionComponent posComp, VelocityComponent velComp, PlayerInputComponent pelInComp, AnimationComponent animComp ) {
-            velComp.setVelocity( pelInComp.playerHorizMoveSpeed, velComp.y );
-            if ( !pelInComp.player.isLookingRight() )
-                pelInComp.player.faceRight();
-            level.getPlayer().startAnimation();
+            if ( pelInComp != null && pelInComp.player != null ) {
+                velComp.setVelocity( pelInComp.playerHorizMoveSpeed, velComp.y );
+                if ( !pelInComp.player.isLookingRight() )
+                    pelInComp.player.faceRight();
+                level.getPlayer().startAnimation();
+            }
         }
         public void endLeftHorizontalMove( PositionComponent posComp, VelocityComponent velComp, AnimationComponent animComp ) {
             if ( velComp.x < 0 ) velComp.setVelocity( 0, velComp.y );

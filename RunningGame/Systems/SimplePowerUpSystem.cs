@@ -140,7 +140,9 @@ namespace RunningGame.Systems {
                 VelocityComponent velComp = ( VelocityComponent )e.getComponent( GlobalVars.VELOCITY_COMPONENT_NAME );
                 speedyTimers[e] -= deltaTime;
                 if ( speedyTimers[e] <= 0 || Math.Abs( velComp.x ) < GlobalVars.SPEEDY_SPEED ) {
+                    //If it's not in the air, stop horizontal movement.
                     velComp.setVelocity( 0, velComp.y );
+
                     toRemove.Add( e );
 
                     if ( e is Player ) {
@@ -207,27 +209,27 @@ namespace RunningGame.Systems {
 
             if ( level.getPlayer() == null ) return;
 
-            System.Drawing.Color purpleColor = System.Drawing.Color.Purple;
+            System.Drawing.Color greenColor = System.Drawing.Color.Green;
             System.Drawing.Color blueColor = System.Drawing.Color.Blue;
             System.Drawing.Color orangeColor = System.Drawing.Color.Orange;
             System.Drawing.Color defaultColor = System.Drawing.Color.AliceBlue;
 
-            System.Drawing.Color newBorderCol = defaultColor; //Default Color.
+            System.Drawing.Color newBorderCol = defaultColor; //Default Color. 
 
             if ( up ) {
-                if ( bouncyEquipped ) {
-                    bouncyEquipped = false;
-                    if ( speedyUnlocked ) {
-                        speedyEquipped = true;
-                        level.getPlayer().setBlueImage();
-                        newBorderCol = blueColor;
+                if ( speedyEquipped ) {
+                    speedyEquipped = false;
+                    blockSpawnEquipped = false;
+                    if ( bouncyUnlocked ) {
+                        bouncyEquipped = true;
+                        level.getPlayer().setGreenImage();
+                        newBorderCol = greenColor;
                     } else {
                         level.getPlayer().setNormalImage();
                     }
-                    blockSpawnEquipped = false;
-                } else if ( speedyEquipped ) {
-                    bouncyEquipped = false;
+                } else if ( bouncyEquipped ) {
                     speedyEquipped = false;
+                    bouncyEquipped = false;
                     if ( spawnUnlocked ) {
                         blockSpawnEquipped = true;
                         level.getPlayer().setOrangeImage();
@@ -236,40 +238,13 @@ namespace RunningGame.Systems {
                         level.getPlayer().setNormalImage();
                     }
                 } else if ( blockSpawnEquipped ) {
-                    bouncyEquipped = false;
                     speedyEquipped = false;
+                    bouncyEquipped = false;
                     blockSpawnEquipped = false;
                     level.getPlayer().setNormalImage();
-                } else {
-                    if ( bouncyUnlocked ) {
-                        bouncyEquipped = true;
-                        level.getPlayer().setPurpleImage();
-                        newBorderCol = purpleColor;
-                    } else {
-                        level.getPlayer().setNormalImage();
-                    }
-                    speedyEquipped = false;
-                    blockSpawnEquipped = false;
-                }
-            } else {
-
-                if ( bouncyEquipped ) {
+                } else { //Nothing equipped
                     bouncyEquipped = false;
-                    speedyEquipped = false;
                     blockSpawnEquipped = false;
-                    level.getPlayer().setNormalImage();
-                } else if ( speedyEquipped ) {
-                    if ( bouncyUnlocked ) {
-                        bouncyEquipped = true;
-                        level.getPlayer().setPurpleImage();
-                        newBorderCol = purpleColor;
-                    } else {
-                        level.getPlayer().setNormalImage();
-                    }
-                    speedyEquipped = false;
-                    blockSpawnEquipped = false;
-                } else if ( blockSpawnEquipped ) {
-                    bouncyEquipped = false;
                     if ( speedyUnlocked ) {
                         speedyEquipped = true;
                         level.getPlayer().setBlueImage();
@@ -277,27 +252,54 @@ namespace RunningGame.Systems {
                     } else {
                         level.getPlayer().setNormalImage();
                     }
+                }
+            } else {
+
+                if ( speedyEquipped ) {
+                    speedyEquipped = false;
+                    bouncyEquipped = false;
                     blockSpawnEquipped = false;
-                } else //Nothing equiped
+                    level.getPlayer().setNormalImage();
+                } else if ( bouncyEquipped ) {
+                    bouncyEquipped = false;
+                    blockSpawnEquipped = false;
+                    if ( speedyUnlocked ) {
+                        speedyEquipped = true;
+                        level.getPlayer().setBlueImage();
+                        newBorderCol = blueColor;
+                    } else {
+                        level.getPlayer().setNormalImage();
+                    }
+                } else if ( blockSpawnEquipped ) {
+                    speedyEquipped = false;
+                    blockSpawnEquipped = false;
+                    if ( bouncyUnlocked ) {
+                        bouncyEquipped = true;
+                        level.getPlayer().setGreenImage();
+                        newBorderCol = greenColor;
+                    } else {
+                        level.getPlayer().setNormalImage();
+                    }
+                } else //Nothing equipped
                 {
                     if ( spawnUnlocked ) {
                         blockSpawnEquipped = true;
                         level.getPlayer().setOrangeImage();
                         newBorderCol = orangeColor;
-                        bouncyEquipped = false;
                         speedyEquipped = false;
+                        bouncyEquipped = false;
+                    } else if ( bouncyUnlocked ) {
+                        bouncyEquipped = true;
+                        level.getPlayer().setGreenImage();
+                        newBorderCol = greenColor;
+
+                        speedyEquipped = false;
+                        blockSpawnEquipped = false;
                     } else if ( speedyUnlocked ) {
                         speedyEquipped = true;
                         level.getPlayer().setBlueImage();
                         newBorderCol = blueColor;
-
                         bouncyEquipped = false;
-                        blockSpawnEquipped = false;
-                    } else if ( bouncyUnlocked ) {
-                        bouncyEquipped = true;
-                        level.getPlayer().setPurpleImage();
-                        newBorderCol = purpleColor;
-                        speedyEquipped = false;
                         blockSpawnEquipped = false;
                     } else {
                         bouncyEquipped = false;
@@ -332,16 +334,12 @@ namespace RunningGame.Systems {
         }
 
         public void equppedPowerup() {
-
             if ( bouncyEquipped ) {
-                //Bouncy Call Here
                 createBounce();
             } else if ( speedyEquipped ) {
                 createSpeedy();
             } else if ( blockSpawnEquipped ) {
                 blockSpawn();
-            } else {
-                //Derp
             }
         }
 

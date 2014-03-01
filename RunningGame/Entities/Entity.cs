@@ -72,7 +72,7 @@ namespace RunningGame {
         public Component addComponent( Component comp, bool constructor ) {
             if ( components.ContainsKey( comp.componentName ) ) components.Remove( comp.componentName );
             components.Add( comp.componentName, comp );
-            if ( !constructor ) level.sysManager.componentAdded( this );
+            if ( !constructor && level.sysManager != null ) level.sysManager.componentAdded( this );
             return comp;
         }
         public void removeComponent( Component comp ) {
@@ -89,7 +89,7 @@ namespace RunningGame {
         }
         public void removeComponent( string componentName ) {
             components.Remove( componentName );
-            level.sysManager.componentRemoved( this );
+            if(level.sysManager != null) level.sysManager.componentRemoved( this );
         }
 
         //Get a particular component

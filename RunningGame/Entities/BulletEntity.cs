@@ -9,8 +9,8 @@ namespace RunningGame.Entities {
     [Serializable()]
     public class BulletEntity : Entity {
 
-        public float defaultWidth = 15;
-        public float defaultHeight = 15;
+        public float defaultWidth = 40;
+        public float defaultHeight = 40;
 
         //-------------------------------------------Constructors--------------------------------------------
         public BulletEntity( Level level, float x, float y ) {
@@ -53,16 +53,36 @@ namespace RunningGame.Entities {
              */
             addComponent( new PositionComponent( x, y, defaultWidth, defaultHeight, this ), true );
 
+            //Gravity
+            addComponent( new GravityComponent(0, GlobalVars.STANDARD_GRAVITY/4), true );
+
             /*DRAW COMPONENT - Does it get drawn to the game world?
+             * NOTE: Was PaintBlob11.png before Bullet11.png
              */
             DrawComponent drawComp = ( DrawComponent )addComponent( new DrawComponent( defaultWidth, defaultHeight, level, true ), true );
-            drawComp.addSprite( "Artwork.Foreground.PaintBlob", "RunningGame.Resources.Artwork.Foreground.PaintBlob11.png", "Main" );
-            drawComp.setSprite( "Main" );
 
+
+            List<string> bulletAnimation = new List<string>()
+            {
+                "Artwork.Foreground.Bullet.Bullet1",
+                "Artwork.Foreground.Bullet.Bullet2"
+            };
+
+            List<string> bulletAnimDefaults = new List<string>()
+            {
+                "RunningGame.Resources.Artwork.Foreground.Bullet.Bullet111",
+                "RunningGame.Resources.Artwork.Foreground.Bullet.Bullet211"
+            };
+
+            
+            //drawComp.addSprite( "Artwork.Foreground.Bullet", "RunningGame.Resources.Artwork.Foreground.Bullet11.png", "Main" );
+            drawComp.addAnimatedSprite( bulletAnimation, bulletAnimDefaults, "Main" );
+            drawComp.setSprite( "Main" );
+            
 
             /* ANIMATION COMPONENT - Does it need animating?
              */
-            addComponent( new AnimationComponent( 0.0005f ), true );
+            addComponent( new AnimationComponent( 0.08f ), true );
 
             /*VELOCITY COMPONENT - Does it move?
              */
@@ -70,7 +90,7 @@ namespace RunningGame.Entities {
 
             /*COLLIDER - Does it hit things?
              */
-            addComponent( new ColliderComponent( this, GlobalVars.BULLET_COLLIDER_TYPE ), true );
+            addComponent( new ColliderComponent( this, GlobalVars.BULLET_COLLIDER_TYPE, 10, 10 ), true );
 
             addComponent( new ScreenEdgeComponent( 3, 3, 3, 3 ), true );
         }

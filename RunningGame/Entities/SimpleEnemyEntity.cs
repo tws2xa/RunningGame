@@ -78,7 +78,7 @@ namespace RunningGame.Entities {
             /*COLLIDER - Does it hit things?
              *The second field is the collider type. Look in GlobalVars for a string with the right name.
              */
-            addComponent( new ColliderComponent( this, GlobalVars.SIMPLE_ENEMY_COLLIDER_TYPE ), true );
+            addComponent( new ColliderComponent( this, GlobalVars.SIMPLE_ENEMY_COLLIDER_TYPE, defaultWidth, defaultHeight-4), true );
 
             /*GRAVITY COMPONENT - Does it have Gravity?
              */
@@ -87,7 +87,7 @@ namespace RunningGame.Entities {
 
             /*HEALTH COMPONENT - Does it have health, can it die?
              */
-            addComponent( new HealthComponent( 100, true, 0, 100.0f ), true );
+            addComponent( new HealthComponent( 100, true, 0, 100.0f, level ), true );
 
             /*SIMPLE ENEMY COMPONENT
              */

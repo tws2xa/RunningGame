@@ -126,7 +126,8 @@ namespace RunningGame.Systems {
         }
 
         public void addKey( Keys key ) {
-            myKeys.Add( key, new KeyBools() );
+            if(!myKeys.ContainsKey(key))
+                myKeys.Add( key, new KeyBools() );
         }
 
 

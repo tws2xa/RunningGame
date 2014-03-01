@@ -40,6 +40,18 @@ namespace RunningGame.Systems {
         //draw function, if that timer is greater than 0, make alpha proportion, decrease time in update.
 
         /*FLASH STUFF ends here*/
+
+        //Text Flash
+        public float deltaInAlpha = 0;
+        public float deltaOutAlpha = 0;
+        public int textState = -1;
+        public float textTimer = -1;
+        public SolidBrush textBrush = new SolidBrush(Color.FromArgb(0, Color.White));
+        public string text = "";
+        public Font textFont = SystemFonts.DefaultFont;
+        public bool textShadow = true;
+     
+        
         [NonSerialized]
         Pen selectedEntBorderColor = Pens.Red;
         [NonSerialized]
@@ -50,10 +62,13 @@ namespace RunningGame.Systems {
         bool miniMapOn = false;
 
         public DrawSystem( Graphics g, Level level ) {
+
+            this.textFont = level.displayFont;
+            
             //Required Components
             requiredComponents.Add( GlobalVars.DRAW_COMPONENT_NAME ); //Draw Component
             requiredComponents.Add( GlobalVars.POSITION_COMPONENT_NAME ); //Position Component
-
+            
             this.g = g;
             this.level = level;
 
@@ -132,6 +147,41 @@ namespace RunningGame.Systems {
             } else {
                 alpha = 0;
             }
+
+            if (textState == 0)
+            {
+                int textAlpha = textBrush.Color.A;
+                textAlpha += (int)(deltaInAlpha * deltaTime);
+                if (textAlpha >= 255)
+                {
+                    textState = 1;
+                    textAlpha = 255;
+                }
+                textBrush.Color = Color.FromArgb(textAlpha, textBrush.Color.R, textBrush.Color.G, textBrush.Color.B);
+
+            }
+            else if (textState == 1)
+            {
+                textTimer -= deltaTime;
+                if (textTimer <= 0)
+                {
+                    textTimer = -1;
+                    textState = 2;
+                }
+
+            }
+            else if(textState == 2)
+            {
+                int textAlpha = textBrush.Color.A;
+                textAlpha -= (int)(deltaOutAlpha * deltaTime);
+                if (textAlpha <= 0)
+                {
+                    textState = -1;
+                    textAlpha = 0;
+                }
+                textBrush.Color = Color.FromArgb(textAlpha, textBrush.Color.R, textBrush.Color.G, textBrush.Color.B);
+            }
+
             /*
             if (flashTime < 0)
                 flashTime = 0;
@@ -162,6 +212,18 @@ namespace RunningGame.Systems {
             //how to acces delta time from here
             flashDirection = true;
             flashColor = c;
+        }
+
+        public void activateTextFlash(string text, Color c, float timerIn, float time, float timerOut)
+        {
+            if (textState >= 0)
+                return;
+            this.text = text;
+            deltaInAlpha = (255 / timerIn);
+            deltaOutAlpha = (255 / timerOut);
+            textBrush.Color = Color.FromArgb(0, c);
+            textState = 0;
+            textTimer = time;
         }
         //Explanantion of g
         //g is a brush for an image

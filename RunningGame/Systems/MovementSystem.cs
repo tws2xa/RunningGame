@@ -88,14 +88,6 @@ namespace RunningGame.Systems {
 
             changeLocation( posComp, newX, newY, moveToContactH, moveToContactV );
             
-            /*if ( newX != posComp.x ) {
-                //Console.WriteLine("Changing x from " + posComp.x + " to " + newX);
-                changeSingleAxisLocation( 'X', posComp, newX, moveToContact );
-            }
-            if ( newY != posComp.y ) {
-                //Console.WriteLine("Changing y from " + posComp.y + " to " + newY);
-                changeSingleAxisLocation( 'Y', posComp, newY, moveToContact );
-            }*/
         }
         public void teleportToNoCollisionCheck( PositionComponent posComp, float newX, float newY ) {
             posComp.prevX = posComp.x;
@@ -383,33 +375,63 @@ namespace RunningGame.Systems {
         }
 
         //Returns the closest location (x or y) to entity 2 that entity 1 can be before a collision occurs
-        public float getClosestPositionWithNoCollision( PositionComponent pos1, PositionComponent pos2, bool xDir, bool leftOrUp ) {
+        public float getClosestPositionWithNoCollision( PositionComponent posComp1, PositionComponent posComp2, bool xDir, bool leftOrUp ) {
             float retPos = 0.0f;
 
-            if ( xDir && leftOrUp ) retPos = pos2.x - pos2.width / 2 - pos1.width / 2;
-            else if ( xDir && !leftOrUp ) retPos = pos2.x + pos2.width / 2 + pos1.width / 2;
-            else if ( !xDir && leftOrUp ) retPos = pos2.y - pos2.height / 2 - pos1.height / 2;
-            else if ( !xDir && !leftOrUp ) retPos = pos2.y + pos2.height / 2 + pos1.height / 2;
+            ColliderComponent colComp1 = ( ColliderComponent )posComp1.myEntity.getComponent( GlobalVars.COLLIDER_COMPONENT_NAME );
+            ColliderComponent colComp2 = ( ColliderComponent )posComp2.myEntity.getComponent( GlobalVars.COLLIDER_COMPONENT_NAME );
+
+            //Separated out for easy changing.
+            float e1X = posComp1.x;
+            float e1Y = posComp1.y;
+            float e2X = posComp2.x;
+            float e2Y = posComp2.y;
+            float e1Width = colComp1.width;
+            float e1Height = colComp1.height;
+            float e2Width = colComp2.width;
+            float e2Height = colComp2.height;
+
+            //Center width/height values
+            if ( e1Width != posComp1.width ) {
+                float diff = ( posComp1.width - e1Width );
+                e1X += diff / 2;
+            }
+            if ( e2Width != posComp2.width ) {
+                float diff = ( posComp2.width - e2Width );
+                e2X += diff / 2;
+            }
+            if ( e1Height != posComp1.height ) {
+                float diff = ( posComp1.height - e1Height );
+                e1Y += diff / 2;
+            }
+            if ( e2Height != posComp2.height ) {
+                float diff = ( posComp2.height - e2Height );
+                e2Y += diff / 2;
+            }
+
+            if ( xDir && leftOrUp ) retPos = e2X - e2Width / 2 - e1Width / 2;
+            else if ( xDir && !leftOrUp ) retPos = e2X + e2Width / 2 + e1Width / 2;
+            else if ( !xDir && leftOrUp ) retPos = e2Y - e2Height / 2 - e1Height / 2;
+            else if ( !xDir && !leftOrUp ) retPos = e2Y + e2Height / 2 + e1Height / 2;
 
             if ( !GlobalVars.preciseCollisionChecking ) {
                 return retPos;
             }
 
-            float newX = pos1.x;
-            float newY = pos1.y;
+            float newX = e2X;
+            float newY = e2Y;
 
             if ( xDir ) newX = retPos;
             else newY = retPos;
 
-            List<Entity> cols = level.getCollisionSystem().checkForCollision( pos1.myEntity, newX, newY, pos1.width, pos1.height );
+            List<Entity> cols = level.getCollisionSystem().checkForCollision( posComp1.myEntity, newX, newY, e1Width, e1Height );
             while ( cols.Count <= 0 ) {
                 if ( leftOrUp ) retPos += 1;
                 else retPos -= 1;
                 if ( xDir ) newX = retPos;
                 else newY = retPos;
-                cols = level.getCollisionSystem().checkForCollision( pos1.myEntity, newX, newY, pos1.width, pos1.height );
+                cols = level.getCollisionSystem().checkForCollision( posComp1.myEntity, newX, newY, e1Width, e1Height );
             }
-
 
             return retPos;
         }
@@ -426,7 +448,14 @@ namespace RunningGame.Systems {
             posComp.prevH = posComp.height;
             posComp.height = newH;
 
+            if ( posComp.myEntity.hasComponent( GlobalVars.COLLIDER_COMPONENT_NAME ) ) {
+                ColliderComponent colComp = (ColliderComponent)posComp.myEntity.getComponent( GlobalVars.COLLIDER_COMPONENT_NAME );
+                colComp.width = newW;
+                colComp.height = newH;
+            }
+
             posComp.positionHasChanged = true;
+
         }
         public void changeWidth( PositionComponent posComp, float newW ) {
             changeSize( posComp, newW, posComp.height );

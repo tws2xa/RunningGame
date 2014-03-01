@@ -143,8 +143,15 @@ namespace RunningGame.Components {
             int i = 0;
             foreach ( string str in baseAddresses ) {
                 Bitmap img = readInImage( getImageFilePathName( str ) );
+                //If image not found, check for ones of the same world, perhaps different level
+                if ( img == null )
+                    img = readInImage( getImageFilePathOther1( str ) );
+                if ( img == null )
+                    img = readInImage( getImageFilePathOther2( str ) );
 
                 if ( img == null ) img = readInImage( defaultAddresses[i] );
+
+                if ( img == null ) Console.WriteLine( "Error: Null image for " + spriteName + " baseName: " + str + " defaultFile: " + defaultAddresses[i] );
 
                 newImages.Add( img );
                 i++;
@@ -267,6 +274,12 @@ namespace RunningGame.Components {
         public void switchToPostColorImage() {
             this.setSprite( postColorName, false );
             this.needRedraw = true;
+        }
+        public void switchToPreColorImage() {
+            if ( this.activeSprite == postColorName ) {
+                this.setSprite( postColorName + "" + GlobalVars.PRECOLOR_SPRITE_NAME, false );
+                this.needRedraw = true;
+            }
         }
 
         public string getImageFilePathName( string baseName ) {

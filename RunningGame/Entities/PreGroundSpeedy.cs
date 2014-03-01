@@ -48,7 +48,6 @@ namespace RunningGame.Entities {
             //position and velocity
             addComponent( new PositionComponent( x, y, defaultWidth, defaultHeight, this ), true );
             addComponent( new GravityComponent( 0, GlobalVars.STANDARD_GRAVITY ), true );
-            addComponent( new ColliderComponent( this, GlobalVars.SPEEDY_PREGROUND_COLLIDER_TYPE ), true );
             DrawComponent drawComp = ( DrawComponent )addComponent( new DrawComponent( defaultWidth, defaultHeight, level, true ), true );
             //Add image - Use base name for first parameter (everything in file path after Resources. and before the numbers and .png)
             //Then second parameter is full filepath to a default image
@@ -56,6 +55,8 @@ namespace RunningGame.Entities {
             drawComp.setSprite( "Main" ); //Set image to active image
             addComponent( new VelocityComponent( 0, 0 ) );
 
+
+            addComponent( new ColliderComponent( this, GlobalVars.SPEEDY_PREGROUND_COLLIDER_TYPE ), true );
             //Out of screen removal
             addComponent( new ScreenEdgeComponent( 3, 3, 3, 3 ) );
         }
