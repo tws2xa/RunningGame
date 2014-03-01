@@ -80,7 +80,7 @@ namespace RunningGame {
             addToDictionary( GlobalVars.BOUNCE_PREGROUND_COLLIDER_TYPE, GlobalVars.BOUNCE_POSTGROUND_COLLIDER_TYPE, removeBounceCollision );
             addToDictionary( GlobalVars.BOUNCE_PREGROUND_COLLIDER_TYPE, GlobalVars.SPAWN_BLOCK_COLLIDER_TYPE, doNothingCollision);
 
-            addToDictionary( GlobalVars.SIMPLE_ENEMY_COLLIDER_TYPE, GlobalVars.PLAYER_COLLIDER_TYPE, killPlayerCollision );
+            addToDictionary( GlobalVars.SIMPLE_ENEMY_COLLIDER_TYPE, GlobalVars.PLAYER_COLLIDER_TYPE, damageHealthCollision );
             addToDictionary( GlobalVars.SIMPLE_ENEMY_COLLIDER_TYPE, GlobalVars.SPAWN_BLOCK_COLLIDER_TYPE, spawnEnemyCollision );
 
             //addToDictionary( GlobalVars.MOVING_PLATFORM_COLLIDER_TYPE, GlobalVars.PLAYER_COLLIDER_TYPE, simpleStopCollision );
@@ -504,6 +504,78 @@ namespace RunningGame {
             return true;
 
         }
+
+        public bool damageHealthCollision( Entity e1, Entity e2 ) {
+            //Figure out which entity is the player
+            Player player;
+            Entity enemy;
+            if ( e1 is Player ) {
+                player = ( Player )e1;
+                enemy = e2;
+            } else if ( e2 is Player ) {
+                player = ( Player )e2;
+                enemy = e1;
+            } else {
+                Console.WriteLine( "Halve Health Player Collision with no player..." );
+                return false;
+            }
+
+            //Decrease the player's health (In this case, it just removes it completely.
+            
+            HealthComponent playerHealthComp = ( HealthComponent )player.getComponent( GlobalVars.HEALTH_COMPONENT_NAME );
+            playerHealthComp.subtractFromHealth( (int)Math.Ceiling(playerHealthComp.maxHealth/1.8f) ); //Bubye healths! >:)
+            level.playerImmune = true;
+            if ( !this.level.timerMethods.ContainsKey( level.disableImmune ) ) {
+                this.level.timerMethods.Add( level.disableImmune, 0.30f );
+            }
+
+            VelocityComponent playerVelComp = ( VelocityComponent )player.getComponent( GlobalVars.VELOCITY_COMPONENT_NAME );
+            PositionComponent playerPos = ( PositionComponent )player.getComponent( GlobalVars.POSITION_COMPONENT_NAME );
+            PositionComponent enemyPos = ( PositionComponent )enemy.getComponent( GlobalVars.POSITION_COMPONENT_NAME );
+            ColliderComponent playerCol = ( ColliderComponent )player.getComponent( GlobalVars.COLLIDER_COMPONENT_NAME );
+            ColliderComponent enemyCol = ( ColliderComponent )enemy.getComponent( GlobalVars.COLLIDER_COMPONENT_NAME );
+    
+            float playerLeft = (playerCol.getX(playerPos)-playerCol.width/2);
+            float playerRight = ( playerCol.getX( playerPos ) + playerCol.width / 2 );
+            float enemyLeft = ( enemyCol.getX( enemyPos ) - enemyCol.width / 2 );
+            float enemyRight = ( enemyCol.getX( enemyPos ) + enemyCol.width / 2 );
+
+            float playerUp = ( playerCol.getY( playerPos ) - playerCol.height / 2 );
+            float playerDown = ( playerCol.getY( playerPos ) + playerCol.height / 2 );
+            float enemyUp = ( enemyCol.getY( enemyPos ) - enemyCol.height / 2 );
+            float enemyDown = ( enemyCol.getY( enemyPos ) + enemyCol.height / 2 );
+            
+            float reboundSpeedX = 170;
+            float reboundSpeedY = 100;
+            float buffer = 5;
+
+            bool doLeft = ( ( playerRight - enemyLeft ) < buffer );
+            bool doRight = ( ( enemyRight - playerLeft ) < buffer );
+            bool doUp = ( ( playerDown - enemyUp ) < buffer );
+            bool doDown = ( ( enemyDown - playerUp ) < buffer );
+
+            //Player is left
+            if ( doLeft ) {
+                playerVelComp.setVelocity( -reboundSpeedX, playerVelComp.y );
+            }
+            //Player right
+            else if ( doRight ) {
+                playerVelComp.setVelocity( reboundSpeedX, playerVelComp.y );
+            }
+            //Player is up
+            if ( doUp ) {
+                playerVelComp.setVelocity( playerVelComp.x, -reboundSpeedY );
+            }
+            //Player down
+            else if (doDown) {
+                playerVelComp.setVelocity( playerVelComp.x, reboundSpeedY );
+            }
+            
+
+            //Do bother stopping movement
+            return true;
+        }
+
 
         //This occurs when the bullet collides with something that isn't an enemy
         //It finds and removes the bullet.

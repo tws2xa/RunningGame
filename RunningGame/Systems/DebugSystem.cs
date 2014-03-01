@@ -21,6 +21,7 @@ namespace RunningGame.Systems {
         Keys endLevelKey = Keys.Escape;
         Keys skipLevelKey = Keys.F1;
         Keys typeKey = Keys.T; //prints out the all entity types to console
+        Keys infoKey = Keys.I;
 
 
         Keys toggleBounce = Keys.D1;
@@ -61,6 +62,7 @@ namespace RunningGame.Systems {
                 level.getInputSystem().addKey( endLevelKey );
                 level.getInputSystem().addKey( skipLevelKey );
                 level.getInputSystem().addKey( typeKey );
+                level.getInputSystem().addKey( infoKey );
 
 
                 level.getInputSystem().addKey( toggleBounce );
@@ -90,10 +92,6 @@ namespace RunningGame.Systems {
                 HealthComponent healthComp = ( HealthComponent )level.getPlayer().getComponent( GlobalVars.HEALTH_COMPONENT_NAME );
                 healthComp.subtractFromHealth( 25 );
             }
-             * 
-            if ( level.getInputSystem().myKeys[typeKey].down ) {
-                getTypes();
-            }
 
 
             if ( level.getInputSystem().myKeys[toggleBounce].down ) {
@@ -115,6 +113,14 @@ namespace RunningGame.Systems {
                 togglePowerup( GlobalVars.SPAWN_NUM );
             }
             */
+
+            if ( level.getInputSystem().myKeys[typeKey].down ) {
+                getTypes();
+            }
+            if ( level.getInputSystem().myKeys[infoKey].down ) {
+                getInfo();
+            }
+
             if ( level.getInputSystem().myKeys[resetLevelKey].up ) {
                 level.resetLevel();
             }
@@ -142,10 +148,33 @@ namespace RunningGame.Systems {
             List<Entity> entities = getApplicableEntities();
 
             foreach ( Entity e in entities ) {
-                if ( !( e is BackgroundEntity ) )
-                    Console.WriteLine( e.GetType() );
+                if ( !( e is BasicGround ) )
+                    Console.WriteLine( e );
             }
 
+        }
+
+        public void getInfo() {
+
+            foreach ( Entity e in GlobalVars.nonGroundEntities.Values ) {
+                if ( e is MovingPlatformEntity ) {
+                    printInfo( e );
+                }
+            }
+
+        }
+
+        public void printInfo( Entity e ) {
+            Console.WriteLine( "Info For: " + e );
+            Console.WriteLine( "\t------ COMPONENTS ------" );
+            foreach(Component c in e.getComponents()) {
+                Console.WriteLine("\t" + c);
+            }
+            if(e.hasComponent(GlobalVars.POSITION_COMPONENT_NAME)) {
+                Console.WriteLine( "\t------ POSITION ------" );
+                PositionComponent posComp = ( PositionComponent )e.getComponent( GlobalVars.POSITION_COMPONENT_NAME );
+                Console.WriteLine("\t(" + posComp.x + ", " + posComp.y + ")");
+            }
         }
 
         void togglePowerup( int pupNum ) {

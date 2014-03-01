@@ -15,6 +15,7 @@ namespace RunningGame.Components {
         public int rechargeAmt { get; set; } //Health per rechargeTime
         public float timeSinceRecharge { get; set; }
         public float rechargeTime { get; set; } //How often it recharges
+        Level level;
 
         [NonSerialized]
         public Brush backHealthBarBrush;
@@ -23,7 +24,7 @@ namespace RunningGame.Components {
         public bool showBarOnFull { get; set; }
 
         //Create component, give full health to start.
-        public HealthComponent( int maxHealth, bool healthBar, int rechargeAmt, float rechargeTime ) {
+        public HealthComponent( int maxHealth, bool healthBar, int rechargeAmt, float rechargeTime, Level level ) {
 
             componentName = GlobalVars.HEALTH_COMPONENT_NAME;
 
@@ -32,6 +33,7 @@ namespace RunningGame.Components {
             this.healthBar = healthBar;
             this.rechargeAmt = rechargeAmt;
             this.rechargeTime = rechargeTime;
+            this.level = level;
             timeSinceRecharge = 0.0f;
 
             backHealthBarBrush = Brushes.DarkGray;
@@ -39,7 +41,7 @@ namespace RunningGame.Components {
             showBarOnFull = false;
         }
         //Create compoenent with given starting health.
-        public HealthComponent( int startingHealth, int maxHealth, bool healthBar, int rechargeRate ) {
+        public HealthComponent( int startingHealth, int maxHealth, bool healthBar, int rechargeRate, Level level ) {
 
             componentName = GlobalVars.HEALTH_COMPONENT_NAME;
 
@@ -48,6 +50,7 @@ namespace RunningGame.Components {
             this.healthBar = healthBar;
             this.rechargeAmt = rechargeAmt;
             this.rechargeTime = rechargeTime;
+            this.level = level;
             timeSinceRecharge = 0.0f;
 
             backHealthBarBrush = Brushes.Gray;
@@ -64,7 +67,9 @@ namespace RunningGame.Components {
         }
 
         public int subtractFromHealth( int amt ) {
-            health -= amt;
+            if ( !level.playerImmune ) {
+                health -= amt;
+            }
             return health;
         }
 

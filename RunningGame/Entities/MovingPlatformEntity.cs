@@ -12,6 +12,8 @@ namespace RunningGame.Entities {
 
         public float defaultWidth = 40;
         public float defaultHeight = 15;
+        public float imageHeight = 15;
+        public float imageWidth = 40;
 
         //-------------------------------------------Constructors--------------------------------------------
         //One takes in an ID, the other generats it.
@@ -56,10 +58,45 @@ namespace RunningGame.Entities {
 
             /*DRAW COMPONENT - Does it get drawn to the game world?
              */
-            DrawComponent drawComp = ( DrawComponent )addComponent( new DrawComponent( defaultWidth, defaultHeight, level, true ), true );
-            drawComp.addSprite( "Artwork.Other.WhiteSquare", "RunningGame.Resources.Artwork.Other.WhiteSquare.png", "Main" ); //Add image
+            DrawComponent drawComp = ( DrawComponent )addComponent( new DrawComponent( imageWidth, imageHeight, level, true ), true );
+            drawComp.addSprite( "Artwork.Foreground.MovPlat", "RunningGame.Resources.Artwork.Foreground.MovPlat1.png", "Main" ); //Add image
             drawComp.setSprite( "Main" ); //Set image to active image
 
+            /*Animation
+            addComponent( new AnimationComponent( 0.05f ) );
+
+
+            List<string> anim = new List<string>()
+            {
+                "Artwork.Foreground.MovPlat1",
+                "Artwork.Foreground.MovPlat2",
+                "Artwork.Foreground.MovPlat3",
+                "Artwork.Foreground.MovPlat4",
+                "Artwork.Foreground.MovPlat5",
+                "Artwork.Foreground.MovPlat6",
+                "Artwork.Foreground.MovPlat5",
+                "Artwork.Foreground.MovPlat4",
+                "Artwork.Foreground.MovPlat3",
+                "Artwork.Foreground.MovPlat2",
+            };
+
+            List<string> animDefaults = new List<string>()
+            {
+                "RunningGame.Resources.Artwork.Foreground.MovPLat111.png",
+                "RunningGame.Resources.Artwork.Foreground.MovPLat211.png",
+                "RunningGame.Resources.Artwork.Foreground.MovPLat311.png",
+                "RunningGame.Resources.Artwork.Foreground.MovPLat411.png",
+                "RunningGame.Resources.Artwork.Foreground.MovPLat511.png",
+                "RunningGame.Resources.Artwork.Foreground.MovPLat611.png",
+                "RunningGame.Resources.Artwork.Foreground.MovPLat511.png",
+                "RunningGame.Resources.Artwork.Foreground.MovPLat411.png",
+                "RunningGame.Resources.Artwork.Foreground.MovPLat311.png",
+                "RunningGame.Resources.Artwork.Foreground.MovPLat211.png",
+            };
+
+            drawComp.addAnimatedSprite( anim, animDefaults, "MainAnim" );
+            drawComp.setSprite( "MainAnim" );
+            */
             /*VELOCITY COMPONENT - Does it move?
              */
             addComponent( new VelocityComponent( 0, GlobalVars.MOVING_PLATFORM_SPEED ), true );
@@ -67,7 +104,7 @@ namespace RunningGame.Entities {
             /*COLLIDER - Does it hit things?
              *The second field is the collider type. Look in GlobalVars for a string with the right name.
              */
-            addComponent( new ColliderComponent( this, GlobalVars.MOVING_PLATFORM_COLLIDER_TYPE ), true );
+            addComponent( new ColliderComponent( this, GlobalVars.MOVING_PLATFORM_COLLIDER_TYPE, defaultWidth, defaultHeight ), true );
 
             /*MOVING PLATFORM COMPONENT
              */

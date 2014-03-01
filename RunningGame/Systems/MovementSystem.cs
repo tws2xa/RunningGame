@@ -88,14 +88,6 @@ namespace RunningGame.Systems {
 
             changeLocation( posComp, newX, newY, moveToContactH, moveToContactV );
             
-            /*if ( newX != posComp.x ) {
-                //Console.WriteLine("Changing x from " + posComp.x + " to " + newX);
-                changeSingleAxisLocation( 'X', posComp, newX, moveToContact );
-            }
-            if ( newY != posComp.y ) {
-                //Console.WriteLine("Changing y from " + posComp.y + " to " + newY);
-                changeSingleAxisLocation( 'Y', posComp, newY, moveToContact );
-            }*/
         }
         public void teleportToNoCollisionCheck( PositionComponent posComp, float newX, float newY ) {
             posComp.prevX = posComp.x;

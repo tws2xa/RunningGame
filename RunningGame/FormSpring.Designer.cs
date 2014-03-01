@@ -38,11 +38,15 @@
             this.btnPlay = new System.Windows.Forms.Button();
             this.btnWorld6 = new System.Windows.Forms.Button();
             this.displayFontLbl = new System.Windows.Forms.Label();
+            this.btnControls = new System.Windows.Forms.Button();
+            this.btnControlReturn = new System.Windows.Forms.Button();
+            this.lblJump = new System.Windows.Forms.Label();
+            this.btnSetJump = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // btnBegin
             // 
-            this.btnBegin.Location = new System.Drawing.Point(502, 432);
+            this.btnBegin.Location = new System.Drawing.Point(135, 431);
             this.btnBegin.Name = "btnBegin";
             this.btnBegin.Size = new System.Drawing.Size(126, 41);
             this.btnBegin.TabIndex = 0;
@@ -63,7 +67,7 @@
             // btnEdit
             // 
             this.btnEdit.Enabled = false;
-            this.btnEdit.Location = new System.Drawing.Point(502, 386);
+            this.btnEdit.Location = new System.Drawing.Point(135, 385);
             this.btnEdit.Name = "btnEdit";
             this.btnEdit.Size = new System.Drawing.Size(126, 41);
             this.btnEdit.TabIndex = 2;
@@ -194,6 +198,56 @@
             this.displayFontLbl.Tag = "displayFontLbl";
             this.displayFontLbl.Text = "Display Text Demo";
             this.displayFontLbl.Visible = false;
+            this.displayFontLbl.Click += new System.EventHandler(this.displayFontLbl_Click);
+            // 
+            // btnControls
+            // 
+            this.btnControls.Location = new System.Drawing.Point(502, 431);
+            this.btnControls.Name = "btnControls";
+            this.btnControls.Size = new System.Drawing.Size(126, 41);
+            this.btnControls.TabIndex = 15;
+            this.btnControls.Text = "Controls";
+            this.btnControls.UseVisualStyleBackColor = true;
+            this.btnControls.Click += new System.EventHandler(this.btnControls_Click);
+            // 
+            // btnControlReturn
+            // 
+            this.btnControlReturn.Enabled = false;
+            this.btnControlReturn.Location = new System.Drawing.Point(511, 448);
+            this.btnControlReturn.Name = "btnControlReturn";
+            this.btnControlReturn.Size = new System.Drawing.Size(117, 25);
+            this.btnControlReturn.TabIndex = 16;
+            this.btnControlReturn.Text = "Return";
+            this.btnControlReturn.UseVisualStyleBackColor = true;
+            this.btnControlReturn.Visible = false;
+            this.btnControlReturn.Click += new System.EventHandler(this.btnControlReturn_Click);
+            // 
+            // lblJump
+            // 
+            this.lblJump.AutoSize = true;
+            this.lblJump.BackColor = System.Drawing.Color.Transparent;
+            this.lblJump.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblJump.Location = new System.Drawing.Point(507, 325);
+            this.lblJump.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblJump.Name = "lblJump";
+            this.lblJump.Size = new System.Drawing.Size(48, 20);
+            this.lblJump.TabIndex = 17;
+            this.lblJump.Tag = "displayFontLbl";
+            this.lblJump.Text = "Jump";
+            this.lblJump.Visible = false;
+            // 
+            // btnSetJump
+            // 
+            this.btnSetJump.Enabled = false;
+            this.btnSetJump.Location = new System.Drawing.Point(568, 324);
+            this.btnSetJump.Name = "btnSetJump";
+            this.btnSetJump.Size = new System.Drawing.Size(60, 25);
+            this.btnSetJump.TabIndex = 18;
+            this.btnSetJump.Text = "W";
+            this.btnSetJump.UseVisualStyleBackColor = true;
+            this.btnSetJump.Visible = false;
+            this.btnSetJump.Click += new System.EventHandler(this.button1_Click_1);
+            this.btnSetJump.KeyDown += new System.Windows.Forms.KeyEventHandler(this.btnSetJump_KeyDown);
             // 
             // FormSpring
             // 
@@ -203,6 +257,10 @@
             this.BackgroundImage = global::RunningGame.Properties.Resources.SpringBlurSmall;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(640, 480);
+            this.Controls.Add(this.btnSetJump);
+            this.Controls.Add(this.lblJump);
+            this.Controls.Add(this.btnControlReturn);
+            this.Controls.Add(this.btnControls);
             this.Controls.Add(this.displayFontLbl);
             this.Controls.Add(this.btnWorld6);
             this.Controls.Add(this.btnPlay);
@@ -250,6 +308,10 @@
         private System.Windows.Forms.Button btnPlay;
         private System.Windows.Forms.Button btnWorld6;
         private System.Windows.Forms.Label displayFontLbl;
+        private System.Windows.Forms.Button btnControls;
+        private System.Windows.Forms.Button btnControlReturn;
+        private System.Windows.Forms.Label lblJump;
+        private System.Windows.Forms.Button btnSetJump;
     }
 }
 

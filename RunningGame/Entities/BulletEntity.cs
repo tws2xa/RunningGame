@@ -53,6 +53,9 @@ namespace RunningGame.Entities {
              */
             addComponent( new PositionComponent( x, y, defaultWidth, defaultHeight, this ), true );
 
+            //Gravity
+            addComponent( new GravityComponent(0, GlobalVars.STANDARD_GRAVITY/4), true );
+
             /*DRAW COMPONENT - Does it get drawn to the game world?
              * NOTE: Was PaintBlob11.png before Bullet11.png
              */

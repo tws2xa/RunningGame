@@ -106,7 +106,7 @@ namespace RunningGame.Entities {
              *Parameters: maxHealth, startingHealth, draw a health bar?, recharge amount, recharge time
              *Basically, every rechargeTime, the entity regenerates rechargeAmount
              */
-            addComponent( new HealthComponent( 100, 100, true, 5 ), true );
+            addComponent( new HealthComponent( 100, 100, true, 5, level ), true );
 
             //Edge of screen component
             addComponent( new ScreenEdgeComponent( 1, 1, 1, 1 ), true );

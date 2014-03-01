@@ -20,7 +20,6 @@ namespace RunningGame {
         delegate void resetDelegate();
         delegate void resetDelegate2( int world, int num );
 
-
         //The width of the window
         const int CLIENT_WIDTH = 640;
         //The height of the window
@@ -76,6 +75,7 @@ namespace RunningGame {
 
         //Load level (For default level)
         private void loadLevel() {
+            showHideControlButtons(false);
             //Hide all buttons!
             foreach ( Control c in this.Controls ) {
                 if ( c is Button ) {
@@ -176,7 +176,7 @@ namespace RunningGame {
             GlobalVars.levels[1][1] = "RunningGame.Resources.Levels.World2Level2.png";
             GlobalVars.levels[1][2] = "RunningGame.Resources.Levels.World2Level31.png";
 
-            GlobalVars.levels[2][0] = "RunningGame.Resources.Levels.World3Level1.png";
+            GlobalVars.levels[2][0] = "RunningGame.Resources.Levels.World3Level1_new.png";
             GlobalVars.levels[2][1] = "RunningGame.Resources.Levels.World3Level2.png";
             GlobalVars.levels[2][2] = "RunningGame.Resources.Levels.World3Level3.png";
 
@@ -309,6 +309,15 @@ namespace RunningGame {
             btnLvlReturn.Enabled = show;
         }
 
+        //Show/hides the control buttons
+        private void showHideControlButtons( bool show ) {
+            this.btnControlReturn.Visible = show;
+            this.btnControlReturn.Enabled = show;
+            this.lblJump.Visible = show;
+            this.btnSetJump.Visible = show;
+            this.btnSetJump.Enabled = show;
+        }
+
         //Show/hides the select world buttons
         private void showHideWorldButtons( bool show ) {
             btnWorld1.Visible = show;
@@ -340,9 +349,12 @@ namespace RunningGame {
             } else {
                 showHideLevelButtons( false );
                 showHideWorldButtons( false );
+                showHideControlButtons( false );
                 this.BackgroundImage = bkgImg;
                 this.btnPlay.Enabled = true;
                 this.btnPlay.Visible = true;
+                this.btnControls.Enabled = true;
+                this.btnControls.Visible = true;
                 game.close();
                 game = null;
             }
@@ -397,16 +409,18 @@ namespace RunningGame {
         //-----------------------------------------INPUT-----------------------------------------------
 
         //Called when a key is released
-        private void FormRunningGame_KeyUp( object sender, KeyEventArgs e ) {
+        private void FormRunningGame_KeyUp(object sender, KeyEventArgs e)
+        {
             e.Handled = true;
             e.SuppressKeyPress = true;
             //If the game is running...
-            if ( game != null ) {
+            if (game != null)
+            {
                 //Let the game know that the key was released
-                game.KeyUp( e );
+                game.KeyUp(e);
                 //If the key is contained in downKeys, remove it. (It is no longer down)
-                if ( downKeys.Contains( e.KeyData ) )
-                    downKeys.Remove( e.KeyData );
+                if (downKeys.Contains(e.KeyData))
+                    downKeys.Remove(e.KeyData);
             }
         }
 
@@ -421,22 +435,27 @@ namespace RunningGame {
         }
 
         //Called when a key is first pushed
-        private void FormRunningGame_KeyDown( object sender, KeyEventArgs e ) {
+        private void FormRunningGame_KeyDown(object sender, KeyEventArgs e)
+        {
 
             e.Handled = true;
             e.SuppressKeyPress = true;
 
             //If the game is running...
-            if ( game != null ) {
+            if (game != null)
+            {
                 //If it hasn;t already been registered as pressed
-                if ( !downKeys.Contains( e.KeyData ) ) {
+                if (!downKeys.Contains(e.KeyData))
+                {
                     //Tell the game it was pressed
-                    game.KeyDown( e );
+                    game.KeyDown(e);
                     //Add it to the list of pressed keys
-                    downKeys.Add( e.KeyData );
+                    downKeys.Add(e.KeyData);
 
                 }
             }
+
+
         }
 
         //Called when the mouse is clicked in the form
@@ -444,6 +463,45 @@ namespace RunningGame {
             //If the game is running, tell the game that the mouse was clicked
             if ( game != null )
                 game.MouseClick( e );
+        }
+
+        private void btnControls_Click( object sender, EventArgs e ) {
+            btnControls.Visible = false;
+            btnControls.Enabled = false;
+            showHideControlButtons( true );
+        }
+
+        private void btnControlReturn_Click( object sender, EventArgs e ) {
+            showHideControlButtons( false );
+            btnControls.Visible = true;
+            btnControls.Enabled = true;
+        }
+
+        private void displayFontLbl_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void lblJump_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button1_Click_1(object sender, EventArgs e)
+        {
+            btnSetJump.Text = "";
+            GlobalVars.reservedKeys.Remove(GlobalVars.KEY_JUMP);
+            btnControlReturn.Enabled = false;
+        }
+
+        private void btnSetJump_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (!GlobalVars.reservedKeys.Contains(e.KeyData)) {
+                GlobalVars.reservedKeys.Add(e.KeyData);
+            btnSetJump.Text = Convert.ToString(e.KeyData);
+            GlobalVars.KEY_JUMP = e.KeyData;
+            btnControlReturn.Enabled = true;
+            }
         }
 
         //---------------------------------------------------------------------------------------------
