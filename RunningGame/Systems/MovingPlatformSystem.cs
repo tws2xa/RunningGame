@@ -79,9 +79,9 @@ namespace RunningGame.Systems {
                     movPlatComp.wasStoppedLastFrame = false;
                 }
 
-                float upperLeftX = posComp.x - colComp.width/2;
-                float upperRightX = posComp.x + colComp.width/2;
-                float upperY = posComp.y - colComp.height/2 - 3;
+                float upperLeftX = colComp.getX(posComp) - colComp.width/2;
+                float upperRightX = colComp.getX(posComp) + colComp.width/2;
+                float upperY = colComp.getY(posComp) - colComp.height/2 - 3;
 
                 System.Drawing.PointF leftPoint = new System.Drawing.PointF(upperLeftX, upperY);
                 System.Drawing.PointF rightPoint = new System.Drawing.PointF(upperRightX, upperY);
@@ -101,7 +101,7 @@ namespace RunningGame.Systems {
                                     if(otherVel.y >= 0)
                                         otherVel.y -= otherGrav.y * deltaTime;
                                 }
-                                level.getMovementSystem().changePosition( otherPos, otherPos.x, posComp.y - colComp.height / 2 - otherCol.height / 2 - 3, false, false );
+                                level.getMovementSystem().changePosition( otherPos, otherPos.x, colComp.getY(posComp) - colComp.height / 2 - otherCol.height / 2 - 3, false, false );
                             }
                         } else {
                             if ( ( velComp.x <= 0 && otherVel.x >= velComp.x ) || ( velComp.x >= 0 && otherVel.x <= velComp.y ) ) {
@@ -113,9 +113,9 @@ namespace RunningGame.Systems {
                                 }
 
                                 if ( otherEnt is Entities.Player ) {
-                                    level.getMovementSystem().changePosition( otherPos, otherPos.x + velComp.x * deltaTime, posComp.y - colComp.height / 2 - otherCol.height / 2 - 3, false, false );
+                                    level.getMovementSystem().changePosition( otherPos, otherPos.x + velComp.x * deltaTime, colComp.getY(posComp) - colComp.height / 2 - otherCol.height / 2 - 3, false, false );
                                 }  else {
-                                    level.getMovementSystem().changePosition( otherPos, otherPos.x, posComp.y - colComp.height / 2 - otherCol.height / 2 - 3, false, false );
+                                    level.getMovementSystem().changePosition( otherPos, otherPos.x, colComp.getY(posComp) - colComp.height / 2 - otherCol.height / 2 - 3, false, false );
                                 }
                             }
                         }
