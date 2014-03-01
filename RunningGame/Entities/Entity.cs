@@ -117,7 +117,10 @@ namespace RunningGame {
             return components.ContainsValue( comp );
         }
 
-
+        public List<Component> getComponents() {
+            return components.Values.ToList<Component>();
+        }
+        
         public abstract void revertToStartingState();
     }
 }
