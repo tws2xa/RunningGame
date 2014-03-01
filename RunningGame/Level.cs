@@ -139,6 +139,8 @@ namespace RunningGame {
             setPowerups();
 
             resetLevel();
+
+            sysManager.Update( 0 );
         }
 
         //This looks at the world and level numbers to figure out which powerups
