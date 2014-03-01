@@ -32,6 +32,9 @@ namespace RunningGame {
         //This is used to prevent repeated calls of KeyPressed
         public List<Keys> downKeys = new List<Keys>();
 
+        System.Media.SoundPlayer titleMusicPlayer;
+            
+
         //When the form starts up, initialize it.
         public FormSpring() {
             InitializeComponent();
@@ -44,6 +47,11 @@ namespace RunningGame {
 
             //Set it to double buffered.
             this.DoubleBuffered = true;
+
+
+            System.IO.Stream stream = System.Reflection.Assembly.GetExecutingAssembly().GetManifestResourceStream( "RunningGame.Resources.Sounds.TitleTest.wav" );
+            titleMusicPlayer = new System.Media.SoundPlayer( stream );
+            titleMusicPlayer.PlayLooping();
 
             addLevels();
 
@@ -347,6 +355,7 @@ namespace RunningGame {
             if ( InvokeRequired ) {
                 Invoke( new resetDelegate( Reset ) );
             } else {
+                titleMusicPlayer.PlayLooping();
                 showHideLevelButtons( false );
                 showHideWorldButtons( false );
                 showHideControlButtons( false );
@@ -386,6 +395,9 @@ namespace RunningGame {
                     c.Visible = false;
                 }
             }
+
+            //Stop sound
+            titleMusicPlayer.Stop();
 
             //Clear the background image
             this.BackgroundImage = null;
