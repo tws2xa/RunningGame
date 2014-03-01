@@ -106,178 +106,187 @@ namespace RunningGame {
 
             //g.FillRectangle(bkgBrush, new Rectangle(0, 0, (int)width, (int)height)); //Clear
 
-            if ( !hasDecreasedQuality ) {
-                g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor; // or NearestNeighbour
-                g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.None;
-                g.PixelOffsetMode = System.Drawing.Drawing2D.PixelOffsetMode.None;
-                g.CompositingQuality = System.Drawing.Drawing2D.CompositingQuality.HighSpeed;
-                g.TextRenderingHint = System.Drawing.Text.TextRenderingHint.SingleBitPerPixel;
+            if ( !(level is RunningGame.Level_Editor.CreationLevel) ) {
 
-                mainG.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor; // or NearestNeighbour
-                mainG.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.None;
-                mainG.PixelOffsetMode = System.Drawing.Drawing2D.PixelOffsetMode.None;
-                mainG.CompositingQuality = System.Drawing.Drawing2D.CompositingQuality.HighSpeed;
-                mainG.TextRenderingHint = System.Drawing.Text.TextRenderingHint.SingleBitPerPixel;
+                if ( !hasDecreasedQuality ) {
+                    g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor; // or NearestNeighbour
+                    g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.None;
+                    g.PixelOffsetMode = System.Drawing.Drawing2D.PixelOffsetMode.None;
+                    g.CompositingQuality = System.Drawing.Drawing2D.CompositingQuality.HighSpeed;
+                    g.TextRenderingHint = System.Drawing.Text.TextRenderingHint.SingleBitPerPixel;
 
-                hasDecreasedQuality = true;
-            }
+                    mainG.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor; // or NearestNeighbour
+                    mainG.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.None;
+                    mainG.PixelOffsetMode = System.Drawing.Drawing2D.PixelOffsetMode.None;
+                    mainG.CompositingQuality = System.Drawing.Drawing2D.CompositingQuality.HighSpeed;
+                    mainG.TextRenderingHint = System.Drawing.Text.TextRenderingHint.SingleBitPerPixel;
 
-            //Find background Entity first if need be
-            if ( bkgEnt == null ) {
-
-                foreach ( Entity e in entities ) {
-
-                    if ( e is BackgroundEntity ) {
-                        bkgEnt = ( BackgroundEntity )e; //Find background entity
-                    }
+                    hasDecreasedQuality = true;
                 }
-            }
 
-            if ( staticObjImg == null /*|| redrawStatics*/) {
-                if ( seperateStaticObjImage ) {
-                    staticObjImg = new Bitmap( ( int )Math.Ceiling( level.levelWidth ), ( int )Math.Ceiling( level.levelHeight ) );
-                } else {
+                //Find background Entity first if need be
+                if ( bkgEnt == null ) {
+
                     foreach ( Entity e in entities ) {
 
                         if ( e is BackgroundEntity ) {
-                            if ( bkgEnt == null )
-                                bkgEnt = ( BackgroundEntity )e; //Find background entity
-                            DrawComponent bkgDraw = ( DrawComponent )bkgEnt.getComponent( GlobalVars.DRAW_COMPONENT_NAME );
-                            staticObjImg = ( Bitmap )bkgDraw.getImage();
+                            bkgEnt = ( BackgroundEntity )e; //Find background entity
                         }
                     }
                 }
 
-                //Draw static entities onto background
-                if ( !GlobalVars.fullForegroundImage ) {
-                    foreach ( Entity ent in GlobalVars.groundEntities.Values ) {
+                if ( staticObjImg == null /*|| redrawStatics*/) {
+                    if ( seperateStaticObjImage ) {
+                        staticObjImg = new Bitmap( ( int )Math.Ceiling( level.levelWidth ), ( int )Math.Ceiling( level.levelHeight ) );
+                    } else {
+                        foreach ( Entity e in entities ) {
 
-                        DrawComponent grnDraw = ( DrawComponent )ent.getComponent( GlobalVars.DRAW_COMPONENT_NAME );
-
-                        /*DrawComponent bkgDraw = (DrawComponent)bkgEnt.getComponent(GlobalVars.DRAW_COMPONENT_NAME);
-
-                        PositionComponent posComp = (PositionComponent)ent.getComponent(GlobalVars.POSITION_COMPONENT_NAME);
-                        PointF drawPoint = posComp.getPointF();
-                        drawPoint.X -= (posComp.width / 2.0f);
-                        drawPoint.Y -= (posComp.height / 2.0f);
-
-                        Graphics graph = Graphics.FromImage(bkgDraw.getImage());*/
-
-
-                        PositionComponent posComp = ( PositionComponent )ent.getComponent( GlobalVars.POSITION_COMPONENT_NAME );
-                        PointF drawPoint = posComp.getPointF();
-                        drawPoint.X -= ( posComp.width / 2.0f );
-                        drawPoint.Y -= ( posComp.height / 2.0f );
-
-                        Graphics graph = Graphics.FromImage( staticObjImg );
-                        lock ( grnDraw.getImage() ) {
-                            graph.DrawImageUnscaled( grnDraw.getImage(), new Point( ( int )drawPoint.X, ( int )drawPoint.Y ) ); //Draw the image to the view
+                            if ( e is BackgroundEntity ) {
+                                if ( bkgEnt == null )
+                                    bkgEnt = ( BackgroundEntity )e; //Find background entity
+                                DrawComponent bkgDraw = ( DrawComponent )bkgEnt.getComponent( GlobalVars.DRAW_COMPONENT_NAME );
+                                staticObjImg = ( Bitmap )bkgDraw.getImage();
+                            }
                         }
-                        grnDraw.needRedraw = false;
-                        //redrawStatics = false;
+                    }
+
+                    //Draw static entities onto background
+                    if ( !GlobalVars.fullForegroundImage ) {
+                        foreach ( Entity ent in GlobalVars.groundEntities.Values ) {
+
+                            DrawComponent grnDraw = ( DrawComponent )ent.getComponent( GlobalVars.DRAW_COMPONENT_NAME );
+
+                            /*DrawComponent bkgDraw = (DrawComponent)bkgEnt.getComponent(GlobalVars.DRAW_COMPONENT_NAME);
+
+                            PositionComponent posComp = (PositionComponent)ent.getComponent(GlobalVars.POSITION_COMPONENT_NAME);
+                            PointF drawPoint = posComp.getPointF();
+                            drawPoint.X -= (posComp.width / 2.0f);
+                            drawPoint.Y -= (posComp.height / 2.0f);
+
+                            Graphics graph = Graphics.FromImage(bkgDraw.getImage());*/
+
+
+                            PositionComponent posComp = ( PositionComponent )ent.getComponent( GlobalVars.POSITION_COMPONENT_NAME );
+                            PointF drawPoint = posComp.getPointF();
+                            drawPoint.X -= ( posComp.width / 2.0f );
+                            drawPoint.Y -= ( posComp.height / 2.0f );
+
+                            Graphics graph = Graphics.FromImage( staticObjImg );
+                            lock ( grnDraw.getImage() ) {
+                                graph.DrawImageUnscaled( grnDraw.getImage(), new Point( ( int )drawPoint.X, ( int )drawPoint.Y ) ); //Draw the image to the view
+                            }
+                            grnDraw.needRedraw = false;
+                            //redrawStatics = false;
+                        }
+                    }
+
+                }
+
+                //First, if there's a background entity, draw that!
+                if ( bkgEnt != null )
+                    drawBkgEntity( bkgEnt );
+                if ( seperateStaticObjImage ) {
+                    drawStaticObjImage();
+                }
+
+
+                //If there's a grapple, draw it
+                if ( level.sysManager != null && level.sysManager.grapSystem.isGrappling ) {
+                    foreach ( Entity e in GlobalVars.nonGroundEntities.Values ) {
+                        if ( e is GrappleEntity ) {
+                            GrappleComponent grapComp = ( GrappleComponent )e.getComponent( GlobalVars.GRAPPLE_COMPONENT_NAME );
+
+                            PointF start = grapComp.getFirstPoint();
+                            PointF end = grapComp.getLastPoint();
+                            /*
+                            // Calc the pos relative to the view
+                            start.X -= this.x;
+                            start.Y -= this.y;
+                            end.X -= this.x;
+                            end.Y -= this.y;
+
+                            start.X *= wRatio;
+                            start.Y *= hRatio;
+                            end.X *= wRatio;
+                            end.Y *= hRatio;
+                            */
+                            g.DrawLine( GrapplePen, start, end );
+                            break; //Should only be one - this'll save some time.
+                        }
                     }
                 }
 
-            }
 
-            //First, if there's a background entity, draw that!
-            if ( bkgEnt != null )
-                drawBkgEntity( bkgEnt );
-            if ( seperateStaticObjImage ) {
-                drawStaticObjImage();
-            }
-
-
-            //If there's a grapple, draw it
-            if ( level.sysManager.grapSystem.isGrappling ) {
-                foreach ( Entity e in GlobalVars.nonGroundEntities.Values ) {
-                    if ( e is GrappleEntity ) {
-                        GrappleComponent grapComp = ( GrappleComponent )e.getComponent( GlobalVars.GRAPPLE_COMPONENT_NAME );
-
-                        PointF start = grapComp.getFirstPoint();
-                        PointF end = grapComp.getLastPoint();
-                        /*
-                        // Calc the pos relative to the view
-                        start.X -= this.x;
-                        start.Y -= this.y;
-                        end.X -= this.x;
-                        end.Y -= this.y;
-
-                        start.X *= wRatio;
-                        start.Y *= hRatio;
-                        end.X *= wRatio;
-                        end.Y *= hRatio;
-                        */
-                        g.DrawLine( GrapplePen, start, end );
-                        break; //Should only be one - this'll save some time.
-                    }
+                //For all applicable entities (Entities with required components)
+                foreach ( Entity e in entities ) {
+                    if ( !( e is BackgroundEntity ) )
+                        drawEntity( e );
                 }
-            }
+
+                //mainG.DrawImage(drawImg, new Point((int)displayX, (int)displayY)); //Draw the view to the main window
+                //mainG.DrawImageUnscaled(drawImg, new Point((int)displayX, (int)displayY)); //Draw the view to the main window
+                mainG.DrawImage( drawImg, new RectangleF( displayX, displayY, displayWidth, displayHeight ), new RectangleF( x, y, width, height ), GraphicsUnit.Pixel );
 
 
-            //For all applicable entities (Entities with required components)
-            foreach ( Entity e in entities ) {
-                if ( !( e is BackgroundEntity ) )
-                    drawEntity( e );
-            }
+                //Draw Border
+                if ( this.hasBorder ) {
+                    if ( !this.borderFade ) {
+                        mainG.DrawRectangle( new Pen( borderBrush, borderSize ), new Rectangle( ( int )( displayX ), ( int )( displayY ),
+                        ( int )( displayWidth ), ( int )( displayHeight ) ) );
+                    } else {
+                        int alphaDiff = ( int )Math.Ceiling( 255.0f / ( borderSize - amntSolid ) ); //How much to decrease alpha per layer
+                        //Draw the solid bit
+                        //mainG.DrawRectangle(new Pen(borderBrush, amntSolid), new Rectangle((int)(displayX), (int)(displayY),
+                        //(int)(displayWidth), (int)(displayHeight)));
 
-            //mainG.DrawImage(drawImg, new Point((int)displayX, (int)displayY)); //Draw the view to the main window
-            //mainG.DrawImageUnscaled(drawImg, new Point((int)displayX, (int)displayY)); //Draw the view to the main window
-            mainG.DrawImage( drawImg, new RectangleF( displayX, displayY, displayWidth, displayHeight ), new RectangleF( x, y, width, height ), GraphicsUnit.Pixel );
-
-
-            //Draw Border
-            if ( this.hasBorder ) {
-                if ( !this.borderFade ) {
-                    mainG.DrawRectangle( new Pen( borderBrush, borderSize ), new Rectangle( ( int )( displayX ), ( int )( displayY ),
-                    ( int )( displayWidth ), ( int )( displayHeight ) ) );
-                } else {
-                    int alphaDiff = ( int )Math.Ceiling( 255.0f / ( borderSize - amntSolid ) ); //How much to decrease alpha per layer
-                    //Draw the solid bit
-                    //mainG.DrawRectangle(new Pen(borderBrush, amntSolid), new Rectangle((int)(displayX), (int)(displayY),
-                    //(int)(displayWidth), (int)(displayHeight)));
-
-                    int alphaVal = 255;
-                    alphaVal -= alphaDiff;
-
-                    for ( int i = 0; i <= borderSize; i++ ) {
-                        if ( alphaVal < 0 ) alphaVal = 0;
-                        Color tmpCol = Color.FromArgb( alphaVal, borderBrush.Color );
-                        Pen pen = new Pen( new SolidBrush( tmpCol ), 1 );
-                        mainG.DrawRectangle( pen, new Rectangle( ( int )( displayX + i ), ( int )( displayY + i ),
-                            ( int )( displayWidth - 2 * i ), ( int )( displayHeight - 2 * i ) ) ); alphaVal -= alphaDiff;
+                        int alphaVal = 255;
                         alphaVal -= alphaDiff;
-                        if ( alphaVal < 0 ) alphaVal = 0;
+
+                        for ( int i = 0; i <= borderSize; i++ ) {
+                            if ( alphaVal < 0 ) alphaVal = 0;
+                            Color tmpCol = Color.FromArgb( alphaVal, borderBrush.Color );
+                            Pen pen = new Pen( new SolidBrush( tmpCol ), 1 );
+                            mainG.DrawRectangle( pen, new Rectangle( ( int )( displayX + i ), ( int )( displayY + i ),
+                                ( int )( displayWidth - 2 * i ), ( int )( displayHeight - 2 * i ) ) ); alphaVal -= alphaDiff;
+                            alphaVal -= alphaDiff;
+                            if ( alphaVal < 0 ) alphaVal = 0;
+                        }
                     }
                 }
-            }
 
-            
 
-            //look into double buffers, mainG and G are different!
-            //use mainG
 
-            if ( level.sysManager.drawSystem.textState >= 0 ) {
-                StringFormat centerFormat = new StringFormat();
-                centerFormat.Alignment = StringAlignment.Center;
-                centerFormat.LineAlignment = StringAlignment.Center;
-                PointF textPosition = new PointF( displayX + displayWidth / 2, displayY + displayHeight / 4 );
-                if ( level.sysManager.drawSystem.textShadow ) {
-                    float shadowOffsetX = 1.2f;
-                    float shadowOffsetY = 1.0f;
-                    int maxShadowOpacity = 170;
-                    SolidBrush shadowBrush = ( SolidBrush )level.sysManager.drawSystem.textBrush.Clone();
-                    shadowBrush.Color = Color.FromArgb( Math.Min( shadowBrush.Color.A, maxShadowOpacity ), Color.Black );
-                    mainG.DrawString( level.sysManager.drawSystem.text, level.sysManager.drawSystem.textFont, shadowBrush, textPosition.X + shadowOffsetX, textPosition.Y + shadowOffsetY, centerFormat );
+                //look into double buffers, mainG and G are different!
+                //use mainG
+
+                if ( level.sysManager != null && level.sysManager.drawSystem.textState >= 0 ) {
+                    StringFormat centerFormat = new StringFormat();
+                    centerFormat.Alignment = StringAlignment.Center;
+                    centerFormat.LineAlignment = StringAlignment.Center;
+                    PointF textPosition = new PointF( displayX + displayWidth / 2, displayY + displayHeight / 4 );
+                    if ( level.sysManager.drawSystem.textShadow ) {
+                        float shadowOffsetX = 1.2f;
+                        float shadowOffsetY = 1.0f;
+                        int maxShadowOpacity = 170;
+                        SolidBrush shadowBrush = ( SolidBrush )level.sysManager.drawSystem.textBrush.Clone();
+                        shadowBrush.Color = Color.FromArgb( Math.Min( shadowBrush.Color.A, maxShadowOpacity ), Color.Black );
+                        mainG.DrawString( level.sysManager.drawSystem.text, level.sysManager.drawSystem.textFont, shadowBrush, textPosition.X + shadowOffsetX, textPosition.Y + shadowOffsetY, centerFormat );
+                    }
+                    mainG.DrawString( level.sysManager.drawSystem.text, level.sysManager.drawSystem.textFont, level.sysManager.drawSystem.textBrush, textPosition.X, textPosition.Y, centerFormat );
                 }
-                mainG.DrawString( level.sysManager.drawSystem.text, level.sysManager.drawSystem.textFont, level.sysManager.drawSystem.textBrush, textPosition.X, textPosition.Y, centerFormat );
-            }
 
-            if ( level.sysManager.drawSystem.getFlashTime() > 0 ) {
-                mainG.FillRectangle( level.sysManager.drawSystem.getFlashBrush(), new Rectangle( ( int )( displayX ), ( int )( displayY ),
-                ( int )( displayWidth ), ( int )( displayHeight ) ) );
-            }
+                if ( level.sysManager != null && level.sysManager.drawSystem.getFlashTime() > 0 ) {
+                    mainG.FillRectangle( level.sysManager.drawSystem.getFlashBrush(), new Rectangle( ( int )( displayX ), ( int )( displayY ),
+                    ( int )( displayWidth ), ( int )( displayHeight ) ) );
+                }
+            } else {
+                //For all applicable entities (Entities with required components)
+                foreach ( Entity e in entities ) {
+                    drawEntity( e );
+                }
+                mainG.DrawImage( drawImg, new RectangleF( displayX, displayY, displayWidth, displayHeight ), new RectangleF( x, y, width, height ), GraphicsUnit.Pixel );
 
+            }
 
         }
 
@@ -387,7 +396,6 @@ namespace RunningGame {
                     }
                 }
             }
-
         }
 
         public void Update() {
