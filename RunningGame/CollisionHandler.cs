@@ -67,7 +67,7 @@ namespace RunningGame {
             addToDictionary( GlobalVars.PLAYER_COLLIDER_TYPE, GlobalVars.POWERUP_PICKUP_COLLIDER_TYPE, powerupPickupPlayerCollision );
             addToDictionary( GlobalVars.PLAYER_COLLIDER_TYPE, GlobalVars.SPIKE_COLLIDER_TYPE, spikePlayerCollision );
             addToDictionary( GlobalVars.PLAYER_COLLIDER_TYPE, GlobalVars.BOUNCE_POSTGROUND_COLLIDER_TYPE, bounceCollision );
-            addToDictionary( GlobalVars.PLAYER_COLLIDER_TYPE, GlobalVars.SPAWN_BLOCK_COLLIDER_TYPE, simpleStopCollision);
+            addToDictionary( GlobalVars.PLAYER_COLLIDER_TYPE, GlobalVars.SPAWN_BLOCK_COLLIDER_TYPE, pushCollision);
 
             addToDictionary( GlobalVars.BULLET_COLLIDER_TYPE, GlobalVars.PLAYER_COLLIDER_TYPE, doNothingCollision );
             addToDictionary( GlobalVars.BULLET_COLLIDER_TYPE, GlobalVars.SIMPLE_ENEMY_COLLIDER_TYPE, DestroyBothCollision );
@@ -193,6 +193,7 @@ namespace RunningGame {
         //Just stop the movement
         public static bool simpleStopCollision( Entity e1, Entity e2 ) {
             return true; //Don't allow the movement.
+            
         }
 
         //Called when an entitiy collides with a Bounce entity.
@@ -807,7 +808,9 @@ namespace RunningGame {
             int pusherSide = -1; //0 = right, 1 = above, 2 = left, 3 = below
             if ( ( ( pusherPos.y - pusherPos.height / 2 ) - ( pusheePos.y + pusheePos.height / 2 ) ) > amtVertOverlapStillAbove ) {
                 pusherSide = 3;
+                
                 if ( !pushableComp.vert )
+                    
                     return simpleStopCollision( e1, e2 );
             } else if ( ( ( pusheePos.y - pusheePos.height / 2 ) - ( pusherPos.y + pusherPos.height / 2 ) ) > amtVertOverlapStillAbove ) {
                 pusherSide = 1;
