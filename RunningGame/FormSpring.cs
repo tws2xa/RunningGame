@@ -373,6 +373,9 @@ namespace RunningGame {
                 Invoke( new resetDelegate( Reset ) );
             } else {
                 titleMusicPlayer.PlayLooping();
+
+                sndToggle.Visible = true;
+                sndToggle.Enabled = true;
                 showHideLevelButtons( false );
                 showHideWorldButtons( false );
                 showHideControlButtons( false );
@@ -397,8 +400,6 @@ namespace RunningGame {
                 this.BackgroundImage = bkgImg;
                 this.btnPlay.Enabled = true;
                 this.btnPlay.Visible = true;*/
-                sndToggle.Visible = true;
-                sndToggle.Enabled = true;
                 game.close();
                 game = null;
                 loadLevel( newWorld, newNum );
