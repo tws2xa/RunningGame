@@ -43,6 +43,10 @@
             this.lblJump = new System.Windows.Forms.Label();
             this.btnSetJump = new System.Windows.Forms.Button();
             this.sndToggle = new System.Windows.Forms.PictureBox();
+            this.btnSetLeft = new System.Windows.Forms.Button();
+            this.lblLeft = new System.Windows.Forms.Label();
+            this.btnSetRight = new System.Windows.Forms.Button();
+            this.lblRight = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.sndToggle)).BeginInit();
             this.SuspendLayout();
             // 
@@ -264,6 +268,61 @@
             this.sndToggle.TabStop = false;
             this.sndToggle.Click += new System.EventHandler(this.sndToggle_Click);
             // 
+            // btnSetLeft
+            // 
+            this.btnSetLeft.Enabled = false;
+            this.btnSetLeft.Location = new System.Drawing.Point(12, 352);
+            this.btnSetLeft.Name = "btnSetLeft";
+            this.btnSetLeft.Size = new System.Drawing.Size(60, 25);
+            this.btnSetLeft.TabIndex = 20;
+            this.btnSetLeft.Text = "A";
+            this.btnSetLeft.UseVisualStyleBackColor = true;
+            this.btnSetLeft.Visible = false;
+            this.btnSetLeft.Click += new System.EventHandler(this.btnSetLeft_Click);
+            this.btnSetLeft.KeyDown += new System.Windows.Forms.KeyEventHandler(this.btnSetLeft_KeyDown);
+            // 
+            // lblLeft
+            // 
+            this.lblLeft.AutoSize = true;
+            this.lblLeft.BackColor = System.Drawing.Color.Transparent;
+            this.lblLeft.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblLeft.Location = new System.Drawing.Point(77, 353);
+            this.lblLeft.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblLeft.Name = "lblLeft";
+            this.lblLeft.Size = new System.Drawing.Size(37, 20);
+            this.lblLeft.TabIndex = 21;
+            this.lblLeft.Tag = "displayFontLbl";
+            this.lblLeft.Text = "Left";
+            this.lblLeft.Visible = false;
+            this.lblLeft.Click += new System.EventHandler(this.lblLeft_Click);
+            // 
+            // btnSetRight
+            // 
+            this.btnSetRight.Enabled = false;
+            this.btnSetRight.Location = new System.Drawing.Point(12, 383);
+            this.btnSetRight.Name = "btnSetRight";
+            this.btnSetRight.Size = new System.Drawing.Size(60, 25);
+            this.btnSetRight.TabIndex = 22;
+            this.btnSetRight.Text = "D";
+            this.btnSetRight.UseVisualStyleBackColor = true;
+            this.btnSetRight.Visible = false;
+            this.btnSetRight.Click += new System.EventHandler(this.btnSetRight_Click);
+            this.btnSetRight.KeyDown += new System.Windows.Forms.KeyEventHandler(this.btnSetRight_KeyDown);
+            // 
+            // lblRight
+            // 
+            this.lblRight.AutoSize = true;
+            this.lblRight.BackColor = System.Drawing.Color.Transparent;
+            this.lblRight.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblRight.Location = new System.Drawing.Point(77, 388);
+            this.lblRight.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblRight.Name = "lblRight";
+            this.lblRight.Size = new System.Drawing.Size(47, 20);
+            this.lblRight.TabIndex = 23;
+            this.lblRight.Tag = "displayFontLbl";
+            this.lblRight.Text = "Right";
+            this.lblRight.Visible = false;
+            // 
             // FormSpring
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -272,6 +331,10 @@
             this.BackgroundImage = global::RunningGame.Properties.Resources.Title;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(640, 480);
+            this.Controls.Add(this.lblRight);
+            this.Controls.Add(this.btnSetRight);
+            this.Controls.Add(this.lblLeft);
+            this.Controls.Add(this.btnSetLeft);
             this.Controls.Add(this.sndToggle);
             this.Controls.Add(this.btnSetJump);
             this.Controls.Add(this.lblJump);
@@ -330,6 +393,10 @@
         private System.Windows.Forms.Label lblJump;
         private System.Windows.Forms.Button btnSetJump;
         private System.Windows.Forms.PictureBox sndToggle;
+        private System.Windows.Forms.Button btnSetLeft;
+        private System.Windows.Forms.Label lblLeft;
+        private System.Windows.Forms.Button btnSetRight;
+        private System.Windows.Forms.Label lblRight;
     }
 }
 
