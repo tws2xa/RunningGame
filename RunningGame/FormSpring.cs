@@ -28,6 +28,10 @@ namespace RunningGame {
         //The background image (Currently Laurel's Concept Art)
         Image bkgImg;
 
+        //Sound Button Image
+        Image soundOnImage = null;
+        Image soundOffImage = null;
+
         //An array list of keys that have been pressed and not released (They're being held down)
         //This is used to prevent repeated calls of KeyPressed
         public List<Keys> downKeys = new List<Keys>();
@@ -44,6 +48,16 @@ namespace RunningGame {
         private void FormRunningGame_Load( object sender, EventArgs e ) {
             //Set the background image
             bkgImg = this.BackgroundImage;
+
+            System.Reflection.Assembly myAssembly = System.Reflection.Assembly.GetExecutingAssembly();
+            System.IO.Stream myStreamOn = myAssembly.GetManifestResourceStream( "RunningGame.Resources.Artwork.Other.SoundBtn1.png" );
+            System.IO.Stream myStreamOff = myAssembly.GetManifestResourceStream( "RunningGame.Resources.Artwork.Other.SoundBtn2.png" );
+
+            soundOnImage = new Bitmap( myStreamOn );
+            soundOffImage = new Bitmap( myStreamOff );
+
+            myStreamOn.Close();
+            myStreamOff.Close();
 
             //Set it to double buffered.
             this.DoubleBuffered = true;
@@ -380,6 +394,8 @@ namespace RunningGame {
                 this.BackgroundImage = bkgImg;
                 this.btnPlay.Enabled = true;
                 this.btnPlay.Visible = true;*/
+                sndToggle.Visible = true;
+                sndToggle.Enabled = true;
                 game.close();
                 game = null;
                 loadLevel( newWorld, newNum );
@@ -395,6 +411,9 @@ namespace RunningGame {
                     c.Visible = false;
                 }
             }
+
+            sndToggle.Visible = false;
+            sndToggle.Enabled = false;
 
             //Stop sound
             titleMusicPlayer.Stop();
@@ -514,6 +533,23 @@ namespace RunningGame {
             GlobalVars.KEY_JUMP = e.KeyData;
             btnControlReturn.Enabled = true;
             }
+        }
+
+
+        private void sndToggle_Click( object sender, EventArgs e ) {
+
+            if ( game == null ) {
+                GlobalVars.soundOn = !GlobalVars.soundOn;
+
+                if ( GlobalVars.soundOn ) {
+                    sndToggle.Image = soundOnImage;
+                    titleMusicPlayer.PlayLooping();
+                } else {
+                    sndToggle.Image = soundOffImage;
+                    titleMusicPlayer.Stop();
+                }
+            }
+
         }
 
         //---------------------------------------------------------------------------------------------

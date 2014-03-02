@@ -137,6 +137,7 @@ namespace RunningGame {
 
         //Settings
         public static bool preciseCollisionChecking = false;
+        public static bool soundOn = true;
         public static bool fullForegroundImage = false;
         public static bool simpleGround = true;
 

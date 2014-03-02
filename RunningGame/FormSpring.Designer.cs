@@ -42,6 +42,8 @@
             this.btnControlReturn = new System.Windows.Forms.Button();
             this.lblJump = new System.Windows.Forms.Label();
             this.btnSetJump = new System.Windows.Forms.Button();
+            this.sndToggle = new System.Windows.Forms.PictureBox();
+            ((System.ComponentModel.ISupportInitialize)(this.sndToggle)).BeginInit();
             this.SuspendLayout();
             // 
             // btnBegin
@@ -249,6 +251,19 @@
             this.btnSetJump.Click += new System.EventHandler(this.button1_Click_1);
             this.btnSetJump.KeyDown += new System.Windows.Forms.KeyEventHandler(this.btnSetJump_KeyDown);
             // 
+            // sndToggle
+            // 
+            this.sndToggle.BackColor = System.Drawing.Color.Transparent;
+            this.sndToggle.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.sndToggle.Image = global::RunningGame.Properties.Resources.SoundBtn1;
+            this.sndToggle.Location = new System.Drawing.Point(598, 12);
+            this.sndToggle.Name = "sndToggle";
+            this.sndToggle.Size = new System.Drawing.Size(30, 27);
+            this.sndToggle.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.sndToggle.TabIndex = 19;
+            this.sndToggle.TabStop = false;
+            this.sndToggle.Click += new System.EventHandler(this.sndToggle_Click);
+            // 
             // FormSpring
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -257,6 +272,7 @@
             this.BackgroundImage = global::RunningGame.Properties.Resources.SpringBlurSmall;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(640, 480);
+            this.Controls.Add(this.sndToggle);
             this.Controls.Add(this.btnSetJump);
             this.Controls.Add(this.lblJump);
             this.Controls.Add(this.btnControlReturn);
@@ -286,6 +302,7 @@
             this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.FormRunningGame_KeyPress);
             this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.FormRunningGame_KeyUp);
             this.MouseClick += new System.Windows.Forms.MouseEventHandler(this.FormSpring_MouseClick);
+            ((System.ComponentModel.ISupportInitialize)(this.sndToggle)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -312,6 +329,7 @@
         private System.Windows.Forms.Button btnControlReturn;
         private System.Windows.Forms.Label lblJump;
         private System.Windows.Forms.Button btnSetJump;
+        private System.Windows.Forms.PictureBox sndToggle;
     }
 }
 
