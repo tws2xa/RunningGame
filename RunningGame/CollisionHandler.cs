@@ -78,6 +78,7 @@ namespace RunningGame {
             addToDictionary( GlobalVars.SHOOTER_BULLET_COLLIDER_TYPE, GlobalVars.BASIC_SOLID_COLLIDER_TYPE, destroyBulletCollision );
             addToDictionary( GlobalVars.SHOOTER_BULLET_COLLIDER_TYPE, GlobalVars.PLAYER_COLLIDER_TYPE, shooterBulletPlayerCollision);
             addToDictionary( GlobalVars.SHOOTER_BULLET_COLLIDER_TYPE, GlobalVars.TIMED_SHOOTER_COLLIDER_TYPE, doNothingCollision );
+            addToDictionary( GlobalVars.SHOOTER_BULLET_COLLIDER_TYPE, GlobalVars.MOVING_PLATFORM_COLLIDER_TYPE, destroyBulletCollision );
 
             addToDictionary( GlobalVars.BOUNCE_PREGROUND_COLLIDER_TYPE, GlobalVars.BASIC_SOLID_COLLIDER_TYPE, bounceGroundCollision );
             addToDictionary( GlobalVars.BOUNCE_PREGROUND_COLLIDER_TYPE, GlobalVars.TIMED_SHOOTER_COLLIDER_TYPE, doNothingCollision );
@@ -616,7 +617,7 @@ namespace RunningGame {
                 player = ( Player )e2;
                 enemy = e1;
             } else {
-                Console.WriteLine( "Halve Health Player Collision with no player..." );
+                Console.WriteLine( "Shooter Bullet Player Collision with no player..." );
                 return false;
             }
 
@@ -624,10 +625,10 @@ namespace RunningGame {
             HealthComponent playerHealthComp = ( HealthComponent )player.getComponent( GlobalVars.HEALTH_COMPONENT_NAME );
             playerHealthComp.subtractFromHealth( ( int )Math.Ceiling( playerHealthComp.maxHealth / 1.8f ) ); //Bubye healths! >:)
             
-            /*level.playerImmune = true;
+            level.playerImmune = true;
             if ( !this.level.timerMethods.ContainsKey( level.disableImmune ) ) {
-                this.level.timerMethods.Add( level.disableImmune, 0.10f );
-            }*/
+                this.level.timerMethods.Add( level.disableImmune, 0.02f );
+            }
 
             level.removeEntity( enemy );
             return false;
