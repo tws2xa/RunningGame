@@ -48,6 +48,7 @@ namespace RunningGame {
         public static string DIRECTION_COMPONENT_NAME = "spikeComp";
         public static string VISION_ORB_INPUT_COMPONENT_NAME = "visionInputComp";
         public static string PUSHABLE_COMPONENT_NAME = "pushableComp";
+        public static string TIMER_COMPONENT_NAME = "timerComp";
 
         //Collider Types
         public static string PLAYER_COLLIDER_TYPE = "playerCollider";

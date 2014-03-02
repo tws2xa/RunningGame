@@ -41,6 +41,7 @@ namespace RunningGame {
         public MovingPlatformSystem movPlatSystem;
         public GrappleSystem grapSystem;
         public PushableSystem pushSystem;
+        public TimerSystem timerSystem;
 
         List<GameSystem> systems = new List<GameSystem>();
 
@@ -76,6 +77,7 @@ namespace RunningGame {
             movPlatSystem = new MovingPlatformSystem( level ); systems.Add( movPlatSystem );
             grapSystem = new GrappleSystem( level ); systems.Add( grapSystem );
             pushSystem = new PushableSystem( level ); systems.Add( pushSystem );
+            timerSystem = new TimerSystem( level ); systems.Add( timerSystem );
 
         }
 
@@ -83,6 +85,7 @@ namespace RunningGame {
         //Game Logic Stuff
         public void Update( float deltaTime ) {
 
+            timerSystem.Update( deltaTime );
             moveSystem.Update( deltaTime );
             bkgPosSystem.Update( deltaTime );
             pushSystem.Update( deltaTime );
