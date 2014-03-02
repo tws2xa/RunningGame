@@ -25,7 +25,7 @@ namespace RunningGame {
     [Serializable()]
     public class Level {
 
-        Random rand; //for creating entitiy random id's
+        public Random rand; //for creating entitiy random id's
 
         public Graphics g { get; set; }
         public float cameraWidth { get; set; }

@@ -118,6 +118,9 @@ namespace RunningGame
             sndToggle.Visible = false;
             sndToggle.Enabled = false;
 
+            //Stop sound
+            titleMusicPlayer.Stop();
+
             //Clear the background image
             this.BackgroundImage = null;
 

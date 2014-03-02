@@ -114,8 +114,8 @@ namespace RunningGame.Systems {
 
                                 if ( otherEnt is Entities.Player ) {
                                     level.getMovementSystem().changePosition( otherPos, otherPos.x + velComp.x * deltaTime, colComp.getY(posComp) - colComp.height / 2 - otherCol.height / 2 - 3, false, false );
-                                }  else {
-                                    level.getMovementSystem().changePosition( otherPos, otherPos.x, colComp.getY(posComp) - colComp.height / 2 - otherCol.height / 2 - 3, false, false );
+                                } else {
+                                    level.getMovementSystem().changePosition( otherPos, otherPos.x, colComp.getY( posComp ) - colComp.height / 2 - otherCol.height / 2 - 3, false, false );
                                 }
                             }
                         }

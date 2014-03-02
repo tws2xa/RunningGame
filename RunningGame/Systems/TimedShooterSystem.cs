@@ -78,9 +78,8 @@ namespace RunningGame.Systems {
         }
 
         public void fireItem(Entity e, int dir) {
-            //Console.WriteLine( "Fire: " + dir );
             PositionComponent posComp = (PositionComponent)e.getComponent(GlobalVars.POSITION_COMPONENT_NAME);
-            ShooterBullet bullet = new ShooterBullet( level, posComp.x, posComp.y, dir );
+            ShooterBullet bullet = new ShooterBullet( level, level.rand.Next(Int32.MinValue, Int32.MaxValue), posComp.x, posComp.y, dir );
             VelocityComponent bulletVel = ( VelocityComponent )bullet.getComponent( GlobalVars.VELOCITY_COMPONENT_NAME );
             float bulletSpeed = 160.0f;
             switch ( dir % 4) {
@@ -97,7 +96,6 @@ namespace RunningGame.Systems {
                     bulletVel.setVelocity( -bulletSpeed, 0 );
                     break;
             }
-
             level.addEntity( bullet );
         }
 
