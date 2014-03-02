@@ -106,6 +106,9 @@ namespace RunningGame {
                 }
             }
 
+            sndToggle.Visible = false;
+            sndToggle.Enabled = false;
+
             //Clear the background image
             this.BackgroundImage = null;
 

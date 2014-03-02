@@ -48,7 +48,7 @@
             // 
             // btnBegin
             // 
-            this.btnBegin.Location = new System.Drawing.Point(135, 431);
+            this.btnBegin.Location = new System.Drawing.Point(379, 430);
             this.btnBegin.Name = "btnBegin";
             this.btnBegin.Size = new System.Drawing.Size(126, 41);
             this.btnBegin.TabIndex = 0;
@@ -60,7 +60,7 @@
             // 
             this.lblLoading.AutoSize = true;
             this.lblLoading.Font = new System.Drawing.Font("Microsoft Sans Serif", 26.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblLoading.Location = new System.Drawing.Point(228, 202);
+            this.lblLoading.Location = new System.Drawing.Point(470, 425);
             this.lblLoading.Name = "lblLoading";
             this.lblLoading.Size = new System.Drawing.Size(0, 39);
             this.lblLoading.TabIndex = 1;
@@ -69,7 +69,7 @@
             // btnEdit
             // 
             this.btnEdit.Enabled = false;
-            this.btnEdit.Location = new System.Drawing.Point(135, 385);
+            this.btnEdit.Location = new System.Drawing.Point(379, 383);
             this.btnEdit.Name = "btnEdit";
             this.btnEdit.Size = new System.Drawing.Size(126, 41);
             this.btnEdit.TabIndex = 2;
@@ -80,7 +80,7 @@
             // 
             // btnWorld1
             // 
-            this.btnWorld1.Location = new System.Drawing.Point(12, 292);
+            this.btnWorld1.Location = new System.Drawing.Point(511, 290);
             this.btnWorld1.Name = "btnWorld1";
             this.btnWorld1.Size = new System.Drawing.Size(117, 25);
             this.btnWorld1.TabIndex = 3;
@@ -90,7 +90,7 @@
             // 
             // btnWorld2
             // 
-            this.btnWorld2.Location = new System.Drawing.Point(12, 323);
+            this.btnWorld2.Location = new System.Drawing.Point(511, 321);
             this.btnWorld2.Name = "btnWorld2";
             this.btnWorld2.Size = new System.Drawing.Size(117, 25);
             this.btnWorld2.TabIndex = 4;
@@ -100,7 +100,7 @@
             // 
             // btnWorld3
             // 
-            this.btnWorld3.Location = new System.Drawing.Point(12, 354);
+            this.btnWorld3.Location = new System.Drawing.Point(511, 352);
             this.btnWorld3.Name = "btnWorld3";
             this.btnWorld3.Size = new System.Drawing.Size(117, 25);
             this.btnWorld3.TabIndex = 5;
@@ -110,7 +110,7 @@
             // 
             // btnWorld4
             // 
-            this.btnWorld4.Location = new System.Drawing.Point(12, 385);
+            this.btnWorld4.Location = new System.Drawing.Point(511, 383);
             this.btnWorld4.Name = "btnWorld4";
             this.btnWorld4.Size = new System.Drawing.Size(117, 25);
             this.btnWorld4.TabIndex = 6;
@@ -120,7 +120,7 @@
             // 
             // btnWorld5
             // 
-            this.btnWorld5.Location = new System.Drawing.Point(12, 416);
+            this.btnWorld5.Location = new System.Drawing.Point(511, 414);
             this.btnWorld5.Name = "btnWorld5";
             this.btnWorld5.Size = new System.Drawing.Size(117, 25);
             this.btnWorld5.TabIndex = 7;
@@ -130,7 +130,7 @@
             // 
             // btnLvl1
             // 
-            this.btnLvl1.Location = new System.Drawing.Point(12, 354);
+            this.btnLvl1.Location = new System.Drawing.Point(511, 352);
             this.btnLvl1.Name = "btnLvl1";
             this.btnLvl1.Size = new System.Drawing.Size(117, 25);
             this.btnLvl1.TabIndex = 8;
@@ -140,7 +140,7 @@
             // 
             // btnLvl2
             // 
-            this.btnLvl2.Location = new System.Drawing.Point(12, 385);
+            this.btnLvl2.Location = new System.Drawing.Point(511, 383);
             this.btnLvl2.Name = "btnLvl2";
             this.btnLvl2.Size = new System.Drawing.Size(117, 25);
             this.btnLvl2.TabIndex = 9;
@@ -150,7 +150,7 @@
             // 
             // btnLvl3
             // 
-            this.btnLvl3.Location = new System.Drawing.Point(12, 416);
+            this.btnLvl3.Location = new System.Drawing.Point(511, 414);
             this.btnLvl3.Name = "btnLvl3";
             this.btnLvl3.Size = new System.Drawing.Size(117, 25);
             this.btnLvl3.TabIndex = 10;
@@ -160,7 +160,7 @@
             // 
             // btnLvlReturn
             // 
-            this.btnLvlReturn.Location = new System.Drawing.Point(12, 448);
+            this.btnLvlReturn.Location = new System.Drawing.Point(511, 446);
             this.btnLvlReturn.Name = "btnLvlReturn";
             this.btnLvlReturn.Size = new System.Drawing.Size(117, 25);
             this.btnLvlReturn.TabIndex = 11;
@@ -170,7 +170,7 @@
             // 
             // btnPlay
             // 
-            this.btnPlay.Location = new System.Drawing.Point(12, 432);
+            this.btnPlay.Location = new System.Drawing.Point(511, 430);
             this.btnPlay.Name = "btnPlay";
             this.btnPlay.Size = new System.Drawing.Size(117, 41);
             this.btnPlay.TabIndex = 12;
@@ -180,7 +180,7 @@
             // 
             // btnWorld6
             // 
-            this.btnWorld6.Location = new System.Drawing.Point(12, 447);
+            this.btnWorld6.Location = new System.Drawing.Point(511, 445);
             this.btnWorld6.Name = "btnWorld6";
             this.btnWorld6.Size = new System.Drawing.Size(117, 25);
             this.btnWorld6.TabIndex = 13;
@@ -192,7 +192,7 @@
             // 
             this.displayFontLbl.AutoSize = true;
             this.displayFontLbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.displayFontLbl.Location = new System.Drawing.Point(393, 223);
+            this.displayFontLbl.Location = new System.Drawing.Point(47, 9);
             this.displayFontLbl.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.displayFontLbl.Name = "displayFontLbl";
             this.displayFontLbl.Size = new System.Drawing.Size(216, 29);
@@ -204,7 +204,7 @@
             // 
             // btnControls
             // 
-            this.btnControls.Location = new System.Drawing.Point(502, 431);
+            this.btnControls.Location = new System.Drawing.Point(12, 429);
             this.btnControls.Name = "btnControls";
             this.btnControls.Size = new System.Drawing.Size(126, 41);
             this.btnControls.TabIndex = 15;
@@ -215,7 +215,7 @@
             // btnControlReturn
             // 
             this.btnControlReturn.Enabled = false;
-            this.btnControlReturn.Location = new System.Drawing.Point(511, 448);
+            this.btnControlReturn.Location = new System.Drawing.Point(21, 444);
             this.btnControlReturn.Name = "btnControlReturn";
             this.btnControlReturn.Size = new System.Drawing.Size(117, 25);
             this.btnControlReturn.TabIndex = 16;
@@ -229,7 +229,7 @@
             this.lblJump.AutoSize = true;
             this.lblJump.BackColor = System.Drawing.Color.Transparent;
             this.lblJump.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblJump.Location = new System.Drawing.Point(507, 325);
+            this.lblJump.Location = new System.Drawing.Point(77, 322);
             this.lblJump.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblJump.Name = "lblJump";
             this.lblJump.Size = new System.Drawing.Size(48, 20);
@@ -241,7 +241,7 @@
             // btnSetJump
             // 
             this.btnSetJump.Enabled = false;
-            this.btnSetJump.Location = new System.Drawing.Point(568, 324);
+            this.btnSetJump.Location = new System.Drawing.Point(12, 321);
             this.btnSetJump.Name = "btnSetJump";
             this.btnSetJump.Size = new System.Drawing.Size(60, 25);
             this.btnSetJump.TabIndex = 18;
@@ -256,7 +256,7 @@
             this.sndToggle.BackColor = System.Drawing.Color.Transparent;
             this.sndToggle.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.sndToggle.Image = global::RunningGame.Properties.Resources.SoundBtn1;
-            this.sndToggle.Location = new System.Drawing.Point(598, 12);
+            this.sndToggle.Location = new System.Drawing.Point(12, 12);
             this.sndToggle.Name = "sndToggle";
             this.sndToggle.Size = new System.Drawing.Size(30, 27);
             this.sndToggle.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -269,7 +269,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.BackgroundImage = global::RunningGame.Properties.Resources.SpringBlurSmall;
+            this.BackgroundImage = global::RunningGame.Properties.Resources.Title;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(640, 480);
             this.Controls.Add(this.sndToggle);
@@ -295,7 +295,7 @@
             this.DoubleBuffered = true;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.Name = "FormSpring";
-            this.Text = "Project: Spring";
+            this.Text = "Spring";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormRunningGame_FormClosing);
             this.Load += new System.EventHandler(this.FormRunningGame_Load);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.FormRunningGame_KeyDown);
