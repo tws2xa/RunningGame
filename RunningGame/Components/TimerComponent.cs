@@ -19,12 +19,23 @@ namespace RunningGame.Components {
             return timers;
         }
 
+        public void addTimer( string name, float time ) {
+            timers.Add( name, time );
+        }
+
+        public void removeTimer( string name ) {
+            timers.Remove( name );
+            finishCompletedTimer( name );
+        }
+
         public void decTimers(float amt) {
-            foreach ( string name in timers.Keys) {
+
+            List<string> names = new List<string>( timers.Keys );
+            foreach ( string name in names) {
                 timers[name] -= amt;
                 if ( timers[name] <= 0 ) {
-                    completedTimers.Add( name );
                     timers.Remove( name );
+                    completedTimers.Add( name );
                 }
             }
         }
@@ -38,5 +49,10 @@ namespace RunningGame.Components {
         }
 
 
+
+        internal void clearAllTimers() {
+            timers.Clear();
+            completedTimers.Clear();
+        }
     }
 }

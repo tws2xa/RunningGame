@@ -39,17 +39,22 @@ namespace RunningGame {
         Color grapPickup = Color.FromArgb( 100, 100, 5 );
 
         //Link doors with switches by giving them the same B
-        //Permanent Switch - G = 255
-        //Pressure Switch - G = 0
         //Timed Switch - G = Time in deci-seconds... i.e. 100 -> 10 seconds. 015 = 1.5 seconds.
         int switchReserveRed = 200; //Any color with R = 200 is a switch
-        int permSwitchG = 255;
-        int presSwitchG = 0;
+        int permSwitchG = 255; //Permanent Switch - G = 255
+        int presSwitchG = 0; //Pressure Switch - G = 0
         int doorReserveGreen = 200; //Any color with G = 200 is a door
 
         int spikeRed = 255; //R
         int spikeGreen = 100; //G
         // B determins Dir
+
+        int shooterRedUp = 110;
+        int shooterRedRight = 111;
+        int shooterRedDown = 112;
+        int shooterRedLeft = 113;
+        //Green = Time
+        //Blue = Shots per burst
 
         Dictionary<int, Entity> switches;
         Dictionary<SwitchListenerComponent, int> unmachedSwitchListeners;
@@ -104,7 +109,14 @@ namespace RunningGame {
                         adjustLocation( s, level );
                         switches.Add( col.B, s );
                         level.addEntity( s.randId, s );
-                    
+
+                    } else if ( col.R == shooterRedUp || col.R == shooterRedRight || col.R == shooterRedDown || col.R == shooterRedLeft ) {
+                        float betweenBursts = ( float )col.G / ( float )10;
+                        TimedShooterEntity shooter = new TimedShooterEntity( level, rand.Next( Int32.MinValue, Int32.MaxValue ), levelX * tileWidth, levelY * tileHeight, betweenBursts, col.B, col.R-110 );
+                        adjustLocation( shooter, level );
+                        shooter.isStartingEntity = true;
+                        level.addEntity( shooter );
+
                     } else if ( col.G == doorReserveGreen ) {
                     
                         DoorEntity door = new DoorEntity( level, rand.Next( Int32.MinValue, Int32.MaxValue ), levelX * tileWidth, levelY * tileHeight );

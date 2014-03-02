@@ -18,7 +18,7 @@ namespace RunningGame.Systems {
         //Constructor - Always read in the level! You can read in other stuff too if need be.
         public TimerSystem( Level level ) {
             //Here is where you add the Required components
-            requiredComponents.Add( GlobalVars.TIMER_COMPONENT_NAME ); //Position
+            requiredComponents.Add( GlobalVars.TIMER_COMPONENT_NAME );
 
             this.level = level; //Always have this
 

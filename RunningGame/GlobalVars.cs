@@ -49,6 +49,7 @@ namespace RunningGame {
         public static string VISION_ORB_INPUT_COMPONENT_NAME = "visionInputComp";
         public static string PUSHABLE_COMPONENT_NAME = "pushableComp";
         public static string TIMER_COMPONENT_NAME = "timerComp";
+        public static string TIMED_SHOOTER_COMPONENT = "timedShooterComp";
 
         //Collider Types
         public static string PLAYER_COLLIDER_TYPE = "playerCollider";
@@ -72,6 +73,8 @@ namespace RunningGame {
         public static string SPIKE_COLLIDER_TYPE = "killPlayerCollider";
         public static string VISION_COLLIDER_TYPE = "visionCollider";
         public static string PLATFORM_TURN_COLLIDER_TYPE = "platTurnCollider";
+        public static string SHOOTER_BULLET_COLLIDER_TYPE = "shooterBulletCollider";
+        public static string TIMED_SHOOTER_COLLIDER_TYPE = "timedShooterCollider";
 
         //Collection of all in game entities
         public static Dictionary<int, Entity> nonGroundEntities = new Dictionary<int, Entity>();

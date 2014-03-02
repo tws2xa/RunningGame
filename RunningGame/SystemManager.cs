@@ -42,6 +42,7 @@ namespace RunningGame {
         public GrappleSystem grapSystem;
         public PushableSystem pushSystem;
         public TimerSystem timerSystem;
+        public TimedShooterSystem timedShooterSystem;
 
         List<GameSystem> systems = new List<GameSystem>();
 
@@ -78,6 +79,7 @@ namespace RunningGame {
             grapSystem = new GrappleSystem( level ); systems.Add( grapSystem );
             pushSystem = new PushableSystem( level ); systems.Add( pushSystem );
             timerSystem = new TimerSystem( level ); systems.Add( timerSystem );
+            timedShooterSystem = new TimedShooterSystem( level ); systems.Add( timedShooterSystem );
 
         }
 
@@ -94,6 +96,7 @@ namespace RunningGame {
             playerSystem.Update( deltaTime );
             visSystem.Update( deltaTime );
             grapSystem.Update( deltaTime );
+            timedShooterSystem.Update( deltaTime );
             spSystem.Update( deltaTime );
             weapSystem.Update( deltaTime );
             colSystem.Update( deltaTime );
