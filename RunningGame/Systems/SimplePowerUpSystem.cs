@@ -15,10 +15,10 @@ namespace RunningGame.Systems {
         Level level;
 
         //Keys
-        Keys glideKey = Keys.Space;
-        Keys equippedPowerupKey = Keys.F;
-        Keys cycleDownPowerupKey = Keys.Q;
-        Keys cycleUpPowerupKey = Keys.E;
+        Keys glideKey = GlobalVars.KEY_GLIDE;
+        Keys equippedPowerupKey = GlobalVars.KEY_USE_EQUIPPED;
+        Keys cycleDownPowerupKey = GlobalVars.KEY_CYCLE_DOWN;
+        Keys cycleUpPowerupKey = GlobalVars.KEY_CYCLE_UP;
 
         //Glide powerup informations
         float Glide_Gravity_Decrease = 130.0f;

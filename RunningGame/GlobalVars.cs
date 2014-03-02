@@ -109,6 +109,12 @@ namespace RunningGame {
         public static Keys KEY_LEFT = Keys.A;
         public static Keys KEY_RIGHT = Keys.D;
         public static Keys KEY_DOWN = Keys.S;
+        public static Keys KEY_RESET = Keys.R;
+        public static Keys KEY_CYCLE_DOWN = Keys.Q;
+        public static Keys KEY_CYCLE_UP = Keys.E;
+        public static Keys KEY_USE_EQUIPPED = Keys.F;
+        public static Keys KEY_GLIDE = Keys.Space;
+        public static Keys KEY_END = Keys.Escape;
 
         //Switch Events
         public static string DOOR_EVENT_TYPE = "doorEvent";
