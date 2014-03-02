@@ -745,7 +745,9 @@ namespace RunningGame {
             Entity spawnBlock = null;
             Entity other = null;
 
-            if ( e1 is spawnBlockEntity ) { spawnBlock = e1; other = e2; } else if ( e2 is spawnBlockEntity ) { spawnBlock = e2; other = e1; } else { Console.WriteLine( "Spawn Enemy Collision with no Spawn!" ); return false; }
+            if ( e1 is spawnBlockEntity ) { spawnBlock = e1; other = e2; }
+            else if ( e2 is spawnBlockEntity ) { spawnBlock = e2; other = e1; }
+            else { Console.WriteLine( "Spawn Enemy Collision with no Spawn!" ); return false; }
 
             SpawnBlockComponent spComp = ( SpawnBlockComponent )spawnBlock.getComponent( GlobalVars.SPAWN_BLOCK_COMPONENT_NAME );
 
