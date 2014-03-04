@@ -395,6 +395,14 @@ namespace RunningGame {
                         }
                     }
                 }
+                if ( GlobalVars.debugBoxes ) {
+                    g.DrawRectangle(Pens.Blue, posComp.x - posComp.width/2, posComp.y - posComp.height/2, posComp.width, posComp.height);
+                    
+                    if(e.hasComponent(GlobalVars.COLLIDER_COMPONENT_NAME)) {
+                        ColliderComponent colComp = (ColliderComponent)e.getComponent(GlobalVars.COLLIDER_COMPONENT_NAME);
+                        g.DrawRectangle(Pens.Red, colComp.getX(posComp) - colComp.width/2, colComp.getY(posComp) - colComp.height/2, colComp.width, colComp.height);
+                    }
+                }
             }
         }
 

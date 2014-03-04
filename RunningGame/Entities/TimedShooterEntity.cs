@@ -8,8 +8,8 @@ using RunningGame.Components;
 namespace RunningGame.Entities {
     public class TimedShooterEntity : Entity{
 
-        float defaultWidth = 20.0f;
-        float defaultHeight = 20.0f;
+        float defaultWidth = 19.5f;
+        float defaultHeight = 19.5f;
 
         //-------------------------------------------Constructors--------------------------------------------
         public TimedShooterEntity( Level level, float x, float y, float timeBetweenBursts, int shotsPerBurst, int dir ) {

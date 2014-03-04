@@ -668,14 +668,14 @@ namespace RunningGame {
                 Console.WriteLine( "Moving Plaform Collision without Moving Platform!" );
                 return false;
             }
-
+            
 
             PositionComponent platPos = ( PositionComponent )plat.getComponent( GlobalVars.POSITION_COMPONENT_NAME );
             PositionComponent otherPos = ( PositionComponent )other.getComponent( GlobalVars.POSITION_COMPONENT_NAME );
             ColliderComponent platCol = ( ColliderComponent )plat.getComponent( GlobalVars.COLLIDER_COMPONENT_NAME );
             ColliderComponent otherCol = ( ColliderComponent )plat.getComponent( GlobalVars.COLLIDER_COMPONENT_NAME );
             
-            float buffer = -2;
+            float buffer = -3;
 
             if ( other.hasComponent( GlobalVars.VELOCITY_COMPONENT_NAME ) ) {
                 VelocityComponent otherVel = ( VelocityComponent )other.getComponent( GlobalVars.VELOCITY_COMPONENT_NAME );
@@ -691,7 +691,6 @@ namespace RunningGame {
             if ( diff > buffer ) {
                 return false;
             }
-
 
             return true;
         }
