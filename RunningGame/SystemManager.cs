@@ -43,6 +43,7 @@ namespace RunningGame {
         public PushableSystem pushSystem;
         public TimerSystem timerSystem;
         public TimedShooterSystem timedShooterSystem;
+        public VelToZeroSystem velZeroSystem;
 
         List<GameSystem> systems = new List<GameSystem>();
 
@@ -80,6 +81,7 @@ namespace RunningGame {
             pushSystem = new PushableSystem( level ); systems.Add( pushSystem );
             timerSystem = new TimerSystem( level ); systems.Add( timerSystem );
             timedShooterSystem = new TimedShooterSystem( level ); systems.Add( timedShooterSystem );
+            velZeroSystem = new VelToZeroSystem( level ); systems.Add( velZeroSystem );
 
         }
 
@@ -87,6 +89,7 @@ namespace RunningGame {
         //Game Logic Stuff
         public void Update( float deltaTime ) {
 
+            velZeroSystem.Update( deltaTime );
             timerSystem.Update( deltaTime );
             moveSystem.Update( deltaTime );
             bkgPosSystem.Update( deltaTime );

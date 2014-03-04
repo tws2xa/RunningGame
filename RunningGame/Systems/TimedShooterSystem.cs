@@ -19,7 +19,7 @@ namespace RunningGame.Systems {
         //Constructor - Always read in the level! You can read in other stuff too if need be.
         public TimedShooterSystem( Level level ) {
             //Here is where you add the Required components
-            requiredComponents.Add( GlobalVars.TIMED_SHOOTER_COMPONENT );
+            requiredComponents.Add( GlobalVars.TIMED_SHOOTER_COMPONENT_NAME );
             requiredComponents.Add( GlobalVars.TIMER_COMPONENT_NAME );
 
 
@@ -42,7 +42,7 @@ namespace RunningGame.Systems {
 
             foreach ( Entity e in getApplicableEntities() ) {
                 TimerComponent timeComp = ( TimerComponent )e.getComponent( GlobalVars.TIMER_COMPONENT_NAME );
-                TimedShooterComponent shooterComp = ( TimedShooterComponent )e.getComponent( GlobalVars.TIMED_SHOOTER_COMPONENT );
+                TimedShooterComponent shooterComp = ( TimedShooterComponent )e.getComponent( GlobalVars.TIMED_SHOOTER_COMPONENT_NAME );
                 DirectionalComponent dirComp = ( DirectionalComponent )e.getComponent( GlobalVars.DIRECTION_COMPONENT_NAME );
                 int dir = 1;
                 if ( dirComp != null ) {

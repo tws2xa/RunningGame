@@ -99,6 +99,7 @@
     <Compile Include="Components\TimedSwitchComponent.cs" />
     <Compile Include="Components\TimerComponent.cs" />
     <Compile Include="Components\VelocityComponent.cs" />
+    <Compile Include="Components\VelToZeroComponent.cs" />
     <Compile Include="Components\VisionInputComponent.cs" />
     <Compile Include="DeathHandler.cs" />
     <Compile Include="Entities\BackgroundEntity.cs" />
@@ -191,6 +192,7 @@
     <Compile Include="Systems\SystemTemplate.cs" />
     <Compile Include="Systems\TimedShooterSystem.cs" />
     <Compile Include="Systems\TimerSystem.cs" />
+    <Compile Include="Systems\VelToZeroSystem.cs" />
     <Compile Include="Systems\VisionOrbSystem.cs" />
     <Compile Include="View.cs" />
     <EmbeddedResource Include="FormEditor.resx">

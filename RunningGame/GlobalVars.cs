@@ -49,7 +49,8 @@ namespace RunningGame {
         public static string VISION_ORB_INPUT_COMPONENT_NAME = "visionInputComp";
         public static string PUSHABLE_COMPONENT_NAME = "pushableComp";
         public static string TIMER_COMPONENT_NAME = "timerComp";
-        public static string TIMED_SHOOTER_COMPONENT = "timedShooterComp";
+        public static string TIMED_SHOOTER_COMPONENT_NAME = "timedShooterComp";
+        public static string VEL_TO_ZERO_COMPONENT_NAME = "velToZeroComp";
 
         //Collider Types
         public static string PLAYER_COLLIDER_TYPE = "playerCollider";
@@ -150,7 +151,7 @@ namespace RunningGame {
         public static bool soundOn = true;
         public static bool fullForegroundImage = false;
         public static bool simpleGround = true;
-        public static bool debugBoxes = false;
+        public static bool debugBoxes = true;
 
         public static List<Keys> reservedKeys = new List<Keys>(){
        Keys.A, Keys.W, Keys.D

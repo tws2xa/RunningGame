@@ -15,7 +15,7 @@ namespace RunningGame.Components {
         public string fireTimerString = "fire";
 
         public TimedShooterComponent(float timeBetweenBursts, int numShotsPerBurst) {
-            this.componentName = GlobalVars.TIMED_SHOOTER_COMPONENT;
+            this.componentName = GlobalVars.TIMED_SHOOTER_COMPONENT_NAME;
             this.timeBetweenBursts = timeBetweenBursts;
             this.numShotsPerBurst = numShotsPerBurst;
         }
