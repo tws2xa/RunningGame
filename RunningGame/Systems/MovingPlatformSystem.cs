@@ -107,11 +107,16 @@ namespace RunningGame.Systems {
                             if ( ( platVel.x == 0 || platVel.x <= 0 && (otherVel.x+grav.X*deltaTime) >= platVel.x ) || ( platVel.x >= 0 && (otherVel.x+grav.X*deltaTime) <= platVel.y ) ) {
                                 otherVel.x = platVel.x - grav.X*deltaTime;
                             }
+
                             if ( otherEnt is RunningGame.Entities.Player ) {
                                 level.getMovementSystem().changePosition( otherPos, otherCol.getX( otherPos ) + platVel.x * deltaTime, platCol.getY( platPos ) - platCol.height / 2 - otherCol.height / 2 - 3, false, false );
                             } else {
                                 level.getMovementSystem().changePosition( otherPos, otherCol.getX( otherPos ), platCol.getY( platPos ) - platCol.height / 2 - otherCol.height / 2 - 0, false, false );
                             }
+                        }
+                        if(otherEnt.hasComponent(GlobalVars.VEL_TO_ZERO_COMPONENT_NAME)) {
+                            VelToZeroComponent velZedComp = (VelToZeroComponent)otherEnt.getComponent(GlobalVars.VEL_TO_ZERO_COMPONENT_NAME);
+                            velZedComp.blockSlow = true;
                         }
                     }
                 }

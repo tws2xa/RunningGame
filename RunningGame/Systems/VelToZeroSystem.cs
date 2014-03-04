@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using RunningGame.Entities;
+using RunningGame.Components;
 
 namespace RunningGame.Systems {
-    class VelToZeroSystem : GameSystem{
+    public class VelToZeroSystem : GameSystem{
 
         
         //All systems MUST have an List of requiredComponents (May need to add using System.Collections at start of file)
@@ -17,8 +19,8 @@ namespace RunningGame.Systems {
         //Constructor - Always read in the level! You can read in other stuff too if need be.
         public VelToZeroSystem( Level level ) {
             //Here is where you add the Required components
-            requiredComponents.Add( GlobalVars.POSITION_COMPONENT_NAME ); //Position
-            requiredComponents.Add( GlobalVars.COLLIDER_COMPONENT_NAME ); //Collider
+            requiredComponents.Add( GlobalVars.VEL_TO_ZERO_COMPONENT_NAME );
+            requiredComponents.Add( GlobalVars.VELOCITY_COMPONENT_NAME );
 
 
             this.level = level; //Always have this
@@ -37,7 +39,38 @@ namespace RunningGame.Systems {
         }
 
         public override void Update( float deltaTime ) {
-            //Your brilliant coding Skillz go here. Or below in other methods.
+            
+            foreach ( Entity e in getApplicableEntities() ) {
+                VelocityComponent velComp = (VelocityComponent)e.getComponent( GlobalVars.VELOCITY_COMPONENT_NAME );
+                VelToZeroComponent velToZeroComp = ( VelToZeroComponent )e.getComponent( GlobalVars.VEL_TO_ZERO_COMPONENT_NAME );
+
+                if ( !velToZeroComp.blockSlow ) {
+                    if ( velComp.x > 0 ) {
+                        velComp.x -= velToZeroComp.xSlow * deltaTime;
+                        if ( velComp.x < 0 )
+                            velComp.x = 0;
+                    } else if ( velComp.x < 0 ) {
+                        velComp.x += velToZeroComp.xSlow * deltaTime;
+                        if ( velComp.x > 0 )
+                            velComp.x = 0;
+                    }
+
+                    if ( velComp.y > 0 ) {
+                        velComp.y -= velToZeroComp.ySlow * deltaTime;
+                        if ( velComp.y < 0 )
+                            velComp.y = 0;
+                    } else if ( velComp.y < 0 ) {
+                        velComp.y += velToZeroComp.ySlow * deltaTime;
+                        if ( velComp.y > 0 )
+                            velComp.y = 0;
+                    }
+                } else {
+                    velToZeroComp.blockSlow = false;
+                }
+
+
+            }
+
         }
         //----------------------------------------------------------------------------------------------
 

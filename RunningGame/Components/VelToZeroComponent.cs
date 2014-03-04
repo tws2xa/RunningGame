@@ -5,14 +5,15 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace RunningGame.Components {
-    class VelToZeroComponent : Component {
+    public class VelToZeroComponent : Component {
 
-        bool x, y;
+        public float xSlow, ySlow;
+        public bool blockSlow = false;
 
-        public VelToZeroComponent(bool x, bool y) {
+        public VelToZeroComponent(float x, float y) {
             this.componentName = GlobalVars.VEL_TO_ZERO_COMPONENT_NAME;
-            this.x = x;
-            this.y = y;
+            this.xSlow = x;
+            this.ySlow = y;
         }
 
     }

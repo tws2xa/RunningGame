@@ -81,6 +81,10 @@ namespace RunningGame.Entities {
              */
             addComponent( new DirectionalComponent( dir ) );
 
+            /*VEL TO ZERO - If it's moving, it will try to stop moving.
+             */
+            addComponent( new VelToZeroComponent( 100, 100 ) );
+
         }
 
         //You must have this, but it may be empty.
