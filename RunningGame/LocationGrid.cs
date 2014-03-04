@@ -273,9 +273,9 @@ namespace RunningGame {
             float yDiff = ( float )Math.Abs( y1 - e2Y );
 
             if ( !GlobalVars.preciseCollisionChecking ) {
-                return ( ( xDiff - ( e1Width / 2 + e2Width / 2 ) ) <= xbuffer && ( yDiff - ( e1Height / 2 + e2Height / 2 ) ) <= ybuffer );
+                return ( ( xDiff - ( e1Width / 2 + e2Width / 2 ) ) < xbuffer && ( yDiff - ( e1Height / 2 + e2Height / 2 ) ) < ybuffer );
             } else {
-                if ( ( xDiff - ( e1Width / 2 + e2Width / 2 ) ) <= xbuffer && ( yDiff - ( e1Height / 2 + e2Height / 2 ) ) <= ybuffer ) {
+                if ( ( xDiff - ( e1Width / 2 + e2Width / 2 ) ) < xbuffer && ( yDiff - ( e1Height / 2 + e2Height / 2 ) ) < ybuffer ) {
                     return handleTransparentCollision( x1, y1, e1, e2 );
                 }
                 return false;

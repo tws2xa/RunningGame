@@ -98,11 +98,13 @@ namespace RunningGame.Systems {
                             GravityComponent otherGrav = ( GravityComponent )otherEnt.getComponent( GlobalVars.GRAVITY_COMPONENT_NAME );
                             grav = new System.Drawing.PointF( otherGrav.x, otherGrav.y );
                         }
+
                         if ( movPlatComp.vertical ) {   
                             if ( (platVel.y == 0 || platVel.y <= 0 && (otherVel.y+grav.Y*deltaTime) >= platVel.y ) || ( platVel.y >= 0 && (otherVel.y + grav.Y*deltaTime) <= platVel.y ) ) {
                                 otherVel.y = platVel.y - grav.Y*deltaTime;
                             }
-                            level.getMovementSystem().changePosition( otherPos, otherCol.getX(otherPos), platCol.getY( platPos ) - platCol.height / 2 - otherCol.height / 2 - 3, false, false );
+
+                            level.getMovementSystem().changePosition( otherPos, otherCol.getX(otherPos), platCol.getY( platPos ) - platCol.height / 2 - otherCol.height / 2 - 1, false, false );
                         } else {
                             if ( ( platVel.x == 0 || platVel.x <= 0 && (otherVel.x+grav.X*deltaTime) >= platVel.x ) || ( platVel.x >= 0 && (otherVel.x+grav.X*deltaTime) <= platVel.y ) ) {
                                 otherVel.x = platVel.x - grav.X*deltaTime;

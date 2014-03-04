@@ -151,7 +151,7 @@ namespace RunningGame {
         public static bool soundOn = true;
         public static bool fullForegroundImage = false;
         public static bool simpleGround = true;
-        public static bool debugBoxes = true;
+        public static bool debugBoxes = false;
 
         public static List<Keys> reservedKeys = new List<Keys>(){
        Keys.A, Keys.W, Keys.D

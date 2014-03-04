@@ -8,8 +8,8 @@ using RunningGame.Components;
 namespace RunningGame.Entities {
     public class TimedShooterEntity : Entity{
 
-        float defaultWidth = 19.5f;
-        float defaultHeight = 19.5f;
+        float defaultWidth = 20f;
+        float defaultHeight = 20f;
 
         //-------------------------------------------Constructors--------------------------------------------
         public TimedShooterEntity( Level level, float x, float y, float timeBetweenBursts, int shotsPerBurst, int dir ) {
@@ -84,6 +84,10 @@ namespace RunningGame.Entities {
             /*VEL TO ZERO - If it's moving, it will try to stop moving.
              */
             addComponent( new VelToZeroComponent( 100, 100 ) );
+
+            /* GRAVITY COMPONENT - It's got Gravity
+             */
+            //addComponent( new GravityComponent( 0, GlobalVars.STANDARD_GRAVITY ) );
 
         }
 
