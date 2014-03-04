@@ -499,6 +499,7 @@
     <EmbeddedResource Include="Resources\Artwork\Other\SoundBtn1.png" />
     <EmbeddedResource Include="Resources\Artwork\Other\SoundBtn2.png" />
     <EmbeddedResource Include="Resources\Sounds\TitleTest.wav" />
+    <EmbeddedResource Include="Resources\Levels\World3Level2_new.png" />
     <EmbeddedResource Include="Resources\Artwork\Foreground\MovPlat10.png" />
     <EmbeddedResource Include="Resources\Artwork\Foreground\MovPlat11.png" />
     <EmbeddedResource Include="Resources\Artwork\Foreground\MovPlat21.png" />
