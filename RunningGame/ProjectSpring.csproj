@@ -495,6 +495,7 @@
     <EmbeddedResource Include="Resources\Artwork\Background\Bkg32.png" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Resources\Sounds\gameplay.wav" />
     <EmbeddedResource Include="Resources\Artwork\Other\Title.jpg" />
     <EmbeddedResource Include="Resources\Artwork\Other\SoundBtn1.png" />
     <EmbeddedResource Include="Resources\Artwork\Other\SoundBtn2.png" />

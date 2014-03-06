@@ -9,35 +9,9 @@ using System.Media;
 
 namespace RunningGame.Systems {
     [Serializable()]
-    public class SoundSystem : GameSystem //Always extend GameSystem
+    public class SoundSystem
     {
-        List<string> requiredComponents = new List<string>();
-        Level level;
-
-        public SoundSystem( Level level ) {
-            this.level = level;
-        }
-
-        //-------------------------------------- Overrides -------------------------------------------
-        // Must have this. Same for all Systems.
-        public override List<string> getRequiredComponents() {
-            return requiredComponents;
-        }
-
-        //Must have this. Same for all Systems.
-        public override Level GetActiveLevel() {
-            return level;
-        }
-
-        //You must have an Update.
-        //Always read in deltaTime, and only deltaTime (it's the time that's passed since the last frame)
-        //Use deltaTime for things like changing velocity or changing position from velocity
-        //This is where you do anything that you want to happen every frame.
-        //There is a chance that your system won't need to do anything in update. Still have it.
-        public override void Update( float deltaTime ) {
-
-        }
-        //----------------------------------------------------------------------------------------------
+        Dictionary<string, SoundPlayer> playingSounds = new Dictionary<string, SoundPlayer>();
 
         //Here put any helper methods or really anything else you may want.
         //You may find it handy to have methods here that other systems can access.
@@ -45,17 +19,25 @@ namespace RunningGame.Systems {
             if ( GlobalVars.soundOn ) {
                 System.IO.Stream stream = System.Reflection.Assembly.GetExecutingAssembly().GetManifestResourceStream( soundLocation );
                 SoundPlayer player = new SoundPlayer( stream );
+                if ( playingSounds.ContainsKey( soundLocation ) )
+                    stopSound( soundLocation );
                 if ( loop )
                     player.PlayLooping();
                 else
                     player.Play();
-            }
-        }
-        public void stopSound( SoundPlayer player ) {
-            if ( GlobalVars.soundOn ) {
-                player.Stop();
+                playingSounds.Add( soundLocation, player );
             }
         }
 
+        public void stopSound( string soundLocation ) {
+            if ( playingSounds.ContainsKey( soundLocation ) ) {
+                playingSounds[soundLocation].Stop();
+                playingSounds.Remove( soundLocation );
+            }
+        }
+
+        public bool isPlaying( string titleMusic ) {
+            return playingSounds.ContainsKey( titleMusic );
+        }
     }
 }

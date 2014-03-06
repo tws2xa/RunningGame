@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Collections;
+using RunningGame.Systems;
 
 namespace RunningGame
 {
@@ -37,8 +38,9 @@ namespace RunningGame
         //An array list of keys that have been pressed and not released (They're being held down)
         //This is used to prevent repeated calls of KeyPressed
         public List<Keys> downKeys = new List<Keys>();
+        public SoundSystem sndSystem;
 
-        System.Media.SoundPlayer titleMusicPlayer;
+        string titleMusic = "RunningGame.Resources.Sounds.TitleTest.wav";
 
 
         //When the form starts up, initialize it.
@@ -50,6 +52,8 @@ namespace RunningGame
         //Called when the form loads
         private void FormRunningGame_Load(object sender, EventArgs e)
         {
+            sndSystem = new SoundSystem();
+
             //Set the background image
             bkgImg = this.BackgroundImage;
 
@@ -66,10 +70,7 @@ namespace RunningGame
             //Set it to double buffered.
             this.DoubleBuffered = true;
 
-
-            System.IO.Stream stream = System.Reflection.Assembly.GetExecutingAssembly().GetManifestResourceStream("RunningGame.Resources.Sounds.TitleTest.wav");
-            titleMusicPlayer = new System.Media.SoundPlayer(stream);
-            titleMusicPlayer.PlayLooping();
+            sndSystem.playSound( titleMusic, true );
 
             addLevels();
 
@@ -119,7 +120,7 @@ namespace RunningGame
             sndToggle.Enabled = false;
 
             //Stop sound
-            titleMusicPlayer.Stop();
+            sndSystem.stopSound(titleMusic);
 
             //Clear the background image
             this.BackgroundImage = null;
@@ -415,7 +416,9 @@ namespace RunningGame
             }
             else
             {
-                titleMusicPlayer.PlayLooping();
+                if(!sndSystem.isPlaying(titleMusic)) {
+                    sndSystem.playSound( titleMusic, true );
+                }
 
                 sndToggle.Visible = true;
                 sndToggle.Enabled = true;
@@ -470,7 +473,7 @@ namespace RunningGame
             sndToggle.Enabled = false;
 
             //Stop sound
-            titleMusicPlayer.Stop();
+            sndSystem.stopSound( titleMusic );
 
             //Clear the background image
             this.BackgroundImage = null;
@@ -606,12 +609,12 @@ namespace RunningGame
                 if (GlobalVars.soundOn)
                 {
                     sndToggle.Image = soundOnImage;
-                    titleMusicPlayer.PlayLooping();
+                    sndSystem.playSound( titleMusic, true );
                 }
                 else
                 {
                     sndToggle.Image = soundOffImage;
-                    titleMusicPlayer.Stop();
+                    sndSystem.stopSound( titleMusic );
                 }
             }
 

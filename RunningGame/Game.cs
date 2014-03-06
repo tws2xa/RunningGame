@@ -17,7 +17,7 @@ namespace RunningGame {
      * 
     */
     [Serializable()]
-    class Game {
+    public class Game {
         private int winWidth;
         private int winHeight;
 
@@ -73,7 +73,7 @@ namespace RunningGame {
             GlobalVars.removedStartingEntities.Clear();
             //HERE IS WHERE YOU SAY WHICH LEVEL TO LOAD ON DEBUG
             //YOU GET TO IT BY PRESSING THE DEBUG BUTTON
-            currentLevel = new Level( winWidth, winHeight, "RunningGame.Resources.Levels.DebugLevel.png", 1, 1, true, dbGraphics, displayFont );
+            currentLevel = new Level( this, winWidth, winHeight, "RunningGame.Resources.Levels.DebugLevel.png", 1, 1, true, dbGraphics, displayFont );
         }
 
         //This first clears all lists, then loads a given level.
@@ -81,7 +81,7 @@ namespace RunningGame {
             GlobalVars.groundEntities.Clear();
             GlobalVars.nonGroundEntities.Clear();
             GlobalVars.removedStartingEntities.Clear();
-            currentLevel = new Level( winWidth, winHeight, str, world, level, true, dbGraphics, displayFont );
+            currentLevel = new Level( this, winWidth, winHeight, str, world, level, true, dbGraphics, displayFont );
         }
 
         //This is run once every frame
@@ -180,6 +180,17 @@ namespace RunningGame {
         }
         public void MouseClick( MouseEventArgs e ) {
             currentLevel.MouseClick( e );
+        }
+
+
+        public void playSound( string location, bool loop ) {
+            frm.sndSystem.playSound( location, loop );
+        }
+        public void stopSound( string location ) {
+            frm.sndSystem.stopSound( location );
+        }
+        public bool soundPlaying( string location ) {
+            return frm.sndSystem.isPlaying( location );
         }
 
         //Called when the window is closed

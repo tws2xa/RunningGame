@@ -25,6 +25,8 @@ namespace RunningGame {
     [Serializable()]
     public class Level {
 
+        Game myGame;
+
         public Random rand; //for creating entitiy random id's
 
         public Graphics g { get; set; }
@@ -73,9 +75,12 @@ namespace RunningGame {
         public float dispConstTime = 0;
         public float dispTimeOut = 0;
 
+        string bkgMusic = "RunningGame.Resources.Sounds.gameplay.wav";
+
         public Level() { }
 
-        public Level( float windowWidth, float windowHeight, string levelFile, int worldNum, int levelNum, bool isPaintFile, Graphics g, Font displayFont ) {
+        public Level( Game myGame, float windowWidth, float windowHeight, string levelFile, int worldNum, int levelNum, bool isPaintFile, Graphics g, Font displayFont ) {
+            this.myGame = myGame;
             this.displayFont = displayFont;
             this.worldNum = worldNum;
             this.levelNum = levelNum;
@@ -141,6 +146,18 @@ namespace RunningGame {
             resetLevel();
 
             sysManager.Update( 0 );
+
+            if ( !soundPlaying( bkgMusic ) ) {
+                playSound( bkgMusic, true );
+            }
+        }
+
+        public bool soundPlaying( string location ) {
+            return myGame.soundPlaying( location );
+        }
+
+        public void playSound( string location, bool loop ) {
+            myGame.playSound( location, loop);
         }
 
         //This looks at the world and level numbers to figure out which powerups
