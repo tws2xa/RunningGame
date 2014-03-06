@@ -48,6 +48,9 @@ namespace RunningGame {
         public static string DIRECTION_COMPONENT_NAME = "spikeComp";
         public static string VISION_ORB_INPUT_COMPONENT_NAME = "visionInputComp";
         public static string PUSHABLE_COMPONENT_NAME = "pushableComp";
+        public static string TIMER_COMPONENT_NAME = "timerComp";
+        public static string TIMED_SHOOTER_COMPONENT_NAME = "timedShooterComp";
+        public static string VEL_TO_ZERO_COMPONENT_NAME = "velToZeroComp";
 
         //Collider Types
         public static string PLAYER_COLLIDER_TYPE = "playerCollider";
@@ -71,6 +74,8 @@ namespace RunningGame {
         public static string SPIKE_COLLIDER_TYPE = "killPlayerCollider";
         public static string VISION_COLLIDER_TYPE = "visionCollider";
         public static string PLATFORM_TURN_COLLIDER_TYPE = "platTurnCollider";
+        public static string SHOOTER_BULLET_COLLIDER_TYPE = "shooterBulletCollider";
+        public static string TIMED_SHOOTER_COLLIDER_TYPE = "timedShooterCollider";
 
         //Collection of all in game entities
         public static Dictionary<int, Entity> nonGroundEntities = new Dictionary<int, Entity>();
@@ -105,6 +110,12 @@ namespace RunningGame {
         public static Keys KEY_LEFT = Keys.A;
         public static Keys KEY_RIGHT = Keys.D;
         public static Keys KEY_DOWN = Keys.S;
+        public static Keys KEY_RESET = Keys.R;
+        public static Keys KEY_CYCLE_DOWN = Keys.Q;
+        public static Keys KEY_CYCLE_UP = Keys.E;
+        public static Keys KEY_USE_EQUIPPED = Keys.F;
+        public static Keys KEY_GLIDE = Keys.Space;
+        public static Keys KEY_END = Keys.Escape;
 
         //Switch Events
         public static string DOOR_EVENT_TYPE = "doorEvent";
@@ -137,8 +148,10 @@ namespace RunningGame {
 
         //Settings
         public static bool preciseCollisionChecking = false;
+        public static bool soundOn = true;
         public static bool fullForegroundImage = false;
         public static bool simpleGround = true;
+        public static bool debugBoxes = false;
 
         public static List<Keys> reservedKeys = new List<Keys>(){
        Keys.A, Keys.W, Keys.D

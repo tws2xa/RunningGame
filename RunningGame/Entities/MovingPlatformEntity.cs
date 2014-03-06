@@ -11,8 +11,8 @@ namespace RunningGame.Entities {
     public class MovingPlatformEntity : Entity {
 
         public float defaultWidth = 40;
-        public float defaultHeight = 15;
-        public float imageHeight = 15;
+        public float defaultHeight = 10;
+        public float imageHeight = 10;
         public float imageWidth = 40;
 
         //-------------------------------------------Constructors--------------------------------------------

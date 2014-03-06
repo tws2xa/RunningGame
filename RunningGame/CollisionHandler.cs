@@ -48,7 +48,7 @@ namespace RunningGame {
             defaultCollisions.Add( GlobalVars.SPEEDY_PREGROUND_COLLIDER_TYPE, removeSpeedyCollision );
             defaultCollisions.Add( GlobalVars.BASIC_SOLID_COLLIDER_TYPE, simpleStopCollision );
             defaultCollisions.Add( GlobalVars.SPAWN_BLOCK_COLLIDER_TYPE, simpleStopCollision );
-            defaultCollisions.Add( GlobalVars.BULLET_COLLIDER_TYPE, bulletNonEnemyCollision );
+            defaultCollisions.Add( GlobalVars.BULLET_COLLIDER_TYPE, destroyBulletCollision );
             defaultCollisions.Add( GlobalVars.SIMPLE_ENEMY_COLLIDER_TYPE, simpleStopCollision );
             defaultCollisions.Add( GlobalVars.END_LEVEL_COLLIDER_TYPE, simpleStopCollision );
             defaultCollisions.Add( GlobalVars.MOVING_PLATFORM_COLLIDER_TYPE, simpleStopCollision );
@@ -58,6 +58,8 @@ namespace RunningGame {
             defaultCollisions.Add( GlobalVars.VISION_COLLIDER_TYPE, doNothingCollision );
             defaultCollisions.Add( GlobalVars.BOUNCE_PREGROUND_COLLIDER_TYPE, bounceGroundCollision );
             defaultCollisions.Add( GlobalVars.PLATFORM_TURN_COLLIDER_TYPE, doNothingCollision );
+            defaultCollisions.Add( GlobalVars.SHOOTER_BULLET_COLLIDER_TYPE, doNothingCollision );
+            defaultCollisions.Add( GlobalVars.TIMED_SHOOTER_COLLIDER_TYPE, simpleStopCollision );
 
             //Add non-default collisions to dictionary
             //Format: addToDictonary(Collider 1, Collider 2, name of function) Note - Order of colliders does not matter
@@ -73,7 +75,13 @@ namespace RunningGame {
             addToDictionary( GlobalVars.BULLET_COLLIDER_TYPE, GlobalVars.SIMPLE_ENEMY_COLLIDER_TYPE, DestroyBothCollision );
             addToDictionary( GlobalVars.BULLET_COLLIDER_TYPE, GlobalVars.SWITCH_COLLIDER_TYPE, switchFlipCollision );
 
+            addToDictionary( GlobalVars.SHOOTER_BULLET_COLLIDER_TYPE, GlobalVars.BASIC_SOLID_COLLIDER_TYPE, destroyBulletCollision );
+            addToDictionary( GlobalVars.SHOOTER_BULLET_COLLIDER_TYPE, GlobalVars.PLAYER_COLLIDER_TYPE, shooterBulletPlayerCollision);
+            addToDictionary( GlobalVars.SHOOTER_BULLET_COLLIDER_TYPE, GlobalVars.TIMED_SHOOTER_COLLIDER_TYPE, doNothingCollision );
+            addToDictionary( GlobalVars.SHOOTER_BULLET_COLLIDER_TYPE, GlobalVars.MOVING_PLATFORM_COLLIDER_TYPE, destroyBulletCollision );
+
             addToDictionary( GlobalVars.BOUNCE_PREGROUND_COLLIDER_TYPE, GlobalVars.BASIC_SOLID_COLLIDER_TYPE, bounceGroundCollision );
+            addToDictionary( GlobalVars.BOUNCE_PREGROUND_COLLIDER_TYPE, GlobalVars.TIMED_SHOOTER_COLLIDER_TYPE, doNothingCollision );
             addToDictionary( GlobalVars.BOUNCE_PREGROUND_COLLIDER_TYPE, GlobalVars.PLAYER_COLLIDER_TYPE, doNothingCollision );
             addToDictionary( GlobalVars.BOUNCE_PREGROUND_COLLIDER_TYPE, GlobalVars.SIMPLE_ENEMY_COLLIDER_TYPE, doNothingCollision );
             addToDictionary( GlobalVars.BOUNCE_PREGROUND_COLLIDER_TYPE, GlobalVars.BOUNCE_PREGROUND_COLLIDER_TYPE, doNothingCollision );
@@ -89,6 +97,7 @@ namespace RunningGame {
             addToDictionary( GlobalVars.VISION_COLLIDER_TYPE, GlobalVars.BASIC_SOLID_COLLIDER_TYPE, simpleStopCollision );
 
             addToDictionary( GlobalVars.SPEEDY_PREGROUND_COLLIDER_TYPE, GlobalVars.BASIC_SOLID_COLLIDER_TYPE, speedyGroundCollision );
+            addToDictionary( GlobalVars.SPEEDY_PREGROUND_COLLIDER_TYPE, GlobalVars.TIMED_SHOOTER_COLLIDER_TYPE, doNothingCollision );
             addToDictionary( GlobalVars.SPEEDY_PREGROUND_COLLIDER_TYPE, GlobalVars.PLAYER_COLLIDER_TYPE, doNothingCollision );
             addToDictionary( GlobalVars.SPEEDY_PREGROUND_COLLIDER_TYPE, GlobalVars.SIMPLE_ENEMY_COLLIDER_TYPE, doNothingCollision );
             addToDictionary( GlobalVars.SPEEDY_PREGROUND_COLLIDER_TYPE, GlobalVars.SPAWN_BLOCK_COLLIDER_TYPE, doNothingCollision);
@@ -496,7 +505,7 @@ namespace RunningGame {
                 return false;
             }
 
-            //Decrease the player's health (In this case, it just removes it completely.
+            //Decrease the player's health (In this case, it just removes it completely.)
             HealthComponent playerHealthComp = ( HealthComponent )player.getComponent( GlobalVars.HEALTH_COMPONENT_NAME );
             playerHealthComp.subtractFromHealth( playerHealthComp.health + 1 ); //Kill the player! D:
 
@@ -520,7 +529,7 @@ namespace RunningGame {
                 return false;
             }
 
-            //Decrease the player's health (In this case, it just removes it completely.
+            //Decrease the player's health
             
             HealthComponent playerHealthComp = ( HealthComponent )player.getComponent( GlobalVars.HEALTH_COMPONENT_NAME );
             playerHealthComp.subtractFromHealth( (int)Math.Ceiling(playerHealthComp.maxHealth/1.8f) ); //Bubye healths! >:)
@@ -579,13 +588,13 @@ namespace RunningGame {
 
         //This occurs when the bullet collides with something that isn't an enemy
         //It finds and removes the bullet.
-        public bool bulletNonEnemyCollision( Entity e1, Entity e2 ) {
+        public bool destroyBulletCollision( Entity e1, Entity e2 ) {
             //Get the bullet
-            BulletEntity bullet;
-            if ( e1 is BulletEntity ) {
-                bullet = ( BulletEntity )e1;
-            } else if ( e2 is BulletEntity ) {
-                bullet = ( BulletEntity )e2;
+            Entity bullet;
+            if ( e1 is BulletEntity || e1 is ShooterBullet ) {
+                bullet = e1;
+            } else if ( e2 is BulletEntity || e2 is ShooterBullet) {
+                bullet = e2;
             } else {
                 Console.WriteLine( "Bullet Collision with no bullet..." );
                 return false;
@@ -596,6 +605,34 @@ namespace RunningGame {
 
             //Don't stop movement
             return false;
+        }
+        public bool shooterBulletPlayerCollision( Entity e1, Entity e2 ) {
+            //Figure out which entity is the player
+            Player player;
+            Entity enemy;
+            if ( e1 is Player ) {
+                player = ( Player )e1;
+                enemy = e2;
+            } else if ( e2 is Player ) {
+                player = ( Player )e2;
+                enemy = e1;
+            } else {
+                Console.WriteLine( "Shooter Bullet Player Collision with no player..." );
+                return false;
+            }
+
+            //Decrease the player's health
+            HealthComponent playerHealthComp = ( HealthComponent )player.getComponent( GlobalVars.HEALTH_COMPONENT_NAME );
+            playerHealthComp.subtractFromHealth( ( int )Math.Ceiling( playerHealthComp.maxHealth / 1.8f ) ); //Bubye healths! >:)
+            
+            level.playerImmune = true;
+            if ( !this.level.timerMethods.ContainsKey( level.disableImmune ) ) {
+                this.level.timerMethods.Add( level.disableImmune, 0.02f );
+            }
+
+            level.removeEntity( enemy );
+            return false;
+
         }
 
         //Destroy both colliding entities
@@ -631,14 +668,14 @@ namespace RunningGame {
                 Console.WriteLine( "Moving Plaform Collision without Moving Platform!" );
                 return false;
             }
-
+            
 
             PositionComponent platPos = ( PositionComponent )plat.getComponent( GlobalVars.POSITION_COMPONENT_NAME );
             PositionComponent otherPos = ( PositionComponent )other.getComponent( GlobalVars.POSITION_COMPONENT_NAME );
             ColliderComponent platCol = ( ColliderComponent )plat.getComponent( GlobalVars.COLLIDER_COMPONENT_NAME );
             ColliderComponent otherCol = ( ColliderComponent )plat.getComponent( GlobalVars.COLLIDER_COMPONENT_NAME );
             
-            float buffer = -2;
+            float buffer = -3;
 
             if ( other.hasComponent( GlobalVars.VELOCITY_COMPONENT_NAME ) ) {
                 VelocityComponent otherVel = ( VelocityComponent )other.getComponent( GlobalVars.VELOCITY_COMPONENT_NAME );
@@ -654,7 +691,6 @@ namespace RunningGame {
             if ( diff > buffer ) {
                 return false;
             }
-
 
             return true;
         }
@@ -745,7 +781,9 @@ namespace RunningGame {
             Entity spawnBlock = null;
             Entity other = null;
 
-            if ( e1 is spawnBlockEntity ) { spawnBlock = e1; other = e2; } else if ( e2 is spawnBlockEntity ) { spawnBlock = e2; other = e1; } else { Console.WriteLine( "Spawn Enemy Collision with no Spawn!" ); return false; }
+            if ( e1 is spawnBlockEntity ) { spawnBlock = e1; other = e2; }
+            else if ( e2 is spawnBlockEntity ) { spawnBlock = e2; other = e1; }
+            else { Console.WriteLine( "Spawn Enemy Collision with no Spawn!" ); return false; }
 
             SpawnBlockComponent spComp = ( SpawnBlockComponent )spawnBlock.getComponent( GlobalVars.SPAWN_BLOCK_COMPONENT_NAME );
 
@@ -762,6 +800,7 @@ namespace RunningGame {
             return false;
 
         }
+
 
         //If there's satisfactory overlap between the player and the spike it kills the player.
         //Otherwise it does nothing.

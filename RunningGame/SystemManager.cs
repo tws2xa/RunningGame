@@ -41,6 +41,9 @@ namespace RunningGame {
         public MovingPlatformSystem movPlatSystem;
         public GrappleSystem grapSystem;
         public PushableSystem pushSystem;
+        public TimerSystem timerSystem;
+        public TimedShooterSystem timedShooterSystem;
+        public VelToZeroSystem velZeroSystem;
 
         List<GameSystem> systems = new List<GameSystem>();
 
@@ -76,6 +79,9 @@ namespace RunningGame {
             movPlatSystem = new MovingPlatformSystem( level ); systems.Add( movPlatSystem );
             grapSystem = new GrappleSystem( level ); systems.Add( grapSystem );
             pushSystem = new PushableSystem( level ); systems.Add( pushSystem );
+            timerSystem = new TimerSystem( level ); systems.Add( timerSystem );
+            timedShooterSystem = new TimedShooterSystem( level ); systems.Add( timedShooterSystem );
+            velZeroSystem = new VelToZeroSystem( level ); systems.Add( velZeroSystem );
 
         }
 
@@ -83,6 +89,8 @@ namespace RunningGame {
         //Game Logic Stuff
         public void Update( float deltaTime ) {
 
+            velZeroSystem.Update( deltaTime );
+            timerSystem.Update( deltaTime );
             moveSystem.Update( deltaTime );
             bkgPosSystem.Update( deltaTime );
             pushSystem.Update( deltaTime );
@@ -91,6 +99,7 @@ namespace RunningGame {
             playerSystem.Update( deltaTime );
             visSystem.Update( deltaTime );
             grapSystem.Update( deltaTime );
+            timedShooterSystem.Update( deltaTime );
             spSystem.Update( deltaTime );
             weapSystem.Update( deltaTime );
             colSystem.Update( deltaTime );

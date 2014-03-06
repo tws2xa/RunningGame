@@ -95,8 +95,11 @@
     <Compile Include="Components\SquishComponent.cs" />
     <Compile Include="Components\SwitchComponent.cs" />
     <Compile Include="Components\SwitchListenerComponent.cs" />
+    <Compile Include="Components\TimedShooterComponent.cs" />
     <Compile Include="Components\TimedSwitchComponent.cs" />
+    <Compile Include="Components\TimerComponent.cs" />
     <Compile Include="Components\VelocityComponent.cs" />
+    <Compile Include="Components\VelToZeroComponent.cs" />
     <Compile Include="Components\VisionInputComponent.cs" />
     <Compile Include="DeathHandler.cs" />
     <Compile Include="Entities\BackgroundEntity.cs" />
@@ -108,12 +111,14 @@
     <Compile Include="Entities\GrappleEntity.cs" />
     <Compile Include="Entities\MovingPlatformEntity.cs" />
     <Compile Include="Entities\PowerupPickupEntity.cs" />
+    <Compile Include="Entities\ShooterBullet.cs" />
     <Compile Include="Entities\spawnBlockEntity.cs" />
     <Compile Include="Entities\BulletEntity.cs" />
     <Compile Include="Entities\DeadPlayerEntity.cs" />
     <Compile Include="Entities\EndLevelEntity.cs" />
     <Compile Include="Entities\PressureSwitchEntity.cs" />
     <Compile Include="Entities\SpikeEntity.cs" />
+    <Compile Include="Entities\TimedShooterEntity.cs" />
     <Compile Include="Entities\TimedSwitchEntity.cs" />
     <Compile Include="Entities\FlyingEnemyEntity.cs" />
     <Compile Include="Entities\DoorEntity.cs" />
@@ -185,6 +190,9 @@
     <Compile Include="Systems\SwitchListenerSystem.cs" />
     <Compile Include="Systems\SwitchSystem.cs" />
     <Compile Include="Systems\SystemTemplate.cs" />
+    <Compile Include="Systems\TimedShooterSystem.cs" />
+    <Compile Include="Systems\TimerSystem.cs" />
+    <Compile Include="Systems\VelToZeroSystem.cs" />
     <Compile Include="Systems\VisionOrbSystem.cs" />
     <Compile Include="View.cs" />
     <EmbeddedResource Include="FormEditor.resx">
@@ -487,6 +495,11 @@
     <EmbeddedResource Include="Resources\Artwork\Background\Bkg32.png" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Resources\Artwork\Other\Title.jpg" />
+    <EmbeddedResource Include="Resources\Artwork\Other\SoundBtn1.png" />
+    <EmbeddedResource Include="Resources\Artwork\Other\SoundBtn2.png" />
+    <EmbeddedResource Include="Resources\Sounds\TitleTest.wav" />
+    <EmbeddedResource Include="Resources\Levels\World3Level2_new.png" />
     <EmbeddedResource Include="Resources\Artwork\Foreground\MovPlat10.png" />
     <EmbeddedResource Include="Resources\Artwork\Foreground\MovPlat11.png" />
     <EmbeddedResource Include="Resources\Artwork\Foreground\MovPlat21.png" />
