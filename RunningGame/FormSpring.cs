@@ -41,7 +41,8 @@ namespace RunningGame
         public SoundSystem sndSystem;
 
         string titleMusic = "RunningGame.Resources.Sounds.TitleTest.wav";
-
+        //string titleMusic = "C:/Users/Lina/Desktop/RunningGame/RunningGame/Resources/Sounds/TitleTest.wav";
+        
 
         //When the form starts up, initialize it.
         public FormSpring()
@@ -69,7 +70,7 @@ namespace RunningGame
 
             //Set it to double buffered.
             this.DoubleBuffered = true;
-
+            
             sndSystem.playSound( titleMusic, true );
 
             addLevels();
