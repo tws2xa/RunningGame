@@ -347,6 +347,8 @@ namespace RunningGame
             btnPlay.Visible = false;
             btnPlay.Enabled = false;
             showHideWorldButtons(true);
+            showHideControlButtons(false);
+            
         }
 
 
@@ -380,7 +382,25 @@ namespace RunningGame
             this.lblLeft.Visible = show;
             this.btnSetRight.Visible = show;
             this.btnSetRight.Enabled = show;
-            this.lblRight.Visible = show; 
+            this.lblRight.Visible = show;
+            this.btnSetCycleDown.Visible = show;
+            this.btnSetCycleDown.Enabled = show;
+            this.lblCycleUp.Visible = show;
+            this.btnSetCycleUp.Visible = show;
+            this.btnSetCycleUp.Enabled = show;
+            this.lblCycleDown.Visible = show;
+            this.btnSetUseEquipped.Visible = show;
+            this.btnSetUseEquipped.Enabled = show;
+            this.lblUseEquipped.Visible = show;
+            this.btnSetGlide.Visible = show;
+            this.btnSetGlide.Enabled = show;
+            this.lblGlide.Visible = show;
+            this.btnSetRestart.Visible = show;
+            this.btnSetRestart.Enabled = show;
+            this.lblRestart.Visible = show;
+            this.btnSetEnd.Visible = show;
+            this.btnSetEnd.Enabled = show;
+            this.lblEnd.Visible = show; 
         }
 
         //Show/hides the select world buttons
@@ -656,7 +676,7 @@ namespace RunningGame
 
         private void btnSetRight_KeyDown(object sender, KeyEventArgs e)
         {
-            if (!e.KeyData.Equals(GlobalVars.reservedKeys))
+            if (!GlobalVars.reservedKeys.Contains(e.KeyData))
             {
                 btnSetRight.Text = Convert.ToString(e.KeyData);
                 GlobalVars.reservedKeys.Add(e.KeyData);
@@ -664,5 +684,119 @@ namespace RunningGame
                 btnControlReturn.Enabled = true;
             }
         }
+
+        private void button1_KeyDown(object sender, KeyEventArgs e)
+        {
+
+        }
+
+        private void btnSetCycleDown_Click(object sender, EventArgs e)
+        {
+            btnSetCycleDown.Text = "";
+            GlobalVars.reservedKeys.Remove(GlobalVars.KEY_CYCLE_UP);
+            btnControlReturn.Enabled = false;
+        }
+
+        private void btnSetCycleDown_KeyDown(object sender, KeyEventArgs e)
+        {
+             if (!GlobalVars.reservedKeys.Contains(e.KeyData))
+             {
+                btnSetCycleDown.Text = Convert.ToString(e.KeyData);
+                GlobalVars.reservedKeys.Add(e.KeyData);
+                GlobalVars.KEY_CYCLE_DOWN = e.KeyData;
+                btnControlReturn.Enabled = true;
+            }
+        }
+
+        private void btnSetCycleUp_Click(object sender, EventArgs e)
+        {
+            btnSetCycleUp.Text = "";
+            GlobalVars.reservedKeys.Remove(GlobalVars.KEY_CYCLE_UP);
+            btnControlReturn.Enabled = false;
+        }
+
+        private void btnSetCycleUp_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (!GlobalVars.reservedKeys.Contains(e.KeyData))
+            {
+                GlobalVars.reservedKeys.Add(e.KeyData);
+                btnSetCycleUp.Text = Convert.ToString(e.KeyData);
+                GlobalVars.KEY_CYCLE_UP = e.KeyData;
+                btnControlReturn.Enabled = true;
+            }
+        }
+
+        private void btnSetUseEquipped_Click(object sender, EventArgs e)
+        {
+            btnSetUseEquipped.Text = "";
+            GlobalVars.reservedKeys.Remove(GlobalVars.KEY_CYCLE_UP);
+            btnControlReturn.Enabled = false;
+        }
+
+        private void btnSetUseEquipped_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (!GlobalVars.reservedKeys.Contains(e.KeyData))
+            {
+                btnSetUseEquipped.Text = Convert.ToString(e.KeyData);
+                GlobalVars.reservedKeys.Add(e.KeyData);
+                GlobalVars.KEY_USE_EQUIPPED = e.KeyData;
+                btnControlReturn.Enabled = true;
+            }
+        }
+
+        private void btnSetGlide_Click(object sender, EventArgs e)
+        {
+            btnSetGlide.Text = "";
+            GlobalVars.reservedKeys.Remove(GlobalVars.KEY_GLIDE);
+            btnControlReturn.Enabled = false;
+        }
+
+        private void btnSetGlide_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (!GlobalVars.reservedKeys.Contains(e.KeyData))
+            {
+                btnSetGlide.Text = Convert.ToString(e.KeyData);
+                GlobalVars.reservedKeys.Add(e.KeyData);
+                GlobalVars.KEY_GLIDE = e.KeyData;
+                btnControlReturn.Enabled = true;
+            }
+        }
+
+        private void btnSetRestart_Click(object sender, EventArgs e)
+        {
+            btnSetRestart.Text = "";
+            GlobalVars.reservedKeys.Remove(GlobalVars.KEY_RESET);
+            btnControlReturn.Enabled = false;
+        }
+
+        private void btnSetRestart_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (!GlobalVars.reservedKeys.Contains(e.KeyData))
+            {
+                btnSetRestart.Text = Convert.ToString(e.KeyData);
+                GlobalVars.reservedKeys.Add(e.KeyData);
+                GlobalVars.KEY_RESET = e.KeyData;
+                btnControlReturn.Enabled = true;
+            }
+        }
+
+        private void btnSetEnd_Click(object sender, EventArgs e)
+        {
+            btnSetEnd.Text = "";
+            GlobalVars.reservedKeys.Remove(GlobalVars.KEY_END);
+            btnControlReturn.Enabled = false;
+        }
+
+        private void btnSetEnd_KeyDown(object sender, KeyEventArgs e)
+        {
+             if (!GlobalVars.reservedKeys.Contains(e.KeyData))
+             {
+            btnSetEnd.Text = Convert.ToString(e.KeyData);
+            GlobalVars.reservedKeys.Add(e.KeyData);
+            GlobalVars.KEY_END = e.KeyData;
+            btnControlReturn.Enabled = true;
+            }
+        }
+
     }
 }
