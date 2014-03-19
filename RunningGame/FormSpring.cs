@@ -601,26 +601,7 @@ namespace RunningGame
 
         }
 
-        private void btnSetJump_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (!GlobalVars.reservedKeys.Contains(e.KeyData))
-            {
-                GlobalVars.reservedKeys.Add(e.KeyData);
-                btnSetJump.Text = Convert.ToString(e.KeyData);
-                GlobalVars.KEY_JUMP = e.KeyData;
-                btnControlReturn.Enabled = true;
-            }
-        }
 
-
-        private void handleKeyChangeBegin( EventArgs e, Button btn, Keys key ) {
-            //Quick check so you can only change one key at a time
-            if ( btnControlReturn.Enabled ) {
-                btn.Text = "";
-                GlobalVars.reservedKeys.Remove( key );
-                btnControlReturn.Enabled = false;
-            }
-        }
 
         private void sndToggle_Click(object sender, EventArgs e)
         {
@@ -643,30 +624,24 @@ namespace RunningGame
 
         }
 
-        private void btnSetLeft_Click(object sender, EventArgs e)
-        {
-            btnSetLeft.Text = "";
-            GlobalVars.reservedKeys.Remove(GlobalVars.KEY_LEFT);
-            btnControlReturn.Enabled = false;
-        }
+        private void lblLeft_Click( object sender, EventArgs e ) {
 
-        private void btnSetLeft_KeyDown(object sender, KeyEventArgs e)
-        {
-      if (!GlobalVars.reservedKeys.Contains(e.KeyData))
-            {
-                GlobalVars.reservedKeys.Add(e.KeyData);
-                btnSetLeft.Text = Convert.ToString(e.KeyData);
-                GlobalVars.KEY_LEFT = e.KeyData;
-                btnControlReturn.Enabled = true;
         }
 
         //---------------------------------------------------------------------------------------------
 
-    }
 
-        private void lblLeft_Click(object sender, EventArgs e)
-        {
+        private void handleKeyChangeBegin( EventArgs e, Button btn, Keys key ) {
+            //Quick check so you can only change one key at a time
+            if ( btnControlReturn.Enabled ) {
+                btn.Text = "";
+                GlobalVars.reservedKeys.Remove( key );
+                btnControlReturn.Enabled = false;
+            }
+        }
 
+        private void btnSetLeft_Click( object sender, EventArgs e ) {
+            handleKeyChangeBegin( e, btnSetLeft, GlobalVars.KEY_LEFT );
         }
 
         private void btnSetRight_Click(object sender, EventArgs e)
@@ -743,6 +718,7 @@ namespace RunningGame
                     break;
             }
         }
+        
 
         private void handleKeyChangeEnd( KeyEventArgs e, Button btn, int keyNum ) {
             if ( !GlobalVars.reservedKeys.Contains( e.KeyData ) ) {
@@ -751,6 +727,15 @@ namespace RunningGame
                 setGlobalKey( keyNum, e.KeyData );
                 btnControlReturn.Enabled = true;
             }
+        }
+
+
+        private void btnSetJump_KeyDown( object sender, KeyEventArgs e ) {
+            handleKeyChangeEnd( e, btnSetJump, GlobalVars.JUMP_INT );
+        }
+
+        private void btnSetLeft_KeyDown( object sender, KeyEventArgs e ) {
+            handleKeyChangeEnd( e, btnSetLeft, GlobalVars.LEFT_INT );
         }
 
         private void btnSetRight_KeyDown(object sender, KeyEventArgs e)
