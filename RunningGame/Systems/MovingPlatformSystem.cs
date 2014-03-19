@@ -79,20 +79,23 @@ namespace RunningGame.Systems {
                     movPlatComp.wasStoppedLastFrame = false;
                 }
 
+                float checkBuffer = 3;
+
                 float upperLeftX = platCol.getX(platPos) - platCol.width/2;
                 float upperRightX = platCol.getX(platPos) + platCol.width/2;
-                float upperY = platCol.getY(platPos) - platCol.height/2 - 3;
+                float upperY = platCol.getY(platPos) - platCol.height/2 - checkBuffer;
 
                 System.Drawing.PointF leftPoint = new System.Drawing.PointF(upperLeftX, upperY);
                 System.Drawing.PointF rightPoint = new System.Drawing.PointF(upperRightX, upperY);
                 List<Entity> aboveEnts = level.getCollisionSystem().findObjectsBetweenPoints( leftPoint, rightPoint );
 
                 foreach(Entity otherEnt in aboveEnts) {
-
+                    
                     if ( !stoppingEntities.Contains(  otherEnt.GetType() ) && otherEnt.hasComponent( GlobalVars.VELOCITY_COMPONENT_NAME ) ) {
                         PositionComponent otherPos = (PositionComponent) otherEnt.getComponent(GlobalVars.POSITION_COMPONENT_NAME);
                         VelocityComponent otherVel = ( VelocityComponent )otherEnt.getComponent( GlobalVars.VELOCITY_COMPONENT_NAME );
                         ColliderComponent otherCol = ( ColliderComponent )otherEnt.getComponent( GlobalVars.COLLIDER_COMPONENT_NAME );
+
                         System.Drawing.PointF grav = new System.Drawing.PointF( 0.0f, 0.0f );
                         if ( otherEnt.hasComponent( GlobalVars.GRAVITY_COMPONENT_NAME ) ) {
                             GravityComponent otherGrav = ( GravityComponent )otherEnt.getComponent( GlobalVars.GRAVITY_COMPONENT_NAME );
