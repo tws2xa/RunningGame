@@ -117,6 +117,17 @@ namespace RunningGame {
         public static Keys KEY_GLIDE = Keys.Space;
         public static Keys KEY_END = Keys.Escape;
 
+        public const int JUMP_INT = 0;
+        public const int LEFT_INT = 1;
+        public const int RIGHT_INT = 2;
+        public const int DOWN_INT = 3;
+        public const int RESET_INT = 4;
+        public const int CYCLE_DOWN_INT = 5;
+        public const int CYCLE_UP_INT = 6;
+        public const int USE_EQUIPPED_INT = 7;
+        public const int GLIDE_INT = 8;
+        public const int END_INT = 9;
+
         //Switch Events
         public static string DOOR_EVENT_TYPE = "doorEvent";
 

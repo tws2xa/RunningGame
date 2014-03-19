@@ -614,9 +614,12 @@ namespace RunningGame
 
 
         private void handleKeyChangeBegin( EventArgs e, Button btn, Keys key ) {
-            btn.Text = "";
-            GlobalVars.reservedKeys.Remove( key );
-            btnControlReturn.Enabled = false;
+            //Quick check so you can only change one key at a time
+            if ( btnControlReturn.Enabled ) {
+                btn.Text = "";
+                GlobalVars.reservedKeys.Remove( key );
+                btnControlReturn.Enabled = false;
+            }
         }
 
         private void sndToggle_Click(object sender, EventArgs e)
@@ -706,90 +709,79 @@ namespace RunningGame
 
         }
 
+        private void setGlobalKey( int keyNum, Keys key ) {
+            switch ( keyNum ) {
+                case ( GlobalVars.JUMP_INT ):
+                    GlobalVars.KEY_JUMP = key;
+                    break;
+                case ( GlobalVars.LEFT_INT ):
+                    GlobalVars.KEY_LEFT = key;
+                    break;
+                case ( GlobalVars.RIGHT_INT ):
+                    GlobalVars.KEY_RIGHT = key;
+                    break;
+                case ( GlobalVars.DOWN_INT ):
+                    GlobalVars.KEY_DOWN = key;
+                    break;
+                case ( GlobalVars.RESET_INT ):
+                    GlobalVars.KEY_RESET = key;
+                    break;
+                case ( GlobalVars.CYCLE_DOWN_INT ):
+                    GlobalVars.KEY_CYCLE_DOWN = key;
+                    break;
+                case ( GlobalVars.CYCLE_UP_INT ):
+                    GlobalVars.KEY_CYCLE_UP = key;
+                    break;
+                case ( GlobalVars.USE_EQUIPPED_INT ):
+                    GlobalVars.KEY_USE_EQUIPPED = key;
+                    break;
+                case ( GlobalVars.GLIDE_INT ):
+                    GlobalVars.KEY_GLIDE = key;
+                    break;
+                case ( GlobalVars.END_INT ):
+                    GlobalVars.KEY_END = key;
+                    break;
+            }
+        }
 
+        private void handleKeyChangeEnd( KeyEventArgs e, Button btn, int keyNum ) {
+            if ( !GlobalVars.reservedKeys.Contains( e.KeyData ) ) {
+                btn.Text = Convert.ToString( e.KeyData );
+                GlobalVars.reservedKeys.Add( e.KeyData );
+                setGlobalKey( keyNum, e.KeyData );
+                btnControlReturn.Enabled = true;
+            }
+        }
 
         private void btnSetRight_KeyDown(object sender, KeyEventArgs e)
         {
-            if (!GlobalVars.reservedKeys.Contains(e.KeyData))
-            {
-                btnSetRight.Text = Convert.ToString(e.KeyData);
-                GlobalVars.reservedKeys.Add(e.KeyData);
-                GlobalVars.KEY_RIGHT = e.KeyData;
-                btnControlReturn.Enabled = true;
-            }
+            handleKeyChangeEnd( e, btnSetRight, GlobalVars.RIGHT_INT );
         }
 
-        private void btnSetCycleDown_KeyDown(object sender, KeyEventArgs e)
-        {
-             if (!GlobalVars.reservedKeys.Contains(e.KeyData))
-             {
-                btnSetCycleDown.Text = Convert.ToString(e.KeyData);
-                GlobalVars.reservedKeys.Add(e.KeyData);
-                GlobalVars.KEY_CYCLE_DOWN = e.KeyData;
-                btnControlReturn.Enabled = true;
-            }
+        private void btnSetCycleDown_KeyDown(object sender, KeyEventArgs e) {
+            handleKeyChangeEnd( e, btnSetCycleDown, GlobalVars.CYCLE_DOWN_INT);
         }
 
-        private void btnSetCycleUp_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (!GlobalVars.reservedKeys.Contains(e.KeyData))
-            {
-                GlobalVars.reservedKeys.Add(e.KeyData);
-                btnSetCycleUp.Text = Convert.ToString(e.KeyData);
-                GlobalVars.KEY_CYCLE_UP = e.KeyData;
-                btnControlReturn.Enabled = true;
-            }
+        private void btnSetCycleUp_KeyDown(object sender, KeyEventArgs e) {
+            handleKeyChangeEnd( e, btnSetCycleUp, GlobalVars.CYCLE_UP_INT);
         }
 
-        private void btnSetUseEquipped_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (!GlobalVars.reservedKeys.Contains(e.KeyData))
-            {
-                btnSetUseEquipped.Text = Convert.ToString(e.KeyData);
-                GlobalVars.reservedKeys.Add(e.KeyData);
-                GlobalVars.KEY_USE_EQUIPPED = e.KeyData;
-                btnControlReturn.Enabled = true;
-            }
+        private void btnSetUseEquipped_KeyDown(object sender, KeyEventArgs e) {
+            handleKeyChangeEnd( e, btnSetUseEquipped, GlobalVars.USE_EQUIPPED_INT);
         }
 
-        private void btnSetGlide_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (!GlobalVars.reservedKeys.Contains(e.KeyData))
-            {
-                btnSetGlide.Text = Convert.ToString(e.KeyData);
-                GlobalVars.reservedKeys.Add(e.KeyData);
-                GlobalVars.KEY_GLIDE = e.KeyData;
-                btnControlReturn.Enabled = true;
-            }
+        private void btnSetGlide_KeyDown(object sender, KeyEventArgs e) {
+            handleKeyChangeEnd( e, btnSetGlide, GlobalVars.GLIDE_INT);
         }
 
-        private void btnSetRestart_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (!GlobalVars.reservedKeys.Contains(e.KeyData))
-            {
-                btnSetRestart.Text = Convert.ToString(e.KeyData);
-                GlobalVars.reservedKeys.Add(e.KeyData);
-                GlobalVars.KEY_RESET = e.KeyData;
-                btnControlReturn.Enabled = true;
-            }
+        private void btnSetRestart_KeyDown(object sender, KeyEventArgs e) {
+            handleKeyChangeEnd( e, btnSetRestart, GlobalVars.RESET_INT);
         }
 
-        private void btnSetEnd_KeyDown(object sender, KeyEventArgs e)
-        {
-             if (!GlobalVars.reservedKeys.Contains(e.KeyData))
-             {
-            btnSetEnd.Text = Convert.ToString(e.KeyData);
-            GlobalVars.reservedKeys.Add(e.KeyData);
-            GlobalVars.KEY_END = e.KeyData;
-            btnControlReturn.Enabled = true;
-            }
+        private void btnSetEnd_KeyDown(object sender, KeyEventArgs e) {
+            handleKeyChangeEnd( e, btnSetEnd, GlobalVars.END_INT);
         }
 
-        private void btnSetLeft_KeyUp( object sender, KeyEventArgs e ) {
-            if ( e.KeyData == Keys.Space ) {
-                e.Handled = true;
-            }
-        }
 
     }
 }
