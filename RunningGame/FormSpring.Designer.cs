@@ -292,6 +292,7 @@
             this.btnSetLeft.Visible = false;
             this.btnSetLeft.Click += new System.EventHandler(this.btnSetLeft_Click);
             this.btnSetLeft.KeyDown += new System.Windows.Forms.KeyEventHandler(this.btnSetLeft_KeyDown);
+            this.btnSetLeft.KeyUp += new System.Windows.Forms.KeyEventHandler(this.btnSetLeft_KeyUp);
             // 
             // lblLeft
             // 

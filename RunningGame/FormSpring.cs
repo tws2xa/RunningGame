@@ -601,13 +601,6 @@ namespace RunningGame
 
         }
 
-        private void button1_Click_1(object sender, EventArgs e)
-        {
-            btnSetJump.Text = "";
-            GlobalVars.reservedKeys.Remove(GlobalVars.KEY_JUMP);
-            btnControlReturn.Enabled = false;
-        }
-
         private void btnSetJump_KeyDown(object sender, KeyEventArgs e)
         {
             if (!GlobalVars.reservedKeys.Contains(e.KeyData))
@@ -619,6 +612,12 @@ namespace RunningGame
             }
         }
 
+
+        private void handleKeyChangeBegin( EventArgs e, Button btn, Keys key ) {
+            btn.Text = "";
+            GlobalVars.reservedKeys.Remove( key );
+            btnControlReturn.Enabled = false;
+        }
 
         private void sndToggle_Click(object sender, EventArgs e)
         {
@@ -669,10 +668,45 @@ namespace RunningGame
 
         private void btnSetRight_Click(object sender, EventArgs e)
         {
-            btnSetRight.Text = "";
-            GlobalVars.reservedKeys.Remove(GlobalVars.KEY_RIGHT);
-            btnControlReturn.Enabled = false;
+            handleKeyChangeBegin( e, btnSetRight, GlobalVars.KEY_RIGHT );
         }
+
+        private void button1_Click_1( object sender, EventArgs e ) {
+            handleKeyChangeBegin( e, btnSetJump, GlobalVars.KEY_JUMP );
+        }
+        
+        private void btnSetCycleDown_Click(object sender, EventArgs e)
+        {
+            handleKeyChangeBegin( e, btnSetCycleDown, GlobalVars.KEY_CYCLE_DOWN );
+        }
+
+        private void btnSetCycleUp_Click( object sender, EventArgs e ) {
+            handleKeyChangeBegin( e, btnSetCycleUp, GlobalVars.KEY_CYCLE_UP );
+        }
+
+        private void btnSetUseEquipped_Click( object sender, EventArgs e ) {
+            handleKeyChangeBegin( e, btnSetUseEquipped, GlobalVars.KEY_USE_EQUIPPED );
+        }
+
+        private void btnSetGlide_Click( object sender, EventArgs e ) {
+            handleKeyChangeBegin( e, btnSetGlide, GlobalVars.KEY_GLIDE );
+        }
+
+        private void btnSetRestart_Click( object sender, EventArgs e ) {
+            handleKeyChangeBegin( e, btnSetRestart, GlobalVars.KEY_RESET );
+        }
+
+        private void btnSetEnd_Click( object sender, EventArgs e ) {
+            handleKeyChangeBegin( e, btnSetEnd, GlobalVars.KEY_END );
+        }
+
+
+
+        private void button1_KeyDown( object sender, KeyEventArgs e ) {
+
+        }
+
+
 
         private void btnSetRight_KeyDown(object sender, KeyEventArgs e)
         {
@@ -683,18 +717,6 @@ namespace RunningGame
                 GlobalVars.KEY_RIGHT = e.KeyData;
                 btnControlReturn.Enabled = true;
             }
-        }
-
-        private void button1_KeyDown(object sender, KeyEventArgs e)
-        {
-
-        }
-
-        private void btnSetCycleDown_Click(object sender, EventArgs e)
-        {
-            btnSetCycleDown.Text = "";
-            GlobalVars.reservedKeys.Remove(GlobalVars.KEY_CYCLE_UP);
-            btnControlReturn.Enabled = false;
         }
 
         private void btnSetCycleDown_KeyDown(object sender, KeyEventArgs e)
@@ -708,13 +730,6 @@ namespace RunningGame
             }
         }
 
-        private void btnSetCycleUp_Click(object sender, EventArgs e)
-        {
-            btnSetCycleUp.Text = "";
-            GlobalVars.reservedKeys.Remove(GlobalVars.KEY_CYCLE_UP);
-            btnControlReturn.Enabled = false;
-        }
-
         private void btnSetCycleUp_KeyDown(object sender, KeyEventArgs e)
         {
             if (!GlobalVars.reservedKeys.Contains(e.KeyData))
@@ -724,13 +739,6 @@ namespace RunningGame
                 GlobalVars.KEY_CYCLE_UP = e.KeyData;
                 btnControlReturn.Enabled = true;
             }
-        }
-
-        private void btnSetUseEquipped_Click(object sender, EventArgs e)
-        {
-            btnSetUseEquipped.Text = "";
-            GlobalVars.reservedKeys.Remove(GlobalVars.KEY_CYCLE_UP);
-            btnControlReturn.Enabled = false;
         }
 
         private void btnSetUseEquipped_KeyDown(object sender, KeyEventArgs e)
@@ -744,13 +752,6 @@ namespace RunningGame
             }
         }
 
-        private void btnSetGlide_Click(object sender, EventArgs e)
-        {
-            btnSetGlide.Text = "";
-            GlobalVars.reservedKeys.Remove(GlobalVars.KEY_GLIDE);
-            btnControlReturn.Enabled = false;
-        }
-
         private void btnSetGlide_KeyDown(object sender, KeyEventArgs e)
         {
             if (!GlobalVars.reservedKeys.Contains(e.KeyData))
@@ -760,13 +761,6 @@ namespace RunningGame
                 GlobalVars.KEY_GLIDE = e.KeyData;
                 btnControlReturn.Enabled = true;
             }
-        }
-
-        private void btnSetRestart_Click(object sender, EventArgs e)
-        {
-            btnSetRestart.Text = "";
-            GlobalVars.reservedKeys.Remove(GlobalVars.KEY_RESET);
-            btnControlReturn.Enabled = false;
         }
 
         private void btnSetRestart_KeyDown(object sender, KeyEventArgs e)
@@ -780,13 +774,6 @@ namespace RunningGame
             }
         }
 
-        private void btnSetEnd_Click(object sender, EventArgs e)
-        {
-            btnSetEnd.Text = "";
-            GlobalVars.reservedKeys.Remove(GlobalVars.KEY_END);
-            btnControlReturn.Enabled = false;
-        }
-
         private void btnSetEnd_KeyDown(object sender, KeyEventArgs e)
         {
              if (!GlobalVars.reservedKeys.Contains(e.KeyData))
@@ -795,6 +782,12 @@ namespace RunningGame
             GlobalVars.reservedKeys.Add(e.KeyData);
             GlobalVars.KEY_END = e.KeyData;
             btnControlReturn.Enabled = true;
+            }
+        }
+
+        private void btnSetLeft_KeyUp( object sender, KeyEventArgs e ) {
+            if ( e.KeyData == Keys.Space ) {
+                e.Handled = true;
             }
         }
 
