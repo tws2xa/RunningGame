@@ -47,8 +47,6 @@ namespace RunningGame.Systems {
         //This is where you do anything that you want to happen every frame.
         //There is a chance that your system won't need to do anything in update. Still have it.
         public override void Update( float deltaTime ) {
-
-
             foreach ( Entity e in getApplicableEntities() ) {
                 SmushComponent smushComp = ( SmushComponent )e.getComponent( GlobalVars.SMUSH_COMPONENT_NAME );
                 if ( !smushComp.getInitializedTimer() ) {
@@ -63,13 +61,11 @@ namespace RunningGame.Systems {
                     timeComp.removeCompletedTimer( timer );
                 }
 
-                if ( !smushComp.isWaitingUpper() ) {
+                if ( !smushComp.isWaitingUpper() && !smushComp.isWaitingLower() ) {
                     checkForDirectionChange( e );
                 }
 
             }
-
-
         }
         //----------------------------------------------------------------------------------------------
 
