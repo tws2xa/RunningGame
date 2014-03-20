@@ -59,7 +59,9 @@
             this.lblGlide = new System.Windows.Forms.Label();
             this.lblEnd = new System.Windows.Forms.Label();
             this.btnSetEnd = new System.Windows.Forms.Button();
+            this.cntrlBkgBox = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.sndToggle)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cntrlBkgBox)).BeginInit();
             this.SuspendLayout();
             // 
             // btnBegin
@@ -231,7 +233,7 @@
             // btnControlReturn
             // 
             this.btnControlReturn.Enabled = false;
-            this.btnControlReturn.Location = new System.Drawing.Point(21, 444);
+            this.btnControlReturn.Location = new System.Drawing.Point(12, 440);
             this.btnControlReturn.Name = "btnControlReturn";
             this.btnControlReturn.Size = new System.Drawing.Size(117, 25);
             this.btnControlReturn.TabIndex = 16;
@@ -245,7 +247,8 @@
             this.lblJump.AutoSize = true;
             this.lblJump.BackColor = System.Drawing.Color.Transparent;
             this.lblJump.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblJump.Location = new System.Drawing.Point(86, 79);
+            this.lblJump.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.lblJump.Location = new System.Drawing.Point(77, 144);
             this.lblJump.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblJump.Name = "lblJump";
             this.lblJump.Size = new System.Drawing.Size(48, 20);
@@ -257,7 +260,7 @@
             // btnSetJump
             // 
             this.btnSetJump.Enabled = false;
-            this.btnSetJump.Location = new System.Drawing.Point(21, 78);
+            this.btnSetJump.Location = new System.Drawing.Point(12, 143);
             this.btnSetJump.Name = "btnSetJump";
             this.btnSetJump.Size = new System.Drawing.Size(60, 25);
             this.btnSetJump.TabIndex = 18;
@@ -283,7 +286,7 @@
             // btnSetLeft
             // 
             this.btnSetLeft.Enabled = false;
-            this.btnSetLeft.Location = new System.Drawing.Point(21, 109);
+            this.btnSetLeft.Location = new System.Drawing.Point(12, 174);
             this.btnSetLeft.Name = "btnSetLeft";
             this.btnSetLeft.Size = new System.Drawing.Size(60, 25);
             this.btnSetLeft.TabIndex = 20;
@@ -298,7 +301,8 @@
             this.lblLeft.AutoSize = true;
             this.lblLeft.BackColor = System.Drawing.Color.Transparent;
             this.lblLeft.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblLeft.Location = new System.Drawing.Point(86, 110);
+            this.lblLeft.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.lblLeft.Location = new System.Drawing.Point(77, 175);
             this.lblLeft.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblLeft.Name = "lblLeft";
             this.lblLeft.Size = new System.Drawing.Size(37, 20);
@@ -311,7 +315,7 @@
             // btnSetRight
             // 
             this.btnSetRight.Enabled = false;
-            this.btnSetRight.Location = new System.Drawing.Point(21, 140);
+            this.btnSetRight.Location = new System.Drawing.Point(12, 205);
             this.btnSetRight.Name = "btnSetRight";
             this.btnSetRight.Size = new System.Drawing.Size(60, 25);
             this.btnSetRight.TabIndex = 22;
@@ -326,7 +330,8 @@
             this.lblRight.AutoSize = true;
             this.lblRight.BackColor = System.Drawing.Color.Transparent;
             this.lblRight.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblRight.Location = new System.Drawing.Point(86, 145);
+            this.lblRight.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.lblRight.Location = new System.Drawing.Point(77, 210);
             this.lblRight.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblRight.Name = "lblRight";
             this.lblRight.Size = new System.Drawing.Size(47, 20);
@@ -340,7 +345,8 @@
             this.lblUseEquipped.AutoSize = true;
             this.lblUseEquipped.BackColor = System.Drawing.Color.Transparent;
             this.lblUseEquipped.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblUseEquipped.Location = new System.Drawing.Point(86, 238);
+            this.lblUseEquipped.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.lblUseEquipped.Location = new System.Drawing.Point(77, 303);
             this.lblUseEquipped.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblUseEquipped.Name = "lblUseEquipped";
             this.lblUseEquipped.Size = new System.Drawing.Size(176, 20);
@@ -352,7 +358,7 @@
             // btnSetUseEquipped
             // 
             this.btnSetUseEquipped.Enabled = false;
-            this.btnSetUseEquipped.Location = new System.Drawing.Point(21, 233);
+            this.btnSetUseEquipped.Location = new System.Drawing.Point(12, 298);
             this.btnSetUseEquipped.Name = "btnSetUseEquipped";
             this.btnSetUseEquipped.Size = new System.Drawing.Size(60, 25);
             this.btnSetUseEquipped.TabIndex = 28;
@@ -367,7 +373,8 @@
             this.lblCycleUp.AutoSize = true;
             this.lblCycleUp.BackColor = System.Drawing.Color.Transparent;
             this.lblCycleUp.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblCycleUp.Location = new System.Drawing.Point(86, 203);
+            this.lblCycleUp.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.lblCycleUp.Location = new System.Drawing.Point(77, 268);
             this.lblCycleUp.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblCycleUp.Name = "lblCycleUp";
             this.lblCycleUp.Size = new System.Drawing.Size(146, 20);
@@ -379,7 +386,7 @@
             // btnSetCycleUp
             // 
             this.btnSetCycleUp.Enabled = false;
-            this.btnSetCycleUp.Location = new System.Drawing.Point(21, 202);
+            this.btnSetCycleUp.Location = new System.Drawing.Point(12, 267);
             this.btnSetCycleUp.Name = "btnSetCycleUp";
             this.btnSetCycleUp.Size = new System.Drawing.Size(60, 25);
             this.btnSetCycleUp.TabIndex = 26;
@@ -392,7 +399,7 @@
             // btnSetCycleDown
             // 
             this.btnSetCycleDown.Enabled = false;
-            this.btnSetCycleDown.Location = new System.Drawing.Point(21, 171);
+            this.btnSetCycleDown.Location = new System.Drawing.Point(12, 236);
             this.btnSetCycleDown.Name = "btnSetCycleDown";
             this.btnSetCycleDown.Size = new System.Drawing.Size(60, 25);
             this.btnSetCycleDown.TabIndex = 25;
@@ -407,7 +414,8 @@
             this.lblCycleDown.AutoSize = true;
             this.lblCycleDown.BackColor = System.Drawing.Color.Transparent;
             this.lblCycleDown.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblCycleDown.Location = new System.Drawing.Point(86, 172);
+            this.lblCycleDown.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.lblCycleDown.Location = new System.Drawing.Point(77, 237);
             this.lblCycleDown.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblCycleDown.Name = "lblCycleDown";
             this.lblCycleDown.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
@@ -422,7 +430,8 @@
             this.lblRestart.AutoSize = true;
             this.lblRestart.BackColor = System.Drawing.Color.Transparent;
             this.lblRestart.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblRestart.Location = new System.Drawing.Point(86, 296);
+            this.lblRestart.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.lblRestart.Location = new System.Drawing.Point(77, 361);
             this.lblRestart.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblRestart.Name = "lblRestart";
             this.lblRestart.Size = new System.Drawing.Size(103, 20);
@@ -434,7 +443,7 @@
             // btnSetRestart
             // 
             this.btnSetRestart.Enabled = false;
-            this.btnSetRestart.Location = new System.Drawing.Point(21, 295);
+            this.btnSetRestart.Location = new System.Drawing.Point(12, 360);
             this.btnSetRestart.Name = "btnSetRestart";
             this.btnSetRestart.Size = new System.Drawing.Size(60, 25);
             this.btnSetRestart.TabIndex = 32;
@@ -447,7 +456,7 @@
             // btnSetGlide
             // 
             this.btnSetGlide.Enabled = false;
-            this.btnSetGlide.Location = new System.Drawing.Point(21, 264);
+            this.btnSetGlide.Location = new System.Drawing.Point(12, 329);
             this.btnSetGlide.Name = "btnSetGlide";
             this.btnSetGlide.Size = new System.Drawing.Size(60, 25);
             this.btnSetGlide.TabIndex = 31;
@@ -462,7 +471,8 @@
             this.lblGlide.AutoSize = true;
             this.lblGlide.BackColor = System.Drawing.Color.Transparent;
             this.lblGlide.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblGlide.Location = new System.Drawing.Point(86, 265);
+            this.lblGlide.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.lblGlide.Location = new System.Drawing.Point(77, 330);
             this.lblGlide.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblGlide.Name = "lblGlide";
             this.lblGlide.Size = new System.Drawing.Size(46, 20);
@@ -476,7 +486,8 @@
             this.lblEnd.AutoSize = true;
             this.lblEnd.BackColor = System.Drawing.Color.Transparent;
             this.lblEnd.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblEnd.Location = new System.Drawing.Point(86, 327);
+            this.lblEnd.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.lblEnd.Location = new System.Drawing.Point(77, 392);
             this.lblEnd.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblEnd.Name = "lblEnd";
             this.lblEnd.Size = new System.Drawing.Size(79, 20);
@@ -488,7 +499,7 @@
             // btnSetEnd
             // 
             this.btnSetEnd.Enabled = false;
-            this.btnSetEnd.Location = new System.Drawing.Point(21, 326);
+            this.btnSetEnd.Location = new System.Drawing.Point(12, 391);
             this.btnSetEnd.Name = "btnSetEnd";
             this.btnSetEnd.Size = new System.Drawing.Size(60, 25);
             this.btnSetEnd.TabIndex = 34;
@@ -497,6 +508,16 @@
             this.btnSetEnd.Visible = false;
             this.btnSetEnd.Click += new System.EventHandler(this.btnSetEnd_Click);
             this.btnSetEnd.KeyDown += new System.Windows.Forms.KeyEventHandler(this.btnSetEnd_KeyDown);
+            // 
+            // cntrlBkgBox
+            // 
+            this.cntrlBkgBox.BackColor = System.Drawing.Color.Transparent;
+            this.cntrlBkgBox.Location = new System.Drawing.Point(12, 144);
+            this.cntrlBkgBox.Name = "cntrlBkgBox";
+            this.cntrlBkgBox.Size = new System.Drawing.Size(241, 272);
+            this.cntrlBkgBox.TabIndex = 36;
+            this.cntrlBkgBox.TabStop = false;
+            this.cntrlBkgBox.Visible = false;
             // 
             // FormSpring
             // 
@@ -542,6 +563,7 @@
             this.Controls.Add(this.btnEdit);
             this.Controls.Add(this.lblLoading);
             this.Controls.Add(this.btnBegin);
+            this.Controls.Add(this.cntrlBkgBox);
             this.DoubleBuffered = true;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.Name = "FormSpring";
@@ -553,6 +575,7 @@
             this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.FormRunningGame_KeyUp);
             this.MouseClick += new System.Windows.Forms.MouseEventHandler(this.FormSpring_MouseClick);
             ((System.ComponentModel.ISupportInitialize)(this.sndToggle)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cntrlBkgBox)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -596,6 +619,7 @@
         private System.Windows.Forms.Label lblGlide;
         private System.Windows.Forms.Label lblEnd;
         private System.Windows.Forms.Button btnSetEnd;
+        private System.Windows.Forms.PictureBox cntrlBkgBox;
     }
 }
 

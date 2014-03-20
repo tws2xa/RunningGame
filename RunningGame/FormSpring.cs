@@ -58,6 +58,9 @@ namespace RunningGame
             //Set the background image
             bkgImg = this.BackgroundImage;
 
+            this.Controls.SetChildIndex( cntrlBkgBox, this.Controls.Count - 1 );
+            setLabelBkgColors();
+
             System.Reflection.Assembly myAssembly = System.Reflection.Assembly.GetExecutingAssembly();
             System.IO.Stream myStreamOn = myAssembly.GetManifestResourceStream("RunningGame.Resources.Artwork.Other.SoundBtn1.png");
             System.IO.Stream myStreamOff = myAssembly.GetManifestResourceStream("RunningGame.Resources.Artwork.Other.SoundBtn2.png");
@@ -86,6 +89,23 @@ namespace RunningGame
             //btnBegin.Visible = false;
             //btnBegin.Enabled = false;
 
+        }
+
+
+        private void setLabelBkgColors() {
+            Color bkgBoxCol = Color.FromArgb( 100, Color.WhiteSmoke );
+            cntrlBkgBox.BackColor = bkgBoxCol;
+
+            this.lblCycleDown.BackColor = bkgBoxCol;
+            this.lblCycleUp.BackColor = bkgBoxCol;
+            this.lblEnd.BackColor = bkgBoxCol;
+            this.lblGlide.BackColor = bkgBoxCol;
+            this.lblJump.BackColor = bkgBoxCol;
+            this.lblLeft.BackColor = bkgBoxCol;
+            this.lblRight.BackColor = bkgBoxCol;
+            this.lblRestart.BackColor = bkgBoxCol;
+            this.lblUseEquipped.BackColor = bkgBoxCol;
+            
         }
 
         //Called when the form is closed
@@ -372,6 +392,9 @@ namespace RunningGame
         //Show/hides the control buttons
         private void showHideControlButtons(bool show)
         {
+
+            this.cntrlBkgBox.Visible = show;
+
             this.btnControlReturn.Visible = show;
             this.btnControlReturn.Enabled = show;
             this.lblJump.Visible = show;
