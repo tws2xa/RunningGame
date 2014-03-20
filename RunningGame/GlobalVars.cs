@@ -165,7 +165,9 @@ namespace RunningGame {
         public static bool debugBoxes = false;
 
         public static List<Keys> reservedKeys = new List<Keys>(){
-       Keys.A, Keys.W, Keys.D
+            KEY_JUMP, KEY_LEFT, KEY_RIGHT, KEY_DOWN,
+            KEY_RESET, KEY_CYCLE_DOWN, KEY_CYCLE_UP,
+            KEY_USE_EQUIPPED, KEY_GLIDE, KEY_END
         };
     }
 }
