@@ -53,7 +53,7 @@ namespace RunningGame.Systems {
                 List<string> completedTimers = new List<string>(timeComp.getCompletedTimers());
                 foreach(string name in completedTimers) {
                     if ( name == shooterComp.fireTimerString ) {
-                        timeComp.finishCompletedTimer( name );
+                        timeComp.removeCompletedTimer( name );
                         beginFire( e, shooterComp, timeComp, dir );
                     } else {
                         Console.WriteLine( "Unrecognized timer: " + name + " has been completed." );

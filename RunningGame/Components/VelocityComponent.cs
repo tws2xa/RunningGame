@@ -29,6 +29,11 @@ namespace RunningGame.Components {
             this.x = x;
             this.y = y;
         }
+        public void setVelocity( System.Drawing.PointF vel ) {
+            this.x = vel.X;
+            this.y = vel.Y;
+        }
+
         //Add to velocity
         public void incVelocity( float x, float y ) {
             this.x += x;

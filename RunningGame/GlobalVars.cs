@@ -51,6 +51,7 @@ namespace RunningGame {
         public static string TIMER_COMPONENT_NAME = "timerComp";
         public static string TIMED_SHOOTER_COMPONENT_NAME = "timedShooterComp";
         public static string VEL_TO_ZERO_COMPONENT_NAME = "velToZeroComp";
+        public static string SMUSH_COMPONENT_NAME = "smushComp";
 
         //Collider Types
         public static string PLAYER_COLLIDER_TYPE = "playerCollider";
@@ -59,6 +60,7 @@ namespace RunningGame {
         public static string BOUNCE_POSTGROUND_COLLIDER_TYPE = "bounceBlockCollider";
         public static string BOUNCE_PREGROUND_COLLIDER_TYPE = "bounceGroundCollider";
 
+        public static string SMUSH_BLOCK_COLLIDER = "smushBlockCollider";
         public static string INSTANT_DEATH_COLLIDER_TYPE = "instantDeathCollider";
         public static string GLIDE_COLLIDER_TYPE = "glideCollider";
         public static string POWERUP_COLLIDER_TYPE = "powerupCollider";
@@ -169,5 +171,6 @@ namespace RunningGame {
             KEY_RESET, KEY_CYCLE_DOWN, KEY_CYCLE_UP,
             KEY_USE_EQUIPPED, KEY_GLIDE, KEY_END
         };
+
     }
 }

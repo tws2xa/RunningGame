@@ -25,7 +25,7 @@ namespace RunningGame.Components {
 
         public void removeTimer( string name ) {
             timers.Remove( name );
-            finishCompletedTimer( name );
+            removeCompletedTimer( name );
         }
 
         public void decTimers(float amt) {
@@ -44,10 +44,12 @@ namespace RunningGame.Components {
             return completedTimers;
         }
 
-        public void finishCompletedTimer( string name ) {
+        public void removeCompletedTimer( string name ) {
             completedTimers.Remove( name );
         }
-
+        public bool hasTimer( string timerName ) {
+            return timers.ContainsKey( timerName );
+        }
 
 
         internal void clearAllTimers() {

@@ -23,7 +23,6 @@ namespace RunningGame.Systems {
         public void playSound( string soundLocation, bool loop ) {
             if ( GlobalVars.soundOn ) {
                 if ( !mediaPlayer ) {
-                    Console.WriteLine( "Sound Player!" );
                     System.IO.Stream stream = System.Reflection.Assembly.GetExecutingAssembly().GetManifestResourceStream( soundLocation );
                     SoundPlayer player = new SoundPlayer( stream );
                     if ( playingSoundsMP.ContainsKey( soundLocation ) )

@@ -89,6 +89,7 @@
     <Compile Include="Components\PushableComponent.cs" />
     <Compile Include="Components\ScreenEdgeComponent.cs" />
     <Compile Include="Components\SimpleEnemyComponent.cs" />
+    <Compile Include="Components\SmushComponent.cs" />
     <Compile Include="Components\SoundComponent.cs" />
     <Compile Include="Components\SpawnBlockComponent.cs" />
     <Compile Include="Components\DirectionalComponent.cs" />
@@ -112,6 +113,7 @@
     <Compile Include="Entities\MovingPlatformEntity.cs" />
     <Compile Include="Entities\PowerupPickupEntity.cs" />
     <Compile Include="Entities\ShooterBullet.cs" />
+    <Compile Include="Entities\SmushBlockEntity.cs" />
     <Compile Include="Entities\spawnBlockEntity.cs" />
     <Compile Include="Entities\BulletEntity.cs" />
     <Compile Include="Entities\DeadPlayerEntity.cs" />
@@ -185,6 +187,7 @@
     <Compile Include="Systems\MovementSystem.cs" />
     <Compile Include="Systems\PlayerMovementSystem.cs" />
     <Compile Include="Systems\ScreenEdgeSystem.cs" />
+    <Compile Include="Systems\SmushSystem.cs" />
     <Compile Include="Systems\SoundSystem.cs" />
     <Compile Include="Systems\SquishSystem.cs" />
     <Compile Include="Systems\SwitchListenerSystem.cs" />
