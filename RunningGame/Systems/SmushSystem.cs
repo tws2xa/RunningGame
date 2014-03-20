@@ -73,12 +73,10 @@ namespace RunningGame.Systems {
         }
         //----------------------------------------------------------------------------------------------
 
+        //--------------------------HANDLE TIMERS--------------------------
         private void initializeTimer( Entity e ) {
-            TimerComponent timerComp = (TimerComponent)e.getComponent( GlobalVars.TIMER_COMPONENT_NAME );
             SmushComponent smushComp = ( SmushComponent )e.getComponent( GlobalVars.SMUSH_COMPONENT_NAME );
-            if ( !timerComp.hasTimer( upperWaitTimer ) ) {
-                timerComp.addTimer( upperWaitTimer, smushComp.getUpperWaitTime() );
-            }
+            startUpperWait( e );
             smushComp.setHasInitializedTimer( true );
         }
 
@@ -103,6 +101,8 @@ namespace RunningGame.Systems {
             startRise(e);
         }
 
+
+        //--------------------------HANDLE DIRECTION CHANGE--------------------------
         private void checkForDirectionChange( Entity e ) {
             SmushComponent smushComp = ( SmushComponent )e.getComponent( GlobalVars.SMUSH_COMPONENT_NAME );
             VelocityComponent velComp = ( VelocityComponent )e.getComponent( GlobalVars.VELOCITY_COMPONENT_NAME );
@@ -113,23 +113,19 @@ namespace RunningGame.Systems {
                 if ( smushComp.isFalling() ) {
                     startLowerWait( e );
                 } else if ( smushComp.isRising() ) {
-                    startUpperWait( velComp, smushComp, e );
+                    startUpperWait( e );
                 }
             }
             if ( smushComp.getFallSpeed().Y != 0 && Math.Abs(velComp.y) < stopBuffer ) {
-                /*Console.WriteLine( "In Y Fall Stop for Smush!" );
-                Console.WriteLine( "\tWaiting: " + smushComp.isWaiting() );
-                Console.WriteLine( "\tFalling: " + smushComp.isFalling() );
-                Console.WriteLine( "\tRising: " + smushComp.isRising() );*/
                 if ( smushComp.isFalling() ) {
                     startLowerWait( e );
                 } else if ( smushComp.isRising() ) {
-                    startUpperWait( velComp, smushComp, e );
+                    startUpperWait( e );
                 }
             }    
         }
 
-
+        //--------------------------CHANGE PHASE METHODS--------------------------
 
         //Start falling
         private void startFall( Entity e ) {
@@ -153,17 +149,20 @@ namespace RunningGame.Systems {
             velComp.setVelocity( smushComp.getRiseSpeed() );
             smushComp.setStateRise();
         }
-
+        
         //Start Upper Waiting
         private void startUpperWait( Entity e ) {
             SmushComponent smushComp = ( SmushComponent )e.getComponent( GlobalVars.SMUSH_COMPONENT_NAME );
             VelocityComponent velComp = ( VelocityComponent )e.getComponent( GlobalVars.VELOCITY_COMPONENT_NAME );
-            startUpperWait( velComp, smushComp, e );
+            TimerComponent timerComp = ( TimerComponent )e.getComponent( GlobalVars.TIMER_COMPONENT_NAME );
+            startUpperWait( velComp, smushComp, timerComp, e );
         }
-        private void startUpperWait( VelocityComponent velComp, SmushComponent smushComp, Entity e ) {
+        private void startUpperWait( VelocityComponent velComp, SmushComponent smushComp, TimerComponent timerComp, Entity e ) {
             velComp.setVelocity( 0, 0 );
+            if ( !timerComp.hasTimer( upperWaitTimer ) ) {
+                timerComp.addTimer( upperWaitTimer, smushComp.getUpperWaitTime() );
+            }
             smushComp.setStateUpperWait();
-            initializeTimer( e );
         }
 
         //Start Lower Waiting
