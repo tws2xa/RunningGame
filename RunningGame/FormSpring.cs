@@ -633,7 +633,7 @@ namespace RunningGame
 
         private void handleKeyChangeBegin( EventArgs e, Button btn, Keys key ) {
             //Quick check so you can only change one key at a time
-            if ( btnControlReturn.Enabled ) {
+            if ( btnControlReturn.Enabled && e is MouseEventArgs) {
                 btn.Text = "";
                 GlobalVars.reservedKeys.Remove( key );
                 btnControlReturn.Enabled = false;
@@ -721,6 +721,7 @@ namespace RunningGame
         
 
         private void handleKeyChangeEnd( KeyEventArgs e, Button btn, int keyNum ) {
+            e.Handled = true;
             if ( !GlobalVars.reservedKeys.Contains( e.KeyData ) ) {
                 btn.Text = Convert.ToString( e.KeyData );
                 GlobalVars.reservedKeys.Add( e.KeyData );
@@ -766,6 +767,7 @@ namespace RunningGame
         private void btnSetEnd_KeyDown(object sender, KeyEventArgs e) {
             handleKeyChangeEnd( e, btnSetEnd, GlobalVars.END_INT);
         }
+
 
 
     }
