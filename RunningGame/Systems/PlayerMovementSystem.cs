@@ -97,31 +97,35 @@ namespace RunningGame.Systems {
         public void restartHorizontalMovementIfNoBlock( VelocityComponent velComp, PositionComponent posComp, PlayerInputComponent pelInComp, AnimationComponent animComp ) {
             if ( Math.Abs( velComp.x ) < Math.Abs( pelInComp.playerHorizMoveSpeed ) ) {
 
-                float allowedOverlap = 0.0f;
+                float allowedOverlap = 3.0f;
                 float extraHDistCheck = GlobalVars.MIN_TILE_SIZE / 2;
                 float upperY = ( posComp.y - posComp.height / 2 );
                 float lowerY = ( posComp.y + posComp.height / 2 - allowedOverlap );
 
-                if ( level.getInputSystem().myKeys[GlobalVars.KEY_RIGHT].pressed ) {
+                if ( level.getInputSystem().myKeys[GlobalVars.KEY_RIGHT].pressed && velComp.x == 0 ) {
 
                     float rightX = ( posComp.x + posComp.width / 2 + extraHDistCheck );
+                    
                     bool tmpPrecice = GlobalVars.preciseCollisionChecking;
                     GlobalVars.preciseCollisionChecking = false; //turn off precise collision detection to prevent jitters.
 
-                    if ( !( level.getCollisionSystem().findObjectsBetweenPoints( rightX, upperY, rightX, lowerY ).Count > 0 ) ) {
+                    List<Entity> cols = level.getCollisionSystem().findObjectsBetweenPoints( rightX, upperY, rightX, lowerY );
+                    if ( cols.Count <= 0 ) {
                         beginMoveRight( posComp, velComp, pelInComp, animComp );
                     }
 
                     GlobalVars.preciseCollisionChecking = tmpPrecice; //put collision detection back to its normal setting
 
                 }
-                if ( level.getInputSystem().myKeys[GlobalVars.KEY_LEFT].pressed ) {
+                if ( level.getInputSystem().myKeys[GlobalVars.KEY_LEFT].pressed && velComp.x == 0) {
 
                     float leftX = ( posComp.x - posComp.width / 2 - extraHDistCheck );
                     bool tmpPrecice = GlobalVars.preciseCollisionChecking;
                     GlobalVars.preciseCollisionChecking = false; //turn off precise collision detection to prevent jitters.
-
-                    if ( !( level.getCollisionSystem().findObjectsBetweenPoints( leftX, upperY, leftX, lowerY ).Count > 0 ) ) {
+                    
+                    List<Entity> cols = level.getCollisionSystem().findObjectsBetweenPoints( leftX, upperY, leftX, lowerY );
+                    
+                    if ( cols.Count <= 0 ) {
                         beginMoveLeft( posComp, velComp, pelInComp, animComp );
                     }
 
