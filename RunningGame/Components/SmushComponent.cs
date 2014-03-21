@@ -9,7 +9,7 @@ namespace RunningGame.Components {
 
         float xFallSpeed = 0.0f;
         float xRiseSpeed = 0.0f;
-        float yFallSpeed = 200.0f;
+        float yFallSpeed = 400.0f;
         float yRiseSpeed = -100.0f;
         float upperWaitTime = 2.0f; //In seconds
         float lowerWaitTime = 0.5f; //In seconds

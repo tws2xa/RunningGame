@@ -1041,7 +1041,7 @@ namespace RunningGame {
             float overlapBuffer = 3;
 
             //check if it's a vertical or horizontal collision
-            bool vertCollision = ( Math.Abs( smushLoc.X - otherLoc.X ) <= ( Math.Min( smushSize.X, otherSize.X ) + overlapBuffer ) );
+            bool vertCollision = ( Math.Abs( smushLoc.X - otherLoc.X ) <= ( Math.Max( smushSize.X, otherSize.X ) + overlapBuffer ) );
 
             if(vertCollision && (smushDir.isLeft() || smushDir.isRight())) return simpleStopCollision(e1, e2);
             if(!vertCollision && (smushDir.isUp() || smushDir.isDown())) return simpleStopCollision(e1, e2);

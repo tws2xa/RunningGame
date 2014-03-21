@@ -222,7 +222,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="Systems\App.config" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\Artwork\Foreground\Grass\Dirt11.png" />
@@ -498,6 +498,7 @@
     <EmbeddedResource Include="Resources\Artwork\Background\Bkg32.png" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Resources\Artwork\Foreground\SmushBlock.png" />
     <EmbeddedResource Include="Resources\Sounds\TitleTest.wav" />
     <EmbeddedResource Include="Resources\Sounds\gameplay.wav" />
     <EmbeddedResource Include="Resources\Artwork\Other\Title.jpg" />
