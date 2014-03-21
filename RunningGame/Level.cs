@@ -160,6 +160,10 @@ namespace RunningGame {
             myGame.playSound( location, loop);
         }
 
+        public void stopAllSounds() {
+            myGame.stopAllSounds();
+        }
+
         //This looks at the world and level numbers to figure out which powerups
         //Should and should not be enabled at the start of the level.
         public void setPowerups() {
@@ -278,7 +282,7 @@ namespace RunningGame {
         //Begin an end level routine with given time delay
         public void beginEndLevel( float time ) {
             if ( endLvlTimer < 0 ) {
-                //Get the draw system, call the white clash, and start the end level timer.
+                //Get the draw system, call the white flash, and start the end level timer.
                 DrawSystem drawSys = sysManager.drawSystem;
                 drawSys.setFlash( System.Drawing.Color.WhiteSmoke, time * 2 );
                 endLvlTimer = time;

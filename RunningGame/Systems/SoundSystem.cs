@@ -53,6 +53,17 @@ namespace RunningGame.Systems {
             }
         }
 
+        public void stopAllSounds() {
+            List<string> playingSnds;
+            if ( mediaPlayer ) {
+                playingSnds = playingSoundsMP.Keys.ToList<string>();
+            } else {
+                playingSnds = playingSounds.Keys.ToList<string>();
+            }
+            foreach ( string str in playingSnds ) {
+                stopSound( str );
+            }
+        }
         public void stopSound( string soundLocation ) {
             if ( mediaPlayer && playingSoundsMP.ContainsKey( soundLocation ) ) {
                 playingSoundsMP[soundLocation].controls.stop();

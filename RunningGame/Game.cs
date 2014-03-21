@@ -95,7 +95,7 @@ namespace RunningGame {
                 //Check if the end of the level has been flagged
                 //If so, end the level!
                 if ( currentLevel.shouldEndLevel ) {
-
+                    
                     int levelNum = currentLevel.levelNum;
                     int worldNum = currentLevel.worldNum;
 
@@ -104,9 +104,10 @@ namespace RunningGame {
 
                     //Check for the next level
                     if ( levelNum == GlobalVars.numLevelsPerWorld ) {
-                        if ( worldNum == GlobalVars.numWorlds ) //Game complete
+                        if ( worldNum == GlobalVars.numWorlds ) { //Game complete
+                            stopAllSounds();
                             frm.Reset();
-                        else //Next world, level 1
+                        }  else //Next world, level 1
                             frm.Reset( worldNum + 1, 1 );
                     } else {
                         //Next level in same world
@@ -185,6 +186,9 @@ namespace RunningGame {
 
         public void playSound( string location, bool loop ) {
             frm.sndSystem.playSound( location, loop );
+        }
+        public void stopAllSounds() {
+            frm.sndSystem.stopAllSounds();
         }
         public void stopSound( string location ) {
             frm.sndSystem.stopSound( location );
