@@ -167,7 +167,7 @@ namespace RunningGame {
 
 
                             PositionComponent posComp = ( PositionComponent )ent.getComponent( GlobalVars.POSITION_COMPONENT_NAME );
-                            PointF drawPoint = posComp.getPointF();
+                            PointF drawPoint = posComp.getLocAsPoint();
                             drawPoint.X -= ( posComp.width / 2.0f );
                             drawPoint.Y -= ( posComp.height / 2.0f );
 
@@ -304,7 +304,7 @@ namespace RunningGame {
                     Image img = drawComp.getImage();
 
                     //Get center instead of upper left
-                    PointF drawPoint = posComp.getPointF();
+                    PointF drawPoint = posComp.getLocAsPoint();
                     drawPoint.X -= ( posComp.width / 2.0f );
                     drawPoint.Y -= ( posComp.height / 2.0f );
 
@@ -356,7 +356,7 @@ namespace RunningGame {
                         drawPoint.Y *= hRatio;
                          */
 
-                        PointF drawPoint = posComp.getPointF();
+                        PointF drawPoint = posComp.getLocAsPoint();
                         drawPoint.X -= ( posComp.width / 2.0f );
                         drawPoint.Y -= ( posComp.height / 2.0f );
 
