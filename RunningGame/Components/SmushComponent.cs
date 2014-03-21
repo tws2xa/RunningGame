@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 namespace RunningGame.Components {
     class SmushComponent :Component{
 
+        float defaultFallSpd = 400;
+        float defaultRiseSpd = -100;
+
         float xFallSpeed = 0.0f;
         float xRiseSpeed = 0.0f;
         float yFallSpeed = 400.0f;
@@ -91,6 +94,31 @@ namespace RunningGame.Components {
         public bool isRising() {
             return waitFallRiseState == 3;
         }
-        
+
+
+        public void setToUp() {
+            this.xFallSpeed = 0;
+            this.xRiseSpeed = 0;
+            this.yFallSpeed = -this.defaultFallSpd;
+            this.yRiseSpeed = -this.defaultRiseSpd;
+        }
+        public void setToDown() {
+            this.xFallSpeed = 0;
+            this.xRiseSpeed = 0;
+            this.yFallSpeed = this.defaultFallSpd;
+            this.yRiseSpeed = this.defaultRiseSpd;
+        }
+        public void setToRight() {
+            this.xFallSpeed = this.defaultFallSpd;
+            this.xRiseSpeed = this.defaultRiseSpd;
+            this.yFallSpeed = 0;
+            this.yRiseSpeed = 0;
+        }
+        public void setToLeft() {
+            this.xFallSpeed = -this.defaultFallSpd;
+            this.xRiseSpeed = -this.defaultRiseSpd;
+            this.yFallSpeed = 0;
+            this.yRiseSpeed = 0;
+        }
     }
 }

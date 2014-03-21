@@ -63,11 +63,11 @@ namespace RunningGame.Entities {
             //Add image - Use base name for first parameter (everything in file path after Resources. and before the numbers and .png)
             //Then second parameter is full filepath to a default image
             drawComp.addSprite("Artwork.Foreground.SmushBlock", "RunningGame.Resources.Artwork.Foreground.SmushBlock.png", "Main");
-            drawComp.setSprite("Main"); //Set image to active image
-
-            for ( int i = 0; i < dir; i++ ) {
-                drawComp.rotateFlipSprite( "Main", System.Drawing.RotateFlipType.Rotate90FlipNone );
+            for ( int i = 0; i < dir + 2; i++ ) {
+                drawComp.rotateFlipAllSprites( System.Drawing.RotateFlipType.Rotate90FlipNone );
             }
+            drawComp.setSprite("Main"); //Set image to active image
+            
 
             /* ANIMATION COMPONENT - Does it need animating?
              * The float that this reads in is the amount of time (in seconds) between frames.
@@ -87,11 +87,21 @@ namespace RunningGame.Entities {
 
             /*DIRECTION - It has a direction
              */
-            addComponent( new DirectionalComponent( dir ) );
+            DirectionalComponent dirComp = (DirectionalComponent)addComponent( new DirectionalComponent( dir ) );
 
             /*SMUSH - It's a smusher!
              */
-            addComponent( new SmushComponent( 2.0f ) );
+            SmushComponent smushComp = ( SmushComponent )addComponent( new SmushComponent( 2.0f ) );
+
+            if ( dirComp.isUp() ) {
+                smushComp.setToUp();
+            } else if ( dirComp.isRight() ) {
+                smushComp.setToRight();
+            } else if ( dirComp.isDown() ) {
+                smushComp.setToDown();
+            } else if ( dirComp.isLeft() ) {
+                smushComp.setToLeft();
+            }
 
             /*TIMER - It does stuff with a timer.
              */
