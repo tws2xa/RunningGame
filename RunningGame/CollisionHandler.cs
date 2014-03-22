@@ -489,6 +489,7 @@ namespace RunningGame {
                 Console.WriteLine( "Switch collision with no switch?" );
                 return false;
             }
+            //if it is spawnblock and it is moving flip switch
             if (other is spawnBlockEntity)
             {
                 SpawnBlockComponent sbc = (SpawnBlockComponent)other.getComponent(GlobalVars.SPAWN_BLOCK_COMPONENT_NAME);
