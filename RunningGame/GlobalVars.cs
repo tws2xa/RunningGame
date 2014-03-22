@@ -48,6 +48,10 @@ namespace RunningGame {
         public static string DIRECTION_COMPONENT_NAME = "spikeComp";
         public static string VISION_ORB_INPUT_COMPONENT_NAME = "visionInputComp";
         public static string PUSHABLE_COMPONENT_NAME = "pushableComp";
+        public static string TIMER_COMPONENT_NAME = "timerComp";
+        public static string TIMED_SHOOTER_COMPONENT_NAME = "timedShooterComp";
+        public static string VEL_TO_ZERO_COMPONENT_NAME = "velToZeroComp";
+        public static string SMUSH_COMPONENT_NAME = "smushComp";
 
         //Collider Types
         public static string PLAYER_COLLIDER_TYPE = "playerCollider";
@@ -56,6 +60,7 @@ namespace RunningGame {
         public static string BOUNCE_POSTGROUND_COLLIDER_TYPE = "bounceBlockCollider";
         public static string BOUNCE_PREGROUND_COLLIDER_TYPE = "bounceGroundCollider";
 
+        public static string SMUSH_BLOCK_COLLIDER = "smushBlockCollider";
         public static string INSTANT_DEATH_COLLIDER_TYPE = "instantDeathCollider";
         public static string GLIDE_COLLIDER_TYPE = "glideCollider";
         public static string POWERUP_COLLIDER_TYPE = "powerupCollider";
@@ -71,6 +76,8 @@ namespace RunningGame {
         public static string SPIKE_COLLIDER_TYPE = "killPlayerCollider";
         public static string VISION_COLLIDER_TYPE = "visionCollider";
         public static string PLATFORM_TURN_COLLIDER_TYPE = "platTurnCollider";
+        public static string SHOOTER_BULLET_COLLIDER_TYPE = "shooterBulletCollider";
+        public static string TIMED_SHOOTER_COLLIDER_TYPE = "timedShooterCollider";
 
         //Collection of all in game entities
         public static Dictionary<int, Entity> nonGroundEntities = new Dictionary<int, Entity>();
@@ -105,6 +112,23 @@ namespace RunningGame {
         public static Keys KEY_LEFT = Keys.A;
         public static Keys KEY_RIGHT = Keys.D;
         public static Keys KEY_DOWN = Keys.S;
+        public static Keys KEY_RESET = Keys.R;
+        public static Keys KEY_CYCLE_DOWN = Keys.Q;
+        public static Keys KEY_CYCLE_UP = Keys.E;
+        public static Keys KEY_USE_EQUIPPED = Keys.F;
+        public static Keys KEY_GLIDE = Keys.Space;
+        public static Keys KEY_END = Keys.Escape;
+
+        public const int JUMP_INT = 0;
+        public const int LEFT_INT = 1;
+        public const int RIGHT_INT = 2;
+        public const int DOWN_INT = 3;
+        public const int RESET_INT = 4;
+        public const int CYCLE_DOWN_INT = 5;
+        public const int CYCLE_UP_INT = 6;
+        public const int USE_EQUIPPED_INT = 7;
+        public const int GLIDE_INT = 8;
+        public const int END_INT = 9;
 
         //Switch Events
         public static string DOOR_EVENT_TYPE = "doorEvent";
@@ -137,11 +161,16 @@ namespace RunningGame {
 
         //Settings
         public static bool preciseCollisionChecking = false;
+        public static bool soundOn = true;
         public static bool fullForegroundImage = false;
         public static bool simpleGround = true;
+        public static bool debugBoxes = false;
 
         public static List<Keys> reservedKeys = new List<Keys>(){
-       Keys.A, Keys.W, Keys.D
+            KEY_JUMP, KEY_LEFT, KEY_RIGHT, KEY_DOWN,
+            KEY_RESET, KEY_CYCLE_DOWN, KEY_CYCLE_UP,
+            KEY_USE_EQUIPPED, KEY_GLIDE, KEY_END
         };
+
     }
 }

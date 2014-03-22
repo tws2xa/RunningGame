@@ -92,6 +92,8 @@ namespace RunningGame.Entities {
              */
             addComponent( new ColliderComponent( this, GlobalVars.BULLET_COLLIDER_TYPE, 10, 10 ), true );
 
+            /* OUT OF SCREEN COOMPONENT - Destroy on exiting screen.
+             */
             addComponent( new ScreenEdgeComponent( 3, 3, 3, 3 ), true );
         }
 

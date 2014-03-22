@@ -6,52 +6,79 @@ using System.Threading.Tasks;
 using System.Collections;
 using RunningGame.Components;
 using System.Media;
+using WMPLib;
 
 namespace RunningGame.Systems {
     [Serializable()]
-    public class SoundSystem : GameSystem //Always extend GameSystem
+    public class SoundSystem
     {
-        List<string> requiredComponents = new List<string>();
-        Level level;
 
-        public SoundSystem( Level level ) {
-            this.level = level;
-        }
+        bool mediaPlayer = false;
 
-        //-------------------------------------- Overrides -------------------------------------------
-        // Must have this. Same for all Systems.
-        public override List<string> getRequiredComponents() {
-            return requiredComponents;
-        }
-
-        //Must have this. Same for all Systems.
-        public override Level GetActiveLevel() {
-            return level;
-        }
-
-        //You must have an Update.
-        //Always read in deltaTime, and only deltaTime (it's the time that's passed since the last frame)
-        //Use deltaTime for things like changing velocity or changing position from velocity
-        //This is where you do anything that you want to happen every frame.
-        //There is a chance that your system won't need to do anything in update. Still have it.
-        public override void Update( float deltaTime ) {
-
-        }
-        //----------------------------------------------------------------------------------------------
+        Dictionary<string, SoundPlayer> playingSounds = new Dictionary<string, SoundPlayer>();
+        Dictionary<string, WindowsMediaPlayer> playingSoundsMP = new Dictionary<string, WindowsMediaPlayer>();
 
         //Here put any helper methods or really anything else you may want.
         //You may find it handy to have methods here that other systems can access.
         public void playSound( string soundLocation, bool loop ) {
-            System.IO.Stream stream = System.Reflection.Assembly.GetExecutingAssembly().GetManifestResourceStream( soundLocation );
-            SoundPlayer player = new SoundPlayer( stream );
-            if ( loop )
-                player.PlayLooping();
-            else
-                player.Play();
-        }
-        public void stopSound( SoundPlayer player ) {
-            player.Stop();
+            if ( GlobalVars.soundOn ) {
+                if ( !mediaPlayer ) {
+                    System.IO.Stream stream = System.Reflection.Assembly.GetExecutingAssembly().GetManifestResourceStream( soundLocation );
+                    SoundPlayer player = new SoundPlayer( stream );
+                    if ( playingSoundsMP.ContainsKey( soundLocation ) )
+                        stopSound( soundLocation );
+                    if ( loop ) {
+                        player.PlayLooping();
+                    } else {
+                        player.Play();
+                    }
+                    playingSounds.Add( soundLocation, player );
+                } else {
+                    WindowsMediaPlayer player = new WindowsMediaPlayer();
+                    System.Reflection.Assembly a = System.Reflection.Assembly.GetExecutingAssembly();
+                    System.Reflection.ManifestResourceInfo info = a.GetManifestResourceInfo( soundLocation );
+                    player.URL = info.FileName;
+                    
+                    Console.WriteLine( "URL: " + player.URL );
+                    if ( playingSoundsMP.ContainsKey( soundLocation ) )
+                        stopSound( soundLocation );
+                    if ( loop ) {
+                        player.settings.setMode( "loop", true );
+                        player.controls.play();
+                    } else {
+                        player.controls.play();
+                    }
+                    playingSoundsMP.Add( soundLocation, player );
+                }
+            }
         }
 
+        public void stopAllSounds() {
+            List<string> playingSnds;
+            if ( mediaPlayer ) {
+                playingSnds = playingSoundsMP.Keys.ToList<string>();
+            } else {
+                playingSnds = playingSounds.Keys.ToList<string>();
+            }
+            foreach ( string str in playingSnds ) {
+                stopSound( str );
+            }
+        }
+        public void stopSound( string soundLocation ) {
+            if ( mediaPlayer && playingSoundsMP.ContainsKey( soundLocation ) ) {
+                playingSoundsMP[soundLocation].controls.stop();
+                playingSoundsMP.Remove( soundLocation );
+            } else if ( !mediaPlayer && playingSounds.ContainsKey( soundLocation ) ) {
+                playingSounds[soundLocation].Stop();
+                playingSounds.Remove( soundLocation );
+            }
+        }
+
+        public bool isPlaying( string titleMusic ) {
+            if ( mediaPlayer )
+                return playingSoundsMP.ContainsKey( titleMusic );
+            else
+                return playingSounds.ContainsKey( titleMusic );
+        }
     }
 }

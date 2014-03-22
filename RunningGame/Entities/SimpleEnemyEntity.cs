@@ -128,12 +128,12 @@ namespace RunningGame.Entities {
 
         public bool isLookingLeft() {
             DrawComponent drawComp = ( DrawComponent )this.getComponent( GlobalVars.DRAW_COMPONENT_NAME );
-            return ( drawComp.activeSprite == leftImageName );
+            return ( drawComp.activeSprite == leftImageName || drawComp.activeSprite == ( leftImageName + "" + GlobalVars.PRECOLOR_SPRITE_NAME ) );
         }
 
         public bool isLookingRight() {
             DrawComponent drawComp = ( DrawComponent )this.getComponent( GlobalVars.DRAW_COMPONENT_NAME );
-            return ( drawComp.activeSprite == rightImageName );
+            return ( drawComp.activeSprite == rightImageName || drawComp.activeSprite == ( rightImageName + "" + GlobalVars.PRECOLOR_SPRITE_NAME ) );
         }
     }
 }

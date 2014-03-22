@@ -48,15 +48,15 @@ namespace RunningGame.Systems {
         //There is a chance that your system won't need to do anything in update. Still have it.
         public override void Update( float deltaTime ) {
             foreach ( Entity e in getApplicableEntities() ) {
-                PositionComponent posComp = (PositionComponent)e.getComponent(GlobalVars.POSITION_COMPONENT_NAME);
-                ColliderComponent colComp = (ColliderComponent) e.getComponent(GlobalVars.COLLIDER_COMPONENT_NAME);
-                VelocityComponent velComp = ( VelocityComponent )e.getComponent( GlobalVars.VELOCITY_COMPONENT_NAME );
+                PositionComponent platPos = (PositionComponent)e.getComponent(GlobalVars.POSITION_COMPONENT_NAME);
+                ColliderComponent platCol = (ColliderComponent) e.getComponent(GlobalVars.COLLIDER_COMPONENT_NAME);
+                VelocityComponent platVel = ( VelocityComponent )e.getComponent( GlobalVars.VELOCITY_COMPONENT_NAME );
                 MovingPlatformComponent movPlatComp = ( MovingPlatformComponent )e.getComponent( GlobalVars.MOVING_PLATFORM_COMPONENT_NAME );
 
-                float mySpeed = velComp.x;
+                float mySpeed = platVel.x;
 
                 if ( movPlatComp.vertical ) {
-                    mySpeed = velComp.y;
+                    mySpeed = platVel.y;
                 }
 
                 //If it's been stopped for more than one frame, try changing the direction and see if it can move that way instead.
@@ -69,9 +69,9 @@ namespace RunningGame.Systems {
                         newSpeed = -GlobalVars.MOVING_PLATFORM_SPEED;
 
                     if ( movPlatComp.vertical ) {
-                        velComp.y = newSpeed;
+                        platVel.y = newSpeed;
                     } else {
-                        velComp.x = newSpeed;
+                        platVel.x = newSpeed;
                     }
 
                     movPlatComp.wasStoppedLastFrame = true;
@@ -79,45 +79,49 @@ namespace RunningGame.Systems {
                     movPlatComp.wasStoppedLastFrame = false;
                 }
 
-                float upperLeftX = colComp.getX(posComp) - colComp.width/2;
-                float upperRightX = colComp.getX(posComp) + colComp.width/2;
-                float upperY = colComp.getY(posComp) - colComp.height/2 - 3;
+                float checkBuffer = 3;
+
+                float upperLeftX = platCol.getX(platPos) - platCol.width/2;
+                float upperRightX = platCol.getX(platPos) + platCol.width/2;
+                float upperY = platCol.getY(platPos) - platCol.height/2 - checkBuffer;
 
                 System.Drawing.PointF leftPoint = new System.Drawing.PointF(upperLeftX, upperY);
                 System.Drawing.PointF rightPoint = new System.Drawing.PointF(upperRightX, upperY);
                 List<Entity> aboveEnts = level.getCollisionSystem().findObjectsBetweenPoints( leftPoint, rightPoint );
 
                 foreach(Entity otherEnt in aboveEnts) {
-
+                    
                     if ( !stoppingEntities.Contains(  otherEnt.GetType() ) && otherEnt.hasComponent( GlobalVars.VELOCITY_COMPONENT_NAME ) ) {
                         PositionComponent otherPos = (PositionComponent) otherEnt.getComponent(GlobalVars.POSITION_COMPONENT_NAME);
                         VelocityComponent otherVel = ( VelocityComponent )otherEnt.getComponent( GlobalVars.VELOCITY_COMPONENT_NAME );
                         ColliderComponent otherCol = ( ColliderComponent )otherEnt.getComponent( GlobalVars.COLLIDER_COMPONENT_NAME );
-                        if ( movPlatComp.vertical ) {
-                            if ( ( velComp.y <= 0 && otherVel.y >= velComp.y ) || ( velComp.y >= 0 && otherVel.y <= velComp.y ) ) {
-                                otherVel.y = velComp.y;
-                                if ( otherEnt.hasComponent( GlobalVars.GRAVITY_COMPONENT_NAME ) ) {
-                                    GravityComponent otherGrav = ( GravityComponent )otherEnt.getComponent( GlobalVars.GRAVITY_COMPONENT_NAME );
-                                    if(otherVel.y >= 0)
-                                        otherVel.y -= otherGrav.y * deltaTime;
-                                }
-                                level.getMovementSystem().changePosition( otherPos, otherPos.x, colComp.getY(posComp) - colComp.height / 2 - otherCol.height / 2 - 3, false, false );
-                            }
-                        } else {
-                            if ( ( velComp.x <= 0 && otherVel.x >= velComp.x ) || ( velComp.x >= 0 && otherVel.x <= velComp.y ) ) {
-                                otherVel.x = velComp.x;
-                                if ( otherEnt.hasComponent( GlobalVars.GRAVITY_COMPONENT_NAME ) ) {
-                                    GravityComponent otherGrav = ( GravityComponent )otherEnt.getComponent( GlobalVars.GRAVITY_COMPONENT_NAME );
-                                    
-                                    otherVel.x -= otherGrav.x * deltaTime;
-                                }
 
-                                if ( otherEnt is Entities.Player ) {
-                                    level.getMovementSystem().changePosition( otherPos, otherPos.x + velComp.x * deltaTime, colComp.getY(posComp) - colComp.height / 2 - otherCol.height / 2 - 3, false, false );
-                                }  else {
-                                    level.getMovementSystem().changePosition( otherPos, otherPos.x, colComp.getY(posComp) - colComp.height / 2 - otherCol.height / 2 - 3, false, false );
-                                }
+                        System.Drawing.PointF grav = new System.Drawing.PointF( 0.0f, 0.0f );
+                        if ( otherEnt.hasComponent( GlobalVars.GRAVITY_COMPONENT_NAME ) ) {
+                            GravityComponent otherGrav = ( GravityComponent )otherEnt.getComponent( GlobalVars.GRAVITY_COMPONENT_NAME );
+                            grav = new System.Drawing.PointF( otherGrav.x, otherGrav.y );
+                        }
+
+                        if ( movPlatComp.vertical ) {   
+                            if ( (platVel.y == 0 || platVel.y <= 0 && (otherVel.y+grav.Y*deltaTime) >= platVel.y ) || ( platVel.y >= 0 && (otherVel.y + grav.Y*deltaTime) <= platVel.y ) ) {
+                                otherVel.y = platVel.y - grav.Y*deltaTime;
                             }
+
+                            level.getMovementSystem().changePosition( otherPos, otherCol.getX(otherPos), platCol.getY( platPos ) - platCol.height / 2 - otherCol.height / 2 - 1, false, false );
+                        } else {
+                            if ( ( platVel.x == 0 || platVel.x <= 0 && (otherVel.x+grav.X*deltaTime) >= platVel.x ) || ( platVel.x >= 0 && (otherVel.x+grav.X*deltaTime) <= platVel.y ) ) {
+                                otherVel.x = platVel.x - grav.X*deltaTime;
+                            }
+
+                            if ( otherEnt is RunningGame.Entities.Player ) {
+                                level.getMovementSystem().changePosition( otherPos, otherCol.getX( otherPos ) + platVel.x * deltaTime, platCol.getY( platPos ) - platCol.height / 2 - otherCol.height / 2 - 3, false, false );
+                            } else {
+                                level.getMovementSystem().changePosition( otherPos, otherCol.getX( otherPos ), platCol.getY( platPos ) - platCol.height / 2 - otherCol.height / 2 - 0, false, false );
+                            }
+                        }
+                        if(otherEnt.hasComponent(GlobalVars.VEL_TO_ZERO_COMPONENT_NAME)) {
+                            VelToZeroComponent velZedComp = (VelToZeroComponent)otherEnt.getComponent(GlobalVars.VEL_TO_ZERO_COMPONENT_NAME);
+                            velZedComp.blockSlow = true;
                         }
                     }
                 }

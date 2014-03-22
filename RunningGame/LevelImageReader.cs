@@ -39,17 +39,26 @@ namespace RunningGame {
         Color grapPickup = Color.FromArgb( 100, 100, 5 );
 
         //Link doors with switches by giving them the same B
-        //Permanent Switch - G = 255
-        //Pressure Switch - G = 0
         //Timed Switch - G = Time in deci-seconds... i.e. 100 -> 10 seconds. 015 = 1.5 seconds.
         int switchReserveRed = 200; //Any color with R = 200 is a switch
-        int permSwitchG = 255;
-        int presSwitchG = 0;
+        int permSwitchG = 255; //Permanent Switch - G = 255
+        int presSwitchG = 0; //Pressure Switch - G = 0
         int doorReserveGreen = 200; //Any color with G = 200 is a door
 
         int spikeRed = 255; //R
         int spikeGreen = 100; //G
         // B determins Dir
+
+        int smushRed = 77;
+        int smushGreen = 77;
+        // B Determines Dir
+
+        int shooterRedUp = 110;
+        int shooterRedRight = 111;
+        int shooterRedDown = 112;
+        int shooterRedLeft = 113;
+        //Green = Time
+        //Blue = Shots per burst
 
         Dictionary<int, Entity> switches;
         Dictionary<SwitchListenerComponent, int> unmachedSwitchListeners;
@@ -104,7 +113,14 @@ namespace RunningGame {
                         adjustLocation( s, level );
                         switches.Add( col.B, s );
                         level.addEntity( s.randId, s );
-                    
+
+                    } else if ( col.R == shooterRedUp || col.R == shooterRedRight || col.R == shooterRedDown || col.R == shooterRedLeft ) {
+                        float betweenBursts = ( float )col.G / ( float )10;
+                        TimedShooterEntity shooter = new TimedShooterEntity( level, rand.Next( Int32.MinValue, Int32.MaxValue ), levelX * tileWidth, levelY * tileHeight, betweenBursts, col.B, col.R-110 );
+                        adjustLocation( shooter, level );
+                        shooter.isStartingEntity = true;
+                        level.addEntity( shooter );
+
                     } else if ( col.G == doorReserveGreen ) {
                     
                         DoorEntity door = new DoorEntity( level, rand.Next( Int32.MinValue, Int32.MaxValue ), levelX * tileWidth, levelY * tileHeight );
@@ -125,27 +141,32 @@ namespace RunningGame {
                         adjustLocation( spike, level );
                         spike.isStartingEntity = true;
                         level.addEntity( spike );
-                    
+
+                    } else if ( col.R == smushRed && col.G == smushGreen && ( col.B - 4 <= 0 ) ) {
+                        SmushBlockEntity smush = new SmushBlockEntity( level, rand.Next( Int32.MinValue, Int32.MaxValue ), levelX * tileWidth, levelY * tileHeight, col.B );
+                        adjustLocation( smush, level );
+                        smush.isStartingEntity = true;
+                        level.addEntity( smush );
                     }
-                    
+
                     //Now just check for the specific colors
                     else if ( col == playerCol ) {
-                        
+
                         Player player = new Player( level, rand.Next( Int32.MinValue, Int32.MaxValue ), levelX * tileWidth, levelY * tileHeight );
                         adjustLocation( player, level );
                         PositionComponent posComp = ( PositionComponent )player.getComponent( GlobalVars.POSITION_COMPONENT_NAME );
-                        level.getMovementSystem().teleportToNoCollisionCheck( posComp, posComp.x, posComp.y - GlobalVars.MIN_TILE_SIZE/2 );
+                        level.getMovementSystem().teleportToNoCollisionCheck( posComp, posComp.x, posComp.y - GlobalVars.MIN_TILE_SIZE / 2 );
                         posComp.setCurrentLocToStartingLoc();
                         player.isStartingEntity = true;
                         level.addEntity( player.randId, player );
 
-                    } else if ( col == movePlatformTurn) {
-                     
-                        PlatformTurnEntity platTurn = new PlatformTurnEntity(level, rand.Next( Int32.MinValue, Int32.MaxValue ), levelX * tileWidth, levelY * tileHeight );
+                    } else if ( col == movePlatformTurn ) {
+
+                        PlatformTurnEntity platTurn = new PlatformTurnEntity( level, rand.Next( Int32.MinValue, Int32.MaxValue ), levelX * tileWidth, levelY * tileHeight );
                         adjustLocation( platTurn, level );
                         platTurn.isStartingEntity = true;
                         level.addEntity( platTurn.randId, platTurn );
-                    
+
                     } else if ( col == basicGroundCol ) {
 
                         float groundX = ( levelX ) * tileWidth;
@@ -165,7 +186,7 @@ namespace RunningGame {
                         }
 
                     } else if ( col == testEntityColor ) {
-                       
+
                         float xLoc = ( levelX ) * tileWidth;
                         float yLoc = ( levelY ) * tileHeight;
                         int id = rand.Next( Int32.MinValue, Int32.MaxValue );
@@ -173,9 +194,9 @@ namespace RunningGame {
                         adjustLocation( test, level );
                         test.isStartingEntity = true;
                         level.addEntity( test.randId, test );
-                    
+
                     } else if ( col == simpleEnemyColor ) {
-                    
+
                         float xLoc = ( levelX ) * tileWidth;
                         float yLoc = ( levelY ) * tileHeight;
                         int id = rand.Next( Int32.MinValue, Int32.MaxValue );
@@ -183,7 +204,7 @@ namespace RunningGame {
                         adjustLocation( enemy, level );
                         enemy.isStartingEntity = true;
                         level.addEntity( enemy.randId, enemy );
-                    
+
                     } else if ( col == flyingEnemyColor ) {
 
                         float xLoc = ( levelX ) * tileWidth;
@@ -193,9 +214,9 @@ namespace RunningGame {
                         adjustLocation( enemy, level );
                         enemy.isStartingEntity = true;
                         level.addEntity( enemy.randId, enemy );
-                    
+
                     } else if ( col == endLevelCol ) {
-                        
+
                         float xLoc = ( levelX ) * tileWidth;
                         float yLoc = ( levelY ) * tileHeight;
                         int id = rand.Next( Int32.MinValue, Int32.MaxValue );
@@ -203,9 +224,9 @@ namespace RunningGame {
                         adjustLocation( lvlEnd, level );
                         lvlEnd.isStartingEntity = true;
                         level.addEntity( lvlEnd.randId, lvlEnd );
-                   
+
                     } else if ( col == vertMovPlatCol ) {
-                       
+
                         float xLoc = ( levelX ) * tileWidth;
                         float yLoc = ( levelY ) * tileHeight;
                         int id = rand.Next( Int32.MinValue, Int32.MaxValue );
@@ -215,9 +236,9 @@ namespace RunningGame {
 
                         plat.isStartingEntity = true;
                         level.addEntity( plat );
-                    
+
                     } else if ( col == horizMovPlatCol ) {
-                        
+
                         float xLoc = ( levelX ) * tileWidth;
                         float yLoc = ( levelY ) * tileHeight;
                         int id = rand.Next( Int32.MinValue, Int32.MaxValue );
@@ -231,9 +252,9 @@ namespace RunningGame {
                         VelocityComponent velComp = ( VelocityComponent )plat.getComponent( GlobalVars.VELOCITY_COMPONENT_NAME );
                         velComp.y = 0;
                         level.addEntity( plat );
-                    
+
                     } else if ( col == bouncePickup ) {
-                        
+
                         float xLoc = ( levelX ) * tileWidth;
                         float yLoc = ( levelY ) * tileHeight;
                         int id = rand.Next( Int32.MinValue, Int32.MaxValue );
@@ -243,9 +264,9 @@ namespace RunningGame {
 
                         pickup.isStartingEntity = true;
                         level.addEntity( pickup );
-                    
+
                     } else if ( col == speedyPickup ) {
-                        
+
                         float xLoc = ( levelX ) * tileWidth;
                         float yLoc = ( levelY ) * tileHeight;
                         int id = rand.Next( Int32.MinValue, Int32.MaxValue );
@@ -255,9 +276,9 @@ namespace RunningGame {
 
                         pickup.isStartingEntity = true;
                         level.addEntity( pickup );
-                    
+
                     } else if ( col == jmpPickup ) {
-                        
+
                         float xLoc = ( levelX ) * tileWidth;
                         float yLoc = ( levelY ) * tileHeight;
                         int id = rand.Next( Int32.MinValue, Int32.MaxValue );
@@ -267,9 +288,9 @@ namespace RunningGame {
 
                         pickup.isStartingEntity = true;
                         level.addEntity( pickup );
-                    
+
                     } else if ( col == glidePickup ) {
-                       
+
                         float xLoc = ( levelX ) * tileWidth;
                         float yLoc = ( levelY ) * tileHeight;
                         int id = rand.Next( Int32.MinValue, Int32.MaxValue );
@@ -279,9 +300,9 @@ namespace RunningGame {
 
                         pickup.isStartingEntity = true;
                         level.addEntity( pickup );
-                    
+
                     } else if ( col == spawnPickup ) {
-                    
+
                         float xLoc = ( levelX ) * tileWidth;
                         float yLoc = ( levelY ) * tileHeight;
                         int id = rand.Next( Int32.MinValue, Int32.MaxValue );
@@ -291,9 +312,9 @@ namespace RunningGame {
 
                         pickup.isStartingEntity = true;
                         level.addEntity( pickup );
-                    
+
                     } else if ( col == grapPickup ) {
-                       
+
                         float xLoc = ( levelX ) * tileWidth;
                         float yLoc = ( levelY ) * tileHeight;
                         int id = rand.Next( Int32.MinValue, Int32.MaxValue );
@@ -303,7 +324,7 @@ namespace RunningGame {
 
                         pickup.isStartingEntity = true;
                         level.addEntity( pickup );
-                    
+
                     }
                 }
             }

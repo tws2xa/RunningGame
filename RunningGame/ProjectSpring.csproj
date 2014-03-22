@@ -89,14 +89,18 @@
     <Compile Include="Components\PushableComponent.cs" />
     <Compile Include="Components\ScreenEdgeComponent.cs" />
     <Compile Include="Components\SimpleEnemyComponent.cs" />
+    <Compile Include="Components\SmushComponent.cs" />
     <Compile Include="Components\SoundComponent.cs" />
     <Compile Include="Components\SpawnBlockComponent.cs" />
     <Compile Include="Components\DirectionalComponent.cs" />
     <Compile Include="Components\SquishComponent.cs" />
     <Compile Include="Components\SwitchComponent.cs" />
     <Compile Include="Components\SwitchListenerComponent.cs" />
+    <Compile Include="Components\TimedShooterComponent.cs" />
     <Compile Include="Components\TimedSwitchComponent.cs" />
+    <Compile Include="Components\TimerComponent.cs" />
     <Compile Include="Components\VelocityComponent.cs" />
+    <Compile Include="Components\VelToZeroComponent.cs" />
     <Compile Include="Components\VisionInputComponent.cs" />
     <Compile Include="DeathHandler.cs" />
     <Compile Include="Entities\BackgroundEntity.cs" />
@@ -108,12 +112,15 @@
     <Compile Include="Entities\GrappleEntity.cs" />
     <Compile Include="Entities\MovingPlatformEntity.cs" />
     <Compile Include="Entities\PowerupPickupEntity.cs" />
+    <Compile Include="Entities\ShooterBullet.cs" />
+    <Compile Include="Entities\SmushBlockEntity.cs" />
     <Compile Include="Entities\spawnBlockEntity.cs" />
     <Compile Include="Entities\BulletEntity.cs" />
     <Compile Include="Entities\DeadPlayerEntity.cs" />
     <Compile Include="Entities\EndLevelEntity.cs" />
     <Compile Include="Entities\PressureSwitchEntity.cs" />
     <Compile Include="Entities\SpikeEntity.cs" />
+    <Compile Include="Entities\TimedShooterEntity.cs" />
     <Compile Include="Entities\TimedSwitchEntity.cs" />
     <Compile Include="Entities\FlyingEnemyEntity.cs" />
     <Compile Include="Entities\DoorEntity.cs" />
@@ -180,11 +187,15 @@
     <Compile Include="Systems\MovementSystem.cs" />
     <Compile Include="Systems\PlayerMovementSystem.cs" />
     <Compile Include="Systems\ScreenEdgeSystem.cs" />
+    <Compile Include="Systems\SmushSystem.cs" />
     <Compile Include="Systems\SoundSystem.cs" />
     <Compile Include="Systems\SquishSystem.cs" />
     <Compile Include="Systems\SwitchListenerSystem.cs" />
     <Compile Include="Systems\SwitchSystem.cs" />
     <Compile Include="Systems\SystemTemplate.cs" />
+    <Compile Include="Systems\TimedShooterSystem.cs" />
+    <Compile Include="Systems\TimerSystem.cs" />
+    <Compile Include="Systems\VelToZeroSystem.cs" />
     <Compile Include="Systems\VisionOrbSystem.cs" />
     <Compile Include="View.cs" />
     <EmbeddedResource Include="FormEditor.resx">
@@ -211,7 +222,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="Systems\App.config" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\Artwork\Foreground\Grass\Dirt11.png" />
@@ -487,6 +498,16 @@
     <EmbeddedResource Include="Resources\Artwork\Background\Bkg32.png" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Resources\Artwork\Foreground\Bullet\Bullet110.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\Bullet\Bullet210.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\Bullet\Bullet310.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\SmushBlock.png" />
+    <EmbeddedResource Include="Resources\Sounds\TitleTest.wav" />
+    <EmbeddedResource Include="Resources\Sounds\gameplay.wav" />
+    <EmbeddedResource Include="Resources\Artwork\Other\Title.jpg" />
+    <EmbeddedResource Include="Resources\Artwork\Other\SoundBtn1.png" />
+    <EmbeddedResource Include="Resources\Artwork\Other\SoundBtn2.png" />
+    <EmbeddedResource Include="Resources\Levels\World3Level2_new.png" />
     <EmbeddedResource Include="Resources\Artwork\Foreground\MovPlat10.png" />
     <EmbeddedResource Include="Resources\Artwork\Foreground\MovPlat11.png" />
     <EmbeddedResource Include="Resources\Artwork\Foreground\MovPlat21.png" />
@@ -556,6 +577,8 @@
     <EmbeddedResource Include="Resources\Artwork\Background\Bkg40.png" />
     <EmbeddedResource Include="Resources\Artwork\Background\Bkg10.png" />
     <EmbeddedResource Include="Resources\Artwork\Background\Bkg11.png" />
+    <EmbeddedResource Include="Resources\Artwork\Background\Bkg30a.png" />
+    <EmbeddedResource Include="Resources\Artwork\Background\Bkg31a.png" />
     <Content Include="Resources\Artwork\Background\Bkg43.png" />
     <EmbeddedResource Include="Resources\Levels\World1Level1anna.png" />
     <EmbeddedResource Include="Resources\Levels\leveltry.png" />
@@ -573,6 +596,17 @@
     <EmbeddedResource Include="Resources\Artwork\Background\Bkg23.png" />
     <EmbeddedResource Include="Resources\Artwork\Background\Bkg63a.png" />
     <EmbeddedResource Include="Resources\Artwork\Creatures\DeadPlayer.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="WMPLib">
+      <Guid>{6BF52A50-394A-11D3-B153-00C04F79FAA6}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

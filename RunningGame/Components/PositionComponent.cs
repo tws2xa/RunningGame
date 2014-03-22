@@ -69,8 +69,11 @@ namespace RunningGame.Components {
         public System.Drawing.Point getIntegerPoint() {
             return new System.Drawing.Point( ( int )Math.Round( x ), ( int )Math.Round( y ) );
         }
-        public System.Drawing.PointF getPointF() {
+        public System.Drawing.PointF getLocAsPoint() {
             return new System.Drawing.PointF( x, y );
+        }
+        public System.Drawing.PointF getSizeAsPoint() {
+            return new System.Drawing.PointF( width, height );
         }
 
     }

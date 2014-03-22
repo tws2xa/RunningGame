@@ -17,8 +17,8 @@ namespace RunningGame.Systems {
 
         Keys addEntityKey = Keys.N;
         Keys harmPlayerKey = Keys.H;
-        Keys resetLevelKey = Keys.R;
-        Keys endLevelKey = Keys.Escape;
+        Keys resetLevelKey = GlobalVars.KEY_RESET;
+        Keys endLevelKey = GlobalVars.KEY_END;
         Keys skipLevelKey = Keys.F1;
         Keys typeKey = Keys.T; //prints out the all entity types to console
         Keys infoKey = Keys.I;

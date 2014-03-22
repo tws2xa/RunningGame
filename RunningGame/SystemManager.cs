@@ -36,11 +36,14 @@ namespace RunningGame {
         public SimplePowerUpSystem spSystem;
         public SimpleEnemyAISystem simpEnemySystem;
         public PlayerWeaponSystem weapSystem;
-        public SoundSystem sndSystem;
         public BackgroundPositionSystem bkgPosSystem;
         public MovingPlatformSystem movPlatSystem;
         public GrappleSystem grapSystem;
         public PushableSystem pushSystem;
+        public TimerSystem timerSystem;
+        public TimedShooterSystem timedShooterSystem;
+        public VelToZeroSystem velZeroSystem;
+        public SmushSystem smushSystem;
 
         List<GameSystem> systems = new List<GameSystem>();
 
@@ -70,12 +73,15 @@ namespace RunningGame {
             spSystem = new SimplePowerUpSystem( level ); systems.Add( spSystem );
             simpEnemySystem = new SimpleEnemyAISystem( level ); systems.Add( simpEnemySystem );
             weapSystem = new PlayerWeaponSystem( level ); systems.Add( weapSystem );
-            sndSystem = new SoundSystem( level ); systems.Add( sndSystem );
             bkgPosSystem = new BackgroundPositionSystem( level ); systems.Add( bkgPosSystem );
             debugSystem = new DebugSystem( level ); systems.Add( debugSystem );
             movPlatSystem = new MovingPlatformSystem( level ); systems.Add( movPlatSystem );
             grapSystem = new GrappleSystem( level ); systems.Add( grapSystem );
             pushSystem = new PushableSystem( level ); systems.Add( pushSystem );
+            timerSystem = new TimerSystem( level ); systems.Add( timerSystem );
+            timedShooterSystem = new TimedShooterSystem( level ); systems.Add( timedShooterSystem );
+            velZeroSystem = new VelToZeroSystem( level ); systems.Add( velZeroSystem );
+            smushSystem = new SmushSystem( level ); systems.Add( smushSystem );
 
         }
 
@@ -83,6 +89,8 @@ namespace RunningGame {
         //Game Logic Stuff
         public void Update( float deltaTime ) {
 
+            velZeroSystem.Update( deltaTime );
+            timerSystem.Update( deltaTime );
             moveSystem.Update( deltaTime );
             bkgPosSystem.Update( deltaTime );
             pushSystem.Update( deltaTime );
@@ -91,6 +99,7 @@ namespace RunningGame {
             playerSystem.Update( deltaTime );
             visSystem.Update( deltaTime );
             grapSystem.Update( deltaTime );
+            timedShooterSystem.Update( deltaTime );
             spSystem.Update( deltaTime );
             weapSystem.Update( deltaTime );
             colSystem.Update( deltaTime );
@@ -102,7 +111,7 @@ namespace RunningGame {
             slSystem.Update( deltaTime );
             switchSystem.Update( deltaTime );
             simpEnemySystem.Update( deltaTime );
-            sndSystem.Update( deltaTime );
+            smushSystem.Update( deltaTime );
             debugSystem.Update( deltaTime );
             inputSystem.Update( deltaTime );
 

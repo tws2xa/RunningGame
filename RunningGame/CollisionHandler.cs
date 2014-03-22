@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Drawing;
 using RunningGame.Components;
 using RunningGame.Entities;
 using RunningGame.Systems;
@@ -48,7 +49,7 @@ namespace RunningGame {
             defaultCollisions.Add( GlobalVars.SPEEDY_PREGROUND_COLLIDER_TYPE, removeSpeedyCollision );
             defaultCollisions.Add( GlobalVars.BASIC_SOLID_COLLIDER_TYPE, simpleStopCollision );
             defaultCollisions.Add( GlobalVars.SPAWN_BLOCK_COLLIDER_TYPE, simpleStopCollision );
-            defaultCollisions.Add( GlobalVars.BULLET_COLLIDER_TYPE, bulletNonEnemyCollision );
+            defaultCollisions.Add( GlobalVars.BULLET_COLLIDER_TYPE, destroyBulletCollision );
             defaultCollisions.Add( GlobalVars.SIMPLE_ENEMY_COLLIDER_TYPE, simpleStopCollision );
             defaultCollisions.Add( GlobalVars.END_LEVEL_COLLIDER_TYPE, simpleStopCollision );
             defaultCollisions.Add( GlobalVars.MOVING_PLATFORM_COLLIDER_TYPE, simpleStopCollision );
@@ -58,6 +59,11 @@ namespace RunningGame {
             defaultCollisions.Add( GlobalVars.VISION_COLLIDER_TYPE, doNothingCollision );
             defaultCollisions.Add( GlobalVars.BOUNCE_PREGROUND_COLLIDER_TYPE, bounceGroundCollision );
             defaultCollisions.Add( GlobalVars.PLATFORM_TURN_COLLIDER_TYPE, doNothingCollision );
+            defaultCollisions.Add( GlobalVars.SHOOTER_BULLET_COLLIDER_TYPE, doNothingCollision );
+            defaultCollisions.Add( GlobalVars.TIMED_SHOOTER_COLLIDER_TYPE, simpleStopCollision );
+            defaultCollisions.Add( GlobalVars.SMUSH_BLOCK_COLLIDER, simpleStopCollision );
+        
+
 
             //Add non-default collisions to dictionary
             //Format: addToDictonary(Collider 1, Collider 2, name of function) Note - Order of colliders does not matter
@@ -67,13 +73,24 @@ namespace RunningGame {
             addToDictionary( GlobalVars.PLAYER_COLLIDER_TYPE, GlobalVars.POWERUP_PICKUP_COLLIDER_TYPE, powerupPickupPlayerCollision );
             addToDictionary( GlobalVars.PLAYER_COLLIDER_TYPE, GlobalVars.SPIKE_COLLIDER_TYPE, spikePlayerCollision );
             addToDictionary( GlobalVars.PLAYER_COLLIDER_TYPE, GlobalVars.BOUNCE_POSTGROUND_COLLIDER_TYPE, bounceCollision );
+<<<<<<< HEAD
             addToDictionary( GlobalVars.PLAYER_COLLIDER_TYPE, GlobalVars.SPAWN_BLOCK_COLLIDER_TYPE, pushCollision);
+=======
+            addToDictionary( GlobalVars.PLAYER_COLLIDER_TYPE, GlobalVars.SPAWN_BLOCK_COLLIDER_TYPE, simpleStopCollision);
+            addToDictionary( GlobalVars.PLAYER_COLLIDER_TYPE, GlobalVars.SMUSH_BLOCK_COLLIDER, smushCollision );
+>>>>>>> 5c9d75a76f98c0562141d8bd064237eb143778f0
 
             addToDictionary( GlobalVars.BULLET_COLLIDER_TYPE, GlobalVars.PLAYER_COLLIDER_TYPE, doNothingCollision );
             addToDictionary( GlobalVars.BULLET_COLLIDER_TYPE, GlobalVars.SIMPLE_ENEMY_COLLIDER_TYPE, DestroyBothCollision );
             addToDictionary( GlobalVars.BULLET_COLLIDER_TYPE, GlobalVars.SWITCH_COLLIDER_TYPE, switchFlipCollision );
 
+            addToDictionary( GlobalVars.SHOOTER_BULLET_COLLIDER_TYPE, GlobalVars.BASIC_SOLID_COLLIDER_TYPE, destroyBulletCollision );
+            addToDictionary( GlobalVars.SHOOTER_BULLET_COLLIDER_TYPE, GlobalVars.PLAYER_COLLIDER_TYPE, shooterBulletPlayerCollision);
+            addToDictionary( GlobalVars.SHOOTER_BULLET_COLLIDER_TYPE, GlobalVars.TIMED_SHOOTER_COLLIDER_TYPE, doNothingCollision );
+            addToDictionary( GlobalVars.SHOOTER_BULLET_COLLIDER_TYPE, GlobalVars.MOVING_PLATFORM_COLLIDER_TYPE, destroyBulletCollision );
+
             addToDictionary( GlobalVars.BOUNCE_PREGROUND_COLLIDER_TYPE, GlobalVars.BASIC_SOLID_COLLIDER_TYPE, bounceGroundCollision );
+            addToDictionary( GlobalVars.BOUNCE_PREGROUND_COLLIDER_TYPE, GlobalVars.TIMED_SHOOTER_COLLIDER_TYPE, doNothingCollision );
             addToDictionary( GlobalVars.BOUNCE_PREGROUND_COLLIDER_TYPE, GlobalVars.PLAYER_COLLIDER_TYPE, doNothingCollision );
             addToDictionary( GlobalVars.BOUNCE_PREGROUND_COLLIDER_TYPE, GlobalVars.SIMPLE_ENEMY_COLLIDER_TYPE, doNothingCollision );
             addToDictionary( GlobalVars.BOUNCE_PREGROUND_COLLIDER_TYPE, GlobalVars.BOUNCE_PREGROUND_COLLIDER_TYPE, doNothingCollision );
@@ -89,12 +106,14 @@ namespace RunningGame {
             addToDictionary( GlobalVars.VISION_COLLIDER_TYPE, GlobalVars.BASIC_SOLID_COLLIDER_TYPE, simpleStopCollision );
 
             addToDictionary( GlobalVars.SPEEDY_PREGROUND_COLLIDER_TYPE, GlobalVars.BASIC_SOLID_COLLIDER_TYPE, speedyGroundCollision );
+            addToDictionary( GlobalVars.SPEEDY_PREGROUND_COLLIDER_TYPE, GlobalVars.TIMED_SHOOTER_COLLIDER_TYPE, doNothingCollision );
             addToDictionary( GlobalVars.SPEEDY_PREGROUND_COLLIDER_TYPE, GlobalVars.PLAYER_COLLIDER_TYPE, doNothingCollision );
             addToDictionary( GlobalVars.SPEEDY_PREGROUND_COLLIDER_TYPE, GlobalVars.SIMPLE_ENEMY_COLLIDER_TYPE, doNothingCollision );
             addToDictionary( GlobalVars.SPEEDY_PREGROUND_COLLIDER_TYPE, GlobalVars.SPAWN_BLOCK_COLLIDER_TYPE, doNothingCollision);
 
             addToDictionary( GlobalVars.SPAWN_BLOCK_COLLIDER_TYPE, GlobalVars.SPEEDY_POSTGROUND_COLLIDER_TYPE, speedyOtherCollision );
             addToDictionary( GlobalVars.SPAWN_BLOCK_COLLIDER_TYPE, GlobalVars.BOUNCE_POSTGROUND_COLLIDER_TYPE, bounceCollision );
+            addToDictionary(GlobalVars.SPAWN_BLOCK_COLLIDER_TYPE, GlobalVars.SWITCH_COLLIDER_TYPE, switchFlipCollision);
 
             addToDictionary( GlobalVars.MOVING_PLATFORM_COLLIDER_TYPE, GlobalVars.PLATFORM_TURN_COLLIDER_TYPE, simpleStopCollision );
         }
@@ -305,7 +324,7 @@ namespace RunningGame {
             }
             if ( ground == null || bounceB == null ) return false;
             PositionComponent theGround = ( PositionComponent )ground.getComponent( GlobalVars.POSITION_COMPONENT_NAME );
-            System.Drawing.PointF loc = theGround.getPointF();
+            System.Drawing.PointF loc = theGround.getLocAsPoint();
 
             level.removeEntity( ground );
             level.removeEntity( bounceB );
@@ -334,7 +353,7 @@ namespace RunningGame {
             }
 
             PositionComponent ground = ( PositionComponent )theGround.getComponent( GlobalVars.POSITION_COMPONENT_NAME );
-            System.Drawing.PointF loc = ground.getPointF();
+            System.Drawing.PointF loc = ground.getLocAsPoint();
 
             level.removeEntity( theGround );
             level.removeEntity( speedy );
@@ -419,6 +438,7 @@ namespace RunningGame {
                 level.sysManager.spSystem.speedyTimers[other] = level.sysManager.spSystem.speedyTime;
             } else {
                 level.sysManager.spSystem.speedyTimers.Add( other, level.sysManager.spSystem.speedyTime );
+                
             }
 
 
@@ -456,33 +476,56 @@ namespace RunningGame {
         }
 
         //This flips a switch (assuming e1 or e2 is a switch)
-        public static bool switchFlipCollision( Entity e1, Entity e2 ) {
+        public bool switchFlipCollision( Entity e1, Entity e2 ) {
             //Find out which one is the switch
             SwitchComponent sc; //The switch
-            Entity s; //The other one
+            Entity s; //The other ones
+            Entity other;
             if ( e1.hasComponent( GlobalVars.SWITCH_COMPONENT_NAME ) ) {
                 s = e1;
+                other = e2;
                 sc = ( SwitchComponent )e1.getComponent( GlobalVars.SWITCH_COMPONENT_NAME );
             } else if ( e2.hasComponent( GlobalVars.SWITCH_COMPONENT_NAME ) ) {
                 s = e2;
+                other = e1;
                 sc = ( SwitchComponent )e2.getComponent( GlobalVars.SWITCH_COMPONENT_NAME );
             } else {
                 //This should only occur when both neither e1 nor e2 is a switch.
                 Console.WriteLine( "Switch collision with no switch?" );
                 return false;
             }
+            //if it is spawnblock and it is moving flip switch
+            if (other is spawnBlockEntity)
+            {
+                SpawnBlockComponent sbc = (SpawnBlockComponent)other.getComponent(GlobalVars.SPAWN_BLOCK_COMPONENT_NAME);
+                level.removeEntity(other);
+                if (sbc.state == 1 || sbc.state == 2)
+                {
+                    if (!sc.active)
+                    {
+                        sc.setActive(true);
+                        DrawComponent drawComp = (DrawComponent)s.getComponent(GlobalVars.DRAW_COMPONENT_NAME);
+                        drawComp.setSprite(GlobalVars.SWITCH_ACTIVE_SPRITE_NAME);
+                    }
+                }
 
+            }
             //If the switch is not active, make it active and switch the image
-            if ( !sc.active ) {
-                sc.setActive( true );
-                DrawComponent drawComp = ( DrawComponent )s.getComponent( GlobalVars.DRAW_COMPONENT_NAME );
-                drawComp.setSprite( GlobalVars.SWITCH_ACTIVE_SPRITE_NAME );
+            else {
+            
+                if (!sc.active)
+                {
+                    sc.setActive(true);
+                    DrawComponent drawComp = (DrawComponent)s.getComponent(GlobalVars.DRAW_COMPONENT_NAME);
+                    drawComp.setSprite(GlobalVars.SWITCH_ACTIVE_SPRITE_NAME);
+                }
             }
 
             //Don't stop the movement
             return false;
 
         }
+        
 
         //This occurs when the player collides with an enemy. Kills the player.
         public static bool killPlayerCollision( Entity e1, Entity e2 ) {
@@ -497,7 +540,7 @@ namespace RunningGame {
                 return false;
             }
 
-            //Decrease the player's health (In this case, it just removes it completely.
+            //Decrease the player's health (In this case, it just removes it completely.)
             HealthComponent playerHealthComp = ( HealthComponent )player.getComponent( GlobalVars.HEALTH_COMPONENT_NAME );
             playerHealthComp.subtractFromHealth( playerHealthComp.health + 1 ); //Kill the player! D:
 
@@ -521,7 +564,7 @@ namespace RunningGame {
                 return false;
             }
 
-            //Decrease the player's health (In this case, it just removes it completely.
+            //Decrease the player's health
             
             HealthComponent playerHealthComp = ( HealthComponent )player.getComponent( GlobalVars.HEALTH_COMPONENT_NAME );
             playerHealthComp.subtractFromHealth( (int)Math.Ceiling(playerHealthComp.maxHealth/1.8f) ); //Bubye healths! >:)
@@ -580,13 +623,13 @@ namespace RunningGame {
 
         //This occurs when the bullet collides with something that isn't an enemy
         //It finds and removes the bullet.
-        public bool bulletNonEnemyCollision( Entity e1, Entity e2 ) {
+        public bool destroyBulletCollision( Entity e1, Entity e2 ) {
             //Get the bullet
-            BulletEntity bullet;
-            if ( e1 is BulletEntity ) {
-                bullet = ( BulletEntity )e1;
-            } else if ( e2 is BulletEntity ) {
-                bullet = ( BulletEntity )e2;
+            Entity bullet;
+            if ( e1 is BulletEntity || e1 is ShooterBullet ) {
+                bullet = e1;
+            } else if ( e2 is BulletEntity || e2 is ShooterBullet) {
+                bullet = e2;
             } else {
                 Console.WriteLine( "Bullet Collision with no bullet..." );
                 return false;
@@ -597,6 +640,34 @@ namespace RunningGame {
 
             //Don't stop movement
             return false;
+        }
+        public bool shooterBulletPlayerCollision( Entity e1, Entity e2 ) {
+            //Figure out which entity is the player
+            Player player;
+            Entity enemy;
+            if ( e1 is Player ) {
+                player = ( Player )e1;
+                enemy = e2;
+            } else if ( e2 is Player ) {
+                player = ( Player )e2;
+                enemy = e1;
+            } else {
+                Console.WriteLine( "Shooter Bullet Player Collision with no player..." );
+                return false;
+            }
+
+            //Decrease the player's health
+            HealthComponent playerHealthComp = ( HealthComponent )player.getComponent( GlobalVars.HEALTH_COMPONENT_NAME );
+            playerHealthComp.subtractFromHealth( ( int )Math.Ceiling( playerHealthComp.maxHealth / 1.8f ) ); //Bubye healths! >:)
+            
+            level.playerImmune = true;
+            if ( !this.level.timerMethods.ContainsKey( level.disableImmune ) ) {
+                this.level.timerMethods.Add( level.disableImmune, 0.02f );
+            }
+
+            level.removeEntity( enemy );
+            return false;
+
         }
 
         //Destroy both colliding entities
@@ -632,14 +703,14 @@ namespace RunningGame {
                 Console.WriteLine( "Moving Plaform Collision without Moving Platform!" );
                 return false;
             }
-
+            
 
             PositionComponent platPos = ( PositionComponent )plat.getComponent( GlobalVars.POSITION_COMPONENT_NAME );
             PositionComponent otherPos = ( PositionComponent )other.getComponent( GlobalVars.POSITION_COMPONENT_NAME );
             ColliderComponent platCol = ( ColliderComponent )plat.getComponent( GlobalVars.COLLIDER_COMPONENT_NAME );
             ColliderComponent otherCol = ( ColliderComponent )plat.getComponent( GlobalVars.COLLIDER_COMPONENT_NAME );
             
-            float buffer = -2;
+            float buffer = -3;
 
             if ( other.hasComponent( GlobalVars.VELOCITY_COMPONENT_NAME ) ) {
                 VelocityComponent otherVel = ( VelocityComponent )other.getComponent( GlobalVars.VELOCITY_COMPONENT_NAME );
@@ -655,7 +726,6 @@ namespace RunningGame {
             if ( diff > buffer ) {
                 return false;
             }
-
 
             return true;
         }
@@ -746,7 +816,9 @@ namespace RunningGame {
             Entity spawnBlock = null;
             Entity other = null;
 
-            if ( e1 is spawnBlockEntity ) { spawnBlock = e1; other = e2; } else if ( e2 is spawnBlockEntity ) { spawnBlock = e2; other = e1; } else { Console.WriteLine( "Spawn Enemy Collision with no Spawn!" ); return false; }
+            if ( e1 is spawnBlockEntity ) { spawnBlock = e1; other = e2; }
+            else if ( e2 is spawnBlockEntity ) { spawnBlock = e2; other = e1; }
+            else { Console.WriteLine( "Spawn Enemy Collision with no Spawn!" ); return false; }
 
             SpawnBlockComponent spComp = ( SpawnBlockComponent )spawnBlock.getComponent( GlobalVars.SPAWN_BLOCK_COMPONENT_NAME );
 
@@ -763,6 +835,7 @@ namespace RunningGame {
             return false;
 
         }
+
 
         //If there's satisfactory overlap between the player and the spike it kills the player.
         //Otherwise it does nothing.
@@ -787,17 +860,8 @@ namespace RunningGame {
 
 
 
-            if ( checkSpikeCollision( posPlayer, posSpikes, dirComp.dir % 4 ) ) {
-                switch ( dirComp.dir % 4 ) {
-                    case ( 0 ): //Player needs to be above spikes
-                        return killPlayerCollision( e1, e2 );
-                    case ( 1 )://Player needs to be right of spikes
-                        return killPlayerCollision( e1, e2 );
-                    case ( 2 ):
-                        return killPlayerCollision( e1, e2 );
-                    case ( 3 )://Player needs to be left of spikes
-                        return killPlayerCollision( e1, e2 );
-                }
+            if ( checkSpikeCollision( posPlayer, posSpikes, dirComp ) ) {
+                return killPlayerCollision( e1, e2 );
             }
 
             return false;
@@ -805,7 +869,7 @@ namespace RunningGame {
         }
 
         //Makes sure there's satisfactory overlap for spikes to kill the player
-        private bool checkSpikeCollision( PositionComponent posPlayer, PositionComponent posSpikes, int dir ) {
+        private bool checkSpikeCollision( PositionComponent posPlayer, PositionComponent posSpikes, DirectionalComponent dir ) {
 
             return true;
 
@@ -979,6 +1043,87 @@ namespace RunningGame {
 
             return false;
 
+        }
+
+
+        public bool smushCollision( Entity e1, Entity e2 ) {
+            Entity[] sortedEnts = getEntityWithComponent( GlobalVars.SMUSH_COMPONENT_NAME, e1, e2 );
+            Entity smushBlock = sortedEnts[0];
+            Entity other = sortedEnts[1];
+
+            PositionComponent smushPos = (PositionComponent)smushBlock.getComponent( GlobalVars.POSITION_COMPONENT_NAME );
+            PositionComponent otherPos = ( PositionComponent )other.getComponent( GlobalVars.POSITION_COMPONENT_NAME );
+
+            PointF smushLoc = smushPos.getLocAsPoint();
+            PointF otherLoc = otherPos.getLocAsPoint();
+            PointF smushSize = smushPos.getSizeAsPoint();
+            PointF otherSize = otherPos.getSizeAsPoint();
+
+            if(smushBlock.hasComponent(GlobalVars.COLLIDER_COMPONENT_NAME)) {
+                ColliderComponent colComp = (ColliderComponent)smushBlock.getComponent(GlobalVars.COLLIDER_COMPONENT_NAME);
+                smushLoc = colComp.getLocationAsPoint(smushPos);
+                smushSize = colComp.getSizeAsPoint();
+            }
+            if(other.hasComponent(GlobalVars.COLLIDER_COMPONENT_NAME)) {
+                ColliderComponent colComp = (ColliderComponent)other.getComponent(GlobalVars.COLLIDER_COMPONENT_NAME);
+                otherLoc = colComp.getLocationAsPoint(otherPos);
+                otherSize = colComp.getSizeAsPoint();
+            }
+
+            DirectionalComponent smushDir = ( DirectionalComponent )smushBlock.getComponent( GlobalVars.DIRECTION_COMPONENT_NAME );
+
+            float overlapBuffer = 3;
+
+            //check if it's a vertical or horizontal collision
+            bool vertCollision = ( Math.Abs( smushLoc.X - otherLoc.X ) <= ( Math.Max( smushSize.X, otherSize.X ) + overlapBuffer ) );
+
+            if(vertCollision && (smushDir.isLeft() || smushDir.isRight())) return simpleStopCollision(e1, e2);
+            if(!vertCollision && (smushDir.isUp() || smushDir.isDown())) return simpleStopCollision(e1, e2);
+
+
+            if ( shouldSmush( vertCollision, smushLoc, smushSize, otherLoc, otherSize, smushDir ) ) {
+                doKill( smushBlock, other );
+                return false;
+            } else {
+                return simpleStopCollision( e1, e2 );
+            }
+        }
+
+        public bool shouldSmush( bool vertCollision, PointF smushLoc, PointF smushSize, PointF otherLoc, PointF otherSize, DirectionalComponent smushDir ) {
+            float overlapBuffer = 3;
+            if ( vertCollision ) {
+                if ( ( smushLoc.Y + smushSize.Y / 2 - overlapBuffer ) < ( otherLoc.Y - otherSize.Y / 2 ) ) {
+                    return smushDir.isDown();
+                } else {
+                    return smushDir.isUp();
+                }
+            } else {
+                if ( ( smushLoc.X + smushSize.X / 2 - overlapBuffer ) < ( otherLoc.X - otherSize.X / 2 ) ) {
+                    return smushDir.isRight();
+                } else {
+                    return smushDir.isLeft();
+                }
+            }
+        }
+
+        public void doKill(Entity killer, Entity victim) {
+            HealthComponent healthComp = (HealthComponent)victim.getComponent(GlobalVars.HEALTH_COMPONENT_NAME);
+            if(healthComp == null) {
+                Console.WriteLine("Trying to kill something without health.");
+            }
+            healthComp.kill();
+        }
+
+        //Returns an entity list, index 0 has the component, index 1 is the other.
+        public Entity[] getEntityWithComponent( string compName, Entity e1, Entity e2 ) {
+            if ( e1.hasComponent( compName ) ) {
+                return new Entity[2]{ e1, e2 };
+            } else if ( e2.hasComponent( compName ) ) {
+                return new Entity[2] { e2, e1 };
+            } else {
+                Console.WriteLine( "Error: Looking for an entity with " + compName + " in collison handler but none found." );
+                return null;
+            }
         }
 
         //Generates a random ID for when you're creating a new entity.
