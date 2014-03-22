@@ -131,7 +131,14 @@ namespace RunningGame.Entities {
         //Note: Some things, like ground, dont move, and really don't need anything here.
         //Note: Some things, like a bullet, won't ever exist at the start of a level, so you could probably leave this empty.
         public override void revertToStartingState() {
-            //Stuff
+            PositionComponent posComp = (PositionComponent)this.getComponent(GlobalVars.POSITION_COMPONENT_NAME);
+            level.getMovementSystem().changePosition( posComp, posComp.startingX, posComp.startingY, false, false );
+
+            TimerComponent timeComp = ( TimerComponent )this.getComponent( GlobalVars.TIMER_COMPONENT_NAME );
+            timeComp.clearAllTimers();
+
+            SmushComponent smushComp = ( SmushComponent )this.getComponent( GlobalVars.SMUSH_COMPONENT_NAME );
+            smushComp.setHasInitializedTimer( false );
         }
 
     }
