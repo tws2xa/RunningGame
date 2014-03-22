@@ -498,6 +498,9 @@
     <EmbeddedResource Include="Resources\Artwork\Background\Bkg32.png" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Resources\Artwork\Foreground\Bullet\Bullet110.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\Bullet\Bullet210.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\Bullet\Bullet310.png" />
     <EmbeddedResource Include="Resources\Artwork\Foreground\SmushBlock.png" />
     <EmbeddedResource Include="Resources\Sounds\TitleTest.wav" />
     <EmbeddedResource Include="Resources\Sounds\gameplay.wav" />

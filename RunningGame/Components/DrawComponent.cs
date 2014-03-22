@@ -140,6 +140,7 @@ namespace RunningGame.Components {
 
         public void addAnimatedSprite( List<string> baseAddresses, List<string> defaultAddresses, string spriteName ) {
             List<Bitmap> newImages = new List<Bitmap>();
+            List<Bitmap> colorlessImages = new List<Bitmap>();
             int i = 0;
             foreach ( string str in baseAddresses ) {
                 Bitmap img = readInImage( getImageFilePathName( str ) );
@@ -154,12 +155,25 @@ namespace RunningGame.Components {
                 if ( img == null ) Console.WriteLine( "Error: Null image for " + spriteName + " baseName: " + str + " defaultFile: " + defaultAddresses[i] );
 
                 newImages.Add( img );
+
+                if ( level.levelNum == 1 && !level.colorOrbObtained ) {
+                    Bitmap colorlessImg = getPreColorImage( baseAddresses[i], img );
+
+                    colorlessImages.Add( colorlessImg);
+                }
+
                 i++;
             }
 
             Sprite spr = new Sprite( spriteName, newImages );
 
             images.Add( spriteName, spr );
+
+            if ( colorlessImages.Count > 0 ) {
+                string preColorImageName = spriteName + "" + GlobalVars.PRECOLOR_SPRITE_NAME;
+                Sprite colorless = new Sprite( preColorImageName, colorlessImages );
+                images.Add( preColorImageName, colorless );
+            }
 
         }
 
@@ -246,6 +260,11 @@ namespace RunningGame.Components {
                 s.images = newImages;
             } else
                 Console.WriteLine( "Trying to rotate/flip a nonexistant image: " + spriteName );
+
+            //Check if there's an equavalent precolor image, flip that too.
+            if ( images.ContainsKey( spriteName + "" + GlobalVars.PRECOLOR_SPRITE_NAME ) ) {
+                rotateFlipSprite( spriteName + "" + GlobalVars.PRECOLOR_SPRITE_NAME, rotation );
+            }
         }
 
         //Auto resets the animation
