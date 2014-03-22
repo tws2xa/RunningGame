@@ -91,5 +91,8 @@ namespace RunningGame.Components {
             return ( health >= maxHealth );
         }
 
+        public void kill() {
+            this.subtractFromHealth( this.maxHealth + 1 );
+        }
     }
 }

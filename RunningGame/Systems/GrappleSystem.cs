@@ -71,9 +71,9 @@ namespace RunningGame.Systems {
 
                     //Check if the player has moved. If so move the start point of the grapple.
                     PositionComponent playerPos = ( PositionComponent )level.getPlayer().getComponent( GlobalVars.POSITION_COMPONENT_NAME );
-                    if ( playerPos.getPointF() != grapComp.getFirstPoint() ) {
+                    if ( playerPos.getLocAsPoint() != grapComp.getFirstPoint() ) {
                         //Move start point
-                        grapComp.setFirstPoint( playerPos.getPointF() );
+                        grapComp.setFirstPoint( playerPos.getLocAsPoint() );
 
                         //Check to see if it's intersecting anything now
                         Entity mrIntersection = null;
@@ -83,7 +83,7 @@ namespace RunningGame.Systems {
 
                             //AKSHUALLY reconnect the grapple to the new thing
                             PositionComponent pos = ( PositionComponent )mrIntersection.getComponent( GlobalVars.POSITION_COMPONENT_NAME );
-                            grapComp.setEndPoint( pos.getPointF() );
+                            grapComp.setEndPoint( pos.getLocAsPoint() );
 
                             return;
                         }
@@ -126,7 +126,7 @@ namespace RunningGame.Systems {
                     Entity colEnt = null;
                     if ( checkForStopsBetweenPoints( grapComp.getLastPoint(), p1, ref colEnt ) ) {
                         PositionComponent pos = ( PositionComponent )colEnt.getComponent( GlobalVars.POSITION_COMPONENT_NAME );
-                        grapComp.setEndPoint( pos.getPointF() );
+                        grapComp.setEndPoint( pos.getLocAsPoint() );
                         grapComp.myLink = colEnt;
                         grapComp.state = 1;
                         if ( removeGravity == 2 ) level.getPlayer().removeComponent( GlobalVars.GRAVITY_COMPONENT_NAME );
@@ -161,7 +161,7 @@ namespace RunningGame.Systems {
                         //finishGrapple(e, false);
                         //return;
                         PositionComponent pos = ( PositionComponent )mrIntersection.getComponent( GlobalVars.POSITION_COMPONENT_NAME );
-                        grapComp.setEndPoint( pos.getPointF() );
+                        grapComp.setEndPoint( pos.getLocAsPoint() );
                     }
 
                     float buff = 0.5f;
@@ -170,7 +170,7 @@ namespace RunningGame.Systems {
                         finishGrapple( e, true );
                     }
 
-                    double distBefore = getDist( playerPos.getPointF(), grapComp.getLastPoint() );
+                    double distBefore = getDist( playerPos.getLocAsPoint(), grapComp.getLastPoint() );
 
                     //Move first point in grapple up
                     float newX = grapComp.getFirstPoint().X;
@@ -203,7 +203,7 @@ namespace RunningGame.Systems {
                     //Retreating
                 else if ( grapComp.state == 2 && level.getPlayer() != null ) {
                     PositionComponent playerPos = ( PositionComponent )level.getPlayer().getComponent( GlobalVars.POSITION_COMPONENT_NAME );
-                    grapComp.setFirstPoint( playerPos.getPointF() );
+                    grapComp.setFirstPoint( playerPos.getLocAsPoint() );
 
                     double distBefore = getDist( grapComp.getFirstPoint(), grapComp.getLastPoint() );
 

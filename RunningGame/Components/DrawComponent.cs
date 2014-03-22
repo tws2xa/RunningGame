@@ -201,6 +201,29 @@ namespace RunningGame.Components {
             return ( Sprite )images[activeSprite];
         }
 
+        public void rotateFlipAllSprites( RotateFlipType rotation ) {
+            foreach ( string spriteName in images.Keys ) {
+
+                List<Bitmap> newImages = new List<Bitmap>();
+
+                Sprite s = ( Sprite )images[spriteName];
+
+                foreach ( Image b in s.images ) {
+                    //Must create a copy so it doesn't flip ALL things using this image
+                    try {
+                        Bitmap newImage = new Bitmap( b );
+                        newImage.RotateFlip( rotation );
+                        newImages.Add( newImage );
+                    } catch ( InvalidOperationException e ) {
+                        Console.WriteLine( "Couldn't flip an image! Exception: " + e );
+                    }
+
+                }
+
+                s.images = newImages;
+            }
+        }
+
         public void rotateFlipSprite( string spriteName, RotateFlipType rotation ) {
             if ( images.ContainsKey( spriteName ) ) {
 

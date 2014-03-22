@@ -44,17 +44,14 @@ namespace RunningGame.Systems {
                 TimerComponent timeComp = ( TimerComponent )e.getComponent( GlobalVars.TIMER_COMPONENT_NAME );
                 TimedShooterComponent shooterComp = ( TimedShooterComponent )e.getComponent( GlobalVars.TIMED_SHOOTER_COMPONENT_NAME );
                 DirectionalComponent dirComp = ( DirectionalComponent )e.getComponent( GlobalVars.DIRECTION_COMPONENT_NAME );
-                int dir = 1;
-                if ( dirComp != null ) {
-                    dir = dirComp.dir;
-                }
+                
 
                 //Make a copy so editing the component's list doesn't kill the loop
                 List<string> completedTimers = new List<string>(timeComp.getCompletedTimers());
                 foreach(string name in completedTimers) {
                     if ( name == shooterComp.fireTimerString ) {
-                        timeComp.finishCompletedTimer( name );
-                        beginFire( e, shooterComp, timeComp, dir );
+                        timeComp.removeCompletedTimer( name );
+                        beginFire( e, shooterComp, timeComp, dirComp );
                     } else {
                         Console.WriteLine( "Unrecognized timer: " + name + " has been completed." );
                     }
@@ -66,7 +63,7 @@ namespace RunningGame.Systems {
         //----------------------------------------------------------------------------------------------
 
 
-        public void beginFire(Entity e, TimedShooterComponent shooterComp, TimerComponent timeComp, int dir) {
+        public void beginFire(Entity e, TimedShooterComponent shooterComp, TimerComponent timeComp, DirectionalComponent dir) {
             fireItem(e, dir);
             shooterComp.currentBurstNum++;
             if ( shooterComp.currentBurstNum < shooterComp.numShotsPerBurst ) {
@@ -77,25 +74,21 @@ namespace RunningGame.Systems {
             }
         }
 
-        public void fireItem(Entity e, int dir) {
+        public void fireItem(Entity e, DirectionalComponent dir) {
             PositionComponent posComp = (PositionComponent)e.getComponent(GlobalVars.POSITION_COMPONENT_NAME);
-            ShooterBullet bullet = new ShooterBullet( level, level.rand.Next(Int32.MinValue, Int32.MaxValue), posComp.x, posComp.y, dir );
+            ShooterBullet bullet = new ShooterBullet( level, level.rand.Next(Int32.MinValue, Int32.MaxValue), posComp.x, posComp.y, dir.getDir() );
             VelocityComponent bulletVel = ( VelocityComponent )bullet.getComponent( GlobalVars.VELOCITY_COMPONENT_NAME );
             float bulletSpeed = 160.0f;
-            switch ( dir % 4) {
-                case( 0 ):
-                    bulletVel.setVelocity( 0, -bulletSpeed );
-                    break;
-                case ( 1 ):
+            if (dir.isUp()) {
+            bulletVel.setVelocity( 0, -bulletSpeed );
+            }else if ( dir.isRight() ){
                     bulletVel.setVelocity( bulletSpeed, 0);
-                    break;
-                case ( 2 ):
-                    bulletVel.setVelocity( 0, bulletSpeed );
-                    break;
-                case ( 3 ):
-                    bulletVel.setVelocity( -bulletSpeed, 0 );
-                    break;
             }
+            else if ( dir.isDown() ){
+                    bulletVel.setVelocity( 0, bulletSpeed );
+            }else if ( dir.isLeft() ) {
+                    bulletVel.setVelocity( -bulletSpeed, 0 );
+             }
             level.addEntity( bullet );
         }
 

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Drawing;
 using RunningGame.Components;
 using RunningGame.Entities;
 using RunningGame.Systems;
@@ -60,6 +61,7 @@ namespace RunningGame {
             defaultCollisions.Add( GlobalVars.PLATFORM_TURN_COLLIDER_TYPE, doNothingCollision );
             defaultCollisions.Add( GlobalVars.SHOOTER_BULLET_COLLIDER_TYPE, doNothingCollision );
             defaultCollisions.Add( GlobalVars.TIMED_SHOOTER_COLLIDER_TYPE, simpleStopCollision );
+            defaultCollisions.Add( GlobalVars.SMUSH_BLOCK_COLLIDER, simpleStopCollision );
 
             //Add non-default collisions to dictionary
             //Format: addToDictonary(Collider 1, Collider 2, name of function) Note - Order of colliders does not matter
@@ -70,6 +72,7 @@ namespace RunningGame {
             addToDictionary( GlobalVars.PLAYER_COLLIDER_TYPE, GlobalVars.SPIKE_COLLIDER_TYPE, spikePlayerCollision );
             addToDictionary( GlobalVars.PLAYER_COLLIDER_TYPE, GlobalVars.BOUNCE_POSTGROUND_COLLIDER_TYPE, bounceCollision );
             addToDictionary( GlobalVars.PLAYER_COLLIDER_TYPE, GlobalVars.SPAWN_BLOCK_COLLIDER_TYPE, simpleStopCollision);
+            addToDictionary( GlobalVars.PLAYER_COLLIDER_TYPE, GlobalVars.SMUSH_BLOCK_COLLIDER, smushCollision );
 
             addToDictionary( GlobalVars.BULLET_COLLIDER_TYPE, GlobalVars.PLAYER_COLLIDER_TYPE, doNothingCollision );
             addToDictionary( GlobalVars.BULLET_COLLIDER_TYPE, GlobalVars.SIMPLE_ENEMY_COLLIDER_TYPE, DestroyBothCollision );
@@ -313,7 +316,7 @@ namespace RunningGame {
             }
             if ( ground == null || bounceB == null ) return false;
             PositionComponent theGround = ( PositionComponent )ground.getComponent( GlobalVars.POSITION_COMPONENT_NAME );
-            System.Drawing.PointF loc = theGround.getPointF();
+            System.Drawing.PointF loc = theGround.getLocAsPoint();
 
             level.removeEntity( ground );
             level.removeEntity( bounceB );
@@ -342,7 +345,7 @@ namespace RunningGame {
             }
 
             PositionComponent ground = ( PositionComponent )theGround.getComponent( GlobalVars.POSITION_COMPONENT_NAME );
-            System.Drawing.PointF loc = ground.getPointF();
+            System.Drawing.PointF loc = ground.getLocAsPoint();
 
             level.removeEntity( theGround );
             level.removeEntity( speedy );
@@ -825,17 +828,8 @@ namespace RunningGame {
 
 
 
-            if ( checkSpikeCollision( posPlayer, posSpikes, dirComp.dir % 4 ) ) {
-                switch ( dirComp.dir % 4 ) {
-                    case ( 0 ): //Player needs to be above spikes
-                        return killPlayerCollision( e1, e2 );
-                    case ( 1 )://Player needs to be right of spikes
-                        return killPlayerCollision( e1, e2 );
-                    case ( 2 ):
-                        return killPlayerCollision( e1, e2 );
-                    case ( 3 )://Player needs to be left of spikes
-                        return killPlayerCollision( e1, e2 );
-                }
+            if ( checkSpikeCollision( posPlayer, posSpikes, dirComp ) ) {
+                return killPlayerCollision( e1, e2 );
             }
 
             return false;
@@ -843,7 +837,7 @@ namespace RunningGame {
         }
 
         //Makes sure there's satisfactory overlap for spikes to kill the player
-        private bool checkSpikeCollision( PositionComponent posPlayer, PositionComponent posSpikes, int dir ) {
+        private bool checkSpikeCollision( PositionComponent posPlayer, PositionComponent posSpikes, DirectionalComponent dir ) {
 
             return true;
 
@@ -1015,6 +1009,87 @@ namespace RunningGame {
 
             return false;
 
+        }
+
+
+        public bool smushCollision( Entity e1, Entity e2 ) {
+            Entity[] sortedEnts = getEntityWithComponent( GlobalVars.SMUSH_COMPONENT_NAME, e1, e2 );
+            Entity smushBlock = sortedEnts[0];
+            Entity other = sortedEnts[1];
+
+            PositionComponent smushPos = (PositionComponent)smushBlock.getComponent( GlobalVars.POSITION_COMPONENT_NAME );
+            PositionComponent otherPos = ( PositionComponent )other.getComponent( GlobalVars.POSITION_COMPONENT_NAME );
+
+            PointF smushLoc = smushPos.getLocAsPoint();
+            PointF otherLoc = otherPos.getLocAsPoint();
+            PointF smushSize = smushPos.getSizeAsPoint();
+            PointF otherSize = otherPos.getSizeAsPoint();
+
+            if(smushBlock.hasComponent(GlobalVars.COLLIDER_COMPONENT_NAME)) {
+                ColliderComponent colComp = (ColliderComponent)smushBlock.getComponent(GlobalVars.COLLIDER_COMPONENT_NAME);
+                smushLoc = colComp.getLocationAsPoint(smushPos);
+                smushSize = colComp.getSizeAsPoint();
+            }
+            if(other.hasComponent(GlobalVars.COLLIDER_COMPONENT_NAME)) {
+                ColliderComponent colComp = (ColliderComponent)other.getComponent(GlobalVars.COLLIDER_COMPONENT_NAME);
+                otherLoc = colComp.getLocationAsPoint(otherPos);
+                otherSize = colComp.getSizeAsPoint();
+            }
+
+            DirectionalComponent smushDir = ( DirectionalComponent )smushBlock.getComponent( GlobalVars.DIRECTION_COMPONENT_NAME );
+
+            float overlapBuffer = 3;
+
+            //check if it's a vertical or horizontal collision
+            bool vertCollision = ( Math.Abs( smushLoc.X - otherLoc.X ) <= ( Math.Max( smushSize.X, otherSize.X ) + overlapBuffer ) );
+
+            if(vertCollision && (smushDir.isLeft() || smushDir.isRight())) return simpleStopCollision(e1, e2);
+            if(!vertCollision && (smushDir.isUp() || smushDir.isDown())) return simpleStopCollision(e1, e2);
+
+
+            if ( shouldSmush( vertCollision, smushLoc, smushSize, otherLoc, otherSize, smushDir ) ) {
+                doKill( smushBlock, other );
+                return false;
+            } else {
+                return simpleStopCollision( e1, e2 );
+            }
+        }
+
+        public bool shouldSmush( bool vertCollision, PointF smushLoc, PointF smushSize, PointF otherLoc, PointF otherSize, DirectionalComponent smushDir ) {
+            float overlapBuffer = 3;
+            if ( vertCollision ) {
+                if ( ( smushLoc.Y + smushSize.Y / 2 - overlapBuffer ) < ( otherLoc.Y - otherSize.Y / 2 ) ) {
+                    return smushDir.isDown();
+                } else {
+                    return smushDir.isUp();
+                }
+            } else {
+                if ( ( smushLoc.X + smushSize.X / 2 - overlapBuffer ) < ( otherLoc.X - otherSize.X / 2 ) ) {
+                    return smushDir.isRight();
+                } else {
+                    return smushDir.isLeft();
+                }
+            }
+        }
+
+        public void doKill(Entity killer, Entity victim) {
+            HealthComponent healthComp = (HealthComponent)victim.getComponent(GlobalVars.HEALTH_COMPONENT_NAME);
+            if(healthComp == null) {
+                Console.WriteLine("Trying to kill something without health.");
+            }
+            healthComp.kill();
+        }
+
+        //Returns an entity list, index 0 has the component, index 1 is the other.
+        public Entity[] getEntityWithComponent( string compName, Entity e1, Entity e2 ) {
+            if ( e1.hasComponent( compName ) ) {
+                return new Entity[2]{ e1, e2 };
+            } else if ( e2.hasComponent( compName ) ) {
+                return new Entity[2] { e2, e1 };
+            } else {
+                Console.WriteLine( "Error: Looking for an entity with " + compName + " in collison handler but none found." );
+                return null;
+            }
         }
 
         //Generates a random ID for when you're creating a new entity.

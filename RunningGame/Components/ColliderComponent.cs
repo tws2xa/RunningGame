@@ -81,5 +81,12 @@ namespace RunningGame.Components {
             }
              * */
         }
+
+        public PointF getLocationAsPoint(PositionComponent posComp) {
+            return new PointF( getX( posComp ), getY( posComp ) );
+        }
+        public PointF getSizeAsPoint() {
+            return new PointF( width, height );
+        }
     }
 }

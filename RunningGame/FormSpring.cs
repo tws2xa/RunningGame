@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Collections;
+using RunningGame.Systems;
 
 namespace RunningGame
 {
@@ -37,9 +38,11 @@ namespace RunningGame
         //An array list of keys that have been pressed and not released (They're being held down)
         //This is used to prevent repeated calls of KeyPressed
         public List<Keys> downKeys = new List<Keys>();
+        public SoundSystem sndSystem;
 
-        System.Media.SoundPlayer titleMusicPlayer;
-
+        string titleMusic = "RunningGame.Resources.Sounds.TitleTest.wav";
+        //string titleMusic = "C:/Users/Lina/Desktop/RunningGame/RunningGame/Resources/Sounds/TitleTest.wav";
+        
 
         //When the form starts up, initialize it.
         public FormSpring()
@@ -50,8 +53,13 @@ namespace RunningGame
         //Called when the form loads
         private void FormRunningGame_Load(object sender, EventArgs e)
         {
+            sndSystem = new SoundSystem();
+
             //Set the background image
             bkgImg = this.BackgroundImage;
+
+            this.Controls.SetChildIndex( cntrlBkgBox, this.Controls.Count - 1 );
+            setLabelBkgColors();
 
             System.Reflection.Assembly myAssembly = System.Reflection.Assembly.GetExecutingAssembly();
             System.IO.Stream myStreamOn = myAssembly.GetManifestResourceStream("RunningGame.Resources.Artwork.Other.SoundBtn1.png");
@@ -65,11 +73,8 @@ namespace RunningGame
 
             //Set it to double buffered.
             this.DoubleBuffered = true;
-
-
-            System.IO.Stream stream = System.Reflection.Assembly.GetExecutingAssembly().GetManifestResourceStream("RunningGame.Resources.Sounds.TitleTest.wav");
-            titleMusicPlayer = new System.Media.SoundPlayer(stream);
-            titleMusicPlayer.PlayLooping();
+            
+            sndSystem.playSound( titleMusic, true );
 
             addLevels();
 
@@ -84,6 +89,23 @@ namespace RunningGame
             //btnBegin.Visible = false;
             //btnBegin.Enabled = false;
 
+        }
+
+
+        private void setLabelBkgColors() {
+            Color bkgBoxCol = Color.FromArgb( 100, Color.WhiteSmoke );
+            cntrlBkgBox.BackColor = bkgBoxCol;
+
+            this.lblCycleDown.BackColor = bkgBoxCol;
+            this.lblCycleUp.BackColor = bkgBoxCol;
+            this.lblEnd.BackColor = bkgBoxCol;
+            this.lblGlide.BackColor = bkgBoxCol;
+            this.lblJump.BackColor = bkgBoxCol;
+            this.lblLeft.BackColor = bkgBoxCol;
+            this.lblRight.BackColor = bkgBoxCol;
+            this.lblRestart.BackColor = bkgBoxCol;
+            this.lblUseEquipped.BackColor = bkgBoxCol;
+            
         }
 
         //Called when the form is closed
@@ -119,7 +141,7 @@ namespace RunningGame
             sndToggle.Enabled = false;
 
             //Stop sound
-            titleMusicPlayer.Stop();
+            sndSystem.stopSound(titleMusic);
 
             //Clear the background image
             this.BackgroundImage = null;
@@ -345,6 +367,8 @@ namespace RunningGame
             btnPlay.Visible = false;
             btnPlay.Enabled = false;
             showHideWorldButtons(true);
+            showHideControlButtons(false);
+            
         }
 
 
@@ -368,6 +392,9 @@ namespace RunningGame
         //Show/hides the control buttons
         private void showHideControlButtons(bool show)
         {
+
+            this.cntrlBkgBox.Visible = show;
+
             this.btnControlReturn.Visible = show;
             this.btnControlReturn.Enabled = show;
             this.lblJump.Visible = show;
@@ -378,7 +405,25 @@ namespace RunningGame
             this.lblLeft.Visible = show;
             this.btnSetRight.Visible = show;
             this.btnSetRight.Enabled = show;
-            this.lblRight.Visible = show; 
+            this.lblRight.Visible = show;
+            this.btnSetCycleDown.Visible = show;
+            this.btnSetCycleDown.Enabled = show;
+            this.lblCycleUp.Visible = show;
+            this.btnSetCycleUp.Visible = show;
+            this.btnSetCycleUp.Enabled = show;
+            this.lblCycleDown.Visible = show;
+            this.btnSetUseEquipped.Visible = show;
+            this.btnSetUseEquipped.Enabled = show;
+            this.lblUseEquipped.Visible = show;
+            this.btnSetGlide.Visible = show;
+            this.btnSetGlide.Enabled = show;
+            this.lblGlide.Visible = show;
+            this.btnSetRestart.Visible = show;
+            this.btnSetRestart.Enabled = show;
+            this.lblRestart.Visible = show;
+            this.btnSetEnd.Visible = show;
+            this.btnSetEnd.Enabled = show;
+            this.lblEnd.Visible = show; 
         }
 
         //Show/hides the select world buttons
@@ -415,7 +460,9 @@ namespace RunningGame
             }
             else
             {
-                titleMusicPlayer.PlayLooping();
+                if(!sndSystem.isPlaying(titleMusic)) {
+                    sndSystem.playSound( titleMusic, true );
+                }
 
                 sndToggle.Visible = true;
                 sndToggle.Enabled = true;
@@ -470,7 +517,7 @@ namespace RunningGame
             sndToggle.Enabled = false;
 
             //Stop sound
-            titleMusicPlayer.Stop();
+            sndSystem.stopSound( titleMusic );
 
             //Clear the background image
             this.BackgroundImage = null;
@@ -577,23 +624,6 @@ namespace RunningGame
 
         }
 
-        private void button1_Click_1(object sender, EventArgs e)
-        {
-            btnSetJump.Text = "";
-            GlobalVars.reservedKeys.Remove(GlobalVars.KEY_JUMP);
-            btnControlReturn.Enabled = false;
-        }
-
-        private void btnSetJump_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (!GlobalVars.reservedKeys.Contains(e.KeyData))
-            {
-                GlobalVars.reservedKeys.Add(e.KeyData);
-                btnSetJump.Text = Convert.ToString(e.KeyData);
-                GlobalVars.KEY_JUMP = e.KeyData;
-                btnControlReturn.Enabled = true;
-            }
-        }
 
 
         private void sndToggle_Click(object sender, EventArgs e)
@@ -606,59 +636,162 @@ namespace RunningGame
                 if (GlobalVars.soundOn)
                 {
                     sndToggle.Image = soundOnImage;
-                    titleMusicPlayer.PlayLooping();
+                    sndSystem.playSound( titleMusic, true );
                 }
                 else
                 {
                     sndToggle.Image = soundOffImage;
-                    titleMusicPlayer.Stop();
+                    sndSystem.stopSound( titleMusic );
                 }
             }
 
         }
 
-        private void btnSetLeft_Click(object sender, EventArgs e)
-        {
-            btnSetLeft.Text = "";
-            GlobalVars.reservedKeys.Remove(GlobalVars.KEY_LEFT);
-            btnControlReturn.Enabled = false;
-        }
+        private void lblLeft_Click( object sender, EventArgs e ) {
 
-        private void btnSetLeft_KeyDown(object sender, KeyEventArgs e)
-        {
-      if (!GlobalVars.reservedKeys.Contains(e.KeyData))
-            {
-                GlobalVars.reservedKeys.Add(e.KeyData);
-                btnSetLeft.Text = Convert.ToString(e.KeyData);
-                GlobalVars.KEY_LEFT = e.KeyData;
-                btnControlReturn.Enabled = true;
         }
 
         //---------------------------------------------------------------------------------------------
 
-    }
 
-        private void lblLeft_Click(object sender, EventArgs e)
-        {
+        private void handleKeyChangeBegin( EventArgs e, Button btn, Keys key ) {
+            //Quick check so you can only change one key at a time
+            if ( btnControlReturn.Enabled && e is MouseEventArgs) {
+                btn.Text = "";
+                GlobalVars.reservedKeys.Remove( key );
+                btnControlReturn.Enabled = false;
+            }
+        }
 
+        private void btnSetLeft_Click( object sender, EventArgs e ) {
+            handleKeyChangeBegin( e, btnSetLeft, GlobalVars.KEY_LEFT );
         }
 
         private void btnSetRight_Click(object sender, EventArgs e)
         {
-            btnSetRight.Text = "";
-            GlobalVars.reservedKeys.Remove(GlobalVars.KEY_RIGHT);
-            btnControlReturn.Enabled = false;
+            handleKeyChangeBegin( e, btnSetRight, GlobalVars.KEY_RIGHT );
+        }
+
+        private void button1_Click_1( object sender, EventArgs e ) {
+            handleKeyChangeBegin( e, btnSetJump, GlobalVars.KEY_JUMP );
+        }
+        
+        private void btnSetCycleDown_Click(object sender, EventArgs e)
+        {
+            handleKeyChangeBegin( e, btnSetCycleDown, GlobalVars.KEY_CYCLE_DOWN );
+        }
+
+        private void btnSetCycleUp_Click( object sender, EventArgs e ) {
+            handleKeyChangeBegin( e, btnSetCycleUp, GlobalVars.KEY_CYCLE_UP );
+        }
+
+        private void btnSetUseEquipped_Click( object sender, EventArgs e ) {
+            handleKeyChangeBegin( e, btnSetUseEquipped, GlobalVars.KEY_USE_EQUIPPED );
+        }
+
+        private void btnSetGlide_Click( object sender, EventArgs e ) {
+            handleKeyChangeBegin( e, btnSetGlide, GlobalVars.KEY_GLIDE );
+        }
+
+        private void btnSetRestart_Click( object sender, EventArgs e ) {
+            handleKeyChangeBegin( e, btnSetRestart, GlobalVars.KEY_RESET );
+        }
+
+        private void btnSetEnd_Click( object sender, EventArgs e ) {
+            handleKeyChangeBegin( e, btnSetEnd, GlobalVars.KEY_END );
+        }
+
+
+
+        private void button1_KeyDown( object sender, KeyEventArgs e ) {
+
+        }
+
+        private void setGlobalKey( int keyNum, Keys key ) {
+            switch ( keyNum ) {
+                case ( GlobalVars.JUMP_INT ):
+                    GlobalVars.KEY_JUMP = key;
+                    break;
+                case ( GlobalVars.LEFT_INT ):
+                    GlobalVars.KEY_LEFT = key;
+                    break;
+                case ( GlobalVars.RIGHT_INT ):
+                    GlobalVars.KEY_RIGHT = key;
+                    break;
+                case ( GlobalVars.DOWN_INT ):
+                    GlobalVars.KEY_DOWN = key;
+                    break;
+                case ( GlobalVars.RESET_INT ):
+                    GlobalVars.KEY_RESET = key;
+                    break;
+                case ( GlobalVars.CYCLE_DOWN_INT ):
+                    GlobalVars.KEY_CYCLE_DOWN = key;
+                    break;
+                case ( GlobalVars.CYCLE_UP_INT ):
+                    GlobalVars.KEY_CYCLE_UP = key;
+                    break;
+                case ( GlobalVars.USE_EQUIPPED_INT ):
+                    GlobalVars.KEY_USE_EQUIPPED = key;
+                    break;
+                case ( GlobalVars.GLIDE_INT ):
+                    GlobalVars.KEY_GLIDE = key;
+                    break;
+                case ( GlobalVars.END_INT ):
+                    GlobalVars.KEY_END = key;
+                    break;
+            }
+        }
+        
+
+        private void handleKeyChangeEnd( KeyEventArgs e, Button btn, int keyNum ) {
+            e.Handled = true;
+            if ( !GlobalVars.reservedKeys.Contains( e.KeyData ) ) {
+                btn.Text = Convert.ToString( e.KeyData );
+                GlobalVars.reservedKeys.Add( e.KeyData );
+                setGlobalKey( keyNum, e.KeyData );
+                btnControlReturn.Enabled = true;
+            }
+        }
+
+
+        private void btnSetJump_KeyDown( object sender, KeyEventArgs e ) {
+            handleKeyChangeEnd( e, btnSetJump, GlobalVars.JUMP_INT );
+        }
+
+        private void btnSetLeft_KeyDown( object sender, KeyEventArgs e ) {
+            handleKeyChangeEnd( e, btnSetLeft, GlobalVars.LEFT_INT );
         }
 
         private void btnSetRight_KeyDown(object sender, KeyEventArgs e)
         {
-            if (!e.KeyData.Equals(GlobalVars.reservedKeys))
-            {
-                btnSetRight.Text = Convert.ToString(e.KeyData);
-                GlobalVars.reservedKeys.Add(e.KeyData);
-                GlobalVars.KEY_RIGHT = e.KeyData;
-                btnControlReturn.Enabled = true;
-            }
+            handleKeyChangeEnd( e, btnSetRight, GlobalVars.RIGHT_INT );
         }
+
+        private void btnSetCycleDown_KeyDown(object sender, KeyEventArgs e) {
+            handleKeyChangeEnd( e, btnSetCycleDown, GlobalVars.CYCLE_DOWN_INT);
+        }
+
+        private void btnSetCycleUp_KeyDown(object sender, KeyEventArgs e) {
+            handleKeyChangeEnd( e, btnSetCycleUp, GlobalVars.CYCLE_UP_INT);
+        }
+
+        private void btnSetUseEquipped_KeyDown(object sender, KeyEventArgs e) {
+            handleKeyChangeEnd( e, btnSetUseEquipped, GlobalVars.USE_EQUIPPED_INT);
+        }
+
+        private void btnSetGlide_KeyDown(object sender, KeyEventArgs e) {
+            handleKeyChangeEnd( e, btnSetGlide, GlobalVars.GLIDE_INT);
+        }
+
+        private void btnSetRestart_KeyDown(object sender, KeyEventArgs e) {
+            handleKeyChangeEnd( e, btnSetRestart, GlobalVars.RESET_INT);
+        }
+
+        private void btnSetEnd_KeyDown(object sender, KeyEventArgs e) {
+            handleKeyChangeEnd( e, btnSetEnd, GlobalVars.END_INT);
+        }
+
+
+
     }
 }
