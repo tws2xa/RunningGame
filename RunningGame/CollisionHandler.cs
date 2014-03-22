@@ -62,6 +62,8 @@ namespace RunningGame {
             defaultCollisions.Add( GlobalVars.SHOOTER_BULLET_COLLIDER_TYPE, doNothingCollision );
             defaultCollisions.Add( GlobalVars.TIMED_SHOOTER_COLLIDER_TYPE, simpleStopCollision );
             defaultCollisions.Add( GlobalVars.SMUSH_BLOCK_COLLIDER, simpleStopCollision );
+        
+
 
             //Add non-default collisions to dictionary
             //Format: addToDictonary(Collider 1, Collider 2, name of function) Note - Order of colliders does not matter
@@ -107,6 +109,7 @@ namespace RunningGame {
 
             addToDictionary( GlobalVars.SPAWN_BLOCK_COLLIDER_TYPE, GlobalVars.SPEEDY_POSTGROUND_COLLIDER_TYPE, speedyOtherCollision );
             addToDictionary( GlobalVars.SPAWN_BLOCK_COLLIDER_TYPE, GlobalVars.BOUNCE_POSTGROUND_COLLIDER_TYPE, bounceCollision );
+            addToDictionary(GlobalVars.SPAWN_BLOCK_COLLIDER_TYPE, GlobalVars.SWITCH_COLLIDER_TYPE, switchFlipCollision);
 
             addToDictionary( GlobalVars.MOVING_PLATFORM_COLLIDER_TYPE, GlobalVars.PLATFORM_TURN_COLLIDER_TYPE, simpleStopCollision );
         }
@@ -430,6 +433,7 @@ namespace RunningGame {
                 level.sysManager.spSystem.speedyTimers[other] = level.sysManager.spSystem.speedyTime;
             } else {
                 level.sysManager.spSystem.speedyTimers.Add( other, level.sysManager.spSystem.speedyTime );
+                
             }
 
 
@@ -467,33 +471,55 @@ namespace RunningGame {
         }
 
         //This flips a switch (assuming e1 or e2 is a switch)
-        public static bool switchFlipCollision( Entity e1, Entity e2 ) {
+        public bool switchFlipCollision( Entity e1, Entity e2 ) {
             //Find out which one is the switch
             SwitchComponent sc; //The switch
-            Entity s; //The other one
+            Entity s; //The other ones
+            Entity other;
             if ( e1.hasComponent( GlobalVars.SWITCH_COMPONENT_NAME ) ) {
                 s = e1;
+                other = e2;
                 sc = ( SwitchComponent )e1.getComponent( GlobalVars.SWITCH_COMPONENT_NAME );
             } else if ( e2.hasComponent( GlobalVars.SWITCH_COMPONENT_NAME ) ) {
                 s = e2;
+                other = e1;
                 sc = ( SwitchComponent )e2.getComponent( GlobalVars.SWITCH_COMPONENT_NAME );
             } else {
                 //This should only occur when both neither e1 nor e2 is a switch.
                 Console.WriteLine( "Switch collision with no switch?" );
                 return false;
             }
+            if (other is spawnBlockEntity)
+            {
+                SpawnBlockComponent sbc = (SpawnBlockComponent)other.getComponent(GlobalVars.SPAWN_BLOCK_COMPONENT_NAME);
+                level.removeEntity(other);
+                if (sbc.state == 1 || sbc.state == 2)
+                {
+                    if (!sc.active)
+                    {
+                        sc.setActive(true);
+                        DrawComponent drawComp = (DrawComponent)s.getComponent(GlobalVars.DRAW_COMPONENT_NAME);
+                        drawComp.setSprite(GlobalVars.SWITCH_ACTIVE_SPRITE_NAME);
+                    }
+                }
 
+            }
             //If the switch is not active, make it active and switch the image
-            if ( !sc.active ) {
-                sc.setActive( true );
-                DrawComponent drawComp = ( DrawComponent )s.getComponent( GlobalVars.DRAW_COMPONENT_NAME );
-                drawComp.setSprite( GlobalVars.SWITCH_ACTIVE_SPRITE_NAME );
+            else {
+            
+                if (!sc.active)
+                {
+                    sc.setActive(true);
+                    DrawComponent drawComp = (DrawComponent)s.getComponent(GlobalVars.DRAW_COMPONENT_NAME);
+                    drawComp.setSprite(GlobalVars.SWITCH_ACTIVE_SPRITE_NAME);
+                }
             }
 
             //Don't stop the movement
             return false;
 
         }
+        
 
         //This occurs when the player collides with an enemy. Kills the player.
         public static bool killPlayerCollision( Entity e1, Entity e2 ) {
