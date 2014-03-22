@@ -78,9 +78,10 @@ namespace RunningGame.Systems {
             PositionComponent posComp = (PositionComponent)e.getComponent(GlobalVars.POSITION_COMPONENT_NAME);
             ShooterBullet bullet = new ShooterBullet( level, level.rand.Next(Int32.MinValue, Int32.MaxValue), posComp.x, posComp.y, dir.getDir() );
             VelocityComponent bulletVel = ( VelocityComponent )bullet.getComponent( GlobalVars.VELOCITY_COMPONENT_NAME );
+            
             float bulletSpeed = 160.0f;
             if (dir.isUp()) {
-            bulletVel.setVelocity( 0, -bulletSpeed );
+                bulletVel.setVelocity( 0, -bulletSpeed );
             }else if ( dir.isRight() ){
                     bulletVel.setVelocity( bulletSpeed, 0);
             }

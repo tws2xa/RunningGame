@@ -77,10 +77,7 @@ namespace RunningGame.Entities {
             
             //Rotate accordingly
             for ( int i = 0; i < dir; i++ ) {
-                drawComp.rotateFlipSprite( sprName, System.Drawing.RotateFlipType.Rotate90FlipNone );
-                if ( currentSprite != sprName ) {
-                    drawComp.rotateFlipSprite( currentSprite, System.Drawing.RotateFlipType.Rotate90FlipNone );
-                }
+                drawComp.rotateFlipAllSprites( System.Drawing.RotateFlipType.Rotate90FlipNone );
             }
 
 
