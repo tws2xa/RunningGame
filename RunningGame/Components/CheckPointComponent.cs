@@ -11,13 +11,15 @@ namespace RunningGame.Components {
 
         string checkedImageName = "checked";
         string uncheckedImageName = "unchecked";
+        string animImageName = "animImg";
 
         Entity myEnt;
 
-        public CheckPointComponent(string uncheckedImageName, string checkedImageName, Entity ent) {
+        public CheckPointComponent(string uncheckedImageName, string checkedImageName, string animImageName, Entity ent) {
             this.componentName = GlobalVars.CHECKPOINT_COMPONENT_NAME;
 
             myEnt = ent;
+            this.animImageName = animImageName;
             this.uncheckedImageName = uncheckedImageName;
             this.checkedImageName = checkedImageName;
         }
@@ -30,7 +32,10 @@ namespace RunningGame.Components {
                 return;
             }
             if ( isActive() ) {
-                drawComp.setSprite( checkedImageName );
+                drawComp.setSprite( animImageName );
+                AnimationComponent animComp = ( AnimationComponent )myEnt.getComponent( GlobalVars.ANIMATION_COMPONENT_NAME );
+                animComp.imageAfterCycleName = checkedImageName;
+                animComp.animationOn = true;
             } else {
                 drawComp.setSprite( uncheckedImageName );
             }

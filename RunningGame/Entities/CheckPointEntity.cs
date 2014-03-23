@@ -13,6 +13,7 @@ namespace RunningGame.Entities {
 
         string checkedImageName = "checked";
         string uncheckedImageName = "unchecked";
+        string animImageName = "animImg";
 
         //-------------------------------------------Constructors--------------------------------------------
         public CheckPointEntity( Level level, float x, float y ) {
@@ -61,6 +62,44 @@ namespace RunningGame.Entities {
             drawComp.setSprite(uncheckedImageName); //Set image to active image
 
 
+            List<string> animImgDefaults = new List<string>()
+            {
+                "RunningGame.Resources.Artwork.Foreground.Checkpoint.UncheckedCheckpoint.png",
+                "RunningGame.Resources.Artwork.Foreground.Checkpoint.animCheck1.png",
+                "RunningGame.Resources.Artwork.Foreground.Checkpoint.animCheck2.png",
+                "RunningGame.Resources.Artwork.Foreground.Checkpoint.animCheck3.png",
+                "RunningGame.Resources.Artwork.Foreground.Checkpoint.animCheck4.png",
+                "RunningGame.Resources.Artwork.Foreground.Checkpoint.animCheck3.png",
+                "RunningGame.Resources.Artwork.Foreground.Checkpoint.animCheck2.png",
+                "RunningGame.Resources.Artwork.Foreground.Checkpoint.animCheck1.png",
+                "RunningGame.Resources.Artwork.Foreground.Checkpoint.UncheckedCheckpoint.png",
+                "RunningGame.Resources.Artwork.Foreground.Checkpoint.animCheck5.png",
+                "RunningGame.Resources.Artwork.Foreground.Checkpoint.animCheck6.png",
+                "RunningGame.Resources.Artwork.Foreground.Checkpoint.CheckedCheckpoint.png",
+            };
+            List<string> animImg = new List<string>()
+            {
+                "Artwork.Foreground.Checkpoint.UncheckedCheckpoint",
+                "Artwork.Foreground.Checkpoint.animCheck1",
+                "Artwork.Foreground.Checkpoint.animCheck2",
+                "Artwork.Foreground.Checkpoint.animCheck3",
+                "Artwork.Foreground.Checkpoint.animCheck4",
+                "Artwork.Foreground.Checkpoint.animCheck3",
+                "Artwork.Foreground.Checkpoint.animCheck2",
+                "Artwork.Foreground.Checkpoint.animCheck1",
+                "Artwork.Foreground.Checkpoint.UncheckedCheckpoint",
+                "Artwork.Foreground.Checkpoint.animCheck5",
+                "Artwork.Foreground.Checkpoint.animCheck6",
+                "Artwork.Foreground.Checkpoint.CheckedCheckpoint",
+            };
+            drawComp.addAnimatedSprite( animImg, animImgDefaults, animImageName);
+
+            /* ANIMATION COMPONENT - Does it need animating?
+             */
+            AnimationComponent animComp = (AnimationComponent)addComponent( new AnimationComponent(0.001f), true );
+            animComp.animationOn = false;
+            animComp.pauseIndefinitelyAfterCycle = true;
+
             /*COLLIDER - Does it hit things?
              *The second field is the collider type. Look in GlobalVars for a string with the right name.
              */
@@ -68,7 +107,7 @@ namespace RunningGame.Entities {
 
             /*CHECKPOINT - It's a checkpoint
              */
-            addComponent( new CheckPointComponent(uncheckedImageName, checkedImageName, this), true );
+            addComponent( new CheckPointComponent(uncheckedImageName, checkedImageName, animImageName, this), true );
         }
 
         public override void revertToStartingState() {

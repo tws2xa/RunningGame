@@ -56,6 +56,11 @@ namespace RunningGame.Systems {
                             drawComp.getSprite().currentImageIndex = 0;
                             if ( animComp.pauseIndefinitelyAfterCycle ) {
                                 animComp.animationOn = false;
+
+                                if ( animComp.imageAfterCycleName != null ) {
+                                    drawComp.setSprite( animComp.imageAfterCycleName );
+                                }
+
                                 drawComp.getSprite().currentImageIndex = 0;
                             }
                             animComp.timeUntilNextFrame = animComp.animationFrameTime + animComp.pauseTimeAfterCycle;

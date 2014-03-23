@@ -13,6 +13,7 @@ namespace RunningGame.Components {
         public float pauseTimeAfterCycle { get; set; } //Pause for a certain time after each animation cycle?
         public bool pauseIndefinitelyAfterCycle { get; set; }
         public bool animationOn;
+        public string imageAfterCycleName = null;
 
         public AnimationComponent( float animationFrameTime ) {
             /*
