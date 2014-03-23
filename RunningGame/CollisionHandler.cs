@@ -73,7 +73,6 @@ namespace RunningGame {
             addToDictionary( GlobalVars.PLAYER_COLLIDER_TYPE, GlobalVars.POWERUP_PICKUP_COLLIDER_TYPE, powerupPickupPlayerCollision );
             addToDictionary( GlobalVars.PLAYER_COLLIDER_TYPE, GlobalVars.SPIKE_COLLIDER_TYPE, spikePlayerCollision );
             addToDictionary( GlobalVars.PLAYER_COLLIDER_TYPE, GlobalVars.BOUNCE_POSTGROUND_COLLIDER_TYPE, bounceCollision );
-
             addToDictionary( GlobalVars.PLAYER_COLLIDER_TYPE, GlobalVars.SPAWN_BLOCK_COLLIDER_TYPE, simpleStopCollision);
             addToDictionary( GlobalVars.PLAYER_COLLIDER_TYPE, GlobalVars.SMUSH_BLOCK_COLLIDER, smushCollision );
 
@@ -1078,6 +1077,11 @@ namespace RunningGame {
             Entity smushBlock = sortedEnts[0];
             Entity other = sortedEnts[1];
 
+            SmushComponent smushComp = ( SmushComponent )smushBlock.getComponent( GlobalVars.SMUSH_COMPONENT_NAME );
+            if ( !smushComp.isFalling() ) {
+                return simpleStopCollision(e1, e2);
+            }
+
             PositionComponent smushPos = (PositionComponent)smushBlock.getComponent( GlobalVars.POSITION_COMPONENT_NAME );
             PositionComponent otherPos = ( PositionComponent )other.getComponent( GlobalVars.POSITION_COMPONENT_NAME );
 
@@ -1085,7 +1089,7 @@ namespace RunningGame {
             PointF otherLoc = otherPos.getLocAsPoint();
             PointF smushSize = smushPos.getSizeAsPoint();
             PointF otherSize = otherPos.getSizeAsPoint();
-
+            
             if(smushBlock.hasComponent(GlobalVars.COLLIDER_COMPONENT_NAME)) {
                 ColliderComponent colComp = (ColliderComponent)smushBlock.getComponent(GlobalVars.COLLIDER_COMPONENT_NAME);
                 smushLoc = colComp.getLocationAsPoint(smushPos);
