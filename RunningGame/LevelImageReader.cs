@@ -27,7 +27,7 @@ namespace RunningGame {
         Color horizMovPlatCol = Color.FromArgb( 0, 255, 255 ); //Horizontal Plafroms are cyan!
         Color simpleEnemyColor = Color.FromArgb( 255, 0, 0 ); //Walking Enemies are red.
         Color flyingEnemyColor = Color.FromArgb( 255, 255, 0 ); //Flying enemies are yellow!
-        Color endLevelCol = Color.FromArgb( 255, 255, 255 ); //End level is white
+        Color checkPointCollider = Color.FromArgb( 255, 255, 255 ); //End level is white
         Color movePlatformTurn = Color.FromArgb( 140, 140, 140 ); //Turn Platform Entity
         Color testEntityColor = Color.FromArgb( 42, 42, 42 ); //Test entity is 42, 42, 42.
 
@@ -237,7 +237,14 @@ namespace RunningGame {
                         enemy.isStartingEntity = true;
                         level.addEntity( enemy.randId, enemy );
 
-                    } else if ( col == endLevelCol ) {
+                    } else if ( col == checkPointCollider ) {
+
+                        CheckPointEntity checkEnt = new CheckPointEntity( level, rand.Next( Int32.MinValue, Int32.MaxValue ), levelX * tileWidth, levelY * tileHeight );
+                        adjustLocation( checkEnt, level );
+                        checkEnt.isStartingEntity = true;
+                        level.addEntity( checkEnt.randId, checkEnt);
+
+                    }/*else if ( col == checkPointCollider ) {
 
                         float xLoc = ( levelX ) * tileWidth;
                         float yLoc = ( levelY ) * tileHeight;
@@ -247,7 +254,7 @@ namespace RunningGame {
                         lvlEnd.isStartingEntity = true;
                         level.addEntity( lvlEnd.randId, lvlEnd );
 
-                    } else if ( col == vertMovPlatCol ) {
+                    }*/ else if ( col == vertMovPlatCol ) {
 
                         float xLoc = ( levelX ) * tileWidth;
                         float yLoc = ( levelY ) * tileHeight;

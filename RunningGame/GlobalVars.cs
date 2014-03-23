@@ -53,14 +53,13 @@ namespace RunningGame {
         public static string VEL_TO_ZERO_COMPONENT_NAME = "velToZeroComp";
         public static string SMUSH_COMPONENT_NAME = "smushComp";
         public static string GENERAL_STATE_COMPONENT_NAME = "genStateComp";
+        public static string CHECKPOINT_COMPONENT_NAME = "checkPointComp";
 
         //Collider Types
         public static string PLAYER_COLLIDER_TYPE = "playerCollider";
         public static string BASIC_SOLID_COLLIDER_TYPE = "basicSolidCollider";
-
         public static string BOUNCE_POSTGROUND_COLLIDER_TYPE = "bounceBlockCollider";
         public static string BOUNCE_PREGROUND_COLLIDER_TYPE = "bounceGroundCollider";
-
         public static string SMUSH_BLOCK_COLLIDER = "smushBlockCollider";
         public static string INSTANT_DEATH_COLLIDER_TYPE = "instantDeathCollider";
         public static string GLIDE_COLLIDER_TYPE = "glideCollider";
@@ -79,6 +78,7 @@ namespace RunningGame {
         public static string PLATFORM_TURN_COLLIDER_TYPE = "platTurnCollider";
         public static string SHOOTER_BULLET_COLLIDER_TYPE = "shooterBulletCollider";
         public static string TIMED_SHOOTER_COLLIDER_TYPE = "timedShooterCollider";
+        public static string CHECKPOINT_COLLIDER_TYPE = "checkPointCollider";
 
         //Collection of all in game entities
         public static Dictionary<int, Entity> nonGroundEntities = new Dictionary<int, Entity>();

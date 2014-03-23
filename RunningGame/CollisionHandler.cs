@@ -62,7 +62,7 @@ namespace RunningGame {
             defaultCollisions.Add( GlobalVars.SHOOTER_BULLET_COLLIDER_TYPE, doNothingCollision );
             defaultCollisions.Add( GlobalVars.TIMED_SHOOTER_COLLIDER_TYPE, simpleStopCollision );
             defaultCollisions.Add( GlobalVars.SMUSH_BLOCK_COLLIDER, simpleStopCollision );
-        
+            defaultCollisions.Add( GlobalVars.CHECKPOINT_COLLIDER_TYPE, doNothingCollision );
 
 
             //Add non-default collisions to dictionary
@@ -75,6 +75,7 @@ namespace RunningGame {
             addToDictionary( GlobalVars.PLAYER_COLLIDER_TYPE, GlobalVars.BOUNCE_POSTGROUND_COLLIDER_TYPE, bounceCollision );
             addToDictionary( GlobalVars.PLAYER_COLLIDER_TYPE, GlobalVars.SPAWN_BLOCK_COLLIDER_TYPE, simpleStopCollision);
             addToDictionary( GlobalVars.PLAYER_COLLIDER_TYPE, GlobalVars.SMUSH_BLOCK_COLLIDER, smushCollision );
+            addToDictionary( GlobalVars.PLAYER_COLLIDER_TYPE, GlobalVars.CHECKPOINT_COLLIDER_TYPE, checkPointCollision );
 
             addToDictionary( GlobalVars.BULLET_COLLIDER_TYPE, GlobalVars.PLAYER_COLLIDER_TYPE, doNothingCollision );
             addToDictionary( GlobalVars.BULLET_COLLIDER_TYPE, GlobalVars.SIMPLE_ENEMY_COLLIDER_TYPE, DestroyBothCollision );
@@ -1143,6 +1144,23 @@ namespace RunningGame {
                 Console.WriteLine("Trying to kill something without health.");
             }
             healthComp.kill();
+        }
+
+
+        public bool checkPointCollision( Entity e1, Entity e2 ) {
+            CheckPointEntity checkpoint = null;
+            
+            Entity[] sorted = getEntityWithComponent(GlobalVars.CHECKPOINT_COMPONENT_NAME, e1, e2);
+            checkpoint = (CheckPointEntity)sorted[0];
+
+            CheckPointComponent checkComp = ( CheckPointComponent )checkpoint.getComponent( GlobalVars.CHECKPOINT_COMPONENT_NAME );
+
+            if ( !checkComp.isActive() ) {
+                level.setupCheckpoint( checkpoint );
+                checkComp.setActive( true );
+            }
+
+            return false;
         }
 
         //Returns an entity list, index 0 has the component, index 1 is the other.

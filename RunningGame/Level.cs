@@ -74,6 +74,9 @@ namespace RunningGame {
 
         string bkgMusic = "RunningGame.Resources.Sounds.gameplay.wav";
 
+        private CheckPointData checkpointData;
+        public bool hasHadCheckpoint = false;
+
         public Level() { }
 
         public Level( Game myGame, float windowWidth, float windowHeight, string levelFile, int worldNum, int levelNum, bool isPaintFile, Graphics g, Font displayFont ) {
@@ -82,7 +85,6 @@ namespace RunningGame {
             this.worldNum = worldNum;
             this.levelNum = levelNum;
             this.colorOrbObtained = ( levelNum != 1 ); //False when level 1 begins, otherwise true.
-
 
             initializePaint( windowWidth, windowHeight, levelFile, g );
             
@@ -128,6 +130,8 @@ namespace RunningGame {
             prevTicks = DateTime.Now.Ticks;
 
             levelFullyLoaded = true;
+
+            checkpointData = new CheckPointData( this );
 
             Entity bkgEnt = getMyBackgroundEntity();
             addEntity( bkgEnt.randId, bkgEnt );
@@ -293,6 +297,67 @@ namespace RunningGame {
             sysManager.colliderAdded( e );
         }
 
+        public void gotoCheckpoint() {
+
+            if ( !hasHadCheckpoint ) {
+                resetLevel();
+            }
+
+            paused = true;
+
+            if ( levelNum == 1 ) {
+                if ( !checkpointData.colorOrbObtained() ) {
+                    setToPreColors();
+                } else {
+                    setToPostColors();
+                }
+            }
+
+            //Deactivate the vision orb if it's active
+            if ( sysManager.visSystem.orbActive ) {
+                sysManager.visSystem.destroyVisionOrb();
+            }
+
+            //Remove border
+            if ( sysManager.drawSystem.getMainView().hasBorder ) sysManager.drawSystem.getMainView().hasBorder = false;
+
+            Dictionary<int, Entity> toRestore = GlobalVars.removedStartingEntities.Where( x => !checkpointData.getRemovedEnts().ContainsKey( x.Key ) ).ToDictionary( x => x.Key, x => x.Value );
+
+            //Remove non-starting entities, and restore starting entities to their initial state
+            Entity[] ents = GlobalVars.nonGroundEntities.Values.ToArray();
+            for ( int i = 0; i < ents.Length; i++ ) {
+                if ( !ents[i].isStartingEntity ) {
+                    removeEntity( ents[i] );
+                }
+            }
+            //Do the same for ground
+            Entity[] grndents = GlobalVars.groundEntities.Values.ToArray();
+            for ( int i = 0; i < grndents.Length; i++ ) {
+                if ( !grndents[i].isStartingEntity ) {
+                    removeEntity( grndents[i] );
+                }
+            }
+
+            foreach ( Entity e in toRestore.Values ) {
+                e.revertToStartingState();
+                addEntity( e.randId, e );
+                GlobalVars.removedStartingEntities.Remove( e.randId );
+            }
+
+            Player player = getPlayer();
+            if(player == null) {
+                Console.WriteLine("Error, trying to go to checkpoint with no player");
+                resetLevel();
+            }
+            PositionComponent playerPos = (PositionComponent)player.getComponent(GlobalVars.POSITION_COMPONENT_NAME);
+            getMovementSystem().changePosition(playerPos, checkpointData.getPlayerLoc().X, checkpointData.getPlayerLoc().Y, false, false);
+
+            paused = false;
+        }
+
+        public void setupCheckpoint( CheckPointEntity checkpoint ) {
+            checkpointData.setCheckpoint( checkpoint );
+        }
 
         //Reset the game to it's original startup state
         public virtual void resetLevel() {

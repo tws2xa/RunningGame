@@ -72,8 +72,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CheckPointData.cs" />
     <Compile Include="Components\AnimationComponent.cs" />
     <Compile Include="Components\BackgroundComponent.cs" />
+    <Compile Include="Components\CheckPointComponent.cs" />
     <Compile Include="Components\ColliderComponent.cs" />
     <Compile Include="Components\Component.cs" />
     <Compile Include="Components\ComponentTemplate.cs" />
@@ -107,6 +109,7 @@
     <Compile Include="Entities\BackgroundEntity.cs" />
     <Compile Include="Entities\BasicGround.cs" />
     <Compile Include="Entities\Bounce.cs" />
+    <Compile Include="Entities\CheckPointEntity.cs" />
     <Compile Include="Entities\PlatformTurnEntity.cs" />
     <Compile Include="Entities\PreGroundBounce.cs" />
     <Compile Include="Entities\PreGroundSpeedy.cs" />
@@ -499,6 +502,8 @@
     <EmbeddedResource Include="Resources\Artwork\Background\Bkg32.png" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Resources\Artwork\Foreground\Checkpoint\CheckedCheckpoint.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\Checkpoint\UncheckedCheckpoint.png" />
     <EmbeddedResource Include="Resources\Artwork\Foreground\BadSpike.png" />
     <EmbeddedResource Include="Resources\Artwork\Foreground\GoodSpike.png" />
     <EmbeddedResource Include="Resources\Artwork\Foreground\Bullet\Bullet110.png" />
