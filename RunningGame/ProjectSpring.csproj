@@ -78,6 +78,7 @@
     <Compile Include="Components\Component.cs" />
     <Compile Include="Components\ComponentTemplate.cs" />
     <Compile Include="Components\DrawComponent.cs" />
+    <Compile Include="Components\GeneralStateComponent.cs" />
     <Compile Include="Components\GrappleComponent.cs" />
     <Compile Include="Components\GravityComponent.cs" />
     <Compile Include="Components\HealthComponent.cs" />

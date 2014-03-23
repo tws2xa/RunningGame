@@ -99,8 +99,18 @@ namespace RunningGame.Systems {
 
 
         public bool timedShooterSwitch(Entity e, bool active) {
-            Console.WriteLine( "Timed Shooter!" );
-
+            if ( e.hasComponent( GlobalVars.TIMED_SHOOTER_COMPONENT_NAME ) ) {
+                if ( active ) {
+                    TimedShooterComponent timedShooterComp = ( TimedShooterComponent )e.getComponent( GlobalVars.TIMED_SHOOTER_COMPONENT_NAME );
+                    timedShooterComp.setHurtEnemy();
+                } else {
+                    TimedShooterComponent timedShooterComp = ( TimedShooterComponent )e.getComponent( GlobalVars.TIMED_SHOOTER_COMPONENT_NAME );
+                    timedShooterComp.setHurtPlayer();
+                }
+            } else {
+                Console.WriteLine( "Error, trying to call timedShooterSwitch method without a timed shooter component" );
+                return false;
+            }
             return true;
         }
     }

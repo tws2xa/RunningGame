@@ -85,6 +85,7 @@ namespace RunningGame {
             addToDictionary( GlobalVars.SHOOTER_BULLET_COLLIDER_TYPE, GlobalVars.PLAYER_COLLIDER_TYPE, shooterBulletPlayerCollision);
             addToDictionary( GlobalVars.SHOOTER_BULLET_COLLIDER_TYPE, GlobalVars.TIMED_SHOOTER_COLLIDER_TYPE, doNothingCollision );
             addToDictionary( GlobalVars.SHOOTER_BULLET_COLLIDER_TYPE, GlobalVars.MOVING_PLATFORM_COLLIDER_TYPE, destroyBulletCollision );
+            addToDictionary( GlobalVars.SHOOTER_BULLET_COLLIDER_TYPE, GlobalVars.SIMPLE_ENEMY_COLLIDER_TYPE, shooterBulletEnemyCollision );
 
             addToDictionary( GlobalVars.BOUNCE_PREGROUND_COLLIDER_TYPE, GlobalVars.BASIC_SOLID_COLLIDER_TYPE, bounceGroundCollision );
             addToDictionary( GlobalVars.BOUNCE_PREGROUND_COLLIDER_TYPE, GlobalVars.TIMED_SHOOTER_COLLIDER_TYPE, doNothingCollision );
@@ -638,18 +639,51 @@ namespace RunningGame {
             //Don't stop movement
             return false;
         }
+        public bool shooterBulletEnemyCollision( Entity e1, Entity e2 ) {
+            Entity enemy = null;
+            Entity bullet = null;
+
+            //Find enemy and player.
+            Entity[] sorted = getEntityWithComponent( GlobalVars.SIMPLE_ENEMY_COMPONENT_NAME, e1, e2 );
+            enemy = sorted[0];
+            bullet = sorted[1];
+
+            //Make sure bullet is in correct state to do damage
+            GeneralStateComponent genStateComp = ( GeneralStateComponent )bullet.getComponent( GlobalVars.GENERAL_STATE_COMPONENT_NAME );
+            if ( genStateComp != null && genStateComp.state == 0 ) {
+                return false;
+            }
+
+            //Decrease the enemy's health
+            HealthComponent enemyHealthComp = ( HealthComponent )enemy.getComponent( GlobalVars.HEALTH_COMPONENT_NAME );
+            if ( enemyHealthComp == null ) {
+                Console.WriteLine( "Error, trying to decrease health of an enemy without a healthComponent!" );
+                return false;
+            }
+            enemyHealthComp.subtractFromHealth( ( int )Math.Ceiling( enemyHealthComp.maxHealth / 1.8f ) ); //Bubye healths! >:)
+
+            level.removeEntity( bullet );
+            return false;
+
+
+        }
         public bool shooterBulletPlayerCollision( Entity e1, Entity e2 ) {
             //Figure out which entity is the player
             Player player;
-            Entity enemy;
+            Entity bullet;
             if ( e1 is Player ) {
                 player = ( Player )e1;
-                enemy = e2;
+                bullet = e2;
             } else if ( e2 is Player ) {
                 player = ( Player )e2;
-                enemy = e1;
+                bullet = e1;
             } else {
                 Console.WriteLine( "Shooter Bullet Player Collision with no player..." );
+                return false;
+            }
+
+            GeneralStateComponent genStateComp = (GeneralStateComponent)bullet.getComponent( GlobalVars.GENERAL_STATE_COMPONENT_NAME );
+            if ( genStateComp != null && genStateComp.state == 1) {
                 return false;
             }
 
@@ -662,7 +696,7 @@ namespace RunningGame {
                 this.level.timerMethods.Add( level.disableImmune, 0.02f );
             }
 
-            level.removeEntity( enemy );
+            level.removeEntity( bullet );
             return false;
 
         }

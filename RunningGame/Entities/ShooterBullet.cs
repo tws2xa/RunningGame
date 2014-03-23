@@ -16,7 +16,7 @@ namespace RunningGame.Entities {
         //Both take in the starting x and y of the entity.
         //Both take in the level that it's being applied to.
         //You probably won't have to edit these at all.
-        public ShooterBullet( Level level, float x, float y, int dir ) {
+        public ShooterBullet( Level level, float x, float y, int dir, int state ) {
             //Set level.
             //Leave for all entities
             this.level = level;
@@ -27,9 +27,9 @@ namespace RunningGame.Entities {
 
             //Add the components.
             //Leave this for all entities.
-            addMyComponents( x, y, dir );
+            addMyComponents( x, y, dir, state );
         }
-        public ShooterBullet( Level level, int id, float x, float y, int dir ) {
+        public ShooterBullet( Level level, int id, float x, float y, int dir, int state ) {
             //Set level.
             //Leave for all entities
             this.level = level;
@@ -40,14 +40,14 @@ namespace RunningGame.Entities {
 
             //Add the components.
             //Leave this for all entities.
-            addMyComponents( x, y, dir );
+            addMyComponents( x, y, dir, state );
         }
 
         //------------------------------------------------------------------------------------------------------------------
 
         //Here's where you add all the components the entity has.
         //You can just uncomment the ones you want.
-        public void addMyComponents( float x, float y, int dir ) {
+        public void addMyComponents( float x, float y, int dir, int state ) {
             /*POSITION COMPONENT - Does it have a position?
              */
             PositionComponent posComp = ( PositionComponent )addComponent( new PositionComponent( x, y, defaultWidth, defaultHeight, this ), true );
@@ -80,6 +80,11 @@ namespace RunningGame.Entities {
                 drawComp.rotateFlipAllSprites( System.Drawing.RotateFlipType.Rotate90FlipNone );
             }
 
+            /** GENERAL STATE COMPONENT - Need to store a state variable.
+             * State = 0 --> Hurt Player
+             * State = 1 --> Hurt Enemy
+             */
+            addComponent( new GeneralStateComponent( state ), true );
 
             /*
              * DIRECTIONAL COMPONENT - it has a direction (used by collision)

@@ -52,6 +52,7 @@ namespace RunningGame {
         public static string TIMED_SHOOTER_COMPONENT_NAME = "timedShooterComp";
         public static string VEL_TO_ZERO_COMPONENT_NAME = "velToZeroComp";
         public static string SMUSH_COMPONENT_NAME = "smushComp";
+        public static string GENERAL_STATE_COMPONENT_NAME = "genStateComp";
 
         //Collider Types
         public static string PLAYER_COLLIDER_TYPE = "playerCollider";
