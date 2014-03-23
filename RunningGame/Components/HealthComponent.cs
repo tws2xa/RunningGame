@@ -22,6 +22,8 @@ namespace RunningGame.Components {
         [NonSerialized]
         public Brush foreHealthBarBrush;
         public bool showBarOnFull { get; set; }
+        private bool isInvincible = false;
+        public float invincibleTimer = -1.0f; //In seconds.
 
         //Create component, give full health to start.
         public HealthComponent( int maxHealth, bool healthBar, int rechargeAmt, float rechargeTime, Level level ) {
@@ -67,7 +69,7 @@ namespace RunningGame.Components {
         }
 
         public int subtractFromHealth( int amt ) {
-            if ( !level.playerImmune ) {
+            if ( !this.checkInvincible() ) {
                 health -= amt;
             }
             return health;
@@ -93,6 +95,18 @@ namespace RunningGame.Components {
 
         public void kill() {
             this.subtractFromHealth( this.maxHealth + 1 );
+        }
+
+        public void makeInvincible( float time ) {
+            isInvincible = true;
+            invincibleTimer = time;
+        }
+        public void removeInvincible() {
+            isInvincible = false;
+            invincibleTimer = -1.0f;
+        }
+        public bool checkInvincible() {
+            return isInvincible;
         }
     }
 }

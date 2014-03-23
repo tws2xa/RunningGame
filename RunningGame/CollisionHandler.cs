@@ -566,10 +566,7 @@ namespace RunningGame {
             
             HealthComponent playerHealthComp = ( HealthComponent )player.getComponent( GlobalVars.HEALTH_COMPONENT_NAME );
             playerHealthComp.subtractFromHealth( (int)Math.Ceiling(playerHealthComp.maxHealth/1.8f) ); //Bubye healths! >:)
-            level.playerImmune = true;
-            if ( !this.level.timerMethods.ContainsKey( level.disableImmune ) ) {
-                this.level.timerMethods.Add( level.disableImmune, 0.30f );
-            }
+            playerHealthComp.makeInvincible( 0.30f );
 
             VelocityComponent playerVelComp = ( VelocityComponent )player.getComponent( GlobalVars.VELOCITY_COMPONENT_NAME );
             PositionComponent playerPos = ( PositionComponent )player.getComponent( GlobalVars.POSITION_COMPONENT_NAME );
@@ -651,7 +648,7 @@ namespace RunningGame {
             //Make sure bullet is in correct state to do damage
             GeneralStateComponent genStateComp = ( GeneralStateComponent )bullet.getComponent( GlobalVars.GENERAL_STATE_COMPONENT_NAME );
             if ( genStateComp != null && genStateComp.state == 0 ) {
-                return false;
+                return destroyBulletCollision(e1, e2);
             }
 
             //Decrease the enemy's health
@@ -661,6 +658,7 @@ namespace RunningGame {
                 return false;
             }
             enemyHealthComp.subtractFromHealth( ( int )Math.Ceiling( enemyHealthComp.maxHealth / 1.8f ) ); //Bubye healths! >:)
+            enemyHealthComp.makeInvincible( 0.02f );
 
             level.removeEntity( bullet );
             return false;
@@ -684,17 +682,14 @@ namespace RunningGame {
 
             GeneralStateComponent genStateComp = (GeneralStateComponent)bullet.getComponent( GlobalVars.GENERAL_STATE_COMPONENT_NAME );
             if ( genStateComp != null && genStateComp.state == 1) {
-                return false;
+                return destroyBulletCollision(e1, e2);
             }
 
             //Decrease the player's health
             HealthComponent playerHealthComp = ( HealthComponent )player.getComponent( GlobalVars.HEALTH_COMPONENT_NAME );
             playerHealthComp.subtractFromHealth( ( int )Math.Ceiling( playerHealthComp.maxHealth / 1.8f ) ); //Bubye healths! >:)
-            
-            level.playerImmune = true;
-            if ( !this.level.timerMethods.ContainsKey( level.disableImmune ) ) {
-                this.level.timerMethods.Add( level.disableImmune, 0.02f );
-            }
+
+            playerHealthComp.makeInvincible( 0.02f );
 
             level.removeEntity( bullet );
             return false;

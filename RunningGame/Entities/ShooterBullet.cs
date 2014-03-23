@@ -11,6 +11,9 @@ namespace RunningGame.Entities {
         float defaultWidth = 10.0f;
         float defaultHeight = 10.0f;
 
+        string goodSpikeImageName = "goodSpike";
+        string badSpikeImageName = "badSpike";
+
         //-------------------------------------------Constructors--------------------------------------------
         //One takes in an ID, the other generats it.
         //Both take in the starting x and y of the entity.
@@ -66,10 +69,15 @@ namespace RunningGame.Entities {
             DrawComponent drawComp = ( DrawComponent )addComponent( new DrawComponent( defaultWidth, defaultHeight, level, true ), true );
             //Add image - Use base name for first parameter (everything in file path after Resources. and before the numbers and .png)
             //Then second parameter is full filepath to a default image
-            string sprName = "Main";
-            drawComp.addSprite( "Artwork.Foreground.Spike", "RunningGame.Resources.Artwork.Foreground.Spike.png", sprName );
-            drawComp.setSprite( sprName ); //Set image to active image
+            
+            drawComp.addSprite( "Artwork.Foreground.GoodSpike", "RunningGame.Resources.Artwork.Foreground.GoodSpike.png", goodSpikeImageName);
+            drawComp.addSprite( "Artwork.Foreground.BadSpike", "RunningGame.Resources.Artwork.Foreground.BadSpike.png", badSpikeImageName );
 
+            if ( state == 1 ) {
+                drawComp.setSprite( goodSpikeImageName);
+            } else {
+                drawComp.setSprite( badSpikeImageName ); //Set image to active image
+            }
             //Won't always be the same as spr name
             //Like if it's been de-colored as a result of being in a
             //World's 1st level before the color orb is obtained.

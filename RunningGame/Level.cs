@@ -56,9 +56,6 @@ namespace RunningGame {
         float endLvlTime = 0.5f; //Typical length for setting the timer to when ending the level. In seconds.
         float endLvlTimer = -1.0f; //Timer. Do not modify.
 
-        //Player can't take damage
-        public bool playerImmune = false;
-
         public bool levelFullyLoaded = false;
         public bool hasRunOnce = false;
 
@@ -85,10 +82,6 @@ namespace RunningGame {
             this.worldNum = worldNum;
             this.levelNum = levelNum;
             this.colorOrbObtained = ( levelNum != 1 ); //False when level 1 begins, otherwise true.
-
-            //Set the player to immune for a bit just as the level starts
-            this.playerImmune = true;
-            this.timerMethods.Add( this.disableImmune, 0.30f );
 
 
             initializePaint( windowWidth, windowHeight, levelFile, g );
@@ -139,6 +132,11 @@ namespace RunningGame {
             Entity bkgEnt = getMyBackgroundEntity();
             addEntity( bkgEnt.randId, bkgEnt );
 
+            //Set the player to immune for a bit just as the level starts
+            HealthComponent healthComp = ( HealthComponent )this.getPlayer().getComponent( GlobalVars.HEALTH_COMPONENT_NAME );
+            if ( healthComp != null ) {
+                healthComp.makeInvincible( 0.30f );
+            }
 
             //Set the player powerup staring values
             setPowerups();
@@ -670,16 +668,6 @@ namespace RunningGame {
                 DrawComponent drawComp = ( DrawComponent )e.getComponent( GlobalVars.DRAW_COMPONENT_NAME );
                 drawComp.switchToPostColorImage();
             }
-        }
-
-        public void disableImmune() {
-            this.playerImmune = false;
-        }
-        public void enableImmune() {
-            this.playerImmune = true;
-        }
-        public void toggleImmune() {
-            this.playerImmune = !this.playerImmune;
         }
     }
 }
