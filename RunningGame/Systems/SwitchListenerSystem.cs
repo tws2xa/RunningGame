@@ -25,6 +25,7 @@ namespace RunningGame.Systems {
             //Fill the events dictionary
             events.Add( GlobalVars.DOOR_EVENT_TYPE, doorSwitch );
             events.Add( GlobalVars.TIMED_SHOOTER_SWITCH_EVENT, timedShooterSwitch );
+            events.Add( GlobalVars.SMUSH_SWITCH_EVENT, smushSwitch );
 
             this.level = level; //Always have this
 
@@ -110,6 +111,16 @@ namespace RunningGame.Systems {
             } else {
                 Console.WriteLine( "Error, trying to call timedShooterSwitch method without a timed shooter component" );
                 return false;
+            }
+            return true;
+        }
+
+        public bool smushSwitch( Entity e, bool active ) {
+            if ( e.hasComponent( GlobalVars.SMUSH_COMPONENT_NAME ) ) {
+                SmushComponent smushComp = ( SmushComponent )e.getComponent( GlobalVars.SMUSH_COMPONENT_NAME );
+                smushComp.setFrozen( active );
+            } else {
+                Console.WriteLine( "Error - Trying to activate smush switch event without smush component." );
             }
             return true;
         }

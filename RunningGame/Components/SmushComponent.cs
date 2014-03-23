@@ -18,6 +18,7 @@ namespace RunningGame.Components {
         float lowerWaitTime = 0.5f; //In seconds
 
         bool hasInitializedTimer = false;
+        bool frozen = false;
         int waitFallRiseState = 0; //0 = upper wait; 1 = Fall; 2 = lower wait; 3 = rise
         
         //Be sure to include a Constructor
@@ -119,6 +120,13 @@ namespace RunningGame.Components {
             this.xRiseSpeed = -this.defaultRiseSpd;
             this.yFallSpeed = 0;
             this.yRiseSpeed = 0;
+        }
+
+        public void setFrozen( bool frozen ) {
+            this.frozen = frozen;
+        }
+        public bool isFrozen() {
+            return frozen;
         }
     }
 }

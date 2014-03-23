@@ -131,7 +131,20 @@ namespace RunningGame {
                         level.addEntity( shooter );
 
                     } else if ( col.R == smushRed && ( col.B - 4 <= 0 ) ) {
-                        SmushBlockEntity smush = new SmushBlockEntity( level, rand.Next( Int32.MinValue, Int32.MaxValue ), levelX * tileWidth, levelY * tileHeight, col.B );
+                        int switchId = col.G;
+                        SmushBlockEntity smush = new SmushBlockEntity( level, rand.Next( Int32.MinValue, Int32.MaxValue ), levelX * tileWidth, levelY * tileHeight, col.B, switchId );
+
+                        if ( switchId == 0 ) {
+                            smush.removeComponent( GlobalVars.SWITCH_LISTENER_COMPONENT_NAME );
+                        } else {
+                            SwitchListenerComponent slComp = ( SwitchListenerComponent )smush.getComponent( GlobalVars.SWITCH_LISTENER_COMPONENT_NAME );
+                            if ( switches.ContainsKey( switchId ) ) {
+                                slComp.switchId = switches[switchId].randId;
+                            } else {
+                                unmachedSwitchListeners.Add( slComp, switchId );
+                            }
+                        }
+
                         adjustLocation( smush, level );
                         smush.isStartingEntity = true;
                         level.addEntity( smush );
