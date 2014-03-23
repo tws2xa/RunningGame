@@ -53,15 +53,18 @@ namespace RunningGame.Systems {
                     if ( animComp.timeUntilNextFrame <= 0 ) {
                         drawComp.getSprite().currentImageIndex++;
                         if ( drawComp.getSprite().currentImageIndex >= drawComp.getSprite().getNumImages() ) {
+
                             drawComp.getSprite().currentImageIndex = 0;
                             if ( animComp.pauseIndefinitelyAfterCycle ) {
                                 animComp.animationOn = false;
-
                                 if ( animComp.imageAfterCycleName != null ) {
                                     drawComp.setSprite( animComp.imageAfterCycleName );
                                 }
-
                                 drawComp.getSprite().currentImageIndex = 0;
+                            }
+                            if ( animComp.destroyAfterCycle ) {
+                                level.removeEntity( e );
+                                continue;
                             }
                             animComp.timeUntilNextFrame = animComp.animationFrameTime + animComp.pauseTimeAfterCycle;
                             drawComp.getSprite().currentImageIndex = 0;

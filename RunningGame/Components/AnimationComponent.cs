@@ -12,6 +12,7 @@ namespace RunningGame.Components {
         public float timeUntilNextFrame { get; set; } //Time before next frame switch
         public float pauseTimeAfterCycle { get; set; } //Pause for a certain time after each animation cycle?
         public bool pauseIndefinitelyAfterCycle { get; set; }
+        public bool destroyAfterCycle = false;
         public bool animationOn;
         public string imageAfterCycleName = null;
 

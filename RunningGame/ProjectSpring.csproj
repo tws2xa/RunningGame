@@ -502,6 +502,13 @@
     <EmbeddedResource Include="Resources\Artwork\Background\Bkg32.png" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Resources\Artwork\Foreground\SpawnBlock\SpawnPoof1.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\SpawnBlock\SpawnPoof2.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\SpawnBlock\SpawnPoof3.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\SpawnBlock\SpawnPoof4.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\SpawnBlock\SpawnPoof5.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\SpawnBlock\SpawnPoof6.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\SpawnBlock\SpawnPoof7.png" />
     <EmbeddedResource Include="Resources\Artwork\Foreground\Checkpoint\animCheck1.png" />
     <EmbeddedResource Include="Resources\Artwork\Foreground\Checkpoint\animCheck2.png" />
     <EmbeddedResource Include="Resources\Artwork\Foreground\Checkpoint\animCheck3.png" />

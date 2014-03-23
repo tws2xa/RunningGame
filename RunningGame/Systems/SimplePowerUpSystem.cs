@@ -427,7 +427,16 @@ namespace RunningGame.Systems {
 
             if ( spawnBlocks.Count >= maxNumSpawnBlocks ) {
                 spawnBlockEntity old = spawnBlocks.Dequeue();
-                level.removeEntity( old );
+                DrawComponent drawComp = ( DrawComponent )old.getComponent( GlobalVars.DRAW_COMPONENT_NAME );
+                AnimationComponent animComp = ( AnimationComponent)old.getComponent( GlobalVars.ANIMATION_COMPONENT_NAME);
+                if ( animComp != null && drawComp != null) {
+                    ColliderComponent colComp = (ColliderComponent)old.getComponent( GlobalVars.COLLIDER_COMPONENT_NAME );
+                    colComp.colliderType = GlobalVars.DESTROYING_SPAWN_BLOCK_COLLIDER_TYPE;
+                    drawComp.setSprite( old.blockAnimationName );
+                    animComp.animationOn = true;
+                } else {
+                    level.removeEntity( old );
+                }
             }
             //Entity newEntity = new [YOUR ENTITY HERE](level, x, y);
             spawnBlockEntity newEntity = new spawnBlockEntity( level, x, y );
