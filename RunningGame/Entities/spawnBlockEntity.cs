@@ -39,29 +39,29 @@ namespace RunningGame.Entities {
             List<string> animImgDefaults = new List<string>()
             {
                 "RunningGame.Resources.Artwork.Foreground.BlockSquare.png",
-                "RunningGame.Resources.Artwork.Foreground.SpawnBlock.SpawnPoof1.png",
-                //"RunningGame.Resources.Artwork.Foreground.SpawnBlock.SpawnPoof2.png",
-                "RunningGame.Resources.Artwork.Foreground.SpawnBlock.SpawnPoof3.png",
-                //"RunningGame.Resources.Artwork.Foreground.SpawnBlock.SpawnPoof4.png",
-                "RunningGame.Resources.Artwork.Foreground.SpawnBlock.SpawnPoof5.png",
+                //"RunningGame.Resources.Artwork.Foreground.SpawnBlock.SpawnPoof1.png",
+                "RunningGame.Resources.Artwork.Foreground.SpawnBlock.SpawnPoof2.png",
+                //"RunningGame.Resources.Artwork.Foreground.SpawnBlock.SpawnPoof3.png",
+                "RunningGame.Resources.Artwork.Foreground.SpawnBlock.SpawnPoof4.png",
+                //"RunningGame.Resources.Artwork.Foreground.SpawnBlock.SpawnPoof5.png",
                 "RunningGame.Resources.Artwork.Foreground.SpawnBlock.SpawnPoof6.png",
                 "RunningGame.Resources.Artwork.Foreground.SpawnBlock.SpawnPoof7.png"
             };
             List<string> animImg = new List<string>()
             {
                 "Artwork.Foreground.BlockSquare",
-                "Artwork.Foreground.SpawnBlock.SpawnPoof1",
-                //"Artwork.Foreground.SpawnBlock.SpawnPoof2",
-                "Artwork.Foreground.SpawnBlock.SpawnPoof3",
-                //"Artwork.Foreground.SpawnBlock.SpawnPoof4",
-                "Artwork.Foreground.SpawnBlock.SpawnPoof5",
+                //"Artwork.Foreground.SpawnBlock.SpawnPoof1",
+                "Artwork.Foreground.SpawnBlock.SpawnPoof2",
+                //"Artwork.Foreground.SpawnBlock.SpawnPoof3",
+                "Artwork.Foreground.SpawnBlock.SpawnPoof4",
+                //"Artwork.Foreground.SpawnBlock.SpawnPoof5",
                 "Artwork.Foreground.SpawnBlock.SpawnPoof6",
                 "Artwork.Foreground.SpawnBlock.SpawnPoof7"
             };
 
             drawComp.addAnimatedSprite( animImg, animImgDefaults, blockAnimationName );
 
-            AnimationComponent animComp = (AnimationComponent)addComponent( new AnimationComponent( 0.001f ), true );
+            AnimationComponent animComp = (AnimationComponent)addComponent( new AnimationComponent( 0.0001f ), true );
             animComp.animationOn = false;
             animComp.destroyAfterCycle = true;
 
