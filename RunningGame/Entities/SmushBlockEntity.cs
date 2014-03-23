@@ -89,6 +89,10 @@ namespace RunningGame.Entities {
              */
             DirectionalComponent dirComp = (DirectionalComponent)addComponent( new DirectionalComponent( dir ) );
 
+            /*OFF SIDE OF SCREEN - Stop when it hits the side of the screen.
+             */
+            addComponent( new ScreenEdgeComponent( 1, 1, 1, 1 ) );
+
             /*SMUSH - It's a smusher!
              */
             SmushComponent smushComp = ( SmushComponent )addComponent( new SmushComponent( 2.0f ) );
