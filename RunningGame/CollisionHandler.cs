@@ -86,6 +86,7 @@ namespace RunningGame {
             addToDictionary( GlobalVars.SHOOTER_BULLET_COLLIDER_TYPE, GlobalVars.TIMED_SHOOTER_COLLIDER_TYPE, doNothingCollision );
             addToDictionary( GlobalVars.SHOOTER_BULLET_COLLIDER_TYPE, GlobalVars.MOVING_PLATFORM_COLLIDER_TYPE, destroyBulletCollision );
             addToDictionary( GlobalVars.SHOOTER_BULLET_COLLIDER_TYPE, GlobalVars.SIMPLE_ENEMY_COLLIDER_TYPE, shooterBulletEnemyCollision );
+            addToDictionary( GlobalVars.SHOOTER_BULLET_COLLIDER_TYPE, GlobalVars.SPAWN_BLOCK_COLLIDER_TYPE, destroyBulletCollision);
 
             addToDictionary( GlobalVars.BOUNCE_PREGROUND_COLLIDER_TYPE, GlobalVars.BASIC_SOLID_COLLIDER_TYPE, bounceGroundCollision );
             addToDictionary( GlobalVars.BOUNCE_PREGROUND_COLLIDER_TYPE, GlobalVars.TIMED_SHOOTER_COLLIDER_TYPE, doNothingCollision );
