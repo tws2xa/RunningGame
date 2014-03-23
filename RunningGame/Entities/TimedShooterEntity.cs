@@ -12,7 +12,7 @@ namespace RunningGame.Entities {
         float defaultHeight = 20f;
 
         //-------------------------------------------Constructors--------------------------------------------
-        public TimedShooterEntity( Level level, float x, float y, float timeBetweenBursts, int shotsPerBurst, int dir ) {
+        public TimedShooterEntity( Level level, float x, float y, float timeBetweenBursts, int shotsPerBurst, int dir, int switchId ) {
             //Set level.
             //Leave for all entities
             this.level = level;
@@ -23,9 +23,9 @@ namespace RunningGame.Entities {
 
             //Add the components.
             //Leave this for all entities.
-            addMyComponents( x, y, timeBetweenBursts, shotsPerBurst, dir );
+            addMyComponents( x, y, timeBetweenBursts, shotsPerBurst, dir, switchId );
         }
-        public TimedShooterEntity( Level level, int id, float x, float y, float timeBetweenBursts, int shotsPerBurst, int dir ) {
+        public TimedShooterEntity( Level level, int id, float x, float y, float timeBetweenBursts, int shotsPerBurst, int dir, int switchId ) {
             //Set level.
             //Leave for all entities
             this.level = level;
@@ -36,14 +36,14 @@ namespace RunningGame.Entities {
 
             //Add the components.
             //Leave this for all entities.
-            addMyComponents( x, y, timeBetweenBursts, shotsPerBurst, dir );
+            addMyComponents( x, y, timeBetweenBursts, shotsPerBurst, dir, switchId );
         }
 
         //------------------------------------------------------------------------------------------------------------------
 
         //Here's where you add all the components the entity has.
         //You can just uncomment the ones you want.
-        public void addMyComponents( float x, float y, float timeBetweenBursts, int shotsPerBurst, int dir ) {
+        public void addMyComponents( float x, float y, float timeBetweenBursts, int shotsPerBurst, int dir, int switchId ) {
             /*POSITION COMPONENT - Does it have a position?
              */
             addComponent(new PositionComponent(x, y, defaultWidth, defaultHeight, this), true);
@@ -85,9 +85,9 @@ namespace RunningGame.Entities {
              */
             addComponent( new VelToZeroComponent( 100, 100 ) );
 
-            /* GRAVITY COMPONENT - It's got Gravity
+            /*SWITCH LISTENER - It listens for switches.
              */
-            //addComponent( new GravityComponent( 0, GlobalVars.STANDARD_GRAVITY ) );
+            addComponent( new SwitchListenerComponent( switchId, GlobalVars.TIMED_SHOOTER_SWITCH_EVENT ) );
 
         }
 

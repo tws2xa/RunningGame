@@ -44,14 +44,11 @@ namespace RunningGame {
         int permSwitchG = 255; //Permanent Switch - G = 255
         int presSwitchG = 0; //Pressure Switch - G = 0
         int doorReserveGreen = 200; //Any color with G = 200 is a door
+        int smushRed = 77; //G Determines Switch // B Determines Dir
 
         int spikeRed = 255; //R
         int spikeGreen = 100; //G
         // B determins Dir
-
-        int smushRed = 77;
-        int smushGreen = 77;
-        // B Determines Dir
 
         int shooterRedUp = 110;
         int shooterRedRight = 111;
@@ -115,12 +112,29 @@ namespace RunningGame {
                         level.addEntity( s.randId, s );
 
                     } else if ( col.R == shooterRedUp || col.R == shooterRedRight || col.R == shooterRedDown || col.R == shooterRedLeft ) {
-                        float betweenBursts = ( float )col.G / ( float )10;
-                        TimedShooterEntity shooter = new TimedShooterEntity( level, rand.Next( Int32.MinValue, Int32.MaxValue ), levelX * tileWidth, levelY * tileHeight, betweenBursts, col.B, col.R-110 );
+                        float betweenBursts = ( float )col.B / ( float )10;
+                        int switchId = col.G;
+                        
+                        TimedShooterEntity shooter = new TimedShooterEntity( level, rand.Next( Int32.MinValue, Int32.MaxValue ), levelX * tileWidth, levelY * tileHeight, betweenBursts, 1, col.R-110, switchId );
+                        if ( switchId == 0 ) {
+                            shooter.removeComponent( GlobalVars.SWITCH_LISTENER_COMPONENT_NAME );
+                        } else {
+                            SwitchListenerComponent slComp = ( SwitchListenerComponent )shooter.getComponent( GlobalVars.SWITCH_LISTENER_COMPONENT_NAME );
+                            if ( switches.ContainsKey( switchId ) ) {
+                                slComp.switchId = switches[switchId].randId;
+                            } else {
+                                unmachedSwitchListeners.Add( slComp, switchId );
+                            }
+                        }
                         adjustLocation( shooter, level );
                         shooter.isStartingEntity = true;
                         level.addEntity( shooter );
 
+                    } else if ( col.R == smushRed && ( col.B - 4 <= 0 ) ) {
+                        SmushBlockEntity smush = new SmushBlockEntity( level, rand.Next( Int32.MinValue, Int32.MaxValue ), levelX * tileWidth, levelY * tileHeight, col.B );
+                        adjustLocation( smush, level );
+                        smush.isStartingEntity = true;
+                        level.addEntity( smush );
                     } else if ( col.G == doorReserveGreen ) {
                     
                         DoorEntity door = new DoorEntity( level, rand.Next( Int32.MinValue, Int32.MaxValue ), levelX * tileWidth, levelY * tileHeight );
@@ -142,11 +156,6 @@ namespace RunningGame {
                         spike.isStartingEntity = true;
                         level.addEntity( spike );
 
-                    } else if ( col.R == smushRed && col.G == smushGreen && ( col.B - 4 <= 0 ) ) {
-                        SmushBlockEntity smush = new SmushBlockEntity( level, rand.Next( Int32.MinValue, Int32.MaxValue ), levelX * tileWidth, levelY * tileHeight, col.B );
-                        adjustLocation( smush, level );
-                        smush.isStartingEntity = true;
-                        level.addEntity( smush );
                     }
 
                     //Now just check for the specific colors

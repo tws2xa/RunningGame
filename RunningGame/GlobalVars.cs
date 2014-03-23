@@ -132,6 +132,7 @@ namespace RunningGame {
 
         //Switch Events
         public static string DOOR_EVENT_TYPE = "doorEvent";
+        public static string TIMED_SHOOTER_SWITCH_EVENT = "tsEvent";
 
         //2d List of level file names ([world][level])
         public static List<List<string>> levels = new List<List<string>>();

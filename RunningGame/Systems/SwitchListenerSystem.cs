@@ -24,6 +24,7 @@ namespace RunningGame.Systems {
 
             //Fill the events dictionary
             events.Add( GlobalVars.DOOR_EVENT_TYPE, doorSwitch );
+            events.Add( GlobalVars.TIMED_SHOOTER_SWITCH_EVENT, timedShooterSwitch );
 
             this.level = level; //Always have this
 
@@ -93,6 +94,14 @@ namespace RunningGame.Systems {
             }
 
             return true; //Just cuz
+        }
+
+
+
+        public bool timedShooterSwitch(Entity e, bool active) {
+            Console.WriteLine( "Timed Shooter!" );
+
+            return true;
         }
     }
 }
