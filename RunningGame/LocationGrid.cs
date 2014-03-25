@@ -151,8 +151,9 @@ namespace RunningGame {
 
             foreach ( Entity e in grid[checkRect].Values ) {
                 PositionComponent posComp = ( PositionComponent )e.getComponent( GlobalVars.POSITION_COMPONENT_NAME );
+                ColliderComponent colComp = ( ColliderComponent )e.getComponent( GlobalVars.COLLIDER_COMPONENT_NAME );
 
-                RectangleF r = new RectangleF( posComp.x - posComp.width / 2, posComp.y - posComp.height / 2, posComp.width, posComp.height );
+                RectangleF r = new RectangleF( colComp.getX(posComp) - colComp.width / 2, colComp.getY(posComp) - colComp.height / 2, colComp.width, colComp.height );
                 if ( r.Contains( x, y ) ) retList.Add( e );
             }
 
