@@ -169,7 +169,8 @@ namespace RunningGame.Systems {
                     buff = GlobalVars.MIN_TILE_SIZE;
                     if ( Math.Abs( playerPos.x - grapComp.getFirstPoint().X ) > buff || Math.Abs( playerPos.y - grapComp.getFirstPoint().Y ) > buff ) {
                         //Console.WriteLine( "Finish 1" );
-                        finishGrapple( e, true );
+                        //finishGrapple( e, true );
+                        grapComp.state = 2;
                         return;
                     }
                     
@@ -199,7 +200,8 @@ namespace RunningGame.Systems {
                     }
                     if ( Math.Abs( newX - grapComp.getLastPoint().X ) <= buffer && Math.Abs( newY - grapComp.getLastPoint().Y ) <= buffer ) {
                         //Console.WriteLine( "Finish 3!" );
-                        finishGrapple( e, true );
+                        //finishGrapple( e, true );
+                        grapComp.state = 2;
                         return;
                     }
                     
@@ -214,7 +216,8 @@ namespace RunningGame.Systems {
                     double nowDist = getDist( grapComp.getFirstPoint(), grapComp.getLastPoint() );
                     if ( nowDist >= distBefore ) {
                         //Console.WriteLine( "Finish 2!" );
-                        finishGrapple( e, true );
+                        //finishGrapple( e, true );
+                        grapComp.state = 2;
                         return;
                     }
 
