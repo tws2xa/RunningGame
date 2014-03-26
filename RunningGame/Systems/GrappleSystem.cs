@@ -20,6 +20,8 @@ namespace RunningGame.Systems {
         float followSpeed = 300;
         float retreatSpeed = 1000;
 
+        bool stopPlayer = false;
+
         //0 = don't remove
         //1 = remove on shoot
         //2 = remove on latch
@@ -162,18 +164,19 @@ namespace RunningGame.Systems {
                         PositionComponent pos = ( PositionComponent )mrIntersection.getComponent( GlobalVars.POSITION_COMPONENT_NAME );
                         grapComp.setEndPoint( pos.getLocAsPoint() );
                     }
-                    */
+                    
 
                     //Check if, for whatever reason, the player wasn't able to move.
                     float buff = 0.5f;
                     buff = GlobalVars.MIN_TILE_SIZE;
                     if ( Math.Abs( playerPos.x - grapComp.getFirstPoint().X ) > buff || Math.Abs( playerPos.y - grapComp.getFirstPoint().Y ) > buff ) {
-                        //Console.WriteLine( "Finish 1" );
+                        Console.WriteLine( "Finish 1" );
                         //finishGrapple( e, true );
                         grapComp.state = 2;
+                        stopPlayer = true;
                         return;
                     }
-                    
+                    */
 
                     double distBefore = getDist( playerPos.getLocAsPoint(), grapComp.getLastPoint() );
 
@@ -199,9 +202,10 @@ namespace RunningGame.Systems {
                         buffer += playerPos.width/1.5f;
                     }
                     if ( Math.Abs( newX - grapComp.getLastPoint().X ) <= buffer && Math.Abs( newY - grapComp.getLastPoint().Y ) <= buffer ) {
-                        //Console.WriteLine( "Finish 3!" );
+                        Console.WriteLine( "Finish 3!" );
                         //finishGrapple( e, true );
                         grapComp.state = 2;
+                        stopPlayer = true;
                         return;
                     }
                     
@@ -215,9 +219,10 @@ namespace RunningGame.Systems {
                     //Check to make sure the player isn't getting further away. If he is, sthap!
                     double nowDist = getDist( grapComp.getFirstPoint(), grapComp.getLastPoint() );
                     if ( nowDist >= distBefore ) {
-                        //Console.WriteLine( "Finish 2!" );
+                        Console.WriteLine( "Finish 2!" );
                         //finishGrapple( e, true );
                         grapComp.state = 2;
+                        stopPlayer = true;
                         return;
                     }
 
@@ -250,7 +255,7 @@ namespace RunningGame.Systems {
 
                     //Make sure it isn't getting longer
                     if ( getDist( p, grapComp.getFirstPoint() ) > distBefore ) {
-                        finishGrapple( e, false );
+                        finishGrapple( e );
                         return;
                     }
 
@@ -258,7 +263,7 @@ namespace RunningGame.Systems {
                     //Check if it's fully retreated - if so, delete the grapple!
                     float buffer = GlobalVars.MIN_TILE_SIZE;
                     if ( Math.Abs( newX - grapComp.getFirstPoint().X ) <= buffer && Math.Abs( newY - grapComp.getFirstPoint().Y ) <= buffer ) {
-                        finishGrapple( e, false );
+                        finishGrapple( e );
                         return;
                     }
                     
@@ -343,7 +348,7 @@ namespace RunningGame.Systems {
             return false;
         }
 
-        public void finishGrapple( Entity grapple, bool stopPlayer ) {
+        public void finishGrapple( Entity grapple ) {
 
             if ( !level.getPlayer().hasComponent( GlobalVars.PLAYER_INPUT_COMPONENT_NAME ) ) {
                 PlayerInputComponent plInComp = ( PlayerInputComponent )level.getPlayer().addComponent( new PlayerInputComponent( level.getPlayer() ) );
@@ -359,6 +364,8 @@ namespace RunningGame.Systems {
 
                 velComp.x = 0;
                 velComp.y = 0;
+
+                stopPlayer = false;
             }
             level.removeEntity( grapple );
             return;
