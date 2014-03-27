@@ -108,7 +108,7 @@ namespace RunningGame.Systems {
                     System.Drawing.PointF p = new System.Drawing.PointF( newX, newY );
 
                     //Don't allow it to go off the sides of the screen
-                    if ( newX < 0 || newY < 0 || newX > level.levelWidth || newY > level.levelHeight ) {
+                    if ( newX < -h || newY < -h || newX > level.levelWidth+h || newY > level.levelHeight+h) {
                         grapComp.state = 2;
                         return;
                     }
@@ -202,7 +202,7 @@ namespace RunningGame.Systems {
                         buffer += playerPos.width/1.5f;
                     }
                     if ( Math.Abs( newX - grapComp.getLastPoint().X ) <= buffer && Math.Abs( newY - grapComp.getLastPoint().Y ) <= buffer ) {
-                        Console.WriteLine( "Finish 3!" );
+                        //Console.WriteLine( "Finish 3!" );
                         //finishGrapple( e, true );
                         grapComp.state = 2;
                         stopPlayer = true;
@@ -219,7 +219,7 @@ namespace RunningGame.Systems {
                     //Check to make sure the player isn't getting further away. If he is, sthap!
                     double nowDist = getDist( grapComp.getFirstPoint(), grapComp.getLastPoint() );
                     if ( nowDist >= distBefore ) {
-                        Console.WriteLine( "Finish 2!" );
+                        //Console.WriteLine( "Finish 2!" );
                         //finishGrapple( e, true );
                         grapComp.state = 2;
                         stopPlayer = true;
@@ -296,6 +296,7 @@ namespace RunningGame.Systems {
         }*/
 
         public bool checkForStopsBetweenPoints( PointF p1, PointF p2, GrappleComponent grap, ref Entity ent ) {
+
             List<Entity> cols = level.getCollisionSystem().findObjectsBetweenPoints( p1.X, p1.Y, p2.X, p2.Y );
             
             double minDist = Double.MaxValue;

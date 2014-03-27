@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Drawing;
 using System.Collections;
 using RunningGame.Components;
@@ -28,6 +27,7 @@ namespace RunningGame {
         float rowHeight = 20;
         float colWidth = 20;
 
+        public bool debugOnObjBetweenPnts = false;
 
         Level level;
 
@@ -164,14 +164,27 @@ namespace RunningGame {
         public List<Entity> findObjectsBetweenPoints( float x1, float y1, float x2, float y2 ) {
             List<Entity> retList = new List<Entity>();
 
-            int skipNum = 1;
+            float skipNum = 1.0f;
 
             double theta = Math.PI / 2;
 
+            float opp = Math.Abs( y2 - y1 );
+            float adj = Math.Abs( x2 - x1 );
+
+
             if ( x2 != x1 ) {
-                theta = Math.Atan( ( y2 - y1 ) / ( x2 - x1 ) );
+                theta = Math.Atan( ( opp ) / ( adj ) );
+                
+                if ( x2 < x1 && y2 < y1) theta = Math.PI - theta; //Quad 2
+                if ( x2 < x1 && y2 > y1 ) theta = Math.PI + theta; //Quad 3
+                if ( x2 > x1 && y2 > y1 ) theta = 2 * Math.PI - theta; //Quad 4
+                
             } else if ( y2 < y1 ) {
                 theta = 3 * Math.PI / 2;
+            }
+
+            if ( debugOnObjBetweenPnts ) {
+                Console.WriteLine( theta * 360 / (Math.PI * 2) );
             }
 
             float checkX = x1;
