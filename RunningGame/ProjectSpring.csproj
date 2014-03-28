@@ -131,6 +131,7 @@
     <Compile Include="Entities\SimpleEnemyEntity.cs" />
     <Compile Include="Entities\SwitchEntity.cs" />
     <Compile Include="Entities\VisionOrb.cs" />
+    <Compile Include="Entities\VisionOrbUnlock.cs" />
     <Compile Include="FormEditor.cs">
       <SubType>Form</SubType>
     </Compile>

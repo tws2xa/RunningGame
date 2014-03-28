@@ -30,6 +30,7 @@ namespace RunningGame {
         Color checkPointCollider = Color.FromArgb( 255, 255, 255 ); //End level is white
         Color movePlatformTurn = Color.FromArgb( 140, 140, 140 ); //Turn Platform Entity
         Color testEntityColor = Color.FromArgb( 42, 42, 42 ); //Test entity is 42, 42, 42.
+        Color visionOrbUnlock = Color.FromArgb( 13, 13, 13 ); //Add the vision orb
 
         Color jmpPickup = Color.FromArgb( 100, 100, 0 );
         Color speedyPickup = Color.FromArgb( 100, 100, 1 );
@@ -353,6 +354,18 @@ namespace RunningGame {
 
                         pickup.isStartingEntity = true;
                         level.addEntity( pickup );
+
+                    } else if ( col == visionOrbUnlock ) {
+
+                        float xLoc = ( levelX ) * tileWidth;
+                        float yLoc = ( levelY ) * tileHeight;
+                        int id = rand.Next( Int32.MinValue, Int32.MaxValue );
+
+                        VisionOrbUnlock visUnlock = new VisionOrbUnlock( level, id, xLoc, yLoc);
+                        adjustLocation( visUnlock, level );
+
+                        visUnlock.isStartingEntity = true;
+                        level.addEntity( visUnlock );
 
                     }
                 }
