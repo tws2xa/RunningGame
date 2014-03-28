@@ -80,6 +80,7 @@ namespace RunningGame {
         public static string TIMED_SHOOTER_COLLIDER_TYPE = "timedShooterCollider";
         public static string CHECKPOINT_COLLIDER_TYPE = "checkPointCollider";
         public static string DESTROYING_SPAWN_BLOCK_COLLIDER_TYPE = "destroySpawnCollider";
+        public static string VISION_ORB_UNLOCK_COLLIDER = "visionUnlockCollider";
 
         //Collection of all in game entities
         public static Dictionary<int, Entity> nonGroundEntities = new Dictionary<int, Entity>();
