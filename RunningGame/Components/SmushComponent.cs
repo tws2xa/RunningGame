@@ -14,7 +14,7 @@ namespace RunningGame.Components {
         float xRiseSpeed = 0.0f;
         float yFallSpeed = 400.0f;
         float yRiseSpeed = -100.0f;
-        float upperWaitTime = 2.0f; //In seconds
+        float upperWaitTime = 0.01f; //In seconds
         float lowerWaitTime = 0.5f; //In seconds
 
         bool hasInitializedTimer = false;
