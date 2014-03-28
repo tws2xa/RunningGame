@@ -1076,6 +1076,34 @@ namespace RunningGame {
 
         }
 
+        public bool unlockVisionOrb( Entity e1, Entity e2 ) {
+
+            Entity[] sorted = getEntityWithComponent( GlobalVars.PLAYER_COMPONENT_NAME, e1, e2 );
+
+            VisionOrbSystem visOrbSys = level.sysManager.visSystem;
+            visOrbSys.orbUnlocked = true;
+
+            System.Drawing.Color col = System.Drawing.Color.WhiteSmoke; //Peru is a color.
+            string displayStr = "Vision Orb Unlocked!\nPress V to Use";
+            System.Drawing.Color textCol = col;
+            float fadeInTime = 0.2f;
+            float constTime = 3;
+            float fadeOutTime = 1.5f;
+            float flashTime = 0.5f;
+
+            if ( !level.timerMethods.ContainsKey( level.displayInstrText ) ) {
+                level.sysManager.drawSystem.textShadow = true;
+                level.setInstrText( displayStr, textCol, fadeInTime, constTime, fadeOutTime );
+                level.timerMethods.Add( level.displayInstrText, flashTime / 2 );
+            }
+
+            level.sysManager.drawSystem.setFlash( col, flashTime );
+
+
+            level.removeEntity( sorted[1] );
+
+            return false;
+        }
 
         public bool smushCollision( Entity e1, Entity e2 ) {
             Entity[] sortedEnts = getEntityWithComponent( GlobalVars.SMUSH_COMPONENT_NAME, e1, e2 );
@@ -1189,17 +1217,6 @@ namespace RunningGame {
             return id;
         }
 
-        public bool unlockVisionOrb( Entity e1, Entity e2 ) {
-
-            Entity[] sorted = getEntityWithComponent( GlobalVars.PLAYER_COMPONENT_NAME, e1, e2 );
-
-            VisionOrbSystem visOrbSys = level.sysManager.visSystem;
-            visOrbSys.orbUnlocked = true;
-
-            level.removeEntity( sorted[1] );
-
-            return false;
-        }
 
     }
 }
