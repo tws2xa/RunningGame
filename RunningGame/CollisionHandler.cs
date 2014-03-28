@@ -64,6 +64,7 @@ namespace RunningGame {
             defaultCollisions.Add( GlobalVars.SMUSH_BLOCK_COLLIDER, simpleStopCollision );
             defaultCollisions.Add( GlobalVars.CHECKPOINT_COLLIDER_TYPE, doNothingCollision );
             defaultCollisions.Add( GlobalVars.DESTROYING_SPAWN_BLOCK_COLLIDER_TYPE, doNothingCollision );
+            defaultCollisions.Add( GlobalVars.VISION_ORB_UNLOCK_COLLIDER, simpleStopCollision );
 
 
             //Add non-default collisions to dictionary
@@ -77,6 +78,7 @@ namespace RunningGame {
             addToDictionary( GlobalVars.PLAYER_COLLIDER_TYPE, GlobalVars.SPAWN_BLOCK_COLLIDER_TYPE, simpleStopCollision);
             addToDictionary( GlobalVars.PLAYER_COLLIDER_TYPE, GlobalVars.SMUSH_BLOCK_COLLIDER, smushCollision );
             addToDictionary( GlobalVars.PLAYER_COLLIDER_TYPE, GlobalVars.CHECKPOINT_COLLIDER_TYPE, checkPointCollision );
+            addToDictionary( GlobalVars.PLAYER_COLLIDER_TYPE, GlobalVars.VISION_ORB_UNLOCK_COLLIDER, unlockVisionOrb );
 
             addToDictionary( GlobalVars.BULLET_COLLIDER_TYPE, GlobalVars.PLAYER_COLLIDER_TYPE, doNothingCollision );
             addToDictionary( GlobalVars.BULLET_COLLIDER_TYPE, GlobalVars.SIMPLE_ENEMY_COLLIDER_TYPE, DestroyBothCollision );
@@ -1185,6 +1187,18 @@ namespace RunningGame {
                 id = rand.Next( Int32.MinValue, Int32.MaxValue );
             }
             return id;
+        }
+
+        public bool unlockVisionOrb( Entity e1, Entity e2 ) {
+
+            Entity[] sorted = getEntityWithComponent( GlobalVars.PLAYER_COMPONENT_NAME, e1, e2 );
+
+            VisionOrbSystem visOrbSys = level.sysManager.visSystem;
+            visOrbSys.orbUnlocked = true;
+
+            level.removeEntity( sorted[1] );
+
+            return false;
         }
 
     }

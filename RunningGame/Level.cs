@@ -77,6 +77,9 @@ namespace RunningGame {
         private CheckPointData checkpointData;
         public bool hasHadCheckpoint = false;
 
+        public int visionOrbUnlockWorldNum = 1;
+        public int visionOrbUnlockLevelNum = 2;
+
         public Level() { }
 
         public Level( Game myGame, float windowWidth, float windowHeight, string levelFile, int worldNum, int levelNum, bool isPaintFile, Graphics g, Font displayFont ) {
@@ -145,6 +148,8 @@ namespace RunningGame {
             //Set the player powerup staring values
             setPowerups();
 
+            setVisionOrb();
+
             resetLevel();
 
             sysManager.Update( 0 );
@@ -152,6 +157,10 @@ namespace RunningGame {
             if ( !soundPlaying( bkgMusic ) ) {
                 playSound( bkgMusic, true );
             }
+        }
+
+        public void setVisionOrb() {
+            this.sysManager.visSystem.orbUnlocked = ( this.worldNum > visionOrbUnlockWorldNum || this.levelNum > visionOrbUnlockLevelNum );
         }
 
         public bool soundPlaying( string location ) {
@@ -368,6 +377,9 @@ namespace RunningGame {
             if ( sysManager.visSystem.orbActive ) {
                 sysManager.visSystem.destroyVisionOrb();
             }
+
+            //Set whether vision orb is enabled
+            setVisionOrb();
 
             //Remove border
             if ( sysManager.drawSystem.getMainView().hasBorder ) sysManager.drawSystem.getMainView().hasBorder = false;
