@@ -337,6 +337,8 @@ namespace RunningGame {
             for ( int i = 0; i < ents.Length; i++ ) {
                 if ( !ents[i].isStartingEntity ) {
                     removeEntity( ents[i] );
+                } else if(ents[i].resetOnCheckpoint){
+                    ents[i].revertToStartingState();
                 }
             }
             //Do the same for ground
@@ -344,6 +346,8 @@ namespace RunningGame {
             for ( int i = 0; i < grndents.Length; i++ ) {
                 if ( !grndents[i].isStartingEntity ) {
                     removeEntity( grndents[i] );
+                } else if ( grndents[i].resetOnCheckpoint ) {
+                    grndents[i].revertToStartingState();
                 }
             }
 
