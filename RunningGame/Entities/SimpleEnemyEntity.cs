@@ -93,7 +93,8 @@ namespace RunningGame.Entities {
              */
             addComponent( new SimpleEnemyComponent( GlobalVars.SIMPLE_ENEMY_H_SPEED + new Random().Next( -10, 10 ), true ), true );
 
-            addComponent( new ScreenEdgeComponent( 1, 1, 1, 1 ), true );
+            //Screen Edge Stop/Wrap/End Level
+            addComponent( new ScreenEdgeComponent( 1, 1, 1, 5 ), true );
 
         }
 

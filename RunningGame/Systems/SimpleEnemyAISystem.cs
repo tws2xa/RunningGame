@@ -44,6 +44,11 @@ namespace RunningGame.Systems {
                 SimpleEnemyComponent simpEnemyComp = ( SimpleEnemyComponent )e.getComponent( GlobalVars.SIMPLE_ENEMY_COMPONENT_NAME );
                 VelocityComponent velComp = ( VelocityComponent )e.getComponent( GlobalVars.VELOCITY_COMPONENT_NAME );
 
+                float speedyBuffer = 0;
+                if ( !simpEnemyComp.checkCliff && simpEnemyComp.checkCliffOrig && Math.Abs(velComp.x) <= Math.Abs(simpEnemyComp.mySpeed + speedyBuffer)) {
+                    simpEnemyComp.checkCliff = simpEnemyComp.checkCliffOrig;
+                }
+
                 if ( simpEnemyComp.hasRunOnce && !simpEnemyComp.hasLandedOnce && velComp.y <= 0 ) {
                     simpEnemyComp.hasLandedOnce = true;
                 }

@@ -11,6 +11,7 @@ namespace RunningGame.Components {
         public bool wasStoppedLastFrame { get; set; }
         public bool hasTouchedGround { get; set; }
         public bool checkCliff;
+        public bool checkCliffOrig;
         public bool hasLandedOnce { get; set; }
         public bool hasRunOnce { get; set; }
         public bool movingLeft = false;
@@ -22,6 +23,7 @@ namespace RunningGame.Components {
             hasLandedOnce = false;
             hasRunOnce = false;
             this.checkCliff = checkCliff;
+            checkCliffOrig = checkCliff;
         }
 
     }

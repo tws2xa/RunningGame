@@ -449,10 +449,14 @@ namespace RunningGame {
                     }
                 }
 
-                if ( other is spawnBlockEntity ) {
+                if ( other.hasComponent(GlobalVars.SPAWN_BLOCK_COMPONENT_NAME) ) {
                     SpawnBlockComponent spawnComp = ( SpawnBlockComponent )other.getComponent( GlobalVars.SPAWN_BLOCK_COMPONENT_NAME );
                     if ( spawnComp.state == 0 )
                         spawnComp.state = 1;
+                }
+                if ( other.hasComponent( GlobalVars.SIMPLE_ENEMY_COMPONENT_NAME ) ) {
+                    SimpleEnemyComponent simpEnComp = ( SimpleEnemyComponent )other.getComponent( GlobalVars.SIMPLE_ENEMY_COMPONENT_NAME );
+                    simpEnComp.checkCliff = false;
                 }
             }
 
