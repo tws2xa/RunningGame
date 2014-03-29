@@ -102,6 +102,8 @@ namespace RunningGame {
 
             addToDictionary( GlobalVars.SIMPLE_ENEMY_COLLIDER_TYPE, GlobalVars.PLAYER_COLLIDER_TYPE, damageHealthCollision );
             addToDictionary( GlobalVars.SIMPLE_ENEMY_COLLIDER_TYPE, GlobalVars.SPAWN_BLOCK_COLLIDER_TYPE, spawnEnemyCollision );
+            addToDictionary( GlobalVars.SIMPLE_ENEMY_COLLIDER_TYPE, GlobalVars.BOUNCE_POSTGROUND_COLLIDER_TYPE, bounceCollision );
+            addToDictionary( GlobalVars.SIMPLE_ENEMY_COLLIDER_TYPE, GlobalVars.SPEEDY_POSTGROUND_COLLIDER_TYPE, speedyOtherCollision );
 
             //addToDictionary( GlobalVars.MOVING_PLATFORM_COLLIDER_TYPE, GlobalVars.PLAYER_COLLIDER_TYPE, simpleStopCollision );
             addToDictionary( GlobalVars.MOVING_PLATFORM_COLLIDER_TYPE, GlobalVars.PLAYER_COLLIDER_TYPE, platformOtherCollision );
@@ -396,12 +398,15 @@ namespace RunningGame {
             if ( e2 is Speedy ) {
                 speedyBlock = e2;
                 other = e1;
-            } else if ( e2.hasComponent( GlobalVars.PLAYER_COMPONENT_NAME ) ) {
+            } else if ( e1 is Speedy ) {
                 speedyBlock = e1;
                 other = e2;
             }
 
-            if ( other == null || speedyBlock == null ) return false;
+            if ( other == null || speedyBlock == null ) {
+                Console.WriteLine( "Error - Speedy other collision with no speedy!" );
+                return false;
+            }
 
             //Do collision code here
             if ( !other.hasComponent( GlobalVars.VELOCITY_COMPONENT_NAME ) ) return false;
@@ -424,21 +429,31 @@ namespace RunningGame {
 
                 level.sysManager.spSystem.playerSpeedyEnabled = true;
                 other.removeComponent( GlobalVars.PLAYER_INPUT_COMPONENT_NAME );
-            } else if ( other is spawnBlockEntity ) {
+            } else {
                 if ( level.getPlayer() == null ) return true;
 
                 PositionComponent plPos = ( PositionComponent )level.getPlayer().getComponent( GlobalVars.POSITION_COMPONENT_NAME );
-                PositionComponent spPos = ( PositionComponent )other.getComponent( GlobalVars.POSITION_COMPONENT_NAME );
+                PositionComponent otherPos = ( PositionComponent )other.getComponent( GlobalVars.POSITION_COMPONENT_NAME );
                 VelocityComponent vel = ( VelocityComponent )other.getComponent( GlobalVars.VELOCITY_COMPONENT_NAME );
-                if ( spPos.x >= plPos.x ) {
-                    vel.x = GlobalVars.SPEEDY_SPEED;
+                if ( vel.x == 0 ) {
+                    if ( otherPos.x >= plPos.x ) {
+                        vel.x = GlobalVars.SPEEDY_SPEED;
+                    } else {
+                        vel.x = -GlobalVars.SPEEDY_SPEED;
+                    }
                 } else {
-                    vel.x = -GlobalVars.SPEEDY_SPEED;
+                    if ( vel.x >= 0 ) {
+                        vel.x = GlobalVars.SPEEDY_SPEED;
+                    } else {
+                        vel.x = -GlobalVars.SPEEDY_SPEED;
+                    }
                 }
 
-                SpawnBlockComponent spawnComp = ( SpawnBlockComponent )other.getComponent( GlobalVars.SPAWN_BLOCK_COMPONENT_NAME );
-                if ( spawnComp.state == 0 )
-                    spawnComp.state = 1;
+                if ( other is spawnBlockEntity ) {
+                    SpawnBlockComponent spawnComp = ( SpawnBlockComponent )other.getComponent( GlobalVars.SPAWN_BLOCK_COMPONENT_NAME );
+                    if ( spawnComp.state == 0 )
+                        spawnComp.state = 1;
+                }
             }
 
             if ( level.sysManager.spSystem.speedyTimers.ContainsKey( other ) ) {

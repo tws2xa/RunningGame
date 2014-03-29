@@ -344,13 +344,14 @@ namespace RunningGame.Systems {
         }
 
         public void createSpeedy() {
-            PositionComponent posComp = ( PositionComponent )level.getPlayer().getComponent( GlobalVars.POSITION_COMPONENT_NAME );
-            Player player = ( Player )level.getPlayer();
+            if ( level.getPlayer() != null ) {
+                PositionComponent posComp = ( PositionComponent )level.getPlayer().getComponent( GlobalVars.POSITION_COMPONENT_NAME );
+                Player player = ( Player )level.getPlayer();
 
-            if ( player == null ) return;
+                if ( player == null ) return;
 
-            speedyEntity( posComp.x + getSpawnDistance( player ), posComp.y );
-
+                speedyEntity( posComp.x + getSpawnDistance( player ), posComp.y );
+            }
         }
 
         public void bounceEntity( float x, float y ) {
@@ -363,11 +364,12 @@ namespace RunningGame.Systems {
             level.addEntity( newBounceEntity.randId, newBounceEntity );
         }
         public void createBounce() {
-            PositionComponent posComp = ( PositionComponent )level.getPlayer().getComponent( GlobalVars.POSITION_COMPONENT_NAME );
-            Player player = ( Player )level.getPlayer();
+            if ( level.getPlayer() != null ) {
+                PositionComponent posComp = ( PositionComponent )level.getPlayer().getComponent( GlobalVars.POSITION_COMPONENT_NAME );
+                Player player = ( Player )level.getPlayer();
 
-            bounceEntity( posComp.x + getSpawnDistance( player ), posComp.y );
-
+                bounceEntity( posComp.x + getSpawnDistance( player ), posComp.y );
+            }
         }
         public void Grapple() {
             if ( level.getPlayer() == null ) return;
