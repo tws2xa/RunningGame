@@ -504,6 +504,7 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\Levels\World2Level2anna.png" />
+    <EmbeddedResource Include="Resources\Levels\World3Level3_new.png" />
     <EmbeddedResource Include="Resources\Artwork\Foreground\SpawnBlock\SpawnPoof1.png" />
     <EmbeddedResource Include="Resources\Artwork\Foreground\SpawnBlock\SpawnPoof2.png" />
     <EmbeddedResource Include="Resources\Artwork\Foreground\SpawnBlock\SpawnPoof3.png" />
