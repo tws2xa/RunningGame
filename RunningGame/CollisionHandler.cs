@@ -66,7 +66,6 @@ namespace RunningGame {
             defaultCollisions.Add( GlobalVars.DESTROYING_SPAWN_BLOCK_COLLIDER_TYPE, doNothingCollision );
             defaultCollisions.Add( GlobalVars.VISION_ORB_UNLOCK_COLLIDER, simpleStopCollision );
 
-
             //Add non-default collisions to dictionary
             //Format: addToDictonary(Collider 1, Collider 2, name of function) Note - Order of colliders does not matter
             addToDictionary( GlobalVars.PLAYER_COLLIDER_TYPE, GlobalVars.SPEEDY_POSTGROUND_COLLIDER_TYPE, speedyOtherCollision );
@@ -79,6 +78,9 @@ namespace RunningGame {
             addToDictionary( GlobalVars.PLAYER_COLLIDER_TYPE, GlobalVars.SMUSH_BLOCK_COLLIDER, smushCollision );
             addToDictionary( GlobalVars.PLAYER_COLLIDER_TYPE, GlobalVars.CHECKPOINT_COLLIDER_TYPE, checkPointCollision );
             addToDictionary( GlobalVars.PLAYER_COLLIDER_TYPE, GlobalVars.VISION_ORB_UNLOCK_COLLIDER, unlockVisionOrb );
+
+            addToDictionary( GlobalVars.BOUNCE_POSTGROUND_COLLIDER_TYPE, GlobalVars.BASIC_SOLID_COLLIDER_TYPE, doNothingCollision );
+            addToDictionary( GlobalVars.SPEEDY_POSTGROUND_COLLIDER_TYPE, GlobalVars.BASIC_SOLID_COLLIDER_TYPE, doNothingCollision );
 
             addToDictionary( GlobalVars.BULLET_COLLIDER_TYPE, GlobalVars.PLAYER_COLLIDER_TYPE, doNothingCollision );
             addToDictionary( GlobalVars.BULLET_COLLIDER_TYPE, GlobalVars.SIMPLE_ENEMY_COLLIDER_TYPE, DestroyBothCollision );
@@ -98,9 +100,12 @@ namespace RunningGame {
             addToDictionary( GlobalVars.BOUNCE_PREGROUND_COLLIDER_TYPE, GlobalVars.BOUNCE_PREGROUND_COLLIDER_TYPE, doNothingCollision );
             addToDictionary( GlobalVars.BOUNCE_PREGROUND_COLLIDER_TYPE, GlobalVars.BOUNCE_POSTGROUND_COLLIDER_TYPE, removeBounceCollision );
             addToDictionary( GlobalVars.BOUNCE_PREGROUND_COLLIDER_TYPE, GlobalVars.SPAWN_BLOCK_COLLIDER_TYPE, doNothingCollision);
+            addToDictionary( GlobalVars.BOUNCE_PREGROUND_COLLIDER_TYPE, GlobalVars.SMUSH_BLOCK_COLLIDER, doNothingCollision );
 
             addToDictionary( GlobalVars.SIMPLE_ENEMY_COLLIDER_TYPE, GlobalVars.PLAYER_COLLIDER_TYPE, damageHealthCollision );
             addToDictionary( GlobalVars.SIMPLE_ENEMY_COLLIDER_TYPE, GlobalVars.SPAWN_BLOCK_COLLIDER_TYPE, spawnEnemyCollision );
+            addToDictionary( GlobalVars.SIMPLE_ENEMY_COLLIDER_TYPE, GlobalVars.BOUNCE_POSTGROUND_COLLIDER_TYPE, bounceCollision );
+            addToDictionary( GlobalVars.SIMPLE_ENEMY_COLLIDER_TYPE, GlobalVars.SPEEDY_POSTGROUND_COLLIDER_TYPE, speedyOtherCollision );
 
             //addToDictionary( GlobalVars.MOVING_PLATFORM_COLLIDER_TYPE, GlobalVars.PLAYER_COLLIDER_TYPE, simpleStopCollision );
             addToDictionary( GlobalVars.MOVING_PLATFORM_COLLIDER_TYPE, GlobalVars.PLAYER_COLLIDER_TYPE, platformOtherCollision );
@@ -112,12 +117,15 @@ namespace RunningGame {
             addToDictionary( GlobalVars.SPEEDY_PREGROUND_COLLIDER_TYPE, GlobalVars.PLAYER_COLLIDER_TYPE, doNothingCollision );
             addToDictionary( GlobalVars.SPEEDY_PREGROUND_COLLIDER_TYPE, GlobalVars.SIMPLE_ENEMY_COLLIDER_TYPE, doNothingCollision );
             addToDictionary( GlobalVars.SPEEDY_PREGROUND_COLLIDER_TYPE, GlobalVars.SPAWN_BLOCK_COLLIDER_TYPE, doNothingCollision);
+            addToDictionary( GlobalVars.SPEEDY_PREGROUND_COLLIDER_TYPE, GlobalVars.SMUSH_BLOCK_COLLIDER, doNothingCollision );
 
             addToDictionary( GlobalVars.SPAWN_BLOCK_COLLIDER_TYPE, GlobalVars.SPEEDY_POSTGROUND_COLLIDER_TYPE, speedyOtherCollision );
             addToDictionary( GlobalVars.SPAWN_BLOCK_COLLIDER_TYPE, GlobalVars.BOUNCE_POSTGROUND_COLLIDER_TYPE, bounceCollision );
             addToDictionary(GlobalVars.SPAWN_BLOCK_COLLIDER_TYPE, GlobalVars.SWITCH_COLLIDER_TYPE, switchFlipCollision);
             addToDictionary( GlobalVars.DESTROYING_SPAWN_BLOCK_COLLIDER_TYPE, GlobalVars.BASIC_SOLID_COLLIDER_TYPE, simpleStopCollision );
 
+            addToDictionary( GlobalVars.SMUSH_BLOCK_COLLIDER, GlobalVars.SPEEDY_POSTGROUND_COLLIDER_TYPE, doNothingCollision );
+            addToDictionary( GlobalVars.SMUSH_BLOCK_COLLIDER, GlobalVars.BOUNCE_POSTGROUND_COLLIDER_TYPE, doNothingCollision );
             addToDictionary( GlobalVars.MOVING_PLATFORM_COLLIDER_TYPE, GlobalVars.PLATFORM_TURN_COLLIDER_TYPE, simpleStopCollision );
         }
 
@@ -285,6 +293,8 @@ namespace RunningGame {
             float yLoc = splatPos.y + 1;
 
             level.removeEntity( splat );
+            
+            /*
             BasicGround ground = new BasicGround( level, GenerateRandId(), xLoc, yLoc, GlobalVars.MIN_TILE_SIZE, GlobalVars.MIN_TILE_SIZE );
 
             //If no ground above it, change to a grass sprite
@@ -294,7 +304,7 @@ namespace RunningGame {
             }
 
             level.addEntity( ground );
-
+            */
         }
 
         //This collision removes a PreGroundBounce entity and does nothing else
@@ -329,7 +339,7 @@ namespace RunningGame {
             PositionComponent theGround = ( PositionComponent )ground.getComponent( GlobalVars.POSITION_COMPONENT_NAME );
             System.Drawing.PointF loc = theGround.getLocAsPoint();
 
-            level.removeEntity( ground );
+            //level.removeEntity( ground );
             level.removeEntity( bounceB );
 
             Entity newBounceGround = new Bounce( level, GenerateRandId(), loc.X, loc.Y - 1 );
@@ -358,7 +368,7 @@ namespace RunningGame {
             PositionComponent ground = ( PositionComponent )theGround.getComponent( GlobalVars.POSITION_COMPONENT_NAME );
             System.Drawing.PointF loc = ground.getLocAsPoint();
 
-            level.removeEntity( theGround );
+            //level.removeEntity( theGround );
             level.removeEntity( speedy );
 
             Entity newSpeedy = new Speedy( level, GenerateRandId(), loc.X, loc.Y - 1 );
@@ -392,12 +402,15 @@ namespace RunningGame {
             if ( e2 is Speedy ) {
                 speedyBlock = e2;
                 other = e1;
-            } else if ( e2.hasComponent( GlobalVars.PLAYER_COMPONENT_NAME ) ) {
+            } else if ( e1 is Speedy ) {
                 speedyBlock = e1;
                 other = e2;
             }
 
-            if ( other == null || speedyBlock == null ) return false;
+            if ( other == null || speedyBlock == null ) {
+                Console.WriteLine( "Error - Speedy other collision with no speedy!" );
+                return false;
+            }
 
             //Do collision code here
             if ( !other.hasComponent( GlobalVars.VELOCITY_COMPONENT_NAME ) ) return false;
@@ -420,21 +433,35 @@ namespace RunningGame {
 
                 level.sysManager.spSystem.playerSpeedyEnabled = true;
                 other.removeComponent( GlobalVars.PLAYER_INPUT_COMPONENT_NAME );
-            } else if ( other is spawnBlockEntity ) {
+            } else {
                 if ( level.getPlayer() == null ) return true;
 
                 PositionComponent plPos = ( PositionComponent )level.getPlayer().getComponent( GlobalVars.POSITION_COMPONENT_NAME );
-                PositionComponent spPos = ( PositionComponent )other.getComponent( GlobalVars.POSITION_COMPONENT_NAME );
+                PositionComponent otherPos = ( PositionComponent )other.getComponent( GlobalVars.POSITION_COMPONENT_NAME );
                 VelocityComponent vel = ( VelocityComponent )other.getComponent( GlobalVars.VELOCITY_COMPONENT_NAME );
-                if ( spPos.x >= plPos.x ) {
-                    vel.x = GlobalVars.SPEEDY_SPEED;
+                if ( vel.x == 0 ) {
+                    if ( otherPos.x >= plPos.x ) {
+                        vel.x = GlobalVars.SPEEDY_SPEED;
+                    } else {
+                        vel.x = -GlobalVars.SPEEDY_SPEED;
+                    }
                 } else {
-                    vel.x = -GlobalVars.SPEEDY_SPEED;
+                    if ( vel.x >= 0 ) {
+                        vel.x = GlobalVars.SPEEDY_SPEED;
+                    } else {
+                        vel.x = -GlobalVars.SPEEDY_SPEED;
+                    }
                 }
 
-                SpawnBlockComponent spawnComp = ( SpawnBlockComponent )other.getComponent( GlobalVars.SPAWN_BLOCK_COMPONENT_NAME );
-                if ( spawnComp.state == 0 )
-                    spawnComp.state = 1;
+                if ( other.hasComponent(GlobalVars.SPAWN_BLOCK_COMPONENT_NAME) ) {
+                    SpawnBlockComponent spawnComp = ( SpawnBlockComponent )other.getComponent( GlobalVars.SPAWN_BLOCK_COMPONENT_NAME );
+                    if ( spawnComp.state == 0 )
+                        spawnComp.state = 1;
+                }
+                if ( other.hasComponent( GlobalVars.SIMPLE_ENEMY_COMPONENT_NAME ) ) {
+                    SimpleEnemyComponent simpEnComp = ( SimpleEnemyComponent )other.getComponent( GlobalVars.SIMPLE_ENEMY_COMPONENT_NAME );
+                    simpEnComp.checkCliff = false;
+                }
             }
 
             if ( level.sysManager.spSystem.speedyTimers.ContainsKey( other ) ) {
@@ -1076,6 +1103,34 @@ namespace RunningGame {
 
         }
 
+        public bool unlockVisionOrb( Entity e1, Entity e2 ) {
+
+            Entity[] sorted = getEntityWithComponent( GlobalVars.PLAYER_COMPONENT_NAME, e1, e2 );
+
+            VisionOrbSystem visOrbSys = level.sysManager.visSystem;
+            visOrbSys.orbUnlocked = true;
+
+            System.Drawing.Color col = System.Drawing.Color.WhiteSmoke; //Peru is a color.
+            string displayStr = "Vision Orb Unlocked!\nPress V to Use";
+            System.Drawing.Color textCol = col;
+            float fadeInTime = 0.2f;
+            float constTime = 3;
+            float fadeOutTime = 1.5f;
+            float flashTime = 0.5f;
+
+            if ( !level.timerMethods.ContainsKey( level.displayInstrText ) ) {
+                level.sysManager.drawSystem.textShadow = true;
+                level.setInstrText( displayStr, textCol, fadeInTime, constTime, fadeOutTime );
+                level.timerMethods.Add( level.displayInstrText, flashTime / 2 );
+            }
+
+            level.sysManager.drawSystem.setFlash( col, flashTime );
+
+
+            level.removeEntity( sorted[1] );
+
+            return false;
+        }
 
         public bool smushCollision( Entity e1, Entity e2 ) {
             Entity[] sortedEnts = getEntityWithComponent( GlobalVars.SMUSH_COMPONENT_NAME, e1, e2 );
@@ -1189,17 +1244,6 @@ namespace RunningGame {
             return id;
         }
 
-        public bool unlockVisionOrb( Entity e1, Entity e2 ) {
-
-            Entity[] sorted = getEntityWithComponent( GlobalVars.PLAYER_COMPONENT_NAME, e1, e2 );
-
-            VisionOrbSystem visOrbSys = level.sysManager.visSystem;
-            visOrbSys.orbUnlocked = true;
-
-            level.removeEntity( sorted[1] );
-
-            return false;
-        }
 
     }
 }

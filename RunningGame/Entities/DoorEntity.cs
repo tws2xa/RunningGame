@@ -76,6 +76,9 @@ namespace RunningGame.Entities {
         //Here's where you add all the components the entity has.
         //You can just uncomment the ones you want.
         public void addMyComponents( float x, float y, int switchId ) {
+
+            this.resetOnCheckpoint = false;
+
             /*POSITION COMPONENT - Does it have a position?
              */
             addComponent( new PositionComponent( x, y, defaultWidth, defaultHeight, this ), true );

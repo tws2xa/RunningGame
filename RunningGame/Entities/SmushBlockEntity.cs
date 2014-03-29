@@ -97,7 +97,7 @@ namespace RunningGame.Entities {
 
             /*SMUSH - It's a smusher!
              */
-            SmushComponent smushComp = ( SmushComponent )addComponent( new SmushComponent( 2.0f ) );
+            SmushComponent smushComp = ( SmushComponent )addComponent( new SmushComponent( 0.0f ) );
 
             if ( dirComp.isUp() ) {
                 smushComp.setToUp();
