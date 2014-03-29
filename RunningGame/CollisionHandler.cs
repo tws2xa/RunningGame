@@ -66,7 +66,6 @@ namespace RunningGame {
             defaultCollisions.Add( GlobalVars.DESTROYING_SPAWN_BLOCK_COLLIDER_TYPE, doNothingCollision );
             defaultCollisions.Add( GlobalVars.VISION_ORB_UNLOCK_COLLIDER, simpleStopCollision );
 
-
             //Add non-default collisions to dictionary
             //Format: addToDictonary(Collider 1, Collider 2, name of function) Note - Order of colliders does not matter
             addToDictionary( GlobalVars.PLAYER_COLLIDER_TYPE, GlobalVars.SPEEDY_POSTGROUND_COLLIDER_TYPE, speedyOtherCollision );
@@ -79,6 +78,9 @@ namespace RunningGame {
             addToDictionary( GlobalVars.PLAYER_COLLIDER_TYPE, GlobalVars.SMUSH_BLOCK_COLLIDER, smushCollision );
             addToDictionary( GlobalVars.PLAYER_COLLIDER_TYPE, GlobalVars.CHECKPOINT_COLLIDER_TYPE, checkPointCollision );
             addToDictionary( GlobalVars.PLAYER_COLLIDER_TYPE, GlobalVars.VISION_ORB_UNLOCK_COLLIDER, unlockVisionOrb );
+
+            addToDictionary( GlobalVars.BOUNCE_POSTGROUND_COLLIDER_TYPE, GlobalVars.BASIC_SOLID_COLLIDER_TYPE, doNothingCollision );
+            addToDictionary( GlobalVars.SPEEDY_POSTGROUND_COLLIDER_TYPE, GlobalVars.BASIC_SOLID_COLLIDER_TYPE, doNothingCollision );
 
             addToDictionary( GlobalVars.BULLET_COLLIDER_TYPE, GlobalVars.PLAYER_COLLIDER_TYPE, doNothingCollision );
             addToDictionary( GlobalVars.BULLET_COLLIDER_TYPE, GlobalVars.SIMPLE_ENEMY_COLLIDER_TYPE, DestroyBothCollision );
@@ -122,8 +124,8 @@ namespace RunningGame {
             addToDictionary(GlobalVars.SPAWN_BLOCK_COLLIDER_TYPE, GlobalVars.SWITCH_COLLIDER_TYPE, switchFlipCollision);
             addToDictionary( GlobalVars.DESTROYING_SPAWN_BLOCK_COLLIDER_TYPE, GlobalVars.BASIC_SOLID_COLLIDER_TYPE, simpleStopCollision );
 
-            //addToDictionary( GlobalVars.SMUSH_BLOCK_COLLIDER, GlobalVars.SPEEDY_POSTGROUND_COLLIDER_TYPE, doNothingCollision );
-            //addToDictionary( GlobalVars.SMUSH_BLOCK_COLLIDER, GlobalVars.BOUNCE_POSTGROUND_COLLIDER_TYPE, doNothingCollision );
+            addToDictionary( GlobalVars.SMUSH_BLOCK_COLLIDER, GlobalVars.SPEEDY_POSTGROUND_COLLIDER_TYPE, doNothingCollision );
+            addToDictionary( GlobalVars.SMUSH_BLOCK_COLLIDER, GlobalVars.BOUNCE_POSTGROUND_COLLIDER_TYPE, doNothingCollision );
             addToDictionary( GlobalVars.MOVING_PLATFORM_COLLIDER_TYPE, GlobalVars.PLATFORM_TURN_COLLIDER_TYPE, simpleStopCollision );
         }
 
@@ -291,6 +293,8 @@ namespace RunningGame {
             float yLoc = splatPos.y + 1;
 
             level.removeEntity( splat );
+            
+            /*
             BasicGround ground = new BasicGround( level, GenerateRandId(), xLoc, yLoc, GlobalVars.MIN_TILE_SIZE, GlobalVars.MIN_TILE_SIZE );
 
             //If no ground above it, change to a grass sprite
@@ -300,7 +304,7 @@ namespace RunningGame {
             }
 
             level.addEntity( ground );
-
+            */
         }
 
         //This collision removes a PreGroundBounce entity and does nothing else
@@ -335,7 +339,7 @@ namespace RunningGame {
             PositionComponent theGround = ( PositionComponent )ground.getComponent( GlobalVars.POSITION_COMPONENT_NAME );
             System.Drawing.PointF loc = theGround.getLocAsPoint();
 
-            level.removeEntity( ground );
+            //level.removeEntity( ground );
             level.removeEntity( bounceB );
 
             Entity newBounceGround = new Bounce( level, GenerateRandId(), loc.X, loc.Y - 1 );
@@ -364,7 +368,7 @@ namespace RunningGame {
             PositionComponent ground = ( PositionComponent )theGround.getComponent( GlobalVars.POSITION_COMPONENT_NAME );
             System.Drawing.PointF loc = ground.getLocAsPoint();
 
-            level.removeEntity( theGround );
+            //level.removeEntity( theGround );
             level.removeEntity( speedy );
 
             Entity newSpeedy = new Speedy( level, GenerateRandId(), loc.X, loc.Y - 1 );
