@@ -503,6 +503,8 @@
     <EmbeddedResource Include="Resources\Artwork\Background\Bkg32.png" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Resources\Artwork\Foreground\WideDoorOpen11.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\WideDoorClosed11.png" />
     <EmbeddedResource Include="Resources\Levels\World2Level2anna.png" />
     <EmbeddedResource Include="Resources\Levels\World3Level3_new.png" />
     <EmbeddedResource Include="Resources\Artwork\Foreground\SpawnBlock\SpawnPoof1.png" />

@@ -24,7 +24,7 @@ namespace RunningGame {
         Color basicGroundCol = Color.FromArgb( 0, 0, 0 ); //Basic Ground is black.
         Color playerCol = Color.FromArgb( 0, 0, 255 ); //Player is blue.
         Color vertMovPlatCol = Color.FromArgb( 0, 255, 0 ); //Vertical Plafroms are green!
-        Color horizMovPlatCol = Color.FromArgb( 0, 255, 255 ); //Horizontal Plafroms are cyan!
+        //Color horizMovPlatCol = Color.FromArgb( 0, 255, 255 ); //Horizontal Plafroms are cyan!
         Color simpleEnemyColor = Color.FromArgb( 255, 0, 0 ); //Walking Enemies are red.
         Color flyingEnemyColor = Color.FromArgb( 255, 255, 0 ); //Flying enemies are yellow!
         Color checkPointCollider = Color.FromArgb( 255, 255, 255 ); //End level is white
@@ -44,7 +44,8 @@ namespace RunningGame {
         int switchReserveRed = 200; //Any color with R = 200 is a switch
         int permSwitchG = 255; //Permanent Switch - G = 255
         int presSwitchG = 0; //Pressure Switch - G = 0
-        int doorReserveGreen = 200; //Any color with G = 200 is a door
+        int tallDoorReserveGreen = 200; //Any color with G = 200 is a door
+        int wideDoorReserveGreen = 201;
         int smushRed = 77; //G Determines Switch // B Determines Dir
 
         int spikeRed = 255; //R
@@ -66,6 +67,12 @@ namespace RunningGame {
         //For one game in the level png file, what size is the corresponding in-game section
         float tileWidth = GlobalVars.LEVEL_READER_TILE_WIDTH;
         float tileHeight = GlobalVars.LEVEL_READER_TILE_HEIGHT;
+
+
+        float tallDoorWidth = 30;
+        float tallDoorHeight = 60;
+        float wideDoorWidth = 60;
+        float wideDoorHeight = 30;
 
         public LevelImageReader( Level level, Bitmap img ) {
 
@@ -149,9 +156,17 @@ namespace RunningGame {
                         adjustLocation( smush, level );
                         smush.isStartingEntity = true;
                         level.addEntity( smush );
-                    } else if ( col.G == doorReserveGreen ) {
-                    
-                        DoorEntity door = new DoorEntity( level, rand.Next( Int32.MinValue, Int32.MaxValue ), levelX * tileWidth, levelY * tileHeight );
+                    } else if ( col.G == tallDoorReserveGreen || col.G == wideDoorReserveGreen ) {
+
+                        float width = tallDoorWidth;
+                        float height = tallDoorHeight;
+
+                        if ( col.G == wideDoorReserveGreen ) {
+                            width = wideDoorWidth;
+                            height = wideDoorHeight;
+                        }
+
+                        DoorEntity door = new DoorEntity( level, rand.Next( Int32.MinValue, Int32.MaxValue ), levelX * tileWidth, levelY * tileHeight, width, height);
                         adjustLocation( door, level );
                         SwitchListenerComponent slComp = ( SwitchListenerComponent )door.getComponent( GlobalVars.SWITCH_LISTENER_COMPONENT_NAME );
                         door.isStartingEntity = true;
@@ -267,7 +282,7 @@ namespace RunningGame {
                         plat.isStartingEntity = true;
                         level.addEntity( plat );
 
-                    } else if ( col == horizMovPlatCol ) {
+                    } /*else if ( col == horizMovPlatCol ) {
 
                         float xLoc = ( levelX ) * tileWidth;
                         float yLoc = ( levelY ) * tileHeight;
@@ -283,7 +298,7 @@ namespace RunningGame {
                         velComp.y = 0;
                         level.addEntity( plat );
 
-                    } else if ( col == bouncePickup ) {
+                    }*/ else if ( col == bouncePickup ) {
 
                         float xLoc = ( levelX ) * tileWidth;
                         float yLoc = ( levelY ) * tileHeight;
