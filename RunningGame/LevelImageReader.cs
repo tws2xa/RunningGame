@@ -42,6 +42,7 @@ namespace RunningGame {
         //Link doors with switches by giving them the same B
         //Timed Switch - G = Time in deci-seconds... i.e. 100 -> 10 seconds. 015 = 1.5 seconds.
         int switchReserveRed = 200; //Any color with R = 200 is a switch
+        int spikeSwitchReserveRed = 201;
         int permSwitchG = 255; //Permanent Switch - G = 255
         int presSwitchG = 0; //Pressure Switch - G = 0
         int tallDoorReserveGreen = 200; //Any color with G = 200 is a door
@@ -116,6 +117,19 @@ namespace RunningGame {
                             TimedSwitchComponent timeComp = ( TimedSwitchComponent )s.getComponent( GlobalVars.TIMED_SWITCH_COMPONENT_NAME );
                             timeComp.baseTime = col.G / 10;
                         }
+                        s.isStartingEntity = true;
+                        adjustLocation( s, level );
+                        switches.Add( col.B, s );
+                        level.addEntity( s.randId, s );
+
+                    } else if ( col.R == spikeSwitchReserveRed ) {
+
+                        float time = -1;
+                        if ( col.G < 255 ) {
+                            time = col.G / 10;
+                        }
+                        Entity s = new SpikeSwitchEntity( level, rand.Next( Int32.MinValue, Int32.MaxValue ), levelX * tileWidth, levelY * tileHeight, time );
+
                         s.isStartingEntity = true;
                         adjustLocation( s, level );
                         switches.Add( col.B, s );

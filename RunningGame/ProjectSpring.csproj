@@ -110,6 +110,7 @@
     <Compile Include="Entities\BasicGround.cs" />
     <Compile Include="Entities\Bounce.cs" />
     <Compile Include="Entities\CheckPointEntity.cs" />
+    <Compile Include="Entities\SpikeSwitchEntity.cs" />
     <Compile Include="Entities\PlatformTurnEntity.cs" />
     <Compile Include="Entities\PreGroundBounce.cs" />
     <Compile Include="Entities\PreGroundSpeedy.cs" />
@@ -503,6 +504,7 @@
     <EmbeddedResource Include="Resources\Artwork\Background\Bkg32.png" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Resources\Artwork\Other\DebugSquare2.png" />
     <EmbeddedResource Include="Resources\Artwork\Foreground\WideDoorOpen11.png" />
     <EmbeddedResource Include="Resources\Artwork\Foreground\WideDoorClosed11.png" />
     <EmbeddedResource Include="Resources\Levels\World2Level2anna.png" />
