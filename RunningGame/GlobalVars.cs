@@ -135,6 +135,7 @@ namespace RunningGame {
 
         //Switch Events
         public static string DOOR_EVENT_TYPE = "doorEvent";
+        public static string DEFAULT_OPEN_DOOR_EVENT_TYPE = "defOpenDoorEvent";
         public static string TIMED_SHOOTER_SWITCH_EVENT = "tsEvent";
         public static string SMUSH_SWITCH_EVENT = "smushEvent";
 

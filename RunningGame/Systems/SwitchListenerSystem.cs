@@ -26,6 +26,7 @@ namespace RunningGame.Systems {
             events.Add( GlobalVars.DOOR_EVENT_TYPE, doorSwitch );
             events.Add( GlobalVars.TIMED_SHOOTER_SWITCH_EVENT, timedShooterSwitch );
             events.Add( GlobalVars.SMUSH_SWITCH_EVENT, smushSwitch );
+            events.Add( GlobalVars.DEFAULT_OPEN_DOOR_EVENT_TYPE, defaultOpenDoorSwitch );
 
             this.level = level; //Always have this
 
@@ -55,8 +56,12 @@ namespace RunningGame.Systems {
         }
         //--------------------------------------------------------------------------------------------------
 
+        public bool defaultOpenDoorSwitch( Entity e, bool active ) {
+            return doorSwitch( e, !active );
+        }
+
         public bool doorSwitch( Entity e, bool active ) {
-            //Opened
+            //Active
             if ( active ) {
                 if ( e.hasComponent( GlobalVars.COLLIDER_COMPONENT_NAME ) ) {
                     e.removeComponent( GlobalVars.COLLIDER_COMPONENT_NAME );
@@ -65,7 +70,7 @@ namespace RunningGame.Systems {
                 DrawComponent drawComp = ( DrawComponent )e.getComponent( GlobalVars.DRAW_COMPONENT_NAME );
                 drawComp.setSprite( GlobalVars.DOOR_OPEN_SPRITE_NAME );
             }
-                //Closed
+            //Closed
             else {
                 //Check for the player within the door.
                 PositionComponent posComp = (PositionComponent)e.getComponent(GlobalVars.POSITION_COMPONENT_NAME);

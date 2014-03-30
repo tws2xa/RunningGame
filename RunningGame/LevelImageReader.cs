@@ -46,6 +46,8 @@ namespace RunningGame {
         int presSwitchG = 0; //Pressure Switch - G = 0
         int tallDoorReserveGreen = 200; //Any color with G = 200 is a door
         int wideDoorReserveGreen = 201;
+        int openTallDoorReserveGreen = 202;
+        int openWideDoorReserveGreen = 203;
         int smushRed = 77; //G Determines Switch // B Determines Dir
 
         int spikeRed = 255; //R
@@ -156,7 +158,7 @@ namespace RunningGame {
                         adjustLocation( smush, level );
                         smush.isStartingEntity = true;
                         level.addEntity( smush );
-                    } else if ( col.G == tallDoorReserveGreen || col.G == wideDoorReserveGreen ) {
+                    } else if ( col.G == tallDoorReserveGreen || col.G == wideDoorReserveGreen || col.G == openTallDoorReserveGreen || col.G == openWideDoorReserveGreen) {
 
                         float width = tallDoorWidth;
                         float height = tallDoorHeight;
@@ -166,7 +168,7 @@ namespace RunningGame {
                             height = wideDoorHeight;
                         }
 
-                        DoorEntity door = new DoorEntity( level, rand.Next( Int32.MinValue, Int32.MaxValue ), levelX * tileWidth, levelY * tileHeight, width, height);
+                        DoorEntity door = new DoorEntity( level, rand.Next( Int32.MinValue, Int32.MaxValue ), levelX * tileWidth, levelY * tileHeight, width, height, (col.G%100 == 0 || col.G%100 == 1));
                         adjustLocation( door, level );
                         SwitchListenerComponent slComp = ( SwitchListenerComponent )door.getComponent( GlobalVars.SWITCH_LISTENER_COMPONENT_NAME );
                         door.isStartingEntity = true;
