@@ -23,6 +23,7 @@
         /// the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent() {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormSpring));
             this.btnBegin = new System.Windows.Forms.Button();
             this.lblLoading = new System.Windows.Forms.Label();
             this.btnEdit = new System.Windows.Forms.Button();
@@ -524,7 +525,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.BackgroundImage = global::RunningGame.Properties.Resources.Title;
+            this.BackgroundImage = global::RunningGame.Properties.Resources.SpringStaticScreenRevised;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(640, 480);
             this.Controls.Add(this.lblEnd);
@@ -566,6 +567,7 @@
             this.Controls.Add(this.cntrlBkgBox);
             this.DoubleBuffered = true;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "FormSpring";
             this.Text = "Spring";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormRunningGame_FormClosing);

@@ -504,6 +504,8 @@
     <EmbeddedResource Include="Resources\Artwork\Background\Bkg32.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\Artwork\Other\SpringStaticScreenRevised.png" />
+    <None Include="Resources\Artwork\Other\StartupScreen1.png" />
     <EmbeddedResource Include="Resources\Artwork\Other\DebugSquare2.png" />
     <EmbeddedResource Include="Resources\Artwork\Foreground\WideDoorOpen11.png" />
     <EmbeddedResource Include="Resources\Artwork\Foreground\WideDoorClosed11.png" />

@@ -187,6 +187,15 @@ namespace RunningGame {
                 Console.WriteLine( theta * 360 / (Math.PI * 2) );
             }
 
+            bool printStuff = false;
+            if ( theta != 0 && theta != Math.PI / 2 && theta != Math.PI && theta != Math.PI * 3 / 2 && theta != 2 * Math.PI ) {
+                printStuff = false;
+            }
+
+            if ( printStuff ) {
+                Console.WriteLine( "Theta: " + theta * 360 / ( Math.PI * 2 ) );
+            }
+
             float checkX = x1;
             float checkY = y1;
 
@@ -195,12 +204,25 @@ namespace RunningGame {
             double dist = getDist( new PointF( checkX, checkY ), new PointF( x2, y2 ) );
 
             while ( !hasChanged ) {
+                if ( printStuff ) {
+                    Console.Write( "\t(" + checkX + ", " + checkY + ") -> " );
+                }
                 retList = mergeArrayLists( retList, findObjectsAtPoint( checkX, checkY ) );
                 checkX += skipNum * ( float )Math.Cos( theta );
                 checkY += skipNum * ( float )Math.Sin( theta );
+                if ( printStuff ) {
+                    Console.WriteLine( "(" + checkX + ", " + checkY + ")" );
+                }
                 double oldDist = dist;
                 dist = getDist( new PointF( checkX, checkY ), new PointF( x2, y2 ) );
                 if ( oldDist < dist ) hasChanged = true; //If it's gotten longer, not shorter - stop.
+
+                if ( hasChanged && printStuff ) {
+                    Console.WriteLine( "\tDist to: (" + x2 + ", " + y2 + ")" );
+                    Console.WriteLine( "\tOld: " + oldDist );
+                    Console.WriteLine( "\tNew: " + dist );
+                    Console.WriteLine( "\tAll done checking" );
+                }
             }
 
             return retList;

@@ -88,6 +88,7 @@ namespace RunningGame {
             addToDictionary( GlobalVars.BULLET_COLLIDER_TYPE, GlobalVars.SIMPLE_ENEMY_COLLIDER_TYPE, DestroyBothCollision );
             addToDictionary( GlobalVars.BULLET_COLLIDER_TYPE, GlobalVars.SWITCH_COLLIDER_TYPE, switchFlipCollision );
             addToDictionary( GlobalVars.BULLET_COLLIDER_TYPE, GlobalVars.SMUSH_BLOCK_COLLIDER, destroyBulletCollision );
+            addToDictionary( GlobalVars.BULLET_COLLIDER_TYPE, GlobalVars.MOVING_PLATFORM_COLLIDER_TYPE, destroyBulletCollision );
 
             addToDictionary( GlobalVars.SHOOTER_BULLET_COLLIDER_TYPE, GlobalVars.BASIC_SOLID_COLLIDER_TYPE, destroyBulletCollision );
             addToDictionary( GlobalVars.SHOOTER_BULLET_COLLIDER_TYPE, GlobalVars.PLAYER_COLLIDER_TYPE, shooterBulletPlayerCollision);
@@ -165,16 +166,14 @@ namespace RunningGame {
                 if ( defaultCollisions.ContainsKey( col1.colliderType ) && defaultCollisions[col1.colliderType] == doNothingCollision ) {
                     return false;
                 }
-                if ( defaultCollisions.ContainsKey( col2.colliderType ) && defaultCollisions.ContainsKey( col2.colliderType ) ) {
-                    if ( defaultCollisions[col2.colliderType] == doNothingCollision )
-                        return false;
+                if ( defaultCollisions.ContainsKey( col2.colliderType ) && defaultCollisions[col2.colliderType] == doNothingCollision ) {
+                     return false;
                 }
 
                 bool stop1 = false;
                 bool stop2 = false;
                 if ( defaultCollisions.ContainsKey( col1.colliderType ) ) {
                     stop1 = defaultCollisions[col1.colliderType]( e1, e2 );
-
                 }
                 if ( defaultCollisions.ContainsKey( col2.colliderType ) ) {
                     stop2 = defaultCollisions[col2.colliderType]( e1, e2 );
