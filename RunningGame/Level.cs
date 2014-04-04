@@ -80,6 +80,8 @@ namespace RunningGame {
         public int visionOrbUnlockWorldNum = 1;
         public int visionOrbUnlockLevelNum = 2;
 
+        public Entity curGrap = null;
+
         public Level() { }
 
         public Level( Game myGame, float windowWidth, float windowHeight, string levelFile, int worldNum, int levelNum, bool isPaintFile, Graphics g, Font displayFont ) {
@@ -504,6 +506,9 @@ namespace RunningGame {
             if ( e == null ) {
                 Console.WriteLine( "You tryin' ta remove a null entity? Whachu doin' dat fo'?" );
                 return false;
+            }
+            if ( e == curGrap ) {
+                curGrap = null;
             }
             //If the entity has a collider - notify the collision system of the change and remove it from locGrid
             if ( e.hasComponent( GlobalVars.COLLIDER_COMPONENT_NAME ) ) {

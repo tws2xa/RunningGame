@@ -368,6 +368,9 @@ namespace RunningGame.Systems {
 
                 stopPlayer = false;
             }
+            if ( level.curGrap == grapple ) {
+                level.curGrap = null;
+            }
             level.removeEntity( grapple );
             return;
         }
