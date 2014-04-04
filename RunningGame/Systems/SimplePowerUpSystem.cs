@@ -429,6 +429,10 @@ namespace RunningGame.Systems {
 
             grapComp.state = 2;
 
+            if ( level.getPlayer() != null && !level.getPlayer().hasComponent(GlobalVars.GRAVITY_COMPONENT_NAME)) {
+                level.getPlayer().addComponent( new GravityComponent( 0, GlobalVars.STANDARD_GRAVITY ) );
+            }
+
         }
 
         public void glide() {
