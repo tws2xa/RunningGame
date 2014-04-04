@@ -446,6 +446,9 @@ namespace RunningGame
 
             btnWorld6.Visible = show;
             btnWorld6.Enabled = show;
+
+            btnWorldReturn.Visible = show;
+            btnWorldReturn.Enabled = show;
         }
 
 
@@ -789,6 +792,11 @@ namespace RunningGame
 
         private void btnSetEnd_KeyDown(object sender, KeyEventArgs e) {
             handleKeyChangeEnd( e, btnSetEnd, GlobalVars.END_INT);
+        }
+
+        private void btnWorldReturn_Click(object sender, EventArgs e)
+        {
+
         }
 
 
