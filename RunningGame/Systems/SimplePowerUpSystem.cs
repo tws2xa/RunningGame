@@ -124,7 +124,6 @@ namespace RunningGame.Systems {
                     }
                     glideActive = false;
                     glideTimer = glideDuration;
-
                 }
 
             }
@@ -405,6 +404,7 @@ namespace RunningGame.Systems {
             }
 
             //Add the entity
+            //Console.WriteLine( "Grapple Direction: " + dir );
             GrappleEntity grap = new GrappleEntity( level, new Random().Next(), playerPos.x, playerPos.y, dir );
             level.addEntity( grap );
             level.curGrap = grap;

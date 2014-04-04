@@ -78,8 +78,8 @@ namespace RunningGame.Systems {
                         grapComp.setFirstPoint( playerPos.getLocAsPoint() );
 
                         //Check to see if it's intersecting anything now
-                        Entity mrIntersection = null;
-                        if ( checkForStopsBetweenPoints( grapComp.getFirstPoint(), grapComp.getLastPoint(), grapComp, ref mrIntersection ) ) {
+                        Entity mrIntersection = checkForStopsBetweenPoints(grapComp.getFirstPoint(), grapComp.getLastPoint(), grapComp);
+                        if ( mrIntersection != null ) {
                             //If it DID intersect something, destroy the grapple.
                             //finishGrapple(e, false);
 
@@ -126,8 +126,12 @@ namespace RunningGame.Systems {
 
                     //Check if it's done grappling
                     //colEnt is the entity which the grapple latches onto
-                    Entity colEnt = null;
-                    if ( checkForStopsBetweenPoints( grapComp.getLastPoint(), p1, grapComp, ref colEnt ) ) {
+                    
+                    
+                    Entity colEnt = checkForStopsBetweenPoints( grapComp.getLastPoint(), p1, grapComp);
+                    
+
+                    if (  colEnt != null ) {
                         PositionComponent pos = ( PositionComponent )colEnt.getComponent( GlobalVars.POSITION_COMPONENT_NAME );
                         PointF setPos = getGrappleAttachPoint( colEnt, grapComp );
                         //grapComp.setEndPoint( pos.getLocAsPoint() );
@@ -295,32 +299,40 @@ namespace RunningGame.Systems {
             return false;
         }*/
 
-        public bool checkForStopsBetweenPoints( PointF p1, PointF p2, GrappleComponent grap, ref Entity ent ) {
+        public Entity checkForStopsBetweenPoints( PointF p1, PointF p2, GrappleComponent grap ) {
 
             List<Entity> cols = level.getCollisionSystem().findObjectsBetweenPoints( p1.X, p1.Y, p2.X, p2.Y );
             
             double minDist = Double.MaxValue;
             Entity minEnt = null;
 
+            if ( cols.Contains( level.getPlayer() ) ) {
+                cols.Remove( level.getPlayer() );
+            }
+
             if ( cols.Count > 0 ) {
+
+                //Console.WriteLine( "Between " + p1 + " and " + p2 );
+
                 foreach ( Entity e in cols ) {
                     ColliderComponent col = ( ColliderComponent )e.getComponent( GlobalVars.COLLIDER_COMPONENT_NAME );
                     if ( grappleColliders.Contains( col.colliderType ) ) {
                         PositionComponent entPos = ( PositionComponent )e.getComponent( GlobalVars.POSITION_COMPONENT_NAME );
                         double dist = getDist( grap.getLastPoint(), col.getLocationAsPoint( entPos ) );
+                        //Console.Write( dist );
                         if ( dist < minDist ) {
                             minEnt = e;
                             minDist = dist;
+                            //Console.Write( "! " );
+                        } else {
+                            //Console.Write( " " );
                         }
                     }
                 }
+                //Console.WriteLine( "Min: " + minDist );
             }
 
-            if ( minEnt != null ) {
-                ent = minEnt;
-                return true;
-            }
-            return false;
+            return minEnt;
         }
 
         public bool checkForStopsBetweenPointsExclude( PointF p1, PointF p2, Entity exclude ) {
