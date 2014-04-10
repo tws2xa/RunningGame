@@ -552,7 +552,9 @@ namespace RunningGame {
 
             string fullImageAddress = "RunningGame.Resources.Artwork.Background.Bkg11.png";
             string imageStub = "Artwork.Background.Bkg";
-            string preColorImageStub = "Artwork.Background.BkgPreColor";
+            //string preColorImageStub = "Artwork.Background.BkgPreColor";
+            //string fullImageAddress = "RunningGame.Resources.Artwork.Background.back21.png";
+            //string imageStub = "Artwork.Background.back";
 
 
             Bitmap tempImg = getBkgImg();
