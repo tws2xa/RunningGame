@@ -15,13 +15,16 @@ namespace RunningGame.Components {
         public bool hasLandedOnce { get; set; }
         public bool hasRunOnce { get; set; }
         public bool movingLeft = false;
+        public bool hasShield = false;
+        public Dictionary<Entity, float> bouncedBullets = new Dictionary<Entity, float>();
 
-        public SimpleEnemyComponent( float mySpeed, bool checkCliff ) {
+        public SimpleEnemyComponent( float mySpeed, bool checkCliff, bool shield ) {
             this.componentName = GlobalVars.SIMPLE_ENEMY_COMPONENT_NAME;
             this.mySpeed = mySpeed;
             wasStoppedLastFrame = false;
             hasLandedOnce = false;
             hasRunOnce = false;
+            hasShield = shield;
             this.checkCliff = checkCliff;
             checkCliffOrig = checkCliff;
         }

@@ -18,26 +18,26 @@ namespace RunningGame.Entities {
 
         //-------------------------------------------Constructors--------------------------------------------
 
-        public FlyingEnemyEntity( Level level, float x, float y ) {
+        public FlyingEnemyEntity( Level level, float x, float y, bool shield ) {
             this.level = level;
             this.depth = 3;
             initializeEntity( new Random().Next( Int32.MinValue, Int32.MaxValue ), level );
 
-            addMyComponents( x, y );
+            addMyComponents( x, y, shield );
         }
-        public FlyingEnemyEntity( Level level, int id, float x, float y ) {
+        public FlyingEnemyEntity( Level level, int id, float x, float y, bool shield ) {
             this.level = level;
 
             initializeEntity( id, level );
 
-            addMyComponents( x, y );
+            addMyComponents( x, y, shield );
         }
 
         //------------------------------------------------------------------------------------------------------------------
 
         //Here's where you add all the components the entity has.
         //You can just uncomment the ones you want.
-        public void addMyComponents( float x, float y ) {
+        public void addMyComponents( float x, float y, bool shield ) {
 
             this.updateOutOfView = true;
 
@@ -90,7 +90,7 @@ namespace RunningGame.Entities {
 
             /*SIMPLE ENEMY COMPONENT
              */
-            SimpleEnemyComponent simpEnemyComp = ( SimpleEnemyComponent )addComponent( new SimpleEnemyComponent( GlobalVars.SIMPLE_ENEMY_H_SPEED + new Random().Next( -10, 10 ), false ), true );
+            SimpleEnemyComponent simpEnemyComp = ( SimpleEnemyComponent )addComponent( new SimpleEnemyComponent( GlobalVars.SIMPLE_ENEMY_H_SPEED + new Random().Next( -10, 10 ), false, shield ), true );
             simpEnemyComp.hasLandedOnce = true;
 
             addComponent( new ScreenEdgeComponent( 1, 1, 1, 1 ) );
