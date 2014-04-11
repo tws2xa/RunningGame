@@ -85,7 +85,7 @@ namespace RunningGame {
             addToDictionary( GlobalVars.SPEEDY_POSTGROUND_COLLIDER_TYPE, GlobalVars.BASIC_SOLID_COLLIDER_TYPE, doNothingCollision );
 
             addToDictionary( GlobalVars.BULLET_COLLIDER_TYPE, GlobalVars.PLAYER_COLLIDER_TYPE, doNothingCollision );
-            addToDictionary( GlobalVars.BULLET_COLLIDER_TYPE, GlobalVars.SIMPLE_ENEMY_COLLIDER_TYPE, DestroyBothCollision );
+            addToDictionary( GlobalVars.BULLET_COLLIDER_TYPE, GlobalVars.SIMPLE_ENEMY_COLLIDER_TYPE, enemyBulletCollision);
             addToDictionary( GlobalVars.BULLET_COLLIDER_TYPE, GlobalVars.SWITCH_COLLIDER_TYPE, switchFlipCollision );
             addToDictionary( GlobalVars.BULLET_COLLIDER_TYPE, GlobalVars.SMUSH_BLOCK_COLLIDER, destroyBulletCollision );
             addToDictionary( GlobalVars.BULLET_COLLIDER_TYPE, GlobalVars.MOVING_PLATFORM_COLLIDER_TYPE, destroyBulletCollision );
@@ -1239,6 +1239,26 @@ namespace RunningGame {
             healthComp.kill();
 
             return false;
+
+        }
+
+        public bool enemyBulletCollision( Entity e1, Entity e2 ) {
+
+            Entity[] ents = getEntityWithComponent( GlobalVars.SIMPLE_ENEMY_COMPONENT_NAME, e1, e2 );
+            Entity enemy = ents[0];
+            Entity bullet = ents[1];
+
+            SimpleEnemyComponent simpEnemyComp = ( SimpleEnemyComponent )enemy.getComponent( GlobalVars.SIMPLE_ENEMY_COMPONENT_NAME );
+            if ( !simpEnemyComp.hasShield ) {
+                return DestroyBothCollision( e1, e2 );
+            } else {
+                if ( !simpEnemyComp.bouncedBullets.ContainsKey( bullet ) ) {
+                    VelocityComponent bulletVel = ( VelocityComponent )bullet.getComponent( GlobalVars.VELOCITY_COMPONENT_NAME );
+                    bulletVel.setVelocity( -1 * bulletVel.x, -1 * bulletVel.y );
+                    simpEnemyComp.bouncedBullets.Add( bullet, GlobalVars.enemyShieldTime );
+                }
+                return false;
+            }
 
         }
 
