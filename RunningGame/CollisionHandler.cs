@@ -131,6 +131,7 @@ namespace RunningGame {
 
             addToDictionary( GlobalVars.SMUSH_BLOCK_COLLIDER, GlobalVars.SPEEDY_POSTGROUND_COLLIDER_TYPE, doNothingCollision );
             addToDictionary( GlobalVars.SMUSH_BLOCK_COLLIDER, GlobalVars.BOUNCE_POSTGROUND_COLLIDER_TYPE, doNothingCollision );
+            addToDictionary( GlobalVars.SMUSH_BLOCK_COLLIDER, GlobalVars.SIMPLE_ENEMY_COLLIDER_TYPE, smushCollision );
             addToDictionary( GlobalVars.MOVING_PLATFORM_COLLIDER_TYPE, GlobalVars.PLATFORM_TURN_COLLIDER_TYPE, simpleStopCollision );
         }
 
@@ -1223,6 +1224,22 @@ namespace RunningGame {
             }
 
             return false;
+        }
+
+
+        public bool killEnemyCollision( Entity e1, Entity e2 ) {
+            Entity enemyEnt = getEntityWithComponent( GlobalVars.SIMPLE_ENEMY_COMPONENT_NAME, e1, e2 )[0];
+
+            HealthComponent healthComp = (HealthComponent)enemyEnt.getComponent( GlobalVars.HEALTH_COMPONENT_NAME );
+            if ( healthComp == null ) {
+                Console.WriteLine( "Oh no! Trying to kill an enemy with no health component!" );
+                return true;
+            }
+
+            healthComp.kill();
+
+            return false;
+
         }
 
         //Returns an entity list, index 0 has the component, index 1 is the other.
