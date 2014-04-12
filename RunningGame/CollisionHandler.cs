@@ -792,8 +792,8 @@ namespace RunningGame {
             return true;
         }
 
-        public bool isWithinRange( float test, float left, float right ) {
-            return ( left < test && right > test );
+        public bool isWithinRange( float test, float leftUp, float rightDown ) {
+            return ( leftUp < test && rightDown > test );
         }
 
         public bool powerupPickupPlayerCollision( Entity e1, Entity e2 ) {
@@ -1254,7 +1254,56 @@ namespace RunningGame {
             } else {
                 if ( !simpEnemyComp.bouncedBullets.ContainsKey( bullet ) ) {
                     VelocityComponent bulletVel = ( VelocityComponent )bullet.getComponent( GlobalVars.VELOCITY_COMPONENT_NAME );
-                    bulletVel.setVelocity( -1 * bulletVel.x, -1 * bulletVel.y );
+                    
+                    PositionComponent enemyPos = ( PositionComponent )enemy.getComponent( GlobalVars.POSITION_COMPONENT_NAME );
+                    PositionComponent bulletPos = ( PositionComponent )bullet.getComponent( GlobalVars.POSITION_COMPONENT_NAME );
+                    ColliderComponent enemyCol = (ColliderComponent)enemy.getComponent(GlobalVars.COLLIDER_COMPONENT_NAME);
+                    ColliderComponent bulletCol = (ColliderComponent)bullet.getComponent(GlobalVars.COLLIDER_COMPONENT_NAME);
+
+                    float velX = bulletVel.x;
+                    float velY = bulletVel.y;
+
+                    float overlapBuffer = 3;
+
+                    PointF bulletLoc = bulletCol.getLocationAsPoint( bulletPos );
+                    PointF enemyLoc = enemyCol.getLocationAsPoint( enemyPos );
+                    PointF bulletSize = bulletCol.getSizeAsPoint();
+                    PointF enemySize = enemyCol.getSizeAsPoint();
+
+                    float bulletLower = bulletLoc.Y + bulletSize.Y / 2 - overlapBuffer;
+                    float bulletUpper = bulletLoc.Y - bulletSize.Y / 2 + overlapBuffer;
+                    float bulletRight = bulletLoc.X + bulletSize.X / 2 - overlapBuffer;
+                    float bulletLeft = bulletLoc.X - bulletSize.X / 2 + overlapBuffer;
+
+                    float enemyLower = enemyLoc.Y + enemySize.Y / 2 ;
+                    float enemyUpper = enemyLoc.Y - enemySize.Y / 2;
+                    float enemyRight = enemyLoc.X + enemySize.X / 2;
+                    float enemyLeft = enemyLoc.X - enemySize.X / 2;
+                    
+                    /*
+                    Console.WriteLine( "Y Range: (" + enemyUpper + ", " + enemyLower + ")" );
+                    Console.WriteLine( "\t" + bulletLower + " -- " + isWithinRange( bulletLower, enemyUpper, enemyLower ) );
+                    Console.WriteLine( "\t" + bulletUpper + " -- " + isWithinRange( bulletUpper, enemyUpper, enemyLower ) );
+                    Console.WriteLine( "\t" + bulletLoc.Y + " -- " + isWithinRange( bulletLoc.Y, enemyUpper, enemyLower ) );
+
+                    Console.WriteLine( "X Range: (" + enemyLeft + ", " + enemyRight + ")" );
+                    Console.WriteLine( "\t" + bulletLeft + " -- " + isWithinRange( bulletLeft, enemyLeft, enemyRight ) );
+                    Console.WriteLine( "\t" + bulletRight + " -- " + isWithinRange( bulletRight, enemyLeft, enemyRight ) );
+                    Console.WriteLine( "\t" + bulletLoc.X + " -- " + isWithinRange( bulletLoc.X , enemyLeft, enemyRight ) );
+                    */
+                    
+                    if ( isWithinRange( bulletUpper, enemyUpper, enemyLower )
+                        || isWithinRange(bulletLower, enemyUpper, enemyLower )
+                        || isWithinRange(bulletLoc.Y, enemyUpper, enemyLower)) {
+                        velX *= -1;
+                    }
+                    if ( isWithinRange( bulletLeft, enemyLeft, enemyRight )
+                        || isWithinRange(bulletRight, enemyLeft, enemyRight)
+                        || isWithinRange(bulletLoc.X, enemyLeft, enemyRight)) {
+                        velY *= -1;
+                    }
+
+                    bulletVel.setVelocity( velX, velY );
                     simpEnemyComp.bouncedBullets.Add( bullet, GlobalVars.enemyShieldTime );
                 }
                 return false;
