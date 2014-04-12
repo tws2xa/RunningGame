@@ -49,21 +49,32 @@ namespace RunningGame.Entities {
              */
             DrawComponent drawComp = ( DrawComponent )addComponent( new DrawComponent( defaultWidth, defaultHeight, level, true ), true );
 
-            List<string> enemyAnimation = new List<string>()
-            {
-                "Artwork.Creatures.FlyingEnemy1",
-                "Artwork.Creatures.FlyingEnemy2",
-                //"Artwork.Creatures.FlyingEnemy1",
-                //"Artwork.Creatures.FlyingEnemy3",
-            };
-            List<string> enemyAnimDefaults = new List<string>()
-            {
-                "RunningGame.Resources.Artwork.Creatures.FlyingEnemy111.png",
-                "RunningGame.Resources.Artwork.Creatures.FlyingEnemy211.png",
-                //"RunningGame.Resources.Artwork.Creatures.FlyingEnemy111.png",
-                //"RunningGame.Resources.Artwork.Creatures.FlyingEnemy311.png"
-            };
+            List<string> enemyAnimation;
+            List<string> enemyAnimDefaults;
 
+            if ( !shield ) {
+                enemyAnimation = new List<string>()
+                {
+                    "Artwork.Creatures.FlyingEnemy1",
+                    "Artwork.Creatures.FlyingEnemy2",
+                };
+                enemyAnimDefaults = new List<string>()
+                {
+                    "RunningGame.Resources.Artwork.Creatures.FlyingEnemy111.png",
+                    "RunningGame.Resources.Artwork.Creatures.FlyingEnemy211.png",
+                };
+            } else {
+                enemyAnimation = new List<string>()
+                {
+                    "Artwork.Creatures.FlyingEnemyGlow1",
+                    "Artwork.Creatures.FlyingEnemyGlow2",
+                };
+                enemyAnimDefaults = new List<string>()
+                {
+                    "RunningGame.Resources.Artwork.Creatures.FlyingEnemyGlow111.png",
+                    "RunningGame.Resources.Artwork.Creatures.FlyingEnemyGlow211.png",
+                };
+            }
 
             drawComp.addAnimatedSprite( enemyAnimation, enemyAnimDefaults, leftImageName );
             drawComp.setSprite( leftImageName );
