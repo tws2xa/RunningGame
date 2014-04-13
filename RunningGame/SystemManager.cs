@@ -65,6 +65,8 @@ namespace RunningGame {
             drawSystem = new DrawSystem( level.g, level ); systems.Add( drawSystem );
             healthSystem = new HealthSystem( level ); systems.Add( healthSystem );
             animSystem = new AnimationSystem( level ); systems.Add( animSystem );
+            timerSystem = new TimerSystem( level ); systems.Add( timerSystem );
+            timedShooterSystem = new TimedShooterSystem( level ); systems.Add( timedShooterSystem );
             squishSystem = new SquishSystem( level ); systems.Add( squishSystem );
             inputSystem = new InputSystem( level ); systems.Add( inputSystem );
             scrEdgeSystem = new ScreenEdgeSystem( level ); systems.Add( scrEdgeSystem );
@@ -78,8 +80,6 @@ namespace RunningGame {
             movPlatSystem = new MovingPlatformSystem( level ); systems.Add( movPlatSystem );
             grapSystem = new GrappleSystem( level ); systems.Add( grapSystem );
             pushSystem = new PushableSystem( level ); systems.Add( pushSystem );
-            timerSystem = new TimerSystem( level ); systems.Add( timerSystem );
-            timedShooterSystem = new TimedShooterSystem( level ); systems.Add( timedShooterSystem );
             velZeroSystem = new VelToZeroSystem( level ); systems.Add( velZeroSystem );
             smushSystem = new SmushSystem( level ); systems.Add( smushSystem );
 

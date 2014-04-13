@@ -71,6 +71,8 @@ namespace RunningGame.Systems {
             } else {
                 shooterComp.currentBurstNum = 0;
                 timeComp.addTimer( shooterComp.fireTimerString, shooterComp.timeBetweenBursts );
+                DrawComponent drawComp = ( DrawComponent )e.getComponent( GlobalVars.DRAW_COMPONENT_NAME );
+                drawComp.resetAnimation();
             }
         }
 

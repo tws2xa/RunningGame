@@ -57,24 +57,60 @@ namespace RunningGame.Entities {
             DrawComponent drawComp = (DrawComponent)addComponent(new DrawComponent(defaultWidth, defaultHeight, level, true), true);
             //Add image - Use base name for first parameter (everything in file path after Resources. and before the numbers and .png)
             //Then second parameter is full filepath to a default image
-            drawComp.addSprite("Artwork.Other.WhiteSquare", "RunningGame.Resources.Artwork.Other.WhiteSquare.png", "Main");
-            drawComp.setSprite("Main"); //Set image to active image
+            drawComp.addSprite("Artwork.Other.WhiteSquare", "RunningGame.Resources.Artwork.Other.WhiteSquare.png", "Bkp");
+
+            List<string> shooterAnimation = new List<string>() {
+                "Artwork.Foreground.Shooter.shooterp0",
+                "Artwork.Foreground.Shooter.shooterp1",
+                "Artwork.Foreground.Shooter.shooterp2",
+                "Artwork.Foreground.Shooter.shooterp3",
+                "Artwork.Foreground.Shooter.shooterp4",
+                "Artwork.Foreground.Shooter.shooterp5",
+                "Artwork.Foreground.Shooter.shooterp6",
+                "Artwork.Foreground.Shooter.shooterp7",
+                "Artwork.Foreground.Shooter.shooterp8",
+                "Artwork.Foreground.Shooter.shooterp9",
+                "Artwork.Foreground.Shooter.shooterp10",
+                "Artwork.Foreground.Shooter.shooterp11",
+                "Artwork.Foreground.Shooter.shooterp12"
+            };
+            List<string> shooterAnimDefaults = new List<string>() {
+                "RunningGame.Resources.Artwork.Foreground.Shooter.shooterp0.png",
+                "RunningGame.Resources.Artwork.Foreground.Shooter.shooterp1.png",
+                "RunningGame.Resources.Artwork.Foreground.Shooter.shooterp2.png",
+                "RunningGame.Resources.Artwork.Foreground.Shooter.shooterp3.png",
+                "RunningGame.Resources.Artwork.Foreground.Shooter.shooterp4.png",
+                "RunningGame.Resources.Artwork.Foreground.Shooter.shooterp5.png",
+                "RunningGame.Resources.Artwork.Foreground.Shooter.shooterp6.png",
+                "RunningGame.Resources.Artwork.Foreground.Shooter.shooterp7.png",
+                "RunningGame.Resources.Artwork.Foreground.Shooter.shooterp8.png",
+                "RunningGame.Resources.Artwork.Foreground.Shooter.shooterp9.png",
+                "RunningGame.Resources.Artwork.Foreground.Shooter.shooterp10.png",
+                "RunningGame.Resources.Artwork.Foreground.Shooter.shooterp11.png",
+                "RunningGame.Resources.Artwork.Foreground.Shooter.shooterp12.png"
+            };
+
+
+            drawComp.addAnimatedSprite( shooterAnimation, shooterAnimDefaults, "Main" );
+            drawComp.setSprite( "Main" ); //Set image to active image
+
+            float animationTime = timeBetweenBursts / shooterAnimDefaults.Count();
 
             /* ANIMATION COMPONENT - Does it need animating?
              */
-            //addComponent(new AnimationComponent(0.0005f), true);
+            AnimationComponent animComp = (AnimationComponent)addComponent(new AnimationComponent(animationTime), true);
 
             /*COLLIDER - Does it hit things?
              */
             addComponent(new ColliderComponent(this, GlobalVars.TIMED_SHOOTER_COLLIDER_TYPE), true);
             
-            /* TIMER COMPONENT - It makes use of timed method execution.
-             */
-            TimerComponent timeComp = (TimerComponent)addComponent( new TimerComponent(), true );
-
             /* TIMED SHOOTER COMPONENT - It shoots at a given time interval.
              */
             TimedShooterComponent shooterComp = (TimedShooterComponent)addComponent( new TimedShooterComponent( timeBetweenBursts, shotsPerBurst ), true );
+
+            /* TIMER COMPONENT - It makes use of timed method execution.
+             */
+            TimerComponent timeComp = ( TimerComponent )addComponent( new TimerComponent(), true );
             timeComp.addTimer( shooterComp.fireTimerString, timeBetweenBursts );
 
             /* DIRECTION COMPONENT - It points in a particular direciton.
