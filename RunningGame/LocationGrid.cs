@@ -167,6 +167,8 @@ namespace RunningGame {
             float skipNum = 1.0f;
 
 
+            
+
             //--------------------------------------
             /*
             double theta = Math.PI / 2;
@@ -191,6 +193,10 @@ namespace RunningGame {
             float xDiff = x1 - x2;
             float yDiff = y1 - y2;
 
+            if ( xDiff == 0 && yDiff == 0 ) {
+                return new List<Entity>();
+            }
+            
             double theta = Math.Atan( yDiff / xDiff );
 
             if ( x2 < x1 ) {
@@ -222,8 +228,13 @@ namespace RunningGame {
 
             //level.sysManager.drawSystem.debugLines.Add( new PointF( x1, y1 ) );
             //level.sysManager.drawSystem.debugLines.Add( new PointF( x2, y2 ) );
-
+            int counter = 0;
             while ( !hasChanged ) {
+                counter++;
+                if ( counter > 1000 ) {
+                    Console.WriteLine( "Whoa there!" );
+                    counter = 0;
+                }
                 /*if ( printStuff ) {
                     Console.Write( "\t(" + checkX + ", " + checkY + ") -> " );
                 }*/

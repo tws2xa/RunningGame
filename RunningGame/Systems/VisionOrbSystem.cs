@@ -70,7 +70,6 @@ namespace RunningGame.Systems {
             return requiredComponents;
         }
         public override void Update( float deltaTime ) {
-
             if ( !hasRunOnce ) {
                 level.getInputSystem().addKey( visionKey );
                 hasRunOnce = true;
@@ -107,7 +106,6 @@ namespace RunningGame.Systems {
                 }
 
             }
-
             foreach ( Entity e in getApplicableEntities() ) {
                 PositionComponent posComp = ( PositionComponent )e.getComponent( GlobalVars.POSITION_COMPONENT_NAME );
                 VelocityComponent velComp = ( VelocityComponent )e.getComponent( GlobalVars.VELOCITY_COMPONENT_NAME );
@@ -139,19 +137,22 @@ namespace RunningGame.Systems {
                         }
                     }
                 }
+               
                 if ( Math.Abs( velComp.y ) < Math.Abs( visComp.platformerMoveSpeed ) ) {
                     if ( level.getInputSystem().myKeys[GlobalVars.KEY_JUMP].pressed ) {
 
-                        float rightX = ( posComp.x + posComp.width / 2 );
-                        float upperY = ( posComp.y - posComp.height / 2 - 1 );
-                        float leftX = ( posComp.x + posComp.width / 2 );
+                        ColliderComponent colComp = ( ColliderComponent )e.getComponent( GlobalVars.COLLIDER_COMPONENT_NAME );
 
-                        if ( !( level.getCollisionSystem().findObjectsBetweenPoints( rightX, upperY, leftX, upperY ).Count > 0 ) ) {
+                        float rightX = ( colComp.getX( posComp ) + colComp.width / 2 );
+                        float upperY = ( colComp.getY( posComp ) - colComp.height / 2 - 1 );
+                        float leftX = ( colComp.getX(posComp) + colComp.width / 2 );
+
+                        if ( !( level.getCollisionSystem().findObjectsBetweenPoints( leftX, upperY, rightX, upperY ).Count > 0 ) ) {
                             beginMoveUp( posComp, velComp, visComp );
                         }
                     }
                 }
-
+                
                 //Slow horizontal if no left/right key down
                 if ( velComp.x != 0 && !level.getInputSystem().myKeys[GlobalVars.KEY_LEFT].pressed && !level.getInputSystem().myKeys[GlobalVars.KEY_RIGHT].pressed ) {
                     if ( velComp.x < 0 ) {

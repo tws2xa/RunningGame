@@ -88,7 +88,6 @@ namespace RunningGame {
 
         //Game Logic Stuff
         public void Update( float deltaTime ) {
-
             velZeroSystem.Update( deltaTime );
             timerSystem.Update( deltaTime );
             moveSystem.Update( deltaTime );

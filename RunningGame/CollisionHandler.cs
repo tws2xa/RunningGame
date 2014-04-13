@@ -64,7 +64,7 @@ namespace RunningGame {
             defaultCollisions.Add( GlobalVars.SMUSH_BLOCK_COLLIDER, simpleStopCollision );
             defaultCollisions.Add( GlobalVars.CHECKPOINT_COLLIDER_TYPE, doNothingCollision );
             defaultCollisions.Add( GlobalVars.DESTROYING_SPAWN_BLOCK_COLLIDER_TYPE, doNothingCollision );
-            defaultCollisions.Add( GlobalVars.VISION_ORB_UNLOCK_COLLIDER, simpleStopCollision );
+            defaultCollisions.Add( GlobalVars.VISION_ORB_UNLOCK_COLLIDER, doNothingCollision);
             defaultCollisions.Add( GlobalVars.SPIKE_SWITCH_COLLIDER, simpleStopCollision );
             
 
