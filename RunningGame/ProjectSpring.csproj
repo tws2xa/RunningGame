@@ -504,6 +504,7 @@
     <EmbeddedResource Include="Resources\Artwork\Background\Bkg32.png" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Resources\Artwork\Foreground\newPlat11.png" />
     <EmbeddedResource Include="Resources\Artwork\Foreground\Shooter\shooterp0.png" />
     <EmbeddedResource Include="Resources\Artwork\Foreground\Shooter\shooterp1.png" />
     <EmbeddedResource Include="Resources\Artwork\Foreground\Shooter\shooterp10.png" />

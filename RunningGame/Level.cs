@@ -157,9 +157,9 @@ namespace RunningGame {
             sysManager.Update( 0 );
 
             if ( worldNum == 1 || worldNum == 2 ) {
-                bkgMusic = "RunningGame.Resources.Sounds.gameplay.wav";
-            } else if ( worldNum == 3 || worldNum == 4 ) {
                 bkgMusic = "RunningGame.Resources.Sounds.gameplay1.wav";
+            } else if ( worldNum == 3 || worldNum == 4 ) {
+                bkgMusic = "RunningGame.Resources.Sounds.gameplay.wav";
             }
 
             if ( !soundPlaying( bkgMusic ) ) {
@@ -350,6 +350,7 @@ namespace RunningGame {
                     ents[i].revertToStartingState();
                 }
             }
+
             //Do the same for ground
             Entity[] grndents = GlobalVars.groundEntities.Values.ToArray();
             for ( int i = 0; i < grndents.Length; i++ ) {
