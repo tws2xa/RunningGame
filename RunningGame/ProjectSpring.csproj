@@ -625,12 +625,14 @@
     <EmbeddedResource Include="Resources\Artwork\Foreground\buttonUp60.png" />
     <EmbeddedResource Include="Resources\Artwork\Background\Bkg20.png" />
     <EmbeddedResource Include="Resources\Artwork\Background\Bkg40.png" />
-    <EmbeddedResource Include="Resources\Artwork\Background\Bkg10.png" />
-    <EmbeddedResource Include="Resources\Artwork\Background\Bkg11.png" />
+    <EmbeddedResource Include="Resources\Artwork\Background\Bkg10c.png" />
+    <EmbeddedResource Include="Resources\Artwork\Background\Bkg11c.png" />
     <EmbeddedResource Include="Resources\Artwork\Background\Bkg30a.png" />
     <EmbeddedResource Include="Resources\Artwork\Background\Bkg31a.png" />
     <EmbeddedResource Include="Resources\Artwork\Background\back11.png" />
     <EmbeddedResource Include="Resources\Artwork\Background\back21.png" />
+    <EmbeddedResource Include="Resources\Artwork\Background\Bkg11.png" />
+    <EmbeddedResource Include="Resources\Artwork\Background\Bkg10.png" />
     <Content Include="Resources\Artwork\Background\Bkg43.png" />
     <EmbeddedResource Include="Resources\Levels\World1Level1anna.png" />
     <EmbeddedResource Include="Resources\Levels\leveltry.png" />
