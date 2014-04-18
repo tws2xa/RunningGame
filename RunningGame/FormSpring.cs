@@ -804,11 +804,6 @@ namespace RunningGame
             handleKeyChangeEnd( e, btnSetEnd, GlobalVars.END_INT);
         }
 
-        private void btnWorldReturn_Click(object sender, EventArgs e)
-        {
-
-        }
-
 
 
     }
