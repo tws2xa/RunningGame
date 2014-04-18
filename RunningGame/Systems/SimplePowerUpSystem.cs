@@ -165,13 +165,30 @@ namespace RunningGame.Systems {
         }
 
         public void speedyEntity( float x, float y ) {
-
-            if ( level.getCollisionSystem().findObjectsBetweenPoints( x - speedySize / 2, y - speedySize / 2, x + speedySize / 2, y + speedySize / 2 ).Count > 0 ) return;
-            if ( level.getCollisionSystem().findObjectsBetweenPoints( x - speedySize / 2, y + speedySize / 2, x + speedySize / 2, y - speedySize / 2 ).Count > 0 ) return;
+            List<Entity> L1 = level.getCollisionSystem().findObjectsBetweenPoints( x - speedySize / 2, y - speedySize / 2, x + speedySize / 2, y + speedySize / 2 );
+            List<Entity> L2 = level.getCollisionSystem().findObjectsBetweenPoints(x - speedySize / 2, y + speedySize / 2, x + speedySize / 2, y - speedySize / 2);
+            L1 = ClearFromList(L1, GlobalVars.SWITCH_COMPONENT_NAME);
+            L2 = ClearFromList(L2, GlobalVars.SWITCH_COMPONENT_NAME);
+            if ( L1.Count > 0 ) return;
+            if ( L2.Count > 0 ) return;
 
             Entity newEntity = new PreGroundSpeedy( level, x, y );
 
             level.addEntity( newEntity.randId, newEntity );
+        }
+
+        private List<Entity> ClearFromList(List<Entity> L1, string compToRemove)
+        {
+            List<Entity> temp = new List<Entity>();
+            foreach (Entity e in L1)
+            {
+                if (e.hasComponent(compToRemove)) temp.Add(e);
+            }
+            foreach (Entity e in temp)
+            {
+                L1.Remove(e);
+            }
+            return L1;
         }
         public void checkForInput() {
 
