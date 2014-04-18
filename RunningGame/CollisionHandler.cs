@@ -360,13 +360,13 @@ namespace RunningGame {
         //And turns it into a PostGroundSpeedy.
         public bool speedyGroundCollision( Entity e1, Entity e2 ) {
             Entity speedy = null;
-            Entity theGround = null;
+            BasicGround theGround = null;
 
             if ( e1 is BasicGround ) {
-                theGround = e1;
+                theGround = (BasicGround) e1;
                 speedy = e2;
             } else if ( e2 is BasicGround ) {
-                theGround = e2;
+                theGround = (BasicGround) e2;
                 speedy = e1;
             } else {
                 //Console.WriteLine("SpeedyGroundCollision with no ground");
@@ -378,9 +378,12 @@ namespace RunningGame {
 
             //level.removeEntity( theGround );
             level.removeEntity( speedy );
-
-            Entity newSpeedy = new Speedy( level, GenerateRandId(), loc.X, loc.Y - 1 );
-            level.addEntity( newSpeedy );
+            if (theGround.isGrass())
+            {
+                Entity newSpeedy = new Speedy(level, GenerateRandId(), loc.X, loc.Y - 1);
+                level.addEntity(newSpeedy);
+            }
+            
 
             return false;
         }
