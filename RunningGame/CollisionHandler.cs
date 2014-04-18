@@ -78,14 +78,12 @@ namespace RunningGame {
             addToDictionary( GlobalVars.PLAYER_COLLIDER_TYPE, GlobalVars.BOUNCE_POSTGROUND_COLLIDER_TYPE, bounceCollision );
             addToDictionary( GlobalVars.PLAYER_COLLIDER_TYPE, GlobalVars.SPAWN_BLOCK_COLLIDER_TYPE, simpleStopCollision);
             addToDictionary( GlobalVars.PLAYER_COLLIDER_TYPE, GlobalVars.SMUSH_BLOCK_COLLIDER, smushCollision );
-<<<<<<< HEAD
-=======
+
             addToDictionary( GlobalVars.PLAYER_COLLIDER_TYPE, GlobalVars.CHECKPOINT_COLLIDER_TYPE, checkPointCollision );
             addToDictionary( GlobalVars.PLAYER_COLLIDER_TYPE, GlobalVars.VISION_ORB_UNLOCK_COLLIDER, unlockVisionOrb );
 
             addToDictionary( GlobalVars.BOUNCE_POSTGROUND_COLLIDER_TYPE, GlobalVars.BASIC_SOLID_COLLIDER_TYPE, doNothingCollision );
             addToDictionary( GlobalVars.SPEEDY_POSTGROUND_COLLIDER_TYPE, GlobalVars.BASIC_SOLID_COLLIDER_TYPE, doNothingCollision );
->>>>>>> 326060056ef00e2163debdadc839a020cd69384d
 
             addToDictionary( GlobalVars.BULLET_COLLIDER_TYPE, GlobalVars.PLAYER_COLLIDER_TYPE, doNothingCollision );
             addToDictionary( GlobalVars.BULLET_COLLIDER_TYPE, GlobalVars.SIMPLE_ENEMY_COLLIDER_TYPE, enemyBulletCollision);
