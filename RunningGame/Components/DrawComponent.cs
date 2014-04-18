@@ -95,13 +95,18 @@ namespace RunningGame.Components {
             if ( level.levelNum == 1 && !level.colorOrbObtained ) {
                 Bitmap colorlessImg = getPreColorImage( baseName, image );
 
-                string preColorImageName = spriteName + "" + GlobalVars.PRECOLOR_SPRITE_NAME;
+                string preColorImageName = getPrecolorImageName( spriteName );
 
                 Sprite preColorSpr = new Sprite( preColorImageName, colorlessImg );
                 images.Add( preColorImageName, preColorSpr );
             }
 
             return ret;
+        }
+
+        public string getPrecolorImageName( string spriteName ) {
+            string preColorImageName = spriteName + "" + GlobalVars.PRECOLOR_SPRITE_NAME;
+            return preColorImageName;
         }
 
 
