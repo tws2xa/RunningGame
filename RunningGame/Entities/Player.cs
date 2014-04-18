@@ -157,6 +157,7 @@ namespace RunningGame.Entities {
         }
 
         public override void revertToStartingState() {
+            
             PositionComponent posComp = ( PositionComponent )this.getComponent( GlobalVars.POSITION_COMPONENT_NAME );
             level.getMovementSystem().teleportToNoCollisionCheck( posComp, posComp.startingX, posComp.startingY );
             level.getMovementSystem().changeSize( posComp, posComp.startingWidth, posComp.startingHeight );
@@ -173,9 +174,8 @@ namespace RunningGame.Entities {
             HealthComponent healthComp = ( HealthComponent )this.getComponent( GlobalVars.HEALTH_COMPONENT_NAME );
             healthComp.restoreHealth();
 
-            if ( !hasComponent( GlobalVars.PLAYER_INPUT_COMPONENT_NAME ) ) {
-                addComponent( new PlayerInputComponent( this ) );
-            }
+            removeComponent( GlobalVars.PLAYER_INPUT_COMPONENT_NAME );
+            addComponent( new PlayerInputComponent( this ) );
 
             if ( !hasComponent( GlobalVars.GRAVITY_COMPONENT_NAME ) ) {
                 addComponent( new GravityComponent( 0, GlobalVars.STANDARD_GRAVITY ) );

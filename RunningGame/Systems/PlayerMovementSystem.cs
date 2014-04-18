@@ -177,7 +177,6 @@ namespace RunningGame.Systems {
                     pelInComp.player.faceLeft();
                 level.getPlayer().startAnimation();
             }
-
         }
         public void beginMoveRight( PositionComponent posComp, VelocityComponent velComp, PlayerInputComponent pelInComp, AnimationComponent animComp ) {
             if ( pelInComp != null && pelInComp.player != null ) {
