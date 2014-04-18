@@ -371,9 +371,12 @@ namespace RunningGame.Systems {
         }
 
         public void bounceEntity( float x, float y ) {
-
-            if ( level.getCollisionSystem().findObjectsBetweenPoints( x - bouncySize / 2, y - bouncySize / 2, x + bouncySize / 2, y + bouncySize / 2 ).Count > 0 ) return;
-            if ( level.getCollisionSystem().findObjectsBetweenPoints( x - bouncySize / 2, y + bouncySize / 2, x + bouncySize / 2, y - bouncySize / 2 ).Count > 0 ) return;
+            List<Entity> L1 = level.getCollisionSystem().findObjectsBetweenPoints( x - bouncySize / 2, y - bouncySize / 2, x + bouncySize / 2, y + bouncySize / 2);
+            List<Entity> L2 = level.getCollisionSystem().findObjectsBetweenPoints( x - bouncySize / 2, y + bouncySize / 2, x + bouncySize / 2, y - bouncySize / 2 );
+            L1 = ClearFromList(L1, GlobalVars.SWITCH_COMPONENT_NAME);
+            L2 = ClearFromList(L2, GlobalVars.SWITCH_COMPONENT_NAME);
+            if ( L1.Count > 0 ) return;
+            if ( L2.Count > 0 ) return;
 
             Entity newBounceEntity = new PreGroundBounce( level, x, y );
 
