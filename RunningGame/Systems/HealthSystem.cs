@@ -63,6 +63,13 @@ namespace RunningGame.Systems {
                 }
 
                 if ( healthComp.health > healthComp.maxHealth ) healthComp.restoreHealth();
+
+                if ( healthComp.invincibleTimer > 0 ) {
+                    healthComp.invincibleTimer -= deltaTime;
+                    if ( healthComp.invincibleTimer < 0 ) {
+                        healthComp.removeInvincible();
+                    }
+                }
             }
 
             deathHandler.update( deltaTime );

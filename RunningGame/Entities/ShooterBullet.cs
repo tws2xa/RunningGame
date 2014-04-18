@@ -11,12 +11,15 @@ namespace RunningGame.Entities {
         float defaultWidth = 10.0f;
         float defaultHeight = 10.0f;
 
+        string goodSpikeImageName = "goodSpike";
+        string badSpikeImageName = "badSpike";
+
         //-------------------------------------------Constructors--------------------------------------------
         //One takes in an ID, the other generats it.
         //Both take in the starting x and y of the entity.
         //Both take in the level that it's being applied to.
         //You probably won't have to edit these at all.
-        public ShooterBullet( Level level, float x, float y, int dir ) {
+        public ShooterBullet( Level level, float x, float y, int dir, int state ) {
             //Set level.
             //Leave for all entities
             this.level = level;
@@ -27,9 +30,9 @@ namespace RunningGame.Entities {
 
             //Add the components.
             //Leave this for all entities.
-            addMyComponents( x, y, dir );
+            addMyComponents( x, y, dir, state );
         }
-        public ShooterBullet( Level level, int id, float x, float y, int dir ) {
+        public ShooterBullet( Level level, int id, float x, float y, int dir, int state ) {
             //Set level.
             //Leave for all entities
             this.level = level;
@@ -40,14 +43,14 @@ namespace RunningGame.Entities {
 
             //Add the components.
             //Leave this for all entities.
-            addMyComponents( x, y, dir );
+            addMyComponents( x, y, dir, state );
         }
 
         //------------------------------------------------------------------------------------------------------------------
 
         //Here's where you add all the components the entity has.
         //You can just uncomment the ones you want.
-        public void addMyComponents( float x, float y, int dir ) {
+        public void addMyComponents( float x, float y, int dir, int state ) {
             /*POSITION COMPONENT - Does it have a position?
              */
             PositionComponent posComp = ( PositionComponent )addComponent( new PositionComponent( x, y, defaultWidth, defaultHeight, this ), true );
@@ -66,10 +69,15 @@ namespace RunningGame.Entities {
             DrawComponent drawComp = ( DrawComponent )addComponent( new DrawComponent( defaultWidth, defaultHeight, level, true ), true );
             //Add image - Use base name for first parameter (everything in file path after Resources. and before the numbers and .png)
             //Then second parameter is full filepath to a default image
-            string sprName = "Main";
-            drawComp.addSprite( "Artwork.Foreground.Spike", "RunningGame.Resources.Artwork.Foreground.Spike.png", sprName );
-            drawComp.setSprite( sprName ); //Set image to active image
+            
+            drawComp.addSprite( "Artwork.Foreground.GoodSpike", "RunningGame.Resources.Artwork.Foreground.GoodSpike.png", goodSpikeImageName);
+            drawComp.addSprite( "Artwork.Foreground.BadSpike", "RunningGame.Resources.Artwork.Foreground.BadSpike.png", badSpikeImageName );
 
+            if ( state == 1 ) {
+                drawComp.setSprite( goodSpikeImageName);
+            } else {
+                drawComp.setSprite( badSpikeImageName ); //Set image to active image
+            }
             //Won't always be the same as spr name
             //Like if it's been de-colored as a result of being in a
             //World's 1st level before the color orb is obtained.
@@ -80,6 +88,11 @@ namespace RunningGame.Entities {
                 drawComp.rotateFlipAllSprites( System.Drawing.RotateFlipType.Rotate90FlipNone );
             }
 
+            /** GENERAL STATE COMPONENT - Need to store a state variable.
+             * State = 0 --> Hurt Player
+             * State = 1 --> Hurt Enemy
+             */
+            addComponent( new GeneralStateComponent( state ), true );
 
             /*
              * DIRECTIONAL COMPONENT - it has a direction (used by collision)

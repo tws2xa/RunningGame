@@ -217,6 +217,16 @@ namespace RunningGame
             showHideWorldButtons(false);
         }
 
+        private void btnWorldReturn_Click(object sender, EventArgs e)
+        {
+            showHideWorldButtons(false);
+            showHideLevelButtons(false);
+            this.btnPlay.Enabled = true;
+            this.btnPlay.Visible = true;
+            this.btnControls.Enabled = true;
+            this.btnControls.Visible = true;
+        }
+
         //----------------------------------------------------------------
 
         //---------------------------ADD LEVELS HERE----------------------
@@ -241,13 +251,13 @@ namespace RunningGame
             GlobalVars.levels[0][1] = "RunningGame.Resources.Levels.World1Level2anna.png";
             GlobalVars.levels[0][2] = "RunningGame.Resources.Levels.World1Level3anna.png";
 
-            GlobalVars.levels[1][0] = "RunningGame.Resources.Levels.World2Level1.png";
-            GlobalVars.levels[1][1] = "RunningGame.Resources.Levels.World2Level2.png";
+            GlobalVars.levels[1][0] = "RunningGame.Resources.Levels.World2Level1anna.png";
+            GlobalVars.levels[1][1] = "RunningGame.Resources.Levels.World2Level2anna.png";
             GlobalVars.levels[1][2] = "RunningGame.Resources.Levels.World2Level31.png";
 
             GlobalVars.levels[2][0] = "RunningGame.Resources.Levels.World3Level1_new.png";
             GlobalVars.levels[2][1] = "RunningGame.Resources.Levels.World3Level2_new.png";
-            GlobalVars.levels[2][2] = "RunningGame.Resources.Levels.World3Level3.png";
+            GlobalVars.levels[2][2] = "RunningGame.Resources.Levels.World3Level3_new.png";
 
             GlobalVars.levels[3][0] = "RunningGame.Resources.Levels.World4Level1.png";
             GlobalVars.levels[3][1] = "RunningGame.Resources.Levels.World4Level2.png";

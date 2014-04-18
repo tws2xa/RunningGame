@@ -52,9 +52,15 @@ namespace RunningGame.Components {
         }
 
 
-        internal void clearAllTimers() {
+        public void clearAllTimers() {
             timers.Clear();
             completedTimers.Clear();
+        }
+
+        public void setTimer( string timerName, float time ) {
+            if ( timers.ContainsKey( timerName ) ) {
+                timers[timerName] = time;
+            }
         }
     }
 }

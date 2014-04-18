@@ -50,7 +50,10 @@ namespace RunningGame.Systems {
         public string text = "";
         public Font textFont = SystemFonts.DefaultFont;
         public bool textShadow = true;
-     
+
+        public bool drawDebugStuff = false;
+        public List<PointF> debugLines = new List<PointF>();
+        public List<PointF> debugPoints = new List<PointF>();
         
         [NonSerialized]
         Pen selectedEntBorderColor = Pens.Red;

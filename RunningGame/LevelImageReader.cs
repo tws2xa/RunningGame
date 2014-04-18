@@ -24,12 +24,13 @@ namespace RunningGame {
         Color basicGroundCol = Color.FromArgb( 0, 0, 0 ); //Basic Ground is black.
         Color playerCol = Color.FromArgb( 0, 0, 255 ); //Player is blue.
         Color vertMovPlatCol = Color.FromArgb( 0, 255, 0 ); //Vertical Plafroms are green!
-        Color horizMovPlatCol = Color.FromArgb( 0, 255, 255 ); //Horizontal Plafroms are cyan!
+        //Color horizMovPlatCol = Color.FromArgb( 0, 255, 255 ); //Horizontal Plafroms are cyan!
         Color simpleEnemyColor = Color.FromArgb( 255, 0, 0 ); //Walking Enemies are red.
         Color flyingEnemyColor = Color.FromArgb( 255, 255, 0 ); //Flying enemies are yellow!
-        Color endLevelCol = Color.FromArgb( 255, 255, 255 ); //End level is white
+        Color checkPointCollider = Color.FromArgb( 255, 255, 255 ); //End level is white
         Color movePlatformTurn = Color.FromArgb( 140, 140, 140 ); //Turn Platform Entity
         Color testEntityColor = Color.FromArgb( 42, 42, 42 ); //Test entity is 42, 42, 42.
+        Color visionOrbUnlock = Color.FromArgb( 13, 13, 13 ); //Add the vision orb
 
         Color jmpPickup = Color.FromArgb( 100, 100, 0 );
         Color speedyPickup = Color.FromArgb( 100, 100, 1 );
@@ -41,17 +42,18 @@ namespace RunningGame {
         //Link doors with switches by giving them the same B
         //Timed Switch - G = Time in deci-seconds... i.e. 100 -> 10 seconds. 015 = 1.5 seconds.
         int switchReserveRed = 200; //Any color with R = 200 is a switch
+        int spikeSwitchReserveRed = 201;
         int permSwitchG = 255; //Permanent Switch - G = 255
         int presSwitchG = 0; //Pressure Switch - G = 0
-        int doorReserveGreen = 200; //Any color with G = 200 is a door
+        int tallDoorReserveGreen = 200; //Any color with G = 200 is a door
+        int wideDoorReserveGreen = 201;
+        int openTallDoorReserveGreen = 202;
+        int openWideDoorReserveGreen = 203;
+        int smushRed = 77; //G Determines Switch // B Determines Dir
 
         int spikeRed = 255; //R
         int spikeGreen = 100; //G
         // B determins Dir
-
-        int smushRed = 77;
-        int smushGreen = 77;
-        // B Determines Dir
 
         int shooterRedUp = 110;
         int shooterRedRight = 111;
@@ -68,6 +70,12 @@ namespace RunningGame {
         //For one game in the level png file, what size is the corresponding in-game section
         float tileWidth = GlobalVars.LEVEL_READER_TILE_WIDTH;
         float tileHeight = GlobalVars.LEVEL_READER_TILE_HEIGHT;
+
+
+        float tallDoorWidth = 30;
+        float tallDoorHeight = 60;
+        float wideDoorWidth = 60;
+        float wideDoorHeight = 30;
 
         public LevelImageReader( Level level, Bitmap img ) {
 
@@ -114,16 +122,67 @@ namespace RunningGame {
                         switches.Add( col.B, s );
                         level.addEntity( s.randId, s );
 
+                    } else if ( col.R == spikeSwitchReserveRed ) {
+
+                        float time = -1;
+                        if ( col.G < 255 ) {
+                            time = col.G / 10;
+                        }
+                        Entity s = new SpikeSwitchEntity( level, rand.Next( Int32.MinValue, Int32.MaxValue ), levelX * tileWidth, levelY * tileHeight, time );
+
+                        s.isStartingEntity = true;
+                        adjustLocation( s, level );
+                        switches.Add( col.B, s );
+                        level.addEntity( s.randId, s );
+
                     } else if ( col.R == shooterRedUp || col.R == shooterRedRight || col.R == shooterRedDown || col.R == shooterRedLeft ) {
-                        float betweenBursts = ( float )col.G / ( float )10;
-                        TimedShooterEntity shooter = new TimedShooterEntity( level, rand.Next( Int32.MinValue, Int32.MaxValue ), levelX * tileWidth, levelY * tileHeight, betweenBursts, col.B, col.R-110 );
+                        float betweenBursts = ( float )col.B / ( float )10;
+                        int switchId = col.G;
+                        
+                        TimedShooterEntity shooter = new TimedShooterEntity( level, rand.Next( Int32.MinValue, Int32.MaxValue ), levelX * tileWidth, levelY * tileHeight, betweenBursts, 1, col.R-110, switchId );
+                        if ( switchId == 0 ) {
+                            shooter.removeComponent( GlobalVars.SWITCH_LISTENER_COMPONENT_NAME );
+                        } else {
+                            SwitchListenerComponent slComp = ( SwitchListenerComponent )shooter.getComponent( GlobalVars.SWITCH_LISTENER_COMPONENT_NAME );
+                            if ( switches.ContainsKey( switchId ) ) {
+                                slComp.switchId = switches[switchId].randId;
+                            } else {
+                                unmachedSwitchListeners.Add( slComp, switchId );
+                            }
+                        }
                         adjustLocation( shooter, level );
                         shooter.isStartingEntity = true;
                         level.addEntity( shooter );
 
-                    } else if ( col.G == doorReserveGreen ) {
-                    
-                        DoorEntity door = new DoorEntity( level, rand.Next( Int32.MinValue, Int32.MaxValue ), levelX * tileWidth, levelY * tileHeight );
+                    } else if ( col.R == smushRed && ( col.B - 4 <= 0 ) ) {
+                        int switchId = col.G;
+                        SmushBlockEntity smush = new SmushBlockEntity( level, rand.Next( Int32.MinValue, Int32.MaxValue ), levelX * tileWidth, levelY * tileHeight, col.B, switchId );
+
+                        if ( switchId == 0 ) {
+                            smush.removeComponent( GlobalVars.SWITCH_LISTENER_COMPONENT_NAME );
+                        } else {
+                            SwitchListenerComponent slComp = ( SwitchListenerComponent )smush.getComponent( GlobalVars.SWITCH_LISTENER_COMPONENT_NAME );
+                            if ( switches.ContainsKey( switchId ) ) {
+                                slComp.switchId = switches[switchId].randId;
+                            } else {
+                                unmachedSwitchListeners.Add( slComp, switchId );
+                            }
+                        }
+
+                        adjustLocation( smush, level );
+                        smush.isStartingEntity = true;
+                        level.addEntity( smush );
+                    } else if ( col.G == tallDoorReserveGreen || col.G == wideDoorReserveGreen || col.G == openTallDoorReserveGreen || col.G == openWideDoorReserveGreen) {
+
+                        float width = tallDoorWidth;
+                        float height = tallDoorHeight;
+
+                        if ( col.G == wideDoorReserveGreen ) {
+                            width = wideDoorWidth;
+                            height = wideDoorHeight;
+                        }
+
+                        DoorEntity door = new DoorEntity( level, rand.Next( Int32.MinValue, Int32.MaxValue ), levelX * tileWidth, levelY * tileHeight, width, height, (col.G%100 == 0 || col.G%100 == 1));
                         adjustLocation( door, level );
                         SwitchListenerComponent slComp = ( SwitchListenerComponent )door.getComponent( GlobalVars.SWITCH_LISTENER_COMPONENT_NAME );
                         door.isStartingEntity = true;
@@ -142,11 +201,6 @@ namespace RunningGame {
                         spike.isStartingEntity = true;
                         level.addEntity( spike );
 
-                    } else if ( col.R == smushRed && col.G == smushGreen && ( col.B - 4 <= 0 ) ) {
-                        SmushBlockEntity smush = new SmushBlockEntity( level, rand.Next( Int32.MinValue, Int32.MaxValue ), levelX * tileWidth, levelY * tileHeight, col.B );
-                        adjustLocation( smush, level );
-                        smush.isStartingEntity = true;
-                        level.addEntity( smush );
                     }
 
                     //Now just check for the specific colors
@@ -215,7 +269,14 @@ namespace RunningGame {
                         enemy.isStartingEntity = true;
                         level.addEntity( enemy.randId, enemy );
 
-                    } else if ( col == endLevelCol ) {
+                    } else if ( col == checkPointCollider ) {
+
+                        CheckPointEntity checkEnt = new CheckPointEntity( level, rand.Next( Int32.MinValue, Int32.MaxValue ), levelX * tileWidth, levelY * tileHeight );
+                        adjustLocation( checkEnt, level );
+                        checkEnt.isStartingEntity = true;
+                        level.addEntity( checkEnt.randId, checkEnt);
+
+                    }/*else if ( col == checkPointCollider ) {
 
                         float xLoc = ( levelX ) * tileWidth;
                         float yLoc = ( levelY ) * tileHeight;
@@ -225,7 +286,7 @@ namespace RunningGame {
                         lvlEnd.isStartingEntity = true;
                         level.addEntity( lvlEnd.randId, lvlEnd );
 
-                    } else if ( col == vertMovPlatCol ) {
+                    }*/ else if ( col == vertMovPlatCol ) {
 
                         float xLoc = ( levelX ) * tileWidth;
                         float yLoc = ( levelY ) * tileHeight;
@@ -237,7 +298,7 @@ namespace RunningGame {
                         plat.isStartingEntity = true;
                         level.addEntity( plat );
 
-                    } else if ( col == horizMovPlatCol ) {
+                    } /*else if ( col == horizMovPlatCol ) {
 
                         float xLoc = ( levelX ) * tileWidth;
                         float yLoc = ( levelY ) * tileHeight;
@@ -253,7 +314,7 @@ namespace RunningGame {
                         velComp.y = 0;
                         level.addEntity( plat );
 
-                    } else if ( col == bouncePickup ) {
+                    }*/ else if ( col == bouncePickup ) {
 
                         float xLoc = ( levelX ) * tileWidth;
                         float yLoc = ( levelY ) * tileHeight;
@@ -324,6 +385,18 @@ namespace RunningGame {
 
                         pickup.isStartingEntity = true;
                         level.addEntity( pickup );
+
+                    } else if ( col == visionOrbUnlock ) {
+
+                        float xLoc = ( levelX ) * tileWidth;
+                        float yLoc = ( levelY ) * tileHeight;
+                        int id = rand.Next( Int32.MinValue, Int32.MaxValue );
+
+                        VisionOrbUnlock visUnlock = new VisionOrbUnlock( level, id, xLoc, yLoc);
+                        adjustLocation( visUnlock, level );
+
+                        visUnlock.isStartingEntity = true;
+                        level.addEntity( visUnlock );
 
                     }
                 }

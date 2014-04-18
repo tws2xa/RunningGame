@@ -56,9 +56,6 @@ namespace RunningGame {
         float endLvlTime = 0.5f; //Typical length for setting the timer to when ending the level. In seconds.
         float endLvlTimer = -1.0f; //Timer. Do not modify.
 
-        //Player can't take damage
-        public bool playerImmune = false;
-
         public bool levelFullyLoaded = false;
         public bool hasRunOnce = false;
 
@@ -77,6 +74,14 @@ namespace RunningGame {
 
         string bkgMusic = "RunningGame.Resources.Sounds.gameplay.wav";
 
+        private CheckPointData checkpointData;
+        public bool hasHadCheckpoint = false;
+
+        public int visionOrbUnlockWorldNum = 1;
+        public int visionOrbUnlockLevelNum = 2;
+
+        public Entity curGrap = null;
+
         public Level() { }
 
         public Level( Game myGame, float windowWidth, float windowHeight, string levelFile, int worldNum, int levelNum, bool isPaintFile, Graphics g, Font displayFont ) {
@@ -85,11 +90,6 @@ namespace RunningGame {
             this.worldNum = worldNum;
             this.levelNum = levelNum;
             this.colorOrbObtained = ( levelNum != 1 ); //False when level 1 begins, otherwise true.
-
-            //Set the player to immune for a bit just as the level starts
-            this.playerImmune = true;
-            this.timerMethods.Add( this.disableImmune, 0.30f );
-
 
             initializePaint( windowWidth, windowHeight, levelFile, g );
             
@@ -136,12 +136,21 @@ namespace RunningGame {
 
             levelFullyLoaded = true;
 
+            checkpointData = new CheckPointData( this );
+
             Entity bkgEnt = getMyBackgroundEntity();
             addEntity( bkgEnt.randId, bkgEnt );
 
+            //Set the player to immune for a bit just as the level starts
+            HealthComponent healthComp = ( HealthComponent )this.getPlayer().getComponent( GlobalVars.HEALTH_COMPONENT_NAME );
+            if ( healthComp != null ) {
+                healthComp.makeInvincible( 0.30f );
+            }
 
             //Set the player powerup staring values
             setPowerups();
+
+            setVisionOrb();
 
             resetLevel();
 
@@ -150,6 +159,10 @@ namespace RunningGame {
             if ( !soundPlaying( bkgMusic ) ) {
                 playSound( bkgMusic, true );
             }
+        }
+
+        public void setVisionOrb() {
+            this.sysManager.visSystem.orbUnlocked = ( this.worldNum > visionOrbUnlockWorldNum || this.levelNum > visionOrbUnlockLevelNum );
         }
 
         public bool soundPlaying( string location ) {
@@ -295,6 +308,71 @@ namespace RunningGame {
             sysManager.colliderAdded( e );
         }
 
+        public void gotoCheckpoint() {
+
+            if ( !hasHadCheckpoint ) {
+                resetLevel();
+            }
+
+            paused = true;
+
+            if ( levelNum == 1 ) {
+                if ( !checkpointData.colorOrbObtained() ) {
+                    setToPreColors();
+                } else {
+                    setToPostColors();
+                }
+            }
+
+            //Deactivate the vision orb if it's active
+            if ( sysManager.visSystem.orbActive ) {
+                sysManager.visSystem.destroyVisionOrb();
+            }
+
+            //Remove border
+            if ( sysManager.drawSystem.getMainView().hasBorder ) sysManager.drawSystem.getMainView().hasBorder = false;
+
+            Dictionary<int, Entity> toRestore = GlobalVars.removedStartingEntities.Where( x => !checkpointData.getRemovedEnts().ContainsKey( x.Key ) ).ToDictionary( x => x.Key, x => x.Value );
+
+            //Remove non-starting entities, and restore starting entities to their initial state
+            Entity[] ents = GlobalVars.nonGroundEntities.Values.ToArray();
+            for ( int i = 0; i < ents.Length; i++ ) {
+                if ( !ents[i].isStartingEntity ) {
+                    removeEntity( ents[i] );
+                } else if(ents[i].resetOnCheckpoint){
+                    ents[i].revertToStartingState();
+                }
+            }
+            //Do the same for ground
+            Entity[] grndents = GlobalVars.groundEntities.Values.ToArray();
+            for ( int i = 0; i < grndents.Length; i++ ) {
+                if ( !grndents[i].isStartingEntity ) {
+                    removeEntity( grndents[i] );
+                } else if ( grndents[i].resetOnCheckpoint ) {
+                    grndents[i].revertToStartingState();
+                }
+            }
+
+            foreach ( Entity e in toRestore.Values ) {
+                e.revertToStartingState();
+                addEntity( e.randId, e );
+                GlobalVars.removedStartingEntities.Remove( e.randId );
+            }
+
+            Player player = getPlayer();
+            if(player == null) {
+                Console.WriteLine("Error, trying to go to checkpoint with no player");
+                resetLevel();
+            }
+            PositionComponent playerPos = (PositionComponent)player.getComponent(GlobalVars.POSITION_COMPONENT_NAME);
+            getMovementSystem().changePosition(playerPos, checkpointData.getPlayerLoc().X, checkpointData.getPlayerLoc().Y, false, false);
+
+            paused = false;
+        }
+
+        public void setupCheckpoint( CheckPointEntity checkpoint ) {
+            checkpointData.setCheckpoint( checkpoint );
+        }
 
         //Reset the game to it's original startup state
         public virtual void resetLevel() {
@@ -305,6 +383,9 @@ namespace RunningGame {
             if ( sysManager.visSystem.orbActive ) {
                 sysManager.visSystem.destroyVisionOrb();
             }
+
+            //Set whether vision orb is enabled
+            setVisionOrb();
 
             //Remove border
             if ( sysManager.drawSystem.getMainView().hasBorder ) sysManager.drawSystem.getMainView().hasBorder = false;
@@ -425,6 +506,9 @@ namespace RunningGame {
             if ( e == null ) {
                 Console.WriteLine( "You tryin' ta remove a null entity? Whachu doin' dat fo'?" );
                 return false;
+            }
+            if ( e == curGrap ) {
+                curGrap = null;
             }
             //If the entity has a collider - notify the collision system of the change and remove it from locGrid
             if ( e.hasComponent( GlobalVars.COLLIDER_COMPONENT_NAME ) ) {
@@ -670,16 +754,6 @@ namespace RunningGame {
                 DrawComponent drawComp = ( DrawComponent )e.getComponent( GlobalVars.DRAW_COMPONENT_NAME );
                 drawComp.switchToPostColorImage();
             }
-        }
-
-        public void disableImmune() {
-            this.playerImmune = false;
-        }
-        public void enableImmune() {
-            this.playerImmune = true;
-        }
-        public void toggleImmune() {
-            this.playerImmune = !this.playerImmune;
         }
     }
 }

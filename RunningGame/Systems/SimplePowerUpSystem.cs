@@ -124,7 +124,6 @@ namespace RunningGame.Systems {
                     }
                     glideActive = false;
                     glideTimer = glideDuration;
-
                 }
 
             }
@@ -344,13 +343,14 @@ namespace RunningGame.Systems {
         }
 
         public void createSpeedy() {
-            PositionComponent posComp = ( PositionComponent )level.getPlayer().getComponent( GlobalVars.POSITION_COMPONENT_NAME );
-            Player player = ( Player )level.getPlayer();
+            if ( level.getPlayer() != null ) {
+                PositionComponent posComp = ( PositionComponent )level.getPlayer().getComponent( GlobalVars.POSITION_COMPONENT_NAME );
+                Player player = ( Player )level.getPlayer();
 
-            if ( player == null ) return;
+                if ( player == null ) return;
 
-            speedyEntity( posComp.x + getSpawnDistance( player ), posComp.y );
-
+                speedyEntity( posComp.x + getSpawnDistance( player ), posComp.y );
+            }
         }
 
         public void bounceEntity( float x, float y ) {
@@ -363,14 +363,23 @@ namespace RunningGame.Systems {
             level.addEntity( newBounceEntity.randId, newBounceEntity );
         }
         public void createBounce() {
-            PositionComponent posComp = ( PositionComponent )level.getPlayer().getComponent( GlobalVars.POSITION_COMPONENT_NAME );
-            Player player = ( Player )level.getPlayer();
+            if ( level.getPlayer() != null ) {
+                PositionComponent posComp = ( PositionComponent )level.getPlayer().getComponent( GlobalVars.POSITION_COMPONENT_NAME );
+                Player player = ( Player )level.getPlayer();
 
-            bounceEntity( posComp.x + getSpawnDistance( player ), posComp.y );
-
+                bounceEntity( posComp.x + getSpawnDistance( player ), posComp.y );
+            }
         }
         public void Grapple() {
             if ( level.getPlayer() == null ) return;
+
+            //Check if it's alreday grappling, if so - stop the grapple and return.
+            Entity curGrap = getCurrentGrapple();
+            if ( curGrap != null ) {
+                interruptGrapple( curGrap );
+                return;
+            }
+
             PositionComponent playerPos = ( PositionComponent )level.getPlayer().getComponent( GlobalVars.POSITION_COMPONENT_NAME );
 
             //Get the direction
@@ -395,12 +404,35 @@ namespace RunningGame.Systems {
             }
 
             //Add the entity
+            //Console.WriteLine( "Grapple Direction: " + dir );
             GrappleEntity grap = new GrappleEntity( level, new Random().Next(), playerPos.x, playerPos.y, dir );
             level.addEntity( grap );
+            level.curGrap = grap;
             VelocityComponent velComp = ( VelocityComponent )level.getPlayer().getComponent( GlobalVars.VELOCITY_COMPONENT_NAME );
             velComp.x = 0;
             level.getPlayer().removeComponent( GlobalVars.PLAYER_INPUT_COMPONENT_NAME );
             if ( level.sysManager.grapSystem.removeGravity == 1 ) level.getPlayer().removeComponent( GlobalVars.GRAVITY_COMPONENT_NAME );
+        }
+
+        //Returns the current grapple, or null if there isn't one.
+        public Entity getCurrentGrapple() {
+            return level.curGrap;
+        }
+
+
+        public void interruptGrapple( Entity grapple ) {
+            GrappleComponent grapComp = ( GrappleComponent )grapple.getComponent( GlobalVars.GRAPPLE_COMPONENT_NAME );
+            if ( grapComp == null ) {
+                Console.WriteLine( "Error - trying to interrupt grapple for entity: " + grapple + " which has no grapple component!" );
+                return;
+            }
+
+            grapComp.state = 2;
+
+            if ( level.getPlayer() != null && !level.getPlayer().hasComponent(GlobalVars.GRAVITY_COMPONENT_NAME)) {
+                level.getPlayer().addComponent( new GravityComponent( 0, GlobalVars.STANDARD_GRAVITY ) );
+            }
+
         }
 
         public void glide() {
@@ -427,7 +459,16 @@ namespace RunningGame.Systems {
 
             if ( spawnBlocks.Count >= maxNumSpawnBlocks ) {
                 spawnBlockEntity old = spawnBlocks.Dequeue();
-                level.removeEntity( old );
+                DrawComponent drawComp = ( DrawComponent )old.getComponent( GlobalVars.DRAW_COMPONENT_NAME );
+                AnimationComponent animComp = ( AnimationComponent)old.getComponent( GlobalVars.ANIMATION_COMPONENT_NAME);
+                if ( animComp != null && drawComp != null) {
+                    ColliderComponent colComp = (ColliderComponent)old.getComponent( GlobalVars.COLLIDER_COMPONENT_NAME );
+                    colComp.colliderType = GlobalVars.DESTROYING_SPAWN_BLOCK_COLLIDER_TYPE;
+                    drawComp.setSprite( old.blockAnimationName );
+                    animComp.animationOn = true;
+                } else {
+                    level.removeEntity( old );
+                }
             }
             //Entity newEntity = new [YOUR ENTITY HERE](level, x, y);
             spawnBlockEntity newEntity = new spawnBlockEntity( level, x, y );

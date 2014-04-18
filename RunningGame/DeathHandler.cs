@@ -38,7 +38,7 @@ namespace RunningGame {
                 //If the timer has passed (or hit) 0...
                 if ( levelResetTimer <= 0 ) {
                     //Reset the level.
-                    level.resetLevel();
+                    level.gotoCheckpoint();
                     //Stop the timer.
                     levelResetTimer = -1;
                 }

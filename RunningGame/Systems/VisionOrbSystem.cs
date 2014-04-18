@@ -16,6 +16,8 @@ namespace RunningGame.Systems {
         List<string> requiredComponents = new List<string>();
         public float horizSlowSpeed = 50.0f;
 
+        public bool orbUnlocked = false;
+
         public bool orbActive = false;
 
         bool hasRunOnce = false;
@@ -88,7 +90,7 @@ namespace RunningGame.Systems {
                 }
             }
 
-            if ( level.getInputSystem().myKeys[visionKey].down ) {
+            if ( orbUnlocked && level.getInputSystem().myKeys[visionKey].down ) {
                 if ( doFade ) {
                     Color flashCol = toOrbCol;
                     if ( orbActive ) flashCol = toPlayerCol;

@@ -75,8 +75,9 @@ namespace RunningGame.Systems {
         }
 
         public void fireItem(Entity e, DirectionalComponent dir) {
+            TimedShooterComponent timedShooterComp = ( TimedShooterComponent )e.getComponent( GlobalVars.TIMED_SHOOTER_COMPONENT_NAME );
             PositionComponent posComp = (PositionComponent)e.getComponent(GlobalVars.POSITION_COMPONENT_NAME);
-            ShooterBullet bullet = new ShooterBullet( level, level.rand.Next(Int32.MinValue, Int32.MaxValue), posComp.x, posComp.y, dir.getDir() );
+            ShooterBullet bullet = new ShooterBullet( level, level.rand.Next(Int32.MinValue, Int32.MaxValue), posComp.x, posComp.y, dir.getDir(), timedShooterComp.state );
             VelocityComponent bulletVel = ( VelocityComponent )bullet.getComponent( GlobalVars.VELOCITY_COMPONENT_NAME );
             
             float bulletSpeed = 160.0f;

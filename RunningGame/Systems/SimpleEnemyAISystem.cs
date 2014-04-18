@@ -44,6 +44,11 @@ namespace RunningGame.Systems {
                 SimpleEnemyComponent simpEnemyComp = ( SimpleEnemyComponent )e.getComponent( GlobalVars.SIMPLE_ENEMY_COMPONENT_NAME );
                 VelocityComponent velComp = ( VelocityComponent )e.getComponent( GlobalVars.VELOCITY_COMPONENT_NAME );
 
+                float speedyBuffer = 0;
+                if ( !simpEnemyComp.checkCliff && simpEnemyComp.checkCliffOrig && Math.Abs(velComp.x) <= Math.Abs(simpEnemyComp.mySpeed + speedyBuffer)) {
+                    simpEnemyComp.checkCliff = simpEnemyComp.checkCliffOrig;
+                }
+
                 if ( simpEnemyComp.hasRunOnce && !simpEnemyComp.hasLandedOnce && velComp.y <= 0 ) {
                     simpEnemyComp.hasLandedOnce = true;
                 }
@@ -53,15 +58,8 @@ namespace RunningGame.Systems {
                 } else if ( velComp.x > 0 ) {
                     simpEnemyComp.movingLeft = false;
                     simpEnemyComp.wasStoppedLastFrame = false;
-                } else if ( velComp.x == 0 && simpEnemyComp.hasLandedOnce ) //If it's been stopped for more than one frame, try changing the direction and see if it can move that way instead.
+                } else if ( velComp.x == 0 && velComp.y == 0 && simpEnemyComp.hasLandedOnce ) //If it's been stopped for more than one frame, try changing the direction and see if it can move that way instead.
                 {
-                    /*
-                    if (!simpEnemyComp.wasStoppedLastFrame)
-                        velComp.x = simpEnemyComp.mySpeed;
-                    else
-                        velComp.x = -simpEnemyComp.mySpeed;
-                    */
-                    
                     float newVel = simpEnemyComp.mySpeed;
                     if ( !simpEnemyComp.movingLeft ) newVel *= -1;
 
@@ -73,7 +71,7 @@ namespace RunningGame.Systems {
                 }
 
                 //Change position if it's about to fall off a cliff, and checkCliff is true.
-                if ( simpEnemyComp.hasLandedOnce && simpEnemyComp.checkCliff ) {
+                if ( simpEnemyComp.hasLandedOnce && velComp.y == 0 && simpEnemyComp.checkCliff ) {
                     PositionComponent posComp = ( PositionComponent )e.getComponent( GlobalVars.POSITION_COMPONENT_NAME );
                     ColliderComponent colComp = ( ColliderComponent )e.getComponent( GlobalVars.COLLIDER_COMPONENT_NAME );
 

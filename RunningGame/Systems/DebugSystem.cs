@@ -192,6 +192,7 @@ namespace RunningGame.Systems {
             level.addEntity( newEntity.randId, newEntity ); //This should just stay the same
         }
 
+        /*
         public void addDoorOrSwitch( float x, float y ) {
             if ( addingDoor ) {
                 DoorEntity d = new DoorEntity( level, x, y - 20, switchId );
@@ -204,5 +205,6 @@ namespace RunningGame.Systems {
                 addingDoor = true;
             }
         }
+        */
     }
 }

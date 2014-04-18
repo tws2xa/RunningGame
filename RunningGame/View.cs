@@ -223,6 +223,19 @@ namespace RunningGame {
                         drawEntity( e );
                 }
 
+                if ( level.sysManager.drawSystem.drawDebugStuff ) {
+                    for ( int i = 0; i < level.sysManager.drawSystem.debugLines.Count - 1; i += 2 ) {
+                        g.DrawLine( new Pen( Color.Blue, 3 ), level.sysManager.drawSystem.debugLines[i], level.sysManager.drawSystem.debugLines[i + 1] );
+                    }
+                    level.sysManager.drawSystem.debugLines.Clear();
+                    int circWidth = 4;
+                    for ( int i = 0; i < level.sysManager.drawSystem.debugPoints.Count; i++ ) {
+                        g.FillEllipse( Brushes.Green, ( int )Math.Round( level.sysManager.drawSystem.debugPoints[i].X - circWidth / 2 ), ( int )Math.Round( level.sysManager.drawSystem.debugPoints[i].Y ) - circWidth / 2, circWidth, circWidth );
+                    }
+                    level.sysManager.drawSystem.debugPoints.Clear();
+                }
+
+
                 //mainG.DrawImage(drawImg, new Point((int)displayX, (int)displayY)); //Draw the view to the main window
                 //mainG.DrawImageUnscaled(drawImg, new Point((int)displayX, (int)displayY)); //Draw the view to the main window
                 mainG.DrawImage( drawImg, new RectangleF( displayX, displayY, displayWidth, displayHeight ), new RectangleF( x, y, width, height ), GraphicsUnit.Pixel );
@@ -258,7 +271,6 @@ namespace RunningGame {
 
                 //look into double buffers, mainG and G are different!
                 //use mainG
-
                 if ( level.sysManager != null && level.sysManager.drawSystem.textState >= 0 ) {
                     StringFormat centerFormat = new StringFormat();
                     centerFormat.Alignment = StringAlignment.Center;
@@ -279,6 +291,8 @@ namespace RunningGame {
                     mainG.FillRectangle( level.sysManager.drawSystem.getFlashBrush(), new Rectangle( ( int )( displayX ), ( int )( displayY ),
                     ( int )( displayWidth ), ( int )( displayHeight ) ) );
                 }
+
+
             } else {
                 //For all applicable entities (Entities with required components)
                 foreach ( Entity e in entities ) {

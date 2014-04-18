@@ -72,12 +72,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CheckPointData.cs" />
     <Compile Include="Components\AnimationComponent.cs" />
     <Compile Include="Components\BackgroundComponent.cs" />
+    <Compile Include="Components\CheckPointComponent.cs" />
     <Compile Include="Components\ColliderComponent.cs" />
     <Compile Include="Components\Component.cs" />
     <Compile Include="Components\ComponentTemplate.cs" />
     <Compile Include="Components\DrawComponent.cs" />
+    <Compile Include="Components\GeneralStateComponent.cs" />
     <Compile Include="Components\GrappleComponent.cs" />
     <Compile Include="Components\GravityComponent.cs" />
     <Compile Include="Components\HealthComponent.cs" />
@@ -106,6 +109,8 @@
     <Compile Include="Entities\BackgroundEntity.cs" />
     <Compile Include="Entities\BasicGround.cs" />
     <Compile Include="Entities\Bounce.cs" />
+    <Compile Include="Entities\CheckPointEntity.cs" />
+    <Compile Include="Entities\SpikeSwitchEntity.cs" />
     <Compile Include="Entities\PlatformTurnEntity.cs" />
     <Compile Include="Entities\PreGroundBounce.cs" />
     <Compile Include="Entities\PreGroundSpeedy.cs" />
@@ -127,6 +132,7 @@
     <Compile Include="Entities\SimpleEnemyEntity.cs" />
     <Compile Include="Entities\SwitchEntity.cs" />
     <Compile Include="Entities\VisionOrb.cs" />
+    <Compile Include="Entities\VisionOrbUnlock.cs" />
     <Compile Include="FormEditor.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -498,6 +504,30 @@
     <EmbeddedResource Include="Resources\Artwork\Background\Bkg32.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\Artwork\Other\SpringStaticScreenRevised.png" />
+    <None Include="Resources\Artwork\Other\StartupScreen1.png" />
+    <EmbeddedResource Include="Resources\Artwork\Other\DebugSquare2.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\WideDoorOpen11.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\WideDoorClosed11.png" />
+    <EmbeddedResource Include="Resources\Levels\World2Level2anna.png" />
+    <EmbeddedResource Include="Resources\Levels\World3Level3_new.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\SpawnBlock\SpawnPoof1.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\SpawnBlock\SpawnPoof2.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\SpawnBlock\SpawnPoof3.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\SpawnBlock\SpawnPoof4.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\SpawnBlock\SpawnPoof5.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\SpawnBlock\SpawnPoof6.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\SpawnBlock\SpawnPoof7.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\Checkpoint\animCheck1.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\Checkpoint\animCheck2.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\Checkpoint\animCheck3.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\Checkpoint\animCheck4.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\Checkpoint\animCheck6.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\Checkpoint\animCheck5.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\Checkpoint\CheckedCheckpoint.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\Checkpoint\UncheckedCheckpoint.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\BadSpike.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\GoodSpike.png" />
     <EmbeddedResource Include="Resources\Artwork\Foreground\Bullet\Bullet110.png" />
     <EmbeddedResource Include="Resources\Artwork\Foreground\Bullet\Bullet210.png" />
     <EmbeddedResource Include="Resources\Artwork\Foreground\Bullet\Bullet310.png" />

@@ -24,6 +24,9 @@ namespace RunningGame.Systems {
 
             //Fill the events dictionary
             events.Add( GlobalVars.DOOR_EVENT_TYPE, doorSwitch );
+            events.Add( GlobalVars.TIMED_SHOOTER_SWITCH_EVENT, timedShooterSwitch );
+            events.Add( GlobalVars.SMUSH_SWITCH_EVENT, smushSwitch );
+            events.Add( GlobalVars.DEFAULT_OPEN_DOOR_EVENT_TYPE, defaultOpenDoorSwitch );
 
             this.level = level; //Always have this
 
@@ -53,8 +56,12 @@ namespace RunningGame.Systems {
         }
         //--------------------------------------------------------------------------------------------------
 
+        public bool defaultOpenDoorSwitch( Entity e, bool active ) {
+            return doorSwitch( e, !active );
+        }
+
         public bool doorSwitch( Entity e, bool active ) {
-            //Opened
+            //Active
             if ( active ) {
                 if ( e.hasComponent( GlobalVars.COLLIDER_COMPONENT_NAME ) ) {
                     e.removeComponent( GlobalVars.COLLIDER_COMPONENT_NAME );
@@ -63,7 +70,7 @@ namespace RunningGame.Systems {
                 DrawComponent drawComp = ( DrawComponent )e.getComponent( GlobalVars.DRAW_COMPONENT_NAME );
                 drawComp.setSprite( GlobalVars.DOOR_OPEN_SPRITE_NAME );
             }
-                //Closed
+            //Closed
             else {
                 //Check for the player within the door.
                 PositionComponent posComp = (PositionComponent)e.getComponent(GlobalVars.POSITION_COMPONENT_NAME);
@@ -93,6 +100,34 @@ namespace RunningGame.Systems {
             }
 
             return true; //Just cuz
+        }
+
+
+
+        public bool timedShooterSwitch(Entity e, bool active) {
+            if ( e.hasComponent( GlobalVars.TIMED_SHOOTER_COMPONENT_NAME ) ) {
+                if ( active ) {
+                    TimedShooterComponent timedShooterComp = ( TimedShooterComponent )e.getComponent( GlobalVars.TIMED_SHOOTER_COMPONENT_NAME );
+                    timedShooterComp.setHurtEnemy();
+                } else {
+                    TimedShooterComponent timedShooterComp = ( TimedShooterComponent )e.getComponent( GlobalVars.TIMED_SHOOTER_COMPONENT_NAME );
+                    timedShooterComp.setHurtPlayer();
+                }
+            } else {
+                Console.WriteLine( "Error, trying to call timedShooterSwitch method without a timed shooter component" );
+                return false;
+            }
+            return true;
+        }
+
+        public bool smushSwitch( Entity e, bool active ) {
+            if ( e.hasComponent( GlobalVars.SMUSH_COMPONENT_NAME ) ) {
+                SmushComponent smushComp = ( SmushComponent )e.getComponent( GlobalVars.SMUSH_COMPONENT_NAME );
+                smushComp.setFrozen( active );
+            } else {
+                Console.WriteLine( "Error - Trying to activate smush switch event without smush component." );
+            }
+            return true;
         }
     }
 }

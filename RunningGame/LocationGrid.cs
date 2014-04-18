@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Drawing;
 using System.Collections;
 using RunningGame.Components;
@@ -28,6 +27,7 @@ namespace RunningGame {
         float rowHeight = 20;
         float colWidth = 20;
 
+        public bool debugOnObjBetweenPnts = false;
 
         Level level;
 
@@ -151,8 +151,9 @@ namespace RunningGame {
 
             foreach ( Entity e in grid[checkRect].Values ) {
                 PositionComponent posComp = ( PositionComponent )e.getComponent( GlobalVars.POSITION_COMPONENT_NAME );
+                ColliderComponent colComp = ( ColliderComponent )e.getComponent( GlobalVars.COLLIDER_COMPONENT_NAME );
 
-                RectangleF r = new RectangleF( posComp.x - posComp.width / 2, posComp.y - posComp.height / 2, posComp.width, posComp.height );
+                RectangleF r = new RectangleF( colComp.getX(posComp) - colComp.width / 2, colComp.getY(posComp) - colComp.height / 2, colComp.width, colComp.height );
                 if ( r.Contains( x, y ) ) retList.Add( e );
             }
 
@@ -163,14 +164,52 @@ namespace RunningGame {
         public List<Entity> findObjectsBetweenPoints( float x1, float y1, float x2, float y2 ) {
             List<Entity> retList = new List<Entity>();
 
-            int skipNum = 1;
+            float skipNum = 1.0f;
 
+
+            //--------------------------------------
+            /*
             double theta = Math.PI / 2;
 
+            float opp = Math.Abs( y2 - y1 );
+            float adj = Math.Abs( x2 - x1 );
+
+
             if ( x2 != x1 ) {
-                theta = Math.Atan( ( y2 - y1 ) / ( x2 - x1 ) );
+                theta = Math.Atan( ( opp ) / ( adj ) );
+                
+                if ( x2 < x1 && y2 < y1) theta = Math.PI - theta; //Quad 2
+                if ( x2 < x1 && y2 > y1 ) theta = Math.PI + theta; //Quad 3
+                if ( x2 > x1 && y2 > y1 ) theta = 2 * Math.PI - theta; //Quad 4
+                
             } else if ( y2 < y1 ) {
                 theta = 3 * Math.PI / 2;
+            }
+            */
+            //--------------------------------------
+            
+            float xDiff = x1 - x2;
+            float yDiff = y1 - y2;
+
+            double theta = Math.Atan( yDiff / xDiff );
+
+            if ( x2 < x1 ) {
+                theta += Math.PI;
+            }
+            
+            //-------------------------------------- 
+
+            if ( debugOnObjBetweenPnts ) {
+                Console.WriteLine( theta * 360 / (Math.PI * 2) );
+            }
+
+            bool printStuff = false;
+            if ( theta != 0 && theta != Math.PI / 2 && theta != Math.PI && theta != Math.PI * 3 / 2 && theta != 2 * Math.PI ) {
+                printStuff = false;
+            }
+
+            if ( printStuff ) {
+                Console.WriteLine( "Theta: " + theta * 360 / ( Math.PI * 2 ) + " degrees = " + theta + " radians." );
             }
 
             float checkX = x1;
@@ -180,13 +219,52 @@ namespace RunningGame {
 
             double dist = getDist( new PointF( checkX, checkY ), new PointF( x2, y2 ) );
 
+
+            //level.sysManager.drawSystem.debugLines.Add( new PointF( x1, y1 ) );
+            //level.sysManager.drawSystem.debugLines.Add( new PointF( x2, y2 ) );
+
             while ( !hasChanged ) {
-                retList = mergeArrayLists( retList, findObjectsAtPoint( checkX, checkY ) );
+                /*if ( printStuff ) {
+                    Console.Write( "\t(" + checkX + ", " + checkY + ") -> " );
+                }*/
+
+                level.sysManager.drawSystem.debugPoints.Add( new PointF( checkX, checkY ) );
+                List<Entity> addList = findObjectsAtPoint(checkX, checkY);
+                retList = retList.Union( addList ).ToList<Entity>();
                 checkX += skipNum * ( float )Math.Cos( theta );
                 checkY += skipNum * ( float )Math.Sin( theta );
+
+
+                /*if ( printStuff && addList.Count > 0 ) {
+                    Console.Write( "Adding: " );
+                    foreach ( Entity e in addList ) {
+                        if ( !( e is Entities.Player ) ) {
+                            Console.WriteLine( "NOT PLAYER" );
+                        }
+                        Console.Write( e + " " );
+                    }
+                    Console.WriteLine( "" );
+                }*/
+
+                
+                /*if ( printStuff ) {
+                    Console.WriteLine( "(" + checkX + ", " + checkY + ")" );
+                }*/
+                
                 double oldDist = dist;
                 dist = getDist( new PointF( checkX, checkY ), new PointF( x2, y2 ) );
-                if ( oldDist < dist ) hasChanged = true; //If it's gotten longer, not shorter - stop.
+                if ( dist > oldDist ) {
+                    hasChanged = true; //If it's gotten longer, not shorter - stop.
+                }
+
+                /*
+                if ( hasChanged && printStuff ) {
+                    Console.WriteLine( "\tDist to: (" + x2 + ", " + y2 + ")" );
+                    Console.WriteLine( "\tOld: " + oldDist );
+                    Console.WriteLine( "\tNew: " + dist );
+                    Console.WriteLine( "\tAll done checking" );
+                }
+                */
             }
 
             return retList;

@@ -23,6 +23,7 @@ namespace RunningGame {
         public bool isStartingEntity = false;
         public bool updateOutOfView = false;
         public float depth = 10; /// lower numeric value means that higher depth priority, player has 1, enemy has 2, etc
+        public bool resetOnCheckpoint = true;
 
         Dictionary<string, Component> components = new Dictionary<string, Component>();
 

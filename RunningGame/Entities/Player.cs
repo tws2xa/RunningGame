@@ -117,13 +117,13 @@ namespace RunningGame.Entities {
 
 
             //Gravity Component
-            addComponent( new GravityComponent( 0, GlobalVars.STANDARD_GRAVITY ) );
+            addComponent( new GravityComponent( 0, GlobalVars.STANDARD_GRAVITY ), true );
 
             //Health Component
-            addComponent( new HealthComponent( 100, true, 1, 0.5f, level ) );
+            addComponent( new HealthComponent( 100, true, 1, 0.5f, level ), true );
 
             //Screen Edge Stop/Wrap/End Level
-            addComponent( new ScreenEdgeComponent( 1, 4, 1, 5 ) );
+            addComponent( new ScreenEdgeComponent( 1, 4, 1, 5 ), true );
 
         }
 

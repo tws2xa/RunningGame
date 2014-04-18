@@ -16,7 +16,7 @@ namespace RunningGame.Entities {
         //Both take in the starting x and y of the entity.
         //Both take in the level that it's being applied to.
         //You probably won't have to edit these at all.
-        public SmushBlockEntity( Level level, float x, float y, int dir ) {
+        public SmushBlockEntity( Level level, float x, float y, int dir, int switchId ) {
             //Set level.
             //Leave for all entities
             this.level = level;
@@ -27,12 +27,14 @@ namespace RunningGame.Entities {
 
             //Add the components.
             //Leave this for all entities.
-            addMyComponents( x, y, dir );
+            addMyComponents( x, y, dir, switchId );
         }
-        public SmushBlockEntity( Level level, int id, float x, float y, int dir ) {
+        public SmushBlockEntity( Level level, int id, float x, float y, int dir, int switchId ) {
             //Set level.
             //Leave for all entities
             this.level = level;
+
+            this.updateOutOfView = true;
 
             //Refers back to a class in the super Entity.
             //Leave this for all entities.
@@ -40,14 +42,14 @@ namespace RunningGame.Entities {
 
             //Add the components.
             //Leave this for all entities.
-            addMyComponents( x, y, dir );
+            addMyComponents( x, y, dir, switchId );
         }
 
         //------------------------------------------------------------------------------------------------------------------
 
         //Here's where you add all the components the entity has.
         //You can just uncomment the ones you want.
-        public void addMyComponents( float x, float y, int dir ) {
+        public void addMyComponents( float x, float y, int dir, int switchId ) {
             /*POSITION COMPONENT - Does it have a position?
              */
             addComponent(new PositionComponent(x, y, defaultWidth, defaultHeight, this), true);
@@ -89,9 +91,13 @@ namespace RunningGame.Entities {
              */
             DirectionalComponent dirComp = (DirectionalComponent)addComponent( new DirectionalComponent( dir ) );
 
+            /*OFF SIDE OF SCREEN - Stop when it hits the side of the screen.
+             */
+            addComponent( new ScreenEdgeComponent( 1, 1, 1, 1 ) );
+
             /*SMUSH - It's a smusher!
              */
-            SmushComponent smushComp = ( SmushComponent )addComponent( new SmushComponent( 2.0f ) );
+            SmushComponent smushComp = ( SmushComponent )addComponent( new SmushComponent( 0.0f ) );
 
             if ( dirComp.isUp() ) {
                 smushComp.setToUp();
@@ -106,19 +112,10 @@ namespace RunningGame.Entities {
             /*TIMER - It does stuff with a timer.
              */
             addComponent( new TimerComponent() );
-
-            /*
-             * SQIUSH COMPONENT - Is it squishy?
-             * This has a TON of variables...
-             * the first two read in are the normal width and height
-             * Then you read in the max width and height, then min width and height
-             * You can then optionally give it a max and min surface area.
-             * 
-             * There are other variables which affect the squishy behavior
-             * That you can change after instantiation, but not through the constructor.
-             * They all have default values in the componenent which will probably be enough.
+            
+            /* SWITCH LISTENER - Can be linked to a switch to prevent it from falling.
              */
-            //addComponent(new SquishComponent(defaultWidth, defaultHeight, defaultWidth*3.0f, defaultHeight*3.0f, defaultWidth/3.0f, defaultHeight/3.0f), true);
+            addComponent( new SwitchListenerComponent( switchId, GlobalVars.SMUSH_SWITCH_EVENT ) );
         }
 
         //You must have this, but it may be empty.
