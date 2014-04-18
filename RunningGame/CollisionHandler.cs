@@ -332,13 +332,13 @@ namespace RunningGame {
         //And turns it into a PostGroundBounce (i.e. a Bounce entity)
         public bool bounceGroundCollision( Entity e1, Entity e2 ) {
             Entity bounceB = null;
-            Entity ground = null;
+            BasicGround ground = null;
             if ( e1 is BasicGround ) {
-                ground = e1;
+                ground = (BasicGround) e1;
                 bounceB = e2;
             }
             if ( e2 is BasicGround ) {
-                ground = e2;
+                ground = (BasicGround) e2;
                 bounceB = e1;
             }
             if ( ground == null || bounceB == null ) return false;
@@ -347,10 +347,12 @@ namespace RunningGame {
 
             //level.removeEntity( ground );
             level.removeEntity( bounceB );
-
-            Entity newBounceGround = new Bounce( level, GenerateRandId(), loc.X, loc.Y - 1 );
-            level.addEntity( newBounceGround );
-
+            if (ground.isGrass())
+            {
+                Entity newBounceGround = new Bounce(level, GenerateRandId(), loc.X, loc.Y - 1);
+                level.addEntity(newBounceGround);
+            }
+            
             return false;
         }
 
