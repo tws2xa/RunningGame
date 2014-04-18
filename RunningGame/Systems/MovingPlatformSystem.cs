@@ -14,11 +14,11 @@ namespace RunningGame.Systems {
         List<string> requiredComponents = new List<string>();
         //All systems MUST have a variable holding the level they're contained in
         Level level;
-
+        
         List<Type> stoppingEntities = new List<Type>() {
             typeof(Entities.BasicGround)
         };
-
+        
         //Constructor - Always read in the level! You can read in other stuff too if need be.
         public MovingPlatformSystem( Level level ) {
             //Here is where you add the Required components

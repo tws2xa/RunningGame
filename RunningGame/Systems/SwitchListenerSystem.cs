@@ -29,7 +29,6 @@ namespace RunningGame.Systems {
             events.Add( GlobalVars.DEFAULT_OPEN_DOOR_EVENT_TYPE, defaultOpenDoorSwitch );
 
             this.level = level; //Always have this
-
         }
 
         //-------------------------------------- Overrides -------------------------------------------

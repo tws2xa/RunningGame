@@ -71,7 +71,7 @@ namespace RunningGame {
         public View( float x, float y, float width, float height, float displayX, float displayY, float displayWidth, float displayHeight, Level level, Entity followEntity ) {
             Initialize( x, y, width, height, displayX, displayY, displayWidth, displayHeight, level, followEntity );
         }
-
+        
         public void Initialize( float x, float y, float width, float height, float displayX, float displayY, float displayWidth, float displayHeight, Level level, Entity followEntity ) {
             this.x = x;
             this.y = y;
