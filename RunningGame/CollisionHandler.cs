@@ -64,7 +64,7 @@ namespace RunningGame {
             defaultCollisions.Add( GlobalVars.SMUSH_BLOCK_COLLIDER, simpleStopCollision );
             defaultCollisions.Add( GlobalVars.CHECKPOINT_COLLIDER_TYPE, doNothingCollision );
             defaultCollisions.Add( GlobalVars.DESTROYING_SPAWN_BLOCK_COLLIDER_TYPE, doNothingCollision );
-            defaultCollisions.Add( GlobalVars.VISION_ORB_UNLOCK_COLLIDER, simpleStopCollision );
+            defaultCollisions.Add( GlobalVars.VISION_ORB_UNLOCK_COLLIDER, doNothingCollision);
             defaultCollisions.Add( GlobalVars.SPIKE_SWITCH_COLLIDER, simpleStopCollision );
             
 
@@ -88,7 +88,7 @@ namespace RunningGame {
 >>>>>>> 326060056ef00e2163debdadc839a020cd69384d
 
             addToDictionary( GlobalVars.BULLET_COLLIDER_TYPE, GlobalVars.PLAYER_COLLIDER_TYPE, doNothingCollision );
-            addToDictionary( GlobalVars.BULLET_COLLIDER_TYPE, GlobalVars.SIMPLE_ENEMY_COLLIDER_TYPE, DestroyBothCollision );
+            addToDictionary( GlobalVars.BULLET_COLLIDER_TYPE, GlobalVars.SIMPLE_ENEMY_COLLIDER_TYPE, enemyBulletCollision);
             addToDictionary( GlobalVars.BULLET_COLLIDER_TYPE, GlobalVars.SWITCH_COLLIDER_TYPE, switchFlipCollision );
             addToDictionary( GlobalVars.BULLET_COLLIDER_TYPE, GlobalVars.SMUSH_BLOCK_COLLIDER, destroyBulletCollision );
             addToDictionary( GlobalVars.BULLET_COLLIDER_TYPE, GlobalVars.MOVING_PLATFORM_COLLIDER_TYPE, destroyBulletCollision );
@@ -134,6 +134,7 @@ namespace RunningGame {
 
             addToDictionary( GlobalVars.SMUSH_BLOCK_COLLIDER, GlobalVars.SPEEDY_POSTGROUND_COLLIDER_TYPE, doNothingCollision );
             addToDictionary( GlobalVars.SMUSH_BLOCK_COLLIDER, GlobalVars.BOUNCE_POSTGROUND_COLLIDER_TYPE, doNothingCollision );
+            addToDictionary( GlobalVars.SMUSH_BLOCK_COLLIDER, GlobalVars.SIMPLE_ENEMY_COLLIDER_TYPE, smushCollision );
             addToDictionary( GlobalVars.MOVING_PLATFORM_COLLIDER_TYPE, GlobalVars.PLATFORM_TURN_COLLIDER_TYPE, simpleStopCollision );
         }
 
@@ -794,8 +795,8 @@ namespace RunningGame {
             return true;
         }
 
-        public bool isWithinRange( float test, float left, float right ) {
-            return ( left < test && right > test );
+        public bool isWithinRange( float test, float leftUp, float rightDown ) {
+            return ( leftUp < test && rightDown > test );
         }
 
         public bool powerupPickupPlayerCollision( Entity e1, Entity e2 ) {
@@ -1226,6 +1227,91 @@ namespace RunningGame {
             }
 
             return false;
+        }
+
+
+        public bool killEnemyCollision( Entity e1, Entity e2 ) {
+            Entity enemyEnt = getEntityWithComponent( GlobalVars.SIMPLE_ENEMY_COMPONENT_NAME, e1, e2 )[0];
+
+            HealthComponent healthComp = (HealthComponent)enemyEnt.getComponent( GlobalVars.HEALTH_COMPONENT_NAME );
+            if ( healthComp == null ) {
+                Console.WriteLine( "Oh no! Trying to kill an enemy with no health component!" );
+                return true;
+            }
+
+            healthComp.kill();
+
+            return false;
+
+        }
+
+        public bool enemyBulletCollision( Entity e1, Entity e2 ) {
+
+            Entity[] ents = getEntityWithComponent( GlobalVars.SIMPLE_ENEMY_COMPONENT_NAME, e1, e2 );
+            Entity enemy = ents[0];
+            Entity bullet = ents[1];
+
+            SimpleEnemyComponent simpEnemyComp = ( SimpleEnemyComponent )enemy.getComponent( GlobalVars.SIMPLE_ENEMY_COMPONENT_NAME );
+            if ( !simpEnemyComp.hasShield ) {
+                return DestroyBothCollision( e1, e2 );
+            } else {
+                if ( !simpEnemyComp.bouncedBullets.ContainsKey( bullet ) ) {
+                    VelocityComponent bulletVel = ( VelocityComponent )bullet.getComponent( GlobalVars.VELOCITY_COMPONENT_NAME );
+                    
+                    PositionComponent enemyPos = ( PositionComponent )enemy.getComponent( GlobalVars.POSITION_COMPONENT_NAME );
+                    PositionComponent bulletPos = ( PositionComponent )bullet.getComponent( GlobalVars.POSITION_COMPONENT_NAME );
+                    ColliderComponent enemyCol = (ColliderComponent)enemy.getComponent(GlobalVars.COLLIDER_COMPONENT_NAME);
+                    ColliderComponent bulletCol = (ColliderComponent)bullet.getComponent(GlobalVars.COLLIDER_COMPONENT_NAME);
+
+                    float velX = bulletVel.x;
+                    float velY = bulletVel.y;
+
+                    float overlapBuffer = 3;
+
+                    PointF bulletLoc = bulletCol.getLocationAsPoint( bulletPos );
+                    PointF enemyLoc = enemyCol.getLocationAsPoint( enemyPos );
+                    PointF bulletSize = bulletCol.getSizeAsPoint();
+                    PointF enemySize = enemyCol.getSizeAsPoint();
+
+                    float bulletLower = bulletLoc.Y + bulletSize.Y / 2 - overlapBuffer;
+                    float bulletUpper = bulletLoc.Y - bulletSize.Y / 2 + overlapBuffer;
+                    float bulletRight = bulletLoc.X + bulletSize.X / 2 - overlapBuffer;
+                    float bulletLeft = bulletLoc.X - bulletSize.X / 2 + overlapBuffer;
+
+                    float enemyLower = enemyLoc.Y + enemySize.Y / 2 ;
+                    float enemyUpper = enemyLoc.Y - enemySize.Y / 2;
+                    float enemyRight = enemyLoc.X + enemySize.X / 2;
+                    float enemyLeft = enemyLoc.X - enemySize.X / 2;
+                    
+                    /*
+                    Console.WriteLine( "Y Range: (" + enemyUpper + ", " + enemyLower + ")" );
+                    Console.WriteLine( "\t" + bulletLower + " -- " + isWithinRange( bulletLower, enemyUpper, enemyLower ) );
+                    Console.WriteLine( "\t" + bulletUpper + " -- " + isWithinRange( bulletUpper, enemyUpper, enemyLower ) );
+                    Console.WriteLine( "\t" + bulletLoc.Y + " -- " + isWithinRange( bulletLoc.Y, enemyUpper, enemyLower ) );
+
+                    Console.WriteLine( "X Range: (" + enemyLeft + ", " + enemyRight + ")" );
+                    Console.WriteLine( "\t" + bulletLeft + " -- " + isWithinRange( bulletLeft, enemyLeft, enemyRight ) );
+                    Console.WriteLine( "\t" + bulletRight + " -- " + isWithinRange( bulletRight, enemyLeft, enemyRight ) );
+                    Console.WriteLine( "\t" + bulletLoc.X + " -- " + isWithinRange( bulletLoc.X , enemyLeft, enemyRight ) );
+                    */
+                    
+                    if ( isWithinRange( bulletUpper, enemyUpper, enemyLower )
+                        || isWithinRange(bulletLower, enemyUpper, enemyLower )
+                        || isWithinRange(bulletLoc.Y, enemyUpper, enemyLower)) {
+                        velX *= -1;
+                    }
+                    if ( isWithinRange( bulletLeft, enemyLeft, enemyRight )
+                        || isWithinRange(bulletRight, enemyLeft, enemyRight)
+                        || isWithinRange(bulletLoc.X, enemyLeft, enemyRight)) {
+                        velY *= -1;
+                    }
+
+                    bulletVel.setVelocity( velX, velY );
+                    simpEnemyComp.bouncedBullets.Add( bullet, GlobalVars.enemyShieldTime );
+                }
+                return false;
+            }
+
         }
 
         //Returns an entity list, index 0 has the component, index 1 is the other.

@@ -26,7 +26,9 @@ namespace RunningGame {
         Color vertMovPlatCol = Color.FromArgb( 0, 255, 0 ); //Vertical Plafroms are green!
         //Color horizMovPlatCol = Color.FromArgb( 0, 255, 255 ); //Horizontal Plafroms are cyan!
         Color simpleEnemyColor = Color.FromArgb( 255, 0, 0 ); //Walking Enemies are red.
+        Color shieldWalkingEnemyColor = Color.FromArgb( 255, 0, 1 );
         Color flyingEnemyColor = Color.FromArgb( 255, 255, 0 ); //Flying enemies are yellow!
+        Color shieldFlyingEnemyColor = Color.FromArgb( 255, 255, 1 );
         Color checkPointCollider = Color.FromArgb( 255, 255, 255 ); //End level is white
         Color movePlatformTurn = Color.FromArgb( 140, 140, 140 ); //Turn Platform Entity
         Color testEntityColor = Color.FromArgb( 42, 42, 42 ); //Test entity is 42, 42, 42.
@@ -254,7 +256,7 @@ namespace RunningGame {
                         float xLoc = ( levelX ) * tileWidth;
                         float yLoc = ( levelY ) * tileHeight;
                         int id = rand.Next( Int32.MinValue, Int32.MaxValue );
-                        SimpleEnemyEntity enemy = new SimpleEnemyEntity( level, id, xLoc, yLoc );
+                        SimpleEnemyEntity enemy = new SimpleEnemyEntity( level, id, xLoc, yLoc, false );
                         adjustLocation( enemy, level );
                         enemy.isStartingEntity = true;
                         level.addEntity( enemy.randId, enemy );
@@ -264,17 +266,35 @@ namespace RunningGame {
                         float xLoc = ( levelX ) * tileWidth;
                         float yLoc = ( levelY ) * tileHeight;
                         int id = rand.Next( Int32.MinValue, Int32.MaxValue );
-                        FlyingEnemyEntity enemy = new FlyingEnemyEntity( level, id, xLoc, yLoc );
+                        FlyingEnemyEntity enemy = new FlyingEnemyEntity( level, id, xLoc, yLoc, false );
                         adjustLocation( enemy, level );
                         enemy.isStartingEntity = true;
                         level.addEntity( enemy.randId, enemy );
 
+                    } else if ( col == shieldWalkingEnemyColor ) {
+
+                        float xLoc = ( levelX ) * tileWidth;
+                        float yLoc = ( levelY ) * tileHeight;
+                        int id = rand.Next( Int32.MinValue, Int32.MaxValue );
+                        SimpleEnemyEntity enemy = new SimpleEnemyEntity( level, id, xLoc, yLoc, true );
+                        adjustLocation( enemy, level );
+                        enemy.isStartingEntity = true;
+                        level.addEntity( enemy.randId, enemy );
+                    } else if ( col == shieldFlyingEnemyColor ) {
+
+                        float xLoc = ( levelX ) * tileWidth;
+                        float yLoc = ( levelY ) * tileHeight;
+                        int id = rand.Next( Int32.MinValue, Int32.MaxValue );
+                        FlyingEnemyEntity enemy = new FlyingEnemyEntity( level, id, xLoc, yLoc, true );
+                        adjustLocation( enemy, level );
+                        enemy.isStartingEntity = true;
+                        level.addEntity( enemy.randId, enemy );
                     } else if ( col == checkPointCollider ) {
 
                         CheckPointEntity checkEnt = new CheckPointEntity( level, rand.Next( Int32.MinValue, Int32.MaxValue ), levelX * tileWidth, levelY * tileHeight );
                         adjustLocation( checkEnt, level );
                         checkEnt.isStartingEntity = true;
-                        level.addEntity( checkEnt.randId, checkEnt);
+                        level.addEntity( checkEnt.randId, checkEnt );
 
                     }/*else if ( col == checkPointCollider ) {
 
@@ -392,7 +412,7 @@ namespace RunningGame {
                         float yLoc = ( levelY ) * tileHeight;
                         int id = rand.Next( Int32.MinValue, Int32.MaxValue );
 
-                        VisionOrbUnlock visUnlock = new VisionOrbUnlock( level, id, xLoc, yLoc);
+                        VisionOrbUnlock visUnlock = new VisionOrbUnlock( level, id, xLoc, yLoc );
                         adjustLocation( visUnlock, level );
 
                         visUnlock.isStartingEntity = true;

@@ -188,10 +188,12 @@ namespace RunningGame.Systems {
             }
         }
         public void endLeftHorizontalMove( PositionComponent posComp, VelocityComponent velComp, AnimationComponent animComp ) {
+            if ( level.getPlayer() == null ) return;
             if ( velComp.x < 0 ) velComp.setVelocity( 0, velComp.y );
             level.getPlayer().stopAnimation();
         }
         public void endRightHorizontalMove( PositionComponent posComp, VelocityComponent velComp, AnimationComponent animComp ) {
+            if ( level.getPlayer() == null ) return;
             if ( velComp.x > 0 ) velComp.setVelocity( 0, velComp.y );
             level.getPlayer().stopAnimation();
         }

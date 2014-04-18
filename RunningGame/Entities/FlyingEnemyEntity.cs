@@ -18,26 +18,26 @@ namespace RunningGame.Entities {
 
         //-------------------------------------------Constructors--------------------------------------------
 
-        public FlyingEnemyEntity( Level level, float x, float y ) {
+        public FlyingEnemyEntity( Level level, float x, float y, bool shield ) {
             this.level = level;
             this.depth = 3;
             initializeEntity( new Random().Next( Int32.MinValue, Int32.MaxValue ), level );
 
-            addMyComponents( x, y );
+            addMyComponents( x, y, shield );
         }
-        public FlyingEnemyEntity( Level level, int id, float x, float y ) {
+        public FlyingEnemyEntity( Level level, int id, float x, float y, bool shield ) {
             this.level = level;
 
             initializeEntity( id, level );
 
-            addMyComponents( x, y );
+            addMyComponents( x, y, shield );
         }
 
         //------------------------------------------------------------------------------------------------------------------
 
         //Here's where you add all the components the entity has.
         //You can just uncomment the ones you want.
-        public void addMyComponents( float x, float y ) {
+        public void addMyComponents( float x, float y, bool shield ) {
 
             this.updateOutOfView = true;
 
@@ -49,21 +49,32 @@ namespace RunningGame.Entities {
              */
             DrawComponent drawComp = ( DrawComponent )addComponent( new DrawComponent( defaultWidth, defaultHeight, level, true ), true );
 
-            List<string> enemyAnimation = new List<string>()
-            {
-                "Artwork.Creatures.FlyingEnemy1",
-                "Artwork.Creatures.FlyingEnemy2",
-                //"Artwork.Creatures.FlyingEnemy1",
-                //"Artwork.Creatures.FlyingEnemy3",
-            };
-            List<string> enemyAnimDefaults = new List<string>()
-            {
-                "RunningGame.Resources.Artwork.Creatures.FlyingEnemy111.png",
-                "RunningGame.Resources.Artwork.Creatures.FlyingEnemy211.png",
-                //"RunningGame.Resources.Artwork.Creatures.FlyingEnemy111.png",
-                //"RunningGame.Resources.Artwork.Creatures.FlyingEnemy311.png"
-            };
+            List<string> enemyAnimation;
+            List<string> enemyAnimDefaults;
 
+            if ( !shield ) {
+                enemyAnimation = new List<string>()
+                {
+                    "Artwork.Creatures.FlyingEnemy1",
+                    "Artwork.Creatures.FlyingEnemy2",
+                };
+                enemyAnimDefaults = new List<string>()
+                {
+                    "RunningGame.Resources.Artwork.Creatures.FlyingEnemy111.png",
+                    "RunningGame.Resources.Artwork.Creatures.FlyingEnemy211.png",
+                };
+            } else {
+                enemyAnimation = new List<string>()
+                {
+                    "Artwork.Creatures.FlyingEnemyGlow1",
+                    "Artwork.Creatures.FlyingEnemyGlow2",
+                };
+                enemyAnimDefaults = new List<string>()
+                {
+                    "RunningGame.Resources.Artwork.Creatures.FlyingEnemyGlow111.png",
+                    "RunningGame.Resources.Artwork.Creatures.FlyingEnemyGlow211.png",
+                };
+            }
 
             drawComp.addAnimatedSprite( enemyAnimation, enemyAnimDefaults, leftImageName );
             drawComp.setSprite( leftImageName );
@@ -90,7 +101,7 @@ namespace RunningGame.Entities {
 
             /*SIMPLE ENEMY COMPONENT
              */
-            SimpleEnemyComponent simpEnemyComp = ( SimpleEnemyComponent )addComponent( new SimpleEnemyComponent( GlobalVars.SIMPLE_ENEMY_H_SPEED + new Random().Next( -10, 10 ), false ), true );
+            SimpleEnemyComponent simpEnemyComp = ( SimpleEnemyComponent )addComponent( new SimpleEnemyComponent( GlobalVars.SIMPLE_ENEMY_H_SPEED + new Random().Next( -10, 10 ), false, shield ), true );
             simpEnemyComp.hasLandedOnce = true;
 
             addComponent( new ScreenEdgeComponent( 1, 1, 1, 1 ) );

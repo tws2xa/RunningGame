@@ -504,6 +504,26 @@
     <EmbeddedResource Include="Resources\Artwork\Background\Bkg32.png" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Resources\Artwork\Foreground\newPlat11.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\Shooter\shooterp0.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\Shooter\shooterp1.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\Shooter\shooterp10.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\Shooter\shooterp11.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\Shooter\shooterp12.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\Shooter\shooterp2.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\Shooter\shooterp3.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\Shooter\shooterp4.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\Shooter\shooterp5.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\Shooter\shooterp6.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\Shooter\shooterp7.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\Shooter\shooterp8.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\Shooter\shooterp9.png" />
+    <EmbeddedResource Include="Resources\Artwork\Creatures\FlyingEnemyGlow111.png" />
+    <EmbeddedResource Include="Resources\Artwork\Creatures\FlyingEnemyGlow211.png" />
+    <EmbeddedResource Include="Resources\Artwork\Creatures\EnemyGlow111.png" />
+    <EmbeddedResource Include="Resources\Artwork\Creatures\EnemyGlow211.png" />
+    <EmbeddedResource Include="Resources\Levels\World2Level3anna.png" />
+    <EmbeddedResource Include="Resources\Sounds\gameplay1.wav" />
     <None Include="Resources\Artwork\Other\SpringStaticScreenRevised.png" />
     <None Include="Resources\Artwork\Other\StartupScreen1.png" />
     <EmbeddedResource Include="Resources\Artwork\Other\DebugSquare2.png" />
@@ -605,10 +625,16 @@
     <EmbeddedResource Include="Resources\Artwork\Foreground\buttonUp60.png" />
     <EmbeddedResource Include="Resources\Artwork\Background\Bkg20.png" />
     <EmbeddedResource Include="Resources\Artwork\Background\Bkg40.png" />
-    <EmbeddedResource Include="Resources\Artwork\Background\Bkg10.png" />
-    <EmbeddedResource Include="Resources\Artwork\Background\Bkg11.png" />
+    <EmbeddedResource Include="Resources\Artwork\Background\Bkg10c.png" />
+    <EmbeddedResource Include="Resources\Artwork\Background\Bkg11c.png" />
     <EmbeddedResource Include="Resources\Artwork\Background\Bkg30a.png" />
     <EmbeddedResource Include="Resources\Artwork\Background\Bkg31a.png" />
+    <EmbeddedResource Include="Resources\Artwork\Background\back11.png" />
+    <EmbeddedResource Include="Resources\Artwork\Background\back21.png" />
+    <EmbeddedResource Include="Resources\Artwork\Background\Bkg11.png" />
+    <EmbeddedResource Include="Resources\Artwork\Background\Bkg10.png" />
+    <EmbeddedResource Include="Resources\Artwork\Background\Bkg21.png" />
+    <EmbeddedResource Include="Resources\Artwork\Background\Bkg22.png" />
     <Content Include="Resources\Artwork\Background\Bkg43.png" />
     <EmbeddedResource Include="Resources\Levels\World1Level1anna.png" />
     <EmbeddedResource Include="Resources\Levels\leveltry.png" />

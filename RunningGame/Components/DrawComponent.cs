@@ -395,5 +395,9 @@ namespace RunningGame.Components {
 
             return retStr;
         }
+
+        public void resetAnimation() {
+            getSprite().currentImageIndex = 0;
+        }
     }
 }

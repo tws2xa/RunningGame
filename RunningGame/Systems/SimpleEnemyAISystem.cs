@@ -96,6 +96,19 @@ namespace RunningGame.Systems {
                     if ( collisionsAheadAndBelow.Count <= 0 ) {
                         velComp.x = -velComp.x;
                     }
+
+
+                    //If there are any bounced bullets, decrease their timer - remove if it's been enough time since bounce.
+                    if ( simpEnemyComp.bouncedBullets.Count > 0 ) {
+                        List<Entity> toRemove = simpEnemyComp.bouncedBullets.Keys.ToList<Entity>();
+                        foreach ( Entity bullet in toRemove) {
+                            simpEnemyComp.bouncedBullets[bullet] -= deltaTime;
+                            if ( simpEnemyComp.bouncedBullets[bullet] < 0 ) {
+                                simpEnemyComp.bouncedBullets.Remove( bullet );
+                            }
+                        }
+
+                    }
                 }
 
                 //Face the right way

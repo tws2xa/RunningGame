@@ -18,26 +18,26 @@ namespace RunningGame.Entities {
 
         //-------------------------------------------Constructors--------------------------------------------
 
-        public SimpleEnemyEntity( Level level, float x, float y ) {
+        public SimpleEnemyEntity( Level level, float x, float y, bool shield ) {
             this.level = level;
             this.depth = 3;
             initializeEntity( new Random().Next( Int32.MinValue, Int32.MaxValue ), level );
 
-            addMyComponents( x, y );
+            addMyComponents( x, y, shield );
         }
-        public SimpleEnemyEntity( Level level, int id, float x, float y ) {
+        public SimpleEnemyEntity( Level level, int id, float x, float y, bool shield ) {
             this.level = level;
 
             initializeEntity( id, level );
 
-            addMyComponents( x, y );
+            addMyComponents( x, y, shield );
         }
 
         //------------------------------------------------------------------------------------------------------------------
 
         //Here's where you add all the components the entity has.
         //You can just uncomment the ones you want.
-        public void addMyComponents( float x, float y ) {
+        public void addMyComponents( float x, float y, bool shield ) {
 
             this.updateOutOfView = true;
 
@@ -49,23 +49,42 @@ namespace RunningGame.Entities {
              */
             DrawComponent drawComp = ( DrawComponent )addComponent( new DrawComponent( defaultWidth, defaultHeight, level, true ), true );
 
-            List<string> enemyAnimation = new List<string>()
-            {
-                "Artwork.Creatures.Enemy1",
-                "Artwork.Creatures.Enemy2",
-            };
+            List<string> enemyAnimation;
+            List<string> enemyAnimDefaults;
 
-            List<string> enemyAnimDefaults = new List<string>()
-            {
-                "RunningGame.Resources.Artwork.Creatures.Enemy111.png",
-                "RunningGame.Resources.Artwork.Creatures.Enemy211.png"
-            };
+            if ( !shield ) {
+                enemyAnimation = new List<string>()
+                {
+                    "Artwork.Creatures.Enemy1",
+                    "Artwork.Creatures.Enemy2",
+                };
+
+                enemyAnimDefaults = new List<string>()
+                {
+                    "RunningGame.Resources.Artwork.Creatures.Enemy111.png",
+                    "RunningGame.Resources.Artwork.Creatures.Enemy211.png"
+                };
+            } else {
+                enemyAnimation = new List<string>()
+                {
+                    "Artwork.Creatures.EnemyGlow1",
+                    "Artwork.Creatures.EnemyGlow2",
+                };
+
+                enemyAnimDefaults = new List<string>()
+                {
+                    "RunningGame.Resources.Artwork.Creatures.EnemyGlow111.png",
+                    "RunningGame.Resources.Artwork.Creatures.EnemyGlow211.png"
+                };
+            }
 
             drawComp.addAnimatedSprite( enemyAnimation, enemyAnimDefaults, leftImageName );
-            drawComp.setSprite( leftImageName );
-
+            
             drawComp.addAnimatedSprite( enemyAnimation, enemyAnimDefaults, rightImageName );
             drawComp.rotateFlipSprite( rightImageName, System.Drawing.RotateFlipType.RotateNoneFlipX );
+
+            drawComp.setSprite( leftImageName );
+
 
             /* ANIMATION COMPONENT - Does it need animating?
              */
@@ -91,7 +110,7 @@ namespace RunningGame.Entities {
 
             /*SIMPLE ENEMY COMPONENT
              */
-            addComponent( new SimpleEnemyComponent( GlobalVars.SIMPLE_ENEMY_H_SPEED + new Random().Next( -10, 10 ), true ), true );
+            addComponent( new SimpleEnemyComponent( GlobalVars.SIMPLE_ENEMY_H_SPEED + new Random().Next( -10, 10 ), true, shield ), true );
 
             //Screen Edge Stop/Wrap/End Level
             addComponent( new ScreenEdgeComponent( 1, 1, 1, 5 ), true );

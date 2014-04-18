@@ -156,7 +156,14 @@ namespace RunningGame {
 
             sysManager.Update( 0 );
 
+            if ( worldNum == 1 || worldNum == 2 ) {
+                bkgMusic = "RunningGame.Resources.Sounds.gameplay1.wav";
+            } else if ( worldNum == 3 || worldNum == 4 ) {
+                bkgMusic = "RunningGame.Resources.Sounds.gameplay.wav";
+            }
+
             if ( !soundPlaying( bkgMusic ) ) {
+                stopAllSounds();
                 playSound( bkgMusic, true );
             }
         }
@@ -343,6 +350,7 @@ namespace RunningGame {
                     ents[i].revertToStartingState();
                 }
             }
+
             //Do the same for ground
             Entity[] grndents = GlobalVars.groundEntities.Values.ToArray();
             for ( int i = 0; i < grndents.Length; i++ ) {
@@ -545,7 +553,9 @@ namespace RunningGame {
 
             string fullImageAddress = "RunningGame.Resources.Artwork.Background.Bkg11.png";
             string imageStub = "Artwork.Background.Bkg";
-            string preColorImageStub = "Artwork.Background.BkgPreColor";
+            //string preColorImageStub = "Artwork.Background.BkgPreColor";
+            //string fullImageAddress = "RunningGame.Resources.Artwork.Background.back21.png";
+            //string imageStub = "Artwork.Background.back";
 
 
             Bitmap tempImg = getBkgImg();

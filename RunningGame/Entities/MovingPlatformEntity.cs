@@ -59,7 +59,7 @@ namespace RunningGame.Entities {
             /*DRAW COMPONENT - Does it get drawn to the game world?
              */
             DrawComponent drawComp = ( DrawComponent )addComponent( new DrawComponent( imageWidth, imageHeight, level, true ), true );
-            drawComp.addSprite( "Artwork.Foreground.MovPlat", "RunningGame.Resources.Artwork.Foreground.MovPlat1.png", "Main" ); //Add image
+            drawComp.addSprite( "Artwork.Foreground.newPlat", "RunningGame.Resources.Artwork.Foreground.newPlat11.png", "Main" ); //Add image
             drawComp.setSprite( "Main" ); //Set image to active image
 
             /*Animation
