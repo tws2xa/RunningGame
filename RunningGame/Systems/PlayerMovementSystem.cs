@@ -47,11 +47,15 @@ namespace RunningGame.Systems {
                 PlayerInputComponent pelInComp = ( PlayerInputComponent )e.getComponent( GlobalVars.PLAYER_INPUT_COMPONENT_NAME );
                 AnimationComponent animComp = ( AnimationComponent )e.getComponent( GlobalVars.ANIMATION_COMPONENT_NAME );
                 checkForInput( posComp, velComp, pelInComp, animComp );
+                ColliderComponent colComp = (ColliderComponent)e.getComponent(GlobalVars.COLLIDER_COMPONENT_NAME);
+
+                List<Entity> collisions = level.getCollisionSystem().findObjectsBetweenPoints(
+                    colComp.getX(posComp) - colComp.width / 2 + 1, colComp.getY(posComp)+ ( colComp.height / 2 ) + 1, colComp.getX(posComp) + colComp.width / 2 - 1, colComp.getY(posComp) +
+                    ( colComp.height / 2 ) + 1 );
 
                 //Reset passedAirJumps if needed
-                if ( pelInComp.passedAirjumps != 0 && level.getCollisionSystem().findObjectsBetweenPoints(
-                    posComp.x - posComp.width / 2, posComp.y + ( posComp.height / 2 ) + 1, posComp.x + posComp.width / 2, posComp.y +
-                    ( posComp.height / 2 ) + 1 ).Count > 0 ) {
+                if (pelInComp.passedAirjumps != 0 && collisions.Count > 0)
+                {
                     pelInComp.passedAirjumps = 0;
                 }
 
