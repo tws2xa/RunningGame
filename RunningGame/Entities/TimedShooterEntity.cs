@@ -10,6 +10,7 @@ namespace RunningGame.Entities {
 
         float defaultWidth = 20f;
         float defaultHeight = 20f;
+        string startingSprite = "Bkp";
 
         //-------------------------------------------Constructors--------------------------------------------
         public TimedShooterEntity( Level level, float x, float y, float timeBetweenBursts, int shotsPerBurst, int dir, int switchId ) {
@@ -52,6 +53,11 @@ namespace RunningGame.Entities {
              */
             addComponent( new VelocityComponent(), true );
 
+            /* TIMED SHOOTER COMPONENT - It shoots at a given time interval.
+             */
+            TimedShooterComponent shooterComp = ( TimedShooterComponent )addComponent( new TimedShooterComponent( timeBetweenBursts, shotsPerBurst, this ), true );
+            startingSprite = shooterComp.badSpriteName;
+
             /*DRAW COMPONENT - Does it get drawn to the game world?
              */
             DrawComponent drawComp = (DrawComponent)addComponent(new DrawComponent(defaultWidth, defaultHeight, level, true), true);
@@ -91,8 +97,40 @@ namespace RunningGame.Entities {
             };
 
 
-            drawComp.addAnimatedSprite( shooterAnimation, shooterAnimDefaults, "Main" );
-            drawComp.setSprite( "Main" ); //Set image to active image
+            List<string> goodShooterAnimation = new List<string>() {
+                "Artwork.Foreground.Shooter.GoodShooter0",
+                "Artwork.Foreground.Shooter.GoodShooter1",
+                "Artwork.Foreground.Shooter.GoodShooter2",
+                "Artwork.Foreground.Shooter.GoodShooter3",
+                "Artwork.Foreground.Shooter.GoodShooter4",
+                "Artwork.Foreground.Shooter.GoodShooter5",
+                "Artwork.Foreground.Shooter.GoodShooter6",
+                "Artwork.Foreground.Shooter.GoodShooter7",
+                "Artwork.Foreground.Shooter.GoodShooter8",
+                "Artwork.Foreground.Shooter.GoodShooter9",
+                "Artwork.Foreground.Shooter.GoodShooter10",
+                "Artwork.Foreground.Shooter.GoodShooter11",
+                "Artwork.Foreground.Shooter.GoodShooter12"
+            };
+            List<string> goodShooterAnimDefaults = new List<string>() {
+                "RunningGame.Resources.Artwork.Foreground.Shooter.GoodShooter0.png",
+                "RunningGame.Resources.Artwork.Foreground.Shooter.GoodShooter1.png",
+                "RunningGame.Resources.Artwork.Foreground.Shooter.GoodShooter2.png",
+                "RunningGame.Resources.Artwork.Foreground.Shooter.GoodShooter3.png",
+                "RunningGame.Resources.Artwork.Foreground.Shooter.GoodShooter4.png",
+                "RunningGame.Resources.Artwork.Foreground.Shooter.GoodShooter5.png",
+                "RunningGame.Resources.Artwork.Foreground.Shooter.GoodShooter6.png",
+                "RunningGame.Resources.Artwork.Foreground.Shooter.GoodShooter7.png",
+                "RunningGame.Resources.Artwork.Foreground.Shooter.GoodShooter8.png",
+                "RunningGame.Resources.Artwork.Foreground.Shooter.GoodShooter9.png",
+                "RunningGame.Resources.Artwork.Foreground.Shooter.GoodShooter10.png",
+                "RunningGame.Resources.Artwork.Foreground.Shooter.GoodShooter11.png",
+                "RunningGame.Resources.Artwork.Foreground.Shooter.GoodShooter12.png"
+            };
+
+            drawComp.addAnimatedSprite( shooterAnimation, shooterAnimDefaults, shooterComp.badSpriteName );
+            drawComp.addAnimatedSprite( goodShooterAnimation, goodShooterAnimDefaults, shooterComp.goodShooterName );
+            drawComp.setSprite( startingSprite ); //Set image to active image
 
             float animationTime = timeBetweenBursts / shooterAnimDefaults.Count();
 
@@ -104,10 +142,6 @@ namespace RunningGame.Entities {
              */
             addComponent(new ColliderComponent(this, GlobalVars.TIMED_SHOOTER_COLLIDER_TYPE), true);
             
-            /* TIMED SHOOTER COMPONENT - It shoots at a given time interval.
-             */
-            TimedShooterComponent shooterComp = (TimedShooterComponent)addComponent( new TimedShooterComponent( timeBetweenBursts, shotsPerBurst ), true );
-
             /* TIMER COMPONENT - It makes use of timed method execution.
              */
             TimerComponent timeComp = ( TimerComponent )addComponent( new TimerComponent(), true );
@@ -145,6 +179,8 @@ namespace RunningGame.Entities {
             level.getMovementSystem().teleportToNoCollisionCheck( posComp, posComp.startingX, posComp.startingY );
             VelocityComponent velComp = ( VelocityComponent )this.getComponent( GlobalVars.VELOCITY_COMPONENT_NAME );
             velComp.setVelocity( 0, 0 );
+            DrawComponent drawComp = (DrawComponent)this.getComponent( GlobalVars.DRAW_COMPONENT_NAME );
+            drawComp.setSprite( startingSprite, true );
         }
 
     }
