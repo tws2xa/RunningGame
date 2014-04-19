@@ -378,7 +378,11 @@ namespace RunningGame
             btnPlay.Enabled = false;
             showHideWorldButtons(true);
             showHideControlButtons(false);
-            
+            if (this.btnControls.Visible == false)
+            {
+                this.btnControls.Visible = true;
+                this.btnControls.Enabled = true;
+            }
         }
 
 
