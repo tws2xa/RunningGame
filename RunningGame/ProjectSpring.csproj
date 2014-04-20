@@ -209,6 +209,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FormSpring.resx">
       <DependentUpon>FormSpring.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -504,6 +505,11 @@
     <EmbeddedResource Include="Resources\Artwork\Background\Bkg32.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\Artwork\Other\SpringStaticScreen.png" />
+    <EmbeddedResource Include="Resources\Artwork\Other\SpringStaticScreen2.png" />
+    <EmbeddedResource Include="Resources\Artwork\Background\Copy %282%29 of Bkg10.png" />
+    <EmbeddedResource Include="Resources\Artwork\Background\Copy of Bkg10.png" />
+    <EmbeddedResource Include="Resources\Levels\debug2.png" />
     <EmbeddedResource Include="Resources\Artwork\Foreground\Shooter\GoodShooter0.png" />
     <EmbeddedResource Include="Resources\Artwork\Foreground\Shooter\GoodShooter1.png" />
     <EmbeddedResource Include="Resources\Artwork\Foreground\Shooter\GoodShooter10.png" />

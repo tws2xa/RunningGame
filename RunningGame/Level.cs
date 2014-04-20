@@ -476,8 +476,8 @@ namespace RunningGame {
             //this part is the check for the flash
             //if flashtime is greater than 0, then it means that flash needs to be done
 
-            g.DrawString( GlobalVars.preciseCollisionChecking.ToString(), SystemFonts.DefaultFont, Brushes.Black, new RectangleF( 10, 30, cameraWidth - 20, cameraHeight - 20 ) );
-            g.DrawString( fps.ToString( "F" ) + "", SystemFonts.DefaultFont, Brushes.Black, new RectangleF( 10, 10, cameraWidth - 20, cameraHeight - 20 ) );
+            //g.DrawString( GlobalVars.preciseCollisionChecking.ToString(), SystemFonts.DefaultFont, Brushes.Black, new RectangleF( 10, 30, cameraWidth - 20, cameraHeight - 20 ) );
+            //g.DrawString( fps.ToString( "F" ) + "", SystemFonts.DefaultFont, Brushes.Black, new RectangleF( 10, 10, cameraWidth - 20, cameraHeight - 20 ) );
         }
 
         //Add an entity to the list of entities

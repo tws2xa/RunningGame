@@ -74,7 +74,7 @@ namespace RunningGame {
             GlobalVars.removedStartingEntities.Clear();
             //HERE IS WHERE YOU SAY WHICH LEVEL TO LOAD ON DEBUG
             //YOU GET TO IT BY PRESSING THE DEBUG BUTTON
-            currentLevel = new Level( this, winWidth, winHeight, "RunningGame.Resources.Levels.DebugLevel.png", 1, 1, true, dbGraphics, displayFont );
+            currentLevel = new Level( this, winWidth, winHeight, "RunningGame.Resources.Levels.debug2.png", 1, 1, true, dbGraphics, displayFont );
         }
 
         //This first clears all lists, then loads a given level.

@@ -93,7 +93,7 @@ namespace RunningGame
 
 
         private void setLabelBkgColors() {
-            Color bkgBoxCol = Color.FromArgb( 100, Color.WhiteSmoke );
+            Color bkgBoxCol = Color.FromArgb( 0, Color.WhiteSmoke );
             cntrlBkgBox.BackColor = bkgBoxCol;
 
             this.lblCycleDown.BackColor = bkgBoxCol;
