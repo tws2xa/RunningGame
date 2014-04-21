@@ -125,6 +125,7 @@
     <Compile Include="Entities\EndLevelEntity.cs" />
     <Compile Include="Entities\PressureSwitchEntity.cs" />
     <Compile Include="Entities\SpikeEntity.cs" />
+    <Compile Include="Entities\TimeDialEntity.cs" />
     <Compile Include="Entities\TimedShooterEntity.cs" />
     <Compile Include="Entities\TimedSwitchEntity.cs" />
     <Compile Include="Entities\FlyingEnemyEntity.cs" />
@@ -505,6 +506,18 @@
     <EmbeddedResource Include="Resources\Artwork\Background\Bkg32.png" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Resources\Artwork\Foreground\TimeDial\CTP1.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\TimeDial\CTP10.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\TimeDial\CTP11.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\TimeDial\CTP12.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\TimeDial\CTP2.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\TimeDial\CTP3.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\TimeDial\CTP4.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\TimeDial\CTP5.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\TimeDial\CTP6.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\TimeDial\CTP7.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\TimeDial\CTP8.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\TimeDial\CTP9.png" />
     <None Include="Resources\Artwork\Other\SpringStaticScreen.png" />
     <EmbeddedResource Include="Resources\Artwork\Other\SpringStaticScreen2.png" />
     <EmbeddedResource Include="Resources\Artwork\Background\Copy %282%29 of Bkg10.png" />
@@ -683,6 +696,7 @@
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </COMReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
