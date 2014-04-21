@@ -357,19 +357,6 @@ namespace RunningGame {
                             img = new Bitmap( drawComp.getImage(), imageSize );
                         }
 
-                        /*
-                        //Get center instead of upper left
-                        PointF drawPoint = posComp.getPointF();
-                        drawPoint.X -= (posComp.width / 2.0f);
-                        drawPoint.Y -= (posComp.height / 2.0f);
-
-                        drawPoint.X -= this.x;
-                        drawPoint.Y -= this.y;
-
-                        drawPoint.X *= wRatio;
-                        drawPoint.Y *= hRatio;
-                         */
-
                         PointF drawPoint = posComp.getLocAsPoint();
                         drawPoint.X -= ( posComp.width / 2.0f );
                         drawPoint.Y -= ( posComp.height / 2.0f );
