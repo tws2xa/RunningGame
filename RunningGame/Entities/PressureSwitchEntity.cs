@@ -94,7 +94,7 @@ namespace RunningGame.Entities {
             hDiff = posComp.height - hDiff;
             level.getMovementSystem().teleportToNoCollisionCheck( posComp, posComp.x, posComp.y - hDiff / 2 );
 
-            sc.setActive( false );
+            sc.setActive( false, this );
 
         }
     }

@@ -736,7 +736,10 @@ namespace RunningGame {
             GlobalVars.removedStartingEntities.Clear();
         }
 
-
+        public void makeTimeDial( float x, float y, float w, float h, float time, bool fill ) {
+            TimeDialEntity timeDial = new TimeDialEntity( this, x, y, w, h, time, fill );
+            this.addEntity( timeDial );
+        }
 
 
         public void setToPostColors() {

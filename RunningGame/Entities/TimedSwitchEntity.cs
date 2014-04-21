@@ -90,7 +90,7 @@ namespace RunningGame.Entities {
 
         public override void revertToStartingState() {
             SwitchComponent sc = ( SwitchComponent )getComponent( GlobalVars.SWITCH_COMPONENT_NAME );
-            sc.setActive( startingState );
+            sc.setActive( startingState, this );
 
             DrawComponent drawComp = ( DrawComponent )getComponent( GlobalVars.DRAW_COMPONENT_NAME );
             if ( startingState )

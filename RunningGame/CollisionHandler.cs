@@ -560,7 +560,7 @@ namespace RunningGame {
 
         public static void activateSwitch( Entity s, SwitchComponent sc ) {
             if ( !sc.active ) {
-                sc.setActive( true );
+                sc.setActive( true, s );
                 DrawComponent drawComp = ( DrawComponent )s.getComponent( GlobalVars.DRAW_COMPONENT_NAME );
                 drawComp.setSprite( GlobalVars.SWITCH_ACTIVE_SPRITE_NAME );
             }
