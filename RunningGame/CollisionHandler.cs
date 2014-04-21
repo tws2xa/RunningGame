@@ -535,6 +535,8 @@ namespace RunningGame {
                 Console.WriteLine( "Switch collision with no switch?" );
                 return false;
             }
+
+
             //if it is spawnblock and it is moving flip switch
             if (other is spawnBlockEntity)
             {
@@ -542,31 +544,27 @@ namespace RunningGame {
                 level.removeEntity(other);
                 if (sbc.state == 1 || sbc.state == 2)
                 {
-                    if (!sc.active)
-                    {
-                        sc.setActive(true);
-                        DrawComponent drawComp = (DrawComponent)s.getComponent(GlobalVars.DRAW_COMPONENT_NAME);
-                        drawComp.setSprite(GlobalVars.SWITCH_ACTIVE_SPRITE_NAME);
-                    }
+                    activateSwitch( s, sc );
                 }
 
             }
             //If the switch is not active, make it active and switch the image
             else {
-            
-                if (!sc.active)
-                {
-                    sc.setActive(true);
-                    DrawComponent drawComp = (DrawComponent)s.getComponent(GlobalVars.DRAW_COMPONENT_NAME);
-                    drawComp.setSprite(GlobalVars.SWITCH_ACTIVE_SPRITE_NAME);
-                }
+                activateSwitch( s, sc );
             }
 
             //Don't stop the movement
             return false;
 
         }
-        
+
+        public static void activateSwitch( Entity s, SwitchComponent sc ) {
+            if ( !sc.active ) {
+                sc.setActive( true );
+                DrawComponent drawComp = ( DrawComponent )s.getComponent( GlobalVars.DRAW_COMPONENT_NAME );
+                drawComp.setSprite( GlobalVars.SWITCH_ACTIVE_SPRITE_NAME );
+            }
+        }
 
         //This occurs when the player collides with an enemy. Kills the player.
         public static bool killPlayerCollision( Entity e1, Entity e2 ) {
