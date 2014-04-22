@@ -20,7 +20,11 @@ namespace RunningGame.Components {
         }
 
         public void addTimer( string name, float time ) {
-            timers.Add( name, time );
+            if ( !timers.ContainsKey( name ) ) {
+                timers.Add( name, time );
+            } else {
+                setTimer( name, time );
+            }
         }
 
         public void removeTimer( string name ) {

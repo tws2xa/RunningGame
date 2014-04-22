@@ -16,7 +16,10 @@ namespace RunningGame.Systems {
         Level level;
         
         List<Type> stoppingEntities = new List<Type>() {
-            typeof(Entities.BasicGround)
+            typeof(Entities.BasicGround),
+            typeof(Entities.FlyingEnemyEntity),
+            typeof(Entities.SpikeEntity),
+            typeof(Entities.TimedShooterEntity)
         };
         
         //Constructor - Always read in the level! You can read in other stuff too if need be.

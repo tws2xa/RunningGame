@@ -56,7 +56,10 @@ namespace RunningGame.Systems {
                 TimerComponent timeComp = ( TimerComponent )e.getComponent( GlobalVars.TIMER_COMPONENT_NAME );
 
                 if ( smushComp.isFrozen() && smushComp.isWaitingUpper() ) {
-                    timeComp.setTimer( upperWaitTimer, smushComp.getUpperWaitTime() );
+                    if ( timeComp.getCompletedTimers().Contains( upperWaitTimer ) ) {
+                        timeComp.removeCompletedTimer( upperWaitTimer );
+                    }
+                    timeComp.addTimer( upperWaitTimer, smushComp.getUpperWaitTime());
                 }
 
                 List<string> completedTimers = new List<string>(timeComp.getCompletedTimers());

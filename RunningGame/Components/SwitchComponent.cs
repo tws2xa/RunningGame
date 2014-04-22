@@ -36,14 +36,16 @@ namespace RunningGame.Components {
             this.active = active;
 
             if(active && me.hasComponent(GlobalVars.TIMED_SWITCH_COMPONENT_NAME) ){
-                makeTimeDial(me);
+                TimedSwitchComponent timeComp = ( TimedSwitchComponent )me.getComponent( GlobalVars.TIMED_SWITCH_COMPONENT_NAME );
+                if ( timeComp.baseTime > 0 ) {
+                    makeTimeDial( me, timeComp );
+                }
             }
 
             notifyObservers();
         }
 
-        public void makeTimeDial(Entity e) {
-            TimedSwitchComponent timeComp = ( TimedSwitchComponent )e.getComponent( GlobalVars.TIMED_SWITCH_COMPONENT_NAME );
+        public void makeTimeDial(Entity e, TimedSwitchComponent timeComp) {
             PositionComponent posComp = ( PositionComponent )e.getComponent( GlobalVars.POSITION_COMPONENT_NAME );
             ColliderComponent colComp = ( ColliderComponent )e.getComponent( GlobalVars.COLLIDER_COMPONENT_NAME );
 
