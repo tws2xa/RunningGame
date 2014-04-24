@@ -164,7 +164,8 @@ namespace RunningGame.Systems {
         public void playerJump( PositionComponent posComp, VelocityComponent velComp, PlayerInputComponent pelInComp ) {
             //If it's landed on something, jump
             float checkY = posComp.y + ( posComp.height / 2 ) + GlobalVars.MIN_TILE_SIZE / 2;
-            if ( level.getCollisionSystem().findObjectsBetweenPoints( posComp.x - posComp.width / 2, checkY, posComp.x + posComp.width / 2, checkY ).Count > 0 ) {
+            float buffer = 2;
+            if ( level.getCollisionSystem().findObjectsBetweenPoints( posComp.x - posComp.width / 2 + buffer, checkY, posComp.x + posComp.width / 2 - buffer, checkY ).Count > 0 ) {
                 velComp.setVelocity( velComp.x, pelInComp.jumpStrength );
                 pelInComp.passedAirjumps = 0;
             } else {

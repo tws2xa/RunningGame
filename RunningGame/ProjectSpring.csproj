@@ -668,6 +668,7 @@
     <EmbeddedResource Include="Resources\Artwork\Background\Bkg10.png" />
     <EmbeddedResource Include="Resources\Artwork\Background\Bkg21.png" />
     <EmbeddedResource Include="Resources\Artwork\Background\Bkg22.png" />
+    <EmbeddedResource Include="Resources\Levels\World4Level2_new.png" />
     <Content Include="Resources\Artwork\Background\Bkg43.png" />
     <EmbeddedResource Include="Resources\Levels\World1Level1anna.png" />
     <EmbeddedResource Include="Resources\Levels\leveltry.png" />
