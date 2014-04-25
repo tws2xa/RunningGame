@@ -13,6 +13,7 @@ namespace RunningGame.Components {
         //public int numAirJumps { get; set; } //number of jumps possible in the air (numAirJumps = 1 means you can double jump)
         public int passedAirjumps { get; set; }
         public Player player { get; set; }
+        public bool justJumped = false;
 
         public PlayerInputComponent( Entity player ) {
 
