@@ -67,7 +67,7 @@ namespace RunningGame.Entities {
 
         public void addMyComponents( float x, float y ) {
 
-            this.resetOnCheckpoint = false;
+            //this.resetOnCheckpoint = false;
 
             //POSITION COMPONENT - Does it have a position?
             addComponent( new PositionComponent( x, y, defaultWidth, defaultHeight, this ), true );

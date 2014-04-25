@@ -30,7 +30,18 @@ namespace RunningGame {
             if ( level.levelNum == 1 ) {
                 preColor = !level.colorOrbObtained;
             }
+            setSwitchCheckpoints();
             updatePlayerLoc();
+        }
+
+        public void setSwitchCheckpoints() {
+            foreach ( Entity e in GlobalVars.nonGroundEntities.Values ) {
+                if ( e is SwitchEntity ) {
+                    SwitchEntity mySwitch = ( SwitchEntity )e;
+                    SwitchComponent switchComp = (SwitchComponent)e.getComponent(GlobalVars.SWITCH_COMPONENT_NAME);
+                    mySwitch.lastCheckpointState = switchComp.active;
+                }
+            }
         }
 
         public void updatePlayerLoc() {

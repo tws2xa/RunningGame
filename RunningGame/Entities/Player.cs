@@ -162,6 +162,9 @@ namespace RunningGame.Entities {
             level.getMovementSystem().teleportToNoCollisionCheck( posComp, posComp.startingX, posComp.startingY );
             level.getMovementSystem().changeSize( posComp, posComp.startingWidth, posComp.startingHeight );
 
+            PlayerInputComponent plInComp = ( PlayerInputComponent )this.getComponent( GlobalVars.PLAYER_INPUT_COMPONENT_NAME );
+            plInComp.passedAirjumps = 0;
+
             VelocityComponent velComp = ( VelocityComponent )this.getComponent( GlobalVars.VELOCITY_COMPONENT_NAME );
             velComp.x = 0;
             velComp.y = 0;

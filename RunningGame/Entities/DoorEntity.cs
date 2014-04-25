@@ -10,7 +10,7 @@ namespace RunningGame.Entities {
     [Serializable()]
     public class DoorEntity : Entity {
 
-
+        
         //If you're object has width/height Probably good to have a defaults for both.
         //These are the dimensions your entitiy will start out with.
         //float defaultWidth = 30;

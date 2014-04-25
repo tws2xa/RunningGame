@@ -342,8 +342,16 @@ namespace RunningGame {
             Dictionary<int, Entity> toRestore = GlobalVars.removedStartingEntities.Where( x => !checkpointData.getRemovedEnts().ContainsKey( x.Key ) ).ToDictionary( x => x.Key, x => x.Value );
 
             //Remove non-starting entities, and restore starting entities to their initial state
+            //Set switches to their last checkpnt state
             Entity[] ents = GlobalVars.nonGroundEntities.Values.ToArray();
             for ( int i = 0; i < ents.Length; i++ ) {
+
+                if ( ents[i] is SwitchEntity ) {
+                    SwitchEntity switchEnt = (SwitchEntity)ents[i];
+                    SwitchComponent switchComp = ( SwitchComponent )switchEnt.getComponent( GlobalVars.SWITCH_COMPONENT_NAME );
+                    switchComp.setActive( switchEnt.lastCheckpointState, switchEnt );
+                }
+                
                 if ( !ents[i].isStartingEntity ) {
                     removeEntity( ents[i] );
                 } else if(ents[i].resetOnCheckpoint){
@@ -477,9 +485,9 @@ namespace RunningGame {
             //if flashtime is greater than 0, then it means that flash needs to be done
             string towrite = "";
             if(getPlayer() != null) {
-                PlayerInputComponent pelInComp = ( PlayerInputComponent )getPlayer().getComponent( GlobalVars.PLAYER_INPUT_COMPONENT_NAME );
-                if ( pelInComp != null ) {
-                    towrite = pelInComp.passedAirjumps.ToString();
+                if ( getPlayer().hasComponent( GlobalVars.PLAYER_INPUT_COMPONENT_NAME ) ) {
+                    PlayerInputComponent pelInComp = ( PlayerInputComponent )getPlayer().getComponent( GlobalVars.PLAYER_INPUT_COMPONENT_NAME );
+                    towrite = pelInComp.passedAirjumps.ToString();    
                 }
             }
             g.DrawString( towrite, SystemFonts.DefaultFont, Brushes.Black, new RectangleF( 10, 30, cameraWidth - 20, cameraHeight - 20 ) );
