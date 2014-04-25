@@ -556,6 +556,7 @@
     <EmbeddedResource Include="Resources\Artwork\Creatures\EnemyGlow111.png" />
     <EmbeddedResource Include="Resources\Artwork\Creatures\EnemyGlow211.png" />
     <EmbeddedResource Include="Resources\Levels\World2Level3anna.png" />
+    <EmbeddedResource Include="Resources\Levels\World5Level1_new.png" />
     <EmbeddedResource Include="Resources\Sounds\gameplay1.wav" />
     <None Include="Resources\Artwork\Other\SpringStaticScreenRevised.png" />
     <None Include="Resources\Artwork\Other\StartupScreen1.png" />
