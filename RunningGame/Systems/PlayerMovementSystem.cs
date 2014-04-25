@@ -56,7 +56,11 @@ namespace RunningGame.Systems {
                 //Reset passedAirJumps if needed
                 if (pelInComp.passedAirjumps != 0 && collisions.Count > 0)
                 {
-                    pelInComp.passedAirjumps = 0;
+                    if ( !pelInComp.justJumped ) {
+                        pelInComp.passedAirjumps = 0;
+                    } else {
+                        pelInComp.justJumped = false;
+                    }
                 }
 
                 //If there's a key down and the player isn't moving horizontally, check to make sure there's a collision
@@ -164,7 +168,15 @@ namespace RunningGame.Systems {
         public void playerJump( PositionComponent posComp, VelocityComponent velComp, PlayerInputComponent pelInComp ) {
             //If it's landed on something, jump
             float checkY = posComp.y + ( posComp.height / 2 ) + GlobalVars.MIN_TILE_SIZE / 2;
-            float buffer = 2;
+            //float buffer = 2;
+
+            if ( pelInComp.passedAirjumps < GlobalVars.numAirJumps ) {
+                velComp.setVelocity( velComp.x, pelInComp.jumpStrength );
+                pelInComp.passedAirjumps++;
+                pelInComp.justJumped = true;
+            }
+
+            /*
             if ( level.getCollisionSystem().findObjectsBetweenPoints( posComp.x - posComp.width / 2 + buffer, checkY, posComp.x + posComp.width / 2 - buffer, checkY ).Count > 0 ) {
                 velComp.setVelocity( velComp.x, pelInComp.jumpStrength );
                 pelInComp.passedAirjumps = 0;
@@ -174,6 +186,7 @@ namespace RunningGame.Systems {
                     pelInComp.passedAirjumps++;
                 }
             }
+             * */
         }
         public void beginMoveLeft( PositionComponent posComp, VelocityComponent velComp, PlayerInputComponent pelInComp, AnimationComponent animComp ) {
             if ( pelInComp != null && pelInComp.player != null ) {

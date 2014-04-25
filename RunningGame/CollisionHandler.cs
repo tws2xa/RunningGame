@@ -337,11 +337,13 @@ namespace RunningGame {
                 ground = (BasicGround) e1;
                 bounceB = e2;
             }
-            if ( e2 is BasicGround ) {
+            else if ( e2 is BasicGround ) {
                 ground = (BasicGround) e2;
                 bounceB = e1;
+            } else {
+                return removeBounceCollision(e1, e2);
             }
-            if ( ground == null || bounceB == null ) return false;
+
             PositionComponent theGround = ( PositionComponent )ground.getComponent( GlobalVars.POSITION_COMPONENT_NAME );
             System.Drawing.PointF loc = theGround.getLocAsPoint();
 

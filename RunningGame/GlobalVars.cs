@@ -159,9 +159,9 @@ namespace RunningGame {
         public static float SPEEDY_SPEED = 600.0f;
         public static Bitmap grndImg = null;
         public static float playerAnimatonSpeed = 0.07f;
-        public static int doubleJumpNumAirJumps = 1;
-        public static int normNumAirJumps = 0;
-        public static int numAirJumps = 0;
+        public static int doubleJumpNumAirJumps = 2;
+        public static int normNumAirJumps = 1;
+        public static int numAirJumps = 1;
         public static float PLAYER_HORIZ_MOVE_SPEED = 150.0f;
         public static string PRECOLOR_SPRITE_NAME = "preColSprite";
         public static string MAIN_SPRITE_NAME = "MainSprite";

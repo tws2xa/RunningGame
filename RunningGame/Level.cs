@@ -166,6 +166,8 @@ namespace RunningGame {
                 stopAllSounds();
                 playSound( bkgMusic, true );
             }
+
+            resetLevel();
         }
 
         public void setVisionOrb() {
