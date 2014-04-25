@@ -13,6 +13,7 @@ namespace RunningGame.Entities {
         float defaultWidth = 20;
         float defaultHeight = 20;
 
+        public bool lastCheckpointState;
         bool startingState; //Active or non-active at level start?
 
         //-------------------------------------------Constructors--------------------------------------------
@@ -66,6 +67,7 @@ namespace RunningGame.Entities {
 
         public void addMyComponents( float x, float y ) {
 
+            this.lastCheckpointState = startingState;
             this.resetOnCheckpoint = false;
 
             //POSITION COMPONENT - Does it have a position?
@@ -86,7 +88,7 @@ namespace RunningGame.Entities {
 
         public override void revertToStartingState() {
             SwitchComponent sc = ( SwitchComponent )getComponent( GlobalVars.SWITCH_COMPONENT_NAME );
-            sc.setActive( startingState );
+            sc.setActive( startingState, this );
 
             DrawComponent drawComp = ( DrawComponent )getComponent( GlobalVars.DRAW_COMPONENT_NAME );
             if ( startingState )

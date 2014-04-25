@@ -67,7 +67,7 @@ namespace RunningGame.Entities {
 
         public void addMyComponents( float x, float y ) {
 
-            this.resetOnCheckpoint = false;
+            //this.resetOnCheckpoint = false;
 
             //POSITION COMPONENT - Does it have a position?
             addComponent( new PositionComponent( x, y, defaultWidth, defaultHeight, this ), true );
@@ -90,7 +90,7 @@ namespace RunningGame.Entities {
 
         public override void revertToStartingState() {
             SwitchComponent sc = ( SwitchComponent )getComponent( GlobalVars.SWITCH_COMPONENT_NAME );
-            sc.setActive( startingState );
+            sc.setActive( startingState, this );
 
             DrawComponent drawComp = ( DrawComponent )getComponent( GlobalVars.DRAW_COMPONENT_NAME );
             if ( startingState )

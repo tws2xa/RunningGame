@@ -179,7 +179,7 @@ namespace RunningGame {
                         float width = tallDoorWidth;
                         float height = tallDoorHeight;
 
-                        if ( col.G == wideDoorReserveGreen ) {
+                        if ( col.G == wideDoorReserveGreen || col.G == openWideDoorReserveGreen) {
                             width = wideDoorWidth;
                             height = wideDoorHeight;
                         }

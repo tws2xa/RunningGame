@@ -50,6 +50,8 @@ namespace RunningGame.Systems {
 
                 if ( animComp.animationOn ) {
 
+                    animComp.timeUntilNextFrame -= deltaTime;
+
                     if ( animComp.timeUntilNextFrame <= 0 ) {
                         drawComp.getSprite().currentImageIndex++;
                         if ( drawComp.getSprite().currentImageIndex >= drawComp.getSprite().getNumImages() ) {
@@ -71,8 +73,6 @@ namespace RunningGame.Systems {
                         } else {
                             animComp.timeUntilNextFrame = animComp.animationFrameTime;
                         }
-                    } else {
-                        animComp.timeUntilNextFrame -= deltaTime;
                     }
 
                 }

@@ -47,11 +47,15 @@ namespace RunningGame.Systems {
                 PlayerInputComponent pelInComp = ( PlayerInputComponent )e.getComponent( GlobalVars.PLAYER_INPUT_COMPONENT_NAME );
                 AnimationComponent animComp = ( AnimationComponent )e.getComponent( GlobalVars.ANIMATION_COMPONENT_NAME );
                 checkForInput( posComp, velComp, pelInComp, animComp );
+                ColliderComponent colComp = (ColliderComponent)e.getComponent(GlobalVars.COLLIDER_COMPONENT_NAME);
+
+                List<Entity> collisions = level.getCollisionSystem().findObjectsBetweenPoints(
+                    colComp.getX(posComp) - colComp.width / 2 + 1, colComp.getY(posComp)+ ( colComp.height / 2 ) + 1, colComp.getX(posComp) + colComp.width / 2 - 1, colComp.getY(posComp) +
+                    ( colComp.height / 2 ) + 1 );
 
                 //Reset passedAirJumps if needed
-                if ( pelInComp.passedAirjumps != 0 && level.getCollisionSystem().findObjectsBetweenPoints(
-                    posComp.x - posComp.width / 2, posComp.y + ( posComp.height / 2 ) + 1, posComp.x + posComp.width / 2, posComp.y +
-                    ( posComp.height / 2 ) + 1 ).Count > 0 ) {
+                if (pelInComp.passedAirjumps != 0 && collisions.Count > 0)
+                {
                     pelInComp.passedAirjumps = 0;
                 }
 
@@ -160,7 +164,8 @@ namespace RunningGame.Systems {
         public void playerJump( PositionComponent posComp, VelocityComponent velComp, PlayerInputComponent pelInComp ) {
             //If it's landed on something, jump
             float checkY = posComp.y + ( posComp.height / 2 ) + GlobalVars.MIN_TILE_SIZE / 2;
-            if ( level.getCollisionSystem().findObjectsBetweenPoints( posComp.x - posComp.width / 2, checkY, posComp.x + posComp.width / 2, checkY ).Count > 0 ) {
+            float buffer = 2;
+            if ( level.getCollisionSystem().findObjectsBetweenPoints( posComp.x - posComp.width / 2 + buffer, checkY, posComp.x + posComp.width / 2 - buffer, checkY ).Count > 0 ) {
                 velComp.setVelocity( velComp.x, pelInComp.jumpStrength );
                 pelInComp.passedAirjumps = 0;
             } else {
@@ -177,7 +182,6 @@ namespace RunningGame.Systems {
                     pelInComp.player.faceLeft();
                 level.getPlayer().startAnimation();
             }
-
         }
         public void beginMoveRight( PositionComponent posComp, VelocityComponent velComp, PlayerInputComponent pelInComp, AnimationComponent animComp ) {
             if ( pelInComp != null && pelInComp.player != null ) {

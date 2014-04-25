@@ -104,5 +104,13 @@ namespace RunningGame.Entities {
                 drawComp.setSprite( grassSpriteName );
             }
         }
+
+        public bool isGrass() {
+            if ( !this.hasComponent( GlobalVars.DRAW_COMPONENT_NAME ) ) return false;
+            DrawComponent drawComp = ( DrawComponent )this.getComponent( GlobalVars.DRAW_COMPONENT_NAME );
+
+            return (drawComp.activeSprite == grassSpriteName ||drawComp.activeSprite == drawComp.getPrecolorImageName(grassSpriteName));
+
+        }
     }
 }

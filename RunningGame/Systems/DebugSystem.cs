@@ -156,12 +156,20 @@ namespace RunningGame.Systems {
 
         public void getInfo() {
 
+            Console.WriteLine( "Controls:" );
+
+            Console.WriteLine( "Left: " + GlobalVars.KEY_LEFT );
+            Console.WriteLine( "Right: " + GlobalVars.KEY_RIGHT );
+            Console.WriteLine( "Up: " + GlobalVars.KEY_JUMP );
+
+
+            /*
             foreach ( Entity e in GlobalVars.nonGroundEntities.Values ) {
                 if ( e is MovingPlatformEntity ) {
                     printInfo( e );
                 }
             }
-
+            */
         }
 
         public void printInfo( Entity e ) {

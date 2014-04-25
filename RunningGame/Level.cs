@@ -157,9 +157,9 @@ namespace RunningGame {
             sysManager.Update( 0 );
 
             if ( worldNum == 1 || worldNum == 2 ) {
-                bkgMusic = "RunningGame.Resources.Sounds.gameplay.wav";
-            } else if ( worldNum == 3 || worldNum == 4 ) {
                 bkgMusic = "RunningGame.Resources.Sounds.gameplay1.wav";
+            } else if ( worldNum == 3 || worldNum == 4 ) {
+                bkgMusic = "RunningGame.Resources.Sounds.gameplay.wav";
             }
 
             if ( !soundPlaying( bkgMusic ) ) {
@@ -342,14 +342,23 @@ namespace RunningGame {
             Dictionary<int, Entity> toRestore = GlobalVars.removedStartingEntities.Where( x => !checkpointData.getRemovedEnts().ContainsKey( x.Key ) ).ToDictionary( x => x.Key, x => x.Value );
 
             //Remove non-starting entities, and restore starting entities to their initial state
+            //Set switches to their last checkpnt state
             Entity[] ents = GlobalVars.nonGroundEntities.Values.ToArray();
             for ( int i = 0; i < ents.Length; i++ ) {
+
+                if ( ents[i] is SwitchEntity ) {
+                    SwitchEntity switchEnt = (SwitchEntity)ents[i];
+                    SwitchComponent switchComp = ( SwitchComponent )switchEnt.getComponent( GlobalVars.SWITCH_COMPONENT_NAME );
+                    switchComp.setActive( switchEnt.lastCheckpointState, switchEnt );
+                }
+                
                 if ( !ents[i].isStartingEntity ) {
                     removeEntity( ents[i] );
                 } else if(ents[i].resetOnCheckpoint){
                     ents[i].revertToStartingState();
                 }
             }
+
             //Do the same for ground
             Entity[] grndents = GlobalVars.groundEntities.Values.ToArray();
             for ( int i = 0; i < grndents.Length; i++ ) {
@@ -474,8 +483,14 @@ namespace RunningGame {
             sysManager.Draw( g );
             //this part is the check for the flash
             //if flashtime is greater than 0, then it means that flash needs to be done
-
-            g.DrawString( GlobalVars.preciseCollisionChecking.ToString(), SystemFonts.DefaultFont, Brushes.Black, new RectangleF( 10, 30, cameraWidth - 20, cameraHeight - 20 ) );
+            string towrite = "";
+            if(getPlayer() != null) {
+                if ( getPlayer().hasComponent( GlobalVars.PLAYER_INPUT_COMPONENT_NAME ) ) {
+                    PlayerInputComponent pelInComp = ( PlayerInputComponent )getPlayer().getComponent( GlobalVars.PLAYER_INPUT_COMPONENT_NAME );
+                    towrite = pelInComp.passedAirjumps.ToString();    
+                }
+            }
+            g.DrawString( towrite, SystemFonts.DefaultFont, Brushes.Black, new RectangleF( 10, 30, cameraWidth - 20, cameraHeight - 20 ) );
             g.DrawString( fps.ToString( "F" ) + "", SystemFonts.DefaultFont, Brushes.Black, new RectangleF( 10, 10, cameraWidth - 20, cameraHeight - 20 ) );
         }
 
@@ -735,7 +750,10 @@ namespace RunningGame {
             GlobalVars.removedStartingEntities.Clear();
         }
 
-
+        public void makeTimeDial( float x, float y, float w, float h, float time, bool fill ) {
+            TimeDialEntity timeDial = new TimeDialEntity( this, x, y, w, h, time, fill );
+            this.addEntity( timeDial );
+        }
 
 
         public void setToPostColors() {

@@ -93,7 +93,7 @@ namespace RunningGame
 
 
         private void setLabelBkgColors() {
-            Color bkgBoxCol = Color.FromArgb( 100, Color.WhiteSmoke );
+            Color bkgBoxCol = Color.FromArgb( 0, Color.WhiteSmoke );
             cntrlBkgBox.BackColor = bkgBoxCol;
 
             this.lblCycleDown.BackColor = bkgBoxCol;
@@ -217,6 +217,16 @@ namespace RunningGame
             showHideWorldButtons(false);
         }
 
+        private void btnWorldReturn_Click(object sender, EventArgs e)
+        {
+            showHideWorldButtons(false);
+            showHideLevelButtons(false);
+            this.btnPlay.Enabled = true;
+            this.btnPlay.Visible = true;
+            this.btnControls.Enabled = true;
+            this.btnControls.Visible = true;
+        }
+
         //----------------------------------------------------------------
 
         //---------------------------ADD LEVELS HERE----------------------
@@ -249,11 +259,11 @@ namespace RunningGame
             GlobalVars.levels[2][1] = "RunningGame.Resources.Levels.World3Level2_new.png";
             GlobalVars.levels[2][2] = "RunningGame.Resources.Levels.World3Level3_new.png";
 
-            GlobalVars.levels[3][0] = "RunningGame.Resources.Levels.World4Level1.png";
-            GlobalVars.levels[3][1] = "RunningGame.Resources.Levels.World4Level2.png";
+            GlobalVars.levels[3][0] = "RunningGame.Resources.Levels.World4Level1_new.png";
+            GlobalVars.levels[3][1] = "RunningGame.Resources.Levels.World4Level2_new.png";
             GlobalVars.levels[3][2] = "RunningGame.Resources.Levels.World4Level31.png";
 
-            GlobalVars.levels[4][0] = "RunningGame.Resources.Levels.World5Level1.png";
+            GlobalVars.levels[4][0] = "RunningGame.Resources.Levels.World5Level1_new.png";
             GlobalVars.levels[4][1] = "RunningGame.Resources.Levels.World5Level2.png";
             GlobalVars.levels[4][2] = "RunningGame.Resources.Levels.World5level3.png";
 
@@ -368,7 +378,11 @@ namespace RunningGame
             btnPlay.Enabled = false;
             showHideWorldButtons(true);
             showHideControlButtons(false);
-            
+            if (this.btnControls.Visible == false)
+            {
+                this.btnControls.Visible = true;
+                this.btnControls.Enabled = true;
+            }
         }
 
 
@@ -446,6 +460,9 @@ namespace RunningGame
 
             btnWorld6.Visible = show;
             btnWorld6.Enabled = show;
+
+            btnWorldReturn.Visible = show;
+            btnWorldReturn.Enabled = show;
         }
 
 

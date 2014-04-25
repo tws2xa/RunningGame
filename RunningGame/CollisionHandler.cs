@@ -64,7 +64,7 @@ namespace RunningGame {
             defaultCollisions.Add( GlobalVars.SMUSH_BLOCK_COLLIDER, simpleStopCollision );
             defaultCollisions.Add( GlobalVars.CHECKPOINT_COLLIDER_TYPE, doNothingCollision );
             defaultCollisions.Add( GlobalVars.DESTROYING_SPAWN_BLOCK_COLLIDER_TYPE, doNothingCollision );
-            defaultCollisions.Add( GlobalVars.VISION_ORB_UNLOCK_COLLIDER, simpleStopCollision );
+            defaultCollisions.Add( GlobalVars.VISION_ORB_UNLOCK_COLLIDER, doNothingCollision);
             defaultCollisions.Add( GlobalVars.SPIKE_SWITCH_COLLIDER, simpleStopCollision );
             
 
@@ -78,6 +78,7 @@ namespace RunningGame {
             addToDictionary( GlobalVars.PLAYER_COLLIDER_TYPE, GlobalVars.BOUNCE_POSTGROUND_COLLIDER_TYPE, bounceCollision );
             addToDictionary( GlobalVars.PLAYER_COLLIDER_TYPE, GlobalVars.SPAWN_BLOCK_COLLIDER_TYPE, simpleStopCollision);
             addToDictionary( GlobalVars.PLAYER_COLLIDER_TYPE, GlobalVars.SMUSH_BLOCK_COLLIDER, smushCollision );
+
             addToDictionary( GlobalVars.PLAYER_COLLIDER_TYPE, GlobalVars.CHECKPOINT_COLLIDER_TYPE, checkPointCollision );
             addToDictionary( GlobalVars.PLAYER_COLLIDER_TYPE, GlobalVars.VISION_ORB_UNLOCK_COLLIDER, unlockVisionOrb );
 
@@ -123,6 +124,7 @@ namespace RunningGame {
             addToDictionary( GlobalVars.SPEEDY_PREGROUND_COLLIDER_TYPE, GlobalVars.SIMPLE_ENEMY_COLLIDER_TYPE, doNothingCollision );
             addToDictionary( GlobalVars.SPEEDY_PREGROUND_COLLIDER_TYPE, GlobalVars.SPAWN_BLOCK_COLLIDER_TYPE, doNothingCollision);
             addToDictionary( GlobalVars.SPEEDY_PREGROUND_COLLIDER_TYPE, GlobalVars.SMUSH_BLOCK_COLLIDER, doNothingCollision );
+            addToDictionary(GlobalVars.SPEEDY_PREGROUND_COLLIDER_TYPE, GlobalVars.SWITCH_COLLIDER_TYPE, doNothingCollision);
 
             addToDictionary( GlobalVars.SPAWN_BLOCK_COLLIDER_TYPE, GlobalVars.SPEEDY_POSTGROUND_COLLIDER_TYPE, speedyOtherCollision );
             addToDictionary( GlobalVars.SPAWN_BLOCK_COLLIDER_TYPE, GlobalVars.BOUNCE_POSTGROUND_COLLIDER_TYPE, bounceCollision );
@@ -330,13 +332,13 @@ namespace RunningGame {
         //And turns it into a PostGroundBounce (i.e. a Bounce entity)
         public bool bounceGroundCollision( Entity e1, Entity e2 ) {
             Entity bounceB = null;
-            Entity ground = null;
+            BasicGround ground = null;
             if ( e1 is BasicGround ) {
-                ground = e1;
+                ground = (BasicGround) e1;
                 bounceB = e2;
             }
             if ( e2 is BasicGround ) {
-                ground = e2;
+                ground = (BasicGround) e2;
                 bounceB = e1;
             }
             if ( ground == null || bounceB == null ) return false;
@@ -345,10 +347,12 @@ namespace RunningGame {
 
             //level.removeEntity( ground );
             level.removeEntity( bounceB );
-
-            Entity newBounceGround = new Bounce( level, GenerateRandId(), loc.X, loc.Y - 1 );
-            level.addEntity( newBounceGround );
-
+            if (ground.isGrass())
+            {
+                Entity newBounceGround = new Bounce(level, GenerateRandId(), loc.X, loc.Y - 1);
+                level.addEntity(newBounceGround);
+            }
+            
             return false;
         }
 
@@ -356,13 +360,13 @@ namespace RunningGame {
         //And turns it into a PostGroundSpeedy.
         public bool speedyGroundCollision( Entity e1, Entity e2 ) {
             Entity speedy = null;
-            Entity theGround = null;
+            BasicGround theGround = null;
 
             if ( e1 is BasicGround ) {
-                theGround = e1;
+                theGround = (BasicGround) e1;
                 speedy = e2;
             } else if ( e2 is BasicGround ) {
-                theGround = e2;
+                theGround = (BasicGround) e2;
                 speedy = e1;
             } else {
                 //Console.WriteLine("SpeedyGroundCollision with no ground");
@@ -374,9 +378,12 @@ namespace RunningGame {
 
             //level.removeEntity( theGround );
             level.removeEntity( speedy );
-
-            Entity newSpeedy = new Speedy( level, GenerateRandId(), loc.X, loc.Y - 1 );
-            level.addEntity( newSpeedy );
+            if (theGround.isGrass())
+            {
+                Entity newSpeedy = new Speedy(level, GenerateRandId(), loc.X, loc.Y - 1);
+                level.addEntity(newSpeedy);
+            }
+            
 
             return false;
         }
@@ -528,6 +535,8 @@ namespace RunningGame {
                 Console.WriteLine( "Switch collision with no switch?" );
                 return false;
             }
+
+
             //if it is spawnblock and it is moving flip switch
             if (other is spawnBlockEntity)
             {
@@ -535,31 +544,27 @@ namespace RunningGame {
                 level.removeEntity(other);
                 if (sbc.state == 1 || sbc.state == 2)
                 {
-                    if (!sc.active)
-                    {
-                        sc.setActive(true);
-                        DrawComponent drawComp = (DrawComponent)s.getComponent(GlobalVars.DRAW_COMPONENT_NAME);
-                        drawComp.setSprite(GlobalVars.SWITCH_ACTIVE_SPRITE_NAME);
-                    }
+                    activateSwitch( s, sc );
                 }
 
             }
             //If the switch is not active, make it active and switch the image
             else {
-            
-                if (!sc.active)
-                {
-                    sc.setActive(true);
-                    DrawComponent drawComp = (DrawComponent)s.getComponent(GlobalVars.DRAW_COMPONENT_NAME);
-                    drawComp.setSprite(GlobalVars.SWITCH_ACTIVE_SPRITE_NAME);
-                }
+                activateSwitch( s, sc );
             }
 
             //Don't stop the movement
             return false;
 
         }
-        
+
+        public static void activateSwitch( Entity s, SwitchComponent sc ) {
+            if ( !sc.active ) {
+                sc.setActive( true, s );
+                DrawComponent drawComp = ( DrawComponent )s.getComponent( GlobalVars.DRAW_COMPONENT_NAME );
+                drawComp.setSprite( GlobalVars.SWITCH_ACTIVE_SPRITE_NAME );
+            }
+        }
 
         //This occurs when the player collides with an enemy. Kills the player.
         public static bool killPlayerCollision( Entity e1, Entity e2 ) {
@@ -792,8 +797,8 @@ namespace RunningGame {
             return true;
         }
 
-        public bool isWithinRange( float test, float left, float right ) {
-            return ( left < test && right > test );
+        public bool isWithinRange( float test, float leftUp, float rightDown ) {
+            return ( leftUp < test && rightDown > test );
         }
 
         public bool powerupPickupPlayerCollision( Entity e1, Entity e2 ) {
@@ -1254,7 +1259,56 @@ namespace RunningGame {
             } else {
                 if ( !simpEnemyComp.bouncedBullets.ContainsKey( bullet ) ) {
                     VelocityComponent bulletVel = ( VelocityComponent )bullet.getComponent( GlobalVars.VELOCITY_COMPONENT_NAME );
-                    bulletVel.setVelocity( -1 * bulletVel.x, -1 * bulletVel.y );
+                    
+                    PositionComponent enemyPos = ( PositionComponent )enemy.getComponent( GlobalVars.POSITION_COMPONENT_NAME );
+                    PositionComponent bulletPos = ( PositionComponent )bullet.getComponent( GlobalVars.POSITION_COMPONENT_NAME );
+                    ColliderComponent enemyCol = (ColliderComponent)enemy.getComponent(GlobalVars.COLLIDER_COMPONENT_NAME);
+                    ColliderComponent bulletCol = (ColliderComponent)bullet.getComponent(GlobalVars.COLLIDER_COMPONENT_NAME);
+
+                    float velX = bulletVel.x;
+                    float velY = bulletVel.y;
+
+                    float overlapBuffer = 3;
+
+                    PointF bulletLoc = bulletCol.getLocationAsPoint( bulletPos );
+                    PointF enemyLoc = enemyCol.getLocationAsPoint( enemyPos );
+                    PointF bulletSize = bulletCol.getSizeAsPoint();
+                    PointF enemySize = enemyCol.getSizeAsPoint();
+
+                    float bulletLower = bulletLoc.Y + bulletSize.Y / 2 - overlapBuffer;
+                    float bulletUpper = bulletLoc.Y - bulletSize.Y / 2 + overlapBuffer;
+                    float bulletRight = bulletLoc.X + bulletSize.X / 2 - overlapBuffer;
+                    float bulletLeft = bulletLoc.X - bulletSize.X / 2 + overlapBuffer;
+
+                    float enemyLower = enemyLoc.Y + enemySize.Y / 2 ;
+                    float enemyUpper = enemyLoc.Y - enemySize.Y / 2;
+                    float enemyRight = enemyLoc.X + enemySize.X / 2;
+                    float enemyLeft = enemyLoc.X - enemySize.X / 2;
+                    
+                    /*
+                    Console.WriteLine( "Y Range: (" + enemyUpper + ", " + enemyLower + ")" );
+                    Console.WriteLine( "\t" + bulletLower + " -- " + isWithinRange( bulletLower, enemyUpper, enemyLower ) );
+                    Console.WriteLine( "\t" + bulletUpper + " -- " + isWithinRange( bulletUpper, enemyUpper, enemyLower ) );
+                    Console.WriteLine( "\t" + bulletLoc.Y + " -- " + isWithinRange( bulletLoc.Y, enemyUpper, enemyLower ) );
+
+                    Console.WriteLine( "X Range: (" + enemyLeft + ", " + enemyRight + ")" );
+                    Console.WriteLine( "\t" + bulletLeft + " -- " + isWithinRange( bulletLeft, enemyLeft, enemyRight ) );
+                    Console.WriteLine( "\t" + bulletRight + " -- " + isWithinRange( bulletRight, enemyLeft, enemyRight ) );
+                    Console.WriteLine( "\t" + bulletLoc.X + " -- " + isWithinRange( bulletLoc.X , enemyLeft, enemyRight ) );
+                    */
+                    
+                    if ( isWithinRange( bulletUpper, enemyUpper, enemyLower )
+                        || isWithinRange(bulletLower, enemyUpper, enemyLower )
+                        || isWithinRange(bulletLoc.Y, enemyUpper, enemyLower)) {
+                        velX *= -1;
+                    }
+                    if ( isWithinRange( bulletLeft, enemyLeft, enemyRight )
+                        || isWithinRange(bulletRight, enemyLeft, enemyRight)
+                        || isWithinRange(bulletLoc.X, enemyLeft, enemyRight)) {
+                        velY *= -1;
+                    }
+
+                    bulletVel.setVelocity( velX, velY );
                     simpEnemyComp.bouncedBullets.Add( bullet, GlobalVars.enemyShieldTime );
                 }
                 return false;

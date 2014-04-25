@@ -61,6 +61,7 @@
             this.lblEnd = new System.Windows.Forms.Label();
             this.btnSetEnd = new System.Windows.Forms.Button();
             this.cntrlBkgBox = new System.Windows.Forms.PictureBox();
+            this.btnWorldReturn = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.sndToggle)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cntrlBkgBox)).BeginInit();
             this.SuspendLayout();
@@ -99,7 +100,7 @@
             // 
             // btnWorld1
             // 
-            this.btnWorld1.Location = new System.Drawing.Point(511, 290);
+            this.btnWorld1.Location = new System.Drawing.Point(511, 259);
             this.btnWorld1.Name = "btnWorld1";
             this.btnWorld1.Size = new System.Drawing.Size(117, 25);
             this.btnWorld1.TabIndex = 3;
@@ -109,7 +110,7 @@
             // 
             // btnWorld2
             // 
-            this.btnWorld2.Location = new System.Drawing.Point(511, 321);
+            this.btnWorld2.Location = new System.Drawing.Point(511, 290);
             this.btnWorld2.Name = "btnWorld2";
             this.btnWorld2.Size = new System.Drawing.Size(117, 25);
             this.btnWorld2.TabIndex = 4;
@@ -119,7 +120,7 @@
             // 
             // btnWorld3
             // 
-            this.btnWorld3.Location = new System.Drawing.Point(511, 352);
+            this.btnWorld3.Location = new System.Drawing.Point(511, 321);
             this.btnWorld3.Name = "btnWorld3";
             this.btnWorld3.Size = new System.Drawing.Size(117, 25);
             this.btnWorld3.TabIndex = 5;
@@ -129,7 +130,7 @@
             // 
             // btnWorld4
             // 
-            this.btnWorld4.Location = new System.Drawing.Point(511, 383);
+            this.btnWorld4.Location = new System.Drawing.Point(511, 352);
             this.btnWorld4.Name = "btnWorld4";
             this.btnWorld4.Size = new System.Drawing.Size(117, 25);
             this.btnWorld4.TabIndex = 6;
@@ -139,7 +140,7 @@
             // 
             // btnWorld5
             // 
-            this.btnWorld5.Location = new System.Drawing.Point(511, 414);
+            this.btnWorld5.Location = new System.Drawing.Point(511, 383);
             this.btnWorld5.Name = "btnWorld5";
             this.btnWorld5.Size = new System.Drawing.Size(117, 25);
             this.btnWorld5.TabIndex = 7;
@@ -179,7 +180,7 @@
             // 
             // btnLvlReturn
             // 
-            this.btnLvlReturn.Location = new System.Drawing.Point(511, 446);
+            this.btnLvlReturn.Location = new System.Drawing.Point(511, 445);
             this.btnLvlReturn.Name = "btnLvlReturn";
             this.btnLvlReturn.Size = new System.Drawing.Size(117, 25);
             this.btnLvlReturn.TabIndex = 11;
@@ -189,7 +190,7 @@
             // 
             // btnPlay
             // 
-            this.btnPlay.Location = new System.Drawing.Point(511, 430);
+            this.btnPlay.Location = new System.Drawing.Point(511, 429);
             this.btnPlay.Name = "btnPlay";
             this.btnPlay.Size = new System.Drawing.Size(117, 41);
             this.btnPlay.TabIndex = 12;
@@ -199,7 +200,7 @@
             // 
             // btnWorld6
             // 
-            this.btnWorld6.Location = new System.Drawing.Point(511, 445);
+            this.btnWorld6.Location = new System.Drawing.Point(511, 414);
             this.btnWorld6.Name = "btnWorld6";
             this.btnWorld6.Size = new System.Drawing.Size(117, 25);
             this.btnWorld6.TabIndex = 13;
@@ -520,14 +521,27 @@
             this.cntrlBkgBox.TabStop = false;
             this.cntrlBkgBox.Visible = false;
             // 
+            // btnWorldReturn
+            // 
+            this.btnWorldReturn.Enabled = false;
+            this.btnWorldReturn.Location = new System.Drawing.Point(511, 445);
+            this.btnWorldReturn.Name = "btnWorldReturn";
+            this.btnWorldReturn.Size = new System.Drawing.Size(117, 25);
+            this.btnWorldReturn.TabIndex = 37;
+            this.btnWorldReturn.Text = "Return";
+            this.btnWorldReturn.UseVisualStyleBackColor = true;
+            this.btnWorldReturn.Visible = false;
+            this.btnWorldReturn.Click += new System.EventHandler(this.btnWorldReturn_Click);
+            // 
             // FormSpring
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.BackgroundImage = global::RunningGame.Properties.Resources.SpringStaticScreenRevised;
+            this.BackgroundImage = global::RunningGame.Properties.Resources.SpringStaticScreen;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(640, 480);
+            this.Controls.Add(this.btnWorldReturn);
             this.Controls.Add(this.lblEnd);
             this.Controls.Add(this.btnSetEnd);
             this.Controls.Add(this.lblRestart);
@@ -622,6 +636,7 @@
         private System.Windows.Forms.Label lblEnd;
         private System.Windows.Forms.Button btnSetEnd;
         private System.Windows.Forms.PictureBox cntrlBkgBox;
+        private System.Windows.Forms.Button btnWorldReturn;
     }
 }
 

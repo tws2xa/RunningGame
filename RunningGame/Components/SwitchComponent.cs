@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Collections;
+using RunningGame.Entities;
 
 namespace RunningGame.Components {
     [Serializable()]
@@ -31,9 +32,34 @@ namespace RunningGame.Components {
             notifyObservers();
         }
 
-        public void setActive( bool active ) {
+        public void setActive( bool active, Entity me ) {
             this.active = active;
+
+            if(active && me.hasComponent(GlobalVars.TIMED_SWITCH_COMPONENT_NAME) ){
+                TimedSwitchComponent timeComp = ( TimedSwitchComponent )me.getComponent( GlobalVars.TIMED_SWITCH_COMPONENT_NAME );
+                if ( timeComp.baseTime > 0 ) {
+                    makeTimeDial( me, timeComp );
+                }
+            }
+
             notifyObservers();
+        }
+
+        public void makeTimeDial(Entity e, TimedSwitchComponent timeComp) {
+            PositionComponent posComp = ( PositionComponent )e.getComponent( GlobalVars.POSITION_COMPONENT_NAME );
+            ColliderComponent colComp = ( ColliderComponent )e.getComponent( GlobalVars.COLLIDER_COMPONENT_NAME );
+
+            float extraW = 6;
+            float extraH = 6;
+
+            float x = colComp.getX( posComp );
+            float y = colComp.getY( posComp );
+            float w = colComp.width + extraW;
+            float h = colComp.height + extraH;
+            float time = timeComp.baseTime;
+
+            e.level.makeTimeDial( x, y, w, h, time, false );
+
         }
 
         //Tell all the switch listeners that the switch changed state

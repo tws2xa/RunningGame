@@ -49,23 +49,42 @@ namespace RunningGame.Entities {
              */
             DrawComponent drawComp = ( DrawComponent )addComponent( new DrawComponent( defaultWidth, defaultHeight, level, true ), true );
 
-            List<string> enemyAnimation = new List<string>()
-            {
-                "Artwork.Creatures.Enemy1",
-                "Artwork.Creatures.Enemy2",
-            };
+            List<string> enemyAnimation;
+            List<string> enemyAnimDefaults;
 
-            List<string> enemyAnimDefaults = new List<string>()
-            {
-                "RunningGame.Resources.Artwork.Creatures.Enemy111.png",
-                "RunningGame.Resources.Artwork.Creatures.Enemy211.png"
-            };
+            if ( !shield ) {
+                enemyAnimation = new List<string>()
+                {
+                    "Artwork.Creatures.Enemy1",
+                    "Artwork.Creatures.Enemy2",
+                };
+
+                enemyAnimDefaults = new List<string>()
+                {
+                    "RunningGame.Resources.Artwork.Creatures.Enemy111.png",
+                    "RunningGame.Resources.Artwork.Creatures.Enemy211.png"
+                };
+            } else {
+                enemyAnimation = new List<string>()
+                {
+                    "Artwork.Creatures.EnemyGlow1",
+                    "Artwork.Creatures.EnemyGlow2",
+                };
+
+                enemyAnimDefaults = new List<string>()
+                {
+                    "RunningGame.Resources.Artwork.Creatures.EnemyGlow111.png",
+                    "RunningGame.Resources.Artwork.Creatures.EnemyGlow211.png"
+                };
+            }
 
             drawComp.addAnimatedSprite( enemyAnimation, enemyAnimDefaults, leftImageName );
-            drawComp.setSprite( leftImageName );
-
+            
             drawComp.addAnimatedSprite( enemyAnimation, enemyAnimDefaults, rightImageName );
             drawComp.rotateFlipSprite( rightImageName, System.Drawing.RotateFlipType.RotateNoneFlipX );
+
+            drawComp.setSprite( leftImageName );
+
 
             /* ANIMATION COMPONENT - Does it need animating?
              */

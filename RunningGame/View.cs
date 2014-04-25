@@ -71,7 +71,7 @@ namespace RunningGame {
         public View( float x, float y, float width, float height, float displayX, float displayY, float displayWidth, float displayHeight, Level level, Entity followEntity ) {
             Initialize( x, y, width, height, displayX, displayY, displayWidth, displayHeight, level, followEntity );
         }
-
+        
         public void Initialize( float x, float y, float width, float height, float displayX, float displayY, float displayWidth, float displayHeight, Level level, Entity followEntity ) {
             this.x = x;
             this.y = y;
@@ -356,19 +356,6 @@ namespace RunningGame {
                             Size imageSize = new Size( ( int )( posComp.width * wRatio ), ( int )( posComp.height * hRatio ) );
                             img = new Bitmap( drawComp.getImage(), imageSize );
                         }
-
-                        /*
-                        //Get center instead of upper left
-                        PointF drawPoint = posComp.getPointF();
-                        drawPoint.X -= (posComp.width / 2.0f);
-                        drawPoint.Y -= (posComp.height / 2.0f);
-
-                        drawPoint.X -= this.x;
-                        drawPoint.Y -= this.y;
-
-                        drawPoint.X *= wRatio;
-                        drawPoint.Y *= hRatio;
-                         */
 
                         PointF drawPoint = posComp.getLocAsPoint();
                         drawPoint.X -= ( posComp.width / 2.0f );

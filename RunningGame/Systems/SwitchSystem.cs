@@ -49,7 +49,7 @@ namespace RunningGame.Systems {
                     if ( ( timedComp.baseTime > 0 ) && switchComp.active ) {
                         timedComp.timer += deltaTime;
                         if ( timedComp.timer > timedComp.baseTime ) {
-                            switchComp.setActive( false );
+                            switchComp.setActive( false, e );
                             timedComp.timer = 0;
                         }
                     }
@@ -64,7 +64,7 @@ namespace RunningGame.Systems {
                                 float hDiff = ( pressureSwitchActiveHeight - pressureSwitchInactiveHeight ) / 2;
                                 level.getMovementSystem().changeHeight( posComp, pressureSwitchActiveHeight );
                                 level.getMovementSystem().teleportToNoCollisionCheck( posComp, posComp.x, posComp.y - hDiff );
-                                switchComp.setActive( true );
+                                switchComp.setActive( true, e );
 
                                 //Move down all objects above the switch
                                 foreach ( Entity above in aboveCollisions ) {
@@ -84,7 +84,7 @@ namespace RunningGame.Systems {
                             float hDiff = ( pressureSwitchActiveHeight - pressureSwitchInactiveHeight ) / 2;
                             level.getMovementSystem().changeHeight( posComp, pressureSwitchInactiveHeight );
                             level.getMovementSystem().teleportToNoCollisionCheck( posComp, posComp.x, posComp.y + hDiff );
-                            switchComp.setActive( false );
+                            switchComp.setActive( false, e );
                         }
                     }
                 }
