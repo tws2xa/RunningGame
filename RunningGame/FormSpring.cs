@@ -22,6 +22,7 @@ namespace RunningGame
         //A delegate which is basically used to call the reset method (To do with cross threading issues)
         delegate void resetDelegate();
         delegate void resetDelegate2(int world, int num);
+        delegate void showEndDelegate( bool show );
 
         //The width of the window
         const int CLIENT_WIDTH = 640;
@@ -53,6 +54,7 @@ namespace RunningGame
         //Called when the form loads
         private void FormRunningGame_Load(object sender, EventArgs e)
         {
+            
             sndSystem = new SoundSystem();
 
             //Set the background image
@@ -517,6 +519,24 @@ namespace RunningGame
             }
         }
 
+        public void showHideEnd( bool show ) {
+
+            //Get on the proper thread
+            if ( InvokeRequired ) {
+                showEndDelegate showEndDel = showHideEnd;
+                Invoke(showEndDel, show );
+            } else {
+                picEnd.Visible = show;
+                btnEndReturn.Visible = show;
+                btnEndReturn.Enabled = show;
+                picEnd.SendToBack();
+                if ( !show ) {
+                    this.Reset();
+                }
+            }
+
+        }
+
         //Load a specific level
         private void loadLevel(int world, int level)
         {
@@ -806,6 +826,14 @@ namespace RunningGame
 
         private void btnSetEnd_KeyDown(object sender, KeyEventArgs e) {
             handleKeyChangeEnd( e, btnSetEnd, GlobalVars.END_INT);
+        }
+
+        private void picEnd_Click( object sender, EventArgs e ) {
+
+        }
+
+        private void btnEndReturn_Click( object sender, EventArgs e ) {
+            showHideEnd( false );
         }
 
 

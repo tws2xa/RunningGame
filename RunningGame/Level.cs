@@ -157,8 +157,10 @@ namespace RunningGame {
             sysManager.Update( 0 );
 
             if ( worldNum == 1 || worldNum == 2 ) {
-                bkgMusic = "RunningGame.Resources.Sounds.gameplay1.wav";
+                bkgMusic = "RunningGame.Resources.Sounds.gameplay3.wav";
             } else if ( worldNum == 3 || worldNum == 4 ) {
+                bkgMusic = "RunningGame.Resources.Sounds.gameplay1.wav";
+            } else if ( worldNum == 5 || worldNum == 6 ) {
                 bkgMusic = "RunningGame.Resources.Sounds.gameplay.wav";
             }
 

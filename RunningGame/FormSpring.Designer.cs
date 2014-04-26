@@ -62,8 +62,11 @@
             this.btnSetEnd = new System.Windows.Forms.Button();
             this.cntrlBkgBox = new System.Windows.Forms.PictureBox();
             this.btnWorldReturn = new System.Windows.Forms.Button();
+            this.picEnd = new System.Windows.Forms.PictureBox();
+            this.btnEndReturn = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.sndToggle)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cntrlBkgBox)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picEnd)).BeginInit();
             this.SuspendLayout();
             // 
             // btnBegin
@@ -533,6 +536,31 @@
             this.btnWorldReturn.Visible = false;
             this.btnWorldReturn.Click += new System.EventHandler(this.btnWorldReturn_Click);
             // 
+            // picEnd
+            // 
+            this.picEnd.Image = ((System.Drawing.Image)(resources.GetObject("picEnd.Image")));
+            this.picEnd.Location = new System.Drawing.Point(0, 0);
+            this.picEnd.Name = "picEnd";
+            this.picEnd.Size = new System.Drawing.Size(641, 481);
+            this.picEnd.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.picEnd.TabIndex = 38;
+            this.picEnd.TabStop = false;
+            this.picEnd.Visible = false;
+            this.picEnd.Click += new System.EventHandler(this.picEnd_Click);
+            // 
+            // btnEndReturn
+            // 
+            this.btnEndReturn.BackColor = System.Drawing.Color.Transparent;
+            this.btnEndReturn.Enabled = false;
+            this.btnEndReturn.Location = new System.Drawing.Point(553, 448);
+            this.btnEndReturn.Name = "btnEndReturn";
+            this.btnEndReturn.Size = new System.Drawing.Size(75, 23);
+            this.btnEndReturn.TabIndex = 39;
+            this.btnEndReturn.Text = "Return";
+            this.btnEndReturn.UseVisualStyleBackColor = false;
+            this.btnEndReturn.Visible = false;
+            this.btnEndReturn.Click += new System.EventHandler(this.btnEndReturn_Click);
+            // 
             // FormSpring
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -541,6 +569,8 @@
             this.BackgroundImage = global::RunningGame.Properties.Resources.SpringStaticScreen;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(640, 480);
+            this.Controls.Add(this.btnEndReturn);
+            this.Controls.Add(this.picEnd);
             this.Controls.Add(this.btnWorldReturn);
             this.Controls.Add(this.lblEnd);
             this.Controls.Add(this.btnSetEnd);
@@ -592,6 +622,7 @@
             this.MouseClick += new System.Windows.Forms.MouseEventHandler(this.FormSpring_MouseClick);
             ((System.ComponentModel.ISupportInitialize)(this.sndToggle)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.cntrlBkgBox)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picEnd)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -637,6 +668,8 @@
         private System.Windows.Forms.Button btnSetEnd;
         private System.Windows.Forms.PictureBox cntrlBkgBox;
         private System.Windows.Forms.Button btnWorldReturn;
+        private System.Windows.Forms.PictureBox picEnd;
+        private System.Windows.Forms.Button btnEndReturn;
     }
 }
 

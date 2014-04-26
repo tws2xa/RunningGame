@@ -106,8 +106,7 @@ namespace RunningGame {
                     //Check for the next level
                     if ( levelNum == GlobalVars.numLevelsPerWorld ) {
                         if ( worldNum == GlobalVars.numWorlds ) { //Game complete
-                            stopAllSounds();
-                            frm.Reset();
+                            EndGame();
                         }  else //Next world, level 1
                             frm.Reset( worldNum + 1, 1 );
                     } else {
@@ -121,6 +120,12 @@ namespace RunningGame {
                 Draw(); //Draw everything.
             }
 
+        }
+
+        public void EndGame() {
+            stopAllSounds();
+            playSound( "RunningGame.Resources.Sounds.ending.wav", true );
+            frm.showHideEnd(true);
         }
 
         //Draws everything in the level, if there is an active level.
@@ -172,16 +177,20 @@ namespace RunningGame {
         //Input.
         //Passes it on to the level.
         public void KeyUp( KeyEventArgs e ) {
-            currentLevel.KeyUp( e );
+            if(currentLevel != null)
+                currentLevel.KeyUp( e );
         }
         public void KeyDown( KeyEventArgs e ) {
-            currentLevel.KeyDown( e );
+            if ( currentLevel != null )
+                currentLevel.KeyDown( e );
         }
         public void KeyPressed( KeyPressEventArgs e ) {
-            currentLevel.KeyPressed( e );
+            if ( currentLevel != null )
+                currentLevel.KeyPressed( e );
         }
         public void MouseClick( MouseEventArgs e ) {
-            currentLevel.MouseClick( e );
+            if ( currentLevel != null )
+                currentLevel.MouseClick( e );
         }
 
 
