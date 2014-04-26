@@ -100,13 +100,19 @@ namespace RunningGame {
                     int levelNum = currentLevel.levelNum;
                     int worldNum = currentLevel.worldNum;
 
+                    bool escapeEnd = currentLevel.escapeEnd;
+
                     currentLevel.Close();
                     currentLevel = null;
 
                     //Check for the next level
                     if ( levelNum == GlobalVars.numLevelsPerWorld ) {
                         if ( worldNum == GlobalVars.numWorlds ) { //Game complete
-                            EndGame();
+                            if ( escapeEnd ) {
+                                frm.Reset();
+                            } else {
+                                EndGame();
+                            }
                         }  else //Next world, level 1
                             frm.Reset( worldNum + 1, 1 );
                     } else {

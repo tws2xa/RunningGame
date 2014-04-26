@@ -44,6 +44,8 @@ namespace RunningGame {
 
         public float fps;
 
+        public bool escapeEnd = false;
+
         //Used for calculating fps and deltaTime
         long prevTicks = DateTime.Now.Ticks;
         long currentTicks;

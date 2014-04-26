@@ -134,6 +134,7 @@ namespace RunningGame.Systems {
             } else if ( level.getInputSystem().myKeys[endLevelKey].up ) {
                 level.worldNum = GlobalVars.numWorlds;
                 level.levelNum = GlobalVars.numLevelsPerWorld;
+                level.escapeEnd = true;
                 level.beginEndLevel( 0.0f );
             }
 

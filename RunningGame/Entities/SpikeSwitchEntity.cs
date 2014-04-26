@@ -73,8 +73,8 @@ namespace RunningGame.Entities {
 
             //DRAW COMPONENT - Does it get drawn to the game world?
             DrawComponent drawComp = ( DrawComponent )addComponent( new DrawComponent( defaultWidth, defaultHeight, level, true ), true );
-            drawComp.addSprite( "Artwork.Other.WhiteSquare", "RunningGame.Resources.Artwork.Other.WhiteSquare.png", GlobalVars.SWITCH_INACTIVE_SPRITE_NAME );
-            drawComp.addSprite( "Artwork.Other.DebugSquare2", "RunningGame.Resources.Artwork.Other.DebugSquare2.png", GlobalVars.SWITCH_ACTIVE_SPRITE_NAME );
+            drawComp.addSprite( "Artwork.Foreground.SpikeButton0", "RunningGame.Resources.Artwork.Foreground.SpikeButton0.png", GlobalVars.SWITCH_INACTIVE_SPRITE_NAME );
+            drawComp.addSprite( "Artwork.Foreground.SpikeButton0", "RunningGame.Resources.Artwork.Foreground.SpikeButton1.png", GlobalVars.SWITCH_ACTIVE_SPRITE_NAME );
             drawComp.setSprite( GlobalVars.SWITCH_INACTIVE_SPRITE_NAME );
 
             //COLLIDER - Does it hit things?
