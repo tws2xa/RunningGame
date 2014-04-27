@@ -510,6 +510,7 @@
     <EmbeddedResource Include="Resources\Artwork\Foreground\SpikeButton1.png" />
     <EmbeddedResource Include="Resources\Sounds\ending.wav" />
     <EmbeddedResource Include="Resources\Sounds\gameplay3.wav" />
+    <EmbeddedResource Include="Resources\Levels\World5Level2_new.png" />
     <EmbeddedResource Include="Resources\Levels\World4Level1_new.png" />
     <EmbeddedResource Include="Resources\Artwork\Foreground\TimeDial\CTP1.png" />
     <EmbeddedResource Include="Resources\Artwork\Foreground\TimeDial\CTP10.png" />
