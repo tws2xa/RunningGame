@@ -11,6 +11,8 @@ namespace RunningGame.Entities {
     [Serializable()]
     public class PowerupPickupEntity : Entity {
 
+        float spriteWidth = 20;
+        float spriteHeight = 20;
         float defaultWidth = 20;
         float defaultHeight = 20;
 
@@ -62,12 +64,13 @@ namespace RunningGame.Entities {
              *Then add the image
              *Then set the image to the active image
              */
-            DrawComponent drawComp = ( DrawComponent )addComponent( new DrawComponent( defaultWidth, defaultHeight, level, true ), true );
+            DrawComponent drawComp = ( DrawComponent )addComponent( new DrawComponent( spriteWidth, spriteHeight, level, true ), true );
             //Add image - Use base name for first parameter (everything in file path after Resources. and before the numbers and .png)
             //Then second parameter is full filepath to a default image
             string stem = "RunningGame.Resources.Artwork.Foreground.PowerupPickups.";
+            
             if ( compNum == GlobalVars.BOUNCE_NUM )
-                drawComp.addSprite( "", stem + "BouncePickup.png", "Main" );
+                drawComp.addSprite( "", stem + "BouncePickuo.png", "Main" );
             else if ( compNum == GlobalVars.SPEED_NUM )
                 drawComp.addSprite( "", stem + "SpeedyPickup.png", "Main" );
             else if ( compNum == GlobalVars.JMP_NUM )
@@ -80,6 +83,23 @@ namespace RunningGame.Entities {
                 drawComp.addSprite( "", stem + "GrapplePickup.png", "Main" );
             else
                 drawComp.addSprite( "Artwork.Other.WhiteSquare", "RunningGame.Resources.Artwork.Other.WhiteSquare.png", "Main" );
+            
+            /*
+            if ( compNum == GlobalVars.BOUNCE_NUM )
+                drawComp.addSprite( "", stem + "PowerUpGreen.png", "Main" );
+            else if ( compNum == GlobalVars.SPEED_NUM )
+                drawComp.addSprite( "", stem + "PowerUpBlue.png", "Main" );
+            else if ( compNum == GlobalVars.JMP_NUM )
+                drawComp.addSprite( "", stem + "PowerUpPurple.png", "Main" );
+            else if ( compNum == GlobalVars.GLIDE_NUM )
+                drawComp.addSprite( "", stem + "PowerUpYellow.png", "Main" );
+            else if ( compNum == GlobalVars.SPAWN_NUM )
+                drawComp.addSprite( "", stem + "PowerUpOrange.png", "Main" );
+            else if ( compNum == GlobalVars.GRAP_NUM )
+                drawComp.addSprite( "", stem + "PowerUpRed.png", "Main" );
+            else
+                drawComp.addSprite( "Artwork.Other.WhiteSquare", "RunningGame.Resources.Artwork.Other.WhiteSquare.png", "Main" );
+            */
 
             drawComp.setSprite( "Main" ); //Set image to active image
 

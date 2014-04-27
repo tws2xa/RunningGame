@@ -506,6 +506,12 @@
     <EmbeddedResource Include="Resources\Artwork\Background\Bkg32.png" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Resources\Artwork\Foreground\PowerupPickups\PowerUpBlue.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\PowerupPickups\PowerUpGreen.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\PowerupPickups\PowerUpOrange.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\PowerupPickups\PowerUpPurple.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\PowerupPickups\PowerUpRed.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\PowerupPickups\PowerUpYellow.png" />
     <EmbeddedResource Include="Resources\Artwork\Foreground\SpikeButton0.png" />
     <EmbeddedResource Include="Resources\Artwork\Foreground\SpikeButton1.png" />
     <EmbeddedResource Include="Resources\Sounds\ending.wav" />

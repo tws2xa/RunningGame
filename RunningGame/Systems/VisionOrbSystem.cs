@@ -25,7 +25,10 @@ namespace RunningGame.Systems {
         float visionOrbSize = 20.0f;
 
         //Zoom Out
-        int zoomOut = 50;
+        float activeZoomWidth = -1;
+        float activeZoomHeight = -1;
+        float inactiveZoomWidth = -1;
+        float inactiveZoomHeight = -1;
 
         //Fade
         bool doFade = true;
@@ -72,6 +75,10 @@ namespace RunningGame.Systems {
         public override void Update( float deltaTime ) {
             if ( !hasRunOnce ) {
                 level.getInputSystem().addKey( visionKey );
+                inactiveZoomWidth = level.sysManager.drawSystem.getMainView().width;
+                inactiveZoomHeight = level.sysManager.drawSystem.getMainView().height;
+                activeZoomWidth = level.sysManager.drawSystem.getMainView().width + 100;
+                activeZoomHeight = level.sysManager.drawSystem.getMainView().height + 100;
                 hasRunOnce = true;
             }
 
@@ -251,11 +258,15 @@ namespace RunningGame.Systems {
             player.removeComponent( GlobalVars.PLAYER_INPUT_COMPONENT_NAME );
 
             VisionOrb newEntity = new VisionOrb( level, GenerateRandId(), x, y );
+
+            if ( newEntity == null ) return;
+            
             level.addEntity( newEntity.randId, newEntity ); //This should just stay the same
 
             level.sysManager.drawSystem.getMainView().setFollowEntity( newEntity );
-            level.sysManager.drawSystem.getMainView().width += zoomOut;
-            level.sysManager.drawSystem.getMainView().height += zoomOut;
+            level.sysManager.drawSystem.getMainView().width = activeZoomWidth;
+            level.sysManager.drawSystem.getMainView().height = activeZoomHeight;
+
             if ( doBorder ) {
                 level.sysManager.drawSystem.getMainView().borderBrush = borderBrush;
                 level.sysManager.drawSystem.getMainView().borderSize = mainBorderSize;
@@ -294,8 +305,8 @@ namespace RunningGame.Systems {
             }
 
             level.sysManager.drawSystem.getMainView().setFollowEntity( level.getPlayer() );
-            level.sysManager.drawSystem.getMainView().width -= zoomOut;
-            level.sysManager.drawSystem.getMainView().height -= zoomOut;
+            level.sysManager.drawSystem.getMainView().width = inactiveZoomWidth;
+            level.sysManager.drawSystem.getMainView().height = inactiveZoomHeight;
             if ( doBorder ) {
                 level.sysManager.drawSystem.getMainView().hasBorder = false;
             }
