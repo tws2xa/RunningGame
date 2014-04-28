@@ -845,7 +845,7 @@ namespace RunningGame {
                     break;
                 case ( GlobalVars.GLIDE_NUM ):
                     col = System.Drawing.Color.Yellow;
-                    displayStr = "Glide Unlocked!\nPress [Space] in air to use.";
+                    displayStr = "Glide Unlocked!\nHold [Space] in air to use.";
                     textCol = System.Drawing.Color.Yellow;
                     break;
                 case ( GlobalVars.SPAWN_NUM ):

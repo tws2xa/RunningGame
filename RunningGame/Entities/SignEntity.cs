@@ -64,6 +64,9 @@ namespace RunningGame.Entities
                 case(2):
                     message = "You can activate switches by shooting them!";
                     break;
+                case(3):
+                    message = "Combine powerups in creative\nways for the best effects!";
+                    break;
             }
 
             /*POSITION COMPONENT - Does it have a position?
@@ -81,7 +84,7 @@ namespace RunningGame.Entities
             DrawComponent drawComp = (DrawComponent)addComponent(new DrawComponent(defaultWidth, defaultHeight, level, true), true);
             // Add image - Use base name for first parameter (everything in file path after Resources. and before the numbers and .png)
             //Then second parameter is full filepath to a default image
-            drawComp.addSprite("Artwork.Foreground.Sign", "RunningGame.Resources.Artwork.Foreground.Sign0.png", "Main");
+            drawComp.addSprite("Artwork.Foreground.Sign", "RunningGame.Resources.Artwork.Foreground.Sign10.png", "Main");
             drawComp.setSprite("Main"); //Set image to active image
 
             /*COLLIDER - Does it hit things?

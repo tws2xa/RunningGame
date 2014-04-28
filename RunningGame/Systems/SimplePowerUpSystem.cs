@@ -22,7 +22,7 @@ namespace RunningGame.Systems {
 
         //Glide powerup informations
         float Glide_Gravity_Decrease = 130.0f;
-        float glideDuration = 1.5f;
+        float glideDuration = 0.15f;
         float glideTimer;
         bool glideActive = false;
         float maxVelocity = 70.0f;
@@ -193,7 +193,7 @@ namespace RunningGame.Systems {
         }
         public void checkForInput() {
 
-            if ( glideUnlocked && level.getInputSystem().myKeys[glideKey].down ) {
+            if ( glideUnlocked && level.getInputSystem().myKeys[glideKey].pressed ) {
                 glide();
             }
 
