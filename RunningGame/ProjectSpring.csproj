@@ -518,6 +518,7 @@
     <EmbeddedResource Include="Resources\Artwork\Foreground\Sign61.png" />
     <EmbeddedResource Include="Resources\Levels\World4Level3_new.png" />
     <EmbeddedResource Include="Resources\Artwork\Foreground\Sign0.png" />
+    <EmbeddedResource Include="Resources\Levels\World5level3_new.png" />
     <EmbeddedResource Include="Resources\Artwork\Foreground\PowerupPickups\PowerUpBlue.png" />
     <EmbeddedResource Include="Resources\Artwork\Foreground\PowerupPickups\PowerUpGreen.png" />
     <EmbeddedResource Include="Resources\Artwork\Foreground\PowerupPickups\PowerUpOrange.png" />

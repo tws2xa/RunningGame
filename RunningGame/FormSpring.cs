@@ -267,7 +267,7 @@ namespace RunningGame
 
             GlobalVars.levels[4][0] = "RunningGame.Resources.Levels.World5Level1_new.png";
             GlobalVars.levels[4][1] = "RunningGame.Resources.Levels.World5Level2_new.png";
-            GlobalVars.levels[4][2] = "RunningGame.Resources.Levels.World5level3.png";
+            GlobalVars.levels[4][2] = "RunningGame.Resources.Levels.World5level3_new.png";
 
             GlobalVars.levels[5][0] = "RunningGame.Resources.Levels.World6level1.png";
             GlobalVars.levels[5][1] = "RunningGame.Resources.Levels.World6level2.png";
