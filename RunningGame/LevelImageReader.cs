@@ -53,6 +53,10 @@ namespace RunningGame {
         int openWideDoorReserveGreen = 203;
         int smushRed = 77; //G Determines Switch // B Determines Dir
 
+        //Red and Green reserved, Blue is for the message number.
+        int signRed = 120;
+        int signGreen = 120;
+
         int spikeRed = 255; //R
         int spikeGreen = 100; //G
         // B determins Dir
@@ -203,6 +207,11 @@ namespace RunningGame {
                         spike.isStartingEntity = true;
                         level.addEntity( spike );
 
+                    } else if ( col.R == signRed && col.G == signGreen ) {
+                        SignEntity signEnt = new SignEntity( level, rand.Next( Int32.MinValue, Int32.MaxValue ), levelX * tileWidth, levelY * tileHeight, col.B);
+                        adjustLocation( signEnt, level );
+                        signEnt.isStartingEntity = true;
+                        level.addEntity( signEnt );
                     }
 
                     //Now just check for the specific colors

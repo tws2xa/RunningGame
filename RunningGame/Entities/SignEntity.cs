@@ -10,16 +10,15 @@ namespace RunningGame.Entities
      [Serializable()]
     class SignEntity : Entity
     {
-         float defaultWidth = 10;
-         float defaultHeight = 10;
-         String message;
+         float defaultWidth = 30;
+         float defaultHeight = 30;
 
         //-------------------------------------------Constructors--------------------------------------------
         //One takes in an ID, the other generats it.
         //Both take in the starting x and y of the entity.
         //Both take in the level that it's being applied to.
         //You probably won't have to edit these at all.
-        public SignEntity( Level level, float x, float y ) {
+        public SignEntity( Level level, float x, float y, int msg ) {
             //Set level.
             //Leave for all entities
             this.level = level;
@@ -30,9 +29,9 @@ namespace RunningGame.Entities
 
             //Add the components.
             //Leave this for all entities.
-            addMyComponents( x, y );
+            addMyComponents( x, y, msg );
         }
-        public SignEntity( Level level, int id, float x, float y ) {
+        public SignEntity( Level level, int id, float x, float y, int msg ) {
             //Set level.
             //Leave for all entities
             this.level = level;
@@ -43,15 +42,32 @@ namespace RunningGame.Entities
 
             //Add the components.
             //Leave this for all entities.
-            addMyComponents( x, y );
+            addMyComponents( x, y, msg );
         }
 
         //------------------------------------------------------------------------------------------------------------------
 
         //Here's where you add all the components the entity has.
         //You can just uncomment the ones you want.
-        public void addMyComponents(float x, float y)
+        public void addMyComponents(float x, float y, int msg)
         {
+
+            string message = "A MSG";
+
+            switch ( msg ) {
+                case(0):
+                    message = "Left Click to Shoot!";
+                    break;
+                case(1):
+                    message = "Exit the right side of the Level to Continue!";
+                    break;
+                case(2):
+                    message = "You can activate switches by shooting them!";
+                    break;
+            }
+
+            Console.WriteLine( "Adding sign with message: " + message );
+
             /*POSITION COMPONENT - Does it have a position?
              */
             addComponent(new PositionComponent(x, y, defaultWidth, defaultHeight, this), true);
@@ -67,7 +83,7 @@ namespace RunningGame.Entities
             DrawComponent drawComp = (DrawComponent)addComponent(new DrawComponent(defaultWidth, defaultHeight, level, true), true);
             // Add image - Use base name for first parameter (everything in file path after Resources. and before the numbers and .png)
             //Then second parameter is full filepath to a default image
-            drawComp.addSprite("Artwork.Foreground.Grass", "RunningGame.Resources.Artwork.Foreground.Grass11.png", "Main");
+            drawComp.addSprite("Artwork.Foreground.Sign", "RunningGame.Resources.Artwork.Foreground.Sign0.png", "Main");
             drawComp.setSprite("Main"); //Set image to active image
 
             /*COLLIDER - Does it hit things?

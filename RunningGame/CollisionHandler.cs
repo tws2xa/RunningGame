@@ -80,6 +80,7 @@ namespace RunningGame {
             addToDictionary( GlobalVars.PLAYER_COLLIDER_TYPE, GlobalVars.BOUNCE_POSTGROUND_COLLIDER_TYPE, bounceCollision );
             addToDictionary( GlobalVars.PLAYER_COLLIDER_TYPE, GlobalVars.SPAWN_BLOCK_COLLIDER_TYPE, simpleStopCollision);
             addToDictionary( GlobalVars.PLAYER_COLLIDER_TYPE, GlobalVars.SMUSH_BLOCK_COLLIDER, smushCollision );
+            addToDictionary( GlobalVars.PLAYER_COLLIDER_TYPE, GlobalVars.SIGN_COLLIDER_TYPE, PlayerSignCollision );
 
             addToDictionary( GlobalVars.PLAYER_COLLIDER_TYPE, GlobalVars.CHECKPOINT_COLLIDER_TYPE, checkPointCollision );
             addToDictionary( GlobalVars.PLAYER_COLLIDER_TYPE, GlobalVars.VISION_ORB_UNLOCK_COLLIDER, unlockVisionOrb );
@@ -1125,7 +1126,7 @@ namespace RunningGame {
             visOrbSys.orbUnlocked = true;
 
             System.Drawing.Color col = System.Drawing.Color.WhiteSmoke; //Peru is a color.
-            string displayStr = "Vision Orb Unlocked!\nPress V to Use";
+            string displayStr = "You've Found Hue!\nPress V to Switch Control\nand Scout Out the Level";
             System.Drawing.Color textCol = col;
             float fadeInTime = 0.2f;
             float constTime = 3;
@@ -1318,6 +1319,17 @@ namespace RunningGame {
                 }
                 return false;
             }
+
+        }
+
+        public bool PlayerSignCollision( Entity e1, Entity e2 ) {
+            Entity signEnt = getEntityWithComponent( GlobalVars.SIGN_COMPONENT_NAME, e1, e2 )[0];
+
+            SignComponent signComp = ( SignComponent )signEnt.getComponent( GlobalVars.SIGN_COMPONENT_NAME );
+            
+            signComp.isActive = true;
+
+            return false;
 
         }
 

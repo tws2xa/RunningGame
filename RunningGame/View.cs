@@ -287,6 +287,26 @@ namespace RunningGame {
                     mainG.DrawString( level.sysManager.drawSystem.text, level.sysManager.drawSystem.textFont, level.sysManager.drawSystem.textBrush, textPosition.X, textPosition.Y, centerFormat );
                 }
 
+                if ( level.sysManager != null && level.sysManager.drawSystem.constMessages.Count > 0 ) {
+                    Dictionary<string, Color> msgs = level.sysManager.drawSystem.constMessages;
+                    foreach ( string str in msgs.Keys ) {
+                        StringFormat centerFormat = new StringFormat();
+                        centerFormat.Alignment = StringAlignment.Center;
+                        centerFormat.LineAlignment = StringAlignment.Center;
+                        PointF textPosition = new PointF( displayX + displayWidth / 2, displayY + displayHeight / 4 );
+                        SolidBrush brush = new SolidBrush( msgs[str] );
+                        if ( level.sysManager.drawSystem.textShadow ) {
+                            float shadowOffsetX = 1.2f;
+                            float shadowOffsetY = 1.0f;
+                            int maxShadowOpacity = 170;
+                            SolidBrush shadowBrush = ( SolidBrush )brush.Clone();
+                            shadowBrush.Color = Color.FromArgb( Math.Min( shadowBrush.Color.A, maxShadowOpacity ), Color.Black );
+                            mainG.DrawString( str, level.sysManager.drawSystem.textFont, shadowBrush, textPosition.X + shadowOffsetX, textPosition.Y + shadowOffsetY, centerFormat );
+                        }
+                        mainG.DrawString( str, level.sysManager.drawSystem.textFont, brush, textPosition.X, textPosition.Y, centerFormat );
+                    }
+                }
+
                 if ( level.sysManager != null && level.sysManager.drawSystem.getFlashTime() > 0 ) {
                     mainG.FillRectangle( level.sysManager.drawSystem.getFlashBrush(), new Rectangle( ( int )( displayX ), ( int )( displayY ),
                     ( int )( displayWidth ), ( int )( displayHeight ) ) );

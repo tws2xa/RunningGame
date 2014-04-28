@@ -509,6 +509,7 @@
     <EmbeddedResource Include="Resources\Artwork\Background\Bkg32.png" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Resources\Artwork\Foreground\Sign0.png" />
     <EmbeddedResource Include="Resources\Artwork\Foreground\PowerupPickups\PowerUpBlue.png" />
     <EmbeddedResource Include="Resources\Artwork\Foreground\PowerupPickups\PowerUpGreen.png" />
     <EmbeddedResource Include="Resources\Artwork\Foreground\PowerupPickups\PowerUpOrange.png" />

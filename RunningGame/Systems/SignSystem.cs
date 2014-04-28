@@ -21,6 +21,8 @@ namespace RunningGame.Systems
         //All systems MUST have a variable holding the level they're contained in
         Level level;
 
+        public System.Drawing.Color signCol = System.Drawing.Color.WhiteSmoke;
+
         //Constructor - Always read in the level! You can read in other stuff too if need be.
         public SignSystem(Level level)
         {
@@ -55,23 +57,37 @@ namespace RunningGame.Systems
             foreach (Entity e in getApplicableEntities())
             {
                 SignComponent signComp = (SignComponent)e.getComponent(GlobalVars.SIGN_COMPONENT_NAME);
-                PositionComponent posComp = (PositionComponent)e.getComponent(GlobalVars.POSITION_COMPONENT_NAME);
-                System.Drawing.PointF position = posComp.getLocAsPoint();
-                float xPos = position.X;
-                float yPos = position.Y;
-                System.Drawing.PointF endPoint = new System.Drawing.PointF(xPos + posComp.width, yPos);
+
                 if (!signComp.isActive)
                 {
-                    break;
+                    continue;
                 }
                 else //checks to see if player is still colliding with the sign
                 {
-                   List<Entity> list = level.getCollisionSystem().findObjectsBetweenPoints(posComp.getIntegerPoint(), endPoint); //find all the objects between (hopefully) the ends of the sign
-                    if (list is Entities.Player) //don't know if i did this right
-                    {
-                    signComp.isActive = true;
+                    PositionComponent posComp = ( PositionComponent )e.getComponent( GlobalVars.POSITION_COMPONENT_NAME );
+
+                    System.Drawing.PointF position = posComp.getLocAsPoint();
+                    float xPos = position.X;
+                    float yPos = position.Y;
+                    System.Drawing.PointF startPoint = new System.Drawing.PointF( xPos - posComp.width / 2, yPos );
+                    System.Drawing.PointF endPoint = new System.Drawing.PointF( xPos + posComp.width / 2, yPos );
+
+                    List<Entity> list = level.getCollisionSystem().findObjectsBetweenPoints(startPoint, endPoint); //find all the objects between (hopefully) the ends of the sign
+
+                    bool playerExists = false;
+                    foreach ( Entity ent in list ) {
+                        if ( ent is Entities.Player )
+                        {
+                            playerExists = true;
+                            break;
+                        }
+                    }
+                    if ( playerExists ) {
+                        signComp.isActive = true;
+                        level.sysManager.drawSystem.beginConstText( signComp.text, level.sysManager.signSystem.signCol );
                     } else {
                         signComp.isActive = false;
+                        level.sysManager.drawSystem.endConstText( signComp.text, signCol, 0.5f );
                     }
                 }
             }

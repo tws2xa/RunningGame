@@ -54,7 +54,9 @@ namespace RunningGame.Systems {
         public bool drawDebugStuff = false;
         public List<PointF> debugLines = new List<PointF>();
         public List<PointF> debugPoints = new List<PointF>();
-        
+
+        public Dictionary<string, Color> constMessages = new Dictionary<string, Color>();
+
         [NonSerialized]
         Pen selectedEntBorderColor = Pens.Red;
         [NonSerialized]
@@ -227,6 +229,17 @@ namespace RunningGame.Systems {
             textBrush.Color = Color.FromArgb(0, c);
             textState = 0;
             textTimer = time;
+        }
+        public void beginConstText( string text, Color c ) {
+            if ( !constMessages.ContainsKey( text ) ) {
+                constMessages.Add( text, c );
+            }
+        }
+        public void endConstText( string text, Color c, float fade=0.01f ) {
+            if ( constMessages.ContainsKey( text ) ) {
+                activateTextFlash( text, constMessages[text], 0.01f, 0.01f, fade );
+                constMessages.Remove( text );
+            }
         }
         //Explanantion of g
         //g is a brush for an image

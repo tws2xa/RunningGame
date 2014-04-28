@@ -93,6 +93,17 @@ namespace RunningGame.Systems {
 
                     List<Entity> collisionsAheadAndBelow = level.getCollisionSystem().findObjectAtPoint( e1X + getSign( velComp.x ) * ( e1Width / 2 + 1 ), e1Y + e1Height / 2 + 1 );
 
+                    //Remove spikes from the collisions
+                    List<Entity> entsToRemove = new List<Entity>();
+                    foreach ( Entity ent in collisionsAheadAndBelow ) {
+                        if ( ent is SpikeEntity ) {
+                            entsToRemove.Add( ent );
+                        }
+                    }
+                    foreach ( Entity ent in entsToRemove) {
+                        collisionsAheadAndBelow.Remove( ent );
+                    }
+
                     if ( collisionsAheadAndBelow.Count <= 0 ) {
                         velComp.x = -velComp.x;
                     }
