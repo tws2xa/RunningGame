@@ -70,7 +70,7 @@ namespace RunningGame.Entities {
             string stem = "RunningGame.Resources.Artwork.Foreground.PowerupPickups.";
             
             if ( compNum == GlobalVars.BOUNCE_NUM )
-                drawComp.addSprite( "", stem + "BouncePickuo.png", "Main" );
+                drawComp.addSprite( "", stem + "BouncePickup.png", "Main" );
             else if ( compNum == GlobalVars.SPEED_NUM )
                 drawComp.addSprite( "", stem + "SpeedyPickup.png", "Main" );
             else if ( compNum == GlobalVars.JMP_NUM )

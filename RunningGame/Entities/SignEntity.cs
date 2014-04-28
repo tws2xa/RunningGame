@@ -66,8 +66,6 @@ namespace RunningGame.Entities
                     break;
             }
 
-            Console.WriteLine( "Adding sign with message: " + message );
-
             /*POSITION COMPONENT - Does it have a position?
              */
             addComponent(new PositionComponent(x, y, defaultWidth, defaultHeight, this), true);

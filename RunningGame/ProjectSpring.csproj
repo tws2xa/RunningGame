@@ -595,7 +595,9 @@
     <EmbeddedResource Include="Resources\Artwork\Foreground\Checkpoint\animCheck5.png" />
     <EmbeddedResource Include="Resources\Artwork\Foreground\Checkpoint\CheckedCheckpoint.png" />
     <EmbeddedResource Include="Resources\Artwork\Foreground\Checkpoint\UncheckedCheckpoint.png" />
-    <EmbeddedResource Include="Resources\Artwork\Foreground\BadSpike.png" />
+    <EmbeddedResource Include="Resources\Artwork\Foreground\BadSpike.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
     <EmbeddedResource Include="Resources\Artwork\Foreground\GoodSpike.png" />
     <EmbeddedResource Include="Resources\Artwork\Foreground\Bullet\Bullet110.png" />
     <EmbeddedResource Include="Resources\Artwork\Foreground\Bullet\Bullet210.png" />
