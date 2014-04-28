@@ -66,6 +66,8 @@ namespace RunningGame {
             defaultCollisions.Add( GlobalVars.DESTROYING_SPAWN_BLOCK_COLLIDER_TYPE, doNothingCollision );
             defaultCollisions.Add( GlobalVars.VISION_ORB_UNLOCK_COLLIDER, doNothingCollision);
             defaultCollisions.Add( GlobalVars.SPIKE_SWITCH_COLLIDER, simpleStopCollision );
+            defaultCollisions.Add( GlobalVars.SIGN_COLLIDER_TYPE, doNothingCollision );
+
             
 
             //Add non-default collisions to dictionary

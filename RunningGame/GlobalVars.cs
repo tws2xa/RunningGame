@@ -54,6 +54,7 @@ namespace RunningGame {
         public static string SMUSH_COMPONENT_NAME = "smushComp";
         public static string GENERAL_STATE_COMPONENT_NAME = "genStateComp";
         public static string CHECKPOINT_COMPONENT_NAME = "checkPointComp";
+        public static string SIGN_COMPONENT_NAME = "signComp";
 
         //Collider Types
         public static string PLAYER_COLLIDER_TYPE = "playerCollider";
@@ -82,6 +83,7 @@ namespace RunningGame {
         public static string DESTROYING_SPAWN_BLOCK_COLLIDER_TYPE = "destroySpawnCollider";
         public static string VISION_ORB_UNLOCK_COLLIDER = "visionUnlockCollider";
         public static string SPIKE_SWITCH_COLLIDER = "spikeSwitchCollider";
+        public static string SIGN_COLLIDER_TYPE = "signCollider";
 
         //Collection of all in game entities
         public static Dictionary<int, Entity> nonGroundEntities = new Dictionary<int, Entity>();

@@ -44,6 +44,7 @@ namespace RunningGame {
         public TimedShooterSystem timedShooterSystem;
         public VelToZeroSystem velZeroSystem;
         public SmushSystem smushSystem;
+        public SignSystem signSystem;
 
         List<GameSystem> systems = new List<GameSystem>();
 
@@ -82,6 +83,7 @@ namespace RunningGame {
             pushSystem = new PushableSystem( level ); systems.Add( pushSystem );
             velZeroSystem = new VelToZeroSystem( level ); systems.Add( velZeroSystem );
             smushSystem = new SmushSystem( level ); systems.Add( smushSystem );
+            signSystem = new SignSystem( level ); systems.Add( signSystem );
 
         }
 
@@ -111,6 +113,7 @@ namespace RunningGame {
             switchSystem.Update( deltaTime );
             simpEnemySystem.Update( deltaTime );
             smushSystem.Update( deltaTime );
+            signSystem.Update( deltaTime );
             debugSystem.Update( deltaTime );
             inputSystem.Update( deltaTime );
 
