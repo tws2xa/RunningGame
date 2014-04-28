@@ -67,6 +67,9 @@ namespace RunningGame.Entities
                 case(3):
                     message = "Combine powerups in creative\nways for the best effects!";
                     break;
+                case(4):
+                    message = "Not all enemies are vulnerable to your weapon,\nbut perhaps there are other ways to handle them...";
+                    break;
             }
 
             /*POSITION COMPONENT - Does it have a position?
