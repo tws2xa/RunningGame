@@ -452,7 +452,7 @@
             this.btnSetRestart.Name = "btnSetRestart";
             this.btnSetRestart.Size = new System.Drawing.Size(60, 25);
             this.btnSetRestart.TabIndex = 32;
-            this.btnSetRestart.Text = "R";
+            this.btnSetRestart.Text = "Delete";
             this.btnSetRestart.UseVisualStyleBackColor = true;
             this.btnSetRestart.Visible = false;
             this.btnSetRestart.Click += new System.EventHandler(this.btnSetRestart_Click);
@@ -570,7 +570,6 @@
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(640, 480);
             this.Controls.Add(this.btnEndReturn);
-            this.Controls.Add(this.picEnd);
             this.Controls.Add(this.btnWorldReturn);
             this.Controls.Add(this.lblEnd);
             this.Controls.Add(this.btnSetEnd);
@@ -609,6 +608,7 @@
             this.Controls.Add(this.lblLoading);
             this.Controls.Add(this.btnBegin);
             this.Controls.Add(this.cntrlBkgBox);
+            this.Controls.Add(this.picEnd);
             this.DoubleBuffered = true;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
