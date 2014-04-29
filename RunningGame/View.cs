@@ -364,6 +364,10 @@ namespace RunningGame {
             PositionComponent posComp = ( PositionComponent )e.getComponent( GlobalVars.POSITION_COMPONENT_NAME );
             DrawComponent drawComp = ( DrawComponent )e.getComponent( GlobalVars.DRAW_COMPONENT_NAME );
 
+            if ( e is ShooterBullet ) {
+                //Console.WriteLine( "In Draw ShooterBullet - Redraw: " + drawComp.needRedraw + ", In View: " + isInView( posComp ) ); 
+            }
+
             if ( drawComp.needRedraw ) {
 
                 if ( isInView( posComp ) ) {

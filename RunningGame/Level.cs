@@ -519,7 +519,9 @@ namespace RunningGame {
                 GlobalVars.groundEntities.Add( id, e );
                 colliderAdded( e );
             } else {
-                if ( GlobalVars.nonGroundEntities.ContainsKey( id ) ) GlobalVars.nonGroundEntities.Remove( id );
+                if ( GlobalVars.nonGroundEntities.ContainsKey( id ) ) {
+                    GlobalVars.nonGroundEntities.Remove( id );
+                }
                 GlobalVars.nonGroundEntities.Add( id, e );
                 if ( e.hasComponent( GlobalVars.COLLIDER_COMPONENT_NAME ) )
                     colliderAdded( e );

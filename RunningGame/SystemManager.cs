@@ -154,9 +154,18 @@ namespace RunningGame {
             }
         }
         public void entityAdded( Entity e ) {
+            if ( e is ShooterBullet ) {
+                //Console.WriteLine( "In SysManagerAddition for ShooterBullet" );
+            }
             foreach ( GameSystem sys in systems ) {
                 if ( sys.checkIfEntityIsApplicable( e ) ) {
-                    if ( ( sys.actOnGround() || !( e is BasicGround ) ) && !sys.applicableEntities.ContainsKey( e.randId ) ) {
+                    if ( sys.applicableEntities.ContainsKey( e.randId ) ) {
+                        sys.applicableEntities.Remove( e.randId );
+                    }
+                    if ( ( sys.actOnGround() || !( e is BasicGround ) ) /*&& !sys.applicableEntities.ContainsKey( e.randId )*/ ) {
+                        if ( e is ShooterBullet ) {
+                            //Console.WriteLine( "\tAdded! ShooterBullet" );
+                        }
                         sys.applicableEntities.Add( e.randId, e );
                         //sys.applicableEntities = sys.applicableEntities.OrderBy(o => o.depth).ToList();
                     }

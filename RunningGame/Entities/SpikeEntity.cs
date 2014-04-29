@@ -76,7 +76,6 @@ namespace RunningGame.Entities {
                 drawComp.rotateFlipAllSprites(System.Drawing.RotateFlipType.Rotate90FlipNone );
             }
 
-
             /*
              * DIRECTIONAL COMPONENT - it has a direction (used by collision)
              */

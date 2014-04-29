@@ -88,6 +88,7 @@ namespace RunningGame.Entities {
                 drawComp.rotateFlipAllSprites( System.Drawing.RotateFlipType.Rotate90FlipNone );
             }
 
+
             /** GENERAL STATE COMPONENT - Need to store a state variable.
              * State = 0 --> Hurt Player
              * State = 1 --> Hurt Enemy
