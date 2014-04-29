@@ -27,10 +27,14 @@ namespace RunningGame.Systems {
         float visionOrbSize = 20.0f;
 
         //Zoom Out
-        float activeZoomWidth = -1;
-        float activeZoomHeight = -1;
-        float inactiveZoomWidth = -1;
-        float inactiveZoomHeight = -1;
+        float mainWinOrbZoomWidth = -1;
+        float mainWinOrbZoomHeight = -1;
+        float mainWinPlayerZoomWidth = -1;
+        float mainWinPlayerZoomHeight = -1;
+        float miniWinOrbZoomWidth = -1;
+        float miniWinOrbZoomHeight = -1;
+        float miniWinPlayerZoomWidth = -1;
+        float miniWinPlayerZoomHeight = -1;
 
         //Fade
         bool doFade = true;
@@ -82,10 +86,21 @@ namespace RunningGame.Systems {
             if ( !hasRunOnce ) {
                 level.getInputSystem().addKey( visionKey );
                 level.getInputSystem().addKey( toggleControlKey );
-                inactiveZoomWidth = level.sysManager.drawSystem.getMainView().width;
-                inactiveZoomHeight = level.sysManager.drawSystem.getMainView().height;
-                activeZoomWidth = level.sysManager.drawSystem.getMainView().width + 100;
-                activeZoomHeight = level.sysManager.drawSystem.getMainView().height + 100;
+
+                mainWinPlayerZoomWidth = level.sysManager.drawSystem.getMainView().width;
+                mainWinPlayerZoomHeight = level.sysManager.drawSystem.getMainView().height;
+                mainWinOrbZoomWidth = level.sysManager.drawSystem.getMainView().width + 100;
+                mainWinOrbZoomHeight = level.sysManager.drawSystem.getMainView().height + 100;
+
+                float proportion = mainWinOrbZoomWidth / mainWinPlayerZoomWidth;
+
+                miniWinPlayerZoomWidth = plWinWidth;
+                miniWinPlayerZoomHeight = plWinHeight;
+                miniWinOrbZoomWidth = plWinWidth + plWinWidth/proportion;
+                miniWinOrbZoomHeight = plWinHeight + plWinHeight/proportion;
+
+
+
                 hasRunOnce = true;
             }
 
@@ -118,66 +133,74 @@ namespace RunningGame.Systems {
                         orbActive = true;
                     }
                 }
-
             }
+
+            if ( orbUnlocked && level.getInputSystem().myKeys[toggleControlKey].down ) {
+                switchControl( !orbControl );
+            }
+
             foreach ( Entity e in getApplicableEntities() ) {
                 PositionComponent posComp = ( PositionComponent )e.getComponent( GlobalVars.POSITION_COMPONENT_NAME );
                 VelocityComponent velComp = ( VelocityComponent )e.getComponent( GlobalVars.VELOCITY_COMPONENT_NAME );
                 VisionInputComponent visComp = ( VisionInputComponent )e.getComponent( GlobalVars.VISION_ORB_INPUT_COMPONENT_NAME );
-                
-                checkForInput( posComp, velComp, visComp );
+
+                if ( orbActive && orbControl ) {
+                    checkForInput( posComp, velComp, visComp );
+                }
 
                 if ( orbActive && doPlayerWindow ) {
                     checkPlayerWindowLocation();
                 }
 
                 //If there's a key down and the player isn't moving horizontally, check to make sure there's a collision
-                if ( Math.Abs( velComp.x ) < Math.Abs( visComp.platformerMoveSpeed ) ) {
-                    if ( level.getInputSystem().myKeys[GlobalVars.KEY_RIGHT].pressed ) {
-                        float leftX = ( posComp.x - posComp.width / 2 - 1 );
-                        float upperY = ( posComp.y - posComp.height / 2 );
-                        float lowerY = ( posComp.y + posComp.height / 2 );
+                if ( orbControl ) {
+                    if ( Math.Abs( velComp.x ) < Math.Abs( visComp.platformerMoveSpeed ) ) {
+                        if ( level.getInputSystem().myKeys[GlobalVars.KEY_RIGHT].pressed ) {
+                            float leftX = ( posComp.x - posComp.width / 2 - 1 );
+                            float upperY = ( posComp.y - posComp.height / 2 );
+                            float lowerY = ( posComp.y + posComp.height / 2 );
 
-                        if ( !( level.getCollisionSystem().findObjectsBetweenPoints( leftX, upperY, leftX, lowerY ).Count > 0 ) ) {
-                            beginMoveRight( posComp, velComp, visComp );
+                            if ( !( level.getCollisionSystem().findObjectsBetweenPoints( leftX, upperY, leftX, lowerY ).Count > 0 ) ) {
+                                beginMoveRight( posComp, velComp, visComp );
+                            }
+                        }
+                        if ( level.getInputSystem().myKeys[GlobalVars.KEY_LEFT].pressed ) {
+                            float rightX = ( posComp.x + posComp.width / 2 + 1 );
+                            float upperY = ( posComp.y - posComp.height / 2 );
+                            float lowerY = ( posComp.y + posComp.height / 2 );
+
+                            if ( !( level.getCollisionSystem().findObjectsBetweenPoints( rightX, upperY, rightX, lowerY ).Count > 0 ) ) {
+                                beginMoveLeft( posComp, velComp, visComp );
+                            }
                         }
                     }
-                    if ( level.getInputSystem().myKeys[GlobalVars.KEY_LEFT].pressed ) {
-                        float rightX = ( posComp.x + posComp.width / 2 + 1 );
-                        float upperY = ( posComp.y - posComp.height / 2 );
-                        float lowerY = ( posComp.y + posComp.height / 2 );
 
-                        if ( !( level.getCollisionSystem().findObjectsBetweenPoints( rightX, upperY, rightX, lowerY ).Count > 0 ) ) {
-                            beginMoveLeft( posComp, velComp, visComp );
+                    if ( Math.Abs( velComp.y ) < Math.Abs( visComp.platformerMoveSpeed ) ) {
+                        if ( level.getInputSystem().myKeys[GlobalVars.KEY_JUMP].pressed ) {
+
+                            ColliderComponent colComp = ( ColliderComponent )e.getComponent( GlobalVars.COLLIDER_COMPONENT_NAME );
+
+                            float rightX = ( colComp.getX( posComp ) + colComp.width / 2 );
+                            float upperY = ( colComp.getY( posComp ) - colComp.height / 2 - 1 );
+                            float leftX = ( colComp.getX( posComp ) + colComp.width / 2 );
+
+                            if ( !( level.getCollisionSystem().findObjectsBetweenPoints( leftX, upperY, rightX, upperY ).Count > 0 ) ) {
+                                beginMoveUp( posComp, velComp, visComp );
+                            }
                         }
                     }
-                }
-               
-                if ( Math.Abs( velComp.y ) < Math.Abs( visComp.platformerMoveSpeed ) ) {
-                    if ( level.getInputSystem().myKeys[GlobalVars.KEY_JUMP].pressed ) {
 
-                        ColliderComponent colComp = ( ColliderComponent )e.getComponent( GlobalVars.COLLIDER_COMPONENT_NAME );
-
-                        float rightX = ( colComp.getX( posComp ) + colComp.width / 2 );
-                        float upperY = ( colComp.getY( posComp ) - colComp.height / 2 - 1 );
-                        float leftX = ( colComp.getX(posComp) + colComp.width / 2 );
-
-                        if ( !( level.getCollisionSystem().findObjectsBetweenPoints( leftX, upperY, rightX, upperY ).Count > 0 ) ) {
-                            beginMoveUp( posComp, velComp, visComp );
+                    //Slow horizontal if no left/right key down
+                    if ( velComp.x != 0 && !level.getInputSystem().myKeys[GlobalVars.KEY_LEFT].pressed && !level.getInputSystem().myKeys[GlobalVars.KEY_RIGHT].pressed ) {
+                        if ( velComp.x < 0 ) {
+                            velComp.x += horizSlowSpeed;
+                            if ( velComp.x > 0 )
+                                velComp.x = 0;
+                        } else {
+                            velComp.x -= horizSlowSpeed;
+                            if ( velComp.x < 0 )
+                                velComp.x = 0;
                         }
-                    }
-                }
-                
-                //Slow horizontal if no left/right key down
-                if ( velComp.x != 0 && !level.getInputSystem().myKeys[GlobalVars.KEY_LEFT].pressed && !level.getInputSystem().myKeys[GlobalVars.KEY_RIGHT].pressed ) {
-                    if ( velComp.x < 0 ) {
-                        velComp.x += horizSlowSpeed;
-                        if ( velComp.x > 0 )
-                            velComp.x = 0;
-                    } else {
-                        velComp.x -= horizSlowSpeed;
-                        if ( velComp.x < 0 )
-                            velComp.x = 0;
                     }
                 }
             }
@@ -272,8 +295,8 @@ namespace RunningGame.Systems {
             level.addEntity( newEntity.randId, newEntity ); //This should just stay the same
 
             level.sysManager.drawSystem.getMainView().setFollowEntity( newEntity );
-            level.sysManager.drawSystem.getMainView().width = activeZoomWidth;
-            level.sysManager.drawSystem.getMainView().height = activeZoomHeight;
+            level.sysManager.drawSystem.getMainView().width = mainWinOrbZoomWidth;
+            level.sysManager.drawSystem.getMainView().height = mainWinOrbZoomHeight;
 
             if ( doBorder ) {
                 level.sysManager.drawSystem.getMainView().borderBrush = borderBrush;
@@ -314,8 +337,8 @@ namespace RunningGame.Systems {
             }
 
             level.sysManager.drawSystem.getMainView().setFollowEntity( level.getPlayer() );
-            level.sysManager.drawSystem.getMainView().width = inactiveZoomWidth;
-            level.sysManager.drawSystem.getMainView().height = inactiveZoomHeight;
+            level.sysManager.drawSystem.getMainView().width = mainWinPlayerZoomWidth;
+            level.sysManager.drawSystem.getMainView().height = mainWinPlayerZoomHeight;
             if ( doBorder ) {
                 level.sysManager.drawSystem.getMainView().hasBorder = false;
             }
@@ -349,9 +372,9 @@ namespace RunningGame.Systems {
 
         public void checkPlayerWindowLocation() {
 
-            if ( plView == null || level.getPlayer() == null ) return;
+            if ( plView == null || plView.followEntity == null ) return;
 
-            PositionComponent posComp = ( PositionComponent )level.getPlayer().getComponent( GlobalVars.POSITION_COMPONENT_NAME );
+            PositionComponent posComp = ( PositionComponent )plView.followEntity.getComponent( GlobalVars.POSITION_COMPONENT_NAME );
             //Find player's quadrant
             if ( posComp.x - level.sysManager.drawSystem.getMainView().x < level.sysManager.drawSystem.getMainView().width / 2 ) {
                 plWinXLoc = plBorderSize / 2;
@@ -369,6 +392,44 @@ namespace RunningGame.Systems {
 
         }
 
+
+
+        public void switchControl( bool toOrb ) {
+
+            if ( plView != null ) {
+                Console.WriteLine( "Setting Control - Orb? : " + toOrb );
+                orbControl = toOrb;
+                Entity tmp = plView.followEntity;
+                plView.setFollowEntity(level.sysManager.drawSystem.getMainView().followEntity);
+                level.sysManager.drawSystem.getMainView().setFollowEntity( tmp );
+
+                if ( toOrb ) {
+                    level.sysManager.drawSystem.getMainView().width = mainWinOrbZoomWidth;
+                    level.sysManager.drawSystem.getMainView().height = mainWinOrbZoomHeight;
+                    plView.width = miniWinPlayerZoomWidth;
+                    plView.height = miniWinPlayerZoomHeight;
+                } else {
+                    level.sysManager.drawSystem.getMainView().width = mainWinPlayerZoomWidth;
+                    level.sysManager.drawSystem.getMainView().height = mainWinPlayerZoomHeight;
+                    plView.width = miniWinOrbZoomWidth;
+                    plView.height = miniWinOrbZoomHeight;
+                }
+
+            }
+
+            if ( level.getPlayer() != null ) {
+                if ( !toOrb ) {
+                    if ( !level.getPlayer().hasComponent( GlobalVars.PLAYER_INPUT_COMPONENT_NAME ) ) {
+                        level.getPlayer().addComponent( new PlayerInputComponent( level.getPlayer() ) );
+                    }
+                } else {
+                    if ( level.getPlayer().hasComponent( GlobalVars.PLAYER_INPUT_COMPONENT_NAME ) ) {
+                        level.getPlayer().removeComponent( GlobalVars.PLAYER_INPUT_COMPONENT_NAME );
+                    }
+                }
+            }
+
+        }
 
 
 
