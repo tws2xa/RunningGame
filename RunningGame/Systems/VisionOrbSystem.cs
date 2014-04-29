@@ -19,9 +19,11 @@ namespace RunningGame.Systems {
         public bool orbUnlocked = false;
 
         public bool orbActive = false;
+        public bool orbControl = false;
 
         bool hasRunOnce = false;
-        Keys visionKey = Keys.V;
+        Keys visionKey;
+        Keys toggleControlKey;
         float visionOrbSize = 20.0f;
 
         //Zoom Out
@@ -55,6 +57,10 @@ namespace RunningGame.Systems {
         Random rand = new Random();
 
         public VisionOrbSystem( Level activeLevel ) {
+
+            visionKey = GlobalVars.VISION_ORB_KEY;
+            toggleControlKey = GlobalVars.ORB_SWITCH_KEY;
+
             //Required Components
             requiredComponents.Add( GlobalVars.VISION_ORB_INPUT_COMPONENT_NAME ); //Player Input Component
             requiredComponents.Add( GlobalVars.POSITION_COMPONENT_NAME ); //Position
@@ -75,6 +81,7 @@ namespace RunningGame.Systems {
         public override void Update( float deltaTime ) {
             if ( !hasRunOnce ) {
                 level.getInputSystem().addKey( visionKey );
+                level.getInputSystem().addKey( toggleControlKey );
                 inactiveZoomWidth = level.sysManager.drawSystem.getMainView().width;
                 inactiveZoomHeight = level.sysManager.drawSystem.getMainView().height;
                 activeZoomWidth = level.sysManager.drawSystem.getMainView().width + 100;
@@ -117,6 +124,7 @@ namespace RunningGame.Systems {
                 PositionComponent posComp = ( PositionComponent )e.getComponent( GlobalVars.POSITION_COMPONENT_NAME );
                 VelocityComponent velComp = ( VelocityComponent )e.getComponent( GlobalVars.VELOCITY_COMPONENT_NAME );
                 VisionInputComponent visComp = ( VisionInputComponent )e.getComponent( GlobalVars.VISION_ORB_INPUT_COMPONENT_NAME );
+                
                 checkForInput( posComp, velComp, visComp );
 
                 if ( orbActive && doPlayerWindow ) {
@@ -297,6 +305,7 @@ namespace RunningGame.Systems {
                 level.sysManager.drawSystem.addView( plView );
             }
             orbActive = true;
+            orbControl = true;
         }
 
         public void destroyVisionOrb() {
@@ -321,6 +330,7 @@ namespace RunningGame.Systems {
                 level.getPlayer().addComponent( new PlayerInputComponent( level.getPlayer() ) );
 
             orbActive = false;
+            orbControl = false;
         }
 
         public float getSpawnDistance( Player player ) {

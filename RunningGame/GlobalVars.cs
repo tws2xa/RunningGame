@@ -124,6 +124,8 @@ namespace RunningGame {
         public static Keys KEY_USE_EQUIPPED = Keys.F;
         public static Keys KEY_GLIDE = Keys.Space;
         public static Keys KEY_END = Keys.Escape;
+        public static Keys VISION_ORB_KEY = Keys.V;
+        public static Keys ORB_SWITCH_KEY = Keys.T;
 
         public const int JUMP_INT = 0;
         public const int LEFT_INT = 1;
@@ -179,7 +181,7 @@ namespace RunningGame {
         public static List<Keys> reservedKeys = new List<Keys>(){
             KEY_JUMP, KEY_LEFT, KEY_RIGHT, KEY_DOWN,
             KEY_RESET, KEY_CYCLE_DOWN, KEY_CYCLE_UP,
-            KEY_USE_EQUIPPED, KEY_GLIDE, KEY_END
+            KEY_USE_EQUIPPED, KEY_GLIDE, KEY_END, VISION_ORB_KEY, ORB_SWITCH_KEY
         };
 
     }

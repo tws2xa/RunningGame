@@ -112,11 +112,12 @@ namespace RunningGame.Systems {
             if ( level.getInputSystem().myKeys[toggleSpawn].down ) {
                 togglePowerup( GlobalVars.SPAWN_NUM );
             }
-            */
 
             if ( level.getInputSystem().myKeys[typeKey].down ) {
                 getTypes();
             }
+            */
+
             if ( level.getInputSystem().myKeys[infoKey].down ) {
                 getInfo();
             }
