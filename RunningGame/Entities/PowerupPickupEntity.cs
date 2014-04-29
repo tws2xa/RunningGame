@@ -11,8 +11,8 @@ namespace RunningGame.Entities {
     [Serializable()]
     public class PowerupPickupEntity : Entity {
 
-        float spriteWidth = 20;
-        float spriteHeight = 20;
+        float spriteWidth = 30;
+        float spriteHeight = 30;
         float defaultWidth = 20;
         float defaultHeight = 20;
 
