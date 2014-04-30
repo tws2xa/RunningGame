@@ -333,7 +333,7 @@ namespace RunningGame.Systems {
 
             if ( !hasBeenUsedOnce && level.worldNum == level.visionOrbUnlockWorldNum && level.levelNum == level.visionOrbUnlockLevelNum ) {
                 level.sysManager.drawSystem.deactivateTextFlash();
-                level.sysManager.drawSystem.activateTextFlash( "Press [T] to toggle control between the player and Hue!\nPress [V] to put Hue away.", Color.WhiteSmoke, 0.3f, 3.0f, 1.0f );
+                level.sysManager.drawSystem.activateTextFlash( "Press [T] to toggle control between the player and Hue!\nPress [V] to put Hue away.", Color.WhiteSmoke, 0.3f, 4.0f, 1.0f );
             }
 
             hasBeenUsedOnce = true;
