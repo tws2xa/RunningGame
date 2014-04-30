@@ -193,7 +193,9 @@ namespace RunningGame.Systems {
                 velComp.setVelocity( -pelInComp.playerHorizMoveSpeed, velComp.y );
                 if ( !pelInComp.player.isLookingLeft() )
                     pelInComp.player.faceLeft();
-                level.getPlayer().startAnimation();
+                if ( level.getPlayer() != null ) {
+                    level.getPlayer().startAnimation();
+                }
             }
         }
         public void beginMoveRight( PositionComponent posComp, VelocityComponent velComp, PlayerInputComponent pelInComp, AnimationComponent animComp ) {

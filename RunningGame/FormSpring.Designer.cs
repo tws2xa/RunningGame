@@ -71,12 +71,14 @@
             // 
             // btnBegin
             // 
+            this.btnBegin.Enabled = false;
             this.btnBegin.Location = new System.Drawing.Point(379, 430);
             this.btnBegin.Name = "btnBegin";
             this.btnBegin.Size = new System.Drawing.Size(126, 41);
             this.btnBegin.TabIndex = 0;
             this.btnBegin.Text = "Debug Begin!";
             this.btnBegin.UseVisualStyleBackColor = true;
+            this.btnBegin.Visible = false;
             this.btnBegin.Click += new System.EventHandler(this.btnBegin_Click);
             // 
             // lblLoading

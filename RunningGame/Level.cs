@@ -496,8 +496,8 @@ namespace RunningGame {
                     towrite = pelInComp.passedAirjumps.ToString();    
                 }
             }
-            g.DrawString( towrite, SystemFonts.DefaultFont, Brushes.Black, new RectangleF( 10, 30, cameraWidth - 20, cameraHeight - 20 ) );
-            g.DrawString( fps.ToString( "F" ) + "", SystemFonts.DefaultFont, Brushes.Black, new RectangleF( 10, 10, cameraWidth - 20, cameraHeight - 20 ) );
+            //g.DrawString( towrite, SystemFonts.DefaultFont, Brushes.Black, new RectangleF( 10, 30, cameraWidth - 20, cameraHeight - 20 ) );
+            //g.DrawString( fps.ToString( "F" ) + "", SystemFonts.DefaultFont, Brushes.Black, new RectangleF( 10, 10, cameraWidth - 20, cameraHeight - 20 ) );
         }
 
         //Add an entity to the list of entities
