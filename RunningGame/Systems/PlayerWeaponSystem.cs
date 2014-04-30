@@ -49,7 +49,7 @@ namespace RunningGame.Systems {
                 if ( numBullets <= 0 ) bulletFired = false;
             }
 
-            if ( !level.sysManager.visSystem.orbActive && level.getInputSystem().mouseLeftClick ) {
+            if ( (!level.sysManager.visSystem.orbActive || !level.sysManager.visSystem.orbControl) && level.getInputSystem().mouseLeftClick ) {
                 if ( level.getPlayer() != null ) {
                     //Count up number of already existing bullets
                     if ( numBullets < GlobalVars.MAX_NUM_BULLETS ) {

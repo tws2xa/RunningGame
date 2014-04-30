@@ -96,7 +96,7 @@ namespace RunningGame.Systems {
 
             manageSpeedyTimer( deltaTime );
 
-            if ( !level.sysManager.visSystem.orbActive ) {
+            if ( !level.sysManager.visSystem.orbActive || !level.sysManager.visSystem.orbControl ) {
                 checkForInput();
             }
         }

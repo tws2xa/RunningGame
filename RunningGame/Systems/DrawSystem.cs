@@ -230,6 +230,11 @@ namespace RunningGame.Systems {
             textState = 0;
             textTimer = time;
         }
+
+        public void deactivateTextFlash() {
+            this.textState = -1;
+        }
+
         public void beginConstText( string text, Color c ) {
             if ( !constMessages.ContainsKey( text ) ) {
                 constMessages.Add( text, c );
@@ -256,6 +261,52 @@ namespace RunningGame.Systems {
             foreach ( View v in views ) {
                 v.Draw( g, entityList );
             }
+
+
+            //Draw text flash
+            if ( level.sysManager != null && textState >= 0 ) {
+                StringFormat centerFormat = new StringFormat();
+                centerFormat.Alignment = StringAlignment.Center;
+                centerFormat.LineAlignment = StringAlignment.Center;
+                PointF textPosition = new PointF( getMainView().displayX + getMainView().displayWidth / 2, getMainView().displayY + getMainView().displayHeight / 4 );
+                if ( textShadow ) {
+                    float shadowOffsetX = 1.2f;
+                    float shadowOffsetY = 1.0f;
+                    int maxShadowOpacity = 170;
+                    SolidBrush shadowBrush = ( SolidBrush )level.sysManager.drawSystem.textBrush.Clone();
+                    shadowBrush.Color = Color.FromArgb( Math.Min( shadowBrush.Color.A, maxShadowOpacity ), Color.Black );
+                    g.DrawString( text, textFont, shadowBrush, textPosition.X + shadowOffsetX, textPosition.Y + shadowOffsetY, centerFormat );
+                }
+                g.DrawString( text, textFont, textBrush, textPosition.X, textPosition.Y, centerFormat );
+            }
+
+            //Draw Const Text
+            if ( level.sysManager != null && constMessages.Count > 0 ) {
+                Dictionary<string, Color> msgs = level.sysManager.drawSystem.constMessages;
+                foreach ( string str in msgs.Keys ) {
+                    StringFormat centerFormat = new StringFormat();
+                    centerFormat.Alignment = StringAlignment.Center;
+                    centerFormat.LineAlignment = StringAlignment.Center;
+                    PointF textPosition = new PointF( getMainView().displayX + getMainView().displayWidth / 2, getMainView().displayY + getMainView().displayHeight / 4 );
+                    SolidBrush brush = new SolidBrush( msgs[str] );
+                    if ( textShadow ) {
+                        float shadowOffsetX = 1.2f;
+                        float shadowOffsetY = 1.0f;
+                        int maxShadowOpacity = 170;
+                        SolidBrush shadowBrush = ( SolidBrush )brush.Clone();
+                        shadowBrush.Color = Color.FromArgb( Math.Min( shadowBrush.Color.A, maxShadowOpacity ), Color.Black );
+                        g.DrawString( str, textFont, shadowBrush, textPosition.X + shadowOffsetX, textPosition.Y + shadowOffsetY, centerFormat );
+                    }
+                    g.DrawString( str, textFont, brush, textPosition.X, textPosition.Y, centerFormat );
+                }
+            }
+
+            //Draw fade
+            if ( level.sysManager != null && getFlashTime() > 0 ) {
+                g.FillRectangle( level.sysManager.drawSystem.getFlashBrush(), new Rectangle( ( int )( getMainView().displayX ), ( int )( getMainView().displayY ),
+                ( int )( getMainView().displayWidth ), ( int )( getMainView().displayHeight ) ) );
+            }
+
 
             /*
             //If you are in the level editor. Box the selected entities
