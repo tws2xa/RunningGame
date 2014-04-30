@@ -509,6 +509,8 @@
     <EmbeddedResource Include="Resources\Artwork\Background\Bkg32.png" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Resources\Levels\World6level2_new.png" />
+    <EmbeddedResource Include="Resources\Levels\World6level3_new.png" />
     <EmbeddedResource Include="Resources\Levels\World6level1_new.png" />
     <EmbeddedResource Include="Resources\Artwork\Background\Bkg52.png" />
     <EmbeddedResource Include="Resources\Artwork\Background\Bkg51.png" />
